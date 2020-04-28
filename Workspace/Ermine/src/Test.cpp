@@ -1,6 +1,4 @@
-#include<iostream>
-#include<string>
-#include<vector>
+#include "stdafx.h"
 
 int main()
 {

@@ -28,11 +28,18 @@ project "Ermine"
     targetdir ("bin/"..outputdir.."/%{prj.name}")
     objdir ("bin-int/"..outputdir.."/%{prj.name}")
 
+    pchheader "stdafx.h"
+    pchsource "%{prj.name}/src/stdafx.cpp"
+
     files{
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp"
     }
 
+    includedirs { 
+         "%{prj.name}/src"
+    }
+    
     filter "configurations:Debug_Development"
         defines{
           "ER_DEBUG_DEVELOP"
