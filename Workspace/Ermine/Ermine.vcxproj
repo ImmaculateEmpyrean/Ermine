@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ER_DEBUG_DEVELOP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog-1.x\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -97,7 +97,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ER_DEBUG_SHIP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog-1.x\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -114,7 +114,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ER_RELEASE_SHIP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog-1.x\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -128,21 +128,113 @@
   <ItemGroup>
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\EventSystem\Components\BroadcastComponent.h" />
+    <ClInclude Include="src\EventSystem\Components\RecieverComponent.h" />
     <ClInclude Include="src\EventSystem\EnumEventType.h" />
     <ClInclude Include="src\EventSystem\Event.h" />
     <ClInclude Include="src\EventSystem\EventBroadcastStation.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h" />
-    <ClInclude Include="src\EventSystem\Components\RecieverComponent.h" />
+    <ClInclude Include="src\LogSystem\Log.h" />
+    <ClInclude Include="src\TestFolder\BroadcastReciever.h" />
     <ClInclude Include="src\TestFolder\RecieverWithBroadcastComponent.h" />
+    <ClInclude Include="src\TestFolder\Sender.h" />
     <ClInclude Include="src\TestFolder\SenderWithSendComponent.h" />
     <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\async.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\async_logger-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\async_logger.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\cfg\argv.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\cfg\env.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\cfg\helpers-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\cfg\helpers.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\cfg\log_levels.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\common-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\common.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\backtracer-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\backtracer.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\circular_q.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\console_globals.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\file_helper-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\file_helper.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\fmt_helper.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\log_msg-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\log_msg.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\log_msg_buffer-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\log_msg_buffer.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\mpmc_blocking_q.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\null_mutex.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\os-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\os.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\periodic_worker-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\periodic_worker.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\registry-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\registry.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\synchronous_factory.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\tcp_client-windows.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\tcp_client.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\thread_pool-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\thread_pool.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\windows_include.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bin_to_hex.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\chrono.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\color.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\compile.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\core.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\format-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\format.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\locale.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\ostream.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\posix.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\printf.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\ranges.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\fmt.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\ostr.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\formatter.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fwd.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\logger-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\logger.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\pattern_formatter-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\pattern_formatter.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\android_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\ansicolor_sink-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\ansicolor_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\base_sink-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\base_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\basic_file_sink-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\basic_file_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\daily_file_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\dist_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\dup_filter_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\msvc_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\null_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\ostream_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\ringbuffer_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\rotating_file_sink-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\rotating_file_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\sink-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\stdout_color_sinks-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\stdout_color_sinks.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\stdout_sinks-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\stdout_sinks.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\syslog_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\systemd_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\tcp_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\win_eventlog_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\wincolor_sink-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\wincolor_sink.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\spdlog-inl.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\spdlog.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\tweakme.h" />
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\version.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp" />
+    <ClCompile Include="src\EventSystem\Components\RecieverComponent.cpp" />
     <ClCompile Include="src\EventSystem\EventBroadcastStation.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp" />
-    <ClCompile Include="src\EventSystem\Components\RecieverComponent.cpp" />
+    <ClCompile Include="src\LogSystem\Log.cpp" />
     <ClCompile Include="src\Test.cpp" />
+    <ClCompile Include="src\TestFolder\BroadcastReciever.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

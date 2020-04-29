@@ -1,56 +1,378 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="EventSystem">
-      <UniqueIdentifier>{CCE875DF-389E-EED4-C192-E8AB2D47E5D8}</UniqueIdentifier>
+    <Filter Include="src">
+      <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EventSystem\EventTypes">
-      <UniqueIdentifier>{529B675D-3E95-90AF-2702-27C0139BF61B}</UniqueIdentifier>
+    <Filter Include="src\EventSystem">
+      <UniqueIdentifier>{631C50F7-CFA7-BDBB-D8B8-40B044C319BC}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TestFolder">
-      <UniqueIdentifier>{C1E7922C-AD9F-D479-16A7-ADD5027E6F6A}</UniqueIdentifier>
+    <Filter Include="src\EventSystem\Components">
+      <UniqueIdentifier>{989DD0AE-84AD-7C7F-ED66-E19DD9956B18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\EventSystem\EventTypes">
+      <UniqueIdentifier>{890228F4-7512-D4C4-DECB-38E3CAFAC25D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\LogSystem">
+      <UniqueIdentifier>{A3036DFA-0FC4-E830-D8FE-31AE447E2D0D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\TestFolder">
+      <UniqueIdentifier>{78849963-6452-8D69-4DE6-FD8F395369CE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor">
+      <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\spdlog-1.x">
+      <UniqueIdentifier>{EF8DCA8D-5BA4-C823-A41B-5445107199AB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\spdlog-1.x\include">
+      <UniqueIdentifier>{6234C2FC-CEF6-F586-17A7-841383A8CE64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\spdlog-1.x\include\spdlog">
+      <UniqueIdentifier>{5A0249D5-4653-3417-6FB7-22D95B67C780}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\spdlog-1.x\include\spdlog\cfg">
+      <UniqueIdentifier>{D917727C-C5FE-3374-6E4F-9A915A15ADDA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\spdlog-1.x\include\spdlog\details">
+      <UniqueIdentifier>{CFACC360-BB29-B7A3-E4A6-B7B7D0825337}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\spdlog-1.x\include\spdlog\fmt">
+      <UniqueIdentifier>{9025727C-7C0C-3474-255D-9A911123ADDA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled">
+      <UniqueIdentifier>{7DD49241-69E7-929A-12D1-6F87FEC22FE8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\spdlog-1.x\include\spdlog\sinks">
+      <UniqueIdentifier>{51CB7A62-3D1D-5252-263C-8F62122D6B3B}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Core.h" />
-    <ClInclude Include="src\EventSystem\EnumEventType.h">
-      <Filter>EventSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EventSystem\Event.h">
-      <Filter>EventSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EventSystem\EventBroadcastStation.h">
-      <Filter>EventSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h">
-      <Filter>EventSystem\EventTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\TestFolder\SenderWithSendComponent.h">
-      <Filter>TestFolder</Filter>
-    </ClInclude>
-    <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="src\EventSystem\Components\RecieverComponent.h">
-      <Filter>EventSystem</Filter>
+    <ClInclude Include="src\Core.h">
+      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\EventSystem\Components\BroadcastComponent.h">
-      <Filter>EventSystem</Filter>
+      <Filter>src\EventSystem\Components</Filter>
     </ClInclude>
-    <ClInclude Include="src\TestFolder\RecieverWithBroadcastComponent.h" />
+    <ClInclude Include="src\EventSystem\Components\RecieverComponent.h">
+      <Filter>src\EventSystem\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventSystem\EnumEventType.h">
+      <Filter>src\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventSystem\Event.h">
+      <Filter>src\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventSystem\EventBroadcastStation.h">
+      <Filter>src\EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h">
+      <Filter>src\EventSystem\EventTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LogSystem\Log.h">
+      <Filter>src\LogSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestFolder\BroadcastReciever.h">
+      <Filter>src\TestFolder</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestFolder\RecieverWithBroadcastComponent.h">
+      <Filter>src\TestFolder</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestFolder\Sender.h">
+      <Filter>src\TestFolder</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestFolder\SenderWithSendComponent.h">
+      <Filter>src\TestFolder</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\async.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\async_logger-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\async_logger.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\cfg\argv.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\cfg</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\cfg\env.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\cfg</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\cfg\helpers-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\cfg</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\cfg\helpers.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\cfg</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\cfg\log_levels.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\cfg</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\common-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\common.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\backtracer-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\backtracer.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\circular_q.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\console_globals.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\file_helper-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\file_helper.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\fmt_helper.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\log_msg-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\log_msg.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\log_msg_buffer-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\log_msg_buffer.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\mpmc_blocking_q.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\null_mutex.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\os-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\os.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\periodic_worker-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\periodic_worker.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\registry-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\registry.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\synchronous_factory.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\tcp_client-windows.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\tcp_client.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\thread_pool-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\thread_pool.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\details\windows_include.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\details</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bin_to_hex.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\chrono.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\fmt\bundled</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\color.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\fmt\bundled</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\compile.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\fmt\bundled</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\core.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\fmt\bundled</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\format-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\fmt\bundled</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\format.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\fmt\bundled</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\locale.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\fmt\bundled</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\ostream.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\fmt\bundled</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\posix.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\fmt\bundled</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\printf.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\fmt\bundled</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\bundled\ranges.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\fmt\bundled</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\fmt.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fmt\ostr.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\fmt</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\formatter.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\fwd.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\logger-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\logger.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\pattern_formatter-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\pattern_formatter.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\android_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\ansicolor_sink-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\ansicolor_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\base_sink-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\base_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\basic_file_sink-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\basic_file_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\daily_file_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\dist_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\dup_filter_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\msvc_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\null_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\ostream_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\ringbuffer_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\rotating_file_sink-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\rotating_file_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\sink-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\stdout_color_sinks-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\stdout_color_sinks.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\stdout_sinks-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\stdout_sinks.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\syslog_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\systemd_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\tcp_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\win_eventlog_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\wincolor_sink-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\sinks\wincolor_sink.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog\sinks</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\spdlog-inl.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\spdlog.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\tweakme.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
+    <ClInclude Include="vendor\spdlog-1.x\include\spdlog\version.h">
+      <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp">
+      <Filter>src\EventSystem\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventSystem\Components\RecieverComponent.cpp">
+      <Filter>src\EventSystem\Components</Filter>
+    </ClCompile>
     <ClCompile Include="src\EventSystem\EventBroadcastStation.cpp">
-      <Filter>EventSystem</Filter>
+      <Filter>src\EventSystem</Filter>
     </ClCompile>
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp">
-      <Filter>EventSystem\EventTypes</Filter>
+      <Filter>src\EventSystem\EventTypes</Filter>
     </ClCompile>
-    <ClCompile Include="src\Test.cpp" />
-    <ClCompile Include="src\stdafx.cpp" />
-    <ClCompile Include="src\EventSystem\Components\RecieverComponent.cpp">
-      <Filter>EventSystem</Filter>
+    <ClCompile Include="src\LogSystem\Log.cpp">
+      <Filter>src\LogSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp">
-      <Filter>EventSystem</Filter>
+    <ClCompile Include="src\Test.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TestFolder\BroadcastReciever.cpp">
+      <Filter>src\TestFolder</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

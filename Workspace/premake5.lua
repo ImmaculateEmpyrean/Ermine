@@ -33,11 +33,13 @@ project "Ermine"
 
     files{
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/vendor/spdlog-1.x/include/spdlog/**.h"
     }
 
     includedirs { 
-         "%{prj.name}/src"
+         "%{prj.name}/src",
+         "%{prj.name}/vendor/spdlog-1.x/include/"
     }
     
     filter "configurations:Debug_Development"
