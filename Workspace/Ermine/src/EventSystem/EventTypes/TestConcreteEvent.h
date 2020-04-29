@@ -30,9 +30,6 @@ namespace Ermine
 		std::string GetMessageBuffer() { return MessageBuffer; }
 	};
 
-
-
-
 	////////////////////////////////////////////////////////
 	//Concrete Event Subscription Class/////////////////////
 	////////////////////////////////////////////////////////
@@ -42,6 +39,7 @@ namespace Ermine
 	public:
 		ConcreteEventSubscription() = delete;
 		ConcreteEventSubscription(std::function<void(ConcreteEvent*)> CallableObject);
+		ConcreteEventSubscription(std::function<void(ConcreteEvent*)> CallableObject,std::atomic<bool>& Flag);
 
 	private:
 		std::function<void(ConcreteEvent*)> CallableObject;

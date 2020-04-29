@@ -135,6 +135,7 @@
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h" />
     <ClInclude Include="src\LogSystem\Log.h" />
     <ClInclude Include="src\TestFolder\BroadcastReciever.h" />
+    <ClInclude Include="src\TestFolder\EventSystemChecker\RecieveAndSendBroadcastObject.h" />
     <ClInclude Include="src\TestFolder\RecieverWithBroadcastComponent.h" />
     <ClInclude Include="src\TestFolder\Sender.h" />
     <ClInclude Include="src\TestFolder\SenderWithSendComponent.h" />
@@ -230,6 +231,7 @@
   <ItemGroup>
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp" />
     <ClCompile Include="src\EventSystem\Components\RecieverComponent.cpp" />
+    <ClCompile Include="src\EventSystem\Event.cpp" />
     <ClCompile Include="src\EventSystem\EventBroadcastStation.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp" />
     <ClCompile Include="src\LogSystem\Log.cpp" />

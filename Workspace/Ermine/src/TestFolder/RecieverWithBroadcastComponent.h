@@ -12,11 +12,13 @@ class RecieverWithBroadcastComponent
 {
 public:
 	RecieverWithBroadcastComponent()
+		:
+		Flag(true)
 	{
 		Ermine::RecieverComponent RecieverComp(GenCallableFromMethod(&RecieverWithBroadcastComponent::TestFunction), Flag, Ermine::EventType::ConcreteEvent);
 	}
 
-	std::atomic<bool> Flag;
+	std::atomic<bool> Flag = true;
 
 	void TestFunction(Ermine::Event* EveObj)
 	{

@@ -27,6 +27,12 @@ namespace Ermine
 		CallableObject(CallableObject)
 	{}
 
+	ConcreteEventSubscription::ConcreteEventSubscription(std::function<void(ConcreteEvent*)> CallableObject, std::atomic<bool> & Flag)
+		:
+		EventSubscription(Flag),
+		CallableObject(CallableObject)
+	{}
+
 	EventType ConcreteEventSubscription::GetEventSubscriptionType()
 	{return EventType::ConcreteEvent;}
 

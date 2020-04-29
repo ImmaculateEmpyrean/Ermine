@@ -71,8 +71,11 @@ void Ermine::EventBroadcastStation::DispatchMessages()
 	{
 		for (auto j : ConcreteEventSubscriptions)
 		{
+			if (j.CanIRecieveEventFlag == true)
+			{
+				j.CallableObject(&ConcreteEventsQueue[i]);
+			}
 			//j.CallableObject(*(ConcreteEventsQueue[i]));
-			j.CallableObject(&ConcreteEventsQueue[i]);
 		}
 		ConcreteEventsQueue.erase(ConcreteEventsQueue.begin() + i);
 	}

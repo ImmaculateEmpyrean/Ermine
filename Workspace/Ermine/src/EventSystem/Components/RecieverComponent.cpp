@@ -10,7 +10,7 @@ Ermine::RecieverComponent::RecieverComponent(std::function<void(Event*)> Callabl
 	auto station = Ermine::EventBroadcastStation::GetStation(); //Gets a Line To The Station
 	switch (SubscriptionType)
 	{
-	case EventType::ConcreteEvent: std::unique_ptr<Ermine::ConcreteEventSubscription> Obj = std::make_unique<Ermine::ConcreteEventSubscription>(Callable);
+	case EventType::ConcreteEvent: std::unique_ptr<Ermine::ConcreteEventSubscription> Obj = std::make_unique<Ermine::ConcreteEventSubscription>(Callable,Switch);
 								   station->QueueSubscription(std::move(Obj));
 								   break;
 	}

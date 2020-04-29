@@ -348,6 +348,7 @@
     <ClInclude Include="vendor\spdlog-1.x\include\spdlog\version.h">
       <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
     </ClInclude>
+    <ClInclude Include="src\TestFolder\EventSystemChecker\RecieveAndSendBroadcastObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp">
@@ -374,5 +375,6 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\EventSystem\Event.cpp" />
   </ItemGroup>
 </Project>
