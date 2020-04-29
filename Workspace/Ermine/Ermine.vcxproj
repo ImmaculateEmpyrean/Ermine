@@ -134,10 +134,8 @@
     <ClInclude Include="src\EventSystem\EventBroadcastStation.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h" />
     <ClInclude Include="src\LogSystem\Log.h" />
-    <ClInclude Include="src\TestFolder\BroadcastReciever.h" />
     <ClInclude Include="src\TestFolder\EventSystemChecker\RecieveAndSendBroadcastObject.h" />
     <ClInclude Include="src\TestFolder\RecieverWithBroadcastComponent.h" />
-    <ClInclude Include="src\TestFolder\Sender.h" />
     <ClInclude Include="src\TestFolder\SenderWithSendComponent.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="vendor\spdlog-1.x\include\spdlog\async.h" />
@@ -236,7 +234,6 @@
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp" />
     <ClCompile Include="src\LogSystem\Log.cpp" />
     <ClCompile Include="src\Test.cpp" />
-    <ClCompile Include="src\TestFolder\BroadcastReciever.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

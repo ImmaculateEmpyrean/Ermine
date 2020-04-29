@@ -14,10 +14,14 @@ int main()
 	Log::Init(Configuration);
 		
 	RecieverWithBroadcastComponent Rec;
+	RecieverWithBroadcastComponent Rec2;
 
 	SenderA* obj = new SenderA("Hanna");
 
-	obj->Broadcast();
+	//STDOUTDefaultLog_Error("Message Logged");
+
+
+	//obj->Broadcast();
 	
 	int counter = 0;
 	while (true)
@@ -27,6 +31,9 @@ int main()
 		counter++;
 
 		if (counter == 10)
+		{
 			Rec.Flag = false;
+			Rec2.Flag = false;
+		}
 	}
 }

@@ -75,7 +75,11 @@ void Ermine::EventBroadcastStation::DispatchMessages()
 			{
 				j.CallableObject(&ConcreteEventsQueue[i]);
 			}
-			//j.CallableObject(*(ConcreteEventsQueue[i]));
+			//If The Event Is Already handled No Point In Handling it Further Right..
+			if (ConcreteEventsQueue[i].IsEventHandled() == true)
+			{
+				break;
+			}
 		}
 		ConcreteEventsQueue.erase(ConcreteEventsQueue.begin() + i);
 	}

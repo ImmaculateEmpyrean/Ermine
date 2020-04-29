@@ -19,6 +19,7 @@ namespace Ermine
 
 	private:
 		std::string MessageBuffer;
+		bool EventHandled = false;
 
 	public:
 		virtual EventType GetEventType() override { return EventType::ConcreteEvent; }
@@ -28,6 +29,9 @@ namespace Ermine
 	public:
 		//Event Specific Implementation
 		std::string GetMessageBuffer() { return MessageBuffer; }
+
+		virtual bool IsEventHandled() override { return EventHandled; }
+		virtual void SetEventHandled() override { EventHandled = true; }
 	};
 
 	////////////////////////////////////////////////////////
@@ -43,12 +47,10 @@ namespace Ermine
 
 	private:
 		std::function<void(ConcreteEvent*)> CallableObject;
-		bool EventHandled = false;
 
 	public:
 		virtual EventType GetEventSubscriptionType() override;
-		virtual bool IsEventHandled() override { return EventHandled; }
-		virtual void SetEventHandled() override { EventHandled = true; }
+		
 
 		friend class EventBroadcastStation;
 	};

@@ -12,6 +12,9 @@ namespace Ermine
 		Event() = default;
 	public:
 		virtual EventType GetEventType() = 0; //There is no point in an event like this.. hence it is a pure virtual method
+
+		virtual bool IsEventHandled() = 0;
+		virtual void SetEventHandled() = 0;
 	};
 
 
@@ -22,8 +25,7 @@ namespace Ermine
 		EventSubscription(std::atomic<bool>& CanIRecieveEventNowFlag);
 	public:
 		virtual EventType GetEventSubscriptionType() = 0; //There is no point in an event like this.. hence it is a pure virtual method
-		virtual bool IsEventHandled() = 0;
-		virtual void SetEventHandled() = 0;
+		
 
 		std::atomic<bool>& CanIRecieveEventFlag;
 	};

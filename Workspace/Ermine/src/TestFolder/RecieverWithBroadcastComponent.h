@@ -25,5 +25,9 @@ public:
 		auto ptr = (Ermine::ConcreteEvent*)EveObj;
 		std::cout << "Called Test Function" << std::endl;
 		std::cout << ptr->GetMessageBuffer()<<std::endl;
+		int i = 69;
+		STDOUTDefaultLog_Error("Message Logged {} , {}", ptr->GetMessageBuffer().c_str(),i);
+
+		EveObj->SetEventHandled();
 	}
 };

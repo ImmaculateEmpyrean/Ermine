@@ -10,8 +10,11 @@
 #include<mutex>
 #include<future>
 #include<condition_variable>
+#include<atomic>
 
 #include<algorithm>
 #include<functional>
 
 #include<memory>
+
+#include "LogSystem/Log.h"
