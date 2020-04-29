@@ -7,11 +7,9 @@
 
 int main()
 {
-	auto station = Ermine::EventBroadcastStation::GetStation();
+	auto station = Ermine::EventBroadcastStation::GetStation(); //This also tends to initialize the class
 
 	RecieverWithBroadcastComponent RecieverObject2;
-	
-	//_sleep(500);
 
 	SenderA obj("All Hail The Imperator");
 	
@@ -19,19 +17,9 @@ int main()
 	
 	RecieverWithBroadcastComponent RecieverObject;
 
-
-	//obj.Broadcast();
 	while (true)
 	{
 		_sleep(1000);
 		obj.Broadcast();
 	}
-	/*_sleep(300);
-
-	BroadcastReciever obj;
-	Sender sender("With The Openning of the Transcontinental Telegraph The Country Has long awoken from its slumber, may a future full of smiles and prosperity follow her... -1860");
-
-	sender.Broadcast();
-
-	while (true);*/
 }

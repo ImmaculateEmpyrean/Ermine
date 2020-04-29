@@ -18,7 +18,8 @@ namespace Ermine
 		BroadcastComponent();
 
 	private:
-		Ermine::EventBroadcastStation* ConnectionToStation;
+		static std::once_flag BroadcastComponentInitializationFlag;
+		static Ermine::EventBroadcastStation* ConnectionToStation;
 		std::vector<std::unique_ptr<Event>> EventsThatCanBeBroadcasted;
 
 	public:
@@ -27,6 +28,6 @@ namespace Ermine
 		void BroadcastEventFromQueue(unsigned int& RecievedToken);
 
 		//Event Will Be Sent To The Station Now...
-		void BroadcastEvent(std::unique_ptr<Event> EventToBeBroadcasted);
+		static void BroadcastEvent(std::unique_ptr<Event> EventToBeBroadcasted);
 	};
 }

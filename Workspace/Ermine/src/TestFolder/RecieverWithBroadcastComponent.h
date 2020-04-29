@@ -20,8 +20,8 @@ public:
 
 	void TestFunction(Ermine::Event* EveObj)
 	{
+		auto ptr = (Ermine::ConcreteEvent*)EveObj;
 		std::cout << "Called Test Function" << std::endl;
+		std::cout << ptr->GetMessageBuffer()<<std::endl;
 	}
-
-
 };

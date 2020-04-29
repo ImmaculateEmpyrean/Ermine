@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "BroadcastComponent.h"
 
+Ermine::EventBroadcastStation* Ermine::BroadcastComponent::ConnectionToStation = nullptr;
+std::once_flag Ermine::BroadcastComponent::BroadcastComponentInitializationFlag;
+
 Ermine::BroadcastComponent::BroadcastComponent()
 {
 	ConnectionToStation = EventBroadcastStation::GetStation();
@@ -27,5 +30,9 @@ void Ermine::BroadcastComponent::BroadcastEventFromQueue(unsigned int& RecievedT
 
 void Ermine::BroadcastComponent::BroadcastEvent(std::unique_ptr<Event> EventToBeBroadcasted)
 {
+	std::call_once(BroadcastComponentInitializationFlag, []() {
+		ConnectionToStation = Ermine::EventBroadcastStation::GetStation();
+	});
+	
 	ConnectionToStation->QueueBroadcast(std::move(EventToBeBroadcasted));
 }
