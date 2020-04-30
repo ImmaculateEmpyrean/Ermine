@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLFW", "vendor\GLFW\GLFW.vc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Glad", "vendor\Glad\Glad.vcxproj", "{BDD6857C-A90D-870D-52FA-6C103E10030F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{7FA9857C-6BE0-860D-14CD-6C1000E3020F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_Development|Windows = Debug_Development|Windows
@@ -34,6 +36,12 @@ Global
 		{BDD6857C-A90D-870D-52FA-6C103E10030F}.Debug_Distribution|Windows.Build.0 = Debug_Distribution Windows|x64
 		{BDD6857C-A90D-870D-52FA-6C103E10030F}.Release_Distribution|Windows.ActiveCfg = Release_Distribution Windows|x64
 		{BDD6857C-A90D-870D-52FA-6C103E10030F}.Release_Distribution|Windows.Build.0 = Release_Distribution Windows|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug_Development|Windows.ActiveCfg = Debug_Development Windows|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug_Development|Windows.Build.0 = Debug_Development Windows|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug_Distribution|Windows.ActiveCfg = Debug_Distribution Windows|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug_Distribution|Windows.Build.0 = Debug_Distribution Windows|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Release_Distribution|Windows.ActiveCfg = Release_Distribution Windows|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Release_Distribution|Windows.Build.0 = Release_Distribution Windows|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

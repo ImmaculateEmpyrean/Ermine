@@ -13,6 +13,15 @@
     <Filter Include="src\EventSystem\EventTypes">
       <UniqueIdentifier>{890228F4-7512-D4C4-DECB-38E3CAFAC25D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Graphics">
+      <UniqueIdentifier>{0D564864-F9B8-D708-A23E-10BF8E80A38B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Graphics\Window">
+      <UniqueIdentifier>{5472AFD4-C0D3-8CE2-4941-D394B5A1C3A1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\LayerSystem">
+      <UniqueIdentifier>{1E086F79-8A93-DC3D-93A4-5F32FFAE383E}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\LogSystem">
       <UniqueIdentifier>{A3036DFA-0FC4-E830-D8FE-31AE447E2D0D}</UniqueIdentifier>
     </Filter>
@@ -51,6 +60,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\App.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -71,6 +83,15 @@
     </ClInclude>
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h">
       <Filter>src\EventSystem\EventTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Window\Window.h">
+      <Filter>src\Graphics\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LayerSystem\LayerStack.h">
+      <Filter>src\LayerSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LayerSystem\LayerStackLayer.h">
+      <Filter>src\LayerSystem</Filter>
     </ClInclude>
     <ClInclude Include="src\LogSystem\Log.h">
       <Filter>src\LogSystem</Filter>
@@ -348,9 +369,6 @@
     <ClInclude Include="vendor\spdlog-1.x\include\spdlog\version.h">
       <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
     </ClInclude>
-    <ClInclude Include="src\LayerSystem\LayerStack.h" />
-    <ClInclude Include="src\LayerSystem\LayerStackLayer.h" />
-    <ClInclude Include="src\Graphics\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp">
@@ -368,6 +386,15 @@
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp">
       <Filter>src\EventSystem\EventTypes</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphics\Window\Window.cpp">
+      <Filter>src\Graphics\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LayerSystem\LayerStack.cpp">
+      <Filter>src\LayerSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LayerSystem\LayerStackLayer.cpp">
+      <Filter>src\LayerSystem</Filter>
+    </ClCompile>
     <ClCompile Include="src\LogSystem\Log.cpp">
       <Filter>src\LogSystem</Filter>
     </ClCompile>
@@ -377,8 +404,5 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\LayerSystem\LayerStack.cpp" />
-    <ClCompile Include="src\LayerSystem\LayerStackLayer.cpp" />
-    <ClCompile Include="src\Graphics\Window.cpp" />
   </ItemGroup>
 </Project>

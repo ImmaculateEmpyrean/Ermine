@@ -34,6 +34,7 @@ project "Ermine"
     cppdialect "C++17"
     staticruntime "off"
 
+    ErmineTargetDirectory = "bin/"..outputdir.."/%{prj.name}"
     targetdir ("bin/"..outputdir.."/%{prj.name}")
     objdir ("bin-int/"..outputdir.."/%{prj.name}")
 
@@ -56,7 +57,12 @@ project "Ermine"
     links {
         "Glad",
         "GLFW",
-        "opengl32.lib"
+        "opengl32.lib",
+        "Game"
+    }
+
+    defines{
+        "DLL=__declspec(dllimport)"
     }
 
     filter "configurations:Debug_Development"
@@ -85,4 +91,78 @@ project "Ermine"
         defines{
             "ER_BUILDING_ON_WINDOWS"
         }
+
+GameEngineProjectName = "%{prj.name}"
+
+        --Game Project Description--
+
+project "Game"
+    location "Game"
+    kind "SharedLib"
+    language "C++"
+    cppdialect "C++17"
+    staticruntime "off"
     
+    GameTargetDirectory = "bin/"..outputdir.."/%{prj.name}"
+    targetdir ("bin/"..outputdir.."/%{prj.name}")
+    objdir ("bin-int/"..outputdir.."/%{prj.name}")
+
+    --pchheader "stdafx.h"
+    --pchsource "%{prj.name}/src/stdafx.cpp"
+
+    files{
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.cpp",
+        GameEngineProjectName.."/vendor/spdlog-1.x/include/spdlog/**.h"
+    }
+
+    includedirs { 
+         "%{prj.name}/src",
+         GameEngineProjectName.."/vendor/spdlog-1.x/include/",
+         "%{IncludeDir.Glad}",
+         "%{IncludeDir.GLFW}"
+    }
+
+    links {
+        "Glad",
+        "GLFW",
+        "opengl32.lib"
+    }
+    defines{
+        "DLL=__declspec(dllexport)"
+    }
+
+    GameDllPath = GameTargetDirectory.."/Game.dll"
+
+    postbuildcommands {
+       ("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Ermine/\"")
+      }
+
+    filter "configurations:Debug_Development"
+        defines{
+          "GAME_DEBUG_DEVELOP"
+        }
+    
+    filter "configurations:Debug_Distribution"
+        defines{
+            "GAME_DEBUG_SHIP"
+        }
+    
+    filter "configurations:Release_Distribution"
+        defines{
+            "GAME_RELEASE_SHIP"
+        }
+    
+    filter "platforms:Windows"
+        defines{
+            "GAME_BUILDING_FOR_WINDOWS"
+        }
+        
+    filter "system:windows"
+        systemversion "latest"
+
+        defines{
+            "GAME_BUILDING_ON_WINDOWS"
+        }
+
+                --Game Project Description End --

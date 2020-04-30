@@ -10,6 +10,8 @@
 #include "LayerSystem/LayerStack.h"
 #include "LayerSystem/LayerStackLayer.h"
 
+void DLL __cdecl TestFunc();
+
 int main()
 {
 	std::vector<std::pair<std::string, CreateLogFile>> Configuration;
@@ -28,6 +30,7 @@ int main()
 
 	//STDOUTDefaultLog_Error("Message Logged");
 
+	TestFunc();
 
 	//obj->Broadcast();
 	
