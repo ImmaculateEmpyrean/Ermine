@@ -348,6 +348,8 @@
     <ClInclude Include="vendor\spdlog-1.x\include\spdlog\version.h">
       <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
     </ClInclude>
+    <ClInclude Include="src\LayerSystem\LayerStack.h" />
+    <ClInclude Include="src\LayerSystem\LayerStackLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp">
@@ -374,5 +376,7 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\LayerSystem\LayerStack.cpp" />
+    <ClCompile Include="src\LayerSystem\LayerStackLayer.cpp" />
   </ItemGroup>
 </Project>
