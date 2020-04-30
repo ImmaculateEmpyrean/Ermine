@@ -1,0 +1,2 @@
+[18:50:02] GameFileLogger : Game DLL Attach Invoked Simply Tracing It.. :>
+[19:06:53] GameFileLogger : Game DLL Attach Invoked Simply Tracing It.. :>
