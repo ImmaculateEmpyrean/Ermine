@@ -19,6 +19,9 @@
     <Filter Include="src\TestFolder">
       <UniqueIdentifier>{78849963-6452-8D69-4DE6-FD8F395369CE}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\TestFolder\EventSystemChecker">
+      <UniqueIdentifier>{63EF5A91-CF5D-B010-1847-6B1084F4A5AC}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
@@ -71,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="src\LogSystem\Log.h">
       <Filter>src\LogSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestFolder\EventSystemChecker\RecieveAndSendBroadcastObject.h">
+      <Filter>src\TestFolder\EventSystemChecker</Filter>
     </ClInclude>
     <ClInclude Include="src\TestFolder\RecieverWithBroadcastComponent.h">
       <Filter>src\TestFolder</Filter>
@@ -342,7 +348,6 @@
     <ClInclude Include="vendor\spdlog-1.x\include\spdlog\version.h">
       <Filter>vendor\spdlog-1.x\include\spdlog</Filter>
     </ClInclude>
-    <ClInclude Include="src\TestFolder\EventSystemChecker\RecieveAndSendBroadcastObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp">
@@ -350,6 +355,9 @@
     </ClCompile>
     <ClCompile Include="src\EventSystem\Components\RecieverComponent.cpp">
       <Filter>src\EventSystem\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventSystem\Event.cpp">
+      <Filter>src\EventSystem</Filter>
     </ClCompile>
     <ClCompile Include="src\EventSystem\EventBroadcastStation.cpp">
       <Filter>src\EventSystem</Filter>
@@ -366,6 +374,5 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\EventSystem\Event.cpp" />
   </ItemGroup>
 </Project>

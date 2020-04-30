@@ -33,5 +33,10 @@ namespace Ermine
 		std::function<void(Event*)> Callable;
 		std::atomic<bool>& Switch;
 		EventType RefToEventType;
+
+	public:
+		//Use This New Function More
+		static void Bind(std::function<void(Event*)> Callable, std::atomic<bool>& SwitchTOControlIfAnEventCanBeExecuted,
+			EventType SubscriptionType);
 	};
 }

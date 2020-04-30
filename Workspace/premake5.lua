@@ -18,6 +18,15 @@ workspace "UniversumErminia"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.platform}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["Glad"]="vendor/Glad/include"
+IncludeDir["GLFW"]="vendor/GLFW/glfw-3.3.2/include"
+
+group "Dependencies"
+    include "vendor/Glad"
+    include "vendor/GLFW"
+group ""
+
 project "Ermine"
     location "Ermine"
     kind "ConsoleApp"
@@ -39,9 +48,17 @@ project "Ermine"
 
     includedirs { 
          "%{prj.name}/src",
-         "%{prj.name}/vendor/spdlog-1.x/include/"
+         "%{prj.name}/vendor/spdlog-1.x/include/",
+         "%{IncludeDir.Glad}",
+         "%{IncludeDir.GLFW}"
     }
-    
+
+    links {
+        "Glad",
+        "GLFW",
+        "opengl32.lib"
+    }
+
     filter "configurations:Debug_Development"
         defines{
           "ER_DEBUG_DEVELOP"

@@ -15,3 +15,14 @@ Ermine::RecieverComponent::RecieverComponent(std::function<void(Event*)> Callabl
 								   break;
 	}
 }
+
+void Ermine::RecieverComponent::Bind(std::function<void(Event*)> Callable, std::atomic<bool>& SwitchTOControlIfAnEventCanBeExecuted, EventType SubscriptionType)
+{
+	auto station = Ermine::EventBroadcastStation::GetStation(); //Gets a Line To The Station
+	switch (SubscriptionType)
+	{
+	case EventType::ConcreteEvent: std::unique_ptr<Ermine::ConcreteEventSubscription> Obj = std::make_unique<Ermine::ConcreteEventSubscription>(Callable, SwitchTOControlIfAnEventCanBeExecuted);
+		station->QueueSubscription(std::move(Obj));
+		break;
+	}
+}

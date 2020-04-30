@@ -15,7 +15,7 @@ public:
 		:
 		Flag(true)
 	{
-		Ermine::RecieverComponent RecieverComp(GenCallableFromMethod(&RecieverWithBroadcastComponent::TestFunction), Flag, Ermine::EventType::ConcreteEvent);
+		Ermine::RecieverComponent::Bind(GenCallableFromMethod(&RecieverWithBroadcastComponent::TestFunction), Flag, Ermine::EventType::ConcreteEvent);
 	}
 
 	std::atomic<bool> Flag = true;
