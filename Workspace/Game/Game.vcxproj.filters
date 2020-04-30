@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Ermine">
+      <UniqueIdentifier>{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ermine\src">
+      <UniqueIdentifier>{BCBC725E-A874-B4AB-117C-8D07FD524F9C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ermine\src\LogSystem">
+      <UniqueIdentifier>{F293A920-DE22-33EA-8741-47E573AF4390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Ermine\src\LogSystem\Log.h">
+      <Filter>Ermine\src\LogSystem</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Ermine\src\LogSystem\Log.cpp">
+      <Filter>Ermine\src\LogSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

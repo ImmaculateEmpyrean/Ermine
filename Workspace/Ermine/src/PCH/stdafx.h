@@ -17,4 +17,4 @@
 
 #include<memory>
 
-#include "LogSystem/Log.h"
+#include "Log.h"

@@ -17,6 +17,7 @@ workspace "UniversumErminia"
     }
 
 outputdir = "%{cfg.buildcfg}-%{cfg.platform}-%{cfg.system}-%{cfg.architecture}"
+GameEngineProjectName = "Ermine"
 
 IncludeDir = {}
 IncludeDir["Glad"]="vendor/Glad/include"
@@ -25,6 +26,55 @@ IncludeDir["GLFW"]="vendor/GLFW/glfw-3.3.2/include"
 group "Dependencies"
     include "vendor/Glad"
     include "vendor/GLFW"
+--group ""
+project "LogSystem"
+    location "LogSystem"
+    kind "StaticLib"
+    language "C++"
+    cppdialect "c++17"
+    staticruntime "off"
+
+    targetdir ("bin/"..outputdir.."/%{prj.name}")
+    objdir ("bin-int/"..outputdir.."/%{prj.name}")
+
+    files{
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/vendor/spdlog-1.x/include/spdlog/**.h"
+    }
+
+    includedirs { 
+        "%{prj.name}/src",
+        "%{prj.name}/vendor/spdlog-1.x/include/"
+    }
+
+    filter "configurations:Debug_Development"
+    defines{
+      "ER_DEBUG_DEVELOP"
+    }
+
+filter "configurations:Debug_Distribution"
+    defines{
+        "ER_DEBUG_SHIP"
+    }
+
+filter "configurations:Release_Distribution"
+    defines{
+        "ER_RELEASE_SHIP"
+    }
+
+filter "platforms:Windows"
+    defines{
+        "ER_BUILDING_FOR_WINDOWS"
+    }
+    
+filter "system:windows"
+    systemversion "latest"
+
+    defines{
+        "ER_BUILDING_ON_WINDOWS"
+    }
+
 group ""
 
 project "Ermine"
@@ -38,26 +88,29 @@ project "Ermine"
     objdir ("bin-int/"..outputdir.."/%{prj.name}")
 
     pchheader "stdafx.h"
-    pchsource "%{prj.name}/src/stdafx.cpp"
+    pchsource "%{prj.name}/src/PCH/stdafx.cpp"
 
     files{
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp",
-        "%{prj.name}/vendor/spdlog-1.x/include/spdlog/**.h"
+        "%{prj.name}/src/**.cpp"
+        --"%LogSystem/vendor/spdlog-1.x/include/spdlog/**.h"
     }
 
     includedirs { 
          "%{prj.name}/src",
-         "%{prj.name}/vendor/spdlog-1.x/include/",
+         "%{prj.name}/src/PCH",
+         "LogSystem/vendor/spdlog-1.x/include/",
          "%{IncludeDir.Glad}",
-         "%{IncludeDir.GLFW}"
+         "%{IncludeDir.GLFW}",
+         "LogSystem/src/",
     }
 
     links {
         "Glad",
         "GLFW",
         "opengl32.lib",
-        "Game"
+        "Game",
+        "LogSystem"
     }
 
     defines{
@@ -91,8 +144,6 @@ project "Ermine"
             "ER_BUILDING_ON_WINDOWS"
         }
 
-GameEngineProjectName = "%{prj.name}"
-
         --Game Project Description--
 
 project "Game"
@@ -110,13 +161,13 @@ project "Game"
 
     files{
         "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp",
-        GameEngineProjectName.."/vendor/spdlog-1.x/include/spdlog/**.h"
+        "%{prj.name}/src/**.cpp"
     }
 
     includedirs { 
          "%{prj.name}/src",
-         GameEngineProjectName.."/vendor/spdlog-1.x/include/",
+         ("LogSystem/vendor/spdlog-1.x/include/"),
+         ("LogSystem/src/"),
          "%{IncludeDir.Glad}",
          "%{IncludeDir.GLFW}"
     }
@@ -124,7 +175,8 @@ project "Game"
     links {
         "Glad",
         "GLFW",
-        "opengl32.lib"
+        "opengl32.lib",
+        "LogSystem"
     }
     defines{
         "DLL=__declspec(dllexport)"

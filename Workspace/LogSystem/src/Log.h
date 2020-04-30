@@ -59,15 +59,12 @@ public:
 	static bool AmIInitialized(); //It is Better You Call This Function To Check Before Actually Using The Logger
 };
 
-#ifdef ER_DEBUG_DEVELOP
-#define ER_LOG_WRITE
+#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP) || defined(GAME_DEBUG_DEVELOP) || defined(GAME_DEBUG_SHIP)
+#define LOG_WRITE
 #endif 
 
-#ifdef ER_DEBUG_SHIP
-#define ER_LOG_WRITE
-#endif 
 
-#ifdef ER_LOG_WRITE
+#ifdef LOG_WRITE
 
 	//Start These Macros Are Used To Specify If You Wanna Print To STDOUT Using Default Logger 
 	#define STDOUTDefaultLog_Trace(...)    Log::GetDefaultSTDOUTLogger()->trace(__VA_ARGS__);
@@ -121,7 +118,7 @@ public:
 
 #endif
 
-#ifndef ER_LOG_WRITE
+#ifndef LOG_WRITE
 	//Start These Macros Are Stripped When Not In Debug Mode
 	#define STDOUTDefaultLog_Trace(...)    
 	#define STDOUTDefaultLog_Info(...)     

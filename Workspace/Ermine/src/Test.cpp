@@ -5,7 +5,7 @@
 #include "TestFolder/RecieverWithBroadcastComponent.h"
 #include "TestFolder/SenderWithSendComponent.h"
 
-#include "LogSystem/Log.h"
+#include "Log.h"
 
 #include "LayerSystem/LayerStack.h"
 #include "LayerSystem/LayerStackLayer.h"
@@ -20,6 +20,8 @@ int main()
 		
 	//RecieverWithBroadcastComponent Rec;
 	//RecieverWithBroadcastComponent Rec2;
+
+	STDOUTDefaultLog_Error("From Ermine..");
 
 	SenderA* obj = new SenderA("Hanna");
 	
