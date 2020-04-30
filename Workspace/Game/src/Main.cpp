@@ -1,15 +1,9 @@
-#include<iostream>
-#include<vector>
-#include<string>
+#include "stdafx.h"
 
-#include "Log.h"
-
-/*BOOL WINAPI DllMain(_In_ HINSTANCE hinstDLL,_In_ DWORD     fdwReason,_In_ LPVOID    lpvReserved)
+BOOL WINAPI DllMain(_In_ HINSTANCE hinstDLL,_In_ DWORD fdwReason,_In_ LPVOID lpvReserved)
 {
-	/*std::vector<std::pair<std::string, CreateLogFile>> Configuration;
-	Configuration.emplace_back(std::make_pair<std::string, CreateLogFile>("Lother", CreateLogFile::CreateLogFile));
-	Log::Init(Configuration);
-}*/
+	return TRUE;
+}
 void DLL __cdecl TestFunc()
 {
 	std::vector<std::pair<std::string, CreateLogFile>> Configuration;

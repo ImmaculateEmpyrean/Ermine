@@ -12,7 +12,7 @@
 
 void DLL __cdecl TestFunc();
 
-int main()
+int main(int argc, char* argv[])
 {
 	std::vector<std::pair<std::string, CreateLogFile>> Configuration;
 	Configuration.emplace_back(std::make_pair<std::string, CreateLogFile>( "Augustus",CreateLogFile::CreateLogFile ));

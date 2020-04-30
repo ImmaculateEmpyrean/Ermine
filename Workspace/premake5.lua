@@ -156,8 +156,8 @@ project "Game"
     targetdir ("bin/"..outputdir.."/%{prj.name}")
     objdir ("bin-int/"..outputdir.."/%{prj.name}")
 
-    --pchheader "stdafx.h"
-    --pchsource "%{prj.name}/src/stdafx.cpp"
+    pchheader "stdafx.h"
+    pchsource "%{prj.name}/src/PCH/stdafx.cpp"
 
     files{
         "%{prj.name}/src/**.h",
@@ -166,6 +166,7 @@ project "Game"
 
     includedirs { 
          "%{prj.name}/src",
+         "%{prj.name}/src/PCH",
          ("LogSystem/vendor/spdlog-1.x/include/"),
          ("LogSystem/src/"),
          "%{IncludeDir.Glad}",
