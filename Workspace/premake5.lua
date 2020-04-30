@@ -34,7 +34,6 @@ project "Ermine"
     cppdialect "C++17"
     staticruntime "off"
 
-    ErmineTargetDirectory = "bin/"..outputdir.."/%{prj.name}"
     targetdir ("bin/"..outputdir.."/%{prj.name}")
     objdir ("bin-int/"..outputdir.."/%{prj.name}")
 
@@ -102,8 +101,7 @@ project "Game"
     language "C++"
     cppdialect "C++17"
     staticruntime "off"
-    
-    GameTargetDirectory = "bin/"..outputdir.."/%{prj.name}"
+
     targetdir ("bin/"..outputdir.."/%{prj.name}")
     objdir ("bin-int/"..outputdir.."/%{prj.name}")
 
@@ -131,9 +129,6 @@ project "Game"
     defines{
         "DLL=__declspec(dllexport)"
     }
-
-    GameDllPath = GameTargetDirectory.."/Game.dll"
-
     postbuildcommands {
        ("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Ermine/\"")
       }
