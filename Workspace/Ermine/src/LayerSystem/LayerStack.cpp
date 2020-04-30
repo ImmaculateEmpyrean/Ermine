@@ -47,7 +47,7 @@ std::optional<Ermine::LayerStackLayer*> Ermine::LayerStack::GetIndexFromName(std
 
 void Ermine::LayerStack::RecievedEvent(Ermine::Event* EventPointer)
 {
-	std::cout << "Recieved Event To Layer Stack"<<std::endl;
+	STDOUTDefaultLog_Error("Recieved Event To LAyer Stack : {}", EventPointer->GetEventType());
 	auto Var = EventPointer->GetEventType();
 	switch (Var)
 	{

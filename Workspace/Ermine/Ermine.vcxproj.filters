@@ -350,6 +350,7 @@
     </ClInclude>
     <ClInclude Include="src\LayerSystem\LayerStack.h" />
     <ClInclude Include="src\LayerSystem\LayerStackLayer.h" />
+    <ClInclude Include="src\Graphics\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp">
@@ -378,5 +379,6 @@
     </ClCompile>
     <ClCompile Include="src\LayerSystem\LayerStack.cpp" />
     <ClCompile Include="src\LayerSystem\LayerStackLayer.cpp" />
+    <ClCompile Include="src\Graphics\Window.cpp" />
   </ItemGroup>
 </Project>

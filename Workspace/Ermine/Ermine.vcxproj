@@ -136,6 +136,7 @@
     <ClInclude Include="src\EventSystem\Event.h" />
     <ClInclude Include="src\EventSystem\EventBroadcastStation.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h" />
+    <ClInclude Include="src\Graphics\Window.h" />
     <ClInclude Include="src\LayerSystem\LayerStack.h" />
     <ClInclude Include="src\LayerSystem\LayerStackLayer.h" />
     <ClInclude Include="src\LogSystem\Log.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="src\EventSystem\Event.cpp" />
     <ClCompile Include="src\EventSystem\EventBroadcastStation.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp" />
+    <ClCompile Include="src\Graphics\Window.cpp" />
     <ClCompile Include="src\LayerSystem\LayerStack.cpp" />
     <ClCompile Include="src\LayerSystem\LayerStackLayer.cpp" />
     <ClCompile Include="src\LogSystem\Log.cpp" />
