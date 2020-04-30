@@ -10,6 +10,8 @@
 #include "LayerSystem/LayerStack.h"
 #include "LayerSystem/LayerStackLayer.h"
 
+#include "App.h"
+
 void DLL __cdecl TestFunc();
 
 int main(int argc, char* argv[])
@@ -33,6 +35,8 @@ int main(int argc, char* argv[])
 	//STDOUTDefaultLog_Error("Message Logged");
 
 	TestFunc();
+
+	Ermine::App Sigmata("TEst App", { 1000,1000 });
 
 	//obj->Broadcast();
 	

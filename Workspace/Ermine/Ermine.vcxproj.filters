@@ -73,6 +73,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp">
       <Filter>EventSystem\Components</Filter>
     </ClCompile>

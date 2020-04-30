@@ -103,6 +103,7 @@ project "Ermine"
          "%{IncludeDir.Glad}",
          "%{IncludeDir.GLFW}",
          "LogSystem/src/",
+         "GameErmineCommonExchangeHeaders/"
     }
 
     links {
@@ -170,7 +171,8 @@ project "Game"
          ("LogSystem/vendor/spdlog-1.x/include/"),
          ("LogSystem/src/"),
          "%{IncludeDir.Glad}",
-         "%{IncludeDir.GLFW}"
+         "%{IncludeDir.GLFW}",
+         "GameErmineCommonExchangeHeaders/"
     }
 
     links {
@@ -214,3 +216,20 @@ project "Game"
         }
 
                 --Game Project Description End --
+
+                --GameErmineCommonExchangeHeaders--
+    
+        project "GameErmineCommonExchangeHeaders"
+            location "GameErmineCommonExchangeHeaders"
+            kind "ConsoleAPP"
+            language "C++"
+            cppdialect "C++17"
+            staticruntime "off"
+            
+            targetdir ("bin/"..outputdir.."/%{prj.name}")
+            objdir ("bin-int/"..outputdir.."/%{prj.name}")
+            
+            files{
+                  "%{prj.name}/src/**.h",
+                  "%{prj.name}/src/**.cpp"
+                 }     
