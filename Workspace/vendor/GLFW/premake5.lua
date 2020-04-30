@@ -22,26 +22,6 @@ project "GLFW"
         "glfw-3.3.2/include/",
         "glfw-3.3.2/src/"
    }
-
-    filter "configurations:Debug_Development"
-        defines{
-          "ER_DEBUG_DEVELOP"
-        }
-    
-    filter "configurations:Debug_Distribution"
-        defines{
-            "ER_DEBUG_SHIP"
-        }
-    
-    filter "configurations:Release_Distribution"
-        defines{
-            "ER_RELEASE_SHIP"
-        }
-    
-    filter "platforms:Windows"
-        defines{
-            "ER_BUILDING_FOR_WINDOWS"
-        }
         
     filter "system:windows"
         systemversion "latest"
