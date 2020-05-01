@@ -11,12 +11,19 @@
 
 #include "ExchangeStructs/ExchangeAppEvents.h"
 
+//Forward Declared
+int main(int argc, char* argv[]);
+
 namespace Ermine
 {
+	class Window; //Forward Declared So As To Let The App Declaration Know That Window Exists..
+
 	class App
 	{
-	public:
+	private:
 		App(std::string AppTitle, std::pair<int, int> Diamensions);
+
+	public:
 		~App();
 
 		App(const App& rhs) = delete; //This Is The Main PLease Dont Have Two Of Them Or Something Like That
@@ -30,6 +37,8 @@ namespace Ermine
 		void OnTick(); //This is an event which must be handled by the game..
 		void OnDetach(); //This is an event which must be handled by the game..
 
+		static App* Get();
+
 	public:
 
 	protected:
@@ -42,10 +51,17 @@ namespace Ermine
 		void NextFrame(); 
 
 	private:
+		static std::once_flag InitializationFlag;
+
+		Window* ManagedWindow;
+
 		std::string AppTitle;
 		std::pair<int, int> Diamensions;
 
 		ExchangeAppEvents Obj;
+		static App* PointerToApp;
+
+		friend int ::main(int argc, char* argv[]);
 	};
 }
 

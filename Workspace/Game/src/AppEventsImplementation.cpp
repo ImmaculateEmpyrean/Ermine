@@ -26,3 +26,13 @@ ExchangeAppEvents GetAppEventsStruct()
 
 	return Struct;
 }
+
+std::string GetGameNameString()
+{
+	return "Ermine Engine";
+}
+
+std::pair<int, int> DLL GetGameWindowDiamensions()
+{
+	return std::make_pair<int, int>(1000, 1000);
+}

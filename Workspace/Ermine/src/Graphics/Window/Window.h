@@ -30,6 +30,13 @@ namespace Ermine
 		//This is const so as to not modify the window from outside it is the job of this class
 		GLFWwindow const* GetContext() { return WinPtr; }
 
+		//Must Be Called Every Frame To Get Inputs From The User..
+		void PollEvents();
+
+		//This In The Future Must Live Inside The Renderer Or Something Like That No Reason To Give This To Window..
+		void SwapBuffers();
+		void ClearColorBufferBit();
+
 	private:
 		GLFWwindow* WinPtr;
 	};

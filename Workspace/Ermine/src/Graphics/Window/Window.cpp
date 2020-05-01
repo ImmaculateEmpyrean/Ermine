@@ -16,14 +16,25 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
 
     WinPtr = glfwCreateWindow(WindowDiamensions.first, WindowDiamensions.second,
         WindowTitle.c_str(), NULL, NULL);
-    //TODO The Window Pointer Must Be Set In The Future..
+   
+    glfwMakeContextCurrent(WinPtr); //Made The Created Window Current Context..
+
 
     if (!WinPtr)
     {
         STDOUTDefaultLog_Error("Failed To Draw Window Hence Quitting Program")
-            glfwTerminate();
+        glfwTerminate();
         exit(-1); //Exit The Program If We Fail Something So Vital
     }
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        STDOUTDefaultLog_Error("Failed To Initialize GLAD Hence Quitting Program..")
+        glfwTerminate();
+        exit(-1); //Exit The Program If we Fail Something So Vital
+    }
+
+
 }
 
 Ermine::Window::~Window()
@@ -44,4 +55,19 @@ Ermine::Window& Ermine::Window::operator=(Window&& rhs)
     rhs.WinPtr = nullptr;
 
     return *this;
+}
+
+void Ermine::Window::PollEvents()
+{
+    glfwPollEvents();
+}
+
+void Ermine::Window::SwapBuffers()
+{
+    glfwSwapBuffers(WinPtr);
+}
+
+void Ermine::Window::ClearColorBufferBit()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
 }
