@@ -37,9 +37,11 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
     }
 
     //Start Set Callbacks To Sense Events...
-
     glfwSetKeyCallback(WinPtr, key_callback);
-
+    glfwSetCharCallback(WinPtr, character_callback);
+    glfwSetCursorPosCallback(WinPtr, cursor_position_callback);
+    glfwSetMouseButtonCallback(WinPtr, mouse_button_callback);
+    glfwSetScrollCallback(WinPtr, scroll_callback);
     //Ended Set Callbacks To Sense Events...
 }
 
