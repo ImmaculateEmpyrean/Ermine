@@ -7,7 +7,15 @@
 #include<mutex>
 
 #include "Event.h"
+
 #include "EventTypes/TestConcreteEvent.h"
+#include "EventTypes/KeyCallbackEvent.h"
+#include "EventTypes/CharacterCallbackEvent.h"
+#include "EventTypes/CursorPositionCallbackEvent.h"
+#include "EventTypes/MouseButtonCallbackEvent.h"
+#include "EventTypes/ScrollCallbackEvent.h"
+
+//TODO Write a Macro Instead Of all those obnoxious helper functions...
 
 namespace Ermine
 {
@@ -37,10 +45,31 @@ namespace Ermine
 	private:
 		//This Is The Storage Area We Will Store Everything Of Note Here...
 		std::vector<ConcreteEvent> ConcreteEventsQueue; //These Are submitted events..
+		std::vector<KeyCallbackEvent> KeyCallbackEventsQueue;
+		std::vector<CharacterCallbackEvent>CharacterCallbackEventsQueue;
+		std::vector<CursorPositionCallbackEvent>CursorPositionCallbackEventsQueue;
+		std::vector<MouseButtonCallbackEvent>MouseButtonCallbackEventsQueue;
+		std::vector<ScrollCallbackEvent>ScrollCallbackEventsQueue;
 
 	private:
 		//We Will Store The Subscriptions Here...
 		std::vector<ConcreteEventSubscription> ConcreteEventSubscriptions;
+		std::vector<KeyCallbackEventSubscription> KeyCallbackEventsSubscriptions;
+		std::vector<CharacterCallbackEventSubscription> CharacterCallbackEventSubscriptions;
+		std::vector<CursorPositionCallbackEventSubscription> CursorPositionCallbackEventSubscriptions;
+		std::vector<MouseButtonCallbackEventSubscription> MouseButtonCallbackEventSubscriptions;
+		std::vector<ScrollCallbackEventSubscription> ScrollCallbackEventSubscriptions;
+
+	private:
+		//Helper Functions For Dispatching Stuff To Right Destinations---
+		void DispatchConcreteMessages();
+		void DispatchKeyCallbackMessages();
+		void DispatchCharacterCallbackMessages();
+		void DispatchCursorPositionCallbackMessages();
+		void DispatchMouseButtonCallbackMessages();
+		void DispatchScrollCallbackMessages();
+		
+
 	};
 
 }

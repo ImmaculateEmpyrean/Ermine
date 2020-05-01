@@ -5,6 +5,11 @@ namespace Ermine
 {
 	enum class EventType : unsigned int
 	{
-		ConcreteEvent = BIT(0)
+		ConcreteEvent = 1,
+		KeyCallbackEvent = 2,
+		CharacterCallbackEvent=3,
+		CursorPositionCallbackEvent=4,
+		MouseButtonCallbackEvent=5,
+		ScrollCallbackEvent=6
 	};
 }

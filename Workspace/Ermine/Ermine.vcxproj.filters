@@ -73,6 +73,11 @@
     </ClInclude>
     <ClInclude Include="src\InputSystem\ErmineKeyCodesDefinition.h" />
     <ClInclude Include="src\InputSystem\GlfwKeyCallbacks.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\KeyCallbackEvent.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\CharacterCallbackEvent.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\CursorPositionCallbackEvent.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
@@ -105,5 +110,10 @@
     </ClCompile>
     <ClCompile Include="src\Test.cpp" />
     <ClCompile Include="src\InputSystem\GlfwKeyCallbacks.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\KeyCallbackEvent.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\CharacterCallbackEvent.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\CursorPositionCallbackEvent.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\ScrollCallbackEvent.cpp" />
   </ItemGroup>
 </Project>

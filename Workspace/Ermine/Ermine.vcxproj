@@ -136,6 +136,11 @@
     <ClInclude Include="src\EventSystem\EnumEventType.h" />
     <ClInclude Include="src\EventSystem\Event.h" />
     <ClInclude Include="src\EventSystem\EventBroadcastStation.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\CharacterCallbackEvent.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\CursorPositionCallbackEvent.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\KeyCallbackEvent.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h" />
     <ClInclude Include="src\Graphics\Window\Window.h" />
     <ClInclude Include="src\InputSystem\ErmineKeyCodesDefinition.h" />
@@ -153,6 +158,11 @@
     <ClCompile Include="src\EventSystem\Components\RecieverComponent.cpp" />
     <ClCompile Include="src\EventSystem\Event.cpp" />
     <ClCompile Include="src\EventSystem\EventBroadcastStation.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\CharacterCallbackEvent.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\CursorPositionCallbackEvent.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\KeyCallbackEvent.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\ScrollCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp" />
     <ClCompile Include="src\Graphics\Window\Window.cpp" />
     <ClCompile Include="src\InputSystem\GlfwKeyCallbacks.cpp" />
