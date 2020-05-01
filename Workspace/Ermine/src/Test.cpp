@@ -12,13 +12,16 @@
 
 #include "App.h"
 
+#include "TestFolder/TestInputSystem/InputChecker.h"
+
 void DLL __cdecl TestFunc();
 
 int main(int argc, char* argv[])
 {
-
+	
 
 	auto App = Ermine::App::Get();
+	Test::InputChecker InpObj;
 	while (true)
 	{
 		App->NextFrame();

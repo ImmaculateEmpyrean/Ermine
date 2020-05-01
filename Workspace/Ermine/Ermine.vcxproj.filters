@@ -78,6 +78,7 @@
     <ClInclude Include="src\EventSystem\EventTypes\CursorPositionCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h" />
+    <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
@@ -115,5 +116,6 @@
     <ClCompile Include="src\EventSystem\EventTypes\CursorPositionCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\ScrollCallbackEvent.cpp" />
+    <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp" />
   </ItemGroup>
 </Project>

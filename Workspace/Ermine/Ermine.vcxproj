@@ -151,6 +151,7 @@
     <ClInclude Include="src\TestFolder\EventSystemChecker\RecieveAndSendBroadcastObject.h" />
     <ClInclude Include="src\TestFolder\RecieverWithBroadcastComponent.h" />
     <ClInclude Include="src\TestFolder\SenderWithSendComponent.h" />
+    <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
@@ -172,6 +173,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Test.cpp" />
+    <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\vendor\Glad\Glad.vcxproj">

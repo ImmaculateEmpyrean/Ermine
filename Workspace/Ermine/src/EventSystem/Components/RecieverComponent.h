@@ -13,6 +13,11 @@
 
 #include "../Event.h"
 #include "../EventTypes/TestConcreteEvent.h"
+#include "../EventTypes/KeyCallbackEvent.h"
+#include "../EventTypes/CharacterCallbackEvent.h"
+#include "../EventTypes/CursorPositionCallbackEvent.h"
+#include "../EventTypes/MouseButtonCallbackEvent.h"
+#include "../EventTypes/ScrollCallbackEvent.h"
 
 //Here x is the name of the method in THIS class...(Note Context Is Important this uses "this" Operator
 #ifndef GenCallableFromMethod(x)
