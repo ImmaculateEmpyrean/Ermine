@@ -71,6 +71,8 @@
     <ClInclude Include="src\TestFolder\SenderWithSendComponent.h">
       <Filter>TestFolder</Filter>
     </ClInclude>
+    <ClInclude Include="src\InputSystem\ErmineKeyCodesDefinition.h" />
+    <ClInclude Include="src\InputSystem\GlfwKeyCallbacks.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
@@ -102,5 +104,6 @@
       <Filter>PCH</Filter>
     </ClCompile>
     <ClCompile Include="src\Test.cpp" />
+    <ClCompile Include="src\InputSystem\GlfwKeyCallbacks.cpp" />
   </ItemGroup>
 </Project>

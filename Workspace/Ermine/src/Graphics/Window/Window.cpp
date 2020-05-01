@@ -5,6 +5,8 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
+#include "InputSystem/GlfwKeyCallbacks.h"
+
 Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamensions)
 {
     /* Initialize the library */
@@ -34,7 +36,11 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
         exit(-1); //Exit The Program If we Fail Something So Vital
     }
 
+    //Start Set Callbacks To Sense Events...
 
+    glfwSetKeyCallback(WinPtr, key_callback);
+
+    //Ended Set Callbacks To Sense Events...
 }
 
 Ermine::Window::~Window()

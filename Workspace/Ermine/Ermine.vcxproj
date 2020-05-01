@@ -138,6 +138,8 @@
     <ClInclude Include="src\EventSystem\EventBroadcastStation.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h" />
     <ClInclude Include="src\Graphics\Window\Window.h" />
+    <ClInclude Include="src\InputSystem\ErmineKeyCodesDefinition.h" />
+    <ClInclude Include="src\InputSystem\GlfwKeyCallbacks.h" />
     <ClInclude Include="src\LayerSystem\LayerStack.h" />
     <ClInclude Include="src\LayerSystem\LayerStackLayer.h" />
     <ClInclude Include="src\PCH\stdafx.h" />
@@ -153,6 +155,7 @@
     <ClCompile Include="src\EventSystem\EventBroadcastStation.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp" />
     <ClCompile Include="src\Graphics\Window\Window.cpp" />
+    <ClCompile Include="src\InputSystem\GlfwKeyCallbacks.cpp" />
     <ClCompile Include="src\LayerSystem\LayerStack.cpp" />
     <ClCompile Include="src\LayerSystem\LayerStackLayer.cpp" />
     <ClCompile Include="src\PCH\stdafx.cpp">
