@@ -11,10 +11,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AppEventsImplementation.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\PCH\stdafx.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
-    <ClCompile Include="src\AppEventsImplementation.cpp" />
   </ItemGroup>
 </Project>

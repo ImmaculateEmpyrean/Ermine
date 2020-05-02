@@ -26,6 +26,7 @@ IncludeDir["GLFW"]="vendor/GLFW/glfw-3.3.2/include"
 group "Dependencies"
     include "vendor/Glad"
     include "vendor/GLFW"
+    include "vendor/IMGUI"
 --group ""
 project "LogSystem"
     location "LogSystem"
@@ -111,7 +112,8 @@ project "Ermine"
         "GLFW",
         "opengl32.lib",
         "Game",
-        "LogSystem"
+        "LogSystem",
+        "ImGui"
     }
 
     defines{
@@ -179,7 +181,8 @@ project "Game"
         "Glad",
         "GLFW",
         "opengl32.lib",
-        "LogSystem"
+        "LogSystem",
+        "ImGui"
     }
     defines{
         "DLL=__declspec(dllexport)"

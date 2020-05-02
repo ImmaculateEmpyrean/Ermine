@@ -14,9 +14,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ExchangeStructs\ExchangeAppEvents.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{473471B8-B317-80F8-BC1A-AE34287D4649}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>

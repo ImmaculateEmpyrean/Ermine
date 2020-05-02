@@ -16,6 +16,9 @@
     <Filter Include="Graphics\Window">
       <UniqueIdentifier>{3D4B47BA-A9D6-B47E-B2E7-37731EF2107F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="InputSystem">
+      <UniqueIdentifier>{FAE1B94B-6697-3241-EF8B-2C185B402945}</UniqueIdentifier>
+    </Filter>
     <Filter Include="LayerSystem">
       <UniqueIdentifier>{87D49461-F389-0D57-7C7E-072EE832045B}</UniqueIdentifier>
     </Filter>
@@ -27,6 +30,9 @@
     </Filter>
     <Filter Include="TestFolder\EventSystemChecker">
       <UniqueIdentifier>{0CACCFD3-78C4-B6FD-4171-4697AD484B97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TestFolder\TestInputSystem">
+      <UniqueIdentifier>{E5AC94C9-D1BC-409A-3A76-A5B826A52F33}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -47,11 +53,32 @@
     <ClInclude Include="src\EventSystem\EventBroadcastStation.h">
       <Filter>EventSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\EventSystem\EventTypes\CharacterCallbackEvent.h">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventSystem\EventTypes\CursorPositionCallbackEvent.h">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventSystem\EventTypes\KeyCallbackEvent.h">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.h">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClInclude>
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h">
       <Filter>EventSystem\EventTypes</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Window\Window.h">
       <Filter>Graphics\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InputSystem\ErmineKeyCodesDefinition.h">
+      <Filter>InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InputSystem\GlfwKeyCallbacks.h">
+      <Filter>InputSystem</Filter>
     </ClInclude>
     <ClInclude Include="src\LayerSystem\LayerStack.h">
       <Filter>LayerSystem</Filter>
@@ -71,14 +98,9 @@
     <ClInclude Include="src\TestFolder\SenderWithSendComponent.h">
       <Filter>TestFolder</Filter>
     </ClInclude>
-    <ClInclude Include="src\InputSystem\ErmineKeyCodesDefinition.h" />
-    <ClInclude Include="src\InputSystem\GlfwKeyCallbacks.h" />
-    <ClInclude Include="src\EventSystem\EventTypes\KeyCallbackEvent.h" />
-    <ClInclude Include="src\EventSystem\EventTypes\CharacterCallbackEvent.h" />
-    <ClInclude Include="src\EventSystem\EventTypes\CursorPositionCallbackEvent.h" />
-    <ClInclude Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.h" />
-    <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h" />
-    <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h" />
+    <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
+      <Filter>TestFolder\TestInputSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
@@ -94,11 +116,29 @@
     <ClCompile Include="src\EventSystem\EventBroadcastStation.cpp">
       <Filter>EventSystem</Filter>
     </ClCompile>
+    <ClCompile Include="src\EventSystem\EventTypes\CharacterCallbackEvent.cpp">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventSystem\EventTypes\CursorPositionCallbackEvent.cpp">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventSystem\EventTypes\KeyCallbackEvent.cpp">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.cpp">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventSystem\EventTypes\ScrollCallbackEvent.cpp">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClCompile>
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp">
       <Filter>EventSystem\EventTypes</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphics\Window\Window.cpp">
       <Filter>Graphics\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputSystem\GlfwKeyCallbacks.cpp">
+      <Filter>InputSystem</Filter>
     </ClCompile>
     <ClCompile Include="src\LayerSystem\LayerStack.cpp">
       <Filter>LayerSystem</Filter>
@@ -110,12 +150,8 @@
       <Filter>PCH</Filter>
     </ClCompile>
     <ClCompile Include="src\Test.cpp" />
-    <ClCompile Include="src\InputSystem\GlfwKeyCallbacks.cpp" />
-    <ClCompile Include="src\EventSystem\EventTypes\KeyCallbackEvent.cpp" />
-    <ClCompile Include="src\EventSystem\EventTypes\CharacterCallbackEvent.cpp" />
-    <ClCompile Include="src\EventSystem\EventTypes\CursorPositionCallbackEvent.cpp" />
-    <ClCompile Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.cpp" />
-    <ClCompile Include="src\EventSystem\EventTypes\ScrollCallbackEvent.cpp" />
-    <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp" />
+    <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
+      <Filter>TestFolder\TestInputSystem</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
