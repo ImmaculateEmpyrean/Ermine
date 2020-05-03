@@ -101,6 +101,8 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\InputSystem\imgui_impl_glfw.h" />
+    <ClInclude Include="src\InputSystem\imgui_impl_opengl3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
@@ -153,5 +155,7 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
+    <ClCompile Include="src\InputSystem\imgui_impl_glfw.cpp" />
+    <ClCompile Include="src\InputSystem\imgui_impl_opengl3.cpp" />
   </ItemGroup>
 </Project>

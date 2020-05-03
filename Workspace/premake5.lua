@@ -22,6 +22,7 @@ GameEngineProjectName = "Ermine"
 IncludeDir = {}
 IncludeDir["Glad"]="vendor/Glad/include"
 IncludeDir["GLFW"]="vendor/GLFW/glfw-3.3.2/include"
+IncludeDir["ImGui"]="vendor/IMGUI"
 
 group "Dependencies"
     include "vendor/Glad"
@@ -104,7 +105,8 @@ project "Ermine"
          "%{IncludeDir.Glad}",
          "%{IncludeDir.GLFW}",
          "LogSystem/src/",
-         "GameErmineCommonExchangeHeaders/"
+         "GameErmineCommonExchangeHeaders/",
+         "%{IncludeDir.ImGui}",
     }
 
     links {
@@ -174,7 +176,8 @@ project "Game"
          ("LogSystem/src/"),
          "%{IncludeDir.Glad}",
          "%{IncludeDir.GLFW}",
-         "GameErmineCommonExchangeHeaders/"
+         "GameErmineCommonExchangeHeaders/",
+         "%{IncludeDir.ImGui}"
     }
 
     links {

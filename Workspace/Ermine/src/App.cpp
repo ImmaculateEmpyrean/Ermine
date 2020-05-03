@@ -31,10 +31,9 @@ Ermine::App::~App()
 
 void Ermine::App::NextFrame()
 {
-	ManagedWindow->ClearColorBufferBit();
+	ManagedWindow->PreNewFrameProcess();
 	OnTick();
-	ManagedWindow->SwapBuffers();
-	ManagedWindow->PollEvents();
+	ManagedWindow->PostNewFrameProcess();
 }
 
 void Ermine::App::OnAttach()
@@ -45,6 +44,7 @@ void Ermine::App::OnAttach()
 void Ermine::App::OnTick()
 {
 	Obj.OnTick();
+
 }
 
 void Ermine::App::OnDetach()

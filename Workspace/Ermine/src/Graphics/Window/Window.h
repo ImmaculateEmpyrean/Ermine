@@ -11,6 +11,7 @@
 #include<utility>
 
 struct GLFWwindow; //Forward Declared So as To Not Include Glad and Glfw..
+struct ImGuiIO; //Forward Declared So as To Not Include ImGui..
 
 namespace Ermine
 {
@@ -29,16 +30,15 @@ namespace Ermine
 	public:
 		//This is const so as to not modify the window from outside it is the job of this class
 		GLFWwindow const* GetContext() { return WinPtr; }
+		ImGuiIO* GetImGuiIO() { return io; }
 
-		//Must Be Called Every Frame To Get Inputs From The User..
-		void PollEvents();
-
-		//This In The Future Must Live Inside The Renderer Or Something Like That No Reason To Give This To Window..
-		void SwapBuffers();
-		void ClearColorBufferBit();
-
+		void PreNewFrameProcess();
+		void PostNewFrameProcess();
+	private:
+		
 	private:
 		GLFWwindow* WinPtr;
+		ImGuiIO* io;
 	};
 
 }
