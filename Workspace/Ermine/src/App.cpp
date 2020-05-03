@@ -3,7 +3,10 @@
 
 #include "Graphics/Window/Window.h"
 
+#include "EngineUI/DebugDevelopment/MainWindow.h"
+
 #include "ExchangeStructs/ExchangeAppEvents.h"
+
 
 #pragma region StaticDefines
 
@@ -20,18 +23,27 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
 	ManagedWindow = new Window(AppTitle, Diamensions);
 
 	Obj = GetAppEventsStruct();
+
+	//Start Create Window Handler..//
+	WindowHandler::GlobalWindowHandler = new WindowHandler();
+	WindowHandler::GlobalWindowHandler->SubmitWindowFront(std::make_unique<DebugMainWindow>());
+	//Ended Create Window Handler..//
+
 	OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
 }
 
 Ermine::App::~App()
 {
 	delete ManagedWindow; //This Should Not Be Called When The Engine Is Still In Running State
+	delete WindowHandler::GlobalWindowHandler;
+
 	OnDetach(); //The Event Is Called...
 }
 
 void Ermine::App::NextFrame()
 {
 	ManagedWindow->PreNewFrameProcess();
+	WindowHandler::GlobalWindowHandler->UpdateDraw();
 	OnTick();
 	ManagedWindow->PostNewFrameProcess();
 }

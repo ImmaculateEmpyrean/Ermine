@@ -11,6 +11,8 @@
 
 #include "ExchangeStructs/ExchangeAppEvents.h"
 
+#include "EngineUI/WindowHandler.h"
+
 //Forward Declared
 int main(int argc, char* argv[]);
 

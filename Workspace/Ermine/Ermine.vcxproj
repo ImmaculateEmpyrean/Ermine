@@ -131,6 +131,9 @@
   <ItemGroup>
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core.h" />
+    <ClInclude Include="src\EngineUI\DebugDevelopment\MainWindow.h" />
+    <ClInclude Include="src\EngineUI\PrecursorWindow.h" />
+    <ClInclude Include="src\EngineUI\WindowHandler.h" />
     <ClInclude Include="src\EventSystem\Components\BroadcastComponent.h" />
     <ClInclude Include="src\EventSystem\Components\RecieverComponent.h" />
     <ClInclude Include="src\EventSystem\EnumEventType.h" />
@@ -157,6 +160,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\EngineUI\DebugDevelopment\MainWindow.cpp" />
+    <ClCompile Include="src\EngineUI\WindowHandler.cpp" />
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp" />
     <ClCompile Include="src\EventSystem\Components\RecieverComponent.cpp" />
     <ClCompile Include="src\EventSystem\Event.cpp" />

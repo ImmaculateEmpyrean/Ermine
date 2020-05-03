@@ -67,6 +67,8 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 
+    io->Fonts->AddFontFromFileTTF("AgencyFb.ttf", 20.0f);
+
     // Setup Platform/Renderer bindings
     ImGui_ImplGlfw_InitForOpenGL(WinPtr, true);
     ImGui_ImplOpenGL3_Init("#version 130");
@@ -121,11 +123,6 @@ void Ermine::Window::PreNewFrameProcess()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    /*Remove This Code In The Next Commit*/
-    ImGui::Begin("Han");
-    ImGui::Text("Hello World");
-    ImGui::End();
-    /*Remove This Code In The Next Commit*/
 }
 
 void Ermine::Window::PostNewFrameProcess()

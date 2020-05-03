@@ -103,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="src\InputSystem\imgui_impl_glfw.h" />
     <ClInclude Include="src\InputSystem\imgui_impl_opengl3.h" />
+    <ClInclude Include="src\EngineUI\PrecursorWindow.h" />
+    <ClInclude Include="src\EngineUI\WindowHandler.h" />
+    <ClInclude Include="src\EngineUI\DebugDevelopment\MainWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
@@ -157,5 +160,7 @@
     </ClCompile>
     <ClCompile Include="src\InputSystem\imgui_impl_glfw.cpp" />
     <ClCompile Include="src\InputSystem\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\EngineUI\WindowHandler.cpp" />
+    <ClCompile Include="src\EngineUI\DebugDevelopment\MainWindow.cpp" />
   </ItemGroup>
 </Project>
