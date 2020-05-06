@@ -39,7 +39,7 @@ void Ermine::DebugMainWindow::Draw()
     glfwGetWindowSize(glfwGetCurrentContext(), &MainWindowWidth,&MainWindowHeight);
     glfwGetWindowPos(glfwGetCurrentContext(), &MainWindowXPosition,&MainWindowYPosition);
 
-    ImGui::Begin("Main Window DEBUG_DEVELOPMENT", (bool*)0, WindowFlags);
+   /*ImGui::Begin("Main Window DEBUG_DEVELOPMENT", (bool*)0, WindowFlags);
 
     ImGui::SetWindowSize({ (float)MainWindowWidth,(float)MainWindowHeight });
     ImGui::SetWindowPos({ (float)MainWindowXPosition,(float)MainWindowYPosition });
@@ -65,5 +65,5 @@ void Ermine::DebugMainWindow::Draw()
         ImGui::EndMenuBar();
     }
 
-    ImGui::End();
+    ImGui::End();*/
 }

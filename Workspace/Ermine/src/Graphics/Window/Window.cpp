@@ -123,6 +123,9 @@ void Ermine::Window::PreNewFrameProcess()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+    /*Can BE Removed Section*/
+    glClearColor(0.2f,0.2f,0.2f,1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void Ermine::Window::PostNewFrameProcess()
@@ -132,8 +135,8 @@ void Ermine::Window::PostNewFrameProcess()
     int display_w, display_h;
     glfwGetFramebufferSize(WinPtr, &display_w, &display_h);
     glViewport(0, 0, display_w, display_h);
-    glClearColor(0.2f,0.2f,0.2f,1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    //glClearColor(0.2f,0.2f,0.2f,1.0f);
+    //glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     // Update and Render additional Platform Windows

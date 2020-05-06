@@ -9,6 +9,9 @@
 
 #include "vec4.hpp"
 
+#include "Graphics/Renderer/RendererPrimitives/VertexArray.h"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
 #pragma region StaticDefines
 
@@ -53,11 +56,30 @@ void Ermine::App::NextFrame()
 void Ermine::App::OnAttach()
 {
 	Obj.OnAttach();
+
+
+
+
 }
 
 void Ermine::App::OnTick()
 {
-	Obj.OnTick();
+	std::vector<float> VertexBuffer = { 0.5f,  0.5f, 0.0f,  // top right
+	                                    0.5f, -0.5f, 0.0f,  // bottom right
+	                                   -0.5f, -0.5f, 0.0f,  // bottom left
+	                                   -0.5f,  0.5f, 0.0f   // top left 
+									  };
+
+	std::vector<uint32_t> IndexBuffer = {
+		0, 1, 3,   // first triangle
+		1, 2, 3    // second triangle
+	};
+
+	Ermine::VertexArray Vao(VertexBuffer, IndexBuffer);
+	Vao.SetVertexAttribArray(std::vector<VertexAttribPointerSpecification>({ { 3,GL_FLOAT,false } }));//{{3,GL_FLOAT,false}});
+
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	
 }
 
 void Ermine::App::OnDetach()

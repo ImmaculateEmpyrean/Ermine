@@ -145,6 +145,10 @@
     <ClInclude Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h" />
+    <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.h" />
     <ClInclude Include="src\Graphics\Window\Window.h" />
     <ClInclude Include="src\InputSystem\ErmineKeyCodesDefinition.h" />
     <ClInclude Include="src\InputSystem\GlfwKeyCallbacks.h" />
@@ -172,6 +176,10 @@
     <ClCompile Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\ScrollCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.cpp" />
     <ClCompile Include="src\Graphics\Window\Window.cpp" />
     <ClCompile Include="src\InputSystem\GlfwKeyCallbacks.cpp" />
     <ClCompile Include="src\InputSystem\imgui_impl_glfw.cpp" />

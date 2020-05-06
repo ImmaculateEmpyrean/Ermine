@@ -122,6 +122,10 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.h" />
+    <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
@@ -186,5 +190,9 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.cpp" />
   </ItemGroup>
 </Project>
