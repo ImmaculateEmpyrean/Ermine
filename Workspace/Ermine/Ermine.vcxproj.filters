@@ -127,6 +127,7 @@
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Shader.h" />
+    <ClInclude Include="src\Graphics\Renderer\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />

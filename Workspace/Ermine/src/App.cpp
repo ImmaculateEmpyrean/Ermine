@@ -7,12 +7,16 @@
 
 #include "ExchangeStructs/ExchangeAppEvents.h"
 
+#include "vec2.hpp"
 #include "vec4.hpp"
+#include "glm.hpp"
 
 #include "Graphics/Renderer/RendererPrimitives/VertexArray.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Graphics/Renderer/MaterialSystem/Shader.h"
+
+#include "imgui.h"
 
 #pragma region StaticDefines
 
@@ -70,14 +74,15 @@ void Ermine::App::OnTick()
 		"void main()\n"
 		"{\n"
 		"   gl_Position = vec4(aPos, 1.0);\n"
-		"}";
+		"}\0";
 
 	const char* fragmentShaderSource = "#version 330 core\n"
-		"out vec4 Color;\n"
+		"out vec4 FragColor;\n"
+		"uniform vec4 ourColor;\n"
 		"void main()\n"
 		"{\n"
-		"   Color = vec4(1.0f,0.0f,0.0f,1.0f);\n"
-		"}\n";
+		"   FragColor = ourColor;\n"
+		"}\n\0";
 
 	Ermine::Shader Shd = Ermine::Shader(std::string(vertexShaderSource),std::string(fragmentShaderSource));
 	Shd.Bind();
@@ -96,8 +101,15 @@ void Ermine::App::OnTick()
 	Ermine::VertexArray Vao(VertexBuffer, IndexBuffer);
 	Vao.SetVertexAttribArray(std::vector<VertexAttribPointerSpecification>({ { 3,GL_FLOAT,false } }));//{{3,GL_FLOAT,false}});
 
+	static glm::vec4 ourColor;
+
+	ImGui::Begin("Color Picker");
+	ImGui::ColorPicker4("Square Color",&ourColor[0]);
+	ImGui::End();
+
+	Shd.Uniform4f(std::string("ourColor"), ourColor);
+
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	
 }
 
 void Ermine::App::OnDetach()
