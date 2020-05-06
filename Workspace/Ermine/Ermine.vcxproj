@@ -157,6 +157,7 @@
     <ClInclude Include="src\InputSystem\GlfwKeyCallbacks.h" />
     <ClInclude Include="src\InputSystem\imgui_impl_glfw.h" />
     <ClInclude Include="src\InputSystem\imgui_impl_opengl3.h" />
+    <ClInclude Include="src\InputSystem\InputInterrogator.h" />
     <ClInclude Include="src\LayerSystem\LayerStack.h" />
     <ClInclude Include="src\LayerSystem\LayerStackLayer.h" />
     <ClInclude Include="src\PCH\stdafx.h" />
@@ -189,6 +190,7 @@
     <ClCompile Include="src\InputSystem\GlfwKeyCallbacks.cpp" />
     <ClCompile Include="src\InputSystem\imgui_impl_glfw.cpp" />
     <ClCompile Include="src\InputSystem\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\InputSystem\InputInterrogator.cpp" />
     <ClCompile Include="src\LayerSystem\LayerStack.cpp" />
     <ClCompile Include="src\LayerSystem\LayerStackLayer.cpp" />
     <ClCompile Include="src\PCH\stdafx.cpp">

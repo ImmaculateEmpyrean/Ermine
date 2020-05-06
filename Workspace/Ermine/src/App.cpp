@@ -19,6 +19,8 @@
 
 #include "imgui.h"
 
+#include "InputSystem/ErmineKeyCodesDefinition.h"
+
 #pragma region StaticDefines
 
 std::once_flag Ermine::App::InitializationFlag;
@@ -29,7 +31,8 @@ Ermine::App* Ermine::App::PointerToApp = nullptr;
 Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
 	:
 	AppTitle(AppTitle),
-	Diamensions(Diamensions)
+	Diamensions(Diamensions),
+	InpInterrogator()
 {
 	ManagedWindow = new Window(AppTitle, Diamensions);
 
@@ -63,9 +66,6 @@ void Ermine::App::OnAttach()
 {
 	Obj.OnAttach();
 
-
-
-
 }
 
 void Ermine::App::OnTick()
@@ -83,7 +83,7 @@ void Ermine::App::OnTick()
 		"void main()\n"
 		"{\n"
 		"   FragColor = ourColor;\n"
-		"}\n\0";*/
+		"}\n\0";
 
 	const char* vertexShaderSource = "#version 330 core\n"
 		"layout(location = 0) in vec3 aPos;\n"
@@ -136,7 +136,12 @@ void Ermine::App::OnTick()
 
 	//Shd.Uniform4f(std::string("ourColor"), ourColor);
 
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);*/
+
+	if (InpInterrogator.IsKeyPressed(ERMINE_KEY_A))
+	{
+		STDOUTDefaultLog_Error("Yay A is Pressed");
+	}
 }
 
 void Ermine::App::OnDetach()

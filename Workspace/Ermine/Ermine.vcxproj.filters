@@ -152,6 +152,7 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\InputSystem\InputInterrogator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
@@ -232,5 +233,6 @@
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Texture.cpp" />
+    <ClCompile Include="src\InputSystem\InputInterrogator.cpp" />
   </ItemGroup>
 </Project>

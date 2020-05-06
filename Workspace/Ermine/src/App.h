@@ -13,6 +13,8 @@
 
 #include "EngineUI/WindowHandler.h"
 
+#include "InputSystem/InputInterrogator.h"
+
 //Forward Declared
 int main(int argc, char* argv[]);
 
@@ -62,6 +64,8 @@ namespace Ermine
 
 		ExchangeAppEvents Obj;
 		static App* PointerToApp;
+
+		InputInterrogator InpInterrogator;
 
 		friend int ::main(int argc, char* argv[]);
 	};
