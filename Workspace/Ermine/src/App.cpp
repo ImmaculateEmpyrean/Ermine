@@ -12,6 +12,7 @@
 #include "Graphics/Renderer/RendererPrimitives/VertexArray.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "Graphics/Renderer/MaterialSystem/Shader.h"
 
 #pragma region StaticDefines
 
@@ -64,6 +65,23 @@ void Ermine::App::OnAttach()
 
 void Ermine::App::OnTick()
 {
+	const char* vertexShaderSource = "#version 330 core\n"
+		"layout (location = 0) in vec3 aPos;\n"
+		"void main()\n"
+		"{\n"
+		"   gl_Position = vec4(aPos, 1.0);\n"
+		"}";
+
+	const char* fragmentShaderSource = "#version 330 core\n"
+		"out vec4 Color;\n"
+		"void main()\n"
+		"{\n"
+		"   Color = vec4(1.0f,0.0f,0.0f,1.0f);\n"
+		"}\n";
+
+	Ermine::Shader Shd = Ermine::Shader(std::string(vertexShaderSource),std::string(fragmentShaderSource));
+	Shd.Bind();
+
 	std::vector<float> VertexBuffer = { 0.5f,  0.5f, 0.0f,  // top right
 	                                    0.5f, -0.5f, 0.0f,  // bottom right
 	                                   -0.5f, -0.5f, 0.0f,  // bottom left

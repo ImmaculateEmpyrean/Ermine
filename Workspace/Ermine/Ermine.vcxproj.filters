@@ -126,6 +126,7 @@
     <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h" />
+    <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
@@ -194,5 +195,6 @@
     <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Shader.cpp" />
   </ItemGroup>
 </Project>

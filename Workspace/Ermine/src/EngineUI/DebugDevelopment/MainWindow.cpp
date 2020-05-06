@@ -12,11 +12,11 @@ Ermine::DebugMainWindow::DebugMainWindow()
     bool no_scrollbar = false;
     bool no_menu = false;
     bool no_move = true;
-    bool no_resize = false;
+    bool no_resize = true;
     bool no_collapse = true;
     bool no_close = true;
     bool no_nav = true;
-    bool no_background = false;
+    bool no_background = true;
     bool no_bring_to_front = true;
     bool no_docking = true;
 
@@ -39,7 +39,7 @@ void Ermine::DebugMainWindow::Draw()
     glfwGetWindowSize(glfwGetCurrentContext(), &MainWindowWidth,&MainWindowHeight);
     glfwGetWindowPos(glfwGetCurrentContext(), &MainWindowXPosition,&MainWindowYPosition);
 
-   /*ImGui::Begin("Main Window DEBUG_DEVELOPMENT", (bool*)0, WindowFlags);
+   ImGui::Begin("Main Window DEBUG_DEVELOPMENT", (bool*)0, WindowFlags);
 
     ImGui::SetWindowSize({ (float)MainWindowWidth,(float)MainWindowHeight });
     ImGui::SetWindowPos({ (float)MainWindowXPosition,(float)MainWindowYPosition });
@@ -65,5 +65,5 @@ void Ermine::DebugMainWindow::Draw()
         ImGui::EndMenuBar();
     }
 
-    ImGui::End();*/
+    ImGui::End();
 }
