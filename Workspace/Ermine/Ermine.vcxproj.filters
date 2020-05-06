@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="EngineUI">
+      <UniqueIdentifier>{D935E534-C502-4040-EE1B-2EE8DA4775CE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineUI\DebugDevelopment">
+      <UniqueIdentifier>{728B5C58-DE4D-90E2-27FE-1E6F93FF68C0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="EventSystem">
       <UniqueIdentifier>{CCE875DF-389E-EED4-C192-E8AB2D47E5D8}</UniqueIdentifier>
     </Filter>
@@ -38,6 +44,15 @@
   <ItemGroup>
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core.h" />
+    <ClInclude Include="src\EngineUI\DebugDevelopment\MainWindow.h">
+      <Filter>EngineUI\DebugDevelopment</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EngineUI\PrecursorWindow.h">
+      <Filter>EngineUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EngineUI\WindowHandler.h">
+      <Filter>EngineUI</Filter>
+    </ClInclude>
     <ClInclude Include="src\EventSystem\Components\BroadcastComponent.h">
       <Filter>EventSystem\Components</Filter>
     </ClInclude>
@@ -80,6 +95,12 @@
     <ClInclude Include="src\InputSystem\GlfwKeyCallbacks.h">
       <Filter>InputSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\InputSystem\imgui_impl_glfw.h">
+      <Filter>InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InputSystem\imgui_impl_opengl3.h">
+      <Filter>InputSystem</Filter>
+    </ClInclude>
     <ClInclude Include="src\LayerSystem\LayerStack.h">
       <Filter>LayerSystem</Filter>
     </ClInclude>
@@ -101,14 +122,15 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\InputSystem\imgui_impl_glfw.h" />
-    <ClInclude Include="src\InputSystem\imgui_impl_opengl3.h" />
-    <ClInclude Include="src\EngineUI\PrecursorWindow.h" />
-    <ClInclude Include="src\EngineUI\WindowHandler.h" />
-    <ClInclude Include="src\EngineUI\DebugDevelopment\MainWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\EngineUI\DebugDevelopment\MainWindow.cpp">
+      <Filter>EngineUI\DebugDevelopment</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EngineUI\WindowHandler.cpp">
+      <Filter>EngineUI</Filter>
+    </ClCompile>
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp">
       <Filter>EventSystem\Components</Filter>
     </ClCompile>
@@ -145,6 +167,12 @@
     <ClCompile Include="src\InputSystem\GlfwKeyCallbacks.cpp">
       <Filter>InputSystem</Filter>
     </ClCompile>
+    <ClCompile Include="src\InputSystem\imgui_impl_glfw.cpp">
+      <Filter>InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputSystem\imgui_impl_opengl3.cpp">
+      <Filter>InputSystem</Filter>
+    </ClCompile>
     <ClCompile Include="src\LayerSystem\LayerStack.cpp">
       <Filter>LayerSystem</Filter>
     </ClCompile>
@@ -158,9 +186,5 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\InputSystem\imgui_impl_glfw.cpp" />
-    <ClCompile Include="src\InputSystem\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="src\EngineUI\WindowHandler.cpp" />
-    <ClCompile Include="src\EngineUI\DebugDevelopment\MainWindow.cpp" />
   </ItemGroup>
 </Project>

@@ -7,6 +7,8 @@
 
 #include "ExchangeStructs/ExchangeAppEvents.h"
 
+#include "vec4.hpp"
+
 
 #pragma region StaticDefines
 
@@ -56,7 +58,6 @@ void Ermine::App::OnAttach()
 void Ermine::App::OnTick()
 {
 	Obj.OnTick();
-
 }
 
 void Ermine::App::OnDetach()
