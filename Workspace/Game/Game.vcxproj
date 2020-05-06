@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllexport);GAME_DEBUG_DEVELOP;GAME_BUILDING_FOR_WINDOWS;GAME_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -102,7 +102,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllexport);GAME_DEBUG_SHIP;GAME_BUILDING_FOR_WINDOWS;GAME_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -124,7 +124,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllexport);GAME_RELEASE_SHIP;GAME_BUILDING_FOR_WINDOWS;GAME_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -165,6 +165,9 @@
     </ProjectReference>
     <ProjectReference Include="..\vendor\GLM\GLM.vcxproj">
       <Project>{05EB870B-71F4-877C-FA6F-9E7C6678937C}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\vendor\stb\stb.vcxproj">
+      <Project>{6EAB880B-DAB4-887C-6330-9F7CCF38947C}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

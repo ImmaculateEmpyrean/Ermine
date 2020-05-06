@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllimport);ER_DEBUG_DEVELOP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -98,7 +98,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllimport);ER_DEBUG_SHIP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -116,7 +116,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllimport);ER_RELEASE_SHIP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -146,6 +146,7 @@
     <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Shader.h" />
+    <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Texture.h" />
     <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h" />
     <ClInclude Include="src\Graphics\Renderer\Renderer.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="src\EventSystem\EventTypes\ScrollCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Shader.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Texture.cpp" />
     <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.cpp" />
@@ -213,6 +215,9 @@
     </ProjectReference>
     <ProjectReference Include="..\vendor\GLM\GLM.vcxproj">
       <Project>{05EB870B-71F4-877C-FA6F-9E7C6678937C}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\vendor\stb\stb.vcxproj">
+      <Project>{6EAB880B-DAB4-887C-6330-9F7CCF38947C}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -15,6 +15,7 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "Graphics/Renderer/MaterialSystem/Shader.h"
+#include "Graphics/Renderer/MaterialSystem/Texture.h"
 
 #include "imgui.h"
 
@@ -69,7 +70,7 @@ void Ermine::App::OnAttach()
 
 void Ermine::App::OnTick()
 {
-	const char* vertexShaderSource = "#version 330 core\n"
+	/*const char* vertexShaderSource = "#version 330 core\n"
 		"layout (location = 0) in vec3 aPos;\n"
 		"void main()\n"
 		"{\n"
@@ -82,15 +83,35 @@ void Ermine::App::OnTick()
 		"void main()\n"
 		"{\n"
 		"   FragColor = ourColor;\n"
-		"}\n\0";
+		"}\n\0";*/
+
+	const char* vertexShaderSource = "#version 330 core\n"
+		"layout(location = 0) in vec3 aPos;\n"
+		"layout(location = 1) in vec2 aTexCoord;\n"
+		"out vec3 ourColor;\n"
+		"out vec2 TexCoord;\n"
+		"void main()\n"
+		"{\n"
+		"gl_Position = vec4(aPos, 1.0);\n"
+		"TexCoord = vec2(aTexCoord.x, aTexCoord.y);\n"
+		"}";
+
+	const char* fragmentShaderSource = "#version 330 core\n"
+		"out vec4 FragColor;\n"
+		"in vec2 TexCoord;\n"
+		"uniform sampler2D texture1;\n"
+		"void main()\n"
+		"{\n"
+		"FragColor = texture(texture1, TexCoord);\n"
+		"}\n";
 
 	Ermine::Shader Shd = Ermine::Shader(std::string(vertexShaderSource),std::string(fragmentShaderSource));
 	Shd.Bind();
 
-	std::vector<float> VertexBuffer = { 0.5f,  0.5f, 0.0f,  // top right
-	                                    0.5f, -0.5f, 0.0f,  // bottom right
-	                                   -0.5f, -0.5f, 0.0f,  // bottom left
-	                                   -0.5f,  0.5f, 0.0f   // top left 
+	std::vector<float> VertexBuffer = { 0.5f,  0.5f, 0.0f, 1.0,1.0,  // top right
+	                                    0.5f, -0.5f, 0.0f, 0.0,1.0,  // bottom right
+	                                   -0.5f, -0.5f, 0.0f, 0.0,0.0, // bottom left
+	                                   -0.5f,  0.5f, 0.0f, 1.0,0.0// top left 
 									  };
 
 	std::vector<uint32_t> IndexBuffer = {
@@ -99,15 +120,21 @@ void Ermine::App::OnTick()
 	};
 
 	Ermine::VertexArray Vao(VertexBuffer, IndexBuffer);
-	Vao.SetVertexAttribArray(std::vector<VertexAttribPointerSpecification>({ { 3,GL_FLOAT,false } }));//{{3,GL_FLOAT,false}});
+	Vao.SetVertexAttribArray(std::vector<VertexAttribPointerSpecification>({ { 3,GL_FLOAT,false },
+																			 { 2,GL_FLOAT,false} 
+																			}));//{{3,GL_FLOAT,false}});
 
+	Ermine::Texture Tex = Ermine::Texture("AnoHiMitaHana.png");
+	Tex.Bind(0);
+
+	Shd.Uniformi(std::string("texture1"), 0);
 	static glm::vec4 ourColor;
 
 	ImGui::Begin("Color Picker");
 	ImGui::ColorPicker4("Square Color",&ourColor[0]);
 	ImGui::End();
 
-	Shd.Uniform4f(std::string("ourColor"), ourColor);
+	//Shd.Uniform4f(std::string("ourColor"), ourColor);
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

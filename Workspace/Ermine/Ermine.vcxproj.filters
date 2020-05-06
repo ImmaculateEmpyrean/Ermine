@@ -19,6 +19,15 @@
     <Filter Include="Graphics">
       <UniqueIdentifier>{1653CE33-0220-293F-2B39-17E717655ECD}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Renderer">
+      <UniqueIdentifier>{7C6F0F98-E885-0D2E-31FD-984F9D52DEB5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Renderer\MaterialSystem">
+      <UniqueIdentifier>{BFE051CD-AB31-3D0F-D495-2BD1C045D078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Renderer\RendererPrimitives">
+      <UniqueIdentifier>{0E483E1B-FA2E-0013-A37F-66308F457979}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Graphics\Window">
       <UniqueIdentifier>{3D4B47BA-A9D6-B47E-B2E7-37731EF2107F}</UniqueIdentifier>
     </Filter>
@@ -86,6 +95,27 @@
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h">
       <Filter>EventSystem\EventTypes</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Shader.h">
+      <Filter>Graphics\Renderer\MaterialSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Texture.h">
+      <Filter>Graphics\Renderer\MaterialSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h">
+      <Filter>Graphics\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\Renderer.h">
+      <Filter>Graphics\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h">
+      <Filter>Graphics\Renderer\RendererPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h">
+      <Filter>Graphics\Renderer\RendererPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.h">
+      <Filter>Graphics\Renderer\RendererPrimitives</Filter>
+    </ClInclude>
     <ClInclude Include="src\Graphics\Window\Window.h">
       <Filter>Graphics\Window</Filter>
     </ClInclude>
@@ -122,12 +152,6 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.h" />
-    <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h" />
-    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h" />
-    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h" />
-    <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Shader.h" />
-    <ClInclude Include="src\Graphics\Renderer\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
@@ -167,6 +191,21 @@
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp">
       <Filter>EventSystem\EventTypes</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Shader.cpp">
+      <Filter>Graphics\Renderer\MaterialSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp">
+      <Filter>Graphics\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.cpp">
+      <Filter>Graphics\Renderer\RendererPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.cpp">
+      <Filter>Graphics\Renderer\RendererPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.cpp">
+      <Filter>Graphics\Renderer\RendererPrimitives</Filter>
+    </ClCompile>
     <ClCompile Include="src\Graphics\Window\Window.cpp">
       <Filter>Graphics\Window</Filter>
     </ClCompile>
@@ -192,10 +231,6 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Shader.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Texture.cpp" />
   </ItemGroup>
 </Project>

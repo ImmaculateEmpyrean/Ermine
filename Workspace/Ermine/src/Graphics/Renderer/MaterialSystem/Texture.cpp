@@ -1,0 +1,122 @@
+#include "stdafx.h"
+#include "Texture.h"
+
+#include "stb_image.h"
+
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+#include "Graphics/Renderer/OpenGLErrorChecker.h"
+
+namespace Ermine
+{
+	Texture::Texture()
+	{
+		HelperGenTexture();
+	}
+	Texture::Texture(std::filesystem::path TextureFilePath)
+		:
+		TextureFilePath(TextureFilePath)
+	{
+		HelperGenTexture();
+
+		if (!TextureFilePath.empty())
+		{
+			HelperLoadDataWithStbiAndCallglTexImage2D();
+		}
+	}
+
+	Texture::~Texture()
+	{
+		glDeleteTextures(1, &Tex);
+	}
+
+
+	Texture::Texture(const Texture& rhs)
+		:
+		TextureFilePath(rhs.TextureFilePath)
+	{
+		HelperGenTexture();
+
+		if (!TextureFilePath.empty())
+		{
+			HelperLoadDataWithStbiAndCallglTexImage2D();
+		}
+	}
+	Texture Texture::operator=(const Texture& rhs)
+	{
+		TextureFilePath = rhs.TextureFilePath;
+		HelperGenTexture();
+
+		if (!TextureFilePath.empty())
+		{
+			HelperLoadDataWithStbiAndCallglTexImage2D();
+		}
+
+		return *this;
+	}
+
+	Texture::Texture(Texture&& rhs)
+	{
+		TextureFilePath = rhs.TextureFilePath;
+		Tex = rhs.Tex;
+
+		width = rhs.width;
+		height = rhs.height;
+		NumberOfChannels = rhs.NumberOfChannels;
+
+		rhs.Tex = 0;
+	}
+	Texture Texture::operator=(Texture&& rhs)
+	{
+		TextureFilePath = rhs.TextureFilePath;
+		Tex = rhs.Tex;
+
+		width = rhs.width;
+		height = rhs.height;
+		NumberOfChannels = rhs.NumberOfChannels;
+
+		rhs.Tex = 0;
+
+		return *this;
+	}
+
+	void Texture::Bind(int slot)
+	{
+		glActiveTexture(GL_TEXTURE0 + slot); // activate the texture unit first before binding texture
+		glBindTexture(GL_TEXTURE_2D, Tex);
+	}
+
+	void Texture::Unbind()
+	{
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+
+	void Texture::HelperGenTexture()
+	{
+		GLCall(glGenTextures(1, &Tex));
+		GLCall(glBindTexture(GL_TEXTURE_2D, Tex));
+
+		// set the texture wrapping/filtering options (on the currently bound texture object)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		// load and generate the texture
+	}
+	void Texture::HelperLoadDataWithStbiAndCallglTexImage2D()
+	{
+		stbi_set_flip_vertically_on_load(1);
+		unsigned char* TextureData = stbi_load(TextureFilePath.u8string().c_str(), &width, &height, &NumberOfChannels, 4);
+		if (TextureData)
+		{
+			GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, TextureData));
+			GLCall(glGenerateMipmap(GL_TEXTURE_2D));
+		}
+		else
+		{
+			STDOUTDefaultLog_Error("Error STB Image Failed To Load Desire Texture : {}", TextureFilePath.u8string().c_str());
+		}
+		stbi_image_free(TextureData);
+	}
+}

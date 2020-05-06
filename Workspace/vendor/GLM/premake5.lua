@@ -8,9 +8,10 @@ project "GLM"
 
     files{
 		"glm/**.hpp",
-		"glm/**.inl"
+    "glm/**.inl",
+    "GLMDummy.cpp"
     }
 
-    includedirs { 
-		
+    includedirs {
+
    }

@@ -24,12 +24,14 @@ IncludeDir["Glad"]="vendor/Glad/include"
 IncludeDir["GLFW"]="vendor/GLFW/glfw-3.3.2/include"
 IncludeDir["ImGui"]="vendor/IMGUI"
 IncludeDir["GLM"]="vendor/GLM/glm"
+IncludeDir["stb"]="vendor/stb"
 
 group "Dependencies"
     include "vendor/Glad"
     include "vendor/GLFW"
     include "vendor/IMGUI"
     include "vendor/GLM"
+    include "vendor/stb"
 --group ""
 project "LogSystem"
     location "LogSystem"
@@ -110,6 +112,7 @@ project "Ermine"
          "GameErmineCommonExchangeHeaders/",
          "%{IncludeDir.ImGui}",
          "%{IncludeDir.GLM}",
+         "%{IncludeDir.stb}",
     }
 
     links {
@@ -119,7 +122,8 @@ project "Ermine"
         "Game",
         "LogSystem",
         "ImGui",
-        "GLM"
+        "GLM",
+        "stb"
     }
 
     defines{
@@ -182,7 +186,8 @@ project "Game"
          "%{IncludeDir.GLFW}",
          "GameErmineCommonExchangeHeaders/",
          "%{IncludeDir.ImGui}",
-         "%{IncludeDir.GLM}"
+         "%{IncludeDir.GLM}",
+         "%{IncludeDir.stb}"
     }
 
     links {
@@ -191,7 +196,8 @@ project "Game"
         "opengl32.lib",
         "LogSystem",
         "ImGui",
-        "GLM"
+        "GLM",
+        "stb"
     }
     defines{
         "DLL=__declspec(dllexport)"
