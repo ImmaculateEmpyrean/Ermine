@@ -153,6 +153,8 @@
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
     <ClInclude Include="src\InputSystem\InputInterrogator.h" />
+    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.h" />
+    <ClInclude Include="src\EngineResourceHandlers\GlobalTextureCache.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
@@ -234,5 +236,7 @@
     </ClCompile>
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Texture.cpp" />
     <ClCompile Include="src\InputSystem\InputInterrogator.cpp" />
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.cpp" />
+    <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp" />
   </ItemGroup>
 </Project>

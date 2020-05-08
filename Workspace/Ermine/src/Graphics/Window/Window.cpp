@@ -11,7 +11,6 @@
 
 #include "InputSystem/GlfwKeyCallbacks.h"
 
-
 //In Future Do a Better Job By Moving This Function Somewhere else...
 static void glfw_error_callback(int error, const char* description)
 {
@@ -69,17 +68,18 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
 
     io->Fonts->AddFontFromFileTTF("AgencyFb.ttf", 20.0f);
 
-    // Setup Platform/Renderer bindings
-    ImGui_ImplGlfw_InitForOpenGL(WinPtr, true);
-    ImGui_ImplOpenGL3_Init("#version 130");
-  
+    
     //Start Set Callbacks To Sense Events...
     glfwSetKeyCallback(WinPtr, key_callback);
     glfwSetCharCallback(WinPtr, character_callback);
     glfwSetCursorPosCallback(WinPtr, cursor_position_callback);
     glfwSetMouseButtonCallback(WinPtr, mouse_button_callback);
-    glfwSetScrollCallback(WinPtr, scroll_callback);
+    glfwSetScrollCallback(WinPtr, scroll_callback); 
     //Ended Set Callbacks To Sense Events...
+
+    // Setup Platform/Renderer bindings
+    ImGui_ImplGlfw_InitForOpenGL(WinPtr, true);
+    ImGui_ImplOpenGL3_Init("#version 130");
 
 #if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
     STDOUTDefaultLog_Trace("Initialized Window Printing Log Info : ");

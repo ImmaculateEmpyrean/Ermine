@@ -5,6 +5,10 @@
 #include "GLFW/glfw3.h"
 #include "imgui.h"
 
+#include "EngineUI/WindowHandler.h"
+
+#include "EngineUI/DebugDevelopment/AssetsMenu/AddNewAssetsMenu/AddNewTextureWindow.h"
+
 Ermine::DebugMainWindow::DebugMainWindow()
 {
     // Demonstrate the various window flags. Typically you would just use the default!
@@ -48,14 +52,48 @@ void Ermine::DebugMainWindow::Draw()
 
     if (ImGui::BeginMenuBar())
     {
-        if (ImGui::BeginMenu("Menu"))
+        if (ImGui::BeginMenu("File"))
         {
-            
+            if (ImGui::MenuItem("Quit", "", nullptr))
+            {
+                exit(0);
+            }
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("Assets"))
+        {
+            if (ImGui::BeginMenu("Add New Assets"))
+            {
+                static bool b2 = false;
+                if (ImGui::MenuItem("Add Texture", "", nullptr))
+                {
+                    auto Handler = Ermine::WindowHandler::Get();
+                    Handler->SubmitWindowFront(std::make_unique<Ermine::AddNewTextureWindow>(Ermine::AddNewTextureWindow()));
+                }
+                ImGui::EndMenu();
+            }
+            ImGui::EndMenu();
+        }
+        ImGui::EndMenuBar();
+    }
+    /*if(ImGui::BeginMenuBar())
+    {
+        if (ImGui::BeginMenu("FILE"))
+        {
+            static bool b1 = false, b2 = false;
+            /*if (ImGui::MenuItem("Quit",nullptr,&b1))
+            {
+                exit(0);
+            }
+            ImGui::EndMenu();
+        }
+        /*if (ImGui::BeginMenu("Menu"))
+        { 
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Examples"))
         {
-            
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Tools"))
@@ -63,7 +101,7 @@ void Ermine::DebugMainWindow::Draw()
             ImGui::EndMenu();
         }
         ImGui::EndMenuBar();
-    }
+    }*/
 
     ImGui::End();
 }

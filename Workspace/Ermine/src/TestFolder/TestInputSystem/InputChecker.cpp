@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "InputChecker.h"
 
+#include "imgui.h"
+
 Test::InputChecker::InputChecker()
 {
 	std::cout << "Ysdfjkf";
@@ -30,4 +32,11 @@ void Test::InputChecker::CallBackFunc(Ermine::Event* eveobj)
 		break;
 	default: STDOUTDefaultLog_Error("Unknown CallBAck Recieved Dunno What To Do..");
 	}
+
+	/*if (eventtype == Ermine::EventType::CharacterCallbackEvent)
+	{
+		auto l = (Ermine::CharacterCallbackEvent*)eveobj;
+		ImGuiIO& io = ImGui::GetIO();
+		io.AddInputCharacter(l->GetCodePoint());
+	}*/
 }

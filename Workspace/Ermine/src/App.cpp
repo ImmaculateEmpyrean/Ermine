@@ -138,10 +138,10 @@ void Ermine::App::OnTick()
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);*/
 
-	if (InpInterrogator.IsKeyPressed(ERMINE_KEY_A))
+	/*if (InpInterrogator.IsKeyPressed(ERMINE_KEY_A))
 	{
 		STDOUTDefaultLog_Error("Yay A is Pressed");
-	}
+	}*/
 }
 
 void Ermine::App::OnDetach()
