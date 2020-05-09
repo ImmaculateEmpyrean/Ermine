@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="json-3.7.3">
+      <UniqueIdentifier>{6552B326-510A-F573-BA11-CECFA6E88F64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="json-3.7.3\single_include">
+      <UniqueIdentifier>{39E1B080-A5A3-E40A-EE53-73975A55BDE8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="json-3.7.3\single_include\nlohmann">
+      <UniqueIdentifier>{632DD0E1-4F69-D34B-B87B-EB42A4D67B66}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="json-3.7.3\single_include\nlohmann\json.hpp">
+      <Filter>json-3.7.3\single_include\nlohmann</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="jsondummy.cpp" />
+  </ItemGroup>
+</Project>

@@ -25,6 +25,7 @@ IncludeDir["GLFW"]="vendor/GLFW/glfw-3.3.2/include"
 IncludeDir["ImGui"]="vendor/IMGUI"
 IncludeDir["GLM"]="vendor/GLM/glm"
 IncludeDir["stb"]="vendor/stb"
+IncludeDir["JSON"]="vendor/JSON/json-3.7.3/single_include"
 
 group "Dependencies"
     include "vendor/Glad"
@@ -32,6 +33,7 @@ group "Dependencies"
     include "vendor/IMGUI"
     include "vendor/GLM"
     include "vendor/stb"
+    include "vendor/JSON"
 --group ""
 project "LogSystem"
     location "LogSystem"
@@ -113,6 +115,7 @@ project "Ermine"
          "%{IncludeDir.ImGui}",
          "%{IncludeDir.GLM}",
          "%{IncludeDir.stb}",
+         "%{IncludeDir.JSON}"
     }
 
     links {
@@ -123,7 +126,8 @@ project "Ermine"
         "LogSystem",
         "ImGui",
         "GLM",
-        "stb"
+        "stb",
+        "JSON"
     }
 
     defines{
@@ -187,7 +191,8 @@ project "Game"
          "GameErmineCommonExchangeHeaders/",
          "%{IncludeDir.ImGui}",
          "%{IncludeDir.GLM}",
-         "%{IncludeDir.stb}"
+         "%{IncludeDir.stb}",
+         "%{IncludeDir.JSON}"
     }
 
     links {
@@ -197,7 +202,8 @@ project "Game"
         "LogSystem",
         "ImGui",
         "GLM",
-        "stb"
+        "stb",
+        "JSON"
     }
     defines{
         "DLL=__declspec(dllexport)"

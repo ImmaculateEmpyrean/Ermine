@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="2DPrimitives">
+      <UniqueIdentifier>{A75D6B22-93C0-FAC6-3C46-337D2888C649}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineResourceHandlers">
+      <UniqueIdentifier>{748A153F-6084-3E91-49F1-D4A1358AA4FD}</UniqueIdentifier>
+    </Filter>
     <Filter Include="EngineUI">
       <UniqueIdentifier>{D935E534-C502-4040-EE1B-2EE8DA4775CE}</UniqueIdentifier>
     </Filter>
     <Filter Include="EngineUI\DebugDevelopment">
       <UniqueIdentifier>{728B5C58-DE4D-90E2-27FE-1E6F93FF68C0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineUI\DebugDevelopment\AssetsMenu">
+      <UniqueIdentifier>{891DBA44-7504-7C3C-1E55-E2590A1BF5A2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu">
+      <UniqueIdentifier>{731303E7-DF2F-F5D7-A807-624514E35E99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu">
+      <UniqueIdentifier>{BBD9C286-27EB-6A2D-B03C-FD6C1C4DF466}</UniqueIdentifier>
     </Filter>
     <Filter Include="EventSystem">
       <UniqueIdentifier>{CCE875DF-389E-EED4-C192-E8AB2D47E5D8}</UniqueIdentifier>
@@ -51,8 +66,26 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\2DPrimitives\Sprite.h">
+      <Filter>2DPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\TileSet.h">
+      <Filter>2DPrimitives</Filter>
+    </ClInclude>
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core.h" />
+    <ClInclude Include="src\EngineResourceHandlers\GlobalTextureCache.h">
+      <Filter>EngineResourceHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.h">
+      <Filter>EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.h">
+      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.h">
+      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
+    </ClInclude>
     <ClInclude Include="src\EngineUI\DebugDevelopment\MainWindow.h">
       <Filter>EngineUI\DebugDevelopment</Filter>
     </ClInclude>
@@ -125,6 +158,9 @@
     <ClInclude Include="src\InputSystem\GlfwKeyCallbacks.h">
       <Filter>InputSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\InputSystem\InputInterrogator.h">
+      <Filter>InputSystem</Filter>
+    </ClInclude>
     <ClInclude Include="src\InputSystem\imgui_impl_glfw.h">
       <Filter>InputSystem</Filter>
     </ClInclude>
@@ -152,16 +188,24 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\InputSystem\InputInterrogator.h" />
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.h" />
-    <ClInclude Include="src\EngineResourceHandlers\GlobalTextureCache.h" />
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.h" />
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.h" />
-    <ClInclude Include="src\2DPrimitives\Sprite.h" />
-    <ClInclude Include="src\2DPrimitives\TileSet.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\2DPrimitives\Sprite.cpp">
+      <Filter>2DPrimitives</Filter>
+    </ClCompile>
     <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp">
+      <Filter>EngineResourceHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.cpp">
+      <Filter>EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.cpp">
+      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.cpp">
+      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
+    </ClCompile>
     <ClCompile Include="src\EngineUI\DebugDevelopment\MainWindow.cpp">
       <Filter>EngineUI\DebugDevelopment</Filter>
     </ClCompile>
@@ -201,6 +245,9 @@
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Shader.cpp">
       <Filter>Graphics\Renderer\MaterialSystem</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Texture.cpp">
+      <Filter>Graphics\Renderer\MaterialSystem</Filter>
+    </ClCompile>
     <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp">
       <Filter>Graphics\Renderer</Filter>
     </ClCompile>
@@ -217,6 +264,9 @@
       <Filter>Graphics\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\InputSystem\GlfwKeyCallbacks.cpp">
+      <Filter>InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputSystem\InputInterrogator.cpp">
       <Filter>InputSystem</Filter>
     </ClCompile>
     <ClCompile Include="src\InputSystem\imgui_impl_glfw.cpp">
@@ -238,12 +288,5 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Texture.cpp" />
-    <ClCompile Include="src\InputSystem\InputInterrogator.cpp" />
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.cpp" />
-    <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp" />
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.cpp" />
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.cpp" />
-    <ClCompile Include="src\2DPrimitives\Sprite.cpp" />
   </ItemGroup>
 </Project>
