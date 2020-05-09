@@ -28,6 +28,8 @@ namespace Ermine
 
 	private:
 		const char* BufferToStoreFilePath;
+		const char* BufferToStoreName;
+
 		bool ShowErrorPathIncorrectWindow = false;
 	};
 }

@@ -16,7 +16,7 @@ namespace Ermine
 		Texture();
 
 		//More Like Default Constructor Of Texture
-		Texture(std::filesystem::path TextureFilePath);
+		Texture(std::filesystem::path TextureFilePath,std::string Name="NoName");
 
 		~Texture();
 
@@ -29,6 +29,17 @@ namespace Ermine
 
 		void Bind(int slot=0);
 		void Unbind();
+
+		int GetWidth();
+		int GetHeight();
+
+		std::string GetName();
+
+		operator unsigned int();
+		unsigned int GetTextureID();
+
+		double GetAspectRatio();
+
 	public:
 
 	protected:
@@ -41,6 +52,7 @@ namespace Ermine
 
 	private:
 		std::filesystem::path TextureFilePath;
+		std::string Name;
 
 		unsigned int Tex;
 

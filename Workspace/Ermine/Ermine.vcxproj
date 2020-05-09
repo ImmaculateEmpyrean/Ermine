@@ -133,6 +133,8 @@
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\EngineResourceHandlers\GlobalTextureCache.h" />
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.h" />
+    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.h" />
+    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.h" />
     <ClInclude Include="src\EngineUI\DebugDevelopment\MainWindow.h" />
     <ClInclude Include="src\EngineUI\PrecursorWindow.h" />
     <ClInclude Include="src\EngineUI\WindowHandler.h" />
@@ -172,6 +174,8 @@
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.cpp" />
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.cpp" />
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\MainWindow.cpp" />
     <ClCompile Include="src\EngineUI\WindowHandler.cpp" />
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp" />

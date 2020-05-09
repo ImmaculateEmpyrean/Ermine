@@ -19,9 +19,9 @@ namespace Ermine
 		static GlobalTextureCache* Get();
 
 		std::vector<Texture*>& GetCache();
+		int PushTextureIntoCache(Texture* tex);
 
-		//Please Dont Push Any Other Texture Into The Cache Most Likely Duplicates Will Get Formed..
-		void PushTextureIntoCache(Texture* tex);
+		void ClearCache(); //This Invalidates All Previously Held Tokens..
 
 	public:
 

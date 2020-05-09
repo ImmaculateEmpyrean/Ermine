@@ -11,11 +11,13 @@ namespace Ermine
 {
 	Texture::Texture()
 	{
+		Name = "NoName";
 		HelperGenTexture();
 	}
-	Texture::Texture(std::filesystem::path TextureFilePath)
+	Texture::Texture(std::filesystem::path TextureFilePath, std::string Name)
 		:
-		TextureFilePath(TextureFilePath)
+		TextureFilePath(TextureFilePath),
+		Name(Name)
 	{
 		HelperGenTexture();
 
@@ -89,6 +91,35 @@ namespace Ermine
 	void Texture::Unbind()
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+	int Texture::GetWidth()
+	{
+		return width;
+	}
+
+	int Texture::GetHeight()
+	{
+		return height;
+	}
+
+	std::string Texture::GetName()
+	{
+		return Name;
+	}
+
+	Texture::operator unsigned int()
+	{
+		return Tex;
+	}
+	unsigned int Texture::GetTextureID()
+	{
+		return Tex;
+	}
+
+	double Texture::GetAspectRatio()
+	{
+		return width / height;
 	}
 
 

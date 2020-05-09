@@ -16,13 +16,18 @@ namespace Ermine
 		//The Actual Files Of Copying The TextureFiles Over Is Handled By The AddNew TextureWindow When The Texture Gets Loaded
 		//Into Memory..
 
+#ifdef ER_DEBUG_DEVELOP
+
 		std::filesystem::recursive_directory_iterator rdi("Texture");
 
 		for (auto i : rdi)
 		{
-			Ermine::Texture* Tex = new Ermine::Texture(i);
+			Ermine::Texture* Tex = new Ermine::Texture(i,i.path().u8string());
 			InternalBuffer.emplace_back(Tex);
 		}
+
+#endif
+
 	}
 
 	GlobalTextureCache::~GlobalTextureCache()
@@ -46,8 +51,13 @@ namespace Ermine
 	{
 		return InternalBuffer;
 	}
-	void GlobalTextureCache::PushTextureIntoCache(Texture* tex)
+	int GlobalTextureCache::PushTextureIntoCache(Texture* tex)
 	{
 		InternalBuffer.emplace_back(tex);
+		return InternalBuffer.size() - 1;
+	}
+	void GlobalTextureCache::ClearCache()
+	{
+		InternalBuffer.clear();
 	}
 }
