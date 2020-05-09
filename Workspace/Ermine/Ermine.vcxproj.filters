@@ -157,6 +157,8 @@
     <ClInclude Include="src\EngineResourceHandlers\GlobalTextureCache.h" />
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.h" />
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.h" />
+    <ClInclude Include="src\2DPrimitives\Sprite.h" />
+    <ClInclude Include="src\2DPrimitives\TileSet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\App.cpp" />
@@ -242,5 +244,6 @@
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.cpp" />
+    <ClCompile Include="src\2DPrimitives\Sprite.cpp" />
   </ItemGroup>
 </Project>

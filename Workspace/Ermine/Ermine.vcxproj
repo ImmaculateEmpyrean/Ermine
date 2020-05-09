@@ -129,6 +129,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\2DPrimitives\Sprite.h" />
+    <ClInclude Include="src\2DPrimitives\TileSet.h" />
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\EngineResourceHandlers\GlobalTextureCache.h" />
@@ -171,6 +173,7 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\2DPrimitives\Sprite.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.cpp" />
