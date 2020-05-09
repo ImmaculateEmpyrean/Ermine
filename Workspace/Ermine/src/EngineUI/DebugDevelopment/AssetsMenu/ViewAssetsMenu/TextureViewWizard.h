@@ -8,6 +8,9 @@
 #include "EngineUI/PrecursorWindow.h"
 #include "EngineResourceHandlers/GlobalTextureCache.h"
 
+#include "EngineUI/WindowHandler.h"
+#include "TextureViewer.h"
+
 namespace Ermine
 {
 	class TextureViewWizard :public PrecursorWindow
@@ -26,6 +29,7 @@ namespace Ermine
 	protected:
 
 	private:
+		bool HelperShouldIDisplayThisImage(Texture* Tex);
 
 	private:
 		char* FilterText;

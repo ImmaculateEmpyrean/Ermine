@@ -39,36 +39,49 @@ namespace Ermine
 		ImGui::Separator();
 		ImGui::NextColumn();
 
-		/*for (auto i : Textures)
-		{
-			int DrawableWidth = ImGui::GetColumnWidth();
-			ImGui::Image((void*)(intptr_t)i->GetTextureID(), ImVec2(DrawableWidth, DrawableWidth));
-
-		}*/
 		for (int i = 0; i < Textures.size(); i++)
 		{
-			ImGui::PushID(i);
+			if (HelperShouldIDisplayThisImage(Textures[i]))
+			{
+				ImGui::PushID(i);
 
-			int DrawableWidth = ImGui::GetColumnWidth()-25;
-			int DrawableHeight = ((double)DrawableWidth/(double)Textures[i]->GetWidth()) * Textures[i]->GetHeight();
+				int DrawableWidth = ImGui::GetColumnWidth() - 25;
+				int DrawableHeight = ((double)DrawableWidth / (double)Textures[i]->GetWidth()) * Textures[i]->GetHeight();
 
-			ImGui::ImageButton((void*)(intptr_t)Textures[i]->GetTextureID(), ImVec2(DrawableWidth, DrawableHeight));
+				if (ImGui::ImageButton((void*)(intptr_t)Textures[i]->GetTextureID(), ImVec2(DrawableWidth, DrawableHeight),
+					ImVec2(0, 1), ImVec2(1, 0))) //Flipped Vertically Because stbi already flips it once for opengl
+				{
+					auto Handler = Ermine::WindowHandler::Get();
+					Handler->SubmitWindowFront(std::make_unique<Ermine::TextureViewer>(Ermine::TextureViewer(Textures[i])));
+				}
 
-			ImGui::NextColumn();
+				ImGui::NextColumn();
 
-			ImGui::Text("%s", Textures[i]->GetName().c_str());
+				ImGui::Text("%s", Textures[i]->GetName().c_str());
 
-			ImGui::NextColumn();
+				ImGui::NextColumn();
 
-			ImGui::Text("%d X %d", Textures[i]->GetWidth(), Textures[i]->GetHeight());
+				ImGui::Text("%d X %d", Textures[i]->GetWidth(), Textures[i]->GetHeight());
 
-			ImGui::PopID();
-			ImGui::NextColumn();
-			ImGui::Separator();
+				ImGui::PopID();
+				ImGui::NextColumn();
+				ImGui::Separator();
+			}
+			else continue;
 		}
 
 		
 
 		ImGui::End();
+	}
+	bool TextureViewWizard::HelperShouldIDisplayThisImage(Texture* Tex)
+	{
+		//std::string FilterTextString(FilterText);
+		size_t found = Tex->GetName().find(FilterText);
+
+		if (found != std::string::npos)
+			return true;
+		else
+			return false;
 	}
 }
