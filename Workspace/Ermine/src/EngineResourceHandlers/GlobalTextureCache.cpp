@@ -23,7 +23,7 @@ namespace Ermine
 		for (auto i : rdi)
 		{
 			Ermine::Texture* Tex = new Ermine::Texture(i,i.path().u8string());
-			InternalBuffer.emplace_back(Tex);
+			InternalBuffer.emplace(i.path(),Tex);
 		}
 
 #endif
@@ -32,9 +32,9 @@ namespace Ermine
 
 	GlobalTextureCache::~GlobalTextureCache()
 	{
-		for (auto i : InternalBuffer)
+		for (auto& i : InternalBuffer)
 		{
-			delete i; //As The Global Texture Cache Owns All Its Textures It Alone Is Responsible For The Deletion of These Textures..
+			delete i.second; //As The Global Texture Cache Owns All Its Textures It Alone Is Responsible For The Deletion of These Textures..
 		}
 	}
 
@@ -47,17 +47,37 @@ namespace Ermine
 		return TextureCache;
 	}
 
-	std::vector<Texture*>& GlobalTextureCache::GetCache()
+
+	Texture* GlobalTextureCache::GetTextureFromFile(std::filesystem::path TextureFilePath)
 	{
-		return InternalBuffer;
+		auto FoundIter = InternalBuffer.find(TextureFilePath);
+		if (FoundIter == InternalBuffer.end())
+		{
+			//This Means The Texture Was Not Found Add It into The Map..
+			Texture* tex = new Texture(TextureFilePath);
+			InternalBuffer[TextureFilePath] = tex;
+			return tex;
+		}
+		else
+		{
+			return FoundIter->second;
+		}
 	}
-	int GlobalTextureCache::PushTextureIntoCache(Texture* tex)
+
+	void GlobalTextureCache::PushTextureIntoCache(std::unique_ptr<Texture> tex)
 	{
-		InternalBuffer.emplace_back(tex);
-		return InternalBuffer.size() - 1;
+		auto FoundIter = InternalBuffer.find(tex->GetFilePath());
+		if (FoundIter == InternalBuffer.end())
+		{
+			//This Means The Texture Was Not Found Really Add It into The Map..
+			InternalBuffer[tex->GetFilePath()] = tex.release();
+		}	
 	}
 	void GlobalTextureCache::ClearCache()
 	{
+		for (auto& i : InternalBuffer)
+			delete i.second; //As The Global Texture Cache Owns All Its Textures It Alone Is Responsible For The Deletion of These Textures..
+		
 		InternalBuffer.clear();
 	}
 }

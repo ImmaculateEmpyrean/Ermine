@@ -47,14 +47,15 @@ namespace Ermine
 			if (std::filesystem::exists(EnteredPath))
 			{
 				std::filesystem::copy(EnteredPath, "Texture");
-				Texture* Tex;
-				if(BufferToStoreName[0] != 0)
-					Tex = new Texture(EnteredPath,BufferToStoreName);
+				//Texture* Tex;
+				std::unique_ptr<Texture> Tex;
+				if (BufferToStoreName[0] != 0)
+					Tex = std::make_unique<Texture>(EnteredPath, BufferToStoreName);//new Texture(EnteredPath,BufferToStoreName);
 				else
-					Tex = new Texture(EnteredPath);
+					Tex = std::make_unique<Texture>(EnteredPath);//Tex = new Texture(EnteredPath);
 
 				auto TextureCache = GlobalTextureCache::Get();
-				TextureCache->PushTextureIntoCache(Tex);
+				TextureCache->PushTextureIntoCache(std::move(Tex));
 				Quit = true; //There is Need Of The Window Please Do Quit..
 			}
 			else

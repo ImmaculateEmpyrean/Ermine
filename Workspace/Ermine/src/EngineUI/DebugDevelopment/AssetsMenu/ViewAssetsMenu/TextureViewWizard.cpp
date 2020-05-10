@@ -10,8 +10,9 @@ namespace Ermine
 		FilterText = new char[512];
 
 		auto TexCache = Ermine::GlobalTextureCache::Get();
-		Textures = TexCache->GetCache();
 
+		for (auto i : TexCache->InternalBuffer)
+			Textures.emplace_back(i.second);
 	}
 	TextureViewWizard::~TextureViewWizard()
 	{

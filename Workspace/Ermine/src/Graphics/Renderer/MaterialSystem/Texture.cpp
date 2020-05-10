@@ -14,6 +14,17 @@ namespace Ermine
 		Name = "NoName";
 		HelperGenTexture();
 	}
+	Texture::Texture(std::filesystem::path TextureFilePath)
+		:
+		TextureFilePath(TextureFilePath),
+		Name(TextureFilePath.generic_u8string())
+	{
+		HelperGenTexture();
+
+		if (!TextureFilePath.empty())
+			HelperLoadDataWithStbiAndCallglTexImage2D();
+		
+	}
 	Texture::Texture(std::filesystem::path TextureFilePath, std::string Name)
 		:
 		TextureFilePath(TextureFilePath),
@@ -22,9 +33,7 @@ namespace Ermine
 		HelperGenTexture();
 
 		if (!TextureFilePath.empty())
-		{
 			HelperLoadDataWithStbiAndCallglTexImage2D();
-		}
 	}
 
 	Texture::~Texture()
@@ -106,6 +115,17 @@ namespace Ermine
 	std::string Texture::GetName()
 	{
 		return Name;
+	}
+
+	std::filesystem::path Texture::GetFilePath()
+	{
+#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
+		if (TextureFilePath.empty())
+		{
+			STDOUTDefaultLog_Error("Error Texture Filepath Empty For The Texture Name : {}", Name);
+		}
+#endif
+		return TextureFilePath;
 	}
 
 	Texture::operator unsigned int()
