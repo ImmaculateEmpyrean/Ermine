@@ -189,8 +189,9 @@
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
     <ClInclude Include="src\2DPrimitives\Actor2D.h" />
-    <ClInclude Include="src\2DPrimitives\Vertex.h" />
     <ClInclude Include="src\Graphics\Renderer\Renderer2D.h" />
+    <ClInclude Include="src\2DPrimitives\Constructs\Vertex.h" />
+    <ClInclude Include="src\2DPrimitives\Constructs\Quad.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Sprite.cpp">
@@ -292,7 +293,7 @@
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp" />
-    <ClCompile Include="src\2DPrimitives\Vertex.cpp" />
     <ClCompile Include="src\Graphics\Renderer\Renderer2D.cpp" />
+    <ClCompile Include="src\2DPrimitives\Constructs\Vertex.cpp" />
   </ItemGroup>
 </Project>

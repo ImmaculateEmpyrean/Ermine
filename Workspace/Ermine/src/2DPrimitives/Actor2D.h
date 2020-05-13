@@ -3,7 +3,7 @@
 #include<string>
 #include<vector>
 
-#include "Vertex.h"
+#include "Constructs/Quad.h"
 #include "glm.hpp"
 #include "Sprite.h"
 
@@ -21,25 +21,30 @@ namespace Ermine {
 		Actor2D(Sprite* Spr);
 
 		//This is The Default And BEst Constructor
-		Actor2D(Sprite* Spr, glm::mat3 ModelMatrix);
+		Actor2D(Sprite* Spr, glm::mat4 ModelMatrix);
 
 		//This Class Owns And Manages Pointers
 		~Actor2D();
 
 	public:
-		void Translate(int x, int y);
+		Sprite* GetSprite();
+
+		void Translate(float x, float y);
 		void Translate(glm::vec2 TranslateByHowMuch);
+		void ClearTranslations();
 
-		void Rotate(int Pi);
-		void Rotate(float Degrees);
+		//Just Pass In True If The Angle Is Actually Pi Most Probably It Is In Degrees...(if false is passed then i assume DEGREES).
+		void Rotate(float Angle,bool IsInPI=false);
+		void ClearRotations();
 
-		void Scale(int x, int y);
+		void Scale(float x, float y);
 		void Scale(glm::vec2 ScaleByHowMuch);
+		void ClearScale();
 
+		static std::vector<float> GetModelSpaceCoordinates();
+		static std::vector<uint32_t> GetModelSpaceIndices();
 
-
-		std::vector<Vertex> GetVertices();
-		glm::mat3 GetModelMatrix();
+		glm::mat4 GetModelMatrix();
 
 	public:
 
@@ -50,12 +55,12 @@ namespace Ermine {
 	private:
 
 	private:
-		glm::mat3 ModelMatrix; //This Is Related To The World
+		glm::mat4 RecievedModelMatrix; //This Is Related To The World
 		Sprite* Actorsprite; //This Sprite Is Owned By The Actor And Is Freed When The Actor2D Is Destroyed..
 
-		glm::mat3 TranslationMatrix;
-		glm::mat3 RotationMatrix;
-		glm::mat3 ScaleMatrix;
+		glm::mat4 TranslationMatrix;
+		glm::mat4 RotationMatrix;
+		glm::mat4 ScaleMatrix;
 
 	};
 

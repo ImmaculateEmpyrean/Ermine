@@ -19,7 +19,7 @@ namespace Ermine
 	public:
 		static Renderer2D* Get();
 
-		static void BeginScene(glm::mat4 Camera,glm::mat4 ProjectionMatrix);
+		static void BeginScene(glm::mat4 CameraMAtrix,glm::mat4 ProjectionMatrix);
 
 		static void DrawActor2D(Actor2D* Act);
 
@@ -41,6 +41,7 @@ namespace Ermine
 
 		glm::mat4 CameraMatrix;
 		glm::mat4 ProjectionMatrix;
+		glm::mat4 ProjectionViewMatrix;
 
 		bool SceneBegin;
 

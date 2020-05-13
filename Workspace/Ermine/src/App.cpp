@@ -23,6 +23,10 @@
 
 #include<nlohmann/json.hpp>
 
+#include "2DPrimitives/Actor2D.h"
+#include "Graphics/Renderer/Renderer2D.h"
+
+
 #pragma region StaticDefines
 
 std::once_flag Ermine::App::InitializationFlag;
@@ -87,7 +91,7 @@ void Ermine::App::OnTick()
 		"   FragColor = ourColor;\n"
 		"}\n\0";*/
 
-	const char* vertexShaderSource = "#version 330 core\n"
+	/*const char* vertexShaderSource = "#version 330 core\n"
 		"layout(location = 0) in vec3 aPos;\n"
 		"layout(location = 1) in vec2 aTexCoord;\n"
 		"out vec3 ourColor;\n"
@@ -135,7 +139,7 @@ void Ermine::App::OnTick()
 
 	/*ImGui::Begin("Color Picker");
 	ImGui::ColorPicker4("Square Color",&ourColor[0]);
-	ImGui::End();*/
+	ImGui::End();
 
 	//Shd.Uniform4f(std::string("ourColor"), ourColor);
 	static float RotateAngle= 90.0f;
@@ -175,7 +179,7 @@ void Ermine::App::OnTick()
 	trans = glm::translate(trans, TranslateConstant);
 	Shd.UniformMat4(std::string("transform"), trans);
 
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);*/
 
 	/*if (InpInterrogator.IsKeyPressed(ERMINE_KEY_A))
 	{
@@ -208,6 +212,26 @@ void Ermine::App::OnTick()
 
 	auto a =j.dump();
 	STDOUTDefaultLog_Critical(a.c_str());*/
+	
+	static Texture* Tex = new Texture("AnoHiMitaHana.png");
+	static Sprite* spr = new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
+	static Actor2D Act = Actor2D(spr);
+
+	glm::mat4 Camera = glm::mat4(1.0f);
+	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	auto ProjectionMatrix = glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f,-5.0f,5.0f);
+
+
+	Act.Translate({ 0.001f,0.001f });
+	Act.Rotate(1);
+	Act.Scale({ 1.005f,1.005f });
+
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+
+	Renderer2D::DrawActor2D(&Act);
+
+	Renderer2D::EndScene();
 }
 
 void Ermine::App::OnDetach()
