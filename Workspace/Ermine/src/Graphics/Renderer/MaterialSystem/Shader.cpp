@@ -16,14 +16,22 @@ namespace Ermine
 	}
 	Shader::Shader(std::filesystem::path VertexShaderPath, std::filesystem::path FragmentShaderPath)
 	{
-		std::ifstream VertexShaderFile(VertexShaderPath, std::ios::binary);
-		std::ifstream FragmentShaderFile(FragmentShaderPath, std::ios::binary);
+		std::ifstream VertexShaderFile(VertexShaderPath);
+		std::ifstream FragmentShaderFile(FragmentShaderPath);
 
-		std::string Line;
-		while (std::getline(VertexShaderFile, Line))
-			VertexShaderSource = VertexShaderSource + Line;
-		while (std::getline(FragmentShaderFile, Line))
-			FragmentShaderSource = FragmentShaderSource + Line;
+		while (VertexShaderFile)
+		{
+			char ch = VertexShaderFile.get();
+			if (VertexShaderFile.good())
+				VertexShaderSource = VertexShaderSource + ch;
+		}
+		
+		while (FragmentShaderFile)
+		{
+			char ch = FragmentShaderFile.get();
+			if (FragmentShaderFile.good())
+				FragmentShaderSource = FragmentShaderSource + ch;
+		}
 
 		HelperCompileAndLinkShaderUsingSourceFilesInsideTheObject();
 	}

@@ -54,36 +54,12 @@ namespace Ermine
 
 	void Renderer2D::EndScene()
 	{
-		const char* vertexShaderSource = "#version 330 core\n"
-			"layout(location = 0) in vec3 aPos;\n"
-			"layout(location = 1) in vec3 aVertexColors;\n"
-			"layout(location = 2) in vec2 aTexCoord;\n"
-			"out vec3 aVertexColor;\n"
-			"out vec2 TexCoord;\n"
-			"uniform mat4 ModelMatrix;\n"
-			"uniform mat4 ProjectionViewMatrix;\n"
-			"void main()\n"
-			"{\n"
-			"TexCoord = vec2(aTexCoord.x, aTexCoord.y);\n"
-			"aVertexColor=aVertexColors;\n"
-			"gl_Position =ProjectionViewMatrix*ModelMatrix*vec4(aPos, 1.0);\n"//vec4(aPos, 1.0);\n"//"ProjectionViewMatrix*ModelMatrix*vec4(aPos, 1.0);\n"
-			"}";
-
-		const char* fragmentShaderSource = "#version 330 core\n"
-			"out vec4 FragColor;\n"
-			"in vec2 TexCoord;\n"
-			"in vec3 aVertexColor;\n"
-			"uniform sampler2D texture1;\n"
-			"void main()\n"
-			"{\n"
-			"FragColor = texture(texture1, TexCoord);\n"//vec4(1.0f,1.0f,1.0f,1.0f);\n"//"texture(texture1, TexCoord);\n"
-			"}\n";
-
 		auto Renderer = Ermine::Renderer2D::Get();
 		assert(Renderer->SceneBegin); //Note Scene Must Have Begun To End Otherwise It cannot Be Ended..
 		Renderer->SceneBegin = false;
 
-		static Shader *shd = new Shader(std::string(vertexShaderSource), std::string(fragmentShaderSource));
+		static Shader *shd = new Shader(std::filesystem::path("Shader/Vertex/Renderer2DActor2DVertex.vert"), 
+										std::filesystem::path("Shader/Fragment/Renderer2DActor2DFragment.frag"));
 		shd->Bind();
 
 		VertexArray Vao(Actor2D::GetModelSpaceCoordinates(),Actor2D::GetModelSpaceIndices());
