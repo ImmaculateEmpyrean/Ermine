@@ -1,0 +1,3 @@
+Vclip=Mprojection⋅Mview⋅Mmodel⋅Vlocal
+
+//This Formulae is valid in opengl only..

@@ -129,6 +129,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\2DPrimitives\Actor2D.h" />
+    <ClInclude Include="src\2DPrimitives\Vertex.h" />
     <ClInclude Include="src\2DPrimitives\Sprite.h" />
     <ClInclude Include="src\2DPrimitives\TileSet.h" />
     <ClInclude Include="src\App.h" />
@@ -155,6 +157,7 @@
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Texture.h" />
     <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h" />
     <ClInclude Include="src\Graphics\Renderer\Renderer.h" />
+    <ClInclude Include="src\Graphics\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.h" />
@@ -173,7 +176,9 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\2DPrimitives\Actor2D.cpp" />
     <ClCompile Include="src\2DPrimitives\Sprite.cpp" />
+    <ClCompile Include="src\2DPrimitives\Vertex.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.cpp" />
@@ -194,6 +199,7 @@
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Shader.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Texture.cpp" />
     <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.cpp" />

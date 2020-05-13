@@ -16,5 +16,12 @@
 #include<functional>
 
 #include<memory>
+#include<optional>
+
+#include<cassert>
 
 #include "Log.h"
+
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>

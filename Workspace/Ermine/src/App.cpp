@@ -85,16 +85,17 @@ void Ermine::App::OnTick()
 		"void main()\n"
 		"{\n"
 		"   FragColor = ourColor;\n"
-		"}\n\0";
+		"}\n\0";*/
 
 	const char* vertexShaderSource = "#version 330 core\n"
 		"layout(location = 0) in vec3 aPos;\n"
 		"layout(location = 1) in vec2 aTexCoord;\n"
 		"out vec3 ourColor;\n"
 		"out vec2 TexCoord;\n"
+		"uniform mat4 transform;\n"
 		"void main()\n"
 		"{\n"
-		"gl_Position = vec4(aPos, 1.0);\n"
+		"gl_Position =transform*vec4(aPos, 1.0);\n"
 		"TexCoord = vec2(aTexCoord.x, aTexCoord.y);\n"
 		"}";
 
@@ -126,26 +127,62 @@ void Ermine::App::OnTick()
 																			 { 2,GL_FLOAT,false} 
 																			}));//{{3,GL_FLOAT,false}});
 
-	Ermine::Texture Tex = Ermine::Texture("AnoHiMitaHana.png");
+	static Ermine::Texture Tex = Ermine::Texture("AnoHiMitaHana.png");
 	Tex.Bind(0);
 
 	Shd.Uniformi(std::string("texture1"), 0);
 	static glm::vec4 ourColor;
 
-	ImGui::Begin("Color Picker");
+	/*ImGui::Begin("Color Picker");
 	ImGui::ColorPicker4("Square Color",&ourColor[0]);
-	ImGui::End();
+	ImGui::End();*/
 
 	//Shd.Uniform4f(std::string("ourColor"), ourColor);
+	static float RotateAngle= 90.0f;
+	static glm::vec3 ScalingConstant = glm::vec3(1.0f);
+	static glm::vec3 TranslateConstant = glm::vec3(0.0f);
 
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);*/
+	ImGui::Begin("Transformation Window");
+
+	ImGui::Text("Scale : ");
+	//ImGui::SameLine();
+	ImGui::InputFloat("##XScaleInp", &ScalingConstant.x, 0.1, 0.5, 2);
+	//ImGui::SameLine();
+	ImGui::InputFloat("##YScaleInp", &ScalingConstant.y, 0.1, 0.5, 2);
+	//ImGui::SameLine();
+	ImGui::InputFloat("##ZScaleInp", &ScalingConstant.z, 0.1, 0.5, 2);
+
+	ImGui::Separator();
+
+	ImGui::Text("Rotation : ");
+	ImGui::SameLine();
+	ImGui::SliderFloat("##RotationAngles", &RotateAngle, 0.0f, 360.0f);
+	//ImGui::SliderAngle("##RotationAngles", &RotateAngle);
+
+	ImGui::Text("Translate : ");
+	//ImGui::SameLine();
+	ImGui::InputFloat("##XTranslateInp", &TranslateConstant.x, 0.1, 0.5, 2);
+	//ImGui::SameLine();
+	ImGui::InputFloat("##YTranslateInp", &TranslateConstant.y, 0.1, 0.5, 2);
+	//ImGui::SameLine();
+	ImGui::InputFloat("##ZTranslateInp", &TranslateConstant.z, 0.1, 0.5, 2);
+
+	ImGui::End();
+
+	glm::mat4 trans = glm::mat4(1.0f);
+	trans = glm::scale(trans, ScalingConstant);
+	trans = glm::rotate(trans, glm::radians(RotateAngle), glm::vec3(0.0, 0.0, 1.0));
+	trans = glm::translate(trans, TranslateConstant);
+	Shd.UniformMat4(std::string("transform"), trans);
+
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 	/*if (InpInterrogator.IsKeyPressed(ERMINE_KEY_A))
 	{
 		STDOUTDefaultLog_Error("Yay A is Pressed");
 	}*/
 
-	// create an empty structure (null)
+	/*// create an empty structure (null)
 	nlohmann::json j;
 
 	// add a number that is stored as double (note the implicit conversion of j to an object)
@@ -170,7 +207,7 @@ void Ermine::App::OnTick()
 	j["object"] = { {"currency", "USD"}, {"value", 42.99} };
 
 	auto a =j.dump();
-	STDOUTDefaultLog_Critical(a.c_str());
+	STDOUTDefaultLog_Critical(a.c_str());*/
 }
 
 void Ermine::App::OnDetach()

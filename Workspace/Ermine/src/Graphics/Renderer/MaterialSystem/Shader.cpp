@@ -149,12 +149,12 @@ namespace Ermine
 
 	void Shader::UniformMat3(std::string& UniformName, glm::mat3 Matrix)
 	{
-		glUniformMatrix3fv(glGetUniformLocation(ShaderProgram, UniformName.c_str()), 1, GL_FALSE, &Matrix[0][0]);
+		glUniformMatrix3fv(glGetUniformLocation(ShaderProgram, UniformName.c_str()), 1, GL_FALSE, glm::value_ptr(Matrix));
 	}
 
 	void Shader::UniformMat4(std::string& UniformName, glm::mat4 Matrix)
 	{
-		glUniformMatrix4fv(glGetUniformLocation(ShaderProgram, UniformName.c_str()), 1, GL_FALSE, &Matrix[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(ShaderProgram, UniformName.c_str()), 1, GL_FALSE, glm::value_ptr(Matrix));
 	}
 #pragma endregion UniformDefinitions
 
