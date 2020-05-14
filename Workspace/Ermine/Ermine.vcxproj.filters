@@ -295,5 +295,6 @@
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp" />
     <ClCompile Include="src\Graphics\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\Vertex.cpp" />
+    <ClCompile Include="src\2DPrimitives\TileSet.cpp" />
   </ItemGroup>
 </Project>

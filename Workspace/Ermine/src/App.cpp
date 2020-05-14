@@ -26,6 +26,8 @@
 #include "2DPrimitives/Actor2D.h"
 #include "Graphics/Renderer/Renderer2D.h"
 
+#include "2DPrimitives/TileSet.h"
+
 
 #pragma region StaticDefines
 
@@ -213,19 +215,56 @@ void Ermine::App::OnTick()
 	auto a =j.dump();
 	STDOUTDefaultLog_Critical(a.c_str());*/
 	
-	static Texture* Tex = new Texture("AnoHiMitaHana.png");
+	/*static Texture* Tex = new Texture("AnoHiMitaHana.png");
 	static Sprite* spr = new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
 	static Actor2D Act = Actor2D(spr);
 
 	glm::mat4 Camera = glm::mat4(1.0f);
 	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
 
-	auto ProjectionMatrix = glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f,-5.0f,5.0f);
+	auto ProjectionMatrix = glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f,-5.0f,5.0f);
 
 
 	Act.Translate({ 0.001f,0.001f });
 	Act.Rotate(1);
 	Act.Scale({ 1.005f,1.005f });
+
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+
+	Renderer2D::DrawActor2D(&Act);
+
+	Renderer2D::EndScene();*/
+	
+	static Ermine::TileSet Set("TileSet/TileSetTest.json");
+	
+	static int c = 0;
+	static int fc = 0;
+
+	fc++;
+
+	if (fc >= 60)
+	{
+		c++;
+		fc = 0;
+	}
+	
+
+	if (c >= Set.GetSpriteBuffer().size())
+		c = 0;
+	
+	static Texture* Tex = new Texture("AnoHiMitaHana.png");
+	static Sprite* spr = new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
+	Actor2D Act = Actor2D(Set.GetTile(c));//Set.GetTile(10));
+
+	glm::mat4 Camera = glm::mat4(1.0f);
+	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	auto ProjectionMatrix = glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f,-5.0f,5.0f);
+
+
+	/*Act.Translate({ 0.001f,0.001f });
+	Act.Rotate(1);
+	Act.Scale({ 1.005f,1.005f });*/
 
 	Renderer2D::BeginScene(Camera, ProjectionMatrix);
 

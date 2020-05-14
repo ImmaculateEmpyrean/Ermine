@@ -1,0 +1,9 @@
+{
+    "TileSetName":"TileSetTest",
+    "TileWidth":64,
+    "TileHeight":64,
+    "Textures":{
+        "Hanna.png":[0.0,0.0,1.0,1.0],
+        "Sigma.png":[0.0,0.0,0.5,0.5]
+    }
+}

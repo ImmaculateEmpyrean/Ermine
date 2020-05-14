@@ -76,7 +76,25 @@ namespace Ermine
 
 	std::vector<float> Actor2D::GetModelSpaceCoordinates()
 	{
-		return Quad::GetModelCoordinates();
+		std::vector<float> ModelCoordinates = Quad::GetModelCoordinates();
+
+		//Top Right..
+		ModelCoordinates[6] = Actorsprite->GetTopRightUV().x;
+		ModelCoordinates[7] = Actorsprite->GetTopRightUV().y;
+
+		//Bottom Right
+		ModelCoordinates[14] = Actorsprite->GetTopRightUV().x;//ModelCoordinates[14] = Actorsprite->GetBottomLeftUV().x;
+		ModelCoordinates[15] = Actorsprite->GetBottomLeftUV().y;
+
+		//Bottom Left
+		ModelCoordinates[22] = Actorsprite->GetBottomLeftUV().x;
+		ModelCoordinates[23] = Actorsprite->GetBottomLeftUV().y;
+
+		//Top Left
+		ModelCoordinates[30] = Actorsprite->GetBottomLeftUV().x;
+		ModelCoordinates[31] = Actorsprite->GetTopRightUV().y;
+
+		return ModelCoordinates;
 	}
 
 	std::vector<uint32_t> Actor2D::GetModelSpaceIndices()

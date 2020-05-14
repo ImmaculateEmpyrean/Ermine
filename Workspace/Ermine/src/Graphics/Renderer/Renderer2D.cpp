@@ -62,18 +62,18 @@ namespace Ermine
 										std::filesystem::path("Shader/Fragment/Renderer2DActor2DFragment.frag"));
 		shd->Bind();
 
-		VertexArray Vao(Actor2D::GetModelSpaceCoordinates(),Actor2D::GetModelSpaceIndices());
-		Vao.Bind();
-
-		std::vector<VertexAttribPointerSpecification> Spec = {
-			{3,GL_FLOAT,false},
-								  {3,GL_FLOAT,false},
-								  {2,GL_FLOAT,false}
-		};
-		Vao.SetVertexAttribArray(Spec);
-
 		for (auto i : Renderer->StowedActors)
 		{
+			VertexArray Vao(i->GetModelSpaceCoordinates(),Actor2D::GetModelSpaceIndices());
+			Vao.Bind();
+
+			std::vector<VertexAttribPointerSpecification> Spec = {
+				{3,GL_FLOAT,false},
+				{3,GL_FLOAT,false},
+				{2,GL_FLOAT,false}
+			};
+			Vao.SetVertexAttribArray(Spec);
+
 			Vao.Bind();
 
 			glm::mat4 ModelMatrix = i->GetModelMatrix();

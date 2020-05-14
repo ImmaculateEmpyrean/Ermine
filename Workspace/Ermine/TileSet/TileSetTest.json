@@ -1,0 +1,8 @@
+{
+    "TileSetName":"TileSetTest",
+    "TileWidth":32,
+    "TileHeight":64,
+    "Texture": {
+    "Texture/Sprite_claudius_walk.png": [ 0.0, 0.0, 1.0, 1.0 ]
+  }
+}

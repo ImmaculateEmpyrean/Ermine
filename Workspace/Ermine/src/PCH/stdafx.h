@@ -3,6 +3,7 @@
 #include<utility>
 
 #include<string>
+#include<sstream>
 #include<vector>
 #include<unordered_map>
 
@@ -25,3 +26,5 @@
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
+
+#include <nlohmann/json.hpp>

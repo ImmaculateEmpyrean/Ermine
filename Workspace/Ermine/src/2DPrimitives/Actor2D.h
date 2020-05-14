@@ -41,7 +41,7 @@ namespace Ermine {
 		void Scale(glm::vec2 ScaleByHowMuch);
 		void ClearScale();
 
-		static std::vector<float> GetModelSpaceCoordinates();
+		std::vector<float> GetModelSpaceCoordinates();
 		static std::vector<uint32_t> GetModelSpaceIndices();
 
 		glm::mat4 GetModelMatrix();

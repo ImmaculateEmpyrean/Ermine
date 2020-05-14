@@ -180,6 +180,7 @@
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp" />
     <ClCompile Include="src\2DPrimitives\Sprite.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\Vertex.cpp" />
+    <ClCompile Include="src\2DPrimitives\TileSet.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.cpp" />
