@@ -4,6 +4,7 @@
 //This Is The Reason Why This Class Is Best Treated As An OpengL Version of The Window...
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "Graphics/Renderer/OpenGLErrorChecker.h"
 
 #include "imgui.h"
 #include "InputSystem/imgui_impl_opengl3.h"
@@ -80,6 +81,10 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
     // Setup Platform/Renderer bindings
     ImGui_ImplGlfw_InitForOpenGL(WinPtr, true);
     ImGui_ImplOpenGL3_Init("#version 130");
+
+    GLCall(glEnable(GL_BLEND));
+    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
 
 #if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
     STDOUTDefaultLog_Trace("Initialized Window Printing Log Info : ");
