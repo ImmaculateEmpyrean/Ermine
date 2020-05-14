@@ -161,7 +161,13 @@ namespace Ermine
 				TopRight.x = ((float)(i + TileWidth -1)) / ((float)ImageWidth);
 				TopRight.y = ((float)(j + TileHeight - 1)) / ((float)ImageHeight);
 
-				SpritesInTheTileset.emplace_back(new Ermine::Sprite(txt, BottomLeft, TopRight));
+				if (BottomLeft.x >= Container.BottomLeft.x && BottomLeft.y >= Container.BottomLeft.y)
+				{
+					if (TopRight.x <= Container.TopRight.x && TopRight.y <= Container.TopRight.y)
+					{
+						SpritesInTheTileset.emplace_back(new Ermine::Sprite(txt, BottomLeft, TopRight));
+					}
+				}
 			}
 		}
 
