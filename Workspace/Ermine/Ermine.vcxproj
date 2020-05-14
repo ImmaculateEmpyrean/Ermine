@@ -133,6 +133,7 @@
     <ClInclude Include="src\2DPrimitives\Constructs\Quad.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\Vertex.h" />
     <ClInclude Include="src\2DPrimitives\Sprite.h" />
+    <ClInclude Include="src\2DPrimitives\TileMap.h" />
     <ClInclude Include="src\2DPrimitives\TileSet.h" />
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core.h" />

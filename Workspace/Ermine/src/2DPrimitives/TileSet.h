@@ -51,6 +51,8 @@ namespace Ermine
 			glm::vec2 TopRight;
 		};
 
+		void HelperConstructorLoadTileMapFromFilePath();
+
 		UV ExtractUVFromJSONArrayString(std::string ArrayString);
 		void PopulateSpritesContainer(Texture* txt,UV Container);
 

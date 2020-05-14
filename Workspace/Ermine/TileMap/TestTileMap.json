@@ -1,0 +1,9 @@
+{
+    "NumberOfTilesWidth":2,
+    "NumberOfTilesHeight":2,
+    "TileData":{
+        "Layer1":[0,0,1,0],
+        "Layer2":[1,0,0,1]
+    },
+    "TileMap":["TileMap/TestTileMap.json"]
+}

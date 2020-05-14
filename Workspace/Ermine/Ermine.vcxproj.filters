@@ -192,6 +192,7 @@
     <ClInclude Include="src\Graphics\Renderer\Renderer2D.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\Vertex.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\Quad.h" />
+    <ClInclude Include="src\2DPrimitives\TileMap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Sprite.cpp">

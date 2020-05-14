@@ -6,48 +6,10 @@
 namespace Ermine
 {
 	TileSet::TileSet(std::filesystem::path TilesetPath)
+		:
+		TileSetFilePath(TilesetPath)
 	{
-		std::ifstream TileSetFileRaw(TilesetPath);
-
-		nlohmann::json TileSetFile;
-		TileSetFile << TileSetFileRaw; //Load The JSON Into The JSON Adapter..
-
-		//STDOUTDefaultLog_Info(TileSetFile.dump());
-
-		TileSetName = TileSetFile["TileSetName"].dump();
-		TileWidth = std::stoi(TileSetFile["TileWidth"].dump());
-		TileHeight = std::stoi(TileSetFile["TileHeight"].dump());
-
-		/*//STDOUTDefaultLog_Trace(TileSetFile["Textures"]["Hanna.png"].dump());
-		auto TextureCompartment = TileSetFile["Textures"];
-		//STDOUTDefaultLog_Info(TextureCompartment.dump());
-
-
-		for (auto i:TextureCompartment)
-		{
-			STDOUTDefaultLog_Info(i.dump());
-		}*/
-
-		auto TextureHandler = Ermine::GlobalTextureCache::Get();
-
-		std::vector<Ermine::Texture*> TexturesInTheTileSet;
-		std::vector<Ermine::TileSet::UV> UVCache;
-
-		for (auto i = TileSetFile["Texture"].begin(); i != TileSetFile["Texture"].end(); i++)
-		{
-			Texture* ptr = TextureHandler->GetTextureFromFile(i.key());
-			TexturesInTheTileSet.emplace_back(ptr);
-
-			TileSet::UV Container = ExtractUVFromJSONArrayString(TileSetFile["Texture"][i.key()].dump());
-			UVCache.emplace_back(Container);
-
-			STDOUTDefaultLog_Trace(i.key());
-		}
-		for (int i=0;i<TexturesInTheTileSet.size();i++)
-		{
-			PopulateSpritesContainer(TexturesInTheTileSet[i],UVCache[i]);
-		}
-		
+		HelperConstructorLoadTileMapFromFilePath();
 	}
 
 	TileSet::~TileSet()
@@ -59,18 +21,16 @@ namespace Ermine
 
 	TileSet::TileSet(const TileSet& rhs)
 		:
-		SpritesInTheTileset(rhs.SpritesInTheTileset),
-		TileSetFilePath(rhs.TileSetFilePath),
-		TileWidth(rhs.TileWidth),
-		TileHeight(rhs.TileHeight)
-	{}
+		TileSetFilePath(rhs.TileSetFilePath)
+	{
+		HelperConstructorLoadTileMapFromFilePath();
+	}
 
 	TileSet TileSet::operator=(const TileSet& rhs)
 	{
-		SpritesInTheTileset = rhs.SpritesInTheTileset;
 		TileSetFilePath = rhs.TileSetFilePath;
-		TileWidth = rhs.TileWidth;
-		TileHeight = rhs.TileHeight;
+		
+		HelperConstructorLoadTileMapFromFilePath();
 
 		return *this;
 	}
@@ -112,6 +72,36 @@ namespace Ermine
 		return TileSetFilePath;
 	}
 
+
+	void TileSet::HelperConstructorLoadTileMapFromFilePath()
+	{
+		std::ifstream TileSetFileRaw(TileSetFilePath);
+
+		nlohmann::json TileSetFile;
+		TileSetFile << TileSetFileRaw; //Load The JSON Into The JSON Adapter..
+
+		TileSetName = TileSetFile["TileSetName"].dump();
+		TileWidth = std::stoi(TileSetFile["TileWidth"].dump());
+		TileHeight = std::stoi(TileSetFile["TileHeight"].dump());
+
+		auto TextureHandler = Ermine::GlobalTextureCache::Get();
+
+		std::vector<Ermine::Texture*> TexturesInTheTileSet;
+		std::vector<Ermine::TileSet::UV> UVCache;
+
+		for (auto i = TileSetFile["Texture"].begin(); i != TileSetFile["Texture"].end(); i++)
+		{
+			Texture* ptr = TextureHandler->GetTextureFromFile(i.key());
+			TexturesInTheTileSet.emplace_back(ptr);
+
+			TileSet::UV Container = ExtractUVFromJSONArrayString(TileSetFile["Texture"][i.key()].dump());
+			UVCache.emplace_back(Container);
+		}
+		for (int i = 0; i < TexturesInTheTileSet.size(); i++)
+		{
+			PopulateSpritesContainer(TexturesInTheTileSet[i], UVCache[i]);
+		}
+	}
 
 	TileSet::UV TileSet::ExtractUVFromJSONArrayString(std::string ArrayString)
 	{
