@@ -112,6 +112,18 @@ namespace Ermine
 		return height;
 	}
 
+	int Texture::GetWidthToMatchAspectRatio(int Height)
+	{
+		float AspectRatio = (float)(this->width) / (float)(this->height);
+		return Height * AspectRatio;
+	}
+
+	int Texture::GetHeightToMatchAspectRatio(int Width)
+	{
+		float AspectRatio = (float)(this->height) / (float)(this->width);
+		return Width * AspectRatio;
+	}
+
 	std::string Texture::GetName()
 	{
 		return Name;

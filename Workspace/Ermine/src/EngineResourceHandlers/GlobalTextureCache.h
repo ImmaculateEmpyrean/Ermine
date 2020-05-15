@@ -40,6 +40,9 @@ namespace Ermine
 		//This Loaded Is Owned By The Cache And Will Delete Ity only When The Clear Instruction Is Given..
 		Texture* GetTextureFromFile(std::filesystem::path TextureFilePath);
 
+		//Use This To Get a look into all the resources held within the cache..
+		std::vector<Texture*> GetAllTexturesInCache();
+
 		//This Push Is A Very Optimized Function It Does Not Simply Push in Redundant Instead If Something Is Repeated It Does Not Push..
 		void PushTextureIntoCache(std::unique_ptr<Texture> tex);
 

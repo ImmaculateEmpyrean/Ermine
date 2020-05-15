@@ -1,9 +1,29 @@
 {
+    "TileMapName":"TestTileMap",
     "NumberOfTilesWidth":2,
     "NumberOfTilesHeight":2,
     "TileData":{
-        "Layer1":[0,0,1,0],
-        "Layer2":[1,0,0,1]
+        "Layer1":{
+            "TileWidthPixels":32,
+            "TileHeighrPixels":32,
+            "TileData":[0,0,24,0]
+        },
+        "Layer2":{
+            "TileWidthPixels":64,
+            "TileHeighrPixels":64,
+            "TileData":[24,0,0,24]
+        }
     },
-    "TileMap":["TileMap/TestTileMap.json"]
+    "TileMap":{
+        "TileMap/TestTileMap.json":{
+            "TileWidth":32,
+            "TileHeight":32,
+            "StartIndex":1
+        },
+        "TileMap/TestTileMap2.json":{
+            "TileWidth":64,
+            "TileHeight":64,
+            "StartIndex":400
+        }
+    }
 }

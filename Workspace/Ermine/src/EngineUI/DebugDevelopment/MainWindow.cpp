@@ -8,6 +8,7 @@
 #include "EngineUI/WindowHandler.h"
 
 #include "EngineUI/DebugDevelopment/AssetsMenu/AddNewAssetsMenu/AddNewTextureWindow.h"
+#include "EngineUI/DebugDevelopment/AssetsMenu/AddNewAssetsMenu/NewTileSet.h"
 #include "EngineUI/DebugDevelopment/AssetsMenu/ViewAssetsMenu/TextureViewWizard.h"
 
 Ermine::DebugMainWindow::DebugMainWindow()
@@ -66,11 +67,16 @@ void Ermine::DebugMainWindow::Draw()
         {
             if (ImGui::BeginMenu("Add New Assets"))
             {
-                static bool b2 = false;
                 if (ImGui::MenuItem("Add Texture", "", nullptr))
                 {
                     auto Handler = Ermine::WindowHandler::Get();
                     Handler->SubmitWindowFront(std::make_unique<Ermine::AddNewTextureWindow>(Ermine::AddNewTextureWindow()));
+                }
+
+                if (ImGui::MenuItem("Add TileSet", "", nullptr))
+                {
+                    auto Handler = Ermine::WindowHandler::Get();
+                    Handler->SubmitWindowFront(std::make_unique<Ermine::AddNewTileSetWindow>(Ermine::AddNewTileSetWindow()));
                 }
                 ImGui::EndMenu();
             }

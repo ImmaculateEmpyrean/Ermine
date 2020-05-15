@@ -12,11 +12,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ErmineJsonFunctions.h" />
     <ClInclude Include="json-3.7.3\single_include\nlohmann\json.hpp">
       <Filter>json-3.7.3\single_include\nlohmann</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ErmineJsonFunctions.cpp" />
     <ClCompile Include="jsondummy.cpp" />
   </ItemGroup>
 </Project>

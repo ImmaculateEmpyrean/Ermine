@@ -28,3 +28,4 @@
 #include <gtc/type_ptr.hpp>
 
 #include <nlohmann/json.hpp>
+#include "ErmineJsonFunctions.h""

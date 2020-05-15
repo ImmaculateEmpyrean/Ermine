@@ -64,6 +64,16 @@ namespace Ermine
 		}
 	}
 
+	std::vector<Texture*> GlobalTextureCache::GetAllTexturesInCache()
+	{
+		std::vector<Texture*> Vec;
+
+		for (auto i : InternalBuffer)
+			Vec.emplace_back(i.second);
+
+		return Vec;
+	}
+
 	void GlobalTextureCache::PushTextureIntoCache(std::unique_ptr<Texture> tex)
 	{
 		auto FoundIter = InternalBuffer.find(tex->GetFilePath());

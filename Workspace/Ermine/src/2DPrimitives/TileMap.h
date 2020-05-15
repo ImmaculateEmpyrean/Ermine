@@ -19,6 +19,18 @@ namespace Ermine
 
 	public:
 		TileMap(TileMap& rhs);
+		TileMap operator=(TileMap& rhs);
+
+		TileMap(TileMap&& rhs);
+		TileMap operator=(TileMap&& rhs);
+
+		bool operator==(TileMap&& rhs);
+
+		//Data Start Index.. We Know Its Not 0.. For Now All TileSets Start At 1 Making This Function Redundant..
+		int GetStartIndex(); 
+		int GetEndIndex();
+
+		Ermine::Sprite* GetSprite(int Index);
 
 	public:
 
@@ -27,8 +39,10 @@ namespace Ermine
 	protected:
 
 	private:
-
+		
 	private:
+		std::string TileMapName;
+
 		int NumberOfTilesWidth;
 		int NumberOfTilesHeight;
 
@@ -36,6 +50,8 @@ namespace Ermine
 		std::pair<std::string, std::vector<int>> LayerData; 
 
 		//A TileMap Is Responsible For Its TileSets And Is Said To Own A TileSet..
-		std::vector<TileSet*> TileSetsBuffer; 
+		std::vector<TileSet*> TileSetsBuffer;
+		//This Vector Is Used To Map TileMap Index To TileSetIndex..
+		std::vector<int> TileSetStartIndexTracker;
 	};
 }

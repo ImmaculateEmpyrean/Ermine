@@ -4,6 +4,9 @@
     <Filter Include="2DPrimitives">
       <UniqueIdentifier>{A75D6B22-93C0-FAC6-3C46-337D2888C649}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2DPrimitives\Constructs">
+      <UniqueIdentifier>{EE5B917D-5A93-D914-639D-3D38CF53000E}</UniqueIdentifier>
+    </Filter>
     <Filter Include="EngineResourceHandlers">
       <UniqueIdentifier>{748A153F-6084-3E91-49F1-D4A1358AA4FD}</UniqueIdentifier>
     </Filter>
@@ -66,7 +69,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\2DPrimitives\Actor2D.h">
+      <Filter>2DPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\Constructs\Quad.h">
+      <Filter>2DPrimitives\Constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\Constructs\Vertex.h">
+      <Filter>2DPrimitives\Constructs</Filter>
+    </ClInclude>
     <ClInclude Include="src\2DPrimitives\Sprite.h">
+      <Filter>2DPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\TileMap.h">
       <Filter>2DPrimitives</Filter>
     </ClInclude>
     <ClInclude Include="src\2DPrimitives\TileSet.h">
@@ -140,6 +155,9 @@
     <ClInclude Include="src\Graphics\Renderer\Renderer.h">
       <Filter>Graphics\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\Renderer2D.h">
+      <Filter>Graphics\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h">
       <Filter>Graphics\Renderer\RendererPrimitives</Filter>
     </ClInclude>
@@ -188,14 +206,22 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\2DPrimitives\Actor2D.h" />
-    <ClInclude Include="src\Graphics\Renderer\Renderer2D.h" />
-    <ClInclude Include="src\2DPrimitives\Constructs\Vertex.h" />
-    <ClInclude Include="src\2DPrimitives\Constructs\Quad.h" />
-    <ClInclude Include="src\2DPrimitives\TileMap.h" />
+    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileSet.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\2DPrimitives\Actor2D.cpp">
+      <Filter>2DPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\Constructs\Vertex.cpp">
+      <Filter>2DPrimitives\Constructs</Filter>
+    </ClCompile>
     <ClCompile Include="src\2DPrimitives\Sprite.cpp">
+      <Filter>2DPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\TileMap.cpp">
+      <Filter>2DPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\TileSet.cpp">
       <Filter>2DPrimitives</Filter>
     </ClCompile>
     <ClCompile Include="src\App.cpp" />
@@ -256,6 +282,9 @@
     <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp">
       <Filter>Graphics\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphics\Renderer\Renderer2D.cpp">
+      <Filter>Graphics\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.cpp">
       <Filter>Graphics\Renderer\RendererPrimitives</Filter>
     </ClCompile>
@@ -293,9 +322,6 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\2DPrimitives\Actor2D.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\Renderer2D.cpp" />
-    <ClCompile Include="src\2DPrimitives\Constructs\Vertex.cpp" />
-    <ClCompile Include="src\2DPrimitives\TileSet.cpp" />
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileSet.cpp" />
   </ItemGroup>
 </Project>

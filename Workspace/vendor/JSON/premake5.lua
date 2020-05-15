@@ -8,5 +8,7 @@ project "json"
 
     files{
        "json-3.7.3/single_include/nlohmann/json.hpp",
-       "jsondummy.cpp"
+       "jsondummy.cpp",
+       "ErmineJsonFunctions.h",
+       "ErmineJsonFunctions.cpp"
     }

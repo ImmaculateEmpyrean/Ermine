@@ -34,6 +34,9 @@ namespace Ermine
 		int GetWidth();
 		int GetHeight();
 
+		int GetWidthToMatchAspectRatio(int Height);
+		int GetHeightToMatchAspectRatio(int Width);
+
 		std::string GetName();
 		std::filesystem::path GetFilePath();
 

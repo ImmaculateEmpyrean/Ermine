@@ -26,6 +26,7 @@ IncludeDir["ImGui"]="vendor/IMGUI"
 IncludeDir["GLM"]="vendor/GLM/glm"
 IncludeDir["stb"]="vendor/stb"
 IncludeDir["JSON"]="vendor/JSON/json-3.7.3/single_include"
+IncludeDir["JSON_ERMINE"]="vendor/JSON"
 
 group "Dependencies"
     include "vendor/Glad"
@@ -115,7 +116,8 @@ project "Ermine"
          "%{IncludeDir.ImGui}",
          "%{IncludeDir.GLM}",
          "%{IncludeDir.stb}",
-         "%{IncludeDir.JSON}"
+         "%{IncludeDir.JSON}",
+         "%{IncludeDir.JSON_ERMINE}"
     }
 
     links {
@@ -192,7 +194,8 @@ project "Game"
          "%{IncludeDir.ImGui}",
          "%{IncludeDir.GLM}",
          "%{IncludeDir.stb}",
-         "%{IncludeDir.JSON}"
+         "%{IncludeDir.JSON}",
+         "%{IncludeDir.JSON_ERMINE}"
     }
 
     links {
