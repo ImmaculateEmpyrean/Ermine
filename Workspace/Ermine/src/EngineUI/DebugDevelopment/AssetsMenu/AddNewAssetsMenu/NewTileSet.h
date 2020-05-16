@@ -32,8 +32,8 @@ namespace Ermine
 
 		std::vector<bool> TextureSelected;
 
-		int TileWidth = 0;
-		int TileHeight = 0;
+		int TileWidth = 16;
+		int TileHeight = 16;
 
 		float UvBottomLeft[2] = { 0.0f,0.0f };
 		float UvTopRight[2] = { 1.0f,1.0f };

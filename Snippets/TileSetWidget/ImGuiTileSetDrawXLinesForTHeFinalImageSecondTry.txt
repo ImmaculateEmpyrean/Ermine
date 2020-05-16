@@ -1,0 +1,24 @@
+//Start Working Now To Draw Tile Demarkation Lines On The Image..//
+
+				//Note - Effective Always Refers To The ImGui Window..
+
+				/*ImVec2 CursorPos = ImGui::GetCursorPos();
+				float WidthOfWidgetX = ImGui::GetContentRegionAvail().x;
+				float HeightOfWidgetY = AllTexturesToChoose[i]->GetHeightToMatchAspectRatio(ImGui::GetContentRegionAvail().x);
+
+				float TextureWidthPercentageSelected = UvTopRight[0] - UvBottomLeft[0];
+				float TextureHeightPercentageSelected = UvTopRight[1] - UvBottomLeft[1];
+
+				float TextureWidthSelected = TextureWidthPercentageSelected * AllTexturesToChoose[i]->GetWidth();
+				float TextureHeightSelected = TextureHeightPercentageSelected * AllTexturesToChoose[i]->GetHeight();
+
+				float DifferenceInTextureWidthBetweenOriginalAndSelected = AllTexturesToChoose[i]->GetWidth() - TextureWidthSelected;
+
+				float EffectiveTileWidth = ((AllTexturesToChoose[i]->GetWidth() - DifferenceInTextureWidthBetweenOriginalAndSelected) * TileWidth) / AllTexturesToChoose[i]->GetWidth();
+
+				float NumberOfLinesX = TextureWidthSelected / EffectiveTileWidth;//TileWidth;
+				float NumberOfLinesY = TextureHeightSelected / TileHeight;
+
+				float StepXEffective = NumberOfLinesX / EffectiveTileWidth;   //(TextureWidthSelected * EffectiveTileWidth) / AllTexturesToChoose[i]->GetWidth();
+				//float StepXEffective = (WidthOfWidgetX * StepX) / EffectiveWidth;
+				//Ended Working Now To Draw Tile Demarkation Lines On The Image..//*/

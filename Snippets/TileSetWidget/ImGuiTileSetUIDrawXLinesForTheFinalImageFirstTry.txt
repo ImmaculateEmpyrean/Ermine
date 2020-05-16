@@ -1,35 +1,10 @@
-#include "stdafx.h"
-#include "NewTileSet.h"
-
-#include "EngineResourceHandlers/GlobalTextureCache.h"
-#include "imgui.h"
-
-namespace Ermine
-{
-	AddNewTileSetWindow::AddNewTileSetWindow()
-	{
-		NameBuffer = new char[512]; //Create a Name Buffer To Store The Name In..
-		std::memset(NameBuffer, 0, 100);
-
-		auto Cache = GlobalTextureCache::Get();
-		AllTexturesToChoose = Cache->GetAllTexturesInCache();
-		TextureSelected = std::vector<bool>(AllTexturesToChoose.size(), false);
-
-		CurrentItemForDisplayInComboBox = new char[100];
-		std::memset(CurrentItemForDisplayInComboBox, 0, 100);
-		std::strcpy(CurrentItemForDisplayInComboBox, "Select From The DropDown..");
-	}
-
-	AddNewTileSetWindow::~AddNewTileSetWindow()
-	{
-		delete[] NameBuffer;
-		delete[]CurrentItemForDisplayInComboBox;
-	}
-
-
-	void AddNewTileSetWindow::Draw()
+void AddNewTileSetWindow::Draw()
 	{
 		ImGui::Begin("Add New TileSet Window : ");
+
+		/*ImGui::GetForegroundDrawList()->AddRectFilled({ ImGui::GetWindowPos().x,ImGui::GetWindowPos().y }, 
+							  { ImGui::GetWindowPos().x+ 100.0f,ImGui::GetWindowPos().y+100.0f }, ImGui::ColorConvertFloat4ToU32({ 1.0f,1.0f,1.0f,1.0f }));*/
+
 
 		ImGui::Text("Enter TileSet Name : ");
 		ImGui::SameLine();
@@ -93,12 +68,13 @@ namespace Ermine
 
 					TextureSelected[i] = true;
 					std::strcpy((char*)CurrentItemForDisplayInComboBox, AllTexturesToChoose[i]->GetName().c_str());
+					//CurrentItemForDisplayInComboBox = AllTexturesToChoose[i]->GetName().c_str();
 				}
 			}
 			ImGui::EndCombo();
 		}
 
-		for (int i = 0;i<AllTexturesToChoose.size();i++)
+		for (int i = 0;i<AllTexturesToChoose.size();i++) //: AllTexturesToChoose)
 		{
 			if (TextureSelected[i] == true)
 			{
@@ -114,51 +90,39 @@ namespace Ermine
 
 				float ToprightMINUSBottomLeft[2] = { UvTopRight[0] - UvBottomLeft[0],UvTopRight[1] - UvBottomLeft[1] };
 
-				
-
+				//Start Working Now To Draw Tile Demarkation Lines On The Image..//
 				ImVec2 CursorPos = ImGui::GetCursorPos();
 				float WidthOfWidgetX = ImGui::GetContentRegionAvail().x;
 				float HeightOfWidgetY = AllTexturesToChoose[i]->GetHeightToMatchAspectRatio(ImGui::GetContentRegionAvail().x);
 
-				float TextureWidthPercentageSelected = UvTopRight[0] - UvBottomLeft[0];
-				float TextureHeightPercentageSelected = UvTopRight[1] - UvBottomLeft[1];
+				float EffectiveWidthPercentage = UvTopRight[0] - UvBottomLeft[0];
+				float EffectiveHeightPercentage = UvTopRight[1] - UvBottomLeft[1];
 
-				float ImageInMemoryWidth = TextureWidthPercentageSelected * AllTexturesToChoose[i]->GetWidth();
-				float ImageInMemoryHeight = TextureHeightPercentageSelected * AllTexturesToChoose[i]->GetHeight();
+				float EffectiveWidth = EffectiveWidthPercentage * AllTexturesToChoose[i]->GetWidth();
+				float EffectiveHeight = EffectiveHeightPercentage * AllTexturesToChoose[i]->GetHeight();
 
-				float NumberOfLinesX = ImageInMemoryWidth / TileWidth;
-				float NumberOfLinesY = ImageInMemoryHeight / TileHeight;
+				float NumberOfLinesX = EffectiveWidth / TileWidth;
+				float NumberOfLinesY = EffectiveHeight / TileHeight;
 
-				float EffectiveTileWidth = WidthOfWidgetX / NumberOfLinesX;
-				float EffectiveTileHeight = HeightOfWidgetY / NumberOfLinesY;
+				float StepX = (EffectiveWidth * TileWidth) / AllTexturesToChoose[i]->GetWidth();
+				float StepXEffective = (WidthOfWidgetX * StepX) / EffectiveWidth;
+				//Ended Working Now To Draw Tile Demarkation Lines On The Image..//
 
 				ImGui::Image((void*)(intptr_t)AllTexturesToChoose[i]->GetTextureID(),
 					ImVec2(ImGui::GetContentRegionAvail().x, AllTexturesToChoose[i]->GetHeightToMatchAspectRatio(ImGui::GetContentRegionAvail().x)),//ImVec2(AllTexturesToChoose[i]->GetWidth(), AllTexturesToChoose[i]->GetHeight()),
 					ImVec2(UvBottomLeft[0], (1.0f+ UvBottomLeft[1])-UvBottomLeft[1]), ImVec2(UvTopRight[0], (1.0f + UvBottomLeft[1]) - UvTopRight[1]));
 
-				//Draw Lines In X Constant (Vertical Lines...)
-				for (int i = CursorPos.x, c=0; c<NumberOfLinesX; i = i + EffectiveTileWidth,c++)//StepXEffective)
+				for (int i = CursorPos.x; i <= NumberOfLinesX * CursorPos.x; i = i + StepXEffective)
 				{
 					ImGui::GetForegroundDrawList()->AddLine({ ImGui::GetWindowPos().x + (float)i,  ImGui::GetWindowPos().y + (float)CursorPos.y },
 						{ ImGui::GetWindowPos().x + (float)(i), ImGui::GetWindowPos().y + (float)HeightOfWidgetY },//(float)(i + HeightOfWidgetY), ImGui::GetWindowPos().y + (float)HeightOfWidgetY },//(float)CursorPos.y + (float)HeightOfWidgetY },
 															ImGui::ColorConvertFloat4ToU32({ 1.0f,1.0f,1.0f,1.0f }));
 				}
 
-				//Draw Lines In Y Constant (Horizontal Lines...)
-				for (int i = CursorPos.y, c = 0; c < NumberOfLinesY; i = i + EffectiveTileHeight, c++)//StepXEffective)
-				{
-					ImGui::GetForegroundDrawList()->AddLine({ ImGui::GetWindowPos().x + (float)CursorPos.x,ImGui::GetWindowPos().y + (float)i },
-															{  ImGui::GetWindowPos().x + (float)CursorPos.x + (float)WidthOfWidgetX,ImGui::GetWindowPos().y + (float)(i) },//(float)(i + HeightOfWidgetY), ImGui::GetWindowPos().y + (float)HeightOfWidgetY },//(float)CursorPos.y + (float)HeightOfWidgetY },
-						ImGui::ColorConvertFloat4ToU32({ 1.0f,1.0f,1.0f,1.0f }));
-				}
-
 				ImGui::Columns(1);
 
-				ImGui::Separator();
-				
 				ImGui::EndChild();
 			}
 		}
 		ImGui::End();
 	}
-}
