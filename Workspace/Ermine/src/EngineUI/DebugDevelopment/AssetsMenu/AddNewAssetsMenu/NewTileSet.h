@@ -25,6 +25,7 @@ namespace Ermine
 	protected:
 
 	private:
+		void WriteTileSetToFile();
 
 	private:
 		std::vector<Ermine::Texture*> AllTexturesToChoose;
@@ -38,6 +39,8 @@ namespace Ermine
 		float UvBottomLeft[2] = { 0.0f,0.0f };
 		float UvTopRight[2] = { 1.0f,1.0f };
 
-		char* NameBuffer;
+		char* NameBuffer = nullptr;
+		bool MakeFilePathUsingName = true;
+		char* FilePathBuffer = nullptr;
 	};
 }

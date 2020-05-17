@@ -9,7 +9,10 @@ namespace Ermine
 	AddNewTileSetWindow::AddNewTileSetWindow()
 	{
 		NameBuffer = new char[512]; //Create a Name Buffer To Store The Name In..
-		std::memset(NameBuffer, 0, 100);
+		std::memset(NameBuffer, 0, 512);
+
+		FilePathBuffer = new char[512]; //Create a Name Buffer To Store The Name In..
+		std::memset(FilePathBuffer, 0, 512);
 
 		auto Cache = GlobalTextureCache::Get();
 		AllTexturesToChoose = Cache->GetAllTexturesInCache();
@@ -23,6 +26,8 @@ namespace Ermine
 	AddNewTileSetWindow::~AddNewTileSetWindow()
 	{
 		delete[] NameBuffer;
+		delete[] FilePathBuffer;
+
 		delete[]CurrentItemForDisplayInComboBox;
 	}
 
@@ -33,7 +38,25 @@ namespace Ermine
 
 		ImGui::Text("Enter TileSet Name : ");
 		ImGui::SameLine();
-		ImGui::InputTextWithHint("##EnterTileSetNameAddNewTileSetWindow", "Enter The Name Of The TileSet Here..", NameBuffer, 100);
+		if (ImGui::InputTextWithHint("##EnterTileSetNameAddNewTileSetWindow", "Enter The Name Of The TileSet Here..", NameBuffer, 512))
+		{
+			std::string FilePath(NameBuffer);
+			std::string Appendage("TileSet/");
+			std::string FileType(".json");
+			
+			int TempSize = FilePath.size();
+
+			FilePath = Appendage + FilePath + FileType;
+			FilePath.resize(TempSize + Appendage.size() + FileType.size(),0);
+
+			FilePathBuffer = std::strcpy(FilePathBuffer, FilePath.c_str());
+		}
+		ImGui::SameLine();
+		ImGui::Checkbox("MakeFilePathUsingName##AddNewTileSetWindow", &MakeFilePathUsingName);
+
+		ImGui::Text("Enter TileSet Path  : ");
+		ImGui::SameLine();
+		ImGui::InputTextWithHint("##EnterTileSetPathAddNewTileSetWindow", "Enter The Name Of The TileSet Here..", FilePathBuffer, 512);
 
 		ImGui::Separator();
 
@@ -77,6 +100,29 @@ namespace Ermine
 		ImGui::Separator();
 
 		ImGui::Columns(1);
+
+		ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImColor(255, 255, 255)));
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(0, 168, 107)));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(ImColor(63, 122, 77)));
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(ImColor(41, 171, 135)));
+		if (ImGui::Button("Add TileSet##NewTileSetWindow"))
+		{
+			WriteTileSetToFile();
+			Quit = true;
+		}
+		ImGui::PopStyleColor(4);
+		ImGui::SameLine();
+		ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImColor(255, 255, 255)));
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(184, 15, 10)));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(ImColor(255, 40, 0)));
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(ImColor(210, 31, 60)));
+		if(ImGui::Button("Cancel"))
+		{
+			Quit=true;
+		}
+		ImGui::PopStyleColor(4);
+
+		ImGui::Separator();
 
 		ImGui::Text("Select Texture To Be Used For The TileSet..");
 		ImGui::SameLine();
@@ -153,12 +199,38 @@ namespace Ermine
 				}
 
 				ImGui::Columns(1);
-
 				ImGui::Separator();
-				
 				ImGui::EndChild();
-			}
+			}	
 		}
 		ImGui::End();
+	}
+
+	void AddNewTileSetWindow::WriteTileSetToFile()
+	{
+		nlohmann::json TileSetFile;
+
+		TileSetFile["TileSetName"] = NameBuffer;
+
+		TileSetFile["TileWidth"] = TileWidth;
+		TileSetFile["TileHeight"] = TileHeight;
+
+		//TileSetFile["Texture"] = NULL;
+
+		for (int i=0;i<TextureSelected.size();i++)
+		{
+			if (TextureSelected[i] == true)
+			{
+				TileSetFile["Texture"][AllTexturesToChoose[i]->GetFilePath().u8string().c_str()].emplace_back(UvBottomLeft[0]);
+				TileSetFile["Texture"][AllTexturesToChoose[i]->GetFilePath().u8string().c_str()].emplace_back(UvBottomLeft[1]);
+				TileSetFile["Texture"][AllTexturesToChoose[i]->GetFilePath().u8string().c_str()].emplace_back(UvTopRight[0]);
+				TileSetFile["Texture"][AllTexturesToChoose[i]->GetFilePath().u8string().c_str()].emplace_back(UvTopRight[1]);
+			}
+		}
+		
+		std::ofstream FileInDisk(std::filesystem::path(this->FilePathBuffer));
+		FileInDisk << TileSetFile;
+
+		FileInDisk.close();
 	}
 }
