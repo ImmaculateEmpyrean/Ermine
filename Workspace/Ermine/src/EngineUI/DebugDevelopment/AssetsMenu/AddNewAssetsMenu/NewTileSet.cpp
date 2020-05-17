@@ -225,8 +225,14 @@ namespace Ermine
 				TileSetFile["Texture"][AllTexturesToChoose[i]->GetFilePath().u8string().c_str()].emplace_back(UvBottomLeft[1]);
 				TileSetFile["Texture"][AllTexturesToChoose[i]->GetFilePath().u8string().c_str()].emplace_back(UvTopRight[0]);
 				TileSetFile["Texture"][AllTexturesToChoose[i]->GetFilePath().u8string().c_str()].emplace_back(UvTopRight[1]);
+
+				TileSetFile["NumberOfTiles"] = (AllTexturesToChoose[i]->GetWidth() * AllTexturesToChoose[i]->GetHeight())/(TileHeight * TileHeight);
+
+				break;
 			}
 		}
+
+		
 		
 		std::ofstream FileInDisk(std::filesystem::path(this->FilePathBuffer));
 		FileInDisk << TileSetFile;
