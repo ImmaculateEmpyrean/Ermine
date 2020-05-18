@@ -95,6 +95,9 @@
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.h">
       <Filter>EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu</Filter>
     </ClInclude>
+    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileSet.h">
+      <Filter>EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu</Filter>
+    </ClInclude>
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.h">
       <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
     </ClInclude>
@@ -206,7 +209,6 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileSet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp">
@@ -229,6 +231,9 @@
       <Filter>EngineResourceHandlers</Filter>
     </ClCompile>
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.cpp">
+      <Filter>EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileSet.cpp">
       <Filter>EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu</Filter>
     </ClCompile>
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.cpp">
@@ -322,6 +327,5 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileSet.cpp" />
   </ItemGroup>
 </Project>

@@ -17,6 +17,8 @@ namespace Ermine
 		TileMap() = delete; //There is No Reason To Hav An Empty TileMap..
 		TileMap(std::filesystem::path TileMapFilePath);
 
+		~TileMap();
+
 	public:
 		TileMap(TileMap& rhs);
 		TileMap operator=(TileMap& rhs);
@@ -41,13 +43,24 @@ namespace Ermine
 	private:
 		
 	private:
+		struct Layer
+		{
+			std::string Name;
+
+			int TileWidth;
+			int TileHeight;
+
+			int NumberOfTilesHorizontal;
+			int NumberOfTilesVertical;
+
+			int LayerNumber;
+
+			std::vector<int> LayerData;
+		};
+
 		std::string TileMapName;
-
-		int NumberOfTilesWidth;
-		int NumberOfTilesHeight;
-
-		//Stores The Layer Name And The Data Associated With It..
-		std::pair<std::string, std::vector<int>> LayerData; 
+		
+		std::vector<Layer> Layers;
 
 		//A TileMap Is Responsible For Its TileSets And Is Said To Own A TileSet..
 		std::vector<TileSet*> TileSetsBuffer;
