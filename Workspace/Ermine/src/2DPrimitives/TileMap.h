@@ -11,6 +11,8 @@
 
 namespace Ermine
 {
+	class Renderer2D; //Forward Declaration..
+
 	class TileMap
 	{
 	public:
@@ -20,12 +22,13 @@ namespace Ermine
 		~TileMap();
 
 	public:
-		TileMap(TileMap& rhs);
-		TileMap operator=(TileMap& rhs);
+		TileMap(const TileMap& rhs);
+		TileMap operator=(const TileMap& rhs);
 
 		TileMap(TileMap&& rhs);
 		TileMap operator=(TileMap&& rhs);
 
+		//This is Mostly Crap It Means Nothing To CompareFilePaths..
 		bool operator==(TileMap&& rhs);
 
 		//Data Start Index.. We Know Its Not 0.. For Now All TileSets Start At 1 Making This Function Redundant..
@@ -41,8 +44,6 @@ namespace Ermine
 	protected:
 
 	private:
-		
-	private:
 		struct Layer
 		{
 			std::string Name;
@@ -56,15 +57,43 @@ namespace Ermine
 			int LayerNumber;
 
 			std::vector<int> LayerData;
+
+		public:
+			//This Compares LayerNumbers Only
+			bool operator<(const Layer& rhs){ return LayerNumber < rhs.LayerNumber;	}
+
+			//This Compares LayerNumbers Only
+			bool operator>(const Layer& rhs) { return LayerNumber > rhs.LayerNumber; }
+			
+			//This Compares LayerNumbers Only
+			bool operator<=(const Layer& rhs) { return LayerNumber <= rhs.LayerNumber; }
+
+			//This Compares LayerNumbers Only
+			bool operator>=(const Layer& rhs) { return LayerNumber >= rhs.LayerNumber; }
+
+			//This Compares LayerNumbers Only
+			bool operator==(const Layer& rhs) { return LayerNumber == rhs.LayerNumber; }
 		};
+
+	private:
+		//This Function Is Only Meant For Friends And As Such Is Hidden Away In Private..
+		std::vector<Layer> GetAllLayers() { return Layers; } 
+
+		//Set The TileMapPath Variable Before Calling This Method Otherwise It Wont Work..
+		void LoadTileMapFromPath();
+
+	private:
+		std::filesystem::path TileMapPath;
 
 		std::string TileMapName;
 		
 		std::vector<Layer> Layers;
 
-		//A TileMap Is Responsible For Its TileSets And Is Said To Own A TileSet..
+		//A TileMap Is Responsible For Its TileSets And Is Said To Own A TileSet.. This Is Arranged In Increasing Order Of Start Indexes
 		std::vector<TileSet*> TileSetsBuffer;
 		//This Vector Is Used To Map TileMap Index To TileSetIndex..
 		std::vector<int> TileSetStartIndexTracker;
+
+		friend class Ermine::Renderer2D;
 	};
 }

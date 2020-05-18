@@ -18,8 +18,8 @@
             "LayerNumber":2
         }
     },
-    "TileMap":{
-        "TileMap/TestTileMap.json":{
+    "TileSet":{
+        "TileSet/TileSetTest.json":{
             "StartIndex":1
         }
     }

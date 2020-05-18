@@ -27,6 +27,7 @@
 #include "Graphics/Renderer/Renderer2D.h"
 
 #include "2DPrimitives/TileSet.h"
+#include "2DPrimitives/TileMap.h"
 
 
 #pragma region StaticDefines
@@ -73,7 +74,6 @@ void Ermine::App::NextFrame()
 void Ermine::App::OnAttach()
 {
 	Obj.OnAttach();
-
 }
 
 void Ermine::App::OnTick()
@@ -235,6 +235,8 @@ void Ermine::App::OnTick()
 
 	Renderer2D::EndScene();*/
 	
+	Ermine::TileMap Map("TileMap/TestTileMap.json");
+		
 	static Ermine::TileSet Set("TileSet/TileSetTest.json");
 	
 	static int c = 0;

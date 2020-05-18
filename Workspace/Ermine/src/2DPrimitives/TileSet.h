@@ -37,6 +37,7 @@ namespace Ermine
 		std::filesystem::path GetFilePath();
 
 		std::vector<Sprite*> GetSpriteBuffer() { return SpritesInTheTileset; }
+		int GetNumberOfSpritesInTileSet() { return SpritesInTheTileset.size(); };
 
 	public:
 
