@@ -14,6 +14,8 @@ namespace Ermine
 		GenBufferSubmitDataHelper(index_buffer, EmptyVec);
 	}
 	IndexBuffer::IndexBuffer(std::vector<uint32_t>& BufferData)
+		:
+		BufferData(BufferData)
 	{
 		GenBufferSubmitDataHelper(index_buffer, BufferData);
 	}
@@ -65,6 +67,11 @@ namespace Ermine
 	bool IndexBuffer::operator==(IndexBuffer& rhs)
 	{
 		return BufferData == rhs.BufferData;
+	}
+
+	int IndexBuffer::GetBufferDataLength()
+	{
+		return BufferData.size();
 	}
 
 

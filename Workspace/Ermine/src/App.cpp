@@ -235,7 +235,7 @@ void Ermine::App::OnTick()
 
 	Renderer2D::EndScene();*/
 	
-	Ermine::TileMap Map("TileMap/TestTileMap.json");
+	static Ermine::TileMap Map("TileMap/TestTileMap.json");
 		
 	static Ermine::TileSet Set("TileSet/TileSetTest.json");
 	
@@ -264,12 +264,13 @@ void Ermine::App::OnTick()
 	auto ProjectionMatrix = glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f,-5.0f,5.0f);
 
 
-	/*Act.Translate({ 0.001f,0.001f });
+	Act.Translate({ 0.001f,0.001f });
 	Act.Rotate(1);
-	Act.Scale({ 1.005f,1.005f });*/
+	Act.Scale({ 1.005f,1.005f });
 
 	Renderer2D::BeginScene(Camera, ProjectionMatrix);
 
+	Renderer2D::DrawTileMap(&Map);
 	Renderer2D::DrawActor2D(&Act);
 
 	Renderer2D::EndScene();

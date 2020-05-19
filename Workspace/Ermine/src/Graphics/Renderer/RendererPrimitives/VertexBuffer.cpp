@@ -14,6 +14,8 @@ namespace Ermine
 		GenBufferSubmitDataHelper(vertex_buffer, EmptyVec);
 	}
 	VertexBuffer::VertexBuffer(std::vector<float>& BufferData)
+		:
+		BufferData(BufferData)
 	{
 		GenBufferSubmitDataHelper(vertex_buffer, BufferData);
 	}

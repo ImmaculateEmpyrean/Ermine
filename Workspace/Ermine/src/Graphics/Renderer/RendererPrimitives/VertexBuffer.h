@@ -14,6 +14,8 @@ namespace Ermine
 		~VertexBuffer();
 
 	public:
+		std::vector<float> GetBufferData() const { return BufferData; }
+
 		void Bind();
 		void UnBind();
 

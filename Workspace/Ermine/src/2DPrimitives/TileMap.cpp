@@ -79,14 +79,30 @@ namespace Ermine
 
 	Ermine::Sprite* TileMap::GetSprite(int Index)
 	{
-		int c=0;
+		//This Still Does Not Work..
+		//We WIll Simply Check RAnge
 
-		while (Index < TileSetStartIndexTracker[c])
-			c++; //Automatically Breaks As Index Overbound Should a Stupid index Come IN...
+		int c = 0;
+
+		while (true)
+		{
+			if (Index < TileSetEndIndexTracker[c] && Index >= TileSetStartIndexTracker[c])
+				break;
+			c++;
+		}
+		
+		return TileSetsBuffer[c]->GetTile(Index);
+
+		/*int c = 0;
+		while (Index < TileSetEndIndexTracker[c] || c < TileSetEndIndexTracker.size())
+			c++;
+
+		if (c >= TileSetEndIndexTracker.size())
+			c--;
+
 		Index = Index - TileSetStartIndexTracker[c];
 
-		//Correct The Index Then Simply Return The Specified Tile...
-		return TileSetsBuffer[c]->GetTile(Index);
+		return TileSetsBuffer[c]->GetTile(Index); */
 	}
 
 
@@ -128,9 +144,17 @@ namespace Ermine
 		{
 			std::string ExtractedPath = i.key();
 
+			std::ifstream TileSetFileInputRaw(ExtractedPath);
+
+			nlohmann::json TileSetJsonFile;
+			TileSetJsonFile << TileSetFileInputRaw;
+
+			int NumberOfTiles = std::stoi(TileSetJsonFile["NumberOfTiles"].dump());
+
 			TileSetsBuffer.emplace_back(new TileSet(std::filesystem::path(ExtractedPath)));
 
 			TileSetStartIndexTracker.emplace_back(std::stoi(TileSetFile["TileSet"][ExtractedPath.c_str()]["StartIndex"].dump()));
+			TileSetEndIndexTracker.emplace_back(NumberOfTiles + TileSetStartIndexTracker[TileSetStartIndexTracker.size()-1]);
 		}
 		//Ended Extracting TileSets//
 	}

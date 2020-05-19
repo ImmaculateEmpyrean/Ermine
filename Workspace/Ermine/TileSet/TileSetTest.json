@@ -1,8 +1,1 @@
-{
-    "TileSetName":"TileSetTest",
-    "TileWidth":32,
-    "TileHeight":64,
-    "Texture": {
-    "Texture/Sprite_claudius_walk.png": [ 0.5, 0.5, 1.0, 1.0 ]
-  }
-}
+{"NumberOfTiles":12,"Texture":{"Texture\\Sprite_claudius_walk.png":[0.5,0.5,1.0,1.0]},"TileHeight":64,"TileSetName":"TileSetTest","TileWidth":32}

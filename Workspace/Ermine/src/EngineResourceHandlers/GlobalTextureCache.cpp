@@ -90,4 +90,13 @@ namespace Ermine
 		
 		InternalBuffer.clear();
 	}
+	int GlobalTextureCache::Bind(Ermine::Texture* Tex)
+	{
+		if (BindCounter == 17)
+			BindCounter = 0;
+
+		Tex->Bind(BindCounter);
+
+		return BindCounter;
+	}
 }

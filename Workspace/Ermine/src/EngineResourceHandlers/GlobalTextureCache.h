@@ -48,6 +48,9 @@ namespace Ermine
 
 		void ClearCache(); //This Invalidates All Previously Held Tokens..
 
+		//This Function Automatically Binds a Certain Function And Returns The Bound Slot Integer To The Caller.. (Use This To Bind Automatically)
+		int Bind(Ermine::Texture* Tex);
+
 	public:
 
 	protected:
@@ -62,6 +65,8 @@ namespace Ermine
 		static GlobalTextureCache* TextureCache;
 
 		std::unordered_map<std::filesystem::path,Texture*,std::hash<std::filesystem::path>> InternalBuffer;
+
+		int BindCounter = 0;
 
 		friend class TextureViewWizard;
 	};

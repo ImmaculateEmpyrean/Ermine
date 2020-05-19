@@ -209,6 +209,7 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\RendererPrimitives2D\TileMapRendererPrimitive.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp">
@@ -327,5 +328,7 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\RendererPrimitives2D\TileMapRendererPrimitive.cpp" />
   </ItemGroup>
 </Project>

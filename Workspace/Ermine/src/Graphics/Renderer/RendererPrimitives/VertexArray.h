@@ -30,10 +30,18 @@ namespace Ermine
 		~VertexArray();
 
 	public:
+		VertexArray(const VertexArray& rhs);
+		VertexArray operator=(const VertexArray& rhs);
+
+		VertexArray(VertexArray&& rhs);
+		VertexArray operator=(VertexArray&& rhs);
+
 		void Bind();
 		void UnBind();
 
 		void SetVertexAttribArray(std::vector<VertexAttribPointerSpecification>& SpecContainer);
+
+		int GetIndexBufferLength();
 
 	public:
 
@@ -42,6 +50,9 @@ namespace Ermine
 	protected:
 
 	private:
+		void HelperCopyVertexArray(const VertexArray& rhs);
+		void HelperMoveVertexArray(VertexArray&& rhs);
+
 		void HelperCreateAndBindVertexArray();
 		int HelperCalculateSizeOfTheVertex(std::vector<VertexAttribPointerSpecification>& SpecContainer);
 		int HelperSizeOfTheComponent(unsigned int Component);

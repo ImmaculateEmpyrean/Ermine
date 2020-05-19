@@ -15,6 +15,8 @@ namespace Ermine
 		~IndexBuffer();
 
 	public:
+		std::vector<uint32_t> GetBufferData() const { return BufferData; }
+
 		void Bind();
 		void UnBind();
 
@@ -26,6 +28,8 @@ namespace Ermine
 
 		//This is Very Expensive Donot USe It...
 		bool operator ==(IndexBuffer& rhs);
+
+		int GetBufferDataLength();
 
 	public:
 

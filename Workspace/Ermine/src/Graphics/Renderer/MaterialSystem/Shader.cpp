@@ -135,6 +135,11 @@ namespace Ermine
 		glUniform4f(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value.x, Value.y, Value.z,Value.w);
 	}
 
+	void Shader::UniformNf(std::string& UniformName, std::vector<float> Value)
+	{
+		glUniform1fv(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value.size(), &Value[0]);
+	}
+
 	void Shader::Uniformi(std::string& UniformName, int Value)
 	{
 		glUniform1i(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value);
@@ -155,6 +160,11 @@ namespace Ermine
 		glUniform4i(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value.x, Value.y, Value.z, Value.w);
 	}
 
+	void Shader::UniformNi(std::string& UniformName, std::vector<int> Value)
+	{
+		glUniform1iv(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value.size(), &Value[0]);
+	}
+
 	void Shader::UniformMat3(std::string& UniformName, glm::mat3 Matrix)
 	{
 		glUniformMatrix3fv(glGetUniformLocation(ShaderProgram, UniformName.c_str()), 1, GL_FALSE, glm::value_ptr(Matrix));
@@ -164,6 +174,7 @@ namespace Ermine
 	{
 		glUniformMatrix4fv(glGetUniformLocation(ShaderProgram, UniformName.c_str()), 1, GL_FALSE, glm::value_ptr(Matrix));
 	}
+
 #pragma endregion UniformDefinitions
 
 	void Shader::HelperCompileAndLinkShaderUsingSourceFilesInsideTheObject()

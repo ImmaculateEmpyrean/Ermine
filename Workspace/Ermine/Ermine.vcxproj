@@ -162,6 +162,7 @@
     <ClInclude Include="src\Graphics\Renderer\Renderer.h" />
     <ClInclude Include="src\Graphics\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\RendererPrimitives2D\TileMapRendererPrimitive.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.h" />
     <ClInclude Include="src\Graphics\Window\Window.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="src\2DPrimitives\TileMap.cpp" />
     <ClCompile Include="src\2DPrimitives\TileSet.cpp" />
     <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\Core.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileSet.cpp" />
@@ -207,6 +209,7 @@
     <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp" />
     <ClCompile Include="src\Graphics\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\RendererPrimitives2D\TileMapRendererPrimitive.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.cpp" />
     <ClCompile Include="src\Graphics\Window\Window.cpp" />
@@ -251,4 +254,4 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-</Project> 
+</Project>

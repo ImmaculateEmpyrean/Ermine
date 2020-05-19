@@ -46,6 +46,28 @@ namespace Ermine
 		GLCall(glDeleteVertexArrays(1, &vertex_array));
 	}
 
+	VertexArray::VertexArray(const VertexArray& rhs)
+	{
+		HelperCopyVertexArray(rhs);
+	}
+
+	VertexArray VertexArray::operator=(const VertexArray& rhs)
+	{
+		HelperCopyVertexArray(rhs);
+		return *this;
+	}
+
+	VertexArray::VertexArray(VertexArray&& rhs)
+	{
+		HelperMoveVertexArray(std::move(rhs));
+	}
+
+	VertexArray VertexArray::operator=(VertexArray&& rhs)
+	{
+		HelperMoveVertexArray(std::move(rhs));
+		return *this;
+	}
+
 
 	void VertexArray::Bind()
 	{
@@ -62,6 +84,9 @@ namespace Ermine
 	
 	void VertexArray::SetVertexAttribArray(std::vector<VertexAttribPointerSpecification>& SpecContainer)
 	{
+		//Copy The Buffer Over So That Future Copying And Moving Can Be Done Easily..
+		BufferToStoreAllRecievedSpecification = SpecContainer;
+
 		Bind();
 		
 		int SizeOfVertexArray = HelperCalculateSizeOfTheVertex(SpecContainer);
@@ -80,6 +105,39 @@ namespace Ermine
 		}
 	}
 
+	int VertexArray::GetIndexBufferLength()
+	{
+		return Ibo.GetBufferDataLength();
+	}
+
+
+	void VertexArray::HelperCopyVertexArray(const VertexArray& rhs)
+	{
+		HelperCreateAndBindVertexArray();
+
+		std::vector<float> VertexBufferData = rhs.Vbo.GetBufferData();//.Vbo.GetBufferData();
+		std::vector<uint32_t> IndexBufferData = rhs.Ibo.GetBufferData();
+
+		Vbo = Ermine::VertexBuffer(VertexBufferData);
+		Ibo = Ermine::IndexBuffer(IndexBufferData);
+
+		BufferToStoreAllRecievedSpecification = rhs.BufferToStoreAllRecievedSpecification;
+
+		SetVertexAttribArray(BufferToStoreAllRecievedSpecification);
+	}
+
+	void VertexArray::HelperMoveVertexArray(VertexArray&& rhs)
+	{
+		vertex_array = rhs.vertex_array;
+		rhs.vertex_array = 0;
+
+		Vbo = std::move(rhs.Vbo);
+		Ibo = std::move(rhs.Ibo);
+
+		AttributesSetCount = rhs.AttributesSetCount;
+		NextVertexAttribStartLoc = rhs.NextVertexAttribStartLoc;
+		BufferToStoreAllRecievedSpecification = rhs.BufferToStoreAllRecievedSpecification;
+	}
 
 	void VertexArray::HelperCreateAndBindVertexArray()
 	{

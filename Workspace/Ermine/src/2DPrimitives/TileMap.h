@@ -91,8 +91,11 @@ namespace Ermine
 
 		//A TileMap Is Responsible For Its TileSets And Is Said To Own A TileSet.. This Is Arranged In Increasing Order Of Start Indexes
 		std::vector<TileSet*> TileSetsBuffer;
+
 		//This Vector Is Used To Map TileMap Index To TileSetIndex..
 		std::vector<int> TileSetStartIndexTracker;
+		//This Vector Is Used To Map TileMap Index To TileSetIndex..
+		std::vector<int> TileSetEndIndexTracker;
 
 		friend class Ermine::Renderer2D;
 	};
