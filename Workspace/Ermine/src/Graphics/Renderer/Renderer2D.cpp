@@ -208,6 +208,7 @@ namespace Ermine
 				GLCall(glDrawElements(GL_TRIANGLES, Vao->GetIndexBufferLength(), GL_UNSIGNED_INT, 0));
 			}
 		}
+		Renderer->StowedTileMaps.clear();
 	}
 
 	std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> Renderer2D::CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer,

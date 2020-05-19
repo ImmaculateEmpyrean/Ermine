@@ -235,7 +235,7 @@ void Ermine::App::OnTick()
 
 	Renderer2D::EndScene();*/
 	
-	static Ermine::TileMap Map("TileMap/TestTileMap.json");
+	Ermine::TileMap Map("TileMap/TestTileMap.json");
 		
 	static Ermine::TileSet Set("TileSet/TileSetTest.json");
 	

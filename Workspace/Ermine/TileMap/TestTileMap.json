@@ -14,7 +14,7 @@
             "TileHeightPixels":32,
             "NumberOfTilesHorizontal" : 2,
             "NumberOfTilesVertical" : 2,
-            "TileData":[0,0,0,0],
+            "TileData":[4,4,0,0],
             "LayerNumber":2
         }
     },
