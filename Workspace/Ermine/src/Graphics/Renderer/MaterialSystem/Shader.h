@@ -39,22 +39,22 @@ namespace Ermine
 		std::string GetVertexShaderSource();
 		std::string GetFragmentShaderSource();
 
-		void UniformBool(std::string& UniformName, bool Value);
+		void UniformBool(std::string UniformName, bool Value);
 
-		void Uniformf(std::string& UniformName, float Value);
-		void Uniform2f(std::string& UniformName, glm::vec2 Value);
-		void Uniform3f(std::string& UniformName, glm::vec3 Value);
-		void Uniform4f(std::string& UniformName, glm::vec4 Value);
-		void UniformNf(std::string& UniformName, std::vector<float> Value);
+		void Uniformf(std::string UniformName, float Value);
+		void Uniform2f(std::string UniformName, glm::vec2 Value);
+		void Uniform3f(std::string UniformName, glm::vec3 Value);
+		void Uniform4f(std::string UniformName, glm::vec4 Value);
+		void UniformNf(std::string UniformName, std::vector<float> Value);
 
-		void Uniformi(std::string& UniformName, int Value);
-		void Uniform2i(std::string& UniformName, glm::vec<2,int> Value);
-		void Uniform3i(std::string& UniformName, glm::vec<3,int> Value);
-		void Uniform4i(std::string& UniformName, glm::vec<4,int> Value);
-		void UniformNi(std::string& UniformName, std::vector<int> Value);
+		void Uniformi(std::string UniformName, int Value);
+		void Uniform2i(std::string UniformName, glm::vec<2,int> Value);
+		void Uniform3i(std::string UniformName, glm::vec<3,int> Value);
+		void Uniform4i(std::string UniformName, glm::vec<4,int> Value);
+		void UniformNi(std::string UniformName, std::vector<int> Value);
 
-		void UniformMat3(std::string& UniformName, glm::mat3 Matrix);
-		void UniformMat4(std::string& UniformName, glm::mat4 Matrix);
+		void UniformMat3(std::string UniformName, glm::mat3 Matrix);
+		void UniformMat4(std::string UniformName, glm::mat4 Matrix);
 
 	public:
 

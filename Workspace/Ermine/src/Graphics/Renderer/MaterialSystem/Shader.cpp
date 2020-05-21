@@ -110,67 +110,67 @@ namespace Ermine
 	}
 
 #pragma region UniformDefinitions
-	void Shader::UniformBool(std::string& UniformName, bool Value)
+	void Shader::UniformBool(std::string UniformName, bool Value)
 	{
 		glUniform1i(glGetUniformLocation(ShaderProgram, UniformName.c_str()), (int)Value);
 	}
 
-	void Shader::Uniformf(std::string& UniformName, float Value)
+	void Shader::Uniformf(std::string UniformName, float Value)
 	{
 		glUniform1f(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value);
 	}
 
-	void Shader::Uniform2f(std::string& UniformName, glm::vec2 Value)
+	void Shader::Uniform2f(std::string UniformName, glm::vec2 Value)
 	{
 		glUniform2f(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value.x,Value.y);
 	}
 
-	void Shader::Uniform3f(std::string& UniformName, glm::vec3 Value)
+	void Shader::Uniform3f(std::string UniformName, glm::vec3 Value)
 	{
 		glUniform3f(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value.x,Value.y,Value.z);
 	}
 
-	void Shader::Uniform4f(std::string& UniformName, glm::vec4 Value)
+	void Shader::Uniform4f(std::string UniformName, glm::vec4 Value)
 	{
 		glUniform4f(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value.x, Value.y, Value.z,Value.w);
 	}
 
-	void Shader::UniformNf(std::string& UniformName, std::vector<float> Value)
+	void Shader::UniformNf(std::string UniformName, std::vector<float> Value)
 	{
 		glUniform1fv(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value.size(), &Value[0]);
 	}
 
-	void Shader::Uniformi(std::string& UniformName, int Value)
+	void Shader::Uniformi(std::string UniformName, int Value)
 	{
 		glUniform1i(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value);
 	}
 
-	void Shader::Uniform2i(std::string& UniformName, glm::vec<2, int> Value)
+	void Shader::Uniform2i(std::string UniformName, glm::vec<2, int> Value)
 	{
 		glUniform2i(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value.x, Value.y);
 	}
 
-	void Shader::Uniform3i(std::string& UniformName, glm::vec<3, int> Value)
+	void Shader::Uniform3i(std::string UniformName, glm::vec<3, int> Value)
 	{
 		glUniform3i(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value.x, Value.y, Value.z);
 	}
 
-	void Shader::Uniform4i(std::string& UniformName, glm::vec<4, int> Value)
+	void Shader::Uniform4i(std::string UniformName, glm::vec<4, int> Value)
 	{
 		glUniform4i(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value.x, Value.y, Value.z, Value.w);
 	}
 
-	void Shader::UniformNi(std::string& UniformName, std::vector<int> Value)
+	void Shader::UniformNi(std::string UniformName, std::vector<int> Value)
 	{
 		glUniform1iv(glGetUniformLocation(ShaderProgram, UniformName.c_str()), Value.size(), &Value[0]);
 	}
 
-	void Shader::UniformMat3(std::string& UniformName, glm::mat3 Matrix)
+	void Shader::UniformMat3(std::string UniformName, glm::mat3 Matrix)
 	{
 		glUniformMatrix3fv(glGetUniformLocation(ShaderProgram, UniformName.c_str()), 1, GL_FALSE, glm::value_ptr(Matrix));
 	}
 
-	void Shader::UniformMat4(std::string& UniformName, glm::mat4 Matrix)
+	void Shader::UniformMat4(std::string UniformName, glm::mat4 Matrix)
 	{
 		glUniformMatrix4fv(glGetUniformLocation(ShaderProgram, UniformName.c_str()), 1, GL_FALSE, glm::value_ptr(Matrix));
 	}

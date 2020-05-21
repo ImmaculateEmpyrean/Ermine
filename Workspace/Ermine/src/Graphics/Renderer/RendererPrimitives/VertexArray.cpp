@@ -82,7 +82,7 @@ namespace Ermine
 		Ibo.UnBind();
 	}
 	
-	void VertexArray::SetVertexAttribArray(std::vector<VertexAttribPointerSpecification>& SpecContainer)
+	void VertexArray::SetVertexAttribArray(std::vector<VertexAttribPointerSpecification> SpecContainer)
 	{
 		//Copy The Buffer Over So That Future Copying And Moving Can Be Done Easily..
 		BufferToStoreAllRecievedSpecification = SpecContainer;

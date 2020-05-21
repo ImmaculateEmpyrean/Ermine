@@ -67,6 +67,8 @@ namespace Ermine
 
 		InputInterrogator InpInterrogator;
 
+		bool Quit = false;
+
 		friend int ::main(int argc, char* argv[]);
 	};
 }

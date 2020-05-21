@@ -39,7 +39,7 @@ namespace Ermine
 		void Bind();
 		void UnBind();
 
-		void SetVertexAttribArray(std::vector<VertexAttribPointerSpecification>& SpecContainer);
+		void SetVertexAttribArray(std::vector<VertexAttribPointerSpecification> SpecContainer);
 
 		int GetIndexBufferLength();
 

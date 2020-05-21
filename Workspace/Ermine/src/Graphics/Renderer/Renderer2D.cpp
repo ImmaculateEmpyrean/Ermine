@@ -71,7 +71,7 @@ namespace Ermine
 		Renderer->SceneBegin = false;
 
 		DrawActorsHelper();
-		DrawTileMapHelper();
+		Renderer->DrawTileMapHelper();
 	}
 
 	void Renderer2D::SetNumberOfGridsOnScreen(glm::vec<2, int> NumberOnXAndY)
@@ -176,13 +176,11 @@ namespace Ermine
 				Shd.Bind();
 				Vao->Bind();
 
-				std::vector<VertexAttribPointerSpecification> Spec = {
+				Vao->SetVertexAttribArray({
 				{3,GL_FLOAT,false},
 				{2,GL_FLOAT,false},
 				{1,GL_FLOAT,false}
-				};
-
-				Vao->SetVertexAttribArray(Spec);
+				});
 
 				static glm::mat4 ProjectionViewMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);
 

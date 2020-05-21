@@ -69,6 +69,9 @@ void Ermine::App::NextFrame()
 	WindowHandler::GlobalWindowHandler->UpdateDraw();
 	OnTick();
 	ManagedWindow->PostNewFrameProcess();
+
+	
+	Quit = glfwWindowShouldClose((GLFWwindow*)ManagedWindow->GetContext());
 }
 
 void Ermine::App::OnAttach()
@@ -235,7 +238,25 @@ void Ermine::App::OnTick()
 
 	Renderer2D::EndScene();*/
 	
-	Ermine::TileMap Map("TileMap/TestTileMap.json");
+	//Ermine::TileSet Set("TileSet/TileSetTest.json");
+	//Ermine::TileMap Map("TileMap/TestTileMap.json");
+
+	/*Actor2D Act = Actor2D(Set.GetTile(2));//Set.GetTile(10));
+
+	glm::mat4 Camera = glm::mat4(1.0f);
+	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	auto ProjectionMatrix = glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
+
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+
+	//Renderer2D::DrawTileMap(&Map);
+	Renderer2D::DrawActor2D(&Act);
+
+	Renderer2D::EndScene(); */
+std::cout << "----------------------------------------------- StartLine" << std::endl;
+ResetCount();
+	static Ermine::TileMap Map("TileMap/TestTileMap.json");
 		
 	static Ermine::TileSet Set("TileSet/TileSetTest.json");
 	
@@ -264,9 +285,9 @@ void Ermine::App::OnTick()
 	auto ProjectionMatrix = glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f,-5.0f,5.0f);
 
 
-	Act.Translate({ 0.001f,0.001f });
+	/*Act.Translate({ 0.001f,0.001f });
 	Act.Rotate(1);
-	Act.Scale({ 1.005f,1.005f });
+	Act.Scale({ 1.005f,1.005f });*/
 
 	Renderer2D::BeginScene(Camera, ProjectionMatrix);
 
@@ -274,6 +295,8 @@ void Ermine::App::OnTick()
 	Renderer2D::DrawActor2D(&Act);
 
 	Renderer2D::EndScene();
+	std::cout << "----------------------------------------------- EndLine"<< std::endl;
+	PrintCount();
 }
 
 void Ermine::App::OnDetach()

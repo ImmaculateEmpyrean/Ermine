@@ -46,7 +46,7 @@ namespace Ermine
 
 	private:
 		static void DrawActorsHelper();
-		static void DrawTileMapHelper();
+		void DrawTileMapHelper();
 
 		std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer,
 																										   TileMap* tm);

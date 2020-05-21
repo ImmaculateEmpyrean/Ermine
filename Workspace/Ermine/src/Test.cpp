@@ -18,12 +18,12 @@ void DLL __cdecl TestFunc();
 
 int main(int argc, char* argv[])
 {
-	
-
 	auto App = Ermine::App::Get();
 	Test::InputChecker InpObj;
-	while (true)
+	while (!App->Quit)
 	{
 		App->NextFrame();
 	}
+
+	_CrtDumpMemoryLeaks();
 }
