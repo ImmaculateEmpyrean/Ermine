@@ -254,8 +254,8 @@ void Ermine::App::OnTick()
 	Renderer2D::DrawActor2D(&Act);
 
 	Renderer2D::EndScene(); */
-std::cout << "----------------------------------------------- StartLine" << std::endl;
-ResetCount();
+//std::cout << "----------------------------------------------- StartLine" << std::endl;
+//ResetCount();
 	static Ermine::TileMap Map("TileMap/TestTileMap.json");
 		
 	static Ermine::TileSet Set("TileSet/TileSetTest.json");
@@ -276,8 +276,11 @@ ResetCount();
 		c = 0;
 	
 	static Texture* Tex = new Texture("AnoHiMitaHana.png");
-	static Sprite* spr = new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
-	Actor2D Act = Actor2D(Set.GetTile(c));//Set.GetTile(10));
+	//Sprite* spr = new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
+	auto a = glm::vec2(0.0f, 0.0f);
+	auto b = glm::vec2(1.0f, 1.0f);
+	std::shared_ptr<Sprite> spr(new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f }));
+	Actor2D Act = Actor2D(spr);//Actor2D(Set.GetTile(c));//Actor2D(Set.GetTile(c));//Set.GetTile(10));
 
 	glm::mat4 Camera = glm::mat4(1.0f);
 	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
@@ -295,8 +298,10 @@ ResetCount();
 	Renderer2D::DrawActor2D(&Act);
 
 	Renderer2D::EndScene();
-	std::cout << "----------------------------------------------- EndLine"<< std::endl;
-	PrintCount();
+
+	//delete spr;
+	//std::cout << "----------------------------------------------- EndLine"<< std::endl;
+	//PrintCount();
 }
 
 void Ermine::App::OnDetach()

@@ -43,7 +43,7 @@ namespace Ermine
 
 
 
-void* operator new(size_t size)
+/*void* operator new(size_t size)
 {
 	Count++;
 	std::cout << "New operator allocating : " << size<<std::endl;
@@ -56,4 +56,4 @@ void operator delete(void* p)
 	Count--;
 	std::cout << "Delete operator Deleting" <<std::endl;
 	free(p);
-}
+}*/

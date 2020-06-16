@@ -92,17 +92,6 @@ namespace Ermine
 		}
 		
 		return TileSetsBuffer[c]->GetTile(Index);
-
-		/*int c = 0;
-		while (Index < TileSetEndIndexTracker[c] || c < TileSetEndIndexTracker.size())
-			c++;
-
-		if (c >= TileSetEndIndexTracker.size())
-			c--;
-
-		Index = Index - TileSetStartIndexTracker[c];
-
-		return TileSetsBuffer[c]->GetTile(Index); */
 	}
 
 

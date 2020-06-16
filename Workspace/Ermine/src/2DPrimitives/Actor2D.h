@@ -18,16 +18,16 @@ namespace Ermine {
 		Actor2D() = delete;
 
 		//Atleast a sprite is required to construct an actor 
-		Actor2D(Sprite* Spr);
+		Actor2D(std::shared_ptr<Sprite> Spr);
 
 		//This is The Default And BEst Constructor
-		Actor2D(Sprite* Spr, glm::mat4 ModelMatrix);
+		Actor2D(std::shared_ptr<Sprite> Spr, glm::mat4 ModelMatrix);
 
 		//This Class Owns And Manages Pointers
 		~Actor2D();
 
 	public:
-		Sprite* GetSprite();
+		std::shared_ptr<Sprite> GetSprite();
 
 		void Translate(float x, float y);
 		void Translate(glm::vec2 TranslateByHowMuch);
@@ -56,7 +56,7 @@ namespace Ermine {
 
 	private:
 		glm::mat4 RecievedModelMatrix; //This Is Related To The World
-		Sprite* Actorsprite; //This Sprite Is Owned By The Actor And Is Freed When The Actor2D Is Destroyed..
+		std::shared_ptr<Sprite> Actorsprite; //This Sprite Is Owned By The Actor And Is Freed When The Actor2D Is Destroyed Probably..
 
 		glm::mat4 TranslationMatrix;
 		glm::mat4 RotationMatrix;

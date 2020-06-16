@@ -5,7 +5,7 @@
 
 namespace Ermine
 {
-	Actor2D::Actor2D(Sprite* Spr)
+	Actor2D::Actor2D(std::shared_ptr<Sprite> Spr)
 		:
 		Actorsprite(Spr)
 	{
@@ -15,7 +15,7 @@ namespace Ermine
 
 		RecievedModelMatrix = glm::mat4(1.0f);
 	}
-	Actor2D::Actor2D(Sprite* Spr, glm::mat4 ModelMatrix)
+	Actor2D::Actor2D(std::shared_ptr<Sprite> Spr, glm::mat4 ModelMatrix)
 		:
 		Actorsprite(Spr),
 		RecievedModelMatrix(ModelMatrix)
@@ -26,11 +26,10 @@ namespace Ermine
 	}
 
 	Actor2D::~Actor2D()
-	{
-	}
+	{}
 
 
-	Sprite* Actor2D::GetSprite()
+	std::shared_ptr<Sprite> Actor2D::GetSprite()
 	{
 		return Actorsprite;
 	}

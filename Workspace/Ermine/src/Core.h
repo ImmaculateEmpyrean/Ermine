@@ -21,5 +21,4 @@ namespace Ermine
 	int GetScreenHeight();
 	int GetScreenWidth();
 
-
 }
