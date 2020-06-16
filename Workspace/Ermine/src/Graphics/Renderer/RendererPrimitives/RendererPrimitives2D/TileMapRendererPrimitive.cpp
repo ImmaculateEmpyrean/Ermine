@@ -48,4 +48,11 @@ namespace Ermine
 	{
 		return TextureToNumberCache[index];
 	}
+	
+
+	void TileMapRendererPrimitive::Flush()
+	{
+		LayerVertexArray.clear();
+		TextureToNumberCache.clear();
+	}
 }

@@ -9,6 +9,8 @@
 #include <nlohmann/json.hpp>
 #include "TileSet.h"
 
+#include "Graphics/Renderer/RendererPrimitives/RendererPrimitives2D/TileMapRendererPrimitive.h"
+
 namespace Ermine
 {
 	class Renderer2D; //Forward Declaration..
@@ -81,7 +83,9 @@ namespace Ermine
 
 		//Set The TileMapPath Variable Before Calling This Method Otherwise It Wont Work..
 		void LoadTileMapFromPath();
-
+		void CreateRendererFriendlyDrawable();
+		std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer);
+	
 	private:
 		std::filesystem::path TileMapPath;
 
@@ -96,6 +100,11 @@ namespace Ermine
 		std::vector<int> TileSetStartIndexTracker;
 		//This Vector Is Used To Map TileMap Index To TileSetIndex..
 		std::vector<int> TileSetEndIndexTracker;
+
+		//This Variable is used by the renderer to draw the Tilemap in question
+		Ermine::TileMapRendererPrimitive RendererFriendlyDrawable;
+		int NumberOfGridsInXOnScreen = 10; //Please Include Functions For This In The Api In The Near Future..
+		int NumberOfGridsInYOnScreen = 10; //Please Include Functions For This In The Api In The Near Future..
 
 		friend class Ermine::Renderer2D;
 	};

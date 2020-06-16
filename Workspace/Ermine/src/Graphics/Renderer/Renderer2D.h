@@ -14,7 +14,7 @@
 #include "2DPrimitives/TileMap.h"
 
 #include "RendererPrimitives/VertexArray.h"
-#include "RendererPrimitives/RendererPrimitives2D/TileMapRendererPrimitive.h"
+//#include "RendererPrimitives/RendererPrimitives2D/TileMapRendererPrimitive.h"
 
 namespace Ermine
 {
@@ -68,6 +68,6 @@ namespace Ermine
 		int NumberOfGridsInXOnScreen = 10;
 		int NumberOfGridsInYOnScreen = 10;
 		
-		std::unordered_map<std::filesystem::path, Ermine::TileMapRendererPrimitive> RenderPrimitiveCache;
+		//std::unordered_map<std::filesystem::path, Ermine::TileMapRendererPrimitive> RenderPrimitiveCache;
 	};
 }

@@ -76,7 +76,7 @@ namespace Ermine
 
 	void Renderer2D::SetNumberOfGridsOnScreen(glm::vec<2, int> NumberOnXAndY)
 	{
-		auto Renderer = Ermine::Renderer2D::Get();
+		/*auto Renderer = Ermine::Renderer2D::Get();
 
 		if (NumberOnXAndY.x == Renderer->NumberOfGridsInXOnScreen)
 		{
@@ -86,7 +86,7 @@ namespace Ermine
 			}
 			else Renderer->RenderPrimitiveCache.clear();
 		}
-		else Renderer->RenderPrimitiveCache.clear();
+		else Renderer->RenderPrimitiveCache.clear();*/
 	}
 
 
@@ -142,7 +142,7 @@ namespace Ermine
 
 		for (auto map : Renderer->StowedTileMaps)
 		{
-			auto Iter = Renderer->RenderPrimitiveCache.find(map->TileMapPath);
+			/*auto Iter = Renderer->RenderPrimitiveCache.find(map->TileMapPath);
 			if (Iter == Renderer->RenderPrimitiveCache.end())
 			{
 				//Not Found..
@@ -161,9 +161,9 @@ namespace Ermine
 					RendererPrimitive.SubmitLayerTextureToNumberCache(i);
 
 				Renderer->RenderPrimitiveCache[map->TileMapPath] = RendererPrimitive;
-			}
+			}*/
 
-			auto DrawPrimitive = Renderer->RenderPrimitiveCache[map->TileMapPath];
+			auto DrawPrimitive = map->RendererFriendlyDrawable;//Renderer->RenderPrimitiveCache[map->TileMapPath];
 
 			for (int i = 0; i < DrawPrimitive.GetNumberOfLayersStored(); i++)
 			{

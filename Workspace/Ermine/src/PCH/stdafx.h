@@ -30,3 +30,4 @@
 #include <nlohmann/json.hpp>
 #include "ErmineJsonFunctions.h""
 
+#include "Core.h"

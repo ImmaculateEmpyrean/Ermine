@@ -39,6 +39,8 @@ namespace Ermine
 
 		std::unordered_map<std::filesystem::path, float> GetTextureToNumberCache(int index);
 
+		void Flush(); //This Clears The Contents of This Object..
+
 	protected:
 
 	protected:
