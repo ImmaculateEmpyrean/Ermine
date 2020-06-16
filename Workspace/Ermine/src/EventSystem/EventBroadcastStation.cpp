@@ -3,118 +3,109 @@
 
 Ermine::EventBroadcastStation* Ermine::EventBroadcastStation::EventBroadcastStationPointer = nullptr; //Note The Broadcast Station is not initialized
 std::once_flag Ermine::EventBroadcastStation::LazyInitializationFlag;
-
-//std::mutex Ermine::EventBroadcastStation::GetStationLock;
+std::atomic<bool> Ermine::EventBroadcastStation::StationDestructionOrdered = false;
+std::thread* Ermine::EventBroadcastStation::StationThreadObject;
 std::mutex Ermine::EventBroadcastStation::MainMutex;
 
 void EventBroadcastStationMainRoutine()
 {
-	_sleep(1000);
-
-	while (true)
+	while (Ermine::EventBroadcastStation::StationDestructionOrdered == false)
 	{
 		_sleep(100);
-		std::lock_guard<std::mutex> Loc(Ermine::EventBroadcastStation::MainMutex,std::adopt_lock);
-		//std::cout << "Woke up from Sleep" << std::endl;
 		auto Station = Ermine::EventBroadcastStation::GetStation();
 		Station->DispatchMessages();
 	}
 }
 
 
+Ermine::EventBroadcastStation::~EventBroadcastStation()
+{}
+
 Ermine::EventBroadcastStation* Ermine::EventBroadcastStation::GetStation()
 {
 	//std::lock_guard<std::mutex> GetStationLockGaurd(GetStationLock); //This Ensures Only One Thread Can Access The Retuen At a Given Time
 	
-
 	std::call_once(LazyInitializationFlag, []() {
 		EventBroadcastStationPointer = new EventBroadcastStation(); //Create A New event Broadcast Station..
-		std::thread NewThreadObject(EventBroadcastStationMainRoutine);
-		NewThreadObject.detach(); //This Will Run Indefinitely I Guess No Need To Bother about It I think
+		StationThreadObject = new std::thread(EventBroadcastStationMainRoutine);
 	});
 
-	std::lock_guard<std::mutex> Loc(MainMutex,std::adopt_lock);
+	std::unique_lock<std::mutex> Loc(MainMutex);//,std::adopt_lock);
 	return EventBroadcastStationPointer;
+}
+
+void Ermine::EventBroadcastStation::DestroyStation()
+{
+	StationDestructionOrdered = true;
+	if (EventBroadcastStationPointer != nullptr)
+	{
+		if (StationThreadObject != nullptr)
+		{
+			StationThreadObject->join();
+			delete StationThreadObject;
+		}
+		delete EventBroadcastStationPointer;
+	}
 }
 
 void Ermine::EventBroadcastStation::QueueBroadcast(std::unique_ptr<Event> BroadcastPackage)
 {
+	std::unique_lock<std::mutex> Loc(MainMutex);//, std::adopt_lock);//std::lock_guard<std::mutex> Loc(MainMutex,std::adopt_lock);
+	
 	Ermine::EventType BroadcastType = BroadcastPackage->GetEventType();
-#pragma region OldWay
-	/*if (BroadcastType == EventType::ConcreteEvent)
-	{
-		std::lock_guard<std::mutex> Loc(MainMutex, std::adopt_lock);
-		ConcreteEventsQueue.push_back(*((ConcreteEvent*)(BroadcastPackage.release())));
-	}
-
-	else
-		std::cout << "Unkown Type Got" << std::endl;*/
-#pragma endregion OldWay
-
-	std::lock_guard<std::mutex> Loc(MainMutex, std::adopt_lock);
+	Event* EvePtr = BroadcastPackage.release();
 
 	switch(BroadcastType)
 	{
-	case EventType::ConcreteEvent:ConcreteEventsQueue.push_back(*((ConcreteEvent*)(BroadcastPackage.release())));
+	case EventType::ConcreteEvent:ConcreteEventsQueue.push_back(*((ConcreteEvent*)(EvePtr)));
 		break;
-	case EventType::KeyCallbackEvent:KeyCallbackEventsQueue.push_back(*((KeyCallbackEvent*)(BroadcastPackage.release())));
+	case EventType::KeyCallbackEvent:KeyCallbackEventsQueue.push_back(*((KeyCallbackEvent*)(EvePtr)));
 		break;
-	case EventType::CharacterCallbackEvent:CharacterCallbackEventsQueue.push_back(*((CharacterCallbackEvent*)(BroadcastPackage.release())));
+	case EventType::CharacterCallbackEvent:CharacterCallbackEventsQueue.push_back(*((CharacterCallbackEvent*)(EvePtr)));
 		break;
-	case EventType::CursorPositionCallbackEvent:CursorPositionCallbackEventsQueue.push_back(*((CursorPositionCallbackEvent*)(BroadcastPackage.release())));
+	case EventType::CursorPositionCallbackEvent:CursorPositionCallbackEventsQueue.push_back(*((CursorPositionCallbackEvent*)(EvePtr)));
 		break;
-	case EventType::MouseButtonCallbackEvent:MouseButtonCallbackEventsQueue.push_back(*((MouseButtonCallbackEvent*)(BroadcastPackage.release())));
+	case EventType::MouseButtonCallbackEvent:MouseButtonCallbackEventsQueue.push_back(*((MouseButtonCallbackEvent*)(EvePtr)));
 		break;
-	case EventType::ScrollCallbackEvent:ScrollCallbackEventsQueue.push_back(*((ScrollCallbackEvent*)(BroadcastPackage.release())));
+	case EventType::ScrollCallbackEvent:ScrollCallbackEventsQueue.push_back(*((ScrollCallbackEvent*)(EvePtr)));
 		break;
-	default: STDOUTDefaultLog_Error("Unknown Event Type Recieved For QUeing Check Api Maybe... Dunno I should never trigger");
+	default: STDOUTDefaultLog_Critical("Unknown Event Type Recieved For QUeing Check Api Maybe... Dunno I should never trigger");
 	}
+	delete EvePtr;
 }
 
 void Ermine::EventBroadcastStation::QueueSubscription(std::unique_ptr<EventSubscription> Subscription)
 {
-#pragma region OldWayOfImplementation
-	/*auto SubscriptionType = Subscription->GetEventSubscriptionType();
-	if (SubscriptionType == EventType::ConcreteEvent)
-	{
-		std::lock_guard<std::mutex> Loc(MainMutex, std::adopt_lock);
-		ConcreteEventSubscriptions.push_back(*((ConcreteEventSubscription*)(Subscription.release())));
-	}
-	else if (SubscriptionType == EventType::KeyCallbackEvent)
-	{
-		std::lock_guard<std::mutex> Loc(MainMutex, std::adopt_lock);
-		KeyCallbackEventsSubscriptions.push_back(*((KeyCallbackEventSubscription*)(Subscription.release())));
-	}
-	else
-		std::cout << "Unkown Type Got" << std::endl;*/
-#pragma endregion OldWayofImplementation
+	std::unique_lock<std::mutex> Loc(MainMutex);//, std::adopt_lock);//std::lock_guard<std::mutex> Loc(MainMutex, std::adopt_lock);
 	
-	std::lock_guard<std::mutex> Loc(MainMutex, std::adopt_lock);
 	auto SubscriptionType = Subscription->GetEventSubscriptionType();
-	
+	EventSubscription* EvePtr = Subscription.release();
+
 	switch (SubscriptionType)
 	{
-	case EventType::ConcreteEvent : ConcreteEventSubscriptions.push_back(*((ConcreteEventSubscription*)(Subscription.release())));
+	case EventType::ConcreteEvent : ConcreteEventSubscriptions.push_back(*((ConcreteEventSubscription*)(EvePtr)));
 		break;
-	case EventType::KeyCallbackEvent : KeyCallbackEventsSubscriptions.push_back(*((KeyCallbackEventSubscription*)(Subscription.release())));
+	case EventType::KeyCallbackEvent : KeyCallbackEventsSubscriptions.push_back(*((KeyCallbackEventSubscription*)(EvePtr)));
 		break;
-	case EventType::CharacterCallbackEvent: CharacterCallbackEventSubscriptions.push_back(*((CharacterCallbackEventSubscription*)(Subscription.release())));
+	case EventType::CharacterCallbackEvent: CharacterCallbackEventSubscriptions.push_back(*((CharacterCallbackEventSubscription*)(EvePtr)));
 		break;
-	case EventType::CursorPositionCallbackEvent: CursorPositionCallbackEventSubscriptions.push_back(*((CursorPositionCallbackEventSubscription*)(Subscription.release())));
+	case EventType::CursorPositionCallbackEvent: CursorPositionCallbackEventSubscriptions.push_back(*((CursorPositionCallbackEventSubscription*)(EvePtr)));
 		break;
-	case EventType::MouseButtonCallbackEvent: MouseButtonCallbackEventSubscriptions.push_back(*((MouseButtonCallbackEventSubscription*)(Subscription.release())));
+	case EventType::MouseButtonCallbackEvent: MouseButtonCallbackEventSubscriptions.push_back(*((MouseButtonCallbackEventSubscription*)(EvePtr)));
 		break;
-	case EventType::ScrollCallbackEvent: ScrollCallbackEventSubscriptions.push_back(*((ScrollCallbackEventSubscription*)(Subscription.release())));
+	case EventType::ScrollCallbackEvent: ScrollCallbackEventSubscriptions.push_back(*((ScrollCallbackEventSubscription*)(EvePtr)));
 		break;
-	default: STDOUTDefaultLog_Error("Unknown Subscription Type Recieved For QUeing Check Api Maybe... Dunno I should never trigger");
+	default: STDOUTDefaultLog_Critical("Unknown Subscription Type Recieved For Queing Check Api Maybe... Dunno I should never trigger");
 	}
+
+	delete EvePtr;
 }
 
 
 
 void Ermine::EventBroadcastStation::DispatchMessages()
 {
-	std::lock_guard<std::mutex> Loc(MainMutex, std::adopt_lock);
+	std::unique_lock<std::mutex> Loc(MainMutex);//std::lock_guard<std::mutex> Loc(MainMutex, std::adopt_lock);
 	
 	//Just Iterate Over All Buffers And Try To Dispatch The Messages...
 	DispatchConcreteMessages();

@@ -1,6 +1,6 @@
 #pragma once
-#include "EventSystem/Event.h"
-#include "EventSystem/EnumEventType.h"
+#include "../Event.h"
+#include "../EnumEventType.h"
 
 #include<string>
 #include<functional>
@@ -14,7 +14,7 @@ namespace Ermine
 	class ConcreteEvent:public Event
 	{
 	public:
-		ConcreteEvent() = default;//=delete;
+		ConcreteEvent() = default;
 		ConcreteEvent(std::string MessageToBeTransmitted);
 
 	private:

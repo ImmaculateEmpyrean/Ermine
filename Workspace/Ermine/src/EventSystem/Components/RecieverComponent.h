@@ -12,12 +12,6 @@
 #include "../EventBroadcastStation.h"
 
 #include "../Event.h"
-#include "../EventTypes/TestConcreteEvent.h"
-#include "../EventTypes/KeyCallbackEvent.h"
-#include "../EventTypes/CharacterCallbackEvent.h"
-#include "../EventTypes/CursorPositionCallbackEvent.h"
-#include "../EventTypes/MouseButtonCallbackEvent.h"
-#include "../EventTypes/ScrollCallbackEvent.h"
 
 //Here x is the name of the method in THIS class...(Note Context Is Important this uses "this" Operator
 #ifndef GenCallableFromMethod(x)
@@ -29,16 +23,9 @@ namespace Ermine
 	class RecieverComponent
 	{
 	public:
-		//No Point in Having an Empty Reciever
-		RecieverComponent() = delete;
-		RecieverComponent(std::function<void(Event*)> Callable, std::atomic<bool>& SwitchTOControlIfAnEventCanBeExecuted,
-						  EventType SubscriptionType);
-
-	private:
-		std::function<void(Event*)> Callable;
-		std::atomic<bool>& Switch;
-		EventType RefToEventType;
-
+		//There Is Absolutely No Reason To Ever Create A Reciever Component..
+		RecieverComponent() = delete; 
+	
 	public:
 		//Use This New Function More
 		static void Bind(std::function<void(Event*)> Callable, std::atomic<bool>& SwitchTOControlIfAnEventCanBeExecuted,

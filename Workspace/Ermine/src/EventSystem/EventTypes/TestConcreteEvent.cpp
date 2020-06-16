@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "TestConcreteEvent.h"
 
+#include<iostream>
+
 namespace Ermine
 {
 	////////////////////////////////////////////////////////

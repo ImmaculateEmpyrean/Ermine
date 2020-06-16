@@ -24,19 +24,21 @@ namespace Ermine
 	{
 	private:
 		EventBroadcastStation() = default; //Dont Think we Would Need a Custom Constructor Yet
+		~EventBroadcastStation(); //A Destructor to avoid detecting memory leaks when the program closes besides its good practice right 
+
 		static EventBroadcastStation* EventBroadcastStationPointer;
 		static std::once_flag LazyInitializationFlag;
+		static std::thread* StationThreadObject;
+	public:
+		static std::atomic<bool> StationDestructionOrdered; //This Flag Is Set Public Because There are some people who would like to know if god has been destroyed
 
-	private:
-		//This Section Contains an assortments of locks
-		//static std::mutex GetStationLock; 
 	public:
 		static std::mutex MainMutex;
-		//std::mutex QueueBroadcastLock;
-		//std::mutex QueueSubscriptionLock;
 
 	public:
 		static EventBroadcastStation* GetStation(); //This is a static method and will allow the user to get a line with the station in question
+		static void DestroyStation(); //This is a static method and will allow the user to Destroy the station in question
+
 		void DispatchMessages(); //This Will Trigger Delievery of Messages //Note Lock Mutexes Appropriately...
 		
 		void QueueBroadcast(std::unique_ptr<Event> BroadcastPackage); //This Message Is Used To Send in a package for Broadcast
@@ -44,12 +46,15 @@ namespace Ermine
 
 	private:
 		//This Is The Storage Area We Will Store Everything Of Note Here...
+
+		//All Different Events Are Stored In Different Containers So As To Parallilize Submitions.. Two Objects Wanting To Queue Two Different Types Of Events Need not wait ..   
 		std::vector<ConcreteEvent> ConcreteEventsQueue; //These Are submitted events..
 		std::vector<KeyCallbackEvent> KeyCallbackEventsQueue;
 		std::vector<CharacterCallbackEvent>CharacterCallbackEventsQueue;
 		std::vector<CursorPositionCallbackEvent>CursorPositionCallbackEventsQueue;
 		std::vector<MouseButtonCallbackEvent>MouseButtonCallbackEventsQueue;
 		std::vector<ScrollCallbackEvent>ScrollCallbackEventsQueue;
+		//Donot Forget to add destructors for these containers inside the destructor..
 
 	private:
 		//We Will Store The Subscriptions Here...
@@ -59,6 +64,7 @@ namespace Ermine
 		std::vector<CursorPositionCallbackEventSubscription> CursorPositionCallbackEventSubscriptions;
 		std::vector<MouseButtonCallbackEventSubscription> MouseButtonCallbackEventSubscriptions;
 		std::vector<ScrollCallbackEventSubscription> ScrollCallbackEventSubscriptions;
+		//Donot Forget to add destructors for these containers inside the destructor..
 
 	private:
 		//Helper Functions For Dispatching Stuff To Right Destinations---
@@ -68,7 +74,6 @@ namespace Ermine
 		void DispatchCursorPositionCallbackMessages();
 		void DispatchMouseButtonCallbackMessages();
 		void DispatchScrollCallbackMessages();
-		
 
 	};
 

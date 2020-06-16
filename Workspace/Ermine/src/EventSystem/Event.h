@@ -10,6 +10,8 @@ namespace Ermine
 	{
 	public:
 		Event() = default;
+		virtual ~Event() {}; //This Has To Have a virtual Destructor So That Destructor Calls Are Dispatched Forward..
+
 	public:
 		virtual EventType GetEventType() = 0; //There is no point in an event like this.. hence it is a pure virtual method
 
@@ -23,6 +25,8 @@ namespace Ermine
 	public:
 		EventSubscription();
 		EventSubscription(std::atomic<bool>& CanIRecieveEventNowFlag);
+		virtual ~EventSubscription() {}; //This Has To Have a virtual Destructor So That Destructor Calls Are Dispatched Forward..
+
 	public:
 		virtual EventType GetEventSubscriptionType() = 0; //There is no point in an event like this.. hence it is a pure virtual method
 		

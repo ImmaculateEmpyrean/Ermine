@@ -15,19 +15,9 @@ namespace Ermine
 	class BroadcastComponent
 	{
 	public:
-		BroadcastComponent();
-
-	private:
-		static std::once_flag BroadcastComponentInitializationFlag;
-		static Ermine::EventBroadcastStation* ConnectionToStation;
-		std::vector<std::unique_ptr<Event>> EventsThatCanBeBroadcasted;
-
-	public:
-		//Recieves A Token Which Can Be USed To instruct The Sender Object To Broadcast Stuff...
-		unsigned int AddEventForBroadcasting(std::unique_ptr<Event> EventToQueueForSending);
-		void BroadcastEventFromQueue(unsigned int& RecievedToken);
-
-		//Event Will Be Sent To The Station Now...
+		//There Is Absolutely No Reason To Create An Object Of A BroadcastComponent Just Broadcast What Is Needed Using The Api..
+		BroadcastComponent() = delete;
+		
 		static void BroadcastEvent(std::unique_ptr<Event> EventToBeBroadcasted);
 	};
 }

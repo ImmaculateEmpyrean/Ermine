@@ -1,6 +1,6 @@
 #pragma once
-#include "EventSystem/Event.h"
-#include "EventSystem/EnumEventType.h"
+#include "../Event.h"
+#include "../EnumEventType.h"
 
 #include<string>
 #include<functional>
