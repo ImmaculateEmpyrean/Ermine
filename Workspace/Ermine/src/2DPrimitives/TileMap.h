@@ -37,7 +37,7 @@ namespace Ermine
 		int GetStartIndex(); 
 		int GetEndIndex();
 
-		Ermine::Sprite* GetSprite(int Index);
+		std::shared_ptr<Sprite> GetSprite(int Index);
 
 	public:
 

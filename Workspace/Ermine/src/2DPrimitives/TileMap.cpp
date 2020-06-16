@@ -77,7 +77,7 @@ namespace Ermine
 		return TileSetStartIndexTracker[TileSetStartIndexTracker.size() - 1] + TileSetsBuffer[TileSetsBuffer.size() - 1]->GetNumberOfSpritesInTileSet();
 	}
 
-	Ermine::Sprite* TileMap::GetSprite(int Index)
+	std::shared_ptr<Sprite> TileMap::GetSprite(int Index)
 	{
 		//This Still Does Not Work..
 		//We WIll Simply Check RAnge

@@ -13,10 +13,7 @@ namespace Ermine
 	}
 
 	TileSet::~TileSet()
-	{
-		for (auto& a : SpritesInTheTileset)
-			delete a;
-	}
+	{}
 
 
 	TileSet::TileSet(const TileSet& rhs)
@@ -62,7 +59,7 @@ namespace Ermine
 	}
 
 
-	Sprite* TileSet::GetTile(int index)
+	std::shared_ptr<Sprite> TileSet::GetTile(int index)
 	{
 		return SpritesInTheTileset[index];
 	}

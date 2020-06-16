@@ -280,7 +280,7 @@ void Ermine::App::OnTick()
 	auto a = glm::vec2(0.0f, 0.0f);
 	auto b = glm::vec2(1.0f, 1.0f);
 	std::shared_ptr<Sprite> spr(new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f }));
-	Actor2D Act = Actor2D(spr);//Actor2D(Set.GetTile(c));//Actor2D(Set.GetTile(c));//Set.GetTile(10));
+	Actor2D Act = Actor2D(Set.GetTile(c));//Actor2D(spr);//Actor2D(Set.GetTile(c));//Actor2D(Set.GetTile(c));//Set.GetTile(10));
 
 	glm::mat4 Camera = glm::mat4(1.0f);
 	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));

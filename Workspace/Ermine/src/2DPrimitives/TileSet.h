@@ -2,6 +2,7 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include<memory>
 
 #include<fstream>
 #include<filesystem>
@@ -32,11 +33,11 @@ namespace Ermine
 		//Compares The Two TileSets Filepath..
 		bool operator==(TileSet& rhs);
 
-		Sprite* GetTile(int index); //Returns The Tile At That Index..
+		std::shared_ptr<Sprite> GetTile(int index); //Returns The Tile At That Index..
 
 		std::filesystem::path GetFilePath();
 
-		std::vector<Sprite*> GetSpriteBuffer() { return SpritesInTheTileset; }
+		std::vector<std::shared_ptr<Sprite>> GetSpriteBuffer() { return SpritesInTheTileset; }
 		int GetNumberOfSpritesInTileSet() { return SpritesInTheTileset.size(); };
 
 	public:
@@ -60,7 +61,7 @@ namespace Ermine
 	private:
 		std::string TileSetName;
 
-		std::vector<Sprite*> SpritesInTheTileset; //The Tileset After Loading Contains Ready To Draw Tiles Anybody Can Merely Request What They Want My Passing In an Index..
+		std::vector<std::shared_ptr<Sprite>> SpritesInTheTileset; //The Tileset After Loading Contains Ready To Draw Tiles Anybody Can Merely Request What They Want My Passing In an Index..
 
 		std::filesystem::path TileSetFilePath;
 		int TileWidth; 
