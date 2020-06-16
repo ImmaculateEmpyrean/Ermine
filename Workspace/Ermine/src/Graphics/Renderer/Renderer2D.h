@@ -13,6 +13,9 @@
 #include "2DPrimitives/Actor2D.h"
 #include "2DPrimitives/TileMap.h"
 
+#include "Graphics/Renderer/MaterialSystem/Shader.h"
+#include "Graphics/Renderer/MaterialSystem/Texture.h"
+
 #include "RendererPrimitives/VertexArray.h"
 //#include "RendererPrimitives/RendererPrimitives2D/TileMapRendererPrimitive.h"
 
@@ -21,7 +24,7 @@ namespace Ermine
 	class Renderer2D
 	{
 	public:
-		Renderer2D() = default;
+		Renderer2D();
 		~Renderer2D(); //Renderer2D Destructor..
 
 	public:
@@ -39,6 +42,9 @@ namespace Ermine
 		void ClearStowedActors();
 
 	public:
+		//Shader Cache
+		Ermine::Shader* Actor2DShader;
+		Ermine::Shader* TileMapShader;
 
 	protected:
 
@@ -48,8 +54,8 @@ namespace Ermine
 		static void DrawActorsHelper();
 		void DrawTileMapHelper();
 
-		std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer,
-																										   TileMap* tm);
+		//std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer,
+			//																							   TileMap* tm);
 
 	private:
 		static std::once_flag InitializationFlag;
@@ -67,7 +73,5 @@ namespace Ermine
 		//Variables Exclusive To TileMap Rendering
 		int NumberOfGridsInXOnScreen = 10;
 		int NumberOfGridsInYOnScreen = 10;
-		
-		//std::unordered_map<std::filesystem::path, Ermine::TileMapRendererPrimitive> RenderPrimitiveCache;
 	};
 }

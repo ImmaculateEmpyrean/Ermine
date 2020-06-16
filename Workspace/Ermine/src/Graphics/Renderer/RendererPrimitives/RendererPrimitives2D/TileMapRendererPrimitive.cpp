@@ -4,9 +4,7 @@
 namespace Ermine
 {
 	TileMapRendererPrimitive::~TileMapRendererPrimitive()
-	{
-		//Not Used As Of Now..
-	}
+	{}
 
 
 	void TileMapRendererPrimitive::SubmitLayerVao(VertexArray Vao)
@@ -36,6 +34,7 @@ namespace Ermine
 		else
 		{
 			STDOUTDefaultLog_Error("Error Layer Number Recieved Exceeds Our Cache.. TileMapRendererPrimitive");
+			__debugbreak(); //Guess This May Work Or Not !!!!!!!!
 			return nullptr;
 		}
 	}

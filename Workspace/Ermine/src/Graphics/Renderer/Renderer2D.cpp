@@ -24,9 +24,18 @@ Ermine::Renderer2D* Ermine::Renderer2D::GlobalRenderer2DObj;
 
 namespace Ermine
 {
+	Renderer2D::Renderer2D()
+	{
+		Actor2DShader = new Shader(std::filesystem::path("Shader/Vertex/Renderer2DActor2DVertex.vert"),
+								   std::filesystem::path("Shader/Fragment/Renderer2DActor2DFragment.frag"));
+
+		TileMapShader = new Shader(std::filesystem::path("Shader/Vertex/TileMapVertexShader.vert"),
+								   std::filesystem::path("Shader/Fragment/TileMapFragmentShader.frag"));
+	}
 	Renderer2D::~Renderer2D()
 	{
-
+		delete Actor2DShader;
+		delete TileMapShader;
 	}
 
 
@@ -100,9 +109,7 @@ namespace Ermine
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
 
-		static Shader* shd = new Shader(std::filesystem::path("Shader/Vertex/Renderer2DActor2DVertex.vert"),
-			std::filesystem::path("Shader/Fragment/Renderer2DActor2DFragment.frag"));
-		shd->Bind();
+		Renderer->Actor2DShader->Bind();
 
 		for (auto i : Renderer->StowedActors)
 		{
@@ -119,11 +126,11 @@ namespace Ermine
 			Vao.Bind();
 
 			glm::mat4 ModelMatrix = i->GetModelMatrix();
-			shd->UniformMat4(std::string("ModelMatrix"), ModelMatrix);
-			shd->UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+			Renderer->Actor2DShader->UniformMat4(std::string("ModelMatrix"), ModelMatrix);
+			Renderer->Actor2DShader->UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
 
 			i->GetSprite()->GetTexture()->Bind(0);
-			shd->Uniformi(std::string("texture1"), 0);
+			Renderer->Actor2DShader->Uniformi(std::string("texture1"), 0);
 
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		}
@@ -142,38 +149,14 @@ namespace Ermine
 
 		for (auto map : Renderer->StowedTileMaps)
 		{
-			/*auto Iter = Renderer->RenderPrimitiveCache.find(map->TileMapPath);
-			if (Iter == Renderer->RenderPrimitiveCache.end())
-			{
-				//Not Found..
-				for (auto Layer : map->GetAllLayers())
-				{
-					auto casket = Renderer->CreateVertexArrayForLayer(Layer, map);
-					VaoArray.emplace_back(casket.first);
-					TextureMappingCache.emplace_back(casket.second);
-				}
-				Ermine::TileMapRendererPrimitive RendererPrimitive;
-				
-				for (auto i : VaoArray)
-					RendererPrimitive.SubmitLayerVao(i);
-
-				for (auto i : TextureMappingCache)
-					RendererPrimitive.SubmitLayerTextureToNumberCache(i);
-
-				Renderer->RenderPrimitiveCache[map->TileMapPath] = RendererPrimitive;
-			}*/
-
-			auto DrawPrimitive = map->RendererFriendlyDrawable;//Renderer->RenderPrimitiveCache[map->TileMapPath];
+			auto DrawPrimitive = map->RendererFriendlyDrawable;
 
 			for (int i = 0; i < DrawPrimitive.GetNumberOfLayersStored(); i++)
 			{
 				Ermine::VertexArray* Vao = DrawPrimitive.GetVao(i);
 				std::unordered_map<std::filesystem::path, float> TextureToNumberInVaoMapper = DrawPrimitive.GetTextureToNumberCache(i);
 
-				static Ermine::Shader Shd(std::filesystem::path("Shader/Vertex/TileMapVertexShader.vert"), 
-								   std::filesystem::path("Shader/Fragment/TileMapFragmentShader.frag"));
-
-				Shd.Bind();
+				Renderer->TileMapShader->Bind();
 				Vao->Bind();
 
 				Vao->SetVertexAttribArray({
@@ -184,7 +167,7 @@ namespace Ermine
 
 				static glm::mat4 ProjectionViewMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);
 
-				Shd.UniformMat4(std::string("ProjectionViewMatrix"), ProjectionViewMatrix); //Here See That The Projection MAtrix Is Akin To Screen Coordinates..
+				Renderer->TileMapShader->UniformMat4(std::string("ProjectionViewMatrix"), ProjectionViewMatrix); //Here See That The Projection MAtrix Is Akin To Screen Coordinates..
 
 				auto TextureCacheGlobal = Ermine::GlobalTextureCache::Get();
 				std::vector<float> TextureMappingUnits;
@@ -201,7 +184,7 @@ namespace Ermine
 					TextureMappingUnits[(int)i->second] = BoundSlot;
 				}
 				
-				Shd.UniformNf(std::string("Sampler2DArray"),TextureMappingUnits);
+				Renderer->TileMapShader->UniformNf(std::string("Sampler2DArray"),TextureMappingUnits);
 
 				GLCall(glDrawElements(GL_TRIANGLES, Vao->GetIndexBufferLength(), GL_UNSIGNED_INT, 0));
 			}
@@ -209,7 +192,7 @@ namespace Ermine
 		Renderer->StowedTileMaps.clear();
 	}
 
-	std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> Renderer2D::CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer,
+	/*std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> Renderer2D::CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer,
 																												   TileMap* tm)
 	{
 		int GridXToBeGenerated = layer.NumberOfTilesHorizontal;
@@ -327,5 +310,5 @@ namespace Ermine
 			
 		}
 		return std::make_pair(Ermine::VertexArray(VertexBuffer, IndexBuffer),TextureToNumberMapper);
-	}
+	}*/
 }
