@@ -12,7 +12,10 @@ namespace Ermine
 		auto TexCache = Ermine::GlobalTextureCache::Get();
 
 		for (auto i : TexCache->InternalBuffer)
-			Textures.emplace_back(i.second);
+		{
+			Textures.emplace_back(i.second);//);
+
+		}
 	}
 	TextureViewWizard::~TextureViewWizard()
 	{
@@ -75,7 +78,7 @@ namespace Ermine
 
 		ImGui::End();
 	}
-	bool TextureViewWizard::HelperShouldIDisplayThisImage(Texture* Tex)
+	bool TextureViewWizard::HelperShouldIDisplayThisImage(std::shared_ptr<Texture> Tex)
 	{
 		//std::string FilterTextString(FilterText);
 		size_t found = Tex->GetName().find(FilterText);

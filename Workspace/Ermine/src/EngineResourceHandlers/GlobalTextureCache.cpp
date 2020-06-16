@@ -22,20 +22,20 @@ namespace Ermine
 
 		for (auto i : rdi)
 		{
-			Ermine::Texture* Tex = new Ermine::Texture(i,i.path().u8string());
+			std::shared_ptr<Texture> Tex = std::make_shared<Texture>(i, i.path().u8string());
 			InternalBuffer.emplace(i.path(),Tex);
 		}
 
 #endif
-
 	}
 
 	GlobalTextureCache::~GlobalTextureCache()
 	{
 		for (auto& i : InternalBuffer)
 		{
-			delete i.second; //As The Global Texture Cache Owns All Its Textures It Alone Is Responsible For The Deletion of These Textures..
+			i.second.reset(); //As The Global Texture Cache Owns All Its Textures It Alone Is Responsible For The Deletion of These Textures..
 		}
+		InternalBuffer.clear();
 	}
 
 	GlobalTextureCache* GlobalTextureCache::Get()
@@ -47,14 +47,19 @@ namespace Ermine
 		return TextureCache;
 	}
 
+	void GlobalTextureCache::ShutDownGlobalTextureCache()
+	{
+		delete TextureCache; //Destroy The TextureCache Global Object To Shutdown The System..
+	}
 
-	Texture* GlobalTextureCache::GetTextureFromFile(std::filesystem::path TextureFilePath)
+
+	std::shared_ptr<Texture> GlobalTextureCache::GetTextureFromFile(std::filesystem::path TextureFilePath)
 	{
 		auto FoundIter = InternalBuffer.find(TextureFilePath);
 		if (FoundIter == InternalBuffer.end())
 		{
 			//This Means The Texture Was Not Found Add It into The Map..
-			Texture* tex = new Texture(TextureFilePath);
+			std::shared_ptr<Texture> tex(new Texture(TextureFilePath));
 			InternalBuffer[TextureFilePath] = tex;
 			return tex;
 		}
@@ -64,9 +69,9 @@ namespace Ermine
 		}
 	}
 
-	std::vector<Texture*> GlobalTextureCache::GetAllTexturesInCache()
+	std::vector<std::shared_ptr<Texture>> GlobalTextureCache::GetAllTexturesInCache()
 	{
-		std::vector<Texture*> Vec;
+		std::vector<std::shared_ptr<Texture>> Vec;
 
 		for (auto i : InternalBuffer)
 			Vec.emplace_back(i.second);
@@ -80,17 +85,18 @@ namespace Ermine
 		if (FoundIter == InternalBuffer.end())
 		{
 			//This Means The Texture Was Not Found Really Add It into The Map..
-			InternalBuffer[tex->GetFilePath()] = tex.release();
+			//Texture* t = tex.release();
+			InternalBuffer[tex->GetFilePath()].reset(tex.release());// = std::make_shared<Texture>();
 		}	
 	}
 	void GlobalTextureCache::ClearCache()
 	{
 		for (auto& i : InternalBuffer)
-			delete i.second; //As The Global Texture Cache Owns All Its Textures It Alone Is Responsible For The Deletion of These Textures..
+			i.second.reset();
 		
 		InternalBuffer.clear();
 	}
-	int GlobalTextureCache::Bind(Ermine::Texture* Tex)
+	int GlobalTextureCache::Bind(std::shared_ptr<Texture> Tex)
 	{
 		if (BindCounter == 17)
 			BindCounter = 0;

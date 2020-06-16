@@ -28,7 +28,7 @@ namespace Ermine
 		void WriteTileSetToFile();
 
 	private:
-		std::vector<Ermine::Texture*> AllTexturesToChoose;
+		std::vector<std::shared_ptr<Texture>> AllTexturesToChoose;
 		char* CurrentItemForDisplayInComboBox = nullptr;
 
 		std::vector<bool> TextureSelected;

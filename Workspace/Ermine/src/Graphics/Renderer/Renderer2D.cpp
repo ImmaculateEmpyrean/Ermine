@@ -195,7 +195,7 @@ namespace Ermine
 
 				for (auto i = TextureToNumberInVaoMapper.begin(); i != TextureToNumberInVaoMapper.end(); i++)
 				{
-					Ermine::Texture* Tex = TextureCacheGlobal->GetTextureFromFile(i->first);
+					std::shared_ptr<Texture> Tex = TextureCacheGlobal->GetTextureFromFile(i->first);
 					int BoundSlot = TextureCacheGlobal->Bind(Tex);
 
 					TextureMappingUnits[(int)i->second] = BoundSlot;

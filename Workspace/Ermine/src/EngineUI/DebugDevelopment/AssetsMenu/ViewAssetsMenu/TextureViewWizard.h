@@ -33,11 +33,11 @@ namespace Ermine
 	protected:
 
 	private:
-		bool HelperShouldIDisplayThisImage(Texture* Tex);
+		bool HelperShouldIDisplayThisImage(std::shared_ptr<Texture> Tex);
 
 	private:
 		char* FilterText;
 
-		std::vector<Texture*> Textures;
+		std::vector<std::shared_ptr<Texture>> Textures;
 	};
 }

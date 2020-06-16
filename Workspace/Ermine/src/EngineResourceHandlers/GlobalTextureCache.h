@@ -35,13 +35,14 @@ namespace Ermine
 
 	public:
 		static GlobalTextureCache* Get();
+		static void ShutDownGlobalTextureCache();
 
 		//This Function Loads A Texture From File If It Does Not Already Exist Will Return A Texture Pointer To The Memory 
 		//This Loaded Is Owned By The Cache And Will Delete Ity only When The Clear Instruction Is Given..
-		Texture* GetTextureFromFile(std::filesystem::path TextureFilePath);
+		std::shared_ptr<Texture> GetTextureFromFile(std::filesystem::path TextureFilePath);
 
 		//Use This To Get a look into all the resources held within the cache..
-		std::vector<Texture*> GetAllTexturesInCache();
+		std::vector<std::shared_ptr<Texture>> GetAllTexturesInCache();
 
 		//This Push Is A Very Optimized Function It Does Not Simply Push in Redundant Instead If Something Is Repeated It Does Not Push..
 		void PushTextureIntoCache(std::unique_ptr<Texture> tex);
@@ -49,7 +50,7 @@ namespace Ermine
 		void ClearCache(); //This Invalidates All Previously Held Tokens..
 
 		//This Function Automatically Binds a Certain Function And Returns The Bound Slot Integer To The Caller.. (Use This To Bind Automatically)
-		int Bind(Ermine::Texture* Tex);
+		int Bind(std::shared_ptr<Texture> Tex);
 
 	public:
 
@@ -64,7 +65,7 @@ namespace Ermine
 
 		static GlobalTextureCache* TextureCache;
 
-		std::unordered_map<std::filesystem::path,Texture*,std::hash<std::filesystem::path>> InternalBuffer;
+		std::unordered_map<std::filesystem::path,std::shared_ptr<Texture>,std::hash<std::filesystem::path>> InternalBuffer;
 
 		int BindCounter = 0;
 

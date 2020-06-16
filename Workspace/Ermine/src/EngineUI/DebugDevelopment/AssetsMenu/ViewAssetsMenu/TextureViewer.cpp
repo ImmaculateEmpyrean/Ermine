@@ -5,7 +5,7 @@
 
 namespace Ermine
 {
-	TextureViewer::TextureViewer(Texture* Tex)
+	TextureViewer::TextureViewer(std::shared_ptr<Texture> Tex)
 		:
 		Tex(Tex)
 	{

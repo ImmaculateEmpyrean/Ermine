@@ -3,7 +3,7 @@
 
 namespace Ermine
 {
-	Sprite::Sprite(Texture* Tex, glm::vec2 BottomLeftUV, glm::vec2 TopRightUV)
+	Sprite::Sprite(std::shared_ptr<Texture> Tex, glm::vec2 BottomLeftUV, glm::vec2 TopRightUV)
 		:
 		TextureContainingTheSprite(Tex),
 		BottomLeftUV(BottomLeftUV),
@@ -11,7 +11,7 @@ namespace Ermine
 	{}
 
 
-	Texture* Sprite::GetTexture()
+	std::shared_ptr<Texture> Sprite::GetTexture()
 	{
 		return TextureContainingTheSprite;
 	}
@@ -26,7 +26,7 @@ namespace Ermine
 	}
 
 
-	void Sprite::SetTexture(Texture* tex)
+	void Sprite::SetTexture(std::shared_ptr<Texture> tex)
 	{
 		TextureContainingTheSprite = tex;
 	}

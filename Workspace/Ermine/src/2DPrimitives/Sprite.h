@@ -19,15 +19,15 @@ namespace Ermine
 	{
 	public:
 		Sprite() = delete; //There is no reason for an empty sprite donot have one..
-		Sprite(Texture* Tex, glm::vec2 BottomLeftUV,glm::vec2 TopRightUV); 
+		Sprite(std::shared_ptr<Texture> Tex, glm::vec2 BottomLeftUV,glm::vec2 TopRightUV);
 
 	public:
-		Texture* GetTexture();
+		std::shared_ptr<Texture> GetTexture();
 
 		glm::vec2 GetBottomLeftUV();
 		glm::vec2 GetTopRightUV();
 
-		void SetTexture(Texture* tex);
+		void SetTexture(std::shared_ptr<Texture> tex);
 
 		void SetBottomLeftUV(glm::vec2 UV);
 		void SetTopRightUV(glm::vec2 UV);
@@ -44,7 +44,7 @@ namespace Ermine
 	private:
 
 	private:
-		Texture* TextureContainingTheSprite; //This Texture Is Neither Created Or Owned By The Sprite..
+		std::shared_ptr<Texture> TextureContainingTheSprite; //This Texture Is Neither Created Or Owned By The Sprite..
 		
 		glm::vec2 BottomLeftUV;
 		glm::vec2 TopRightUV;

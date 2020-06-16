@@ -14,6 +14,8 @@
 
 #include "TestFolder/TestInputSystem/InputChecker.h"
 
+#include "EngineResourceHandlers/GlobalTextureCache.h"
+
 void DLL __cdecl TestFunc();
 
 int main(int argc, char* argv[])
@@ -33,6 +35,7 @@ int main(int argc, char* argv[])
 
 	int* n = new int[100];
 	Ermine::EventBroadcastStation::DestroyStation();
+	Ermine::GlobalTextureCache::ShutDownGlobalTextureCache();
 
 	//Start Print Detected Memory Leaks To File..
 	FILE* pFile;

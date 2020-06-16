@@ -83,12 +83,12 @@ namespace Ermine
 
 		auto TextureHandler = Ermine::GlobalTextureCache::Get();
 
-		std::vector<Ermine::Texture*> TexturesInTheTileSet;
+		std::vector<std::shared_ptr<Texture>> TexturesInTheTileSet;
 		std::vector<Ermine::TileSet::UV> UVCache;
 
 		for (auto i = TileSetFile["Texture"].begin(); i != TileSetFile["Texture"].end(); i++)
 		{
-			Texture* ptr = TextureHandler->GetTextureFromFile(i.key());
+			std::shared_ptr<Texture> ptr = TextureHandler->GetTextureFromFile(i.key());
 			TexturesInTheTileSet.emplace_back(ptr);
 
 			TileSet::UV Container = ExtractUVFromJSONArrayString(TileSetFile["Texture"][i.key()].dump());
@@ -130,7 +130,7 @@ namespace Ermine
 	}
 
 
-	void TileSet::PopulateSpritesContainer(Texture* txt, UV Container)
+	void TileSet::PopulateSpritesContainer(std::shared_ptr<Texture> txt, UV Container)
 	{
 		int ImageWidth  = txt->GetWidth();
 		int ImageHeight = txt->GetHeight();
@@ -152,7 +152,7 @@ namespace Ermine
 				{
 					if (TopRight.x <= Container.TopRight.x && TopRight.y <= Container.TopRight.y)
 					{
-						SpritesInTheTileset.emplace_back(new Ermine::Sprite(txt, BottomLeft, TopRight));
+						SpritesInTheTileset.emplace_back((new Ermine::Sprite(txt, BottomLeft, TopRight)));
 					}
 				}
 			}

@@ -14,7 +14,7 @@ namespace Ermine
 	class TextureViewer : public PrecursorWindow
 	{
 	public:
-		TextureViewer(Texture* Tex); //This Is The Texture Which Will Be Viewed By The User..
+		TextureViewer(std::shared_ptr<Texture> Tex); //This Is The Texture Which Will Be Viewed By The User..
 
 	public:
 		virtual void Draw() override;
@@ -28,7 +28,7 @@ namespace Ermine
 	private:
 
 	private:
-		Texture* Tex; //This Is The Texture To Be Displayed
+		std::shared_ptr<Texture> Tex; //This Is The Texture To Be Displayed
 		std::string WindowName;
 	};
 }

@@ -56,7 +56,7 @@ namespace Ermine
 		void HelperConstructorLoadTileMapFromFilePath();
 
 		UV ExtractUVFromJSONArrayString(std::string ArrayString);
-		void PopulateSpritesContainer(Texture* txt,UV Container);
+		void PopulateSpritesContainer(std::shared_ptr<Texture> txt,UV Container);
 
 	private:
 		std::string TileSetName;
