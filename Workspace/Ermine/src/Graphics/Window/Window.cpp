@@ -132,6 +132,11 @@ Ermine::Window& Ermine::Window::operator=(Window&& rhs)
     return *this;
 }
 
+bool Ermine::Window::ShouldIQuit()
+{
+    return glfwWindowShouldClose(WinPtr);
+}
+
 void Ermine::Window::PreNewFrameProcess()
 {
     glfwPollEvents();
@@ -150,11 +155,6 @@ void Ermine::Window::PostNewFrameProcess()
 {
     // Rendering
     ImGui::Render();
-   // int display_w, display_h;
-    //glfwGetFramebufferSize(WinPtr, &display_w, &display_h);
-    //glViewport(0, 0, display_w, display_h);
-    //glClearColor(0.2f,0.2f,0.2f,1.0f);
-    //glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     // Update and Render additional Platform Windows

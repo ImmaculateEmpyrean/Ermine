@@ -65,23 +65,17 @@ Ermine::App::~App()
 
 void Ermine::App::NextFrame()
 {
-	//glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-	//glClear(GL_COLOR_BUFFER_BIT);
 	ManagedWindow->PreNewFrameProcess();
 	WindowHandler::GlobalWindowHandler->UpdateDraw();
-	this->OnTick();
-	//OnTick();
+	OnTick();
 	ManagedWindow->PostNewFrameProcess();
 
-	//glfwSwapBuffers((GLFWwindow*)ManagedWindow->GetContext());
-	//glfwPollEvents();
-	
-	Quit = glfwWindowShouldClose((GLFWwindow*)ManagedWindow->GetContext());
+	Quit = ManagedWindow->ShouldIQuit();
 }
 
 void Ermine::App::OnAttach()
 {
-	//Obj.OnAttach();
+	Obj.OnAttach(); //Maybe Take This Off If Some Prob
 }
 
 void Ermine::App::OnTick()
@@ -259,49 +253,7 @@ void Ermine::App::OnTick()
 	Renderer2D::DrawActor2D(&Act);
 
 	Renderer2D::EndScene(); */
-	static Ermine::TileMap Map("TileMap/TestTileMap.json");
-		
-	static Ermine::TileSet Set("TileSet/TileSetTest.json");
 	
-	static int c = 0;
-	static int fc = 0;
-
-	fc++;
-
-	if (fc >= 60)
-	{
-		c++;
-		fc = 0;
-	}
-	
-
-	if (c >= Set.GetSpriteBuffer().size())
-		c = 0;
-	
-	//static Texture* Tex = new Texture("AnoHiMitaHana.png");
-	//Sprite* spr = new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
-	auto a = glm::vec2(0.0f, 0.0f);
-	auto b = glm::vec2(1.0f, 1.0f);
-	//std::shared_ptr<Sprite> spr(new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f }));
-	Actor2D Act = Actor2D(Set.GetTile(c));//Actor2D(spr);//Actor2D(Set.GetTile(c));//Actor2D(Set.GetTile(c));//Set.GetTile(10));
-
-	glm::mat4 Camera = glm::mat4(1.0f);
-	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
-
-	auto ProjectionMatrix = glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f,-5.0f,5.0f);
-
-
-	/*Act.Translate({ 0.001f,0.001f });
-	Act.Rotate(1);
-	Act.Scale({ 1.005f,1.005f });*/
-
-	Renderer2D::BeginScene(Camera, ProjectionMatrix);
-
-	Renderer2D::DrawTileMap(&Map);
-	Renderer2D::DrawActor2D(&Act);
-
-	Renderer2D::EndScene();
-
 	//delete spr;
 	//std::cout << "----------------------------------------------- EndLine"<< std::endl;
 	//PrintCount();
@@ -358,7 +310,7 @@ void Ermine::App::OnTick()
 	glDeleteVertexArrays(1, &VAO);//glDeleteBuffers(1, &VAO);
 	glDeleteBuffers(1, &VBO);*/
 	
-/*std::cout << "----------------------------------------------------------------" << std::endl;
+	/*std::cout << "----------------------------------------------------------------" << std::endl;
 	std::vector<float> Vertices = { -0.5f, -0.5f, 0.0f, // left
 			 0.5f, -0.5f, 0.0f, // right
 			 0.0f,  0.5f, 0.0f }; // top
@@ -373,6 +325,45 @@ void Ermine::App::OnTick()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);*/
+
+	static Ermine::TileMap Map("TileMap/TestTileMap.json");
+	
+	static Ermine::TileSet Set("TileSet/TileSetTest.json");
+	
+	static int c = 0;
+	static int fc = 0;
+	
+	fc++;
+	
+	if (fc >= 60)
+	{
+		c++;
+		fc = 0;
+	}
+	
+	
+	if (c >= Set.GetSpriteBuffer().size())
+	c = 0;
+	
+	//static Texture* Tex = new Texture("AnoHiMitaHana.png");
+	//Sprite* spr = new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
+	auto a = glm::vec2(0.0f, 0.0f);
+	auto b = glm::vec2(1.0f, 1.0f);
+	//std::shared_ptr<Sprite> spr(new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f }));
+	Actor2D Act = Actor2D(Set.GetTile(c));//Actor2D(spr);//Actor2D(Set.GetTile(c));//Actor2D(Set.GetTile(c));//Set.GetTile(10));
+	
+	glm::mat4 Camera = glm::mat4(1.0f);
+	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
+	
+	auto ProjectionMatrix = glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
+	
+	
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+	
+	Renderer2D::DrawTileMap(&Map);
+	Renderer2D::DrawActor2D(&Act);
+	
+	Renderer2D::EndScene();
 }
 
 void Ermine::App::OnDetach()

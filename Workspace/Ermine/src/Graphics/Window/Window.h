@@ -27,6 +27,8 @@ namespace Ermine
 		Window(Window&& rhs); //Totally possible..
 		Window& operator=(Window&& rhs); //totally Acceptable..
 
+		bool ShouldIQuit();
+
 	public:
 		//This is const so as to not modify the window from outside it is the job of this class
 		GLFWwindow const* GetContext() { return WinPtr; }

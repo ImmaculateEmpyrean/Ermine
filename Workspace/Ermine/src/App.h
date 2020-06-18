@@ -72,5 +72,3 @@ namespace Ermine
 		friend int ::main(int argc, char* argv[]);
 	};
 }
-
-//extern Ermine::App* GetAppFromGame();
