@@ -10,11 +10,11 @@ namespace Ermine
 	class NewTileMap : public PrecursorWindow
 	{
 	public:
-		NewTileMap() = default;
-		//Most Likely A Destructor is Needed So as To Deallocate Buffers
-		~NewTileMap();
-
+		NewTileMap();
+		~NewTileMap(); //Deallocate Buffers Using This Destructor
+		
 	public:
+		virtual void Draw();
 
 	public:
 

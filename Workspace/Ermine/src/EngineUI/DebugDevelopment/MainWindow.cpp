@@ -9,6 +9,8 @@
 
 #include "EngineUI/DebugDevelopment/AssetsMenu/AddNewAssetsMenu/AddNewTextureWindow.h"
 #include "EngineUI/DebugDevelopment/AssetsMenu/AddNewAssetsMenu/NewTileSet.h"
+#include "EngineUI/DebugDevelopment/AssetsMenu/AddNewAssetsMenu/NewTileMap.h"
+
 #include "EngineUI/DebugDevelopment/AssetsMenu/ViewAssetsMenu/TextureViewWizard.h"
 
 Ermine::DebugMainWindow::DebugMainWindow()
@@ -77,6 +79,12 @@ void Ermine::DebugMainWindow::Draw()
                 {
                     auto Handler = Ermine::WindowHandler::Get();
                     Handler->SubmitWindowFront(std::make_unique<Ermine::AddNewTileSetWindow>(Ermine::AddNewTileSetWindow()));
+                }
+               
+                if (ImGui::MenuItem("Add TileMap", "", nullptr))
+                {
+                    auto Handler = Ermine::WindowHandler::Get();
+                    Handler->SubmitWindowFront(std::make_unique<Ermine::NewTileMap>(Ermine::NewTileMap()));
                 }
                 ImGui::EndMenu();
             }

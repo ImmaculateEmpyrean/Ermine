@@ -49,7 +49,7 @@ namespace Ermine
 	
 	VertexArray::~VertexArray()
 	{
-		Bind();
+		//Bind();
 		GLCall(glDeleteVertexArrays(1, &vertex_array));
 	}
 

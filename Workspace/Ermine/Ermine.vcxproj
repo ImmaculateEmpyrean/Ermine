@@ -190,6 +190,7 @@
     <ClCompile Include="src\Core.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.cpp" />
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileMap.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileSet.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.cpp" />
