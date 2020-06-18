@@ -38,7 +38,7 @@ namespace Ermine
 		
 	private:
 		GLFWwindow* WinPtr;
-		ImGuiIO* io;
+		ImGuiIO* io=nullptr;
 	};
 
 }

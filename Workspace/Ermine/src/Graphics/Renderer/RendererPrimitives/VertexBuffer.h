@@ -8,7 +8,7 @@ namespace Ermine
 	class VertexBuffer
 	{
 	public:
-		VertexBuffer(); //No Harm In Having a empty Vertex Buffer But We Must first do some allocation
+		VertexBuffer(); //= delete; //No Harm In Having a empty Vertex Buffer But We Must first do some allocation
 		VertexBuffer(std::vector<float>& BufferData);
 
 		~VertexBuffer();
@@ -28,6 +28,8 @@ namespace Ermine
 		//This is Very Expensive Donot USe It...
 		bool operator ==(VertexBuffer& rhs);
 
+		void Clear();
+
 	public:
 
 	protected:
@@ -36,6 +38,10 @@ namespace Ermine
 
 	private:
 		void GenBufferSubmitDataHelper(unsigned int& buffer,std::vector<float>& Data);
+
+		void ClearAll();
+		void ClearOpenGLBuffer();
+
 	private:
 		unsigned int vertex_buffer;
 		std::vector<float> BufferData;

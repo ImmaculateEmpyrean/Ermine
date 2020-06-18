@@ -50,15 +50,15 @@ namespace Ermine
 
 	VertexBuffer::VertexBuffer(VertexBuffer&& rhs)
 		:
-		BufferData(rhs.BufferData),
-		vertex_buffer(rhs.vertex_buffer)
+		BufferData(std::move(rhs.BufferData)),
+		vertex_buffer(std::move(rhs.vertex_buffer))
 	{
 		rhs.vertex_buffer = 0;
 	}
 	VertexBuffer VertexBuffer::operator=(VertexBuffer&& rhs)
 	{
-		BufferData = rhs.BufferData;
-		vertex_buffer = rhs.vertex_buffer;
+		BufferData = std::move(rhs.BufferData);
+		vertex_buffer = std::move(rhs.vertex_buffer);
 		rhs.vertex_buffer = 0;
 
 		return *this;
@@ -68,12 +68,30 @@ namespace Ermine
 	{
 		return BufferData == rhs.BufferData;
 	}
+
+	void VertexBuffer::Clear()
+	{
+		ClearAll();
+	}
+
+	void Ermine::VertexBuffer::ClearAll()
+	{
+		BufferData.clear();
+		GLCall(glDeleteBuffers(1, &vertex_buffer));
+		vertex_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
+	}
 	
+	void Ermine::VertexBuffer::ClearOpenGLBuffer()
+	{
+		GLCall(glDeleteBuffers(1, &vertex_buffer));
+		vertex_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
+	}
 	
 	void VertexBuffer::GenBufferSubmitDataHelper(unsigned int& buffer, std::vector<float>& Data)
 	{
+		this->ClearOpenGLBuffer();
 		GLCall(glGenBuffers(1,&buffer));
 		GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
-		GLCall(glBufferData(GL_ARRAY_BUFFER, Data.size()*sizeof(float), &Data.front(), GL_DYNAMIC_DRAW));
+		GLCall(glBufferData(GL_ARRAY_BUFFER, Data.size()*sizeof(float), &Data.front(), GL_STATIC_DRAW));
 	}
 }

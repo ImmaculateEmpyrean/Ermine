@@ -18,6 +18,8 @@ static void glfw_error_callback(int error, const char* description)
     fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 }
 
+static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
 Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamensions)
 {
     glfwSetErrorCallback(glfw_error_callback);
@@ -27,6 +29,10 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
         STDOUTDefaultLog_Error("Failed To Initilize Glfw Hence Quitting Program");
         exit(-1); //Exit The Program If We Fail Something So Vital
     }
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     WinPtr = glfwCreateWindow(WindowDiamensions.first, WindowDiamensions.second,
         WindowTitle.c_str(), NULL, NULL);
@@ -39,17 +45,24 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
     }
 
     glfwMakeContextCurrent(WinPtr); //Made The Created Window Current Context..
+    glfwSetFramebufferSizeCallback(WinPtr, framebuffer_size_callback);
     glfwSwapInterval(1);
 
-    if(!gladLoadGL())//if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) //This Seems To Be Working
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        STDOUTDefaultLog_Error("Failed To Initialize GLAD Hence Quitting Program..");
+        glfwTerminate();
+        exit(-1);
+    }
+    /*if(!gladLoadGL())//if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) //This Seems To Be Working
     {
         STDOUTDefaultLog_Error("Failed To Initialize GLAD Hence Quitting Program..")
         glfwTerminate();
         exit(-1); //Exit The Program If we Fail Something So Vital
-    }
+    }*/
         
     // Setup Dear ImGui context
-    IMGUI_CHECKVERSION();
+    /*IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     io = &ImGui::GetIO(); //ImGuiIO& io = ImGui::GetIO(); (void)io;
     io->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
@@ -71,7 +84,7 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
 
     
     //Start Set Callbacks To Sense Events...
-    glfwSetKeyCallback(WinPtr, key_callback);
+    /*glfwSetKeyCallback(WinPtr, key_callback);
     glfwSetCharCallback(WinPtr, character_callback);
     glfwSetCursorPosCallback(WinPtr, cursor_position_callback);
     glfwSetMouseButtonCallback(WinPtr, mouse_button_callback);
@@ -79,11 +92,11 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
     //Ended Set Callbacks To Sense Events...
 
     // Setup Platform/Renderer bindings
-    ImGui_ImplGlfw_InitForOpenGL(WinPtr, true);
+    /*ImGui_ImplGlfw_InitForOpenGL(WinPtr, true);
     ImGui_ImplOpenGL3_Init("#version 130");
 
     GLCall(glEnable(GL_BLEND));
-    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));*/
 
 
 #if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
@@ -137,9 +150,9 @@ void Ermine::Window::PostNewFrameProcess()
 {
     // Rendering
     ImGui::Render();
-    int display_w, display_h;
-    glfwGetFramebufferSize(WinPtr, &display_w, &display_h);
-    glViewport(0, 0, display_w, display_h);
+   // int display_w, display_h;
+    //glfwGetFramebufferSize(WinPtr, &display_w, &display_h);
+    //glViewport(0, 0, display_w, display_h);
     //glClearColor(0.2f,0.2f,0.2f,1.0f);
     //glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -156,4 +169,9 @@ void Ermine::Window::PostNewFrameProcess()
     }
 
     glfwSwapBuffers(WinPtr);
+}
+
+static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
 }

@@ -9,7 +9,7 @@
 
 #include<memory>
 
-#include "ExchangeStructs/ExchangeAppEvents.h"
+//#include "ExchangeStructs/ExchangeAppEvents.h"
 
 #include "EngineUI/WindowHandler.h"
 
@@ -62,10 +62,10 @@ namespace Ermine
 		std::string AppTitle;
 		std::pair<int, int> Diamensions;
 
-		ExchangeAppEvents Obj;
+		//ExchangeAppEvents Obj;
 		static App* PointerToApp;
 
-		InputInterrogator InpInterrogator;
+		//InputInterrogator InpInterrogator;
 
 		bool Quit = false;
 

@@ -40,19 +40,19 @@ Ermine::App* Ermine::App::PointerToApp = nullptr;
 Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
 	:
 	AppTitle(AppTitle),
-	Diamensions(Diamensions),
-	InpInterrogator()
+	Diamensions(Diamensions)
+	//InpInterrogator() //Scrutinize
 {
 	ManagedWindow = new Window(AppTitle, Diamensions);
 
-	Obj = GetAppEventsStruct();
+	//Obj = GetAppEventsStruct();
 
 	//Start Create Window Handler..//
 	WindowHandler::GlobalWindowHandler = new WindowHandler();
 	WindowHandler::GlobalWindowHandler->SubmitWindowFront(std::make_unique<DebugMainWindow>());
 	//Ended Create Window Handler..//
 
-	OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
+	//OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
 }
 
 Ermine::App::~App()
@@ -65,18 +65,23 @@ Ermine::App::~App()
 
 void Ermine::App::NextFrame()
 {
-	ManagedWindow->PreNewFrameProcess();
-	WindowHandler::GlobalWindowHandler->UpdateDraw();
-	OnTick();
-	ManagedWindow->PostNewFrameProcess();
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	//ManagedWindow->PreNewFrameProcess();
+	//WindowHandler::GlobalWindowHandler->UpdateDraw();
+	this->OnTick();
+	//OnTick();
+	//ManagedWindow->PostNewFrameProcess();
 
+	glfwSwapBuffers((GLFWwindow*)ManagedWindow->GetContext());
+	glfwPollEvents();
 	
 	Quit = glfwWindowShouldClose((GLFWwindow*)ManagedWindow->GetContext());
 }
 
 void Ermine::App::OnAttach()
 {
-	Obj.OnAttach();
+	//Obj.OnAttach();
 }
 
 void Ermine::App::OnTick()
@@ -254,9 +259,7 @@ void Ermine::App::OnTick()
 	Renderer2D::DrawActor2D(&Act);
 
 	Renderer2D::EndScene(); */
-//std::cout << "----------------------------------------------- StartLine" << std::endl;
-//ResetCount();
-	static Ermine::TileMap Map("TileMap/TestTileMap.json");
+	/*static Ermine::TileMap Map("TileMap/TestTileMap.json");
 		
 	static Ermine::TileSet Set("TileSet/TileSetTest.json");
 	
@@ -292,21 +295,89 @@ void Ermine::App::OnTick()
 	Act.Rotate(1);
 	Act.Scale({ 1.005f,1.005f });*/
 
-	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+	/*Renderer2D::BeginScene(Camera, ProjectionMatrix);
 
 	Renderer2D::DrawTileMap(&Map);
 	Renderer2D::DrawActor2D(&Act);
 
-	Renderer2D::EndScene();
+	Renderer2D::EndScene();*/
 
 	//delete spr;
 	//std::cout << "----------------------------------------------- EndLine"<< std::endl;
 	//PrintCount();
+	
+	/*glm::mat4 Camera = glm::mat4(1.0f);
+	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	auto ProjectionMatrix = glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
+
+	/*Texture* Tex = new Texture("AnoHiMitaHana.png");
+	delete Tex;
+
+	auto t = Ermine::GlobalTextureCache::Get();
+	//t->GetAllTexturesInCache();
+	std::shared_ptr<Sprite> Spr = std::make_shared<Sprite>(t->GetAllTexturesInCache()[0], glm::vec2( 0.0f,0.0f ), glm::vec2(1.0f,1.0f));
+	Actor2D Act = Actor2D(Spr);
+
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+
+	Renderer2D::DrawActor2D(&Act);
+	/*Renderer2D::DrawTileMap(&Map);
+	Renderer2D::DrawActor2D(&Act);
+
+	Renderer2D::EndScene();*/
+
+	/*float vertices[] = {
+		-0.5f, -0.5f, 0.0f, // left  
+		0.5f, -0.5f, 0.0f, // right 
+		 0.0f,  0.5f, 0.0f  // top   
+	};
+
+	unsigned int VBO, VAO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+	glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
+// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
+	glBindVertexArray(0);
+
+	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	glDeleteVertexArrays(1, &VAO);//glDeleteBuffers(1, &VAO);
+	glDeleteBuffers(1, &VBO);*/
+	
+std::cout << "----------------------------------------------------------------" << std::endl;
+	std::vector<float> Vertices = { -0.5f, -0.5f, 0.0f, // left
+			 0.5f, -0.5f, 0.0f, // right
+			 0.0f,  0.5f, 0.0f }; // top
+
+	std::vector<uint32_t> Indices = { 0,1,2 };
+
+	VertexArray Vao(Vertices, Indices);
+	Vao.Bind();
+
+	//Vao.SetVertexAttribArray(std::vector<VertexAttribPointerSpecification>({ { 3,GL_FLOAT,false }	}));
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 void Ermine::App::OnDetach()
 {
-	Obj.OnDetach();
+	//Obj.OnDetach();
 }
 
 Ermine::App* Ermine::App::Get()

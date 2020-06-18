@@ -9,7 +9,7 @@ namespace Ermine
 	class IndexBuffer
 	{
 	public:
-		IndexBuffer(); //No Harm In Having a empty Vertex Buffer But We Must first do some allocation
+		IndexBuffer(); //= delete; //No Harm In Having a empty Vertex Buffer But We Must first do some allocation
 		IndexBuffer(std::vector<uint32_t>& BufferData);
 
 		~IndexBuffer();
@@ -31,6 +31,8 @@ namespace Ermine
 
 		int GetBufferDataLength();
 
+		void Clear();
+
 	public:
 
 	protected:
@@ -39,6 +41,10 @@ namespace Ermine
 
 	private:
 		void GenBufferSubmitDataHelper(unsigned int& buffer, std::vector<uint32_t>& Data);
+
+		void ClearAll();
+		void ClearOpenGLBuffer();
+
 	private:
 		unsigned int index_buffer;
 		std::vector<uint32_t> BufferData;

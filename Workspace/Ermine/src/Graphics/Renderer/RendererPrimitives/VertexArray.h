@@ -43,6 +43,8 @@ namespace Ermine
 
 		int GetIndexBufferLength();
 
+		void Clear();
+
 	public:
 
 	protected:

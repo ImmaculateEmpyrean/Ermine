@@ -10,6 +10,12 @@ Ermine::LayerStack::LayerStack(std::string& Name)
 									EventType::ConcreteEvent);
 }
 
+Ermine::LayerStack::~LayerStack()
+{
+	for (auto i : AllLayersAssociated)
+		delete i;
+}
+
 void Ermine::LayerStack::PushLayerOntoStackFront(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush)
 {
 	LayerStackLayer* freepointer = LayerToPush.release();

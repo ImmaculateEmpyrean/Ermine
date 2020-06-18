@@ -116,7 +116,7 @@ namespace Ermine
 			VertexArray Vao(i->GetModelSpaceCoordinates(), Actor2D::GetModelSpaceIndices());
 			Vao.Bind();
 
-			std::vector<VertexAttribPointerSpecification> Spec = {
+			static std::vector<VertexAttribPointerSpecification> Spec = {
 				{3,GL_FLOAT,false},
 				{3,GL_FLOAT,false},
 				{2,GL_FLOAT,false}
@@ -129,8 +129,8 @@ namespace Ermine
 			Renderer->Actor2DShader->UniformMat4(std::string("ModelMatrix"), ModelMatrix);
 			Renderer->Actor2DShader->UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
 
-			i->GetSprite()->GetTexture()->Bind(0);
-			Renderer->Actor2DShader->Uniformi(std::string("texture1"), 0);
+			int BindSlot = GlobalTextureCache::Get()->Bind(i->GetSprite()->GetTexture());
+			Renderer->Actor2DShader->Uniformi(std::string("texture1"), BindSlot);
 
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		}

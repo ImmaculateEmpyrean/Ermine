@@ -74,11 +74,29 @@ namespace Ermine
 		return BufferData.size();
 	}
 
-
 	void IndexBuffer::GenBufferSubmitDataHelper(unsigned int& buffer, std::vector<uint32_t>& Data)
 	{
+		this->ClearOpenGLBuffer();
+
 		GLCall(glGenBuffers(1, &buffer));
 		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer));
 		GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, Data.size()*sizeof(uint32_t), &Data.front(), GL_DYNAMIC_DRAW));
+	}
+
+
+	void IndexBuffer::Clear()
+	{
+		ClearAll();
+	}
+	void IndexBuffer::ClearAll()
+	{
+		BufferData.clear();
+		GLCall(glDeleteBuffers(1, &index_buffer));
+		index_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
+	}
+	void IndexBuffer::ClearOpenGLBuffer()
+	{
+		GLCall(glDeleteBuffers(1, &index_buffer));
+		index_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
 	}
 }

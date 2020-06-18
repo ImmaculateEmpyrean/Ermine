@@ -16,33 +16,40 @@ namespace Ermine
 		Ibo = IndexBuffer(); //Create An Empty Index Buffer
 	}
 	VertexArray::VertexArray(std::vector<float>& VertexBuffer, std::vector<uint32_t>& IndexBuffer)
+		:
+		Vbo(VertexBuffer),
+		Ibo(IndexBuffer)
 	{
 		HelperCreateAndBindVertexArray();
 
-		Vbo = Ermine::VertexBuffer(VertexBuffer); 
-		Ibo = Ermine::IndexBuffer(IndexBuffer); 
+		/*Vbo = Ermine::VertexBuffer(VertexBuffer); 
+		Ibo = Ermine::IndexBuffer(IndexBuffer); */
 	}
 	VertexArray::VertexArray(Ermine::VertexBuffer& Buffer, Ermine::IndexBuffer& IndexBuffer)
+		:
+		Vbo(Buffer),
+		Ibo(IndexBuffer)
 	{
 		HelperCreateAndBindVertexArray();
-		Vbo = Buffer;
-		Ibo = IndexBuffer;
 	}
 	VertexArray::VertexArray(std::vector<float>& VertexBuffer, Ermine::IndexBuffer& IndexBuffer)
+		:
+		Vbo(VertexBuffer),
+		Ibo(IndexBuffer)
 	{
 		HelperCreateAndBindVertexArray();
-		Vbo = Ermine::VertexBuffer(VertexBuffer);
-		Ibo = IndexBuffer;
 	}
 	VertexArray::VertexArray(Ermine::VertexBuffer& Buffer, std::vector<uint32_t>& IndexBuffer)
+		:
+		Vbo(Buffer),
+		Ibo(IndexBuffer)
 	{
 		HelperCreateAndBindVertexArray();
-		Vbo = Buffer;
-		Ibo = Ermine::IndexBuffer(IndexBuffer);
 	}
 	
 	VertexArray::~VertexArray()
 	{
+		Bind();
 		GLCall(glDeleteVertexArrays(1, &vertex_array));
 	}
 
@@ -110,6 +117,11 @@ namespace Ermine
 		return Ibo.GetBufferDataLength();
 	}
 
+	void VertexArray::Clear()
+	{
+		GLCall(glDeleteVertexArrays(1, &vertex_array));
+	}
+
 
 	void VertexArray::HelperCopyVertexArray(const VertexArray& rhs)
 	{
@@ -117,6 +129,9 @@ namespace Ermine
 
 		std::vector<float> VertexBufferData = rhs.Vbo.GetBufferData();//.Vbo.GetBufferData();
 		std::vector<uint32_t> IndexBufferData = rhs.Ibo.GetBufferData();
+
+		Vbo.Clear();
+		Ibo.Clear();
 
 		Vbo = Ermine::VertexBuffer(VertexBufferData);
 		Ibo = Ermine::IndexBuffer(IndexBufferData);
@@ -141,6 +156,8 @@ namespace Ermine
 
 	void VertexArray::HelperCreateAndBindVertexArray()
 	{
+		Clear();
+
 		GLCall(glGenVertexArrays(1, &vertex_array));
 		GLCall(glBindVertexArray(vertex_array));
 	}

@@ -22,6 +22,7 @@ namespace Ermine
 	{
 	public:
 		LayerStack(std::string& Name);
+		~LayerStack();
 
 	public:
 		//Each LayerStackLayer Must Be Part Of Exactly One Layer Stack As The Stack Will Destroy Layer When It Sees Fit..
