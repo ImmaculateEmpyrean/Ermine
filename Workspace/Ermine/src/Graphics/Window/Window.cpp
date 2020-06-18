@@ -62,7 +62,7 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
     }*/
         
     // Setup Dear ImGui context
-    /*IMGUI_CHECKVERSION();
+    IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     io = &ImGui::GetIO(); //ImGuiIO& io = ImGui::GetIO(); (void)io;
     io->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
@@ -84,7 +84,7 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
 
     
     //Start Set Callbacks To Sense Events...
-    /*glfwSetKeyCallback(WinPtr, key_callback);
+    glfwSetKeyCallback(WinPtr, key_callback);
     glfwSetCharCallback(WinPtr, character_callback);
     glfwSetCursorPosCallback(WinPtr, cursor_position_callback);
     glfwSetMouseButtonCallback(WinPtr, mouse_button_callback);
@@ -92,11 +92,11 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
     //Ended Set Callbacks To Sense Events...
 
     // Setup Platform/Renderer bindings
-    /*ImGui_ImplGlfw_InitForOpenGL(WinPtr, true);
+    ImGui_ImplGlfw_InitForOpenGL(WinPtr, true);
     ImGui_ImplOpenGL3_Init("#version 130");
 
     GLCall(glEnable(GL_BLEND));
-    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));*/
+    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
 
 #if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)

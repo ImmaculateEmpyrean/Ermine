@@ -40,19 +40,19 @@ Ermine::App* Ermine::App::PointerToApp = nullptr;
 Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
 	:
 	AppTitle(AppTitle),
-	Diamensions(Diamensions)
-	//InpInterrogator() //Scrutinize
+	Diamensions(Diamensions),
+	InpInterrogator() //Scrutinize
 {
 	ManagedWindow = new Window(AppTitle, Diamensions);
 
-	//Obj = GetAppEventsStruct();
+	Obj = GetAppEventsStruct();
 
 	//Start Create Window Handler..//
 	WindowHandler::GlobalWindowHandler = new WindowHandler();
 	WindowHandler::GlobalWindowHandler->SubmitWindowFront(std::make_unique<DebugMainWindow>());
 	//Ended Create Window Handler..//
 
-	//OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
+	OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
 }
 
 Ermine::App::~App()
@@ -65,16 +65,16 @@ Ermine::App::~App()
 
 void Ermine::App::NextFrame()
 {
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-	//ManagedWindow->PreNewFrameProcess();
-	//WindowHandler::GlobalWindowHandler->UpdateDraw();
+	//glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	//glClear(GL_COLOR_BUFFER_BIT);
+	ManagedWindow->PreNewFrameProcess();
+	WindowHandler::GlobalWindowHandler->UpdateDraw();
 	this->OnTick();
 	//OnTick();
-	//ManagedWindow->PostNewFrameProcess();
+	ManagedWindow->PostNewFrameProcess();
 
-	glfwSwapBuffers((GLFWwindow*)ManagedWindow->GetContext());
-	glfwPollEvents();
+	//glfwSwapBuffers((GLFWwindow*)ManagedWindow->GetContext());
+	//glfwPollEvents();
 	
 	Quit = glfwWindowShouldClose((GLFWwindow*)ManagedWindow->GetContext());
 }
@@ -259,7 +259,7 @@ void Ermine::App::OnTick()
 	Renderer2D::DrawActor2D(&Act);
 
 	Renderer2D::EndScene(); */
-	/*static Ermine::TileMap Map("TileMap/TestTileMap.json");
+	static Ermine::TileMap Map("TileMap/TestTileMap.json");
 		
 	static Ermine::TileSet Set("TileSet/TileSetTest.json");
 	
@@ -295,12 +295,12 @@ void Ermine::App::OnTick()
 	Act.Rotate(1);
 	Act.Scale({ 1.005f,1.005f });*/
 
-	/*Renderer2D::BeginScene(Camera, ProjectionMatrix);
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
 
 	Renderer2D::DrawTileMap(&Map);
 	Renderer2D::DrawActor2D(&Act);
 
-	Renderer2D::EndScene();*/
+	Renderer2D::EndScene();
 
 	//delete spr;
 	//std::cout << "----------------------------------------------- EndLine"<< std::endl;
@@ -358,7 +358,7 @@ void Ermine::App::OnTick()
 	glDeleteVertexArrays(1, &VAO);//glDeleteBuffers(1, &VAO);
 	glDeleteBuffers(1, &VBO);*/
 	
-std::cout << "----------------------------------------------------------------" << std::endl;
+/*std::cout << "----------------------------------------------------------------" << std::endl;
 	std::vector<float> Vertices = { -0.5f, -0.5f, 0.0f, // left
 			 0.5f, -0.5f, 0.0f, // right
 			 0.0f,  0.5f, 0.0f }; // top
@@ -372,7 +372,7 @@ std::cout << "----------------------------------------------------------------" 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawArrays(GL_TRIANGLES, 0, 3);*/
 }
 
 void Ermine::App::OnDetach()
