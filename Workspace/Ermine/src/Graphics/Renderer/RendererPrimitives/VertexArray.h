@@ -60,7 +60,7 @@ namespace Ermine
 		int HelperSizeOfTheComponent(unsigned int Component);
 
 	private:
-		unsigned int vertex_array;
+		unsigned int vertex_array = 0;
 		Ermine::VertexBuffer Vbo;
 		Ermine::IndexBuffer Ibo;
 

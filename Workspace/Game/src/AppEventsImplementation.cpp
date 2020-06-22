@@ -9,12 +9,12 @@ void AppOnAttach()
 
 void AppOnTick()
 {
-
+	//STDOUTDefaultLog_Error("App On Tick Called From DLL");
 }
 
 void AppOnDetach()
 {
-
+	STDOUTDefaultLog_Error("On Detach Function Called From DLL");
 }
 
 ExchangeAppEvents GetAppEventsStruct()

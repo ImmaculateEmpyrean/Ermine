@@ -46,7 +46,7 @@ namespace Ermine
 		void ClearOpenGLBuffer();
 
 	private:
-		unsigned int index_buffer;
+		unsigned int index_buffer = 0;
 		std::vector<uint32_t> BufferData;
 	};
 }

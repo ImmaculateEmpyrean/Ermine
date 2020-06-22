@@ -119,7 +119,10 @@ namespace Ermine
 
 	void VertexArray::Clear()
 	{
-		GLCall(glDeleteVertexArrays(1, &vertex_array));
+		if (vertex_array != 0)
+		{
+			GLCall(glDeleteVertexArrays(1, &vertex_array));
+		}
 	}
 
 

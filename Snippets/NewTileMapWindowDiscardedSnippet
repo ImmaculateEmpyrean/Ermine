@@ -1,0 +1,61 @@
+/*ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImColor(180,207,48)));
+	ImGui::PushStyleColor(ImGuiCol_Tab, ImVec4(ImColor(255,55,0)));
+	ImGui::PushStyleColor(ImGuiCol_TabActive, ImVec4(ImColor(255, 55, 0)));
+	ImGui::PushStyleColor(ImGuiCol_TabHovered, ImVec4(ImColor(255,255,255)));*/
+	static bool State = false;
+	State = false;
+	if (ImGui::BeginTabItem(NameBuffer))
+	{
+		State = true;
+		ImGui::PopStyleColor(4);
+		/*ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
+		
+		static bool Han = false;
+		ImGui::Selectable("Theodoric##Han", &Han, 0, ImVec2(50, 50));
+
+		ImGui::PopStyleVar(1);*/
+	}
+	/*if(State == false)
+		ImGui::PopStyleColor(4);
+
+	/*for (int i = 0; i < LayerData.size(); i++)
+	{
+		ImGui::PushID(i);
+		if (ImGui::BeginTabItem(LayerNames[i]))
+		{
+			ImGui::Text("Layer Name : ");
+			ImGui::SameLine();
+			ImGui::InputTextWithHint("##LayerNameEntryInTabNewTileMap", "Enter Name Of The Layer To Set (dont forget to press set)", LayerNameBuffer, 50);
+			ImGui::SameLine();
+			if (ImGui::Button("Set##SetTileMapLayerNameButtonNewTileMapClass"))
+			{
+				//Change LayerNames[i] Variable..
+				memset(LayerNames[i], 0, 50);
+				memcpy(LayerNames[i], LayerNameBuffer, 50);
+			}
+			ImGui::SameLine();
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImColor(255, 255, 255)));
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(0, 168, 107)));
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(ImColor(63, 122, 77)));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(ImColor(41, 171, 135)));
+			if (ImGui::Button("Set A Default Name##SetTileMapLayerNameButtonNewTileMapClass"))
+			{
+
+			}
+			ImGui::PopStyleColor(4);
+
+			ImGui::EndTabItem();
+		}
+		ImGui::PopID();
+	}*/
+	/*if (ImGui::BeginTabItem("Layer1"))
+	{
+		ImGui::Text("Hello World ?");
+		ImGui::EndTabItem();
+	}
+
+	if (ImGui::BeginTabItem("Layer2"))
+	{
+		ImGui::Text("Hello World Again?");
+		ImGui::EndTabItem();
+	}*/

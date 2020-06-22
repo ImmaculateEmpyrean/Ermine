@@ -77,14 +77,20 @@ namespace Ermine
 	void Ermine::VertexBuffer::ClearAll()
 	{
 		BufferData.clear();
-		GLCall(glDeleteBuffers(1, &vertex_buffer));
-		vertex_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
+		if (vertex_buffer != 0)
+		{
+			GLCall(glDeleteBuffers(1, &vertex_buffer));
+			vertex_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
+		}
 	}
 	
 	void Ermine::VertexBuffer::ClearOpenGLBuffer()
 	{
-		GLCall(glDeleteBuffers(1, &vertex_buffer));
-		vertex_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
+		if (vertex_buffer != 0)
+		{
+			GLCall(glDeleteBuffers(1, &vertex_buffer));
+			vertex_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
+		}
 	}
 	
 	void VertexBuffer::GenBufferSubmitDataHelper(unsigned int& buffer, std::vector<float>& Data)

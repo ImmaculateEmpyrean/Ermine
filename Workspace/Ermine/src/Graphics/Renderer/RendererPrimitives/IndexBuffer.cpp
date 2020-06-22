@@ -91,12 +91,18 @@ namespace Ermine
 	void IndexBuffer::ClearAll()
 	{
 		BufferData.clear();
-		GLCall(glDeleteBuffers(1, &index_buffer));
-		index_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
+		if (index_buffer != 0)
+		{
+			GLCall(glDeleteBuffers(1, &index_buffer));
+			index_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
+		}
 	}
 	void IndexBuffer::ClearOpenGLBuffer()
 	{
-		GLCall(glDeleteBuffers(1, &index_buffer));
-		index_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
+		if (index_buffer != 0)
+		{
+			GLCall(glDeleteBuffers(1, &index_buffer));
+			index_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
+		}
 	}
 }

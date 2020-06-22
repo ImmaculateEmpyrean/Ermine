@@ -127,6 +127,5 @@ void Ermine::DebugMainWindow::Draw()
         }
         ImGui::EndMenuBar();
     }*/
-
     ImGui::End();
 }

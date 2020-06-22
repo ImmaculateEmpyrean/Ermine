@@ -43,7 +43,7 @@ namespace Ermine
 		void ClearOpenGLBuffer();
 
 	private:
-		unsigned int vertex_buffer;
+		unsigned int vertex_buffer = 0;
 		std::vector<float> BufferData;
 	};
 }
