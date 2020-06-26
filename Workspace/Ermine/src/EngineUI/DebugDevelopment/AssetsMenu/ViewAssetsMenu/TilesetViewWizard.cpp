@@ -144,8 +144,11 @@ void Ermine::TilesetViewWizard::Draw()
 
 		if (ImGui::Button("OK"))
 		{
-			auto Context = Ermine::EditorDefaultStrings::Get();
-			Context->SubmitChanges("TilesetViewWizardTilesetsPath", std::string(TilesetPathInputBuffer));
+			if (MakeDefault == true)
+			{
+				auto Context = Ermine::EditorDefaultStrings::Get();
+				Context->SubmitChanges("TilesetViewWizardTilesetsPath", std::string(TilesetPathInputBuffer));
+			}
 			
 			TilesetsPath = std::filesystem::path(TilesetPathInputBuffer);
 			memset(TilesetPathInputBuffer, 0, 100);
