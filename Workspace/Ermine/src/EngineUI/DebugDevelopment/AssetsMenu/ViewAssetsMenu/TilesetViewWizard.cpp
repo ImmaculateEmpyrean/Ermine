@@ -5,14 +5,15 @@
 #include "GLFW/glfw3.h"
 #include "imgui.h"
 
-
-
 #include "EngineResourceHandlers/GlobalTextureCache.h"
+#include "EngineResourceHandlers/EditorDefaultStrings.h"
 
 Ermine::TilesetViewWizard::TilesetViewWizard()
 {
 	HelperInitializeBuffers();
-	TilesetsPath = std::filesystem::path("TileSet");
+	auto Context = EditorDefaultStrings::Get();
+	TilesetsPath = Context->GetValue("TilesetViewWizardTilesetsPath").value_or("Error Could Not Get A Default Path From Editor Default Strings");
+	//TilesetsPath = std::filesystem::path("TileSet");
 }
 
 Ermine::TilesetViewWizard::~TilesetViewWizard()
@@ -143,6 +144,9 @@ void Ermine::TilesetViewWizard::Draw()
 
 		if (ImGui::Button("OK"))
 		{
+			auto Context = Ermine::EditorDefaultStrings::Get();
+			Context->SubmitChanges("TilesetViewWizardTilesetsPath", std::string(TilesetPathInputBuffer));
+			
 			TilesetsPath = std::filesystem::path(TilesetPathInputBuffer);
 			memset(TilesetPathInputBuffer, 0, 100);
 			DisplayChangePathFromWhichTilesetsAreDisplayedWindow = false;

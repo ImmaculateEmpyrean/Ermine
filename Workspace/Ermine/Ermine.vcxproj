@@ -137,6 +137,7 @@
     <ClInclude Include="src\2DPrimitives\TileSet.h" />
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core.h" />
+    <ClInclude Include="src\EngineResourceHandlers\EditorDefaultStrings.h" />
     <ClInclude Include="src\EngineResourceHandlers\GlobalTextureCache.h" />
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.h" />
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileMap.h" />
@@ -191,6 +192,7 @@
     <ClCompile Include="src\2DPrimitives\TileSet.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\Core.cpp" />
+    <ClCompile Include="src\EngineResourceHandlers\EditorDefaultStrings.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileMap.cpp" />

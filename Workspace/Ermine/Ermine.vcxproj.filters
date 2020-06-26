@@ -221,6 +221,7 @@
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TileMapViewWizard.h" />
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewWizard.h" />
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewer.h" />
+    <ClInclude Include="src\EngineResourceHandlers\EditorDefaultStrings.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp">
@@ -348,5 +349,6 @@
     </ClCompile>
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TileMapViewWizard.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewWizard.cpp" />
+    <ClCompile Include="src\EngineResourceHandlers\EditorDefaultStrings.cpp" />
   </ItemGroup>
 </Project>
