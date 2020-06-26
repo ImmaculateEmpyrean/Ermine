@@ -53,7 +53,9 @@ namespace Ermine
 
 		bool ViewMapXmL = false;
 		bool DisplayViewMapXml = false;
-
+		
+		bool OpenLayerViewWindow = false;
+		bool DisplayLayerViewWindow = false;
 		//Ended Flags
 
 		//Start Status Variables
@@ -62,21 +64,7 @@ namespace Ermine
 
 		//Start Buffers
 		char* NameBuffer;
-		//Ended Buffers
-
-		/*int LayerSelected = 0;
-		std::vector<std::vector<int>> LayerData;
-		
-		//Start Layer Properties
-		std::vector<char*> LayerNames;
-		char* LayerNameBuffer;
-		//Ended Layer Properties
-
-		//Buffer To Store The Name Of The Buffer
-		char* NameBuffer;
 		char* NameBufferCopy;
-
-		//Buffer To Store The Path Of The Buffer
-		char* PathBuffer;*/
+		//Ended Buffers
 	};
 }

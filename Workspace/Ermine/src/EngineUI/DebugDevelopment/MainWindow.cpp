@@ -12,6 +12,7 @@
 #include "EngineUI/DebugDevelopment/AssetsMenu/AddNewAssetsMenu/NewTileMap.h"
 
 #include "EngineUI/DebugDevelopment/AssetsMenu/ViewAssetsMenu/TextureViewWizard.h"
+#include "EngineUI/DebugDevelopment/AssetsMenu/ViewAssetsMenu/TilesetViewWizard.h"
 
 Ermine::DebugMainWindow::DebugMainWindow()
 {
@@ -91,10 +92,17 @@ void Ermine::DebugMainWindow::Draw()
             
             if (ImGui::BeginMenu("View Assets"))
             {
-                if (ImGui::MenuItem("View Texture "))
+                if (ImGui::MenuItem("Texture"))
                 {
                     auto Handler = Ermine::WindowHandler::Get();
                     Handler->SubmitWindowFront(std::make_unique<Ermine::TextureViewWizard>(Ermine::TextureViewWizard()));
+                }
+
+
+                if (ImGui::MenuItem("Tileset"))
+                {
+                    auto Handler = Ermine::WindowHandler::Get();
+                    Handler->SubmitWindowFront(std::make_unique<Ermine::TilesetViewWizard>(Ermine::TilesetViewWizard()));
                 }
                 ImGui::EndMenu();
             }

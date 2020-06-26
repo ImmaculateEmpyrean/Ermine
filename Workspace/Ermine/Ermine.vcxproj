@@ -143,6 +143,9 @@
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileSet.h" />
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.h" />
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.h" />
+    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TileMapViewWizard.h" />
+    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewer.h" />
+    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewWizard.h" />
     <ClInclude Include="src\EngineUI\DebugDevelopment\MainWindow.h" />
     <ClInclude Include="src\EngineUI\PrecursorWindow.h" />
     <ClInclude Include="src\EngineUI\WindowHandler.h" />
@@ -194,6 +197,8 @@
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileSet.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.cpp" />
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TileMapViewWizard.cpp" />
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewWizard.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\MainWindow.cpp" />
     <ClCompile Include="src\EngineUI\WindowHandler.cpp" />
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp" />
