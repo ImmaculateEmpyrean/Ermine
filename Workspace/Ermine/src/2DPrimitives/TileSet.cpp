@@ -38,7 +38,8 @@ namespace Ermine
 		SpritesInTheTileset(rhs.SpritesInTheTileset),
 		TileSetFilePath(rhs.TileSetFilePath),
 		TileWidth(rhs.TileWidth),
-		TileHeight(rhs.TileHeight)
+		TileHeight(rhs.TileHeight),
+		TileSetName(rhs.TileSetName)
 	{}
 	TileSet TileSet::operator=(TileSet&& rhs)
 	{
@@ -46,6 +47,7 @@ namespace Ermine
 		TileSetFilePath = rhs.TileSetFilePath;
 		TileWidth = rhs.TileWidth;
 		TileHeight = rhs.TileHeight;
+		TileSetName = rhs.TileSetName;
 
 		return *this;
 	}
@@ -68,7 +70,6 @@ namespace Ermine
 	{
 		return TileSetFilePath;
 	}
-
 
 	void TileSet::HelperConstructorLoadTileMapFromFilePath()
 	{

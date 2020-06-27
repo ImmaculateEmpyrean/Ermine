@@ -350,5 +350,6 @@
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TileMapViewWizard.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewWizard.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\EditorDefaultStrings.cpp" />
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewer.cpp" />
   </ItemGroup>
 </Project>

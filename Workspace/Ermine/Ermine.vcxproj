@@ -200,6 +200,7 @@
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TileMapViewWizard.cpp" />
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewer.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewWizard.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\MainWindow.cpp" />
     <ClCompile Include="src\EngineUI\WindowHandler.cpp" />

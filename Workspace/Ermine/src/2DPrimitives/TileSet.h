@@ -40,6 +40,11 @@ namespace Ermine
 		std::vector<std::shared_ptr<Sprite>> GetSpriteBuffer() { return SpritesInTheTileset; }
 		int GetNumberOfSpritesInTileSet() { return SpritesInTheTileset.size(); };
 
+		std::string GetName() { return TileSetName; }
+		
+		int GetTileWidth() { return TileWidth; }
+		int GetTileHeight() { return TileHeight; }
+
 	public:
 
 	protected:
@@ -61,6 +66,7 @@ namespace Ermine
 	private:
 		std::string TileSetName;
 
+		//Important Note - I am assuming All Tiles have the same diamensions otherwise this wont work... :>
 		std::vector<std::shared_ptr<Sprite>> SpritesInTheTileset; //The Tileset After Loading Contains Ready To Draw Tiles Anybody Can Merely Request What They Want My Passing In an Index..
 
 		std::filesystem::path TileSetFilePath;

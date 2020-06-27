@@ -56,6 +56,15 @@ void Ermine::TilesetViewWizard::Draw()
 	ImGui::Text("Enter Filter Text : ");
 	ImGui::SameLine();
 	ImGui::InputTextWithHint("##Tilesetviewwizardenterfiltertext", "Enter File Name To Thin out Options", FilterText, 100);
+	ImGui::NextColumn();
+
+	ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImColor(255, 255, 255)));
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(220, 20, 60)));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(ImColor(178, 34, 34)));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(ImColor(139, 0, 0)));
+	if (ImGui::Button("Quit")) Quit = true;
+	ImGui::PopStyleColor(4);
+	
 	ImGui::Columns(1);
 
 	ImGui::Separator();
@@ -99,9 +108,13 @@ void Ermine::TilesetViewWizard::Draw()
 					auto items = JsonFile["Texture"].items();
 					auto Img = Cache->GetTextureFromFile(items.begin().key());
 
-					ImGui::ImageButton((void*)(intptr_t)Img->GetTextureID(),
+					if (ImGui::ImageButton((void*)(intptr_t)Img->GetTextureID(),
 						ImVec2(ImGui::GetColumnWidth(), Img->GetHeightToMatchAspectRatio(ImGui::GetColumnWidth())),
-						ImVec2(1, 1), ImVec2(0, 0));
+						ImVec2(1, 1), ImVec2(0, 0)))
+					{
+						auto Handler = Ermine::WindowHandler::Get();
+						Handler->SubmitWindowFront(std::make_unique<Ermine::TilesetViewer>(Ermine::TilesetViewer(i.path())));
+					}
 
 					ImGui::NextColumn();
 
@@ -120,7 +133,6 @@ void Ermine::TilesetViewWizard::Draw()
 
 	ImGui::End();
 
-	//ImGui::ShowDemoWindow();
 
 	if (ChangePathFromWhichTilesetsAreDisplayed)
 	{
