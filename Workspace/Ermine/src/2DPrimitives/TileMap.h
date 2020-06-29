@@ -67,9 +67,8 @@ namespace Ermine
 				NumberOfTilesHorizontal = 10;
 				NumberOfTilesVertical = 10;
 
-				LayerData.resize(NumberOfTilesHorizontal * NumberOfTilesVertical, 0);
+				LayerData.resize((NumberOfTilesHorizontal * NumberOfTilesVertical), 0);
 			}
-
 			std::string Name;
 
 			int TileWidth;

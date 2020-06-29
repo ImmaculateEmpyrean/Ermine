@@ -621,3 +621,12 @@
 [15:44:41] GameFileLogger : Game DLL Attach Invoked Simply Tracing It.. :>
 [16:09:50] GameFileLogger : Game DLL Attach Invoked Simply Tracing It.. :>
 [16:10:56] GameFileLogger : Game DLL Attach Invoked Simply Tracing It.. :>
+[16:24:56] GameFileLogger : Game DLL Attach Invoked Simply Tracing It.. :>
+[16:35:47] GameFileLogger : Game DLL Attach Invoked Simply Tracing It.. :>
+[16:45:24] GameFileLogger : Game DLL Attach Invoked Simply Tracing It.. :>
+[16:46:39] GameFileLogger : Game DLL Attach Invoked Simply Tracing It.. :>
+[16:48:34] GameFileLogger : Game DLL Attach Invoked Simply Tracing It.. :>
+[17:05:02] GameFileLogger : Game DLL Attach Invoked Simply Tracing It.. :>
+[17:29:56] GameFileLogger : Game DLL Attach Invoked Simply Tracing It.. :>
+[17:31:54] GameFileLogger : Game DLL Attach Invoked Simply Tracing It.. :>
+[17:32:40] GameFileLogger : Game DLL Attach Invoked Simply Tracing It.. :>
