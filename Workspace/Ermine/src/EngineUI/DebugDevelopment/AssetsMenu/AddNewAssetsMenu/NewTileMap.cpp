@@ -162,7 +162,8 @@ void Ermine::NewTileMap::Draw()
 
 	if (Map.Layers[LayerChosen].NumberOfTilesHorizontal>0)
 	{
-		ImGui::SetNextWindowContentSize(ImVec2(Map.Layers[LayerChosen].TileWidth* Map.Layers[LayerChosen].NumberOfTilesHorizontal,0));
+		ImGui::SetNextWindowContentSize(ImVec2(Map.Layers[LayerChosen].TileWidth * Map.Layers[LayerChosen].NumberOfTilesHorizontal * 1.3f,0));
+		
 		ImVec2 child_size = ImVec2(0, ImGui::GetFontSize() * 20.0f);
 		ImGui::BeginChild("TileMap##ScrollingRegion", child_size, false, ImGuiWindowFlags_HorizontalScrollbar);
 		ImGui::Columns(Map.Layers[LayerChosen].NumberOfTilesHorizontal);
