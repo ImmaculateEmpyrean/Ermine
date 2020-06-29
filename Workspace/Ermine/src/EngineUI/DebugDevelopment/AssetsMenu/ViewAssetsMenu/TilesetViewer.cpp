@@ -5,6 +5,8 @@
 #include "GLFW/glfw3.h"
 #include "imgui.h"
 
+#include "EventSystem/Components/BroadcastComponent.h"
+
 namespace Ermine
 {
 	TilesetViewer::TilesetViewer(std::filesystem::path TileSetPath)
@@ -19,8 +21,7 @@ namespace Ermine
 
 	void TilesetViewer::Draw()
 	{
-		//ImGui::SetNextWindowContentSize(ImVec2(NumberOfRowsAndColumns.second * Set.GetTileWidth(), NumberOfRowsAndColumns.first * Set.GetTileHeight()));
-																								   //This 5.0f * x is given so that adequate gap is given to all tiles
+																										   //This 5.0f * x is given so that adequate gap is given to all tiles
 		ImGui::SetNextWindowContentSize(ImVec2(NumberOfRowsAndColumns.second *Set.GetTileWidth() + (5.0f * NumberOfRowsAndColumns.second), 500.0f));
 
 		ImGui::Begin(Set.GetName().c_str());
@@ -43,19 +44,27 @@ namespace Ermine
 		{
 			ImGui::PushID(c);
 			
-			//static bool Selected = false; //Error Here
 			auto cursorpos = ImGui::GetCursorPos();
 			int* test = &(Selected[c]);
 			if (ImGui::Selectable("##SelectableTilesetViewer", (bool*)test, 0, ImVec2(Set.GetTileWidth(), Set.GetTileHeight()))) //Finish This Next Sitting..
 			{
-				//Selected[c] = true;
+				//Start Reset And Select What U Want
+				//First Turn Off All Selectables
+				for (int k = 0; k < Selected.size(); k++)
+					Selected[k] = 0;
+				//Then Select What U Actually Selected
+				Selected[c] = 1;
+				//Ended Reset And Select What U Want
+
+				//Start Generate And Broadcast Event
+				std::unique_ptr<Ermine::TileSelectedEvent> EventObj = Ermine::TileSelectedEvent::GenerateEvent(Set.GetFilePath(),c);
+				Ermine::BroadcastComponent::BroadcastEvent(std::move(EventObj));
+				//Ended Generate And Broadcast Event
 			}
 			ImGui::SetCursorPos(cursorpos);
 			ImGui::Image((void*)(intptr_t)i->GetTexture()->GetTextureID(), ImVec2(Set.GetTileWidth(), Set.GetTileHeight()),
 						 ImVec2(i->GetTopRightUV().x, i->GetTopRightUV().y), ImVec2(i->GetBottomLeftUV().x, i->GetBottomLeftUV().y));
 			
-
-
 			ImGui::PopID();
 			c++;
 			ImGui::NextColumn();

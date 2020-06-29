@@ -5,6 +5,10 @@
 
 namespace Ermine
 {
+	TileMap::TileMap()
+	{
+		//Finish This Next Session
+	}
 	TileMap::TileMap(std::filesystem::path TileMapFilePath)
 		:
 		TileMapPath(TileMapFilePath)
@@ -26,12 +30,16 @@ namespace Ermine
 	TileMap::TileMap(const TileMap& rhs)
 	{
 		TileMapPath = rhs.TileMapPath;
-		LoadTileMapFromPath();
+
+		if(!(TileMapPath.empty()))
+			LoadTileMapFromPath();
 	}
 	TileMap TileMap::operator=(const TileMap& rhs)
 	{
 		TileMapPath = rhs.TileMapPath;
-		LoadTileMapFromPath();
+
+		if (!(TileMapPath.empty()))
+			LoadTileMapFromPath();
 
 		return *this;
 	}
@@ -46,6 +54,8 @@ namespace Ermine
 		TileSetsBuffer = std::move(rhs.TileSetsBuffer);
 
 		TileSetStartIndexTracker = rhs.TileSetStartIndexTracker;
+
+		TilemapFullyFunctional = rhs.TilemapFullyFunctional;
 	}
 	TileMap TileMap::operator=(TileMap&& rhs)
 	{
@@ -57,6 +67,8 @@ namespace Ermine
 		TileSetsBuffer = std::move(rhs.TileSetsBuffer);
 
 		TileSetStartIndexTracker = rhs.TileSetStartIndexTracker;
+
+		TilemapFullyFunctional = rhs.TilemapFullyFunctional;
 
 		return *this;
 	}
@@ -94,6 +106,112 @@ namespace Ermine
 		return TileSetsBuffer[c]->GetTile(Index);
 	}
 
+	int TileMap::GetIndex(std::shared_ptr<Sprite> SpriteToCheck)
+	{
+		//This Function Is Not At All Checked And Probably Wont Work At All Hope Future Ermine Fixes This And Removes This Message..
+		int NumberToSendBack = 0;
+
+		for (auto i : TileSetsBuffer)
+		{
+			for (auto j : i->GetSpriteBuffer())
+			{
+				if (j->Equals(*SpriteToCheck))
+				{
+					return NumberToSendBack;
+				}
+				NumberToSendBack++;
+			}
+		}
+		return -1;
+	}
+
+	void TileMap::SetTileValue(int LayerNumber, int TileIndex,int TileValue)
+	{
+		Layers[LayerNumber].LayerData[TileIndex] = TileValue;
+	}
+	int TileMap::GetTileValue(int LayerNumber, int TileIndex)
+	{
+		return Layers[LayerNumber].LayerData[TileIndex];
+	}
+
+
+	void TileMap::AddLayerToBack(Ermine::TileMap::Layer LayerToAdd)
+	{
+		Layers.emplace_back(LayerToAdd);
+	}
+
+	void TileMap::AddLayerToFront(Ermine::TileMap::Layer LayerToAdd)
+	{
+		Layers.insert(Layers.begin(), LayerToAdd);
+	}
+
+	void TileMap::AddTileset(std::filesystem::path TilesetPath)
+	{
+		HelperAddTileset(std::make_unique<Ermine::TileSet>(TilesetPath));
+	}
+	void TileMap::AddTileset(std::unique_ptr<Ermine::TileSet> TilesetToAdd)
+	{
+		HelperAddTileset(std::move(TilesetToAdd));
+	}
+
+	void TileMap::HelperAddTileset(std::unique_ptr<Ermine::TileSet> TilesetPtr)
+	{
+		if (!HelperCheckIfTilesetExists(TilesetPtr->GetFilePath()))
+		{
+			if (TileSetEndIndexTracker.size() == 0)
+			{
+				TileSetStartIndexTracker.emplace_back(1);
+				TileSetEndIndexTracker.emplace_back(TilesetPtr->GetSpriteBuffer().size());
+			}
+			else
+			{
+				TileSetEndIndexTracker.emplace_back(TilesetPtr->GetSpriteBuffer().size() + TileSetStartIndexTracker[TileSetStartIndexTracker.size() - 1]);
+				TileSetStartIndexTracker.emplace_back(TileSetEndIndexTracker[(TileSetEndIndexTracker.size() - 2)] + 1);
+			}
+
+			TileSetsBuffer.emplace_back(TilesetPtr.release());
+		}
+	}
+
+
+	std::string TileMap::GenerateJsonTileMap()
+	{
+		nlohmann::json JsonFile;
+
+		JsonFile["TileMapName"] = TileMapName;
+		
+		for (auto i : Layers)
+		{
+			nlohmann::json Layer;
+			nlohmann::json LayerProperties;
+
+			LayerProperties["TileWidthPixels"]  = i.TileWidth;
+			LayerProperties["TileHeightPixels"] = i.TileHeight;
+
+			LayerProperties["NumberOfTilesHorizontal"] = i.NumberOfTilesHorizontal;
+			LayerProperties["NumberOfTilesVertical"] = i.NumberOfTilesHorizontal;
+			LayerProperties["TileData"] = i.LayerData; //Check This I Have Got My Doubts.. [Already Checked This Seems To Work]
+			LayerProperties["LayerNumber"] = i.LayerNumber;
+
+			Layer[i.Name] = LayerProperties;
+			JsonFile["Layers"].push_back(Layer);
+		}
+
+		int c = 0;
+		for (auto i : TileSetsBuffer)
+		{
+			nlohmann::json TileSet;
+			nlohmann::json TileSetProperties;
+
+			TileSetProperties["StartIndex"] = TileSetStartIndexTracker[c++];
+
+			TileSet[i->GetFilePath().u8string()] = TileSetProperties;
+
+			JsonFile["Tilesets"].push_back(TileSet);
+		}
+
+		return JsonFile.dump();
+	}
 
 	void TileMap::LoadTileMapFromPath()
 	{
@@ -110,7 +228,7 @@ namespace Ermine
 		//Start Extracting Layers//
 		for (auto i = TileSetFile["Layers"].begin(); i != TileSetFile["Layers"].end(); i++)
 		{
-			Layer Container;
+			Layer Container = Layer("Def");
 
 			Container.Name = i.key();
 
@@ -148,6 +266,28 @@ namespace Ermine
 		//Ended Extracting TileSets//
 
 		CreateRendererFriendlyDrawable();
+
+		TilemapFullyFunctional = true; //This Flag is Used To Set That Tilemap Can Be Used As Intended..
+	}
+
+	void TileMap::WriteTileMapToDisk()
+	{
+		std::stringstream Stream;
+		auto SourceCode = GenerateJsonTileMap();
+		Stream << SourceCode;
+
+		std::string FilePath = "TileMap/";
+		FilePath = FilePath + TileMapName;
+		FilePath = FilePath + ".json";
+
+		std::ofstream OutputFile(FilePath);
+
+		nlohmann::json OutputJsonFile;
+		OutputJsonFile << Stream;
+
+		OutputFile << OutputJsonFile;
+
+		OutputFile.close();
 	}
 
 	void TileMap::CreateRendererFriendlyDrawable()
@@ -288,5 +428,21 @@ namespace Ermine
 
 		}
 		return std::make_pair(Ermine::VertexArray(VertexBuffer, IndexBuffer), TextureToNumberMapper);
+	}
+
+
+	bool TileMap::HelperCheckIfTilesetExists(std::filesystem::path TileSetPath)
+	{
+		/*auto Iterator = TileSetsBuffer.find(TilesetFilesystemPath.u8string());
+		if (Iterator == TilesetsHoldingBuffer.end())
+			return false;
+
+		return true;*/
+		for (auto i : TileSetsBuffer)
+		{
+			if (i->GetFilePath() == TileSetPath)
+				return true;
+		}
+		return false;
 	}
 }

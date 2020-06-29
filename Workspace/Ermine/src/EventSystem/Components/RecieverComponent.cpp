@@ -7,6 +7,7 @@
 #include "../EventTypes/CursorPositionCallbackEvent.h"
 #include "../EventTypes/MouseButtonCallbackEvent.h"
 #include "../EventTypes/ScrollCallbackEvent.h"
+#include "../EventTypes/TileSelectedEvent.h"
 
 void Ermine::RecieverComponent::Bind(std::function<void(Event*)> Callable, std::atomic<bool>& SwitchTOControlIfAnEventCanBeExecuted, EventType SubscriptionType)
 {
@@ -40,6 +41,11 @@ void Ermine::RecieverComponent::Bind(std::function<void(Event*)> Callable, std::
 	else if (SubscriptionType == EventType::ScrollCallbackEvent)
 	{
 		std::unique_ptr<Ermine::ScrollCallbackEventSubscription> Obj = std::make_unique < Ermine::ScrollCallbackEventSubscription > (Callable, SwitchTOControlIfAnEventCanBeExecuted);
+		station->QueueSubscription(std::move(Obj));
+	}
+	else if (SubscriptionType == EventType::TileSelectedEvent)
+	{
+		std::unique_ptr<Ermine::TileSelectedEventSubscription> Obj = std::make_unique < Ermine::TileSelectedEventSubscription>(Callable, SwitchTOControlIfAnEventCanBeExecuted);
 		station->QueueSubscription(std::move(Obj));
 	}
 	else

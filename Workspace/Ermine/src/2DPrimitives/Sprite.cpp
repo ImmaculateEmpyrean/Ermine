@@ -50,4 +50,14 @@ namespace Ermine
 		else
 			return false;
 	}
+	bool Sprite::Equals(Sprite rhs)
+	{
+		if (rhs.TextureContainingTheSprite == TextureContainingTheSprite)
+		{
+			if (BottomLeftUV == rhs.BottomLeftUV && TopRightUV == rhs.TopRightUV)
+				return true;
+			else return false;
+		}
+		else return false;
+	}
 }

@@ -222,6 +222,7 @@
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewWizard.h" />
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewer.h" />
     <ClInclude Include="src\EngineResourceHandlers\EditorDefaultStrings.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\TileSelectedEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp">
@@ -351,5 +352,6 @@
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewWizard.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\EditorDefaultStrings.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewer.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\TileSelectedEvent.cpp" />
   </ItemGroup>
 </Project>

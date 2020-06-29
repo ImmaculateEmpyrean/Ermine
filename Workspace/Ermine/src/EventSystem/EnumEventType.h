@@ -9,6 +9,7 @@ namespace Ermine
 		CharacterCallbackEvent=3,
 		CursorPositionCallbackEvent=4,
 		MouseButtonCallbackEvent=5,
-		ScrollCallbackEvent=6
+		ScrollCallbackEvent=6,
+		TileSelectedEvent=7
 	};
 }

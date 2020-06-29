@@ -45,6 +45,9 @@ namespace Ermine
 		int GetTileWidth() { return TileWidth; }
 		int GetTileHeight() { return TileHeight; }
 
+		//This Function is extremely fast if u only want the tile diamensions it only opens the file does not construct the tileset..
+		static std::pair<int, int> GetTileDiamensionsFromTileset(std::filesystem::path TilesetPath);
+
 	public:
 
 	protected:

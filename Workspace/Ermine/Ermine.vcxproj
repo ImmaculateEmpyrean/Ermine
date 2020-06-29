@@ -161,6 +161,7 @@
     <ClInclude Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\TileSelectedEvent.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Shader.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Texture.h" />
     <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h" />
@@ -214,6 +215,7 @@
     <ClCompile Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\ScrollCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\TileSelectedEvent.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Shader.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Texture.cpp" />
     <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp" />

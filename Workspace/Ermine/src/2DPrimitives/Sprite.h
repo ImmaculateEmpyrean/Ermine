@@ -35,6 +35,9 @@ namespace Ermine
 		//Note- this operator is not to be used anywhere except the renderer and there also to check if two sprites have the same texture Nothing else..
 		bool operator ==(Sprite rhs); 
 
+		//This Function Is To Be USed To Compare Sprites..
+		bool Equals(Sprite rhs);
+
 	public:
 
 	protected:

@@ -71,6 +71,20 @@ namespace Ermine
 		return TileSetFilePath;
 	}
 
+	std::pair<int, int> TileSet::GetTileDiamensionsFromTileset(std::filesystem::path TilesetPath)
+	{
+		std::pair<int, int> TileDiamensions;
+		std::ifstream TileSetFileRaw(TilesetPath);
+
+		nlohmann::json TileSetFile;
+		TileSetFile << TileSetFileRaw; //Load The JSON Into The JSON Adapter..
+
+		TileDiamensions.first = std::stoi(TileSetFile["TileWidth"].dump());
+		TileDiamensions.second = std::stoi(TileSetFile["TileHeight"].dump());
+
+		return TileDiamensions;
+	}
+
 	void TileSet::HelperConstructorLoadTileMapFromFilePath()
 	{
 		std::ifstream TileSetFileRaw(TileSetFilePath);

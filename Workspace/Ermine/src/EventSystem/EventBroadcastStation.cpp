@@ -69,6 +69,8 @@ void Ermine::EventBroadcastStation::QueueBroadcast(std::unique_ptr<Event> Broadc
 		break;
 	case EventType::ScrollCallbackEvent:ScrollCallbackEventsQueue.push_back(*((ScrollCallbackEvent*)(EvePtr)));
 		break;
+	case EventType::TileSelectedEvent: TileSelectedCallbackEventsQueue.push_back(*((TileSelectedEvent*)(EvePtr)));
+		break;
 	default: STDOUTDefaultLog_Critical("Unknown Event Type Recieved For QUeing Check Api Maybe... Dunno I should never trigger");
 	}
 	delete EvePtr;
@@ -95,6 +97,8 @@ void Ermine::EventBroadcastStation::QueueSubscription(std::unique_ptr<EventSubsc
 		break;
 	case EventType::ScrollCallbackEvent: ScrollCallbackEventSubscriptions.push_back(*((ScrollCallbackEventSubscription*)(EvePtr)));
 		break;
+	case EventType::TileSelectedEvent: TileSelectedCallbackEventSubscriptions.push_back(*((TileSelectedEventSubscription*)(EvePtr)));
+		break;
 	default: STDOUTDefaultLog_Critical("Unknown Subscription Type Recieved For Queing Check Api Maybe... Dunno I should never trigger");
 	}
 
@@ -114,6 +118,7 @@ void Ermine::EventBroadcastStation::DispatchMessages()
 	DispatchCursorPositionCallbackMessages();
 	DispatchMouseButtonCallbackMessages();
 	DispatchScrollCallbackMessages();
+	DispatchTileSelectedCallbackMessages();
 }
 
 void Ermine::EventBroadcastStation::DispatchConcreteMessages()
@@ -233,5 +238,25 @@ void Ermine::EventBroadcastStation::DispatchScrollCallbackMessages()
 			}
 		}
 		ScrollCallbackEventsQueue.erase(ScrollCallbackEventsQueue.begin() + i);
+	}
+}
+
+void Ermine::EventBroadcastStation::DispatchTileSelectedCallbackMessages()
+{
+	for (int i = 0; i < TileSelectedCallbackEventsQueue.size(); i++)
+	{
+		for (auto j : TileSelectedCallbackEventSubscriptions)
+		{
+			if (j.CanIRecieveEventFlag == true)
+			{
+				j.CallableObject(&TileSelectedCallbackEventsQueue[i]);
+			}
+			//If The Event Is Already handled No Point In Handling it Further Right..
+			if (TileSelectedCallbackEventsQueue[i].IsEventHandled() == true)
+			{
+				break;
+			}
+		}
+		TileSelectedCallbackEventsQueue.erase(TileSelectedCallbackEventsQueue.begin() + i);
 	}
 }

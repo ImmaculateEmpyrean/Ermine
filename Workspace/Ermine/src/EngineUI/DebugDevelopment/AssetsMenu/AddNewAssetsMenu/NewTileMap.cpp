@@ -3,23 +3,35 @@
 
 #include "imgui.h"
 
+#include "EventSystem/Components/RecieverComponent.h"
+
+#include "nlohmann/json.hpp" 
+
 Ermine::NewTileMap::NewTileMap()
 {
 	InitializeBuffers();
 
-	TileDiamensions.first = 50;
-	TileDiamensions.second = 50;
+	Map.AddLayerToBack(Ermine::TileMap::Layer(std::string("Default")));
+	//TileDiamensions.first = 50; //This Is The Default Value Change Whenever You Want
+	//TileDiamensions.second = 50; //This Is The Default Value Change whenever You Want
 
-	/*memcpy(NameBuffer, "UntitledMap", 11);
-	memcpy(NameBufferCopy, "UntitledMap", 11);
-
-	memcpy(LayerNameBuffer, "Layer",6);*/
+	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&NewTileMap::RecieveTileSelectedEvents), RecieveTileSetSelectedEventsFlag, 
+								    Ermine::EventType::TileSelectedEvent);
 }
 
 Ermine::NewTileMap::~NewTileMap()
 {
-	delete NameBuffer;
-	NameBuffer = nullptr;
+	if (NameBuffer != nullptr)
+	{
+		delete NameBuffer;
+		NameBuffer = nullptr;
+	}
+
+	if (LayerNameBuffer != nullptr)
+	{
+		delete LayerNameBuffer;
+		LayerNameBuffer = nullptr;
+	}
 }
 
 Ermine::NewTileMap::NewTileMap(const NewTileMap& rhs)
@@ -44,35 +56,95 @@ Ermine::NewTileMap Ermine::NewTileMap::operator=(NewTileMap&& rhs)
 
 void Ermine::NewTileMap::Draw()
 {
-	std::string WindowName = "Tilemap - \"" + TileMapName + "\"";
+	std::string WindowName = "Tilemap - \"" + Map.TileMapName + "\"";
+
+
 	ImGui::Begin(WindowName.c_str());
 	
 	//Start Set TileMap Name Section
 	ImGui::Text("TileMap Name : ");
 	ImGui::SameLine();
-	//ImGui::InputTextWithHint("##GetTileMapNameNewTileMapClass", "Enter The Name of The Tile Map Here", NameBuffer, 512);
+	ImGui::InputTextWithHint("##GetTileMapNameNewTileMapClass", "Enter The Name of The Tile Map Here", NameBuffer, 100);
 	ImGui::SameLine();
-	if(ImGui::Button("Set##SetTileMapNameButtonNewTileMapClass"))	
+	if (ImGui::Button("Set##SetTileMapNameButtonNewTileMapClass"))
 	{
-		memcpy(NameBuffer,NameBufferCopy,512);
+		Map.TileMapName = std::string(NameBuffer);
 	}
 	//Ended Set TileMap Name Section
 
+	ImGui::Separator();
+
+	ImGui::Text("Select Layer");
+	ImGui::SameLine();
+	static const char* current_item = current_item = Map.Layers[0].Name.c_str();;
+
+	if (ImGui::BeginCombo("##SelectLayerComboBoxNewTileMap", current_item))
+	{
+		for (int n = 0; n < Map.Layers.size(); n++)
+		{
+			bool is_selected = (current_item == Map.Layers[n].Name.c_str());
+			//bool is_selected;
+			if (ImGui::Selectable(Map.Layers[n].Name.c_str(), is_selected))
+			{
+				current_item = Map.Layers[n].Name.c_str();
+				LayerChosen = n;
+				memcpy(LayerNameBuffer, Map.Layers[n].Name.c_str(), 100);
+			}
+			if (is_selected)
+			{
+				//memset(LayerNameBuffer, 0, 100);
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+	}
+
+	ImGui::SameLine();
+	if (ImGui::Button("+##NewTileMapAddNewLayerButton"))
+	{
+		if(!DisplayLayerNameInputWindow)
+			OpenLayerNameInputWindow = true;
+		
+	}
+
+	ImGui::Separator();
+
+	//Start Set TileMap Layer Name Section
+	ImGui::Text("Layer Name : ");
+	ImGui::SameLine();
+	ImGui::InputTextWithHint("##GetTileMapLayerNameNewTileMapClass", "Enter The Name of The Layer Here", LayerNameBuffer, 100);
+	ImGui::SameLine();
+	if (ImGui::Button("Set##SetTileMapLayerNameButtonNewTileMapClass"))
+	{
+		Map.Layers[LayerChosen].Name = std::string(LayerNameBuffer);
+	}
+	//Start Set TileMap Layer Name Section
+
 	ImGui::Text("Number Of Tiles In X : ");
 	ImGui::SameLine();
-	ImGui::InputInt("##NewTileMapGetNumberOfTilesX", &NumberOfTiles.first, 1, 10);
+	ImGui::InputInt("##NewTileMapGetNumberOfTilesX", &Map.Layers[LayerChosen].NumberOfTilesHorizontal, 1, 10);
 
 	ImGui::Text("Number Of Tiles In Y : ");
 	ImGui::SameLine();
-	ImGui::InputInt("##NewTileMapGetNumberOfTilesY", &NumberOfTiles.second, 1, 10);
+	if (ImGui::InputInt("##NewTileMapGetNumberOfTilesY", &Map.Layers[LayerChosen].NumberOfTilesVertical, 1, 10))
+	{
+		Map.Layers[LayerChosen].LayerData.resize((Map.Layers[LayerChosen].NumberOfTilesHorizontal) * (Map.Layers[LayerChosen].NumberOfTilesVertical, 0));
+	}
 
 	ImGui::Text("Tile Width  : ");
 	ImGui::SameLine();
-	ImGui::InputInt("##NewTileMapGetWidth", &TileDiamensions.first, 1, 10);
+	if (ImGui::InputInt("##NewTileMapGetWidth", &Map.Layers[LayerChosen].TileWidth, 1, 10))
+	{
+		Map.Layers[LayerChosen].LayerData.resize((Map.Layers[LayerChosen].NumberOfTilesHorizontal) * (Map.Layers[LayerChosen].NumberOfTilesVertical, 0));
+	}
 
 	ImGui::Text("Tile Height : ");
 	ImGui::SameLine();
-	ImGui::InputInt("##NewTileMapGetTileHeight", &TileDiamensions.second, 1, 10);
+	if (ImGui::InputInt("##NewTileMapGetTileHeight", &Map.Layers[LayerChosen].TileHeight, 1, 10)) 
+	{
+		Map.Layers[LayerChosen].LayerData.clear();
+		Map.Layers[LayerChosen].LayerData.resize((Map.Layers[LayerChosen].NumberOfTilesHorizontal) * (Map.Layers[LayerChosen].NumberOfTilesVertical, 0));
+	}
 
 	ImGui::Separator();
 
@@ -80,39 +152,48 @@ void Ermine::NewTileMap::Draw()
 		OpenTilesetChoosingMenu = true;
 	ImGui::SameLine();
 	if (ImGui::Button("View Map XML##NewTileMapTilesetsMenu"))
-		ViewMapXmL = true;
+		ViewMapJson = true;
 	ImGui::SameLine();
 
 	ImGui::Separator();
 
-	ImGui::Columns(2);
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "EDITOR :");
-		ImGui::NextColumn();
-		ImGui::Text("Layer Selected :");
-		//ImGui::BeginCombo("##LayerSelectorComboNewTileMap", "NONE");
-		//Populate Combo Here
-		//ImGui::EndCombo();
-		ImGui::SameLine();
-		ImGui::Button("+##NewTileMapAddNewLayerButton");
-		ImGui::SameLine();
-		OpenLayerViewWindow = ImGui::Button("SelectedLayerView##NewTileMapAddNewLayerButton");
-
-	ImGui::Columns(1);
+	OpenLayerViewWindow = ImGui::Button("SelectedLayerView##NewTileMapAddNewLayerButton");
 	ImGui::Separator();
 
-	if (NumberOfTiles.first > 0)
+	if (Map.Layers[LayerChosen].NumberOfTilesHorizontal>0)//NumberOfTiles.first > 0)
 	{
-		TileDiamensions.first = 50;
-		TileDiamensions.second = 50;
-		ImGui::SetNextWindowContentSize(ImVec2(TileDiamensions.first * NumberOfTiles.first,
+		//TileDiamensions.first = 50;
+		//TileDiamensions.second = 50;
+		ImGui::SetNextWindowContentSize(ImVec2(Map.Layers[LayerChosen].TileWidth* Map.Layers[LayerChosen].NumberOfTilesHorizontal,//TileDiamensions.first * NumberOfTiles.first,
 			0));//TileDiamensions.second * NumberOfTiles.second));
 		ImVec2 child_size = ImVec2(0, ImGui::GetFontSize() * 20.0f);
 		ImGui::BeginChild("TileMap##ScrollingRegion", child_size, false, ImGuiWindowFlags_HorizontalScrollbar);
-		ImGui::Columns(NumberOfTiles.first);
-		for (int i = 0; i < NumberOfTiles.first * NumberOfTiles.second; i++)
+		ImGui::Columns(Map.Layers[LayerChosen].NumberOfTilesHorizontal);//NumberOfTiles.first);
+		for (int i = 0; i < Map.Layers[LayerChosen].NumberOfTilesHorizontal * Map.Layers[LayerChosen].NumberOfTilesVertical;i++)//NumberOfTiles.first * NumberOfTiles.second; i++)
 		{
-			static bool Sigma = false;
-			ImGui::Selectable("Hanna", &Sigma, 0, { 50,50 });
+			ImGui::PushID(i);
+
+			if (Map.Layers[LayerChosen].LayerData[i] != 0)
+			{
+				ImGui::ImageButton((void*)(intptr_t)Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetTexture()->GetTextureID(),
+					ImVec2(Map.Layers[LayerChosen].TileWidth, Map.Layers[LayerChosen].TileHeight),
+					ImVec2(Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetTopRightUV().x, Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetTopRightUV().y),
+					ImVec2(Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetBottomLeftUV().x, Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetBottomLeftUV().y));
+				//ImGui::Selectable("Hanna", &Sigma, 0, { 50,50 });
+				/*static bool Sigma = false;
+				ImGui::Selectable("Hanna", &Sigma, 0, { 50,50 });*/
+			}
+			else
+			{
+				if (ImGui::Button("##TileButtonNewTileMap", ImVec2(Map.Layers[LayerChosen].TileWidth, Map.Layers[LayerChosen].TileHeight)))
+				{
+					//if (SelectedSpriteIndex != 0)				//if (SelectedSprite != nullptr)
+					Map.Layers[LayerChosen].LayerData[i] = SelectedSpriteIndex;//Map.GetIndex(SelectedSprite);
+				}
+			}
+
+			ImGui::PopID();
+
 			ImGui::NextColumn();
 		}
 
@@ -130,21 +211,148 @@ void Ermine::NewTileMap::Draw()
 	ClearButtonColor();
 
 	ImGui::End();
+
+	if (OpenLayerNameInputWindow)
+	{
+		DisplayLayerNameInputWindow = true;
+		OpenLayerNameInputWindow = false;
+	}
+
+	if (DisplayLayerNameInputWindow)
+		DrawLayerNameInputWindow();
 }
+
+void Ermine::NewTileMap::DrawLayerNameInputWindow()
+{
+	ImGui::Begin("Accept Layer Name", (bool*)0, ImGuiWindowFlags_AlwaysAutoResize);
+
+	ImGui::Text("Enter Name Of The New Layer : ");
+	ImGui::SameLine();
+	ImGui::InputTextWithHint("##NewTilemapInputLayerNameField", "Enter Name For The Layer To Create", LayerNameBuffer, 100);
+
+	SetButtonColorGreen();
+	if (ImGui::Button("Confirm"))
+	{
+		if (LayerNameBuffer[0] != 0)
+		{
+			Map.AddLayerToBack(Ermine::TileMap::Layer(std::string(LayerNameBuffer)));
+			DisplayLayerNameInputWindow = false;
+		}
+	}
+	ClearButtonColor();
+	ImGui::SameLine();
+	SetButtonColorRed();
+	if (ImGui::Button("Cancel"))
+		DisplayLayerNameInputWindow = false;
+	ClearButtonColor();
+
+	ImGui::End();
+}
+
+void Ermine::NewTileMap::Update()
+{
+	//Empty For Now
+}
+
+void Ermine::NewTileMap::RecieveTileSelectedEvents(Ermine::Event* EveObj)
+{
+	STDOUTDefaultLog_Critical("Haha Recieved TileSelected Events Message Printed From New TileMap");
+
+	TileSelectedEvent* Event = (TileSelectedEvent*)EveObj;
+
+	auto TileDiamensionsFromTileset = Ermine::TileSet::GetTileDiamensionsFromTileset(Event->GetTilesetPath());
+
+	if ((TileDiamensionsFromTileset.first == Map.Layers[LayerChosen].TileWidth) && (TileDiamensionsFromTileset.second == Map.Layers[LayerChosen].TileHeight))
+	{
+		//Create And The TileSet To The Buffer Also Update The Selected With a Sprite..
+		//if (!(HelperCheckBuffersIfTileSetExists(Event->GetTilesetPath()))) //You Should Add If It Doesnt Exist..
+			//TilesetsHoldingBuffer[Event->GetTilesetPath().u8string()] = Ermine::TileSet(Event->GetTilesetPath());
+		
+		//SelectedSprite = Map.TileSetsBuffer[]//TilesetsHoldingBuffer[Event->GetTilesetPath().u8string()].GetTile(Event->GetIndex());
+		SelectedSpriteIndex = Event->GetIndex();
+		Map.AddTileset(Event->GetTilesetPath());
+	}
+}
+
+/*bool Ermine::NewTileMap::HelperCheckBuffersIfTileSetExists(std::filesystem::path TilesetFilesystemPath)
+{
+	auto Iterator = TilesetsHoldingBuffer.find(TilesetFilesystemPath.u8string());
+	if (Iterator == TilesetsHoldingBuffer.end())
+		return false;
+	
+	return true;
+}*/
 
 void Ermine::NewTileMap::InitializeBuffers()
 {
-	
+	NameBuffer = new char[100];
+	LayerNameBuffer = new char[100];
+
+	memset(NameBuffer, 0, 100);
+	memset(LayerNameBuffer, 0, 100);
 }
 
 void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
 {
-	
+	/*TileMapName = rhs.TileMapName;
+	NumberOfTiles = rhs.NumberOfTiles;
+	TileDiamensions = rhs.TileDiamensions;*/
+
+	Map = rhs.Map;
+
+	OpenTilesetChoosingMenu = rhs.OpenTilesetChoosingMenu;
+	DisplayTilesetChoosingMenu = rhs.DisplayTilesetChoosingMenu;
+
+	ViewMapJson = rhs.ViewMapJson;
+	DisplayViewMapJson = rhs.DisplayViewMapJson;
+
+	OpenLayerViewWindow = rhs.OpenLayerViewWindow;
+	DisplayLayerViewWindow = rhs.DisplayLayerViewWindow;
+
+	OpenLayerNameInputWindow = rhs.OpenLayerNameInputWindow;
+	DisplayLayerNameInputWindow = rhs.DisplayLayerNameInputWindow;
+
+	RecieveTileSetSelectedEventsFlag = rhs.RecieveTileSetSelectedEventsFlag.load();
+
+	InitializeBuffers();
+	memcpy(NameBuffer, rhs.NameBuffer, 100);
+	memcpy(LayerNameBuffer, rhs.LayerNameBuffer, 100);
+
+	SelectedSpriteIndex = rhs.SelectedSpriteIndex;
 }
 
 void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 {
-	
+	/*TileMapName = rhs.TileMapName;
+	NumberOfTiles = rhs.NumberOfTiles;
+	TileDiamensions = rhs.TileDiamensions;*/
+
+	Map = std::move(rhs.Map);
+
+	OpenTilesetChoosingMenu = rhs.OpenTilesetChoosingMenu;
+	DisplayTilesetChoosingMenu = rhs.DisplayTilesetChoosingMenu;
+
+	ViewMapJson = rhs.ViewMapJson;
+	DisplayViewMapJson = rhs.DisplayViewMapJson;
+
+	OpenLayerViewWindow = rhs.OpenLayerViewWindow;
+	DisplayLayerViewWindow = rhs.DisplayLayerViewWindow;
+
+	OpenLayerNameInputWindow = rhs.OpenLayerNameInputWindow;
+	DisplayLayerNameInputWindow = rhs.DisplayLayerNameInputWindow;
+
+	RecieveTileSetSelectedEventsFlag = rhs.RecieveTileSetSelectedEventsFlag.load();
+
+	NameBuffer = rhs.NameBuffer;
+	rhs.NameBuffer = nullptr;
+
+	LayerNameBuffer = rhs.LayerNameBuffer;
+	rhs.LayerNameBuffer = nullptr;
+
+	SelectedSpriteIndex = rhs.SelectedSpriteIndex;
+
+	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&NewTileMap::RecieveTileSelectedEvents), RecieveTileSetSelectedEventsFlag,
+		Ermine::EventType::TileSelectedEvent);
 }
 
 void Ermine::NewTileMap::SetButtonColorGreen()

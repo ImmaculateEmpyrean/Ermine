@@ -14,6 +14,7 @@
 #include "EventTypes/CursorPositionCallbackEvent.h"
 #include "EventTypes/MouseButtonCallbackEvent.h"
 #include "EventTypes/ScrollCallbackEvent.h"
+#include "EventTypes/TileSelectedEvent.h"
 
 //TODO Write a Macro Instead Of all those obnoxious helper functions...
 
@@ -54,6 +55,7 @@ namespace Ermine
 		std::vector<CursorPositionCallbackEvent>CursorPositionCallbackEventsQueue;
 		std::vector<MouseButtonCallbackEvent>MouseButtonCallbackEventsQueue;
 		std::vector<ScrollCallbackEvent>ScrollCallbackEventsQueue;
+		std::vector<TileSelectedEvent> TileSelectedCallbackEventsQueue;
 		//Donot Forget to add destructors for these containers inside the destructor..
 
 	private:
@@ -64,6 +66,7 @@ namespace Ermine
 		std::vector<CursorPositionCallbackEventSubscription> CursorPositionCallbackEventSubscriptions;
 		std::vector<MouseButtonCallbackEventSubscription> MouseButtonCallbackEventSubscriptions;
 		std::vector<ScrollCallbackEventSubscription> ScrollCallbackEventSubscriptions;
+		std::vector<TileSelectedEventSubscription> TileSelectedCallbackEventSubscriptions;
 		//Donot Forget to add destructors for these containers inside the destructor..
 
 	private:
@@ -74,7 +77,7 @@ namespace Ermine
 		void DispatchCursorPositionCallbackMessages();
 		void DispatchMouseButtonCallbackMessages();
 		void DispatchScrollCallbackMessages();
-
+		void DispatchTileSelectedCallbackMessages();
 	};
 
 }

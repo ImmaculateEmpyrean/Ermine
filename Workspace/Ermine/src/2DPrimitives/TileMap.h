@@ -14,11 +14,12 @@
 namespace Ermine
 {
 	class Renderer2D; //Forward Declaration..
+	class NewTileMap; //Forward Declaration..
 
 	class TileMap
 	{
 	public:
-		TileMap() = delete; //There is No Reason To Hav An Empty TileMap..
+		TileMap(); //Be Very Careful Empty Tilemaps Inside Renderer Can Crash The Program Spectacularly //= delete; //Make A Descision About This By next Session..
 		TileMap(std::filesystem::path TileMapFilePath);
 
 		~TileMap();
@@ -38,6 +39,14 @@ namespace Ermine
 		int GetEndIndex();
 
 		std::shared_ptr<Sprite> GetSprite(int Index);
+		int GetIndex(std::shared_ptr<Sprite> SpriteToCheck);
+
+		//Start Create Tilemaps Api Functions
+
+		void SetTileValue(int LayerNumber,int TileIndex, int TileValue);
+		int GetTileValue(int LayerNumber, int TileIndex);
+
+		//Ended Create Tilemaps Api functions
 
 	public:
 
@@ -48,6 +57,19 @@ namespace Ermine
 	private:
 		struct Layer
 		{
+			Layer(std::string LayerName)
+			{
+				Name = LayerName;
+
+				TileWidth = 50;
+				TileHeight = 50;
+
+				NumberOfTilesHorizontal = 10;
+				NumberOfTilesVertical = 10;
+
+				LayerData.resize(NumberOfTilesHorizontal * NumberOfTilesVertical, 0);
+			}
+
 			std::string Name;
 
 			int TileWidth;
@@ -56,9 +78,9 @@ namespace Ermine
 			int NumberOfTilesHorizontal;
 			int NumberOfTilesVertical;
 
-			int LayerNumber;
+			int LayerNumber = -1; //The Default Value.. System Assigns a value if the value is -1..
 
-			std::vector<int> LayerData;
+			std::vector<int> LayerData; //This Can Be left null it will then be populated by 0's accordingly as of the writing it does not do that
 
 		public:
 			//This Compares LayerNumbers Only
@@ -78,14 +100,34 @@ namespace Ermine
 		};
 
 	private:
+
+		///Start Create Tilemap Api..
+
+		//Highest Number is To Be Given
+		void AddLayerToBack(Ermine::TileMap::Layer LayerToAdd); 
+
+		//Number 1 is given and all Other Layers Are Pushed Back By one Donot Use This unless absolutely needed..
+		void AddLayerToFront(Ermine::TileMap::Layer LayerToAdd); 
+
+		void AddTileset(std::filesystem::path TilesetPath);
+		void AddTileset(std::unique_ptr<Ermine::TileSet> TilesetToAdd);
+		void HelperAddTileset(std::unique_ptr<Ermine::TileSet> TilesetToAdd);
+
+		std::string GenerateJsonTileMap();
+		void WriteTileMapToDisk();
+		///Ended Create Tilemap Api...
+
 		//This Function Is Only Meant For Friends And As Such Is Hidden Away In Private..
 		std::vector<Layer> GetAllLayers() { return Layers; } 
 
 		//Set The TileMapPath Variable Before Calling This Method Otherwise It Wont Work..
 		void LoadTileMapFromPath();
+
 		void CreateRendererFriendlyDrawable();
 		std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer);
-	
+		
+		bool HelperCheckIfTilesetExists(std::filesystem::path TileSetPath);
+
 	private:
 		std::filesystem::path TileMapPath;
 
@@ -106,6 +148,10 @@ namespace Ermine
 		int NumberOfGridsInXOnScreen = 10; //Please Include Functions For This In The Api In The Near Future..
 		int NumberOfGridsInYOnScreen = 10; //Please Include Functions For This In The Api In The Near Future..
 
+		//Flag Variables..
+		bool TilemapFullyFunctional = false; //This Flag Must Be Set To true If The tilemap is to be used by the renderer
+
 		friend class Ermine::Renderer2D;
+		friend class Ermine::NewTileMap;
 	};
 }
