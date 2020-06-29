@@ -57,7 +57,7 @@ namespace Ermine
 				//Ended Reset And Select What U Want
 
 				//Start Generate And Broadcast Event
-				std::unique_ptr<Ermine::TileSelectedEvent> EventObj = Ermine::TileSelectedEvent::GenerateEvent(Set.GetFilePath(),c);
+				std::unique_ptr<Ermine::TileSelectedEvent> EventObj = Ermine::TileSelectedEvent::GenerateEvent(Set.GetFilePath(),c + 1); //c+1 because tilesets start from 1 not zero :>
 				Ermine::BroadcastComponent::BroadcastEvent(std::move(EventObj));
 				//Ended Generate And Broadcast Event
 			}

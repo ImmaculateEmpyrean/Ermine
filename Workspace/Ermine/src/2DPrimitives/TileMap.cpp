@@ -98,12 +98,12 @@ namespace Ermine
 
 		while (true)
 		{
-			if (Index < TileSetEndIndexTracker[c] && Index >= TileSetStartIndexTracker[c])
+			if (Index <= TileSetEndIndexTracker[c] && Index >= TileSetStartIndexTracker[c]) //Maybe make <= to < if it does not work..
 				break;
 			c++;
 		}
 		
-		return TileSetsBuffer[c]->GetTile(Index);
+		return TileSetsBuffer[c]->GetTile(Index - TileSetStartIndexTracker[c]); //Maybe Remove - TilesetIndexTracker[c] if it does not work..
 	}
 
 	int TileMap::GetIndex(std::shared_ptr<Sprite> SpriteToCheck)
