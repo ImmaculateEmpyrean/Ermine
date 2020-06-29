@@ -160,35 +160,31 @@ void Ermine::NewTileMap::Draw()
 	OpenLayerViewWindow = ImGui::Button("SelectedLayerView##NewTileMapAddNewLayerButton");
 	ImGui::Separator();
 
-	if (Map.Layers[LayerChosen].NumberOfTilesHorizontal>0)//NumberOfTiles.first > 0)
+	if (Map.Layers[LayerChosen].NumberOfTilesHorizontal>0)
 	{
-		//TileDiamensions.first = 50;
-		//TileDiamensions.second = 50;
-		ImGui::SetNextWindowContentSize(ImVec2(Map.Layers[LayerChosen].TileWidth* Map.Layers[LayerChosen].NumberOfTilesHorizontal,//TileDiamensions.first * NumberOfTiles.first,
-			0));//TileDiamensions.second * NumberOfTiles.second));
+		ImGui::SetNextWindowContentSize(ImVec2(Map.Layers[LayerChosen].TileWidth* Map.Layers[LayerChosen].NumberOfTilesHorizontal,0));
 		ImVec2 child_size = ImVec2(0, ImGui::GetFontSize() * 20.0f);
 		ImGui::BeginChild("TileMap##ScrollingRegion", child_size, false, ImGuiWindowFlags_HorizontalScrollbar);
-		ImGui::Columns(Map.Layers[LayerChosen].NumberOfTilesHorizontal);//NumberOfTiles.first);
-		for (int i = 0; i < Map.Layers[LayerChosen].NumberOfTilesHorizontal * Map.Layers[LayerChosen].NumberOfTilesVertical;i++)//NumberOfTiles.first * NumberOfTiles.second; i++)
+		ImGui::Columns(Map.Layers[LayerChosen].NumberOfTilesHorizontal);
+		for (int i = 0; i < Map.Layers[LayerChosen].NumberOfTilesHorizontal * Map.Layers[LayerChosen].NumberOfTilesVertical;i++)
 		{
 			ImGui::PushID(i);
 
 			if (Map.Layers[LayerChosen].LayerData[i] != 0)
 			{
-				ImGui::ImageButton((void*)(intptr_t)Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetTexture()->GetTextureID(),
+				if (ImGui::ImageButton((void*)(intptr_t)Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetTexture()->GetTextureID(),
 					ImVec2(Map.Layers[LayerChosen].TileWidth, Map.Layers[LayerChosen].TileHeight),
 					ImVec2(Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetTopRightUV().x, Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetTopRightUV().y),
-					ImVec2(Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetBottomLeftUV().x, Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetBottomLeftUV().y));
-				//ImGui::Selectable("Hanna", &Sigma, 0, { 50,50 });
-				/*static bool Sigma = false;
-				ImGui::Selectable("Hanna", &Sigma, 0, { 50,50 });*/
+					ImVec2(Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetBottomLeftUV().x, Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetBottomLeftUV().y),0))
+				{
+					Map.Layers[LayerChosen].LayerData[i] = SelectedSpriteIndex;
+				}
 			}
 			else
 			{
 				if (ImGui::Button("##TileButtonNewTileMap", ImVec2(Map.Layers[LayerChosen].TileWidth, Map.Layers[LayerChosen].TileHeight)))
 				{
-					//if (SelectedSpriteIndex != 0)				//if (SelectedSprite != nullptr)
-					Map.Layers[LayerChosen].LayerData[i] = SelectedSpriteIndex;//Map.GetIndex(SelectedSprite);
+					Map.Layers[LayerChosen].LayerData[i] = SelectedSpriteIndex;
 				}
 			}
 
@@ -207,7 +203,8 @@ void Ermine::NewTileMap::Draw()
 	ClearButtonColor();
 	ImGui::SameLine();
 	SetButtonColorRed();
-	ImGui::Button("Cancel");
+	if (ImGui::Button("Cancel"))
+		Quit = true;
 	ClearButtonColor();
 
 	ImGui::End();
