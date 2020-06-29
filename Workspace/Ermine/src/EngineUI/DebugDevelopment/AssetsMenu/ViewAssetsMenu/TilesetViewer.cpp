@@ -18,6 +18,38 @@ namespace Ermine
 		HelperCalculateNumberOfRowsAndColumns();
 	}
 
+	TilesetViewer::TilesetViewer(const TilesetViewer& rhs)
+		:
+		Set(rhs.Set)
+	{
+		Selected = rhs.Selected;
+		NumberOfRowsAndColumns = rhs.NumberOfRowsAndColumns;
+	}
+	TilesetViewer TilesetViewer::operator=(const TilesetViewer& rhs)
+	{
+		Set = rhs.Set;
+		Selected = rhs.Selected;
+		NumberOfRowsAndColumns = rhs.NumberOfRowsAndColumns;
+
+		return *this;
+	}
+
+	TilesetViewer::TilesetViewer(TilesetViewer&& rhs)
+		:
+		Set(std::move(rhs.Set))
+	{
+		Selected = std::move(rhs.Selected);
+		NumberOfRowsAndColumns = std::move(rhs.NumberOfRowsAndColumns);
+	}
+	TilesetViewer TilesetViewer::operator=(TilesetViewer&& rhs)
+	{
+		Set = std::move(rhs.Set);
+		Selected = std::move(rhs.Selected);
+		NumberOfRowsAndColumns = std::move(rhs.NumberOfRowsAndColumns);
+
+		return *this;
+	}
+
 
 	void TilesetViewer::Draw()
 	{
@@ -31,8 +63,9 @@ namespace Ermine
 
 		ImGui::Separator();
 
-		float ContentRegionWidth = ImGui::GetContentRegionAvailWidth();
-		int NumberOfColumns = ContentRegionWidth / (Set.GetTileWidth());
+		//float ContentRegionWidth = ImGui::GetContentRegionAvailWidth();
+
+		int NumberOfColumns = NumberOfRowsAndColumns.second; // (Set.GetTileWidth());
 
 		if (NumberOfColumns > Set.GetNumberOfSpritesInTileSet())
 			NumberOfColumns = Set.GetNumberOfSpritesInTileSet();
@@ -72,6 +105,8 @@ namespace Ermine
 
 		ImGui::Separator();
 
+		ImGui::Columns(1);
+
 		if (ImGui::Button("Quit"))
 			Quit = true;
 
@@ -81,32 +116,28 @@ namespace Ermine
 
 	void TilesetViewer::HelperCalculateNumberOfRowsAndColumns()
 	{
-		std::vector<int> Storage;
+		std::vector<std::pair<int, int>> MultiplicationPairs;
 
-		int c = 2;
-		while (c < Set.GetNumberOfSpritesInTileSet())
+		for (int i = 0; i < Set.GetNumberOfSpritesInTileSet(); i++)
 		{
-			if (not(Set.GetNumberOfSpritesInTileSet() % c))
-				Storage.emplace_back(c);
-			c++;
-		}
-
-		c = 2;
-		int NewNum = Set.GetNumberOfSpritesInTileSet() / Storage.back();
-		NumberOfRowsAndColumns.first = Storage.back();
-		Storage.clear();
-
-		if (NewNum != 2)
-		{
-			while (c < NewNum)
+			for (int j = 0; j < Set.GetNumberOfSpritesInTileSet(); j++)
 			{
-				if (not(NewNum % c))
-					Storage.emplace_back(c);
-				c++;
+				if ((i * j) == Set.GetNumberOfSpritesInTileSet())
+				{
+					MultiplicationPairs.emplace_back(std::make_pair(i, j));
+				}
 			}
-			NumberOfRowsAndColumns.second = Storage.back();
 		}
-		else
-			NumberOfRowsAndColumns.second = 2;
+
+		int WinningDifference = Set.GetNumberOfSpritesInTileSet();
+
+		for (auto i : MultiplicationPairs)
+		{
+			if (abs(i.second - i.first) < WinningDifference)
+			{
+				NumberOfRowsAndColumns = i;
+				WinningDifference = abs(i.second - i.first);
+			}
+		}
 	}
 }

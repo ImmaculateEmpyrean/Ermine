@@ -17,6 +17,12 @@ namespace Ermine
 		TilesetViewer(std::filesystem::path TileSetPath);
 
 	public:
+		TilesetViewer(const TilesetViewer& rhs);
+		TilesetViewer operator =(const TilesetViewer& rhs);
+
+		TilesetViewer(TilesetViewer&& rhs);
+		TilesetViewer operator =(TilesetViewer&& rhs);
+
 		virtual void Draw() override;
 
 	public:
