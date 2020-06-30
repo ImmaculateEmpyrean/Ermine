@@ -61,11 +61,11 @@ namespace Ermine
 			{
 				Name = LayerName;
 
-				TileWidth = 50;
-				TileHeight = 50;
+				TileWidth = 32;
+				TileHeight = 64;
 
-				NumberOfTilesHorizontal = 10;
-				NumberOfTilesVertical = 10;
+				NumberOfTilesHorizontal = 5;
+				NumberOfTilesVertical = 5;
 
 				LayerData.resize((NumberOfTilesHorizontal * NumberOfTilesVertical), 0);
 			}

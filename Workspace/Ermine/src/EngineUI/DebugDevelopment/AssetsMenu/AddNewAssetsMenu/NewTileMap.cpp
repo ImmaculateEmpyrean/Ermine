@@ -13,6 +13,9 @@ Ermine::NewTileMap::NewTileMap()
 
 	Map.AddLayerToBack(Ermine::TileMap::Layer(std::string("Default")));
 
+	auto TextureManager = Ermine::GlobalTextureCache::Get();
+	TransparentTexture = TextureManager->GetTextureFromFile("Texture/Transparent.png");
+	
 	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&NewTileMap::RecieveTileSelectedEvents), RecieveTileSetSelectedEventsFlag, 
 								    Ermine::EventType::TileSelectedEvent);
 }
@@ -123,14 +126,14 @@ void Ermine::NewTileMap::Draw()
 
 	if (ImGui::InputInt("##NewTileMapGetNumberOfTilesX", &Map.Layers[LayerChosen].NumberOfTilesHorizontal, 1, 10))
 	{
-		Map.Layers[LayerChosen].LayerData.resize((Map.Layers[LayerChosen].NumberOfTilesHorizontal) * (Map.Layers[LayerChosen].NumberOfTilesVertical, 0));
+		Map.Layers[LayerChosen].LayerData.resize(((Map.Layers[LayerChosen].NumberOfTilesHorizontal) * (Map.Layers[LayerChosen].NumberOfTilesVertical)), 0);
 	}
 
 	ImGui::Text("Number Of Tiles In Y : ");
 	ImGui::SameLine();
 	if (ImGui::InputInt("##NewTileMapGetNumberOfTilesY", &Map.Layers[LayerChosen].NumberOfTilesVertical, 1, 10))
 	{
-		Map.Layers[LayerChosen].LayerData.resize((Map.Layers[LayerChosen].NumberOfTilesHorizontal) * (Map.Layers[LayerChosen].NumberOfTilesVertical, 0));
+		Map.Layers[LayerChosen].LayerData.resize(((Map.Layers[LayerChosen].NumberOfTilesHorizontal) * (Map.Layers[LayerChosen].NumberOfTilesVertical)), 0);
 	}
 
 	ImGui::Text("Tile Width  : ");
@@ -138,7 +141,7 @@ void Ermine::NewTileMap::Draw()
 	if (ImGui::InputInt("##NewTileMapGetWidth", &Map.Layers[LayerChosen].TileWidth, 1, 10))
 	{
 		Map.Layers[LayerChosen].LayerData.clear();
-		Map.Layers[LayerChosen].LayerData.resize((Map.Layers[LayerChosen].NumberOfTilesHorizontal) * (Map.Layers[LayerChosen].NumberOfTilesVertical), 0);
+		Map.Layers[LayerChosen].LayerData.resize(((Map.Layers[LayerChosen].NumberOfTilesHorizontal) * (Map.Layers[LayerChosen].NumberOfTilesVertical)), 0);
 	}
 
 	ImGui::Text("Tile Height : ");
@@ -146,7 +149,7 @@ void Ermine::NewTileMap::Draw()
 	if (ImGui::InputInt("##NewTileMapGetTileHeight", &Map.Layers[LayerChosen].TileHeight, 1, 10)) 
 	{
 		Map.Layers[LayerChosen].LayerData.clear();
-		Map.Layers[LayerChosen].LayerData.resize((Map.Layers[LayerChosen].NumberOfTilesHorizontal) * (Map.Layers[LayerChosen].NumberOfTilesVertical), 0);
+		Map.Layers[LayerChosen].LayerData.resize(((Map.Layers[LayerChosen].NumberOfTilesHorizontal) * (Map.Layers[LayerChosen].NumberOfTilesVertical)), 0);
 	}
 
 	ImGui::Separator();
@@ -267,17 +270,26 @@ void Ermine::NewTileMap::DrawLayerNameInputWindow()
 	ImGui::End();
 }
 
+int c = 0;
+
 void Ermine::NewTileMap::DrawDisplayConstructedMapWindow()
 {
 	ImGui::Begin("OutputWindow");//,(bool*)0,ImGuiWindowFlags_AlwaysAutoResize);
 
-	auto Position = ImGui::GetCursorPos();
+	auto Position = ImGui::GetCursorPos();//ImGui::GetCursorScreenPos();//ImGui::GetCursorPos();
+	//ImVec2 CursorPositionCurrent;
 
 	for (auto i : Map.Layers)
 	{
+		//ImGui::SetCursorScreenPos(Position);
+		ImGui::SetCursorPos(Position);
+		ImGui::SetNextWindowContentSize(ImVec2((i.TileWidth * i.NumberOfTilesHorizontal * 1.3f), 0));
 		ImGui::Columns(i.NumberOfTilesHorizontal,(const char*)0,false);
+		//ImGui::SetCursorPos(Position);
+
 		for (int j = 0; j < i.LayerData.size(); j++)
 		{
+			ImGui::PushID(j);
 			if (i.LayerData[j] != 0)
 			{
 				ImGui::Image((void*)(intptr_t)Map.GetSprite(i.LayerData[j])->GetTexture()->GetTextureID(),
@@ -285,19 +297,35 @@ void Ermine::NewTileMap::DrawDisplayConstructedMapWindow()
 					ImVec2(Map.GetSprite(i.LayerData[j])->GetTopRightUV().x, Map.GetSprite(i.LayerData[j])->GetTopRightUV().y),
 					ImVec2(Map.GetSprite(i.LayerData[j])->GetBottomLeftUV().x, Map.GetSprite(i.LayerData[j])->GetBottomLeftUV().y));
 			}
+			else
+			{
+				ImGui::Image((void*)(intptr_t)TransparentTexture->GetTextureID(),
+					ImVec2(i.TileWidth, i.TileHeight),
+					ImVec2(1.0f,1.0f),
+					ImVec2(0.0f,0.0f));
+			}
 			ImGui::NextColumn();
+			ImGui::PopID();
+			//SpecializedNextColumn(i.NumberOfTilesHorizontal);
 		}
-		
-		ImGui::SetCursorPos(Position);
-
-		//For Reference We Got It Here
-		/*ImGui::ImageButton((void*)(intptr_t)Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetTexture()->GetTextureID(),
-			ImVec2(Map.Layers[LayerChosen].TileWidth, Map.Layers[LayerChosen].TileHeight),
-			ImVec2(Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetTopRightUV().x, Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetTopRightUV().y),
-			ImVec2(Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetBottomLeftUV().x, Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetBottomLeftUV().y), 0))*/
 	}
 
 	ImGui::End();
+}
+
+void Ermine::NewTileMap::SpecializedNextColumn(int Threshold)
+{
+	c++;
+
+	if (c > Threshold)
+	{
+		ImGui::NewLine();
+		c = 0;
+	}
+	else
+	{
+		ImGui::NextColumn();
+	}
 }
 
 void Ermine::NewTileMap::Update()
@@ -333,6 +361,10 @@ void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
 {
 
 	Map = rhs.Map;
+	SelectedSpriteIndex = rhs.SelectedSpriteIndex;
+	LayerChosen = rhs.LayerChosen;
+
+	TransparentTexture = rhs.TransparentTexture;
 
 	OpenTilesetChoosingMenu = rhs.OpenTilesetChoosingMenu;
 	DisplayTilesetChoosingMenu = rhs.DisplayTilesetChoosingMenu;
@@ -352,13 +384,17 @@ void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
 	memcpy(NameBuffer, rhs.NameBuffer, 100);
 	memcpy(LayerNameBuffer, rhs.LayerNameBuffer, 100);
 
-	SelectedSpriteIndex = rhs.SelectedSpriteIndex;
+	
 }
 
 void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 {
 	
 	Map = std::move(rhs.Map);
+	SelectedSpriteIndex = rhs.SelectedSpriteIndex;
+	LayerChosen = rhs.LayerChosen;
+
+	TransparentTexture = std::move(rhs.TransparentTexture);
 
 	OpenTilesetChoosingMenu = rhs.OpenTilesetChoosingMenu;
 	DisplayTilesetChoosingMenu = rhs.DisplayTilesetChoosingMenu;
@@ -380,7 +416,7 @@ void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 	LayerNameBuffer = rhs.LayerNameBuffer;
 	rhs.LayerNameBuffer = nullptr;
 
-	SelectedSpriteIndex = rhs.SelectedSpriteIndex;
+	
 
 	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&NewTileMap::RecieveTileSelectedEvents), RecieveTileSetSelectedEventsFlag,
 		Ermine::EventType::TileSelectedEvent);

@@ -63,9 +63,7 @@ namespace Ermine
 
 		ImGui::Separator();
 
-		//float ContentRegionWidth = ImGui::GetContentRegionAvailWidth();
-
-		int NumberOfColumns = NumberOfRowsAndColumns.second; // (Set.GetTileWidth());
+		int NumberOfColumns = NumberOfRowsAndColumns.second;
 
 		if (NumberOfColumns > Set.GetNumberOfSpritesInTileSet())
 			NumberOfColumns = Set.GetNumberOfSpritesInTileSet();
@@ -140,4 +138,5 @@ namespace Ermine
 			}
 		}
 	}
+
 }

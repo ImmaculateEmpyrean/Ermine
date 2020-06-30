@@ -37,7 +37,9 @@ namespace Ermine
 
 	private:
 		void DrawLayerNameInputWindow();
+
 		void DrawDisplayConstructedMapWindow();
+		void SpecializedNextColumn(int Threshold);
 
 		//This Function Is Used To Synchronize With The Outside World.. Stuff Like Process Messages and The Like..
 		void RecieveTileSelectedEvents(Ermine::Event* EveObj);
@@ -59,6 +61,8 @@ namespace Ermine
 		Ermine::TileMap Map;
 		int LayerChosen = 0;
 		int SelectedSpriteIndex = 0;
+
+		std::shared_ptr<Ermine::Texture> TransparentTexture;
 		//Ended Main Variables
 
 		//Start Flags
