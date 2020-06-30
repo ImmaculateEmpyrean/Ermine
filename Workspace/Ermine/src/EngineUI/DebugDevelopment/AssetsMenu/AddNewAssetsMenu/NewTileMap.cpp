@@ -274,15 +274,17 @@ int c = 0;
 
 void Ermine::NewTileMap::DrawDisplayConstructedMapWindow()
 {
+	int LayerCounter = 0;
+
 	ImGui::Begin("OutputWindow");//,(bool*)0,ImGuiWindowFlags_AlwaysAutoResize);
 
-	auto Position = ImGui::GetCursorPos();//ImGui::GetCursorScreenPos();//ImGui::GetCursorPos();
-	//ImVec2 CursorPositionCurrent;
-
-	for (auto i : Map.Layers)
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
+	ImVec2 StartPositionForDrawing = ImGui::GetCursorPos();
+	
+	/*for (auto i : Map.Layers)
 	{
-		//ImGui::SetCursorScreenPos(Position);
 		ImGui::SetCursorPos(Position);
+		
 		ImGui::SetNextWindowContentSize(ImVec2((i.TileWidth * i.NumberOfTilesHorizontal * 1.3f), 0));
 		ImGui::Columns(i.NumberOfTilesHorizontal,(const char*)0,false);
 		//ImGui::SetCursorPos(Position);
@@ -304,28 +306,79 @@ void Ermine::NewTileMap::DrawDisplayConstructedMapWindow()
 					ImVec2(1.0f,1.0f),
 					ImVec2(0.0f,0.0f));
 			}
-			ImGui::NextColumn();
+			SpecializedNextColumn(Position);
 			ImGui::PopID();
-			//SpecializedNextColumn(i.NumberOfTilesHorizontal);
+		}
+		ImGui::Separator();
+	}*/
+
+	for (auto i : Map.Layers)
+	{
+		LayerCounter++;
+		for (int j = 0; j < i.LayerData.size(); j++)
+		{
+			ImGui::PushID(j);
+			FixDrawingPosition(StartPositionForDrawing, j, std::make_pair(i.NumberOfTilesHorizontal, i.NumberOfTilesVertical), std::make_pair(i.TileWidth, i.TileHeight),LayerCounter);
+
+			if (i.LayerData[j] != 0)
+			{
+				ImGui::Image((void*)(intptr_t)Map.GetSprite(i.LayerData[j])->GetTexture()->GetTextureID(),
+					ImVec2(i.TileWidth, i.TileHeight),
+					ImVec2(Map.GetSprite(i.LayerData[j])->GetTopRightUV().x, Map.GetSprite(i.LayerData[j])->GetTopRightUV().y),
+					ImVec2(Map.GetSprite(i.LayerData[j])->GetBottomLeftUV().x, Map.GetSprite(i.LayerData[j])->GetBottomLeftUV().y));
+			}
+			else
+			{
+				ImGui::Image((void*)(intptr_t)TransparentTexture->GetTextureID(),
+					ImVec2(i.TileWidth, i.TileHeight),
+					ImVec2(1.0f,1.0f),
+					ImVec2(0.0f,0.0f));
+			}
+			ImGui::PopID();
 		}
 	}
-
+	ImGui::PopStyleVar();
 	ImGui::End();
 }
 
-void Ermine::NewTileMap::SpecializedNextColumn(int Threshold)
+void Ermine::NewTileMap::FixDrawingPosition(ImVec2 BasePosition, int NumberToDrawAtOneD, std::pair<int, int> NumberOfTilesInXandY, std::pair<int, int> TileDiamensions,int LayerNumber)
 {
-	c++;
+	int Copy = NumberToDrawAtOneD;
 
-	if (c > Threshold)
+	int RowCounter = 0;
+
+	while (NumberToDrawAtOneD >= NumberOfTilesInXandY.first)
 	{
-		ImGui::NewLine();
-		c = 0;
+		NumberToDrawAtOneD = NumberToDrawAtOneD - NumberOfTilesInXandY.first;
+		RowCounter = RowCounter + 1;
 	}
-	else
-	{
-		ImGui::NextColumn();
-	}
+	RowCounter--; //One Additional is counted for the last time it breaks..
+
+	ImVec2 PreOffset;
+	PreOffset.x = 0;//TileDiamensions.first;
+	PreOffset.y = TileDiamensions.second;
+
+	ImVec2 Offset;
+	Offset.x = BasePosition.x + (TileDiamensions.first * NumberToDrawAtOneD) + PreOffset.x;
+	Offset.y = BasePosition.y + (TileDiamensions.second * RowCounter) + PreOffset.y;
+
+	ImVec2 OffsetBox1;
+	OffsetBox1.x = Offset.x + ImGui::GetWindowPos().x;
+	OffsetBox1.y = Offset.y + ImGui::GetWindowPos().y;
+
+	ImVec2 OffsetBox2;
+	OffsetBox2.x = Offset.x + TileDiamensions.first + ImGui::GetWindowPos().x;
+	OffsetBox2.y = Offset.y + TileDiamensions.second + ImGui::GetWindowPos().y;
+
+	ImGui::SetCursorPos(OffsetBox1);
+
+	auto globalDrawlist = ImGui::GetWindowDrawList();
+	globalDrawlist->AddRect(OffsetBox1, OffsetBox2, ImU32(ImGui::ColorConvertFloat4ToU32(ImVec4((1.0f - ((float)(LayerNumber)) / 10.0f),
+																								(1.0f - ((float)(LayerNumber)) / 10.0f),
+																								(1.0f - ((float)(LayerNumber)) / 10.0f),
+																								0.3f))));
+
+	ImGui::SetCursorPos(Offset);
 }
 
 void Ermine::NewTileMap::Update()

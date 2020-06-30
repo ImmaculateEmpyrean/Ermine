@@ -12,6 +12,8 @@
 #include "2DPrimitives/TileSet.h"
 #include "2DPrimitives/TileMap.h"
 
+#include "imgui.h"
+
 namespace Ermine
 {
 	class NewTileMap : public PrecursorWindow
@@ -39,7 +41,7 @@ namespace Ermine
 		void DrawLayerNameInputWindow();
 
 		void DrawDisplayConstructedMapWindow();
-		void SpecializedNextColumn(int Threshold);
+		void FixDrawingPosition(ImVec2 BasePosition, int NumberToDrawAtOneD, std::pair<int, int> NumberOfTilesInXandY,std::pair<int,int> TileDiamensions,int LayerNumber);
 
 		//This Function Is Used To Synchronize With The Outside World.. Stuff Like Process Messages and The Like..
 		void RecieveTileSelectedEvents(Ermine::Event* EveObj);
