@@ -3,19 +3,19 @@
     "Layers":{
         "Layer1":{
             "TileWidthPixels":32,
-            "TileHeightPixels":64,
+            "TileHeightPixels":32,
             "NumberOfTilesHorizontal" : 2,
             "NumberOfTilesVertical" : 2,
             "TileData":[5,0,5,0],
-            "LayerNumber":0
+            "LayerNumber":1
         },
         "Layer2":{
             "TileWidthPixels":32,
-            "TileHeightPixels":64,
+            "TileHeightPixels":32,
             "NumberOfTilesHorizontal" : 2,
             "NumberOfTilesVertical" : 2,
             "TileData":[4,4,0,0],
-            "LayerNumber":1
+            "LayerNumber":2
         }
     },
     "TileSet":{

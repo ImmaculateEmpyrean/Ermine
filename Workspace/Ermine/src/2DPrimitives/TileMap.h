@@ -35,11 +35,11 @@ namespace Ermine
 		bool operator==(TileMap&& rhs);
 
 		//Data Start Index.. We Know Its Not 0.. For Now All TileSets Start At 1 Making This Function Redundant..
-		int GetStartIndex(); 
-		int GetEndIndex();
+		int GetStartIndex(int LayerNumber); 
+		int GetEndIndex(int LayerNumber);
 
-		std::shared_ptr<Sprite> GetSprite(int Index);
-		int GetIndex(std::shared_ptr<Sprite> SpriteToCheck);
+		std::shared_ptr<Sprite> GetSprite(int Index,int LayerNumber);
+		//int GetIndex(std::shared_ptr<Sprite> SpriteToCheck,std::pair<int, int> TileDiamensions);
 
 		//Start Create Tilemaps Api Functions
 
@@ -69,6 +69,22 @@ namespace Ermine
 
 				LayerData.resize((NumberOfTilesHorizontal * NumberOfTilesVertical), 0);
 			}
+
+			~Layer()
+			{
+				for (auto& i : TileSetsBuffer)
+				{
+					delete i;
+					i = nullptr;
+				}
+			}
+
+			Layer(const Layer& rhs);
+			Layer operator=(const Layer& rhs);
+
+			Layer(Layer&& rhs);
+			Layer operator=(Layer&& rhs);
+
 			std::string Name;
 
 			int TileWidth;
@@ -81,7 +97,18 @@ namespace Ermine
 
 			std::vector<int> LayerData; //This Can Be left null it will then be populated by 0's accordingly as of the writing it does not do that
 
+			//A TileMap Is Responsible For Its TileSets And Is Said To Own A TileSet.. This Is Arranged In Increasing Order Of Start Indexes
+			std::vector<TileSet*> TileSetsBuffer;
+
+			//This Vector Is Used To Map TileMap Index To TileSetIndex..
+			std::vector<int> TileSetStartIndexTracker;
+			//This Vector Is Used To Map TileMap Index To TileSetIndex..
+			std::vector<int> TileSetEndIndexTracker;
+
 		public:
+			int GetStartIndex();
+			int GetEndIndex();
+
 			//This Compares LayerNumbers Only
 			bool operator<(const Layer& rhs){ return LayerNumber < rhs.LayerNumber;	}
 
@@ -96,6 +123,10 @@ namespace Ermine
 
 			//This Compares LayerNumbers Only
 			bool operator==(const Layer& rhs) { return LayerNumber == rhs.LayerNumber; }
+
+		private:
+			void HelperCopyFunction(const Layer& rhs);
+			void HelperMoveFunction(Layer&& rhs);
 		};
 
 	private:
@@ -108,9 +139,9 @@ namespace Ermine
 		//Number 1 is given and all Other Layers Are Pushed Back By one Donot Use This unless absolutely needed..
 		void AddLayerToFront(Ermine::TileMap::Layer LayerToAdd); 
 
-		void AddTileset(std::filesystem::path TilesetPath);
-		void AddTileset(std::unique_ptr<Ermine::TileSet> TilesetToAdd);
-		void HelperAddTileset(std::unique_ptr<Ermine::TileSet> TilesetToAdd);
+		void AddTileset(std::filesystem::path TilesetPath,int LayerNumber);
+		void AddTileset(std::unique_ptr<Ermine::TileSet> TilesetToAdd,int LayerNumber);
+		void HelperAddTileset(std::unique_ptr<Ermine::TileSet> TilesetToAdd,int LayerNumber);
 
 		std::string GenerateJsonTileMap();
 		void WriteTileMapToDisk();
@@ -125,7 +156,7 @@ namespace Ermine
 		void CreateRendererFriendlyDrawable();
 		std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer);
 		
-		bool HelperCheckIfTilesetExists(std::filesystem::path TileSetPath);
+		bool HelperCheckIfTilesetExists(std::filesystem::path TileSetPath, int LayerNumber);
 
 	private:
 		std::filesystem::path TileMapPath;
@@ -133,14 +164,8 @@ namespace Ermine
 		std::string TileMapName;
 		
 		std::vector<Layer> Layers;
-
-		//A TileMap Is Responsible For Its TileSets And Is Said To Own A TileSet.. This Is Arranged In Increasing Order Of Start Indexes
-		std::vector<TileSet*> TileSetsBuffer;
-
-		//This Vector Is Used To Map TileMap Index To TileSetIndex..
-		std::vector<int> TileSetStartIndexTracker;
-		//This Vector Is Used To Map TileMap Index To TileSetIndex..
-		std::vector<int> TileSetEndIndexTracker;
+			
+		
 
 		//This Variable is used by the renderer to draw the Tilemap in question
 		Ermine::TileMapRendererPrimitive RendererFriendlyDrawable;

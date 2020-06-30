@@ -17,20 +17,13 @@ namespace Ermine
 	}
 
 	TileMap::~TileMap()
-	{
-		for (int i = 0; i < TileSetsBuffer.size(); i++)
-		{
-			if(TileSetsBuffer[i] != nullptr) //No Point In Deleting a Nullptr Right..
-				delete TileSetsBuffer[i];
-		}
-
-	}
+	{}
 
 
 	TileMap::TileMap(const TileMap& rhs)
 	{
 		TileMapPath = rhs.TileMapPath;
-
+		
 		if(!(TileMapPath.empty()))
 			LoadTileMapFromPath();
 	}
@@ -51,9 +44,9 @@ namespace Ermine
 
 		Layers = std::move(rhs.Layers);
 
-		TileSetsBuffer = std::move(rhs.TileSetsBuffer);
+		//TileSetsBuffer = std::move(rhs.TileSetsBuffer);
 
-		TileSetStartIndexTracker = rhs.TileSetStartIndexTracker;
+		//TileSetStartIndexTracker = rhs.TileSetStartIndexTracker;
 
 		TilemapFullyFunctional = rhs.TilemapFullyFunctional;
 	}
@@ -64,9 +57,9 @@ namespace Ermine
 
 		Layers = std::move(rhs.Layers);
 
-		TileSetsBuffer = std::move(rhs.TileSetsBuffer);
+		//TileSetsBuffer = std::move(rhs.TileSetsBuffer);
 
-		TileSetStartIndexTracker = rhs.TileSetStartIndexTracker;
+		//TileSetStartIndexTracker = rhs.TileSetStartIndexTracker;
 
 		TilemapFullyFunctional = rhs.TilemapFullyFunctional;
 
@@ -80,16 +73,16 @@ namespace Ermine
 	}
 
 
-	int TileMap::GetStartIndex()
+	int TileMap::GetStartIndex(int LayerNumber)
 	{
 		return 1;
 	}
-	int TileMap::GetEndIndex()
+	int TileMap::GetEndIndex(int LayerNumber)
 	{
-		return TileSetStartIndexTracker[TileSetStartIndexTracker.size() - 1] + TileSetsBuffer[TileSetsBuffer.size() - 1]->GetNumberOfSpritesInTileSet();
+		return Layers[LayerNumber].GetEndIndex();//TileSetStartIndexTracker[Layers[LayerNumber].TileSetStartIndexTracker.size() - 1] + Layers[LayerNumber].TileSetsBuffer[Layers[LayerNumber].TileSetsBuffer.size() - 1]->GetNumberOfSpritesInTileSet();
 	}
 
-	std::shared_ptr<Sprite> TileMap::GetSprite(int Index)
+	std::shared_ptr<Sprite> TileMap::GetSprite(int Index,int LayerNumber)
 	{
 		//This Still Does Not Work..
 		//We WIll Simply Check RAnge
@@ -98,31 +91,12 @@ namespace Ermine
 
 		while (true)
 		{
-			if (Index <= TileSetEndIndexTracker[c] && Index >= TileSetStartIndexTracker[c]) //Maybe make <= to < if it does not work..
+			if (Index <= Layers[LayerNumber].TileSetEndIndexTracker[c] && Index >= Layers[LayerNumber].TileSetStartIndexTracker[c]) //Maybe make <= to < if it does not work..
 				break;
 			c++;
 		}
 		
-		return TileSetsBuffer[c]->GetTile(Index - TileSetStartIndexTracker[c]); //Maybe Remove - TilesetIndexTracker[c] if it does not work..
-	}
-
-	int TileMap::GetIndex(std::shared_ptr<Sprite> SpriteToCheck)
-	{
-		//This Function Is Not At All Checked And Probably Wont Work At All Hope Future Ermine Fixes This And Removes This Message..
-		int NumberToSendBack = 0;
-
-		for (auto i : TileSetsBuffer)
-		{
-			for (auto j : i->GetSpriteBuffer())
-			{
-				if (j->Equals(*SpriteToCheck))
-				{
-					return NumberToSendBack;
-				}
-				NumberToSendBack++;
-			}
-		}
-		return -1;
+		return Layers[LayerNumber].TileSetsBuffer[c]->GetTile(Index - Layers[LayerNumber].TileSetStartIndexTracker[c]); //Maybe Remove - TilesetIndexTracker[c] if it does not work..
 	}
 
 	void TileMap::SetTileValue(int LayerNumber, int TileIndex,int TileValue)
@@ -145,31 +119,31 @@ namespace Ermine
 		Layers.insert(Layers.begin(), LayerToAdd);
 	}
 
-	void TileMap::AddTileset(std::filesystem::path TilesetPath)
+	void TileMap::AddTileset(std::filesystem::path TilesetPath,int LayerNumber)
 	{
-		HelperAddTileset(std::make_unique<Ermine::TileSet>(TilesetPath));
+		HelperAddTileset(std::make_unique<Ermine::TileSet>(TilesetPath),LayerNumber);
 	}
-	void TileMap::AddTileset(std::unique_ptr<Ermine::TileSet> TilesetToAdd)
+	void TileMap::AddTileset(std::unique_ptr<Ermine::TileSet> TilesetToAdd,int LayerNumber)
 	{
-		HelperAddTileset(std::move(TilesetToAdd));
+		HelperAddTileset(std::move(TilesetToAdd),LayerNumber);
 	}
 
-	void TileMap::HelperAddTileset(std::unique_ptr<Ermine::TileSet> TilesetPtr)
+	void TileMap::HelperAddTileset(std::unique_ptr<Ermine::TileSet> TilesetPtr,int LayerNumber)
 	{
-		if (!HelperCheckIfTilesetExists(TilesetPtr->GetFilePath()))
+		if (!HelperCheckIfTilesetExists(TilesetPtr->GetFilePath(),LayerNumber))
 		{
-			if (TileSetEndIndexTracker.size() == 0)
+			if (Layers[LayerNumber].TileSetEndIndexTracker.size() == 0)
 			{
-				TileSetStartIndexTracker.emplace_back(1);
-				TileSetEndIndexTracker.emplace_back(TilesetPtr->GetSpriteBuffer().size());
+				Layers[LayerNumber].TileSetStartIndexTracker.emplace_back(1);
+				Layers[LayerNumber].TileSetEndIndexTracker.emplace_back(TilesetPtr->GetSpriteBuffer().size());
 			}
 			else
 			{
-				TileSetEndIndexTracker.emplace_back(TilesetPtr->GetSpriteBuffer().size() + TileSetStartIndexTracker[TileSetStartIndexTracker.size() - 1]);
-				TileSetStartIndexTracker.emplace_back(TileSetEndIndexTracker[(TileSetEndIndexTracker.size() - 2)] + 1);
+				Layers[LayerNumber].TileSetEndIndexTracker.emplace_back(TilesetPtr->GetSpriteBuffer().size() + Layers[LayerNumber].TileSetStartIndexTracker[Layers[LayerNumber].TileSetStartIndexTracker.size() - 1]);
+				Layers[LayerNumber].TileSetStartIndexTracker.emplace_back(Layers[LayerNumber].TileSetEndIndexTracker[(Layers[LayerNumber].TileSetEndIndexTracker.size() - 2)] + 1);
 			}
 
-			TileSetsBuffer.emplace_back(TilesetPtr.release());
+			Layers[LayerNumber].TileSetsBuffer.emplace_back(TilesetPtr.release());
 		}
 	}
 
@@ -198,16 +172,20 @@ namespace Ermine
 		}
 
 		int c = 0;
-		for (auto i : TileSetsBuffer)
+		for (auto l : Layers)
 		{
-			nlohmann::json TileSet;
-			nlohmann::json TileSetProperties;
+			for (auto i : l.TileSetsBuffer)
+			{
+				nlohmann::json TileSet;
+				nlohmann::json TileSetProperties;
 
-			TileSetProperties["StartIndex"] = TileSetStartIndexTracker[c++];
+				TileSetProperties["StartIndex"] = l.TileSetStartIndexTracker[c++];
 
-			TileSet[i->GetFilePath().u8string()] = TileSetProperties;
+				TileSet[i->GetFilePath().u8string()] = TileSetProperties;
 
-			JsonFile["Tilesets"].push_back(TileSet);
+				JsonFile["Tilesets"].push_back(TileSet);
+			}
+
 		}
 
 		return JsonFile.dump();
@@ -258,10 +236,17 @@ namespace Ermine
 
 			int NumberOfTiles = std::stoi(TileSetJsonFile["NumberOfTiles"].dump());
 
-			TileSetsBuffer.emplace_back(new TileSet(std::filesystem::path(ExtractedPath)));
+			for (auto& l : Layers)
+			{
+				if ((l.TileWidth == Ermine::TileSet::GetTileDiamensionsFromTileset(std::filesystem::path(ExtractedPath)).first) && (l.TileHeight == Ermine::TileSet::GetTileDiamensionsFromTileset(std::filesystem::path(ExtractedPath)).second))
+				{
 
-			TileSetStartIndexTracker.emplace_back(std::stoi(TileSetFile["TileSet"][ExtractedPath.c_str()]["StartIndex"].dump()));
-			TileSetEndIndexTracker.emplace_back(NumberOfTiles + TileSetStartIndexTracker[TileSetStartIndexTracker.size()-1]);
+					l.TileSetsBuffer.emplace_back(new TileSet(std::filesystem::path(ExtractedPath)));
+
+					l.TileSetStartIndexTracker.emplace_back(std::stoi(TileSetFile["TileSet"][ExtractedPath.c_str()]["StartIndex"].dump()));
+					l.TileSetEndIndexTracker.emplace_back(NumberOfTiles + l.TileSetStartIndexTracker[l.TileSetStartIndexTracker.size() - 1]);
+				}
+			}
 		}
 		//Ended Extracting TileSets//
 
@@ -365,11 +350,11 @@ namespace Ermine
 			IndexCounter = IndexCounter + 4;
 			//Ended Getting The Index Buffer Ready..
 
-			auto TextureNumberMapperIterator = TextureToNumberMapper.find(this->GetSprite(i)->GetTexture()->GetFilePath());
+			auto TextureNumberMapperIterator = TextureToNumberMapper.find(this->GetSprite(i,layer.LayerNumber)->GetTexture()->GetFilePath());
 			if (TextureNumberMapperIterator == TextureToNumberMapper.end())
 			{
 				//Not Found
-				TextureToNumberMapper[this->GetSprite(i)->GetTexture()->GetFilePath()] = TextureNumber++;
+				TextureToNumberMapper[this->GetSprite(i, layer.LayerNumber)->GetTexture()->GetFilePath()] = TextureNumber++;
 			}
 
 			//Start Setting Up Top Right Vertex..
@@ -377,10 +362,10 @@ namespace Ermine
 			VertexBuffer.emplace_back(CurrentPositionY + StepInY); //y
 			VertexBuffer.emplace_back(0.0f); //z
 
-			VertexBuffer.emplace_back(this->GetSprite(i)->GetTopRightUV().x); //u
-			VertexBuffer.emplace_back(this->GetSprite(i)->GetTopRightUV().y); //v
+			VertexBuffer.emplace_back(this->GetSprite(i,layer.LayerNumber)->GetTopRightUV().x); //u
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetTopRightUV().y); //v
 
-			VertexBuffer.emplace_back(TextureToNumberMapper.find(this->GetSprite(i)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
+			VertexBuffer.emplace_back(TextureToNumberMapper.find(this->GetSprite(i, layer.LayerNumber)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
 			//Ended Setting Up Top Right Vertex..
 
 			//Start Setting Up Bottom Right Vertex..
@@ -388,10 +373,10 @@ namespace Ermine
 			VertexBuffer.emplace_back(CurrentPositionY);
 			VertexBuffer.emplace_back(0.0f);
 
-			VertexBuffer.emplace_back(this->GetSprite(i)->GetTopRightUV().x);
-			VertexBuffer.emplace_back(this->GetSprite(i)->GetBottomLeftUV().y);
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetTopRightUV().x);
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().y);
 
-			VertexBuffer.emplace_back(TextureToNumberMapper.find(this->GetSprite(i)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
+			VertexBuffer.emplace_back(TextureToNumberMapper.find(this->GetSprite(i,layer.LayerNumber)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
 			//Ended Setting Up Bottom Right Vertex..
 
 			//Start Setting Up Bottom Left Vertex..
@@ -399,10 +384,10 @@ namespace Ermine
 			VertexBuffer.emplace_back(CurrentPositionY);
 			VertexBuffer.emplace_back(0.0f);
 
-			VertexBuffer.emplace_back(this->GetSprite(i)->GetBottomLeftUV().x);
-			VertexBuffer.emplace_back(this->GetSprite(i)->GetBottomLeftUV().y);
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().x);
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().y);
 
-			VertexBuffer.emplace_back(TextureToNumberMapper.find(this->GetSprite(i)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
+			VertexBuffer.emplace_back(TextureToNumberMapper.find(this->GetSprite(i,layer.LayerNumber)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
 			//Ended Setting Up Bottom Left Vertex..
 
 			//Start Setting Up Top Left Vertex..
@@ -410,10 +395,10 @@ namespace Ermine
 			VertexBuffer.emplace_back(CurrentPositionY + StepInY);
 			VertexBuffer.emplace_back(0.0f);
 
-			VertexBuffer.emplace_back(this->GetSprite(i)->GetBottomLeftUV().x);
-			VertexBuffer.emplace_back(this->GetSprite(i)->GetTopRightUV().y);
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().x);
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetTopRightUV().y);
 
-			VertexBuffer.emplace_back(TextureToNumberMapper.find(this->GetSprite(i)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
+			VertexBuffer.emplace_back(TextureToNumberMapper.find(this->GetSprite(i, layer.LayerNumber)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
 			//Ended Setting Up Top Left Vertex..
 
 			CurrentPositionX = CurrentPositionX + StepInX;
@@ -425,24 +410,101 @@ namespace Ermine
 				CurrentPositionX = 0.0f;
 				CurrentPositionY = CurrentPositionY + StepInY;
 			}
-
 		}
 		return std::make_pair(Ermine::VertexArray(VertexBuffer, IndexBuffer), TextureToNumberMapper);
 	}
 
 
-	bool TileMap::HelperCheckIfTilesetExists(std::filesystem::path TileSetPath)
+	bool TileMap::HelperCheckIfTilesetExists(std::filesystem::path TileSetPath,int LayerNumber)
 	{
 		/*auto Iterator = TileSetsBuffer.find(TilesetFilesystemPath.u8string());
 		if (Iterator == TilesetsHoldingBuffer.end())
 			return false;
 
 		return true;*/
-		for (auto i : TileSetsBuffer)
+		for (auto i : Layers[LayerNumber].TileSetsBuffer)
 		{
 			if (i->GetFilePath() == TileSetPath)
 				return true;
 		}
 		return false;
+	}
+
+
+	TileMap::Layer::Layer(const Layer& rhs)
+	{
+		HelperCopyFunction(rhs);
+	}
+	TileMap::Layer TileMap::Layer::operator=(const Layer& rhs)
+	{
+		HelperCopyFunction(rhs);
+		return *this;
+	}
+
+	TileMap::Layer::Layer(Layer&& rhs)
+	{
+		HelperMoveFunction(std::move(rhs));
+	}
+	TileMap::Layer TileMap::Layer::operator=(Layer&& rhs)
+	{
+		HelperMoveFunction(std::move(rhs));
+		return *this;
+	}
+
+
+	int TileMap::Layer::GetStartIndex()
+	{
+		return 1;
+	}
+	int TileMap::Layer::GetEndIndex()
+	{
+		return TileSetStartIndexTracker[TileSetStartIndexTracker.size() - 1] + TileSetsBuffer[TileSetsBuffer.size() - 1]->GetNumberOfSpritesInTileSet();
+	}
+
+
+	void TileMap::Layer::HelperCopyFunction(const Layer& rhs)
+	{
+		Name = rhs.Name;
+
+		TileWidth = rhs.TileWidth;
+		TileHeight = rhs.TileHeight;
+
+		NumberOfTilesHorizontal = rhs.NumberOfTilesHorizontal;
+		NumberOfTilesVertical = rhs.NumberOfTilesVertical;
+
+		LayerNumber = rhs.LayerNumber;
+
+		LayerData = rhs.LayerData;
+
+		for (auto i : rhs.TileSetsBuffer)
+			TileSetsBuffer.emplace_back(new Ermine::TileSet(i->GetFilePath()));
+
+		TileSetStartIndexTracker = rhs.TileSetStartIndexTracker;
+		TileSetEndIndexTracker = rhs.TileSetEndIndexTracker;
+	}
+
+	void TileMap::Layer::HelperMoveFunction(Layer&& rhs)
+	{
+		Name = rhs.Name;
+
+		TileWidth = rhs.TileWidth;
+		TileHeight = rhs.TileHeight;
+
+		NumberOfTilesHorizontal = rhs.NumberOfTilesHorizontal;
+		NumberOfTilesVertical = rhs.NumberOfTilesVertical;
+
+		LayerNumber = rhs.LayerNumber;
+
+		LayerData = rhs.LayerData;
+
+		TileSetsBuffer.resize(rhs.TileSetsBuffer.size());
+		for (auto& i : rhs.TileSetsBuffer) //Check This Function In The Future rhs.TilesetsBuffer Must Show nullotr otherwise the destructor shall behave dangerously by deleting everything and making the handle copied redundant
+		{
+			TileSetsBuffer.emplace_back(i);
+			i = nullptr;
+		}
+
+		TileSetStartIndexTracker = rhs.TileSetStartIndexTracker;
+		TileSetEndIndexTracker = rhs.TileSetEndIndexTracker;
 	}
 }

@@ -11,7 +11,10 @@ Ermine::NewTileMap::NewTileMap()
 {
 	InitializeBuffers();
 
-	Map.AddLayerToBack(Ermine::TileMap::Layer(std::string("Default")));
+	auto Lay = Ermine::TileMap::Layer(std::string("Default"));
+	Lay.LayerNumber = NewLayerCounter;
+	NewLayerCounter++;
+	Map.AddLayerToBack(std::move(Lay));
 
 	auto TextureManager = Ermine::GlobalTextureCache::Get();
 	TransparentTexture = TextureManager->GetTextureFromFile("Texture/Transparent.png");
@@ -183,10 +186,10 @@ void Ermine::NewTileMap::Draw()
 
 			if (Map.Layers[LayerChosen].LayerData[i] != 0)
 			{
-				if (ImGui::ImageButton((void*)(intptr_t)Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetTexture()->GetTextureID(),
+				if (ImGui::ImageButton((void*)(intptr_t)Map.GetSprite(Map.Layers[LayerChosen].LayerData[i], LayerChosen)->GetTexture()->GetTextureID(),
 					ImVec2(Map.Layers[LayerChosen].TileWidth, Map.Layers[LayerChosen].TileHeight),
-					ImVec2(Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetTopRightUV().x, Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetTopRightUV().y),
-					ImVec2(Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetBottomLeftUV().x, Map.GetSprite(Map.Layers[LayerChosen].LayerData[i])->GetBottomLeftUV().y),0))
+					ImVec2(Map.GetSprite(Map.Layers[LayerChosen].LayerData[i], LayerChosen)->GetTopRightUV().x, Map.GetSprite(Map.Layers[LayerChosen].LayerData[i], LayerChosen)->GetTopRightUV().y),
+					ImVec2(Map.GetSprite(Map.Layers[LayerChosen].LayerData[i], LayerChosen)->GetBottomLeftUV().x, Map.GetSprite(Map.Layers[LayerChosen].LayerData[i], LayerChosen)->GetBottomLeftUV().y),0))
 				{
 					Map.Layers[LayerChosen].LayerData[i] = SelectedSpriteIndex;
 				}
@@ -256,7 +259,10 @@ void Ermine::NewTileMap::DrawLayerNameInputWindow()
 	{
 		if (LayerNameBuffer[0] != 0)
 		{
-			Map.AddLayerToBack(Ermine::TileMap::Layer(std::string(LayerNameBuffer)));
+			auto lay = Ermine::TileMap::Layer(std::string(LayerNameBuffer));
+			lay.LayerNumber = NewLayerCounter;
+			NewLayerCounter++;
+			Map.AddLayerToBack(std::move(lay));
 			DisplayLayerNameInputWindow = false;
 		}
 	}
@@ -322,10 +328,10 @@ void Ermine::NewTileMap::DrawDisplayConstructedMapWindow()
 
 			if (i.LayerData[j] != 0)
 			{
-				ImGui::Image((void*)(intptr_t)Map.GetSprite(i.LayerData[j])->GetTexture()->GetTextureID(),
+				ImGui::Image((void*)(intptr_t)Map.GetSprite(i.LayerData[j],i.LayerNumber)->GetTexture()->GetTextureID(),
 					ImVec2(i.TileWidth, i.TileHeight),
-					ImVec2(Map.GetSprite(i.LayerData[j])->GetTopRightUV().x, Map.GetSprite(i.LayerData[j])->GetTopRightUV().y),
-					ImVec2(Map.GetSprite(i.LayerData[j])->GetBottomLeftUV().x, Map.GetSprite(i.LayerData[j])->GetBottomLeftUV().y));
+					ImVec2(Map.GetSprite(i.LayerData[j],i.LayerNumber)->GetTopRightUV().x, Map.GetSprite(i.LayerData[j],i.LayerNumber)->GetTopRightUV().y),
+					ImVec2(Map.GetSprite(i.LayerData[j],i.LayerNumber)->GetBottomLeftUV().x, Map.GetSprite(i.LayerData[j],i.LayerNumber)->GetBottomLeftUV().y));
 			}
 			else
 			{
@@ -397,7 +403,7 @@ void Ermine::NewTileMap::RecieveTileSelectedEvents(Ermine::Event* EveObj)
 	if ((TileDiamensionsFromTileset.first == Map.Layers[LayerChosen].TileWidth) && (TileDiamensionsFromTileset.second == Map.Layers[LayerChosen].TileHeight))
 	{
 		SelectedSpriteIndex = Event->GetIndex();
-		Map.AddTileset(Event->GetTilesetPath());
+		Map.AddTileset(Event->GetTilesetPath(), LayerChosen);
 	}
 }
 
@@ -433,6 +439,8 @@ void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
 
 	RecieveTileSetSelectedEventsFlag = rhs.RecieveTileSetSelectedEventsFlag.load();
 
+	NewLayerCounter = rhs.NewLayerCounter;
+
 	InitializeBuffers();
 	memcpy(NameBuffer, rhs.NameBuffer, 100);
 	memcpy(LayerNameBuffer, rhs.LayerNameBuffer, 100);
@@ -462,6 +470,8 @@ void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 	DisplayLayerNameInputWindow = rhs.DisplayLayerNameInputWindow;
 
 	RecieveTileSetSelectedEventsFlag = rhs.RecieveTileSetSelectedEventsFlag.load();
+
+	NewLayerCounter = rhs.NewLayerCounter;
 
 	NameBuffer = rhs.NameBuffer;
 	rhs.NameBuffer = nullptr;

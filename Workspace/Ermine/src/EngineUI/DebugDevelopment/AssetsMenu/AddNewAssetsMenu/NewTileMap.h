@@ -81,6 +81,8 @@ namespace Ermine
 		bool DisplayLayerNameInputWindow = false;
 
 		std::atomic<bool> RecieveTileSetSelectedEventsFlag = true;
+
+		int NewLayerCounter = 0; //This Should Be accounted for everywhere in constructors and some such stuff
 		//Ended Flags
 
 		//Start Buffers Raw
