@@ -280,8 +280,6 @@ int c = 0;
 
 void Ermine::NewTileMap::DrawDisplayConstructedMapWindow()
 {
-	int LayerCounter = 0;
-
 	ImGui::Begin("OutputWindow");//,(bool*)0,ImGuiWindowFlags_AlwaysAutoResize);
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 0.0f));
@@ -320,11 +318,10 @@ void Ermine::NewTileMap::DrawDisplayConstructedMapWindow()
 
 	for (auto i : Map.Layers)
 	{
-		LayerCounter++;
 		for (int j = 0; j < i.LayerData.size(); j++)
 		{
 			ImGui::PushID(j);
-			FixDrawingPosition(StartPositionForDrawing, j, std::make_pair(i.NumberOfTilesHorizontal, i.NumberOfTilesVertical), std::make_pair(i.TileWidth, i.TileHeight),LayerCounter);
+			FixDrawingPosition(StartPositionForDrawing, j, std::make_pair(i.NumberOfTilesHorizontal, i.NumberOfTilesVertical), std::make_pair(i.TileWidth, i.TileHeight));
 
 			if (i.LayerData[j] != 0)
 			{
@@ -347,7 +344,7 @@ void Ermine::NewTileMap::DrawDisplayConstructedMapWindow()
 	ImGui::End();
 }
 
-void Ermine::NewTileMap::FixDrawingPosition(ImVec2 BasePosition, int NumberToDrawAtOneD, std::pair<int, int> NumberOfTilesInXandY, std::pair<int, int> TileDiamensions,int LayerNumber)
+void Ermine::NewTileMap::FixDrawingPosition(ImVec2 BasePosition, int NumberToDrawAtOneD, std::pair<int, int> NumberOfTilesInXandY, std::pair<int, int> TileDiamensions)
 {
 	int Copy = NumberToDrawAtOneD;
 
@@ -379,11 +376,7 @@ void Ermine::NewTileMap::FixDrawingPosition(ImVec2 BasePosition, int NumberToDra
 	ImGui::SetCursorPos(OffsetBox1);
 
 	auto globalDrawlist = ImGui::GetWindowDrawList();
-	globalDrawlist->AddRect(OffsetBox1, OffsetBox2, ImU32(ImGui::ColorConvertFloat4ToU32(ImVec4((1.0f - ((float)(LayerNumber)) / 10.0f),
-																								(1.0f - ((float)(LayerNumber)) / 10.0f),
-																								(1.0f - ((float)(LayerNumber)) / 10.0f),
-																								0.3f))));
-
+	globalDrawlist->AddRect(OffsetBox1, OffsetBox2, ImU32(ImGui::ColorConvertFloat4ToU32(ImVec4(1.0f,1.0f,1.0f,0.3f))));
 	ImGui::SetCursorPos(Offset);
 }
 

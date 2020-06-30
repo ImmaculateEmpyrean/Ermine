@@ -417,11 +417,6 @@ namespace Ermine
 
 	bool TileMap::HelperCheckIfTilesetExists(std::filesystem::path TileSetPath,int LayerNumber)
 	{
-		/*auto Iterator = TileSetsBuffer.find(TilesetFilesystemPath.u8string());
-		if (Iterator == TilesetsHoldingBuffer.end())
-			return false;
-
-		return true;*/
 		for (auto i : Layers[LayerNumber].TileSetsBuffer)
 		{
 			if (i->GetFilePath() == TileSetPath)

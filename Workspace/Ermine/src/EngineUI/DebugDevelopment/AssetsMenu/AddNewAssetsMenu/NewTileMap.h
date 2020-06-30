@@ -41,7 +41,7 @@ namespace Ermine
 		void DrawLayerNameInputWindow();
 
 		void DrawDisplayConstructedMapWindow();
-		void FixDrawingPosition(ImVec2 BasePosition, int NumberToDrawAtOneD, std::pair<int, int> NumberOfTilesInXandY,std::pair<int,int> TileDiamensions,int LayerNumber);
+		void FixDrawingPosition(ImVec2 BasePosition, int NumberToDrawAtOneD, std::pair<int, int> NumberOfTilesInXandY,std::pair<int,int> TileDiamensions);
 
 		//This Function Is Used To Synchronize With The Outside World.. Stuff Like Process Messages and The Like..
 		void RecieveTileSelectedEvents(Ermine::Event* EveObj);
