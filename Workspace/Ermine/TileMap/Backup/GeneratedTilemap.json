@@ -1,0 +1,18 @@
+{
+	"Layers":{
+		"Default":{
+			"LayerNumber":0,
+			"NumberOfTilesHorizontal":5,
+			"NumberOfTilesVertical":5,
+			"TileData":[1,2,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,6,0],
+			"TileHeightPixels":64,
+			"TileWidthPixels":32
+			}
+		},
+		"TileMapName":"Ghu",
+		"TileSet":{
+			"TileSet/TileSetTest.json":{
+				"StartIndex":1
+			}
+		}
+}

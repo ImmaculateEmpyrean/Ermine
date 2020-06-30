@@ -151,6 +151,7 @@ namespace Ermine
 	std::string TileMap::GenerateJsonTileMap()
 	{
 		nlohmann::json JsonFile;
+		std::stringstream JsonHolder;
 
 		JsonFile["TileMapName"] = TileMapName;
 		
@@ -168,8 +169,13 @@ namespace Ermine
 			LayerProperties["LayerNumber"] = i.LayerNumber;
 
 			Layer[i.Name] = LayerProperties;
-			JsonFile["Layers"].push_back(Layer);
+			//JsonFile["Layers"].push_back(Layer);
+			JsonHolder << Layer.dump();
 		}
+
+		JsonFile["Layers"] << JsonHolder;
+
+		std::stringstream JsonTextureHolder;
 
 		int c = 0;
 		for (auto l : Layers)
@@ -183,10 +189,12 @@ namespace Ermine
 
 				TileSet[i->GetFilePath().u8string()] = TileSetProperties;
 
-				JsonFile["Tilesets"].push_back(TileSet);
+				//JsonFile["TileSet"].push_back(TileSet);
+				JsonTextureHolder << TileSet.dump();
 			}
 
 		}
+		JsonFile["TileSet"] << JsonTextureHolder;
 
 		return JsonFile.dump();
 	}

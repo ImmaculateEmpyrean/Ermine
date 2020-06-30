@@ -1,0 +1,19 @@
+{
+	"Layers":{
+		"Default":{
+			"LayerNumber":0,
+			"NumberOfTilesHorizontal":5,
+			"NumberOfTilesVertical":5,
+			"TileData":[1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+			"TileHeightPixels":64,
+			"TileWidthPixels":32
+			}
+		},
+		"TileMapName":"Grroky",
+		"TileSet":{
+		"TileSet\\TileSetTest.json":
+		{
+			"StartIndex":1
+		}
+	}
+}

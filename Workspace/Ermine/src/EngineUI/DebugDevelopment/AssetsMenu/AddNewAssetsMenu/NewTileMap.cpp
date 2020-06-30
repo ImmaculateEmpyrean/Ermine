@@ -160,8 +160,11 @@ void Ermine::NewTileMap::Draw()
 	if (ImGui::Button("View Tilesets In Use##NewTileMapTilesetsMenu"))
 		OpenTilesetChoosingMenu = true;
 	ImGui::SameLine();
-	if (ImGui::Button("View Map XML##NewTileMapTilesetsMenu"))
-		ViewMapJson = true;
+	if (ImGui::Button("View Map Json##NewTileMapTilesetsMenu"))
+	{
+		if(DisplayViewMapJson == false)
+			OpenViewMapJson = true;
+	}
 	ImGui::SameLine();
 
 	ImGui::Separator();
@@ -242,6 +245,24 @@ void Ermine::NewTileMap::Draw()
 
 	if (DisplayConstructedMapWindow)
 		DrawDisplayConstructedMapWindow();
+
+	if (OpenViewMapJson)
+	{
+		DisplayViewMapJson = true;
+		OpenViewMapJson = false;
+	}
+
+	if (DisplayViewMapJson)
+		DrawViewMapJsonWindow();
+
+	if (OpenSaveMapJsonWindow)
+	{
+		DisplaySaveMapJsonWindow = true;
+		OpenSaveMapJsonWindow = false;
+	}
+
+	if (DisplaySaveMapJsonWindow)
+		DrawSaveMapJsonWindow();
 
 	//Ended Child Window Draw Routines.. 
 }
@@ -380,6 +401,66 @@ void Ermine::NewTileMap::FixDrawingPosition(ImVec2 BasePosition, int NumberToDra
 	ImGui::SetCursorPos(Offset);
 }
 
+void Ermine::NewTileMap::DrawViewMapJsonWindow()
+{
+	ImGui::Begin("JsonFile##NewTileMapUI");
+
+	ImGui::Text("Json Code : ");
+	ImGui::Separator();
+
+	ImGui::TextWrapped("%s", Map.GenerateJsonTileMap().c_str());
+	
+
+	ImGui::Separator();
+
+	SetButtonColorGreen();
+	if (ImGui::Button("Save"))
+	{
+		if (DisplaySaveMapJsonWindow == false)
+			OpenSaveMapJsonWindow = true;
+	}
+	ClearButtonColor();
+	ImGui::SameLine();
+	SetButtonColorRed();
+	if (ImGui::Button("Cancel"))
+		DisplayViewMapJson = false;
+	ClearButtonColor();
+
+	ImGui::End();
+}
+
+void Ermine::NewTileMap::DrawSaveMapJsonWindow()
+{
+	ImGui::Begin("Save MapFile",(bool*)0,ImGuiWindowFlags_AlwaysAutoResize);
+
+	ImGui::Text("Save Path : ");
+	ImGui::SameLine();
+	ImGui::InputTextWithHint("##NewTileMapAcceptSavePathFromUser", "Enter The Path To which The File Must be Saved Along With The Extension .json", FilePathBuffer, 200);
+
+	SetButtonColorGreen();
+	if (ImGui::Button("Save##NewTileMapSaveFile"))
+	{
+		if (FilePathBuffer[0] != 0)
+		{
+			std::ofstream OutputFile(std::string(FilePathBuffer),std::ios::binary);
+			OutputFile << Map.GenerateJsonTileMap();
+			OutputFile.clear();
+
+			DisplaySaveMapJsonWindow = false;
+		}
+	}
+	ClearButtonColor();
+	ImGui::SameLine();
+	SetButtonColorRed();
+	if (ImGui::Button("Cancel##NewTileMapCancelSavingFile"))
+	{
+		DisplaySaveMapJsonWindow = false;
+	}
+	ClearButtonColor();
+
+	ImGui::End();
+}
+
 void Ermine::NewTileMap::Update()
 {
 	//Empty For Now
@@ -404,9 +485,11 @@ void Ermine::NewTileMap::InitializeBuffers()
 {
 	NameBuffer = new char[100];
 	LayerNameBuffer = new char[100];
+	FilePathBuffer = new char[200];
 
 	memset(NameBuffer, 0, 100);
 	memset(LayerNameBuffer, 0, 100);
+	memset(FilePathBuffer, 0, 200);
 }
 
 void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
@@ -421,7 +504,7 @@ void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
 	OpenTilesetChoosingMenu = rhs.OpenTilesetChoosingMenu;
 	DisplayTilesetChoosingMenu = rhs.DisplayTilesetChoosingMenu;
 
-	ViewMapJson = rhs.ViewMapJson;
+	OpenViewMapJson = rhs.OpenViewMapJson;
 	DisplayViewMapJson = rhs.DisplayViewMapJson;
 
 	OpenConstructedMapWindow = rhs.OpenConstructedMapWindow;
@@ -429,6 +512,9 @@ void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
 
 	OpenLayerNameInputWindow = rhs.OpenLayerNameInputWindow;
 	DisplayLayerNameInputWindow = rhs.DisplayLayerNameInputWindow;
+
+	OpenSaveMapJsonWindow = rhs.OpenSaveMapJsonWindow;
+	DisplaySaveMapJsonWindow = rhs.DisplaySaveMapJsonWindow;
 
 	RecieveTileSetSelectedEventsFlag = rhs.RecieveTileSetSelectedEventsFlag.load();
 
@@ -453,7 +539,7 @@ void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 	OpenTilesetChoosingMenu = rhs.OpenTilesetChoosingMenu;
 	DisplayTilesetChoosingMenu = rhs.DisplayTilesetChoosingMenu;
 
-	ViewMapJson = rhs.ViewMapJson;
+	OpenViewMapJson = rhs.OpenViewMapJson;
 	DisplayViewMapJson = rhs.DisplayViewMapJson;
 
 	OpenConstructedMapWindow = rhs.OpenConstructedMapWindow;
@@ -461,6 +547,9 @@ void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 
 	OpenLayerNameInputWindow = rhs.OpenLayerNameInputWindow;
 	DisplayLayerNameInputWindow = rhs.DisplayLayerNameInputWindow;
+
+	OpenSaveMapJsonWindow = rhs.OpenSaveMapJsonWindow;
+	DisplaySaveMapJsonWindow = rhs.DisplaySaveMapJsonWindow;
 
 	RecieveTileSetSelectedEventsFlag = rhs.RecieveTileSetSelectedEventsFlag.load();
 
@@ -472,7 +561,8 @@ void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 	LayerNameBuffer = rhs.LayerNameBuffer;
 	rhs.LayerNameBuffer = nullptr;
 
-	
+	FilePathBuffer = rhs.FilePathBuffer;
+	rhs.FilePathBuffer = nullptr;
 
 	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&NewTileMap::RecieveTileSelectedEvents), RecieveTileSetSelectedEventsFlag,
 		Ermine::EventType::TileSelectedEvent);
