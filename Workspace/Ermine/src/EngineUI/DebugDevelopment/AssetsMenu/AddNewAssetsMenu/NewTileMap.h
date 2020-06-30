@@ -46,6 +46,8 @@ namespace Ermine
 		void DrawViewMapJsonWindow();
 		void DrawSaveMapJsonWindow();
 
+		void DrawLoadTileMapWindow();
+
 		//This Function Is Used To Synchronize With The Outside World.. Stuff Like Process Messages and The Like..
 		void RecieveTileSelectedEvents(Ermine::Event* EveObj);
 		void Update(); //Dunno Still Why To Use This
@@ -68,6 +70,7 @@ namespace Ermine
 		int SelectedSpriteIndex = 0;
 
 		std::shared_ptr<Ermine::Texture> TransparentTexture;
+		std::shared_ptr<Ermine::Texture> JsonFileIcon;
 		//Ended Main Variables
 
 		//Start Flags
@@ -86,6 +89,9 @@ namespace Ermine
 		bool OpenSaveMapJsonWindow = false;
 		bool DisplaySaveMapJsonWindow = false;
 
+		bool OpenLoadTileMapWindow = false;
+		bool DisplayLoadTileMapWindow = false;
+
 		std::atomic<bool> RecieveTileSetSelectedEventsFlag = true;
 
 		int NewLayerCounter = 0; //This Should Be accounted for everywhere in constructors and some such stuff
@@ -95,6 +101,8 @@ namespace Ermine
 		char* NameBuffer;
 		char* LayerNameBuffer;
 		char* FilePathBuffer;
+
+		char* LoadTilesetsPath;
 		//Ended Buffers Raw		
 	};
 }

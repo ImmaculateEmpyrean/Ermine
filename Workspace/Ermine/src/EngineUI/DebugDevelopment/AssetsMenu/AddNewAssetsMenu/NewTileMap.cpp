@@ -6,6 +6,7 @@
 #include "EventSystem/Components/RecieverComponent.h"
 
 #include "nlohmann/json.hpp" 
+#include "EngineResourceHandlers/EditorDefaultStrings.h"
 
 Ermine::NewTileMap::NewTileMap()
 {
@@ -18,7 +19,14 @@ Ermine::NewTileMap::NewTileMap()
 
 	auto TextureManager = Ermine::GlobalTextureCache::Get();
 	TransparentTexture = TextureManager->GetTextureFromFile("Texture/Transparent.png");
-	
+	JsonFileIcon = TextureManager->GetTextureFromFile("Texture/JsonFileIcon.png");
+
+	//Start Initializing Default Folder For Searching Tilemaps To Load..
+	auto ContextStrings = Ermine::EditorDefaultStrings::Get();
+	auto TileMapsPath = ContextStrings->GetValue("TileMapsDefaultPath");
+	memcpy(LoadTilesetsPath, TileMapsPath.value_or("Tilemap\\").c_str(), TileMapsPath.value_or("Tilemap\\").length());
+	//Ended Initializing Default Folder For Searching Tilemaps To Load..
+
 	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&NewTileMap::RecieveTileSelectedEvents), RecieveTileSetSelectedEventsFlag, 
 								    Ermine::EventType::TileSelectedEvent);
 }
@@ -35,6 +43,18 @@ Ermine::NewTileMap::~NewTileMap()
 	{
 		delete LayerNameBuffer;
 		LayerNameBuffer = nullptr;
+	}
+
+	if (FilePathBuffer != nullptr)
+	{
+		delete FilePathBuffer;
+		FilePathBuffer = nullptr;
+	}
+
+	if (LoadTilesetsPath != nullptr)
+	{
+		delete LoadTilesetsPath;
+		LoadTilesetsPath = nullptr;
 	}
 }
 
@@ -216,13 +236,24 @@ void Ermine::NewTileMap::Draw()
 	}
 
 	SetButtonColorGreen();
-	ImGui::Button("Save");
+	if (ImGui::Button("Save"))
+	{
+		if (DisplaySaveMapJsonWindow == false)
+			OpenSaveMapJsonWindow = true;
+	}
 	ClearButtonColor();
 	ImGui::SameLine();
 	SetButtonColorRed();
 	if (ImGui::Button("Cancel"))
 		Quit = true;
 	ClearButtonColor();
+	ImGui::SameLine();
+
+	if (ImGui::Button("Load##NewTileMapLoadTileMap"))
+	{
+		if (DisplayLoadTileMapWindow == false)
+			OpenLoadTileMapWindow = true;
+	}
 
 	ImGui::End();
 
@@ -263,6 +294,15 @@ void Ermine::NewTileMap::Draw()
 
 	if (DisplaySaveMapJsonWindow)
 		DrawSaveMapJsonWindow();
+
+	if (OpenLoadTileMapWindow)
+	{
+		DisplayLoadTileMapWindow = true;
+		OpenLoadTileMapWindow = false;
+	}
+
+	if (DisplayLoadTileMapWindow)
+		DrawLoadTileMapWindow();
 
 	//Ended Child Window Draw Routines.. 
 }
@@ -461,6 +501,64 @@ void Ermine::NewTileMap::DrawSaveMapJsonWindow()
 	ImGui::End();
 }
 
+void Ermine::NewTileMap::DrawLoadTileMapWindow()
+{
+	std::filesystem::path SP = std::filesystem::path(std::string(LoadTilesetsPath));
+	std::error_code Ec;
+
+	std::filesystem::recursive_directory_iterator MapIterator(SP, Ec);
+
+	ImGui::Begin("LoadTileMap");
+
+	ImGui::Columns(3);
+
+	ImGui::NextColumn();
+	ImGui::Text("Search Path :");
+	ImGui::SameLine();
+	ImGui::InputTextWithHint("##NewTileMapLoadTileMapFromFileSearchPath", "Enter The Path To The Directory To Search For The Requested TileMap", LoadTilesetsPath, 200);
+	
+	ImGui::NextColumn();
+
+	SetButtonColorRed();
+	if (ImGui::Button("Quit##NewTileMapLoadButton"))
+	{
+		DisplayLoadTileMapWindow = false;
+	}
+	ClearButtonColor();
+
+	ImGui::Columns(1);
+
+	ImGui::Separator();
+
+	ImGui::Columns(2);
+
+	ImGui::Text("Map");
+	ImGui::NextColumn();
+	ImGui::Text("File Path");
+	ImGui::NextColumn();
+	ImGui::Separator();
+
+	int c = 0;
+	for (auto i : MapIterator)
+	{
+		if (i.path().u8string().find(".json"))
+		{
+			ImGui::PushID(c++);
+			if (ImGui::ImageButton((void*)(intptr_t)JsonFileIcon->GetTextureID(), ImVec2(ImGui::GetColumnWidth(), JsonFileIcon->GetHeightToMatchAspectRatio(ImGui::GetColumnWidth()))))
+			{
+				Map = Ermine::TileMap(i.path().u8string().c_str());
+				DisplayLoadTileMapWindow = false;
+			}
+			ImGui::NextColumn();
+			ImGui::Text("%s", i.path().u8string().c_str());
+			ImGui::NextColumn();
+			ImGui::PopID();
+		}
+	}
+
+	ImGui::End();
+}
+
 void Ermine::NewTileMap::Update()
 {
 	//Empty For Now
@@ -487,9 +585,12 @@ void Ermine::NewTileMap::InitializeBuffers()
 	LayerNameBuffer = new char[100];
 	FilePathBuffer = new char[200];
 
+	LoadTilesetsPath = new char[200];
+
 	memset(NameBuffer, 0, 100);
 	memset(LayerNameBuffer, 0, 100);
 	memset(FilePathBuffer, 0, 200);
+	memset(LoadTilesetsPath, 0, 200);
 }
 
 void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
@@ -500,6 +601,7 @@ void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
 	LayerChosen = rhs.LayerChosen;
 
 	TransparentTexture = rhs.TransparentTexture;
+	JsonFileIcon = rhs.JsonFileIcon;
 
 	OpenTilesetChoosingMenu = rhs.OpenTilesetChoosingMenu;
 	DisplayTilesetChoosingMenu = rhs.DisplayTilesetChoosingMenu;
@@ -516,6 +618,9 @@ void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
 	OpenSaveMapJsonWindow = rhs.OpenSaveMapJsonWindow;
 	DisplaySaveMapJsonWindow = rhs.DisplaySaveMapJsonWindow;
 
+	OpenLoadTileMapWindow = rhs.OpenLoadTileMapWindow;
+	DisplayLoadTileMapWindow = rhs.DisplayLoadTileMapWindow;
+
 	RecieveTileSetSelectedEventsFlag = rhs.RecieveTileSetSelectedEventsFlag.load();
 
 	NewLayerCounter = rhs.NewLayerCounter;
@@ -523,8 +628,8 @@ void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
 	InitializeBuffers();
 	memcpy(NameBuffer, rhs.NameBuffer, 100);
 	memcpy(LayerNameBuffer, rhs.LayerNameBuffer, 100);
-
-	
+	memcpy(FilePathBuffer, rhs.FilePathBuffer, 200);
+	memcpy(LoadTilesetsPath, rhs.LoadTilesetsPath, 200);
 }
 
 void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
@@ -535,6 +640,7 @@ void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 	LayerChosen = rhs.LayerChosen;
 
 	TransparentTexture = std::move(rhs.TransparentTexture);
+	JsonFileIcon = std::move(rhs.JsonFileIcon);
 
 	OpenTilesetChoosingMenu = rhs.OpenTilesetChoosingMenu;
 	DisplayTilesetChoosingMenu = rhs.DisplayTilesetChoosingMenu;
@@ -550,6 +656,9 @@ void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 
 	OpenSaveMapJsonWindow = rhs.OpenSaveMapJsonWindow;
 	DisplaySaveMapJsonWindow = rhs.DisplaySaveMapJsonWindow;
+
+	OpenLoadTileMapWindow = rhs.OpenLoadTileMapWindow;
+	DisplayLoadTileMapWindow = rhs.DisplayLoadTileMapWindow;
 
 	RecieveTileSetSelectedEventsFlag = rhs.RecieveTileSetSelectedEventsFlag.load();
 
@@ -563,6 +672,9 @@ void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 
 	FilePathBuffer = rhs.FilePathBuffer;
 	rhs.FilePathBuffer = nullptr;
+
+	LoadTilesetsPath = rhs.LoadTilesetsPath;
+	rhs.LoadTilesetsPath = nullptr;
 
 	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&NewTileMap::RecieveTileSelectedEvents), RecieveTileSetSelectedEventsFlag,
 		Ermine::EventType::TileSelectedEvent);
