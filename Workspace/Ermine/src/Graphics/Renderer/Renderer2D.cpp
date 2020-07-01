@@ -147,7 +147,7 @@ namespace Ermine
 				{1,GL_FLOAT,false}
 				});
 
-				static glm::mat4 ProjectionViewMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);
+				static glm::mat4 ProjectionViewMatrix = glm::ortho<float>(0.0f,((float)Ermine::GetScreenWidth()),0.0f, ((float)Ermine::GetScreenHeight()), -5.0f, 5.0f);
 
 				Renderer->TileMapShader->UniformMat4(std::string("ProjectionViewMatrix"), ProjectionViewMatrix); //Here See That The Projection MAtrix Is Akin To Screen Coordinates..
 
