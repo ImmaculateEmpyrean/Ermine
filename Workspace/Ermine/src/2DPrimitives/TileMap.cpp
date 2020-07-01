@@ -274,9 +274,6 @@ namespace Ermine
 			
 			Container.Name = it.value().items().begin().key();
 
-			//std::cout << it.value().find("TileWidthPixels").value().dump();
-			std::cout << it.value();
-
 			Container.TileWidth = std::stoi(it.value().begin().value().find("TileWidthPixels").value().dump());
 			Container.TileHeight = std::stoi(it.value().begin().value().find("TileHeightPixels").value().dump());
 
@@ -334,7 +331,6 @@ namespace Ermine
 				{
 					l.TileSetsBuffer.emplace_back(new TileSet(std::filesystem::path(ExtractedPath)));
 
-					std::cout << it.value().dump()<< std::endl;//.find("StartIndex").value().dump();
 					l.TileSetStartIndexTracker.emplace_back(std::stoi(it.value().begin().value().find("StartIndex").value().dump()));
 					l.TileSetEndIndexTracker.emplace_back(NumberOfTiles + l.TileSetStartIndexTracker[l.TileSetStartIndexTracker.size() - 1]);
 				}
@@ -458,8 +454,8 @@ namespace Ermine
 			VertexBuffer.emplace_back(CurrentPositionY + StepInY); //y
 			VertexBuffer.emplace_back(0.0f); //z
 
-			VertexBuffer.emplace_back(this->GetSprite(i,layer.LayerNumber)->GetTopRightUV().x); //u
-			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetTopRightUV().y); //v
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().x); //u//VertexBuffer.emplace_back(this->GetSprite(i,layer.LayerNumber)->GetTopRightUV().x); //u //Original Was Commented Out Not Only Here But Everywhere..
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().y); //v//VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetTopRightUV().y); //v
 
 			VertexBuffer.emplace_back(TextureToNumberMapper.find(this->GetSprite(i, layer.LayerNumber)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
 			//Ended Setting Up Top Right Vertex..
@@ -469,8 +465,8 @@ namespace Ermine
 			VertexBuffer.emplace_back(CurrentPositionY);
 			VertexBuffer.emplace_back(0.0f);
 
-			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetTopRightUV().x);
-			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().y);
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().x);//VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetTopRightUV().x);
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetTopRightUV().y);//VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().y);
 
 			VertexBuffer.emplace_back(TextureToNumberMapper.find(this->GetSprite(i,layer.LayerNumber)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
 			//Ended Setting Up Bottom Right Vertex..
@@ -480,8 +476,8 @@ namespace Ermine
 			VertexBuffer.emplace_back(CurrentPositionY);
 			VertexBuffer.emplace_back(0.0f);
 
-			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().x);
-			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().y);
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetTopRightUV().x);//VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().x);
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetTopRightUV().y);//VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().y);
 
 			VertexBuffer.emplace_back(TextureToNumberMapper.find(this->GetSprite(i,layer.LayerNumber)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
 			//Ended Setting Up Bottom Left Vertex..
@@ -491,8 +487,8 @@ namespace Ermine
 			VertexBuffer.emplace_back(CurrentPositionY + StepInY);
 			VertexBuffer.emplace_back(0.0f);
 
-			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().x);
-			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetTopRightUV().y);
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetTopRightUV().x);//VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().x);
+			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().y);//VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetTopRightUV().y);
 
 			VertexBuffer.emplace_back(TextureToNumberMapper.find(this->GetSprite(i, layer.LayerNumber)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
 			//Ended Setting Up Top Left Vertex..
