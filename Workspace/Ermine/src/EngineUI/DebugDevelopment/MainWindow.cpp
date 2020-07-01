@@ -84,8 +84,9 @@ void Ermine::DebugMainWindow::Draw()
                
                 if (ImGui::MenuItem("Add TileMap", "", nullptr))
                 {
+                    std::function<void(std::filesystem::path)> Han = std::bind(&Ermine::DebugMainWindow::AddTilesetViewerWindowToWindowHandler, this, std::placeholders::_1);
                     auto Handler = Ermine::WindowHandler::Get();
-                    Handler->SubmitWindowFront(std::make_unique<Ermine::NewTileMap>(Ermine::NewTileMap()));
+                    Handler->SubmitWindowFront(std::make_unique<Ermine::NewTileMap>(Ermine::NewTileMap(Han)));
                 }
                 ImGui::EndMenu();
             }
@@ -110,30 +111,11 @@ void Ermine::DebugMainWindow::Draw()
         }
         ImGui::EndMenuBar();
     }
-    /*if(ImGui::BeginMenuBar())
-    {
-        if (ImGui::BeginMenu("FILE"))
-        {
-            static bool b1 = false, b2 = false;
-            /*if (ImGui::MenuItem("Quit",nullptr,&b1))
-            {
-                exit(0);
-            }
-            ImGui::EndMenu();
-        }
-        /*if (ImGui::BeginMenu("Menu"))
-        { 
-            ImGui::EndMenu();
-        }
-        if (ImGui::BeginMenu("Examples"))
-        {
-            ImGui::EndMenu();
-        }
-        if (ImGui::BeginMenu("Tools"))
-        {
-            ImGui::EndMenu();
-        }
-        ImGui::EndMenuBar();
-    }*/
     ImGui::End();
+}
+
+void Ermine::DebugMainWindow::AddTilesetViewerWindowToWindowHandler(std::filesystem::path TilesetPath)
+{
+    auto Handler = Ermine::WindowHandler::Get();
+    Handler->SubmitWindowFront(std::make_unique<Ermine::TilesetViewer>(Ermine::TilesetViewer(TilesetPath)));
 }

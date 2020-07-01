@@ -8,7 +8,9 @@
 #include "nlohmann/json.hpp" 
 #include "EngineResourceHandlers/EditorDefaultStrings.h"
 
-Ermine::NewTileMap::NewTileMap()
+Ermine::NewTileMap::NewTileMap(std::function<void(std::filesystem::path)> CreateTilesetViewWindowCallable)
+	:
+	CallableCreateTileSetViewWindow(CreateTilesetViewWindowCallable)
 {
 	InitializeBuffers();
 
@@ -27,8 +29,8 @@ Ermine::NewTileMap::NewTileMap()
 	memcpy(LoadTilesetsPath, TileMapsPath.value_or("Tilemap\\").c_str(), TileMapsPath.value_or("Tilemap\\").length());
 	//Ended Initializing Default Folder For Searching Tilemaps To Load..
 
-	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&NewTileMap::RecieveTileSelectedEvents), RecieveTileSetSelectedEventsFlag, 
-								    Ermine::EventType::TileSelectedEvent);
+	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&NewTileMap::RecieveTileSelectedEvents), RecieveTileSetSelectedEventsFlag,
+		Ermine::EventType::TileSelectedEvent);
 }
 
 Ermine::NewTileMap::~NewTileMap()
@@ -178,7 +180,10 @@ void Ermine::NewTileMap::Draw()
 	ImGui::Separator();
 
 	if (ImGui::Button("View Tilesets In Use##NewTileMapTilesetsMenu"))
-		OpenTilesetChoosingMenu = true;
+	{
+		if (DisplayViewTilesetsInUse == false)
+			OpenViewTilesetsInUse = true;
+	}
 	ImGui::SameLine();
 	if (ImGui::Button("View Map Json##NewTileMapTilesetsMenu"))
 	{
@@ -303,6 +308,15 @@ void Ermine::NewTileMap::Draw()
 
 	if (DisplayLoadTileMapWindow)
 		DrawLoadTileMapWindow();
+
+	if (OpenViewTilesetsInUse)
+	{
+		DisplayViewTilesetsInUse = true;
+		OpenViewTilesetsInUse = false;
+	}
+
+	if (DisplayViewTilesetsInUse)
+		DrawViewTilesetsInUseWindow();
 
 	//Ended Child Window Draw Routines.. 
 }
@@ -559,6 +573,66 @@ void Ermine::NewTileMap::DrawLoadTileMapWindow()
 	ImGui::End();
 }
 
+void Ermine::NewTileMap::DrawViewTilesetsInUseWindow()
+{
+	ImGui::Begin("Tilesets In Use Window",(bool*)0,ImGuiWindowFlags_AlwaysAutoResize);
+
+	ImGui::Text("Tilesets Used By Current Layer : ");
+
+	ImGui::Separator();
+
+	int c = 0;
+	for (auto T : Map.Layers[LayerChosen].TileSetsBuffer)
+	{
+		ImGui::PushID(c++);
+
+		std::string ButtonName;
+		ButtonName = T->GetName() + "##NewTileMapDrawTilesetsInUseWindowTilesetButtonOnlyLayerUsedTilesets";
+
+		if (ImGui::Button(ButtonName.c_str()))
+		{
+			CallableCreateTileSetViewWindow(T->GetFilePath());
+		}
+
+		ImGui::PopID();
+	}
+
+	ImGui::Separator();
+
+	ImGui::Text("All Tilesets In Use : ");
+	int d = 0;
+	for (auto i : Map.Layers)
+	{
+		ImGui::PushID(c++);
+		for (auto T : i.TileSetsBuffer)
+		{
+			ImGui::PushID(d++);
+
+			std::string ButtonName;
+			ButtonName = T->GetName() + "##NewTileMapDrawTilesetsInUseWindowTilesetButton";
+
+			if (ImGui::Button(ButtonName.c_str()))
+			{
+				CallableCreateTileSetViewWindow(T->GetFilePath());
+			}
+
+			ImGui::PopID();
+		}
+		ImGui::PopID();
+	}
+	
+	ImGui::Separator();
+
+	SetButtonColorRed();
+	if (ImGui::Button("Quit"))
+	{
+		DisplayViewTilesetsInUse = false;
+	}
+	ClearButtonColor();
+
+	ImGui::End();
+}
+
 void Ermine::NewTileMap::Update()
 {
 	//Empty For Now
@@ -595,6 +669,7 @@ void Ermine::NewTileMap::InitializeBuffers()
 
 void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
 {
+	CallableCreateTileSetViewWindow = rhs.CallableCreateTileSetViewWindow; //Copy Over The Events To Right..
 
 	Map = rhs.Map;
 	SelectedSpriteIndex = rhs.SelectedSpriteIndex;
@@ -621,6 +696,9 @@ void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
 	OpenLoadTileMapWindow = rhs.OpenLoadTileMapWindow;
 	DisplayLoadTileMapWindow = rhs.DisplayLoadTileMapWindow;
 
+	OpenViewTilesetsInUse = rhs.OpenViewTilesetsInUse;
+	DisplayViewTilesetsInUse = rhs.DisplayViewTilesetsInUse;
+
 	RecieveTileSetSelectedEventsFlag = rhs.RecieveTileSetSelectedEventsFlag.load();
 
 	NewLayerCounter = rhs.NewLayerCounter;
@@ -634,7 +712,8 @@ void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
 
 void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 {
-	
+	CallableCreateTileSetViewWindow = rhs.CallableCreateTileSetViewWindow; //Copy Over The Events To Right..
+
 	Map = std::move(rhs.Map);
 	SelectedSpriteIndex = rhs.SelectedSpriteIndex;
 	LayerChosen = rhs.LayerChosen;
@@ -659,6 +738,9 @@ void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 
 	OpenLoadTileMapWindow = rhs.OpenLoadTileMapWindow;
 	DisplayLoadTileMapWindow = rhs.DisplayLoadTileMapWindow;
+
+	OpenViewTilesetsInUse = rhs.OpenViewTilesetsInUse;
+	DisplayViewTilesetsInUse = rhs.DisplayViewTilesetsInUse;
 
 	RecieveTileSetSelectedEventsFlag = rhs.RecieveTileSetSelectedEventsFlag.load();
 

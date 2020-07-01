@@ -22,6 +22,7 @@ namespace Ermine
 	protected:
 
 	private:
+		void AddTilesetViewerWindowToWindowHandler(std::filesystem::path TilesetPath);
 
 	private:
 		int WindowFlags;

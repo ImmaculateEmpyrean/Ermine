@@ -2,6 +2,7 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include<functional>
 
 #include "glm.hpp"
 
@@ -19,7 +20,9 @@ namespace Ermine
 	class NewTileMap : public PrecursorWindow
 	{
 	public:
-		NewTileMap();
+		NewTileMap() = delete; //The Callable Must Be Initialized If We Are Able To Draw Tileset View Windows On Our Own Voilition
+		NewTileMap(std::function<void(std::filesystem::path)> CreateTilesetViewWindowCallable);
+
 		~NewTileMap(); //Deallocate Buffers Using This Destructor
 		
 		NewTileMap(const NewTileMap& rhs);
@@ -48,6 +51,8 @@ namespace Ermine
 
 		void DrawLoadTileMapWindow();
 
+		void DrawViewTilesetsInUseWindow();
+
 		//This Function Is Used To Synchronize With The Outside World.. Stuff Like Process Messages and The Like..
 		void RecieveTileSelectedEvents(Ermine::Event* EveObj);
 		void Update(); //Dunno Still Why To Use This
@@ -64,6 +69,10 @@ namespace Ermine
 		//Ended Set Button Colors
 
 	private:
+		//Start Callables//
+		std::function<void(std::filesystem::path)> CallableCreateTileSetViewWindow;
+		//Ended Callables//
+
 		//Start Main Variables
 		Ermine::TileMap Map;
 		int LayerChosen = 0;
@@ -91,6 +100,9 @@ namespace Ermine
 
 		bool OpenLoadTileMapWindow = false;
 		bool DisplayLoadTileMapWindow = false;
+
+		bool OpenViewTilesetsInUse = false;
+		bool DisplayViewTilesetsInUse = false;
 
 		std::atomic<bool> RecieveTileSetSelectedEventsFlag = true;
 
