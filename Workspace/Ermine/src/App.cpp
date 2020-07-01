@@ -83,7 +83,7 @@ void Ermine::App::OnTick()
 	
 
 	//static Ermine::TileMap Map("TileMap/TestTileMap.json");
-	static Ermine::TileMap Map("TileMap/Generated4.json");
+	static Ermine::TileMap Map("TileMap/UnderConsideration.json");
 
 	static Ermine::TileSet Set("TileSet/TileSetTest.json");
 	

@@ -139,8 +139,10 @@ namespace Ermine
 			}
 			else
 			{
-				Layers[LayerNumber].TileSetEndIndexTracker.emplace_back(TilesetPtr->GetSpriteBuffer().size() + Layers[LayerNumber].TileSetStartIndexTracker[Layers[LayerNumber].TileSetStartIndexTracker.size() - 1]);
-				Layers[LayerNumber].TileSetStartIndexTracker.emplace_back(Layers[LayerNumber].TileSetEndIndexTracker[(Layers[LayerNumber].TileSetEndIndexTracker.size() - 2)] + 1);
+				Layers[LayerNumber].TileSetStartIndexTracker.emplace_back(Layers[LayerNumber].TileSetEndIndexTracker[Layers[LayerNumber].TileSetEndIndexTracker.size() - 1]);
+				Layers[LayerNumber].TileSetEndIndexTracker.emplace_back(((Layers[LayerNumber].TileSetEndIndexTracker[Layers[LayerNumber].TileSetEndIndexTracker.size() - 1]) + TilesetPtr->GetNumberOfSpritesInTileSet()));
+				//Layers[LayerNumber].TileSetStartIndexTracker.emplace_back(Layers[LayerNumber].TileSetEndIndexTracker[(Layers[LayerNumber].TileSetEndIndexTracker.size() - 2)] + 1);
+				//Layers[LayerNumber].TileSetEndIndexTracker.emplace_back(TilesetPtr->GetSpriteBuffer().size() + Layers[LayerNumber].TileSetStartIndexTracker[Layers[LayerNumber].TileSetStartIndexTracker.size() - 1]);
 			}
 
 			Layers[LayerNumber].TileSetsBuffer.emplace_back(TilesetPtr.release());
@@ -150,54 +152,58 @@ namespace Ermine
 
 	std::string TileMap::GenerateJsonTileMap()
 	{
-		nlohmann::json JsonFile;
-		std::stringstream JsonHolder;
-
-		JsonFile["TileMapName"] = TileMapName;
 		
-		for (auto i : Layers)
+			nlohmann::json JsonFile;
+			std::stringstream JsonHolder;
+		try
 		{
-			nlohmann::json Layer;
-			nlohmann::json LayerProperties;
+			JsonFile["TileMapName"] = TileMapName;
 
-			LayerProperties["TileWidthPixels"]  = i.TileWidth;
-			LayerProperties["TileHeightPixels"] = i.TileHeight;
-
-			LayerProperties["NumberOfTilesHorizontal"] = i.NumberOfTilesHorizontal;
-			LayerProperties["NumberOfTilesVertical"] = i.NumberOfTilesHorizontal;
-			LayerProperties["TileData"] = i.LayerData; //Check This I Have Got My Doubts.. [Already Checked This Seems To Work]
-			LayerProperties["LayerNumber"] = i.LayerNumber;
-
-			Layer[i.Name] = LayerProperties;
-			//JsonFile["Layers"].push_back(Layer);
-			JsonHolder << Layer.dump();
-		}
-
-		JsonFile["Layers"] << JsonHolder;
-
-		std::stringstream JsonTextureHolder;
-
-		int c = 0;
-		for (auto l : Layers)
-		{
-			for (auto i : l.TileSetsBuffer)
+			for (auto i : Layers)
 			{
-				nlohmann::json TileSet;
-				nlohmann::json TileSetProperties;
+				nlohmann::json Layer;
+				nlohmann::json LayerProperties;
 
-				TileSetProperties["StartIndex"] = l.TileSetStartIndexTracker[c++];
+				LayerProperties["TileWidthPixels"] = i.TileWidth;
+				LayerProperties["TileHeightPixels"] = i.TileHeight;
 
-				TileSet[i->GetFilePath().u8string()] = TileSetProperties;
+				LayerProperties["NumberOfTilesHorizontal"] = i.NumberOfTilesHorizontal;
+				LayerProperties["NumberOfTilesVertical"] = i.NumberOfTilesHorizontal;
+				LayerProperties["TileData"] = i.LayerData; //Check This I Have Got My Doubts.. [Already Checked This Seems To Work]
+				LayerProperties["LayerNumber"] = i.LayerNumber;
 
-				//JsonFile["TileSet"].push_back(TileSet);
-				JsonTextureHolder << TileSet.dump();
+				Layer[i.Name] = LayerProperties;
+				JsonFile["Layers"].push_back(Layer);	
 			}
+			
+			std::stringstream JsonTextureHolder;
+
+			
+			for (auto l : Layers)
+			{
+				for (auto i : l.TileSetsBuffer)
+				{
+					int c = 0;
+
+					nlohmann::json TileSet;
+					nlohmann::json TileSetProperties;
+
+					TileSetProperties["StartIndex"] = l.TileSetStartIndexTracker[c++];
+
+					TileSet[i->GetFilePath().u8string()] = TileSetProperties;
+
+					JsonFile["TileSet"].push_back(TileSet);
+				}
+
+			}
+		}
+		catch (...)
+		{
 
 		}
-		JsonFile["TileSet"] << JsonTextureHolder;
-
-		return JsonFile.dump();
+			return JsonFile.dump();	
 	}
+	
 
 	void TileMap::LoadTileMapFromPath()
 	{
@@ -211,8 +217,8 @@ namespace Ermine
 
 		TileMapName = TileSetFile["TileMapName"].dump();
 
-		//Start Extracting Layers//
-		for (auto i = TileSetFile["Layers"].begin(); i != TileSetFile["Layers"].end(); i++)
+		/*//Start Extracting Layers//
+		for (auto i : TileSetFile["Layers"].items())  //for (auto i = TileSetFile["Layers"].begin(); i != TileSetFile["Layers"].end(); i++)
 		{
 			Layer Container = Layer("Def");
 
@@ -233,7 +239,7 @@ namespace Ermine
 		//Ended Extracting Layers//
 
 		//Start Extracting TileSets//
-		for (auto i = TileSetFile["TileSet"].begin(); i != TileSetFile["TileSet"].end(); i++)
+		for(auto i : TileSetFile["TileSet"].items())//for (auto i = TileSetFile["TileSet"].begin(); i != TileSetFile["TileSet"].end(); i++)
 		{
 			std::string ExtractedPath = i.key();
 
@@ -256,6 +262,87 @@ namespace Ermine
 				}
 			}
 		}
+		//Ended Extracting TileSets//*/
+
+
+		//Start Extracting Layers//
+		int LayerNumber = 0;
+		for (auto& it : TileSetFile["Layers"].items())  //for (auto i = TileSetFile["Layers"].begin(); i != TileSetFile["Layers"].end(); i++)
+		{
+			auto object = it.value();
+			
+			Layer Container = Layer("Def");
+
+			
+			Container.Name = it.value().items().begin().key();
+
+			//std::cout << it.value().find("TileWidthPixels").value().dump();
+			std::cout << it.value();
+
+			Container.TileWidth = std::stoi(it.value().begin().value().find("TileWidthPixels").value().dump());
+			Container.TileHeight = std::stoi(it.value().begin().value().find("TileHeightPixels").value().dump());
+
+			Container.NumberOfTilesHorizontal = std::stoi(it.value().begin().value().find("NumberOfTilesHorizontal").value().dump());
+			Container.NumberOfTilesVertical = std::stoi(it.value().begin().value().find("NumberOfTilesVertical").value().dump());
+
+			Container.LayerNumber = std::stoi(it.value().begin().value().find("LayerNumber").value().dump());
+
+			Container.LayerData = ExtractIntDataFromJsonArray(it.value().begin().value().find("TileData").value().dump());
+
+			Layers.emplace_back(Container);
+
+		}
+		//Ended Extracting Layers//
+
+		//Start Extracting TileSets//
+
+		/*for(auto i : TileSetFile["TileSet"].items())//for (auto i = TileSetFile["TileSet"].begin(); i != TileSetFile["TileSet"].end(); i++)
+		{
+			std::string ExtractedPath = i.key();
+
+			std::ifstream TileSetFileInputRaw(ExtractedPath);
+
+			nlohmann::json TileSetJsonFile;
+			TileSetJsonFile << TileSetFileInputRaw;
+
+			int NumberOfTiles = std::stoi(TileSetJsonFile["NumberOfTiles"].dump());
+
+			for (auto& l : Layers)
+			{
+				if ((l.TileWidth == Ermine::TileSet::GetTileDiamensionsFromTileset(std::filesystem::path(ExtractedPath)).first) && (l.TileHeight == Ermine::TileSet::GetTileDiamensionsFromTileset(std::filesystem::path(ExtractedPath)).second))
+				{
+					l.TileSetsBuffer.emplace_back(new TileSet(std::filesystem::path(ExtractedPath)));
+
+					l.TileSetStartIndexTracker.emplace_back(std::stoi(TileSetFile["TileSet"][ExtractedPath.c_str()]["StartIndex"].dump()));
+					l.TileSetEndIndexTracker.emplace_back(NumberOfTiles + l.TileSetStartIndexTracker[l.TileSetStartIndexTracker.size() - 1]);
+				}
+			}
+		}*/
+
+		for(auto it : TileSetFile["TileSet"].items())//for (auto i = TileSetFile["TileSet"].begin(); i != TileSetFile["TileSet"].end(); i++)
+		{
+			std::string ExtractedPath = it.value().items().begin().key();
+
+			std::ifstream TileSetFileInputRaw(ExtractedPath);
+
+			nlohmann::json TileSetJsonFile;
+			TileSetJsonFile << TileSetFileInputRaw;
+
+			int NumberOfTiles = std::stoi(TileSetJsonFile["NumberOfTiles"].dump());
+
+			for (auto& l : Layers)
+			{
+				if ((l.TileWidth == Ermine::TileSet::GetTileDiamensionsFromTileset(std::filesystem::path(ExtractedPath)).first) && (l.TileHeight == Ermine::TileSet::GetTileDiamensionsFromTileset(std::filesystem::path(ExtractedPath)).second))
+				{
+					l.TileSetsBuffer.emplace_back(new TileSet(std::filesystem::path(ExtractedPath)));
+
+					std::cout << it.value().dump()<< std::endl;//.find("StartIndex").value().dump();
+					l.TileSetStartIndexTracker.emplace_back(std::stoi(it.value().begin().value().find("StartIndex").value().dump()));
+					l.TileSetEndIndexTracker.emplace_back(NumberOfTiles + l.TileSetStartIndexTracker[l.TileSetStartIndexTracker.size() - 1]);
+				}
+			}
+		}
+
 		//Ended Extracting TileSets//
 
 		CreateRendererFriendlyDrawable();
