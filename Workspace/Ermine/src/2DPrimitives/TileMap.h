@@ -169,8 +169,8 @@ namespace Ermine
 
 		//This Variable is used by the renderer to draw the Tilemap in question
 		Ermine::TileMapRendererPrimitive RendererFriendlyDrawable;
-		int NumberOfGridsInXOnScreen = 10; //Please Include Functions For This In The Api In The Near Future..
-		int NumberOfGridsInYOnScreen = 10; //Please Include Functions For This In The Api In The Near Future..
+		/*int NumberOfGridsInXOnScreen = 10; //Please Include Functions For This In The Api In The Near Future..
+		int NumberOfGridsInYOnScreen = 10; //Please Include Functions For This In The Api In The Near Future..*/
 
 		//Flag Variables..
 		bool TilemapFullyFunctional = false; //This Flag Must Be Set To true If The tilemap is to be used by the renderer

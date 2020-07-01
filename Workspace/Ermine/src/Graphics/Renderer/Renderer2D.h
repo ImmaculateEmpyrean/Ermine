@@ -37,7 +37,7 @@ namespace Ermine
 
 		static void EndScene();
 
-		static void SetNumberOfGridsOnScreen(glm::vec<2, int> NumberOnXAndY);
+		//static void SetNumberOfGridsOnScreen(glm::vec<2, int> NumberOnXAndY);
 		
 		void ClearStowedActors();
 
@@ -70,8 +70,8 @@ namespace Ermine
 		std::vector<Actor2D*> StowedActors;
 		std::vector<TileMap*> StowedTileMaps;
 
-		//Variables Exclusive To TileMap Rendering
+		/*//Variables Exclusive To TileMap Rendering
 		int NumberOfGridsInXOnScreen = 10;
-		int NumberOfGridsInYOnScreen = 10;
+		int NumberOfGridsInYOnScreen = 10;*/
 	};
 }

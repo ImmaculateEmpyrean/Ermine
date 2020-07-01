@@ -29,15 +29,15 @@ namespace Ermine
 		int width = 0, height = 0;
 		GLCall(glfwGetWindowSize(glfwGetCurrentContext(), &width, &height));
 
-		return width;
+		return height;
 	}
 
 	int GetScreenWidth()
 	{
-		int width = 0, height = 0;
+		int width = 0,height = 0;
 		GLCall(glfwGetWindowSize(glfwGetCurrentContext(), &width, &height));
 
-		return height;
+		return width;
 	}
 }
 

@@ -141,8 +141,6 @@ namespace Ermine
 			{
 				Layers[LayerNumber].TileSetStartIndexTracker.emplace_back(Layers[LayerNumber].TileSetEndIndexTracker[Layers[LayerNumber].TileSetEndIndexTracker.size() - 1]);
 				Layers[LayerNumber].TileSetEndIndexTracker.emplace_back(((Layers[LayerNumber].TileSetEndIndexTracker[Layers[LayerNumber].TileSetEndIndexTracker.size() - 1]) + TilesetPtr->GetNumberOfSpritesInTileSet()));
-				//Layers[LayerNumber].TileSetStartIndexTracker.emplace_back(Layers[LayerNumber].TileSetEndIndexTracker[(Layers[LayerNumber].TileSetEndIndexTracker.size() - 2)] + 1);
-				//Layers[LayerNumber].TileSetEndIndexTracker.emplace_back(TilesetPtr->GetSpriteBuffer().size() + Layers[LayerNumber].TileSetStartIndexTracker[Layers[LayerNumber].TileSetStartIndexTracker.size() - 1]);
 			}
 
 			Layers[LayerNumber].TileSetsBuffer.emplace_back(TilesetPtr.release());
@@ -393,11 +391,14 @@ namespace Ermine
 
 	std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> Ermine::TileMap::CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer)
 	{
+		int NumberOfGridsInXOnScreen = Ermine::GetScreenWidth() / layer.TileWidth;
+		int NumberOfGridsInYOnScreen = Ermine::GetScreenHeight() / layer.TileHeight;
+
 		int GridXToBeGenerated = layer.NumberOfTilesHorizontal;
 		int GridYToBeGenerated = layer.NumberOfTilesVertical;
 
-		float StepInX = Ermine::GetScreenHeight() / NumberOfGridsInXOnScreen;
-		float StepInY = Ermine::GetScreenWidth() / NumberOfGridsInYOnScreen;
+		float StepInX = Ermine::GetScreenWidth() / NumberOfGridsInXOnScreen;//Ermine::GetScreenHeight() / NumberOfGridsInXOnScreen;
+		float StepInY = Ermine::GetScreenHeight() / NumberOfGridsInYOnScreen;//Ermine::GetScreenWidth() / NumberOfGridsInYOnScreen;
 
 		//These Variables Are USed To Generate The VErtex Buffer..
 		float CurrentPositionX = 0.0f;

@@ -83,22 +83,6 @@ namespace Ermine
 		Renderer->DrawTileMapHelper();
 	}
 
-	void Renderer2D::SetNumberOfGridsOnScreen(glm::vec<2, int> NumberOnXAndY)
-	{
-		/*auto Renderer = Ermine::Renderer2D::Get();
-
-		if (NumberOnXAndY.x == Renderer->NumberOfGridsInXOnScreen)
-		{
-			if (NumberOnXAndY.y == Renderer->NumberOfGridsInYOnScreen)
-			{
-				return;
-			}
-			else Renderer->RenderPrimitiveCache.clear();
-		}
-		else Renderer->RenderPrimitiveCache.clear();*/
-	}
-
-
 	void Renderer2D::ClearStowedActors()
 	{
 		StowedActors.clear();
@@ -142,8 +126,6 @@ namespace Ermine
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
 
-		/*std::vector<std::vector<float>> VertexBuffer;
-		std::vector<uint32_t> IndexBuffer;*/
 		std::vector<Ermine::VertexArray> VaoArray;
 		std::vector<std::unordered_map<std::filesystem::path, float>> TextureMappingCache;
 
@@ -191,124 +173,4 @@ namespace Ermine
 		}
 		Renderer->StowedTileMaps.clear();
 	}
-
-	/*std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> Renderer2D::CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer,
-																												   TileMap* tm)
-	{
-		int GridXToBeGenerated = layer.NumberOfTilesHorizontal;
-		int GridYToBeGenerated = layer.NumberOfTilesVertical;
-
-		float StepInX = Ermine::GetScreenHeight() / NumberOfGridsInXOnScreen;
-		float StepInY = Ermine::GetScreenWidth() / NumberOfGridsInYOnScreen;
-
-		//These Variables Are USed To Generate The VErtex Buffer..
-		float CurrentPositionX = 0.0f;
-		float CurrentPositionY = 0.0f;
-
-		//This VAriable is used to generate the index buffer...
-		int IndexCounter = 0;
-
-		//This Number Is Used To Count The Texture Number...
-		int TextureNumber = 0;
-
-		std::vector<float> VertexBuffer;
-		std::vector<uint32_t> IndexBuffer;
-
-		std::unordered_map<std::filesystem::path, float> TextureToNumberMapper; //We Must Return This Too I Guess...
-
-		int Count = 0;
-		for (auto i : layer.LayerData)
-		{
-			if (i == 0)
-			{
-				//Are You Stupid All You Are Gonna GEt Is Diagnol...
-				CurrentPositionX = CurrentPositionX + StepInX;
-				Count++;
-				if (Count >= layer.NumberOfTilesHorizontal)
-				{
-					Count = 0;
-					CurrentPositionX = 0.0f;
-					CurrentPositionY = CurrentPositionY + StepInY;
-				}
-				//CurrentPositionY = CurrentPositionY + StepInY;
-
-				continue;
-			}
-
-			//Start GEtting The Index Buffer Ready..
-			IndexBuffer.emplace_back(IndexCounter);
-			IndexBuffer.emplace_back(IndexCounter + 1);
-			IndexBuffer.emplace_back(IndexCounter + 3);
-
-			IndexBuffer.emplace_back(IndexCounter + 1);
-			IndexBuffer.emplace_back(IndexCounter + 2);
-			IndexBuffer.emplace_back(IndexCounter + 3);
-
-			IndexCounter = IndexCounter + 4;
-			//Ended Getting The Index Buffer Ready..
-
-			auto TextureNumberMapperIterator = TextureToNumberMapper.find(tm->GetSprite(i)->GetTexture()->GetFilePath());
-			if (TextureNumberMapperIterator == TextureToNumberMapper.end())
-			{
-				//Not Found
-				TextureToNumberMapper[tm->GetSprite(i)->GetTexture()->GetFilePath()] = TextureNumber++;
-			}
-
-			//Start Setting Up Top Right Vertex..
-			VertexBuffer.emplace_back(CurrentPositionX + StepInX); //x
-			VertexBuffer.emplace_back(CurrentPositionY + StepInY); //y
-			VertexBuffer.emplace_back(0.0f); //z
-
-			VertexBuffer.emplace_back(tm->GetSprite(i)->GetTopRightUV().x); //u
-			VertexBuffer.emplace_back(tm->GetSprite(i)->GetTopRightUV().y); //v
-
-			VertexBuffer.emplace_back(TextureToNumberMapper.find(tm->GetSprite(i)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
-			//Ended Setting Up Top Right Vertex..
-
-			//Start Setting Up Bottom Right Vertex..
-			VertexBuffer.emplace_back(CurrentPositionX + StepInX);
-			VertexBuffer.emplace_back(CurrentPositionY);
-			VertexBuffer.emplace_back(0.0f);
-
-			VertexBuffer.emplace_back(tm->GetSprite(i)->GetTopRightUV().x);
-			VertexBuffer.emplace_back(tm->GetSprite(i)->GetBottomLeftUV().y);
-
-			VertexBuffer.emplace_back(TextureToNumberMapper.find(tm->GetSprite(i)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
-			//Ended Setting Up Bottom Right Vertex..
-
-			//Start Setting Up Bottom Left Vertex..
-			VertexBuffer.emplace_back(CurrentPositionX);
-			VertexBuffer.emplace_back(CurrentPositionY);
-			VertexBuffer.emplace_back(0.0f);
-
-			VertexBuffer.emplace_back(tm->GetSprite(i)->GetBottomLeftUV().x);
-			VertexBuffer.emplace_back(tm->GetSprite(i)->GetBottomLeftUV().y);
-
-			VertexBuffer.emplace_back(TextureToNumberMapper.find(tm->GetSprite(i)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
-			//Ended Setting Up Bottom Left Vertex..
-
-			//Start Setting Up Top Left Vertex..
-			VertexBuffer.emplace_back(CurrentPositionX);
-			VertexBuffer.emplace_back(CurrentPositionY + StepInY);
-			VertexBuffer.emplace_back(0.0f);
-
-			VertexBuffer.emplace_back(tm->GetSprite(i)->GetBottomLeftUV().x);
-			VertexBuffer.emplace_back(tm->GetSprite(i)->GetTopRightUV().y);
-
-			VertexBuffer.emplace_back(TextureToNumberMapper.find(tm->GetSprite(i)->GetTexture()->GetFilePath()).operator*().second); //Texture Number
-			//Ended Setting Up Top Left Vertex..
-
-			CurrentPositionX = CurrentPositionX + StepInX;
-
-			Count++;
-			if (Count >= layer.NumberOfTilesHorizontal)
-			{
-				Count = 0;
-				CurrentPositionX = 0.0f;
-				CurrentPositionY = CurrentPositionY + StepInY;
-			}
-			
-		}
-		return std::make_pair(Ermine::VertexArray(VertexBuffer, IndexBuffer),TextureToNumberMapper);
-	}*/
 }
