@@ -21,7 +21,8 @@ namespace Ermine
 	}
 	TextureViewWizard::~TextureViewWizard()
 	{
-		delete[] FilterText;
+		if(FilterText!= nullptr)
+			delete[] FilterText;
 	}
 
 

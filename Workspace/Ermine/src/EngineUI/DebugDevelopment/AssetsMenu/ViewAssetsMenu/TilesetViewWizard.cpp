@@ -118,7 +118,10 @@ void Ermine::TilesetViewWizard::Draw()
 
 					ImGui::NextColumn();
 
-					ImGui::Text("%s", JsonFile["TileSetName"].dump());
+					std::string temp = JsonFile["TileSetName"].dump();
+					temp.erase(temp.begin());
+					temp.erase(temp.end() - 1);
+					ImGui::Text("%s", temp.c_str());
 
 					ImGui::NextColumn();
 
