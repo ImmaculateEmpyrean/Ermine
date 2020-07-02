@@ -1,0 +1,10 @@
+^B:\LIBRARIES\FREETYPE-2.10.2\CMAKELISTS.TXT
+setlocal
+P:\CMake\bin\cmake.exe -SB:/Libraries/freetype-2.10.2 -BB:/Libraries/freetype-2.10.2/bin --check-stamp-file B:/Libraries/freetype-2.10.2/bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

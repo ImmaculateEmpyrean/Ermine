@@ -92,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core.h" />
+    <ClInclude Include="src\EngineResourceHandlers\EditorDefaultStrings.h">
+      <Filter>EngineResourceHandlers</Filter>
+    </ClInclude>
     <ClInclude Include="src\EngineResourceHandlers\GlobalTextureCache.h">
       <Filter>EngineResourceHandlers</Filter>
     </ClInclude>
@@ -108,6 +111,15 @@
       <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
     </ClInclude>
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.h">
+      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TileMapViewWizard.h">
+      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewWizard.h">
+      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewer.h">
       <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
     </ClInclude>
     <ClInclude Include="src\EngineUI\DebugDevelopment\MainWindow.h">
@@ -150,6 +162,9 @@
       <Filter>EventSystem\EventTypes</Filter>
     </ClInclude>
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventSystem\EventTypes\TileSelectedEvent.h">
       <Filter>EventSystem\EventTypes</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Shader.h">
@@ -218,11 +233,6 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TileMapViewWizard.h" />
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewWizard.h" />
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewer.h" />
-    <ClInclude Include="src\EngineResourceHandlers\EditorDefaultStrings.h" />
-    <ClInclude Include="src\EventSystem\EventTypes\TileSelectedEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp">
@@ -242,6 +252,9 @@
     </ClCompile>
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\Core.cpp" />
+    <ClCompile Include="src\EngineResourceHandlers\EditorDefaultStrings.cpp">
+      <Filter>EngineResourceHandlers</Filter>
+    </ClCompile>
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp">
       <Filter>EngineResourceHandlers</Filter>
     </ClCompile>
@@ -258,6 +271,15 @@
       <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
     </ClCompile>
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.cpp">
+      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TileMapViewWizard.cpp">
+      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewWizard.cpp">
+      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewer.cpp">
       <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
     </ClCompile>
     <ClCompile Include="src\EngineUI\DebugDevelopment\MainWindow.cpp">
@@ -294,6 +316,9 @@
       <Filter>EventSystem\EventTypes</Filter>
     </ClCompile>
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventSystem\EventTypes\TileSelectedEvent.cpp">
       <Filter>EventSystem\EventTypes</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Shader.cpp">
@@ -348,10 +373,5 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TileMapViewWizard.cpp" />
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewWizard.cpp" />
-    <ClCompile Include="src\EngineResourceHandlers\EditorDefaultStrings.cpp" />
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewer.cpp" />
-    <ClCompile Include="src\EventSystem\EventTypes\TileSelectedEvent.cpp" />
   </ItemGroup>
 </Project>

@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllexport);GAME_DEBUG_DEVELOP;GAME_BUILDING_FOR_WINDOWS;GAME_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -102,7 +102,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllexport);GAME_DEBUG_SHIP;GAME_BUILDING_FOR_WINDOWS;GAME_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -124,7 +124,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllexport);GAME_RELEASE_SHIP;GAME_BUILDING_FOR_WINDOWS;GAME_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -171,6 +171,9 @@
     </ProjectReference>
     <ProjectReference Include="..\vendor\JSON\json.vcxproj">
       <Project>{9F27997C-8B5E-9A0D-344B-80102061160F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\vendor\freetype\Freetype.vcxproj">
+      <Project>{69ED2050-55BA-7B5B-7ED3-69036AFFB0E9}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

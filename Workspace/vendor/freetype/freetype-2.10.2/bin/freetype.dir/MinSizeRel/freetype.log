@@ -1,0 +1,68 @@
+﻿  Building Custom Rule B:/Libraries/freetype-2.10.2/CMakeLists.txt
+  autofit.c
+  ftbase.c
+  ftbbox.c
+  ftbdf.c
+  ftbitmap.c
+  ftcid.c
+  ftfstype.c
+  ftgasp.c
+  ftglyph.c
+  ftgxval.c
+  ftinit.c
+  ftmm.c
+  ftotval.c
+  ftpatent.c
+  ftpfr.c
+  ftstroke.c
+  ftsynth.c
+  fttype1.c
+  ftwinfnt.c
+  bdf.c
+  Generating Code...
+  Compiling...
+  ftbzip2.c
+  ftcache.c
+  cff.c
+  type1cid.c
+  ftgzip.c
+  ftlzw.c
+  pcf.c
+  pfr.c
+  psaux.c
+B:\Libraries\freetype-2.10.2\src\psaux\psintrp.c(1005,29): warning C4267: '=': conversion from 'size_t' to 'FT_Fast', possible loss of data
+  pshinter.c
+  psnames.c
+  raster.c
+  sfnt.c
+B:\Libraries\freetype-2.10.2\src\sfnt\sfdriver.c(860,32): warning C4267: '=': conversion from 'size_t' to 'FT_UInt', possible loss of data
+B:\Libraries\freetype-2.10.2\src\sfnt\sfdriver.c(1011,44): warning C4244: 'function': conversion from '__int64' to 'const unsigned int', possible loss of data
+B:\Libraries\freetype-2.10.2\src\sfnt\ttcolr.c(127,50): warning C4018: '>': signed/unsigned mismatch
+B:\Libraries\freetype-2.10.2\src\sfnt\ttcolr.c(136,40): warning C4018: '>': signed/unsigned mismatch
+B:\Libraries\freetype-2.10.2\src\sfnt\ttcpal.c(121,40): warning C4018: '>': signed/unsigned mismatch
+B:\Libraries\freetype-2.10.2\src\sfnt\ttcpal.c(153,50): warning C4018: '>': signed/unsigned mismatch
+B:\Libraries\freetype-2.10.2\src\sfnt\ttcpal.c(174,50): warning C4018: '>': signed/unsigned mismatch
+B:\Libraries\freetype-2.10.2\src\sfnt\ttcpal.c(195,57): warning C4018: '>': signed/unsigned mismatch
+  smooth.c
+B:\Libraries\freetype-2.10.2\src\smooth\ftgrays.c(1704,26): warning C4267: '+=': conversion from 'size_t' to 'TCoord', possible loss of data
+  truetype.c
+B:\Libraries\freetype-2.10.2\src\truetype\ttgload.c(1892,42): warning C4312: 'type cast': conversion from 'unsigned long' to 'void *' of greater size
+  type1.c
+B:\Libraries\freetype-2.10.2\src\type1\t1driver.c(277,51): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data
+B:\Libraries\freetype-2.10.2\src\type1\t1driver.c(298,58): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data
+B:\Libraries\freetype-2.10.2\src\type1\t1driver.c(330,65): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data
+B:\Libraries\freetype-2.10.2\src\type1\t1driver.c(360,23): warning C4267: '=': conversion from 'size_t' to 'FT_UInt', possible loss of data
+B:\Libraries\freetype-2.10.2\src\type1\t1driver.c(569,59): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data
+B:\Libraries\freetype-2.10.2\src\type1\t1driver.c(578,58): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data
+B:\Libraries\freetype-2.10.2\src\type1\t1driver.c(587,61): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data
+B:\Libraries\freetype-2.10.2\src\type1\t1driver.c(596,63): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data
+B:\Libraries\freetype-2.10.2\src\type1\t1driver.c(606,58): warning C4267: '=': conversion from 'size_t' to 'FT_ULong', possible loss of data
+B:\Libraries\freetype-2.10.2\src\type1\t1load.c(1761,68): warning C4244: '=': conversion from '__int64' to 'FT_Int', possible loss of data
+B:\Libraries\freetype-2.10.2\src\type1\t1load.c(1931,40): warning C4244: '=': conversion from '__int64' to 'FT_Int', possible loss of data
+  type42.c
+B:\Libraries\freetype-2.10.2\src\type42\t42parse.c(832,66): warning C4244: '=': conversion from '__int64' to 'FT_Int', possible loss of data
+  winfnt.c
+  ftsystem.c
+  ftdebug.c
+  Generating Code...
+  freetype.vcxproj -> B:\Libraries\freetype-2.10.2\bin\MinSizeRel\freetype.lib

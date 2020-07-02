@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_Development Windows|x64">
+      <Configuration>Debug_Development Windows</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_Distribution Windows|x64">
+      <Configuration>Debug_Distribution Windows</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_Distribution Windows|x64">
+      <Configuration>Release_Distribution Windows</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{69ED2050-55BA-7B5B-7ED3-69036AFFB0E9}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Freetype</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Development Windows|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Distribution Windows|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Distribution Windows|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug_Development Windows|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug_Distribution Windows|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release_Distribution Windows|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Development Windows|x64'">
+    <OutDir>..\..\bin\Debug_Development-Windows-windows-x86_64\Freetype\</OutDir>
+    <IntDir>..\..\bin-int\Debug_Development-Windows-windows-x86_64\Freetype\</IntDir>
+    <TargetName>Freetype</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Distribution Windows|x64'">
+    <OutDir>..\..\bin\Debug_Distribution-Windows-windows-x86_64\Freetype\</OutDir>
+    <IntDir>..\..\bin-int\Debug_Distribution-Windows-windows-x86_64\Freetype\</IntDir>
+    <TargetName>Freetype</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Distribution Windows|x64'">
+    <OutDir>..\..\bin\Release_Distribution-Windows-windows-x86_64\Freetype\</OutDir>
+    <IntDir>..\..\bin-int\Release_Distribution-Windows-windows-x86_64\Freetype\</IntDir>
+    <TargetName>Freetype</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Development Windows|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>ER_BUILDING_ON_WINDOWS;WIN32;_WINDOWS;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;ER_DEBUG_DEVELOP;ER_BUILDING_FOR_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>freetype-2.10.2\src;freetype-2.10.2\include;freetype-2.10.2bin\include\freetype\config;freetype-2.10.2\bin\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Distribution Windows|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>ER_BUILDING_ON_WINDOWS;WIN32;_WINDOWS;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;ER_DEBUG_SHIP;ER_BUILDING_FOR_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>freetype-2.10.2\src;freetype-2.10.2\include;freetype-2.10.2bin\include\freetype\config;freetype-2.10.2\bin\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Distribution Windows|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>ER_BUILDING_ON_WINDOWS;WIN32;_WINDOWS;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;ER_RELEASE_SHIP;ER_BUILDING_FOR_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>freetype-2.10.2\src;freetype-2.10.2\include;freetype-2.10.2bin\include\freetype\config;freetype-2.10.2\bin\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="freetype-2.10.2\builds\windows\ftdebug.c" />
+    <ClCompile Include="freetype-2.10.2\src\autofit\autofit.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftbase.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftbbox.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftbdf.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftbitmap.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftcid.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftfstype.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftgasp.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftglyph.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftgxval.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftinit.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftmm.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftotval.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftpatent.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftpfr.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftstroke.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftsynth.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftsystem.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\fttype1.c" />
+    <ClCompile Include="freetype-2.10.2\src\base\ftwinfnt.c" />
+    <ClCompile Include="freetype-2.10.2\src\bdf\bdf.c" />
+    <ClCompile Include="freetype-2.10.2\src\cache\ftcache.c" />
+    <ClCompile Include="freetype-2.10.2\src\cff\cff.c" />
+    <ClCompile Include="freetype-2.10.2\src\cid\type1cid.c" />
+    <ClCompile Include="freetype-2.10.2\src\gzip\ftgzip.c" />
+    <ClCompile Include="freetype-2.10.2\src\lzw\ftlzw.c" />
+    <ClCompile Include="freetype-2.10.2\src\pcf\pcf.c" />
+    <ClCompile Include="freetype-2.10.2\src\pfr\pfr.c" />
+    <ClCompile Include="freetype-2.10.2\src\psaux\psaux.c" />
+    <ClCompile Include="freetype-2.10.2\src\pshinter\pshinter.c" />
+    <ClCompile Include="freetype-2.10.2\src\psnames\psmodule.c" />
+    <ClCompile Include="freetype-2.10.2\src\raster\raster.c" />
+    <ClCompile Include="freetype-2.10.2\src\sfnt\sfnt.c" />
+    <ClCompile Include="freetype-2.10.2\src\smooth\smooth.c" />
+    <ClCompile Include="freetype-2.10.2\src\truetype\truetype.c" />
+    <ClCompile Include="freetype-2.10.2\src\type1\type1.c" />
+    <ClCompile Include="freetype-2.10.2\src\type42\type42.c" />
+    <ClCompile Include="freetype-2.10.2\src\winfonts\winfnt.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

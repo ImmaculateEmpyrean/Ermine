@@ -1,0 +1,393 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{DAD6461E-D10F-3422-BEA0-0D442C73AB3E}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>freetype</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">B:\Libraries\freetype-2.10.2\bin\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">freetype.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">freetyped</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">B:\Libraries\freetype-2.10.2\bin\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">freetype.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">freetype</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">B:\Libraries\freetype-2.10.2\bin\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">freetype.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">freetype</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">B:\Libraries\freetype-2.10.2\bin\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">freetype.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">freetype</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>B:\Libraries\freetype-2.10.2\bin\include;B:\Libraries\freetype-2.10.2\include;B:\Libraries\freetype-2.10.2\bin\include\freetype\config;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>B:\Libraries\freetype-2.10.2\bin\include;B:\Libraries\freetype-2.10.2\include;B:\Libraries\freetype-2.10.2\bin\include\freetype\config;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>B:\Libraries\freetype-2.10.2\bin\include;B:\Libraries\freetype-2.10.2\include;B:\Libraries\freetype-2.10.2\bin\include\freetype\config;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>B:\Libraries\freetype-2.10.2\bin\include;B:\Libraries\freetype-2.10.2\include;B:\Libraries\freetype-2.10.2\bin\include\freetype\config;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>B:\Libraries\freetype-2.10.2\bin\include;B:\Libraries\freetype-2.10.2\include;B:\Libraries\freetype-2.10.2\bin\include\freetype\config;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>B:\Libraries\freetype-2.10.2\bin\include;B:\Libraries\freetype-2.10.2\include;B:\Libraries\freetype-2.10.2\bin\include\freetype\config;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>B:\Libraries\freetype-2.10.2\bin\include;B:\Libraries\freetype-2.10.2\include;B:\Libraries\freetype-2.10.2\bin\include\freetype\config;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>B:\Libraries\freetype-2.10.2\bin\include;B:\Libraries\freetype-2.10.2\include;B:\Libraries\freetype-2.10.2\bin\include\freetype\config;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>B:\Libraries\freetype-2.10.2\bin\include;B:\Libraries\freetype-2.10.2\include;B:\Libraries\freetype-2.10.2\bin\include\freetype\config;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>B:\Libraries\freetype-2.10.2\bin\include;B:\Libraries\freetype-2.10.2\include;B:\Libraries\freetype-2.10.2\bin\include\freetype\config;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;FT2_BUILD_LIBRARY;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>B:\Libraries\freetype-2.10.2\bin\include;B:\Libraries\freetype-2.10.2\include;B:\Libraries\freetype-2.10.2\bin\include\freetype\config;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>B:\Libraries\freetype-2.10.2\bin\include;B:\Libraries\freetype-2.10.2\include;B:\Libraries\freetype-2.10.2\bin\include\freetype\config;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="B:\Libraries\freetype-2.10.2\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule B:/Libraries/freetype-2.10.2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+P:\CMake\bin\cmake.exe -SB:/Libraries/freetype-2.10.2 -BB:/Libraries/freetype-2.10.2/bin --check-stamp-file B:/Libraries/freetype-2.10.2/bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">B:\Libraries\freetype-2.10.2\bin\CMakeFiles\3.18.0-rc2\CMakeCCompiler.cmake;B:\Libraries\freetype-2.10.2\bin\CMakeFiles\3.18.0-rc2\CMakeRCCompiler.cmake;B:\Libraries\freetype-2.10.2\bin\CMakeFiles\3.18.0-rc2\CMakeSystem.cmake;B:\Libraries\freetype-2.10.2\builds\cmake\FindBrotliDec.cmake;B:\Libraries\freetype-2.10.2\builds\cmake\FindHarfBuzz.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeCCompiler.cmake.in;P:\CMake\share\cmake-3.18\Modules\CMakeCCompilerABI.c;P:\CMake\share\cmake-3.18\Modules\CMakeCInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeCompilerIdDetection.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompileFeatures.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerABI.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerId.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineRCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineSystem.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeFindBinUtils.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeParseImplicitIncludeInfo.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeParseImplicitLinkInfo.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeRCCompiler.cmake.in;P:\CMake\share\cmake-3.18\Modules\CMakeRCInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeSystem.cmake.in;P:\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeTestCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeTestCompilerCommon.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeTestRCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CPack.cmake;P:\CMake\share\cmake-3.18\Modules\CPackComponent.cmake;P:\CMake\share\cmake-3.18\Modules\CheckIncludeFile.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\ADSP-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\ARMCC-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\ARMClang-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\AppleClang-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Borland-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Cray-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\GHS-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\GNU-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\HP-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\IAR-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Intel-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\MSVC-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\PGI-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\PathScale-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\SCO-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\TI-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Watcom-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\XL-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\zOS-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CompilerId\VS-10.vcxproj.in;P:\CMake\share\cmake-3.18\Modules\FindBZip2.cmake;P:\CMake\share\cmake-3.18\Modules\FindPNG.cmake;P:\CMake\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;P:\CMake\share\cmake-3.18\Modules\FindPackageMessage.cmake;P:\CMake\share\cmake-3.18\Modules\FindPkgConfig.cmake;P:\CMake\share\cmake-3.18\Modules\FindZLIB.cmake;P:\CMake\share\cmake-3.18\Modules\GNUInstallDirs.cmake;P:\CMake\share\cmake-3.18\Modules\Internal\FeatureTesting.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\Windows.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;P:\CMake\share\cmake-3.18\Modules\SelectLibraryConfigurations.cmake;P:\CMake\share\cmake-3.18\Templates\CPackConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">B:\Libraries\freetype-2.10.2\bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule B:/Libraries/freetype-2.10.2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+P:\CMake\bin\cmake.exe -SB:/Libraries/freetype-2.10.2 -BB:/Libraries/freetype-2.10.2/bin --check-stamp-file B:/Libraries/freetype-2.10.2/bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">B:\Libraries\freetype-2.10.2\bin\CMakeFiles\3.18.0-rc2\CMakeCCompiler.cmake;B:\Libraries\freetype-2.10.2\bin\CMakeFiles\3.18.0-rc2\CMakeRCCompiler.cmake;B:\Libraries\freetype-2.10.2\bin\CMakeFiles\3.18.0-rc2\CMakeSystem.cmake;B:\Libraries\freetype-2.10.2\builds\cmake\FindBrotliDec.cmake;B:\Libraries\freetype-2.10.2\builds\cmake\FindHarfBuzz.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeCCompiler.cmake.in;P:\CMake\share\cmake-3.18\Modules\CMakeCCompilerABI.c;P:\CMake\share\cmake-3.18\Modules\CMakeCInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeCompilerIdDetection.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompileFeatures.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerABI.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerId.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineRCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineSystem.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeFindBinUtils.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeParseImplicitIncludeInfo.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeParseImplicitLinkInfo.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeRCCompiler.cmake.in;P:\CMake\share\cmake-3.18\Modules\CMakeRCInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeSystem.cmake.in;P:\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeTestCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeTestCompilerCommon.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeTestRCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CPack.cmake;P:\CMake\share\cmake-3.18\Modules\CPackComponent.cmake;P:\CMake\share\cmake-3.18\Modules\CheckIncludeFile.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\ADSP-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\ARMCC-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\ARMClang-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\AppleClang-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Borland-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Cray-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\GHS-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\GNU-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\HP-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\IAR-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Intel-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\MSVC-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\PGI-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\PathScale-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\SCO-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\TI-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Watcom-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\XL-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\zOS-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CompilerId\VS-10.vcxproj.in;P:\CMake\share\cmake-3.18\Modules\FindBZip2.cmake;P:\CMake\share\cmake-3.18\Modules\FindPNG.cmake;P:\CMake\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;P:\CMake\share\cmake-3.18\Modules\FindPackageMessage.cmake;P:\CMake\share\cmake-3.18\Modules\FindPkgConfig.cmake;P:\CMake\share\cmake-3.18\Modules\FindZLIB.cmake;P:\CMake\share\cmake-3.18\Modules\GNUInstallDirs.cmake;P:\CMake\share\cmake-3.18\Modules\Internal\FeatureTesting.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\Windows.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;P:\CMake\share\cmake-3.18\Modules\SelectLibraryConfigurations.cmake;P:\CMake\share\cmake-3.18\Templates\CPackConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">B:\Libraries\freetype-2.10.2\bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule B:/Libraries/freetype-2.10.2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+P:\CMake\bin\cmake.exe -SB:/Libraries/freetype-2.10.2 -BB:/Libraries/freetype-2.10.2/bin --check-stamp-file B:/Libraries/freetype-2.10.2/bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">B:\Libraries\freetype-2.10.2\bin\CMakeFiles\3.18.0-rc2\CMakeCCompiler.cmake;B:\Libraries\freetype-2.10.2\bin\CMakeFiles\3.18.0-rc2\CMakeRCCompiler.cmake;B:\Libraries\freetype-2.10.2\bin\CMakeFiles\3.18.0-rc2\CMakeSystem.cmake;B:\Libraries\freetype-2.10.2\builds\cmake\FindBrotliDec.cmake;B:\Libraries\freetype-2.10.2\builds\cmake\FindHarfBuzz.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeCCompiler.cmake.in;P:\CMake\share\cmake-3.18\Modules\CMakeCCompilerABI.c;P:\CMake\share\cmake-3.18\Modules\CMakeCInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeCompilerIdDetection.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompileFeatures.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerABI.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerId.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineRCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineSystem.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeFindBinUtils.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeParseImplicitIncludeInfo.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeParseImplicitLinkInfo.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeRCCompiler.cmake.in;P:\CMake\share\cmake-3.18\Modules\CMakeRCInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeSystem.cmake.in;P:\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeTestCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeTestCompilerCommon.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeTestRCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CPack.cmake;P:\CMake\share\cmake-3.18\Modules\CPackComponent.cmake;P:\CMake\share\cmake-3.18\Modules\CheckIncludeFile.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\ADSP-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\ARMCC-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\ARMClang-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\AppleClang-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Borland-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Cray-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\GHS-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\GNU-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\HP-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\IAR-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Intel-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\MSVC-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\PGI-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\PathScale-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\SCO-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\TI-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Watcom-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\XL-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\zOS-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CompilerId\VS-10.vcxproj.in;P:\CMake\share\cmake-3.18\Modules\FindBZip2.cmake;P:\CMake\share\cmake-3.18\Modules\FindPNG.cmake;P:\CMake\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;P:\CMake\share\cmake-3.18\Modules\FindPackageMessage.cmake;P:\CMake\share\cmake-3.18\Modules\FindPkgConfig.cmake;P:\CMake\share\cmake-3.18\Modules\FindZLIB.cmake;P:\CMake\share\cmake-3.18\Modules\GNUInstallDirs.cmake;P:\CMake\share\cmake-3.18\Modules\Internal\FeatureTesting.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\Windows.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;P:\CMake\share\cmake-3.18\Modules\SelectLibraryConfigurations.cmake;P:\CMake\share\cmake-3.18\Templates\CPackConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">B:\Libraries\freetype-2.10.2\bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule B:/Libraries/freetype-2.10.2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+P:\CMake\bin\cmake.exe -SB:/Libraries/freetype-2.10.2 -BB:/Libraries/freetype-2.10.2/bin --check-stamp-file B:/Libraries/freetype-2.10.2/bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">B:\Libraries\freetype-2.10.2\bin\CMakeFiles\3.18.0-rc2\CMakeCCompiler.cmake;B:\Libraries\freetype-2.10.2\bin\CMakeFiles\3.18.0-rc2\CMakeRCCompiler.cmake;B:\Libraries\freetype-2.10.2\bin\CMakeFiles\3.18.0-rc2\CMakeSystem.cmake;B:\Libraries\freetype-2.10.2\builds\cmake\FindBrotliDec.cmake;B:\Libraries\freetype-2.10.2\builds\cmake\FindHarfBuzz.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeCCompiler.cmake.in;P:\CMake\share\cmake-3.18\Modules\CMakeCCompilerABI.c;P:\CMake\share\cmake-3.18\Modules\CMakeCInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeCompilerIdDetection.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompileFeatures.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerABI.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineCompilerId.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineRCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeDetermineSystem.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeFindBinUtils.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeParseImplicitIncludeInfo.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeParseImplicitLinkInfo.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeRCCompiler.cmake.in;P:\CMake\share\cmake-3.18\Modules\CMakeRCInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeSystem.cmake.in;P:\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeTestCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeTestCompilerCommon.cmake;P:\CMake\share\cmake-3.18\Modules\CMakeTestRCCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CPack.cmake;P:\CMake\share\cmake-3.18\Modules\CPackComponent.cmake;P:\CMake\share\cmake-3.18\Modules\CheckIncludeFile.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\ADSP-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\ARMCC-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\ARMClang-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\AppleClang-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Borland-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Bruce-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Compaq-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Cray-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\GHS-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\GNU-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\HP-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\IAR-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\IBMCPP-C-DetermineVersionInternal.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Intel-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\MSVC-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\PGI-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\PathScale-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\SCO-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\SDCC-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\SunPro-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\TI-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\TinyCC-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\VisualAge-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\Watcom-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\XL-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\XLClang-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\Compiler\zOS-C-DetermineCompiler.cmake;P:\CMake\share\cmake-3.18\Modules\CompilerId\VS-10.vcxproj.in;P:\CMake\share\cmake-3.18\Modules\FindBZip2.cmake;P:\CMake\share\cmake-3.18\Modules\FindPNG.cmake;P:\CMake\share\cmake-3.18\Modules\FindPackageHandleStandardArgs.cmake;P:\CMake\share\cmake-3.18\Modules\FindPackageMessage.cmake;P:\CMake\share\cmake-3.18\Modules\FindPkgConfig.cmake;P:\CMake\share\cmake-3.18\Modules\FindZLIB.cmake;P:\CMake\share\cmake-3.18\Modules\GNUInstallDirs.cmake;P:\CMake\share\cmake-3.18\Modules\Internal\FeatureTesting.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\Windows.cmake;P:\CMake\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;P:\CMake\share\cmake-3.18\Modules\SelectLibraryConfigurations.cmake;P:\CMake\share\cmake-3.18\Templates\CPackConfig.cmake.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">B:\Libraries\freetype-2.10.2\bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\freetype.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftadvanc.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftbbox.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftbdf.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftbitmap.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftbzip2.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftcache.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftchapters.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftcid.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftcolor.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftdriver.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\fterrdef.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\fterrors.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftfntfmt.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftgasp.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftglyph.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftgxval.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftgzip.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftimage.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftincrem.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftlcdfil.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftlist.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftlzw.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftmac.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftmm.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftmodapi.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftmoderr.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftotval.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftoutln.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftparams.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftpfr.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftrender.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftsizes.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftsnames.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftstroke.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftsynth.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftsystem.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\fttrigon.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\fttypes.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ftwinfnt.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\t1tables.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\ttnameid.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\tttables.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\tttags.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\ft2build.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\config\ftconfig.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\config\ftheader.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\config\ftmodule.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\config\ftoption.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\config\ftstdlib.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\autohint.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\cffotypes.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\cfftypes.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\ftcalc.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\ftdebug.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\ftdrv.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\ftgloadr.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\fthash.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\ftmemory.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\ftobjs.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\ftpsprop.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\ftrfork.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\ftserv.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\ftstream.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\fttrace.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\ftvalid.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\internal.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\psaux.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\pshints.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\sfnt.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\t1types.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\tttypes.h" />
+    <ClInclude Include="B:\Libraries\freetype-2.10.2\include\freetype\internal\wofftypes.h" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\autofit\autofit.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftbase.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftbbox.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftbdf.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftbitmap.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftcid.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftfstype.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftgasp.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftglyph.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftgxval.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftinit.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftmm.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftotval.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftpatent.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftpfr.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftstroke.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftsynth.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\fttype1.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftwinfnt.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\bdf\bdf.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\bzip2\ftbzip2.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\cache\ftcache.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\cff\cff.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\cid\type1cid.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\gzip\ftgzip.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\lzw\ftlzw.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\pcf\pcf.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\pfr\pfr.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\psaux\psaux.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\pshinter\pshinter.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\psnames\psnames.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\raster\raster.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\sfnt\sfnt.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\smooth\smooth.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\truetype\truetype.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\type1\type1.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\type42\type42.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\winfonts\winfnt.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftsystem.c" />
+    <ClCompile Include="B:\Libraries\freetype-2.10.2\builds\windows\ftdebug.c" />
+    <ResourceCompile Include="B:\Libraries\freetype-2.10.2\src\base\ftver.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="B:\Libraries\freetype-2.10.2\bin\ZERO_CHECK.vcxproj">
+      <Project>{D1F808A3-E1B6-339B-81F3-EE0D72A9938B}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -27,6 +27,7 @@ IncludeDir["GLM"]="vendor/GLM/glm"
 IncludeDir["stb"]="vendor/stb"
 IncludeDir["JSON"]="vendor/JSON/json-3.7.3/single_include"
 IncludeDir["JSON_ERMINE"]="vendor/JSON"
+IncludeDir["freetype"]="vendor/freetype/freetype-2.10.2/include"
 
 group "Dependencies"
     include "vendor/Glad"
@@ -35,6 +36,7 @@ group "Dependencies"
     include "vendor/GLM"
     include "vendor/stb"
     include "vendor/JSON"
+    include "vendor/freetype"
 --group ""
 project "LogSystem"
     location "LogSystem"
@@ -117,7 +119,8 @@ project "Ermine"
          "%{IncludeDir.GLM}",
          "%{IncludeDir.stb}",
          "%{IncludeDir.JSON}",
-         "%{IncludeDir.JSON_ERMINE}"
+         "%{IncludeDir.JSON_ERMINE}",
+         "%{IncludeDir.freetype}"
     }
 
     links {
@@ -129,7 +132,8 @@ project "Ermine"
         "ImGui",
         "GLM",
         "stb",
-        "JSON"
+        "JSON",
+        "Freetype"
     }
 
     defines{
@@ -195,7 +199,8 @@ project "Game"
          "%{IncludeDir.GLM}",
          "%{IncludeDir.stb}",
          "%{IncludeDir.JSON}",
-         "%{IncludeDir.JSON_ERMINE}"
+         "%{IncludeDir.JSON_ERMINE}",
+         "%{IncludeDir.freetype}"
     }
 
     links {
@@ -206,7 +211,8 @@ project "Game"
         "ImGui",
         "GLM",
         "stb",
-        "JSON"
+        "JSON",
+        "FreeType"
     }
     defines{
         "DLL=__declspec(dllexport)"

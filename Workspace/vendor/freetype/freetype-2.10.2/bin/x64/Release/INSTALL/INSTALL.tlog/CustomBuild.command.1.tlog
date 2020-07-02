@@ -1,0 +1,10 @@
+^B:\LIBRARIES\FREETYPE-2.10.2\BIN\CMAKEFILES\0122BB060BAEFC4EA9A0E00741254569\INSTALL_FORCE.RULE
+setlocal
+cd .
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -29,6 +29,8 @@
 #include "2DPrimitives/TileSet.h"
 #include "2DPrimitives/TileMap.h"
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 #pragma region StaticDefines
 
@@ -51,6 +53,12 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
 	WindowHandler::GlobalWindowHandler = new WindowHandler();
 	WindowHandler::GlobalWindowHandler->SubmitWindowFront(std::make_unique<DebugMainWindow>());
 	//Ended Create Window Handler..//
+
+	FT_Library ft;
+	if (FT_Init_FreeType(&ft))
+		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
+	else
+		std::cout << "Guess Freetype Compiled Successfully" << std::endl;
 
 	OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
 }

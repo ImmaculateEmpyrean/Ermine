@@ -1,0 +1,5 @@
+﻿  CPack: Create package using ZIP
+  CPack: Install projects
+  CPack: - Install project: freetype [Debug]
+  CPack: Create package
+  CPack: - package: B:/Libraries/freetype-2.10.2/bin/freetype-2.10.2-win64.zip generated.
