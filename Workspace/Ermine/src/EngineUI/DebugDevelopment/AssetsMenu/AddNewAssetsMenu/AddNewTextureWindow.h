@@ -17,7 +17,14 @@ namespace Ermine
 		~AddNewTextureWindow();
 
 	public:
-		virtual void Draw();
+		virtual void Draw() override;
+
+		AddNewTextureWindow(const AddNewTextureWindow& rhs);
+		AddNewTextureWindow operator=(const AddNewTextureWindow& rhs);
+
+		AddNewTextureWindow(AddNewTextureWindow&& rhs);
+		AddNewTextureWindow operator=(AddNewTextureWindow&& rhs);
+
 	public:
 
 	protected:
@@ -25,10 +32,12 @@ namespace Ermine
 	protected:
 
 	private:
+		void CopyHelper(const AddNewTextureWindow& rhs);
+		void MoveHelper(AddNewTextureWindow&& rhs);
 
 	private:
-		const char* BufferToStoreFilePath;
-		const char* BufferToStoreName;
+		char* BufferToStoreFilePath;
+		char* BufferToStoreName;
 
 		bool ShowErrorPathIncorrectWindow = false;
 	};

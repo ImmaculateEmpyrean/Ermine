@@ -18,8 +18,11 @@ namespace Ermine
 	}
 	AddNewTextureWindow::~AddNewTextureWindow()
 	{
-		delete[] BufferToStoreFilePath; //Deallocate The Buffer
-		delete[] BufferToStoreName; //Deallocate The Buffer
+		if(BufferToStoreFilePath != nullptr)
+			delete[] BufferToStoreFilePath; //Deallocate The Buffer
+
+		if(BufferToStoreName != nullptr)
+			delete[] BufferToStoreName; //Deallocate The Buffer
 	}
 
 
@@ -89,5 +92,49 @@ namespace Ermine
 
 			ImGui::End();
 		}
+	}
+
+
+	AddNewTextureWindow::AddNewTextureWindow(const AddNewTextureWindow& rhs)
+	{
+		CopyHelper(rhs);
+	}
+	AddNewTextureWindow AddNewTextureWindow::operator=(const AddNewTextureWindow& rhs)
+	{
+		CopyHelper(rhs);
+		return *this;
+	}
+
+	AddNewTextureWindow::AddNewTextureWindow(AddNewTextureWindow&& rhs)
+	{
+		MoveHelper(std::move(rhs));
+	}
+	AddNewTextureWindow AddNewTextureWindow::operator=(AddNewTextureWindow&& rhs)
+	{
+		MoveHelper(std::move(rhs));
+		return *this;
+	}
+
+
+	void AddNewTextureWindow::CopyHelper(const AddNewTextureWindow& rhs)
+	{
+		BufferToStoreFilePath = new char[512]; //Allocate The Buffer
+		std::memset((void*)BufferToStoreFilePath, 0, 512); //clear The Buffer
+		std::memcpy(BufferToStoreFilePath, rhs.BufferToStoreFilePath, 512);
+
+		BufferToStoreName = new char[512]; //Allocate The Buffer
+		std::memset((void*)BufferToStoreName, 0, 512); //clear The Buffer
+		std::memcpy(BufferToStoreName, rhs.BufferToStoreName, 512);
+
+		ShowErrorPathIncorrectWindow = rhs.ShowErrorPathIncorrectWindow;
+
+	}
+	void AddNewTextureWindow::MoveHelper(AddNewTextureWindow&& rhs)
+	{
+		BufferToStoreFilePath = rhs.BufferToStoreFilePath;
+		rhs.BufferToStoreFilePath = nullptr;
+
+		BufferToStoreName = rhs.BufferToStoreName;
+		rhs.BufferToStoreName = nullptr;
 	}
 }
