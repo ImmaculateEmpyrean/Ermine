@@ -79,8 +79,12 @@ namespace Ermine
 		this->ClearOpenGLBuffer();
 
 		GLCall(glGenBuffers(1, &buffer));
-		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer));
-		GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, Data.size()*sizeof(uint32_t), &Data.front(), GL_DYNAMIC_DRAW));
+
+		if (Data.size() > 0)
+		{
+			GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer));
+			GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, Data.size() * sizeof(uint32_t), &Data.front(), GL_DYNAMIC_DRAW));
+		}
 	}
 
 

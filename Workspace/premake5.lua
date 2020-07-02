@@ -65,16 +65,22 @@ project "LogSystem"
     defines{
       "ER_DEBUG_DEVELOP"
     }
+    runtime "Debug"
+		symbols "on"
 
 filter "configurations:Debug_Distribution"
     defines{
         "ER_DEBUG_SHIP"
     }
+    runtime "Debug"
+		symbols "on"
 
 filter "configurations:Release_Distribution"
     defines{
         "ER_RELEASE_SHIP"
     }
+    runtime "Release"
+		optimize "on"
 
 filter "platforms:Windows"
     defines{
@@ -148,16 +154,22 @@ project "Ermine"
         defines{
           "ER_DEBUG_DEVELOP"
         }
+        runtime "Debug"
+		symbols "on"
     
     filter "configurations:Debug_Distribution"
         defines{
             "ER_DEBUG_SHIP"
         }
+        runtime "Debug"
+		symbols "on"
     
     filter "configurations:Release_Distribution"
         defines{
             "ER_RELEASE_SHIP"
         }
+        runtime "Release"
+		optimize "on"
     
     filter "platforms:Windows"
         defines{
@@ -231,16 +243,22 @@ project "Game"
         defines{
           "GAME_DEBUG_DEVELOP"
         }
+        runtime "Debug"
+		symbols "on"
     
     filter "configurations:Debug_Distribution"
         defines{
             "GAME_DEBUG_SHIP"
         }
+        runtime "Debug"
+		symbols "on"
     
     filter "configurations:Release_Distribution"
         defines{
             "GAME_RELEASE_SHIP"
         }
+        runtime "Release"
+		optimize "on"
     
     filter "platforms:Windows"
         defines{
