@@ -24,6 +24,12 @@ namespace Ermine
 		~TextureViewWizard();
 
 	public:
+		TextureViewWizard(const TextureViewWizard& rhs);
+		TextureViewWizard operator=(const TextureViewWizard& rhs);
+
+		TextureViewWizard(TextureViewWizard&& rhs);
+		TextureViewWizard operator=(TextureViewWizard&& rhs);
+
 		virtual void Draw() override;
 
 	public:
@@ -34,6 +40,9 @@ namespace Ermine
 
 	private:
 		bool HelperShouldIDisplayThisImage(std::shared_ptr<Texture> Tex);
+		
+		void CopyHelper(const TextureViewWizard& rhs);
+		void MoveHelper(TextureViewWizard&& rhs);
 
 	private:
 		char* FilterText;

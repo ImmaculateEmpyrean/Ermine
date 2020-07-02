@@ -9,6 +9,8 @@ namespace Ermine
 	{
 		FilterText = new char[512];
 
+		memset(FilterText, 0, 512);
+
 		auto TexCache = Ermine::GlobalTextureCache::Get();
 
 		for (auto i : TexCache->InternalBuffer)
@@ -22,6 +24,28 @@ namespace Ermine
 		delete[] FilterText;
 	}
 
+
+	TextureViewWizard::TextureViewWizard(const TextureViewWizard& rhs)
+	{
+		CopyHelper(rhs);
+	}
+	TextureViewWizard TextureViewWizard::operator=(const TextureViewWizard& rhs)
+	{
+		CopyHelper(rhs);
+		return *this;
+	}
+
+	TextureViewWizard::TextureViewWizard(TextureViewWizard&& rhs)
+	{
+		MoveHelper(std::move(rhs));
+	}
+	TextureViewWizard TextureViewWizard::operator=(TextureViewWizard&& rhs)
+	{
+		MoveHelper(std::move(rhs));
+		return *this;
+	}
+
+
 	void TextureViewWizard::Draw()
 	{
 		ImGui::Begin("View Texture Wizard");
@@ -29,6 +53,16 @@ namespace Ermine
 		ImGui::InputTextWithHint("##FilterImageTexturesWuthNameTextureViewWizard",
 			"Enter First Letters Of The Texture To Filter It Among The Pile..",
 			FilterText, 512);
+		ImGui::SameLine();
+		ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImColor(255, 255, 255)));
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(ImColor(220, 20, 60)));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(ImColor(178, 34, 34)));
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(ImColor(139, 0, 0)));
+		if (ImGui::Button("Quit##TextureViewWizardQuitButton"))
+		{
+			Quit = true;
+		}
+		ImGui::PopStyleColor(4);
 
 		ImGui::Separator();
 
@@ -87,5 +121,24 @@ namespace Ermine
 			return true;
 		else
 			return false;
+	}
+
+
+	void TextureViewWizard::CopyHelper(const TextureViewWizard& rhs)
+	{
+		FilterText = new char[512];
+		
+		memset(FilterText, 0, 512);
+		memcpy(FilterText, rhs.FilterText,512);
+
+		Textures = rhs.Textures;
+	}
+
+	void TextureViewWizard::MoveHelper(TextureViewWizard&& rhs)
+	{
+		FilterText = rhs.FilterText;
+		rhs.FilterText = nullptr;
+
+		Textures = rhs.Textures;
 	}
 }

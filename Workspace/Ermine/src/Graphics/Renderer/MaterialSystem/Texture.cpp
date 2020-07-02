@@ -17,7 +17,7 @@ namespace Ermine
 	Texture::Texture(std::filesystem::path TextureFilePath)
 		:
 		TextureFilePath(TextureFilePath),
-		Name(TextureFilePath.generic_u8string())
+		Name(TextureFilePath.u8string())
 	{
 		HelperGenTexture();
 
@@ -44,7 +44,8 @@ namespace Ermine
 
 	Texture::Texture(const Texture& rhs)
 		:
-		TextureFilePath(rhs.TextureFilePath)
+		TextureFilePath(rhs.TextureFilePath),
+		Name(rhs.Name)
 	{
 		HelperGenTexture();
 
@@ -56,6 +57,7 @@ namespace Ermine
 	Texture Texture::operator=(const Texture& rhs)
 	{
 		TextureFilePath = rhs.TextureFilePath;
+		Name = rhs.Name;
 		HelperGenTexture();
 
 		if (!TextureFilePath.empty())
@@ -69,6 +71,7 @@ namespace Ermine
 	Texture::Texture(Texture&& rhs)
 	{
 		TextureFilePath = rhs.TextureFilePath;
+		Name = rhs.Name;
 		Tex = rhs.Tex;
 
 		width = rhs.width;
@@ -80,6 +83,7 @@ namespace Ermine
 	Texture Texture::operator=(Texture&& rhs)
 	{
 		TextureFilePath = rhs.TextureFilePath;
+		Name = rhs.Name;
 		Tex = rhs.Tex;
 
 		width = rhs.width;
