@@ -1,4 +1,0 @@
-[submodule "Workspace/vendor/IMGUI"]
-	path = Workspace/vendor/IMGUI
-	url = https://github.com/ImmaculateEmpyrean/imgui.git
-	branch = docking
