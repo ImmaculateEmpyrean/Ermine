@@ -17,7 +17,14 @@ namespace Ermine
 		~AddNewTileSetWindow();
 
 	public:
-		virtual void Draw();
+		virtual void Draw() override;
+
+		AddNewTileSetWindow(const AddNewTileSetWindow& rhs);
+		AddNewTileSetWindow operator=(const AddNewTileSetWindow& rhs);
+
+		AddNewTileSetWindow(AddNewTileSetWindow&& rhs);
+		AddNewTileSetWindow operator=(AddNewTileSetWindow&& rhs);
+
 	public:
 
 	protected:
@@ -26,6 +33,12 @@ namespace Ermine
 
 	private:
 		void WriteTileSetToFile();
+		
+		//This Method Also Copies Some Stuff Into Current Item For DisplayIn Combo box.. A Custom Message To Be Shown To The User.. :>
+		void InitBuffers();
+
+		void CopyHelper(const AddNewTileSetWindow& rhs);
+		void MoveHelper(AddNewTileSetWindow&& rhs);
 
 	private:
 		std::vector<std::shared_ptr<Texture>> AllTexturesToChoose;

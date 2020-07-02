@@ -8,27 +8,23 @@ namespace Ermine
 {
 	AddNewTileSetWindow::AddNewTileSetWindow()
 	{
-		NameBuffer = new char[512]; //Create a Name Buffer To Store The Name In..
-		std::memset(NameBuffer, 0, 512);
-
-		FilePathBuffer = new char[512]; //Create a Name Buffer To Store The Name In..
-		std::memset(FilePathBuffer, 0, 512);
+		InitBuffers();
 
 		auto Cache = GlobalTextureCache::Get();
 		AllTexturesToChoose = Cache->GetAllTexturesInCache();
 		TextureSelected = std::vector<bool>(AllTexturesToChoose.size(), false);
-
-		CurrentItemForDisplayInComboBox = new char[100];
-		std::memset(CurrentItemForDisplayInComboBox, 0, 100);
-		std::strcpy(CurrentItemForDisplayInComboBox, "Select From The DropDown..");
 	}
 
 	AddNewTileSetWindow::~AddNewTileSetWindow()
 	{
-		delete[] NameBuffer;
-		delete[] FilePathBuffer;
+		if(NameBuffer != nullptr)
+			delete[] NameBuffer;
 
-		delete[]CurrentItemForDisplayInComboBox;
+		if(FilePathBuffer != nullptr)
+			delete[] FilePathBuffer;
+
+		if(CurrentItemForDisplayInComboBox != nullptr)
+			delete[]CurrentItemForDisplayInComboBox;
 	}
 
 
@@ -238,5 +234,84 @@ namespace Ermine
 		FileInDisk << TileSetFile;
 
 		FileInDisk.close();
+	}
+
+
+	void Ermine::AddNewTileSetWindow::InitBuffers()
+	{
+		NameBuffer = new char[512]; //Create a Name Buffer To Store The Name In..
+		std::memset(NameBuffer, 0, 512);
+
+		FilePathBuffer = new char[512]; //Create a Name Buffer To Store The Name In..
+		std::memset(FilePathBuffer, 0, 512);
+
+		CurrentItemForDisplayInComboBox = new char[100];
+		std::memset(CurrentItemForDisplayInComboBox, 0, 100);
+		std::strcpy(CurrentItemForDisplayInComboBox, "Select From The DropDown..");
+	}
+
+
+	Ermine::AddNewTileSetWindow::AddNewTileSetWindow(const AddNewTileSetWindow& rhs)
+	{
+		CopyHelper(rhs);
+	}
+	AddNewTileSetWindow Ermine::AddNewTileSetWindow::operator=(const AddNewTileSetWindow& rhs)
+	{
+		CopyHelper(rhs);
+		return *this;
+	}
+	
+	Ermine::AddNewTileSetWindow::AddNewTileSetWindow(AddNewTileSetWindow&& rhs)
+	{
+		MoveHelper(std::move(rhs));
+	}
+	AddNewTileSetWindow Ermine::AddNewTileSetWindow::operator=(AddNewTileSetWindow&& rhs)
+	{
+		MoveHelper(std::move(rhs));
+		return *this;
+	}
+
+
+	void Ermine::AddNewTileSetWindow::CopyHelper(const AddNewTileSetWindow& rhs)
+	{
+		AllTexturesToChoose = rhs.AllTexturesToChoose;
+		InitBuffers();
+
+		memcpy(CurrentItemForDisplayInComboBox, rhs.CurrentItemForDisplayInComboBox, 100);
+		
+		TextureSelected = rhs.TextureSelected;
+
+		TileWidth = rhs.TileWidth;
+		TileHeight = rhs.TileHeight;
+
+		memcpy(UvBottomLeft, rhs.UvBottomLeft, 2 * sizeof(float));
+		memcpy(UvTopRight, rhs.UvTopRight, 2 * sizeof(float));
+
+		memcpy(NameBuffer, rhs.NameBuffer, 512);
+		MakeFilePathUsingName = rhs.MakeFilePathUsingName;
+		memcpy(FilePathBuffer, rhs.FilePathBuffer, 512);
+	}
+	void Ermine::AddNewTileSetWindow::MoveHelper(AddNewTileSetWindow&& rhs)
+	{
+		AllTexturesToChoose = rhs.AllTexturesToChoose;
+
+		CurrentItemForDisplayInComboBox = rhs.CurrentItemForDisplayInComboBox;
+		rhs.CurrentItemForDisplayInComboBox = nullptr;
+
+		TextureSelected = std::move(rhs.TextureSelected);
+
+		TileWidth = rhs.TileWidth;
+		TileHeight = rhs.TileHeight;
+
+		memcpy(UvBottomLeft, rhs.UvBottomLeft, 2 * sizeof(float));
+		memcpy(UvTopRight, rhs.UvTopRight, 2 * sizeof(float));
+
+		NameBuffer = rhs.NameBuffer;
+		rhs.NameBuffer = nullptr;
+
+		MakeFilePathUsingName = rhs.MakeFilePathUsingName;
+
+		FilePathBuffer = rhs.FilePathBuffer;
+		rhs.FilePathBuffer = nullptr;
 	}
 }
