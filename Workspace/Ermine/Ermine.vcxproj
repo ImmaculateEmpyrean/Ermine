@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllimport);ER_DEBUG_DEVELOP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -98,7 +98,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllimport);ER_DEBUG_SHIP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -116,7 +116,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllimport);ER_RELEASE_SHIP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\IMGUI;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -264,6 +264,9 @@
     </ProjectReference>
     <ProjectReference Include="..\vendor\freetype\Freetype.vcxproj">
       <Project>{69ED2050-55BA-7B5B-7ED3-69036AFFB0E9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\vendor\freetype-gl\freetype-gl.vcxproj">
+      <Project>{09D6E609-758B-5FFF-FE7F-59D66A345603}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
