@@ -139,6 +139,9 @@ namespace Ermine
 		//Number 1 is given and all Other Layers Are Pushed Back By one Donot Use This unless absolutely needed..
 		void AddLayerToFront(Ermine::TileMap::Layer LayerToAdd); 
 
+		//Delete A Layer..
+		void DeleteLayerFromTileMap(int LayerNumber);
+
 		void AddTileset(std::filesystem::path TilesetPath,int LayerNumber);
 		void AddTileset(std::unique_ptr<Ermine::TileSet> TilesetToAdd,int LayerNumber);
 		void HelperAddTileset(std::unique_ptr<Ermine::TileSet> TilesetToAdd,int LayerNumber);

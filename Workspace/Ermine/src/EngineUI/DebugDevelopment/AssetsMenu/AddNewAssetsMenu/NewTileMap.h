@@ -42,6 +42,7 @@ namespace Ermine
 
 	private:
 		void DrawLayerNameInputWindow();
+		void DrawLayerDeletionWindow();
 
 		void DrawDisplayConstructedMapWindow();
 		void FixDrawingPosition(ImVec2 BasePosition, int NumberToDrawAtOneD, std::pair<int, int> NumberOfTilesInXandY,std::pair<int,int> TileDiamensions);
@@ -94,6 +95,9 @@ namespace Ermine
 
 		bool OpenLayerNameInputWindow = false;
 		bool DisplayLayerNameInputWindow = false;
+
+		bool OpenLayerDeletionWindow = false;
+		bool DisplayLayerDeletionWindow = false;
 
 		bool OpenSaveMapJsonWindow = false;
 		bool DisplaySaveMapJsonWindow = false;

@@ -21,7 +21,7 @@ namespace Ermine
 		InputInterrogator();
 
 	public:
-		bool IsKeyPressed(int KeyCode);
+		//bool IsKeyPressed(int KeyCode);
 
 	public:
 
@@ -30,7 +30,7 @@ namespace Ermine
 	protected:
 
 	private:
-		void RecieveKeyPressedEvent(Event* eve);
+		//void RecieveKeyPressedEvent(Event* eve);
 
 	private:
 		std::mutex KeyPressedBufferMutex;

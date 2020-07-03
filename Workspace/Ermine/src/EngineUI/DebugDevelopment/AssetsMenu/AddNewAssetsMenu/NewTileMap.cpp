@@ -124,13 +124,19 @@ void Ermine::NewTileMap::Draw()
 		}
 		ImGui::EndCombo();
 	}
-
 	ImGui::SameLine();
 	if (ImGui::Button("+##NewTileMapAddNewLayerButton"))
 	{
 		if(!DisplayLayerNameInputWindow)
 			OpenLayerNameInputWindow = true;
 		
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("-##NewTileMapDeleteLayerButton"))
+	{
+		if (!DisplayLayerDeletionWindow)
+			OpenLayerDeletionWindow = true;
+
 	}
 
 	ImGui::Separator();
@@ -318,6 +324,15 @@ void Ermine::NewTileMap::Draw()
 	if (DisplayViewTilesetsInUse)
 		DrawViewTilesetsInUseWindow();
 
+	if (OpenLayerDeletionWindow)
+	{
+		DisplayLayerDeletionWindow = true;
+		OpenLayerDeletionWindow = false;
+	}
+
+	if (DisplayLayerDeletionWindow)
+		DrawLayerDeletionWindow();
+
 	//Ended Child Window Draw Routines.. 
 }
 
@@ -349,6 +364,67 @@ void Ermine::NewTileMap::DrawLayerNameInputWindow()
 	ClearButtonColor();
 
 	ImGui::End();
+}
+
+void Ermine::NewTileMap::DrawLayerDeletionWindow()
+{
+	static std::vector<int> BOOlVector(Map.Layers.size(), 0);
+	BOOlVector.resize(Map.Layers.size(), 0); //Resize If Not Already That Size.. 
+
+	ImGui::Begin("Layer Deletion Window##NewTilemapWindow");
+
+	ImGui::Text("Layers Contained In Map...");
+	
+	if (ImGui::Button("Delete Selected"))
+	{
+		for (int i = 0; i < Map.Layers.size(); i++)
+		{
+			if (BOOlVector[i]) //it is not zero then delete
+			{
+				Map.DeleteLayerFromTileMap(i);
+				i--;
+			}
+		}
+		DisplayLayerDeletionWindow = false;
+		LayerChosen = 0;
+	}
+	ImGui::SameLine();
+	SetButtonColorRed();
+
+	if (ImGui::Button("Close Window"))
+		DisplayLayerDeletionWindow = false;
+
+	ClearButtonColor();
+
+	ImGui::Separator();
+
+	ImGui::Columns(2);
+
+	int c = 0;
+	for (int i=0;i<Map.Layers.size();i++)
+	{
+		ImGui::PushID(c++);
+
+		ImGui::Text("%s",Map.Layers[i].Name.c_str());
+		
+		ImGui::NextColumn();
+
+		ImGui::Checkbox("##NewTileMApDeleteLayercheckbox", (bool*)&(BOOlVector[i]));
+
+		ImGui::NextColumn();
+
+		ImGui::PopID();
+	}
+
+	ImGui::End();
+
+	if (DisplayLayerDeletionWindow == false)
+	{
+		if (Map.Layers.size() == 0)
+		{
+			Map.AddLayerToBack(Ermine::TileMap::Layer("DefaultGeneratedLayer"));
+		}
+	}
 }
 
 int c = 0;
@@ -690,6 +766,9 @@ void Ermine::NewTileMap::HelperCopyTileMapWindow(const NewTileMap& rhs)
 	OpenLayerNameInputWindow = rhs.OpenLayerNameInputWindow;
 	DisplayLayerNameInputWindow = rhs.DisplayLayerNameInputWindow;
 
+	OpenLayerDeletionWindow = rhs.OpenLayerDeletionWindow;
+	DisplayLayerDeletionWindow = rhs.DisplayLayerDeletionWindow;
+
 	OpenSaveMapJsonWindow = rhs.OpenSaveMapJsonWindow;
 	DisplaySaveMapJsonWindow = rhs.DisplaySaveMapJsonWindow;
 
@@ -732,6 +811,9 @@ void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 
 	OpenLayerNameInputWindow = rhs.OpenLayerNameInputWindow;
 	DisplayLayerNameInputWindow = rhs.DisplayLayerNameInputWindow;
+
+	OpenLayerDeletionWindow = rhs.OpenLayerDeletionWindow;
+	DisplayLayerDeletionWindow = rhs.DisplayLayerDeletionWindow;
 
 	OpenSaveMapJsonWindow = rhs.OpenSaveMapJsonWindow;
 	DisplaySaveMapJsonWindow = rhs.DisplaySaveMapJsonWindow;

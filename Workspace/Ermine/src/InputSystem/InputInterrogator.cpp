@@ -8,16 +8,16 @@ namespace Ermine
 	InputInterrogator::InputInterrogator()
 	{
 		KeyPressedBuffer.resize(1024, false);
-		RecieverComponent::Bind(GenCallableFromMethod(&InputInterrogator::RecieveKeyPressedEvent), RecieveEventsFlag, EventType::KeyCallbackEvent);
+		//RecieverComponent::Bind(GenCallableFromMethod(&InputInterrogator::RecieveKeyPressedEvent), RecieveEventsFlag, EventType::KeyCallbackEvent);
 	}
 
-	bool InputInterrogator::IsKeyPressed(int KeyCode)
+	/*bool InputInterrogator::IsKeyPressed(int KeyCode)
 	{
 		std::lock_guard<std::mutex>LockAccessToKeyPressedBuffer(KeyPressedBufferMutex, std::adopt_lock);
 		return KeyPressedBuffer[KeyCode];
-	}
+	}*/
 
-	void InputInterrogator::RecieveKeyPressedEvent(Event* eve)
+	/*void InputInterrogator::RecieveKeyPressedEvent(Event* eve)
 	{
 		Ermine::KeyCallbackEvent* point = (Ermine::KeyCallbackEvent*)eve;
 		if (point->GetAction() == ERMINE_PRESS || point->GetAction() == ERMINE_REPEAT)
@@ -30,5 +30,5 @@ namespace Ermine
 			std::lock_guard<std::mutex>LockAccessToKeyPressedBuffer(KeyPressedBufferMutex, std::adopt_lock);
 			KeyPressedBuffer[point->GetKey()] = false;
 		}
-	}
+	}*/
 }

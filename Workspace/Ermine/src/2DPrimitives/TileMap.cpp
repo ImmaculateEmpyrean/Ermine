@@ -112,11 +112,26 @@ namespace Ermine
 	void TileMap::AddLayerToBack(Ermine::TileMap::Layer LayerToAdd)
 	{
 		Layers.emplace_back(LayerToAdd);
+
+		//This is intended to sort the layer array in the ascending order...
+		std::sort(Layers.begin(), Layers.end(), [](Layer a, Layer b) {
+			return b.LayerNumber > a.LayerNumber;
+		});
 	}
 
 	void TileMap::AddLayerToFront(Ermine::TileMap::Layer LayerToAdd)
 	{
 		Layers.insert(Layers.begin(), LayerToAdd);
+
+		//This is intended to sort the layer array in the ascending order...
+		std::sort(Layers.begin(), Layers.end(), [](Layer a, Layer b) {
+			return b.LayerNumber > a.LayerNumber;
+		});
+	}
+
+	void TileMap::DeleteLayerFromTileMap(int LayerNumber)
+	{
+		Layers.erase(Layers.begin() + LayerNumber);
 	}
 
 	void TileMap::AddTileset(std::filesystem::path TilesetPath,int LayerNumber)
