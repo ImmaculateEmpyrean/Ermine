@@ -213,7 +213,7 @@ void Ermine::NewTileMap::Draw()
 		
 		ImVec2 child_size = ImVec2(0, ImGui::GetFontSize() * 20.0f);
 		ImGui::BeginChild("TileMap##ScrollingRegion", child_size, false, ImGuiWindowFlags_HorizontalScrollbar);
-		ImGui::Columns(Map.Layers[LayerChosen].NumberOfTilesHorizontal);
+		ImGui::Columns(Map.Layers[LayerChosen].NumberOfTilesHorizontal,(const char*)0,false);
 		for (int i = 0; i < Map.Layers[LayerChosen].NumberOfTilesHorizontal * Map.Layers[LayerChosen].NumberOfTilesVertical;i++)
 		{
 			ImGui::PushID(i);
@@ -226,6 +226,11 @@ void Ermine::NewTileMap::Draw()
 					ImVec2(Map.GetSprite(Map.Layers[LayerChosen].LayerData[i], LayerChosen)->GetBottomLeftUV().x, Map.GetSprite(Map.Layers[LayerChosen].LayerData[i], LayerChosen)->GetBottomLeftUV().y),0))
 				{
 					Map.Layers[LayerChosen].LayerData[i] = SelectedSpriteIndex;
+
+					if (ImGui::GetIO().MouseClicked[1])
+					{
+						Map.Layers[LayerChosen].LayerData[i] = 0;
+					}
 				}
 			}
 			else
@@ -233,6 +238,11 @@ void Ermine::NewTileMap::Draw()
 				if (ImGui::Button("##TileButtonNewTileMap", ImVec2(Map.Layers[LayerChosen].TileWidth, Map.Layers[LayerChosen].TileHeight)))
 				{
 					Map.Layers[LayerChosen].LayerData[i] = SelectedSpriteIndex;
+
+					if (ImGui::GetIO().MouseClicked[1])
+					{
+						Map.Layers[LayerChosen].LayerData[i] = 0;
+					}
 				}
 			}
 
@@ -334,6 +344,8 @@ void Ermine::NewTileMap::Draw()
 		DrawLayerDeletionWindow();
 
 	//Ended Child Window Draw Routines.. 
+
+	ImGui::ShowDemoWindow();
 }
 
 void Ermine::NewTileMap::DrawLayerNameInputWindow()

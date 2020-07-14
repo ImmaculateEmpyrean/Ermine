@@ -176,6 +176,7 @@
     <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h" />
     <ClInclude Include="src\Graphics\Renderer\Renderer.h" />
     <ClInclude Include="src\Graphics\Renderer\Renderer2D.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererLayer.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\RendererPrimitives2D\TileMapRendererPrimitive.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h" />
