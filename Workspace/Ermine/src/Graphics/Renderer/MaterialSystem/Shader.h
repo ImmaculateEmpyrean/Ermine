@@ -13,7 +13,7 @@ namespace Ermine
 	class Shader
 	{
 	public:
-		Shader() = delete; //No Point In An Empty Shader..
+		Shader() = delete; //An Empty Shader Is Not Needed And Hence Is Kept Deleted..
 
 		//Use This To Directly Give The Constructor Source Code..
 		explicit Shader(std::string VertexShaderSource, std::string FragmentShaderSource); 

@@ -45,6 +45,9 @@ namespace Ermine
 
 		void Clear();
 
+		//It Does Add Two Vertex Arrays Together And Returns a new VErtex Array THe VertexBuffers and Index Buffers Are Ahem Added..
+		VertexArray operator+(VertexArray& rhs); 
+
 	public:
 
 	protected:

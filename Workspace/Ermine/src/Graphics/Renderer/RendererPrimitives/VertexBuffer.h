@@ -30,6 +30,8 @@ namespace Ermine
 
 		void Clear();
 
+		VertexBuffer operator +(VertexBuffer& rhs);
+
 	public:
 
 	protected:

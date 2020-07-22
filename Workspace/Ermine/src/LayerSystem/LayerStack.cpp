@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "LayerStack.h"
 
-Ermine::LayerStack::LayerStack(std::string& Name)
+Ermine::LayerStack::LayerStack(std::string Name)
 	:
 	LayerStackName(Name)
 {
@@ -14,6 +14,26 @@ Ermine::LayerStack::~LayerStack()
 {
 	for (auto i : AllLayersAssociated)
 		delete i;
+}
+
+Ermine::LayerStack::LayerStack(const LayerStack& rhs)
+{
+	HelperCopyConstructor(rhs);
+}
+Ermine::LayerStack Ermine::LayerStack::operator=(const LayerStack& rhs)
+{
+	HelperCopyConstructor(rhs);
+	return *this;
+}
+
+Ermine::LayerStack::LayerStack(LayerStack&& rhs)
+{
+	HelperMoveConstructor(std::move(rhs));
+}
+Ermine::LayerStack Ermine::LayerStack::operator=(LayerStack&& rhs)
+{
+	HelperMoveConstructor(std::move(rhs));
+	return *this;
 }
 
 void Ermine::LayerStack::PushLayerOntoStackFront(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush)
@@ -49,6 +69,18 @@ std::optional<Ermine::LayerStackLayer*> Ermine::LayerStack::GetIndexFromName(std
 	//Returns Nothing As This is an optional and we can return nothing "could have returned nullptr to right.."
 	return {};
 }
+
+void Ermine::LayerStack::Clear()
+{
+	for (auto& i : AllLayersAssociated)
+	{
+		delete i;
+		i = nullptr;
+	}
+
+	AllLayersAssociated.clear();
+}
+
 #endif
 
 void Ermine::LayerStack::RecievedEvent(Ermine::Event* EventPointer)
@@ -73,4 +105,28 @@ void Ermine::LayerStack::RecievedEventConcreteEvent(Ermine::Event* EventPointer)
 		if (ShouldIContinue == false)
 			break;
 	}
+}
+
+
+void Ermine::LayerStack::HelperCopyConstructor(const LayerStack& rhs)
+{
+	LayerStackName = rhs.LayerStackName;
+
+	for (auto i : rhs.AllLayersAssociated)
+		AllLayersAssociated.emplace_back(new LayerStackLayer(*i));
+	
+	RecieveConcreteEvents = rhs.RecieveConcreteEvents.load();
+}
+
+void Ermine::LayerStack::HelperMoveConstructor(LayerStack&& rhs)
+{
+	LayerStackName = rhs.LayerStackName;
+
+	for (auto& i : rhs.AllLayersAssociated)
+	{
+		AllLayersAssociated.emplace_back(i);
+		i = nullptr;
+	}
+
+	RecieveConcreteEvents = rhs.RecieveConcreteEvents.load();
 }

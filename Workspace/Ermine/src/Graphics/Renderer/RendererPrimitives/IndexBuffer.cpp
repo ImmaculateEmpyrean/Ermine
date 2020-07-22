@@ -64,6 +64,22 @@ namespace Ermine
 		return *this;
 	}
 
+
+	IndexBuffer IndexBuffer::operator+(IndexBuffer& rhs)
+	{
+		std::vector<uint32_t> BufferData;
+
+		for (uint32_t i : this->BufferData)
+			BufferData.emplace_back(i);
+
+		for (uint32_t i : rhs.BufferData)
+			BufferData.emplace_back(i);
+
+		//Construct A New Index Buffer From The Given Data And Return It Back To The USer..
+		return IndexBuffer(BufferData);
+	}
+
+
 	bool IndexBuffer::operator==(IndexBuffer& rhs)
 	{
 		return BufferData == rhs.BufferData;

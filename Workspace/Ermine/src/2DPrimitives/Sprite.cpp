@@ -9,6 +9,8 @@ namespace Ermine
 		BottomLeftUV(BottomLeftUV),
 		TopRightUV(TopRightUV)
 	{}
+	Sprite::~Sprite()
+	{}
 
 
 	std::shared_ptr<Texture> Sprite::GetTexture()

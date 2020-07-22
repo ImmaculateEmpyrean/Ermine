@@ -44,8 +44,8 @@ namespace Ermine
 
 	Shader::Shader(const Shader& rhs)
 		:
-		VertexShaderSource(VertexShaderSource),
-		FragmentShaderSource(FragmentShaderSource)
+		VertexShaderSource(rhs.VertexShaderSource),
+		FragmentShaderSource(rhs.FragmentShaderSource)
 	{
 		HelperCompileAndLinkShaderUsingSourceFilesInsideTheObject();
 	}

@@ -33,6 +33,8 @@ namespace Ermine
 
 		void Clear();
 
+		IndexBuffer operator+(IndexBuffer& rhs);
+
 	public:
 
 	protected:

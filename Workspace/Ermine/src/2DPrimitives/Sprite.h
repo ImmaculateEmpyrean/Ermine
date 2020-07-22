@@ -4,6 +4,8 @@
 #include<string>
 #include<utility>
 
+#include "Renderable2D.h"
+
 #include "Graphics/Renderer/MaterialSystem/Texture.h"
 #include "glm.hpp"
 
@@ -15,11 +17,13 @@
 
 namespace Ermine
 {
-	class Sprite
+	class Sprite 
 	{
 	public:
 		Sprite() = delete; //There is no reason for an empty sprite donot have one..
 		Sprite(std::shared_ptr<Texture> Tex, glm::vec2 BottomLeftUV,glm::vec2 TopRightUV);
+
+		virtual ~Sprite();
 
 	public:
 		std::shared_ptr<Texture> GetTexture();
@@ -41,6 +45,8 @@ namespace Ermine
 	public:
 
 	protected:
+		//This For Now Is Primarily Used By Actor2D To Construct A Renderable2D..
+		//Sprite(std::shared_ptr<Texture> Tex, glm::vec2 BottomLeftUV, glm::vec2 TopRightUV, Ermine::VertexArray Vao, Ermine::Material Mat); 
 
 	protected:
 

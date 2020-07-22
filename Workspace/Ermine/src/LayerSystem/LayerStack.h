@@ -18,13 +18,22 @@
 
 namespace Ermine
 {
+	//Forward Declaration For Future Convienience..
+	class Renderer2D;
+
 	class LayerStack
 	{
 	public:
-		LayerStack(std::string& Name);
+		LayerStack(std::string Name);
 		~LayerStack();
 
 	public:
+		LayerStack(const LayerStack& rhs);
+		LayerStack operator=(const LayerStack& rhs);
+
+		LayerStack(LayerStack&& rhs);
+		LayerStack operator=(LayerStack&& rhs);
+
 		//Each LayerStackLayer Must Be Part Of Exactly One Layer Stack As The Stack Will Destroy Layer When It Sees Fit..
 		void PushLayerOntoStackFront(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush);
 
@@ -42,6 +51,8 @@ namespace Ermine
 		std::optional<Ermine::LayerStackLayer*> GetIndexFromName(std::string LayerStackLayerName);
 #endif
 
+		void Clear();
+
 	public:
 
 	protected:
@@ -54,11 +65,17 @@ namespace Ermine
 
 		virtual void RecievedEventConcreteEvent(Ermine::Event* EventPointer); //There Is No Implicit Requirement To recieve this event right
 
+		void HelperCopyConstructor(const LayerStack& rhs);
+		void HelperMoveConstructor(LayerStack&& rhs);
+
 	private:
 		std::string LayerStackName; //This More Akin To A Debug Name And Not To Be Taken Seriously...
 		std::vector<Ermine::LayerStackLayer*> AllLayersAssociated;
 
 		//flags
 		std::atomic<bool> RecieveConcreteEvents = true;
+
+		
+		friend class Renderer2D;
 	};
 }

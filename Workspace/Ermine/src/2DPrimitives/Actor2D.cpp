@@ -3,6 +3,9 @@
 
 #include "glm.hpp"
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 namespace Ermine
 {
 	Actor2D::Actor2D(std::shared_ptr<Sprite> Spr)
@@ -14,6 +17,8 @@ namespace Ermine
 		ScaleMatrix = glm::mat4(1.0f);
 
 		RecievedModelMatrix = glm::mat4(1.0f);
+		
+		HelperInitializeRenderable2D();
 	}
 	Actor2D::Actor2D(std::shared_ptr<Sprite> Spr, glm::mat4 ModelMatrix)
 		:
@@ -23,16 +28,13 @@ namespace Ermine
 		TranslationMatrix = glm::mat4(1.0f);
 		RotationMatrix = glm::mat4(1.0f);
 		ScaleMatrix = glm::mat4(1.0f);
+
+		HelperInitializeRenderable2D();
 	}
 
 	Actor2D::~Actor2D()
 	{}
 
-
-	std::shared_ptr<Sprite> Actor2D::GetSprite()
-	{
-		return Actorsprite;
-	}
 
 	void Actor2D::Translate(float x, float y)
 	{
@@ -104,5 +106,29 @@ namespace Ermine
 	glm::mat4 Actor2D::GetModelMatrix()
 	{
 		return RecievedModelMatrix * ScaleMatrix * RotationMatrix * TranslationMatrix;
+	}
+
+	std::shared_ptr<Sprite> Actor2D::GetSprite()
+	{
+		return Actorsprite;
+	}
+	void Actor2D::SetSprite(std::shared_ptr<Sprite> Sprite)
+	{
+		Actorsprite = Sprite;
+	}
+
+
+	void Actor2D::HelperInitializeRenderable2D()
+	{
+		auto Vao = Ermine::VertexArray(VertexBuffer(GetModelSpaceCoordinates()), IndexBuffer(GetModelSpaceIndices()));
+		static std::vector<VertexAttribPointerSpecification> Spec = {
+				{3,GL_FLOAT,false},
+				{3,GL_FLOAT,false},
+				{2,GL_FLOAT,false}
+		};
+		Vao.SetVertexAttribArray(Spec);
+		Renderable2D::SetVertexArray(std::move(Vao));
+
+		Renderable2D::SetMaterial(Ermine::Material(std::filesystem::path("Shader/Actor2DBaseMaterial.json")));
 	}
 }

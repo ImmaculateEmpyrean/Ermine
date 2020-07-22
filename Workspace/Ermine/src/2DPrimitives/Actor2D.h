@@ -3,6 +3,8 @@
 #include<string>
 #include<vector>
 
+#include "Graphics/Renderer/RendererPrimitives/VertexArray.h"
+
 #include "Constructs/Quad.h"
 #include "glm.hpp"
 #include "Sprite.h"
@@ -11,7 +13,7 @@
 namespace Ermine {
 
 	//The Actor Class Is Always Described With Respect To Center Of The Quad..
-	class Actor2D
+	class Actor2D : public Renderable2D
 	{
 	public:
 		//Having An Actor Without a Sprite At This Point Is Quiet Dangerous..
@@ -24,11 +26,9 @@ namespace Ermine {
 		Actor2D(std::shared_ptr<Sprite> Spr, glm::mat4 ModelMatrix);
 
 		//This Class Owns And Manages Pointers
-		~Actor2D();
+		virtual ~Actor2D();
 
 	public:
-		std::shared_ptr<Sprite> GetSprite();
-
 		void Translate(float x, float y);
 		void Translate(glm::vec2 TranslateByHowMuch);
 		void ClearTranslations();
@@ -46,6 +46,9 @@ namespace Ermine {
 
 		glm::mat4 GetModelMatrix();
 
+		std::shared_ptr<Sprite> GetSprite();
+		void SetSprite(std::shared_ptr<Sprite> Sprite);
+
 	public:
 
 	protected:
@@ -53,6 +56,7 @@ namespace Ermine {
 	protected:
 
 	private:
+		void HelperInitializeRenderable2D();
 
 	private:
 		glm::mat4 RecievedModelMatrix; //This Is Related To The World

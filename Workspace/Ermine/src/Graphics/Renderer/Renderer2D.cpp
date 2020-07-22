@@ -25,17 +25,19 @@ Ermine::Renderer2D* Ermine::Renderer2D::GlobalRenderer2DObj;
 namespace Ermine
 {
 	Renderer2D::Renderer2D()
+		:
+		RendererLayerStack(std::string("Renderer2DLayerStack"))
 	{
-		Actor2DShader = new Shader(std::filesystem::path("Shader/Vertex/Renderer2DActor2DVertex.vert"),
+		/*Actor2DShader = new Shader(std::filesystem::path("Shader/Vertex/Renderer2DActor2DVertex.vert"),
 								   std::filesystem::path("Shader/Fragment/Renderer2DActor2DFragment.frag"));
 
 		TileMapShader = new Shader(std::filesystem::path("Shader/Vertex/TileMapVertexShader.vert"),
-								   std::filesystem::path("Shader/Fragment/TileMapFragmentShader.frag"));
+								   std::filesystem::path("Shader/Fragment/TileMapFragmentShader.frag"));*/
 	}
 	Renderer2D::~Renderer2D()
 	{
-		delete Actor2DShader;
-		delete TileMapShader;
+		//delete Actor2DShader;
+		//delete TileMapShader;
 	}
 
 
@@ -61,7 +63,13 @@ namespace Ermine
 		Renderer->SceneBegin = true;
 	}
 
-	void Renderer2D::DrawActor2D(Actor2D* Act)
+	void Renderer2D::SubmitLayer(LayerStackLayer layer)
+	{
+		auto Renderer = Ermine::Renderer2D::Get();
+		Renderer->RendererLayerStack.PushLayerOnTheBackOfTheStack(std::make_unique<LayerStackLayer>(layer));
+	}
+
+	/*void Renderer2D::DrawActor2D(Actor2D* Act)
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
 		Renderer->StowedActors.emplace_back(Act);
@@ -71,7 +79,7 @@ namespace Ermine
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
 		Renderer->StowedTileMaps.emplace_back(Tm);
-	}
+	}*/
 
 	void Renderer2D::EndScene()
 	{
@@ -79,17 +87,43 @@ namespace Ermine
 		assert(Renderer->SceneBegin); //Note Scene Must Have Begun To End Otherwise It cannot Be Ended..
 		Renderer->SceneBegin = false;
 
-		DrawActorsHelper();
-		Renderer->DrawTileMapHelper();
+		Renderer->DrawingHelper();
+		
+		Renderer->RendererLayerStack.Clear();
+		//DrawActorsHelper();
+		//Renderer->DrawTileMapHelper();
 	}
 
-	void Renderer2D::ClearStowedActors()
+	/*void Renderer2D::ClearStowedActors()
 	{
 		StowedActors.clear();
+	}*/
+
+	void Renderer2D::DrawingHelper()
+	{
+		auto Renderer = Ermine::Renderer2D::Get();
+		for (auto layer : RendererLayerStack.AllLayersAssociated)
+		{
+			for (Renderable2D* i : layer->Renderables)
+			{
+				//Sort Renderables Based On The shader All The Renderables with the same shader go into one draw routine..
+				i->Bind();
+				if(dynamic_cast<Actor2D*>(i))
+				{
+					i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ModelMatrix"), ((Actor2D*)i)->GetModelMatrix());
+
+					int BindSlot = GlobalTextureCache::Get()->Bind(((Actor2D*)i)->GetSprite()->GetTexture());
+					i->GetMaterialBeingUsed()->GetShader()->Uniformi(std::string("texture1"), BindSlot);
+				}
+				i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+			}
+		}
 	}
 
 
-	void Renderer2D::DrawActorsHelper()
+	/*void Renderer2D::DrawActorsHelper()
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
 
@@ -172,5 +206,5 @@ namespace Ermine
 			}
 		}
 		Renderer->StowedTileMaps.clear();
-	}
+	}*/
 }

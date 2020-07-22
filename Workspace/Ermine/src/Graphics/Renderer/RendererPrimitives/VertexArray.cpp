@@ -76,6 +76,15 @@ namespace Ermine
 	}
 
 
+	VertexArray VertexArray::operator+(VertexArray& rhs)
+	{
+		VertexBuffer Vbuf = this->Vbo + rhs.Vbo;
+		IndexBuffer Ibuf = this->Ibo + rhs.Ibo;
+
+		return VertexArray(Vbuf, Ibuf);
+	}
+
+
 	void VertexArray::Bind()
 	{
 		GLCall(glBindVertexArray(vertex_array));

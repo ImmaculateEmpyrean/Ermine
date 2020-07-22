@@ -64,6 +64,22 @@ namespace Ermine
 		return *this;
 	}
 	
+
+	VertexBuffer VertexBuffer::operator+(VertexBuffer& rhs)
+	{
+		std::vector<float> BufferData;
+
+		for (float i : this->BufferData)
+			BufferData.emplace_back(i);
+
+		for (float i : rhs.BufferData)
+			BufferData.emplace_back(i);
+
+		//Construct A New VertexBuffer From The Given Data And Return It Back To The USer..
+		return VertexBuffer(BufferData);
+	}
+
+
 	bool VertexBuffer::operator==(VertexBuffer& rhs)
 	{
 		return BufferData == rhs.BufferData;

@@ -19,6 +19,8 @@
 #include "RendererPrimitives/VertexArray.h"
 //#include "RendererPrimitives/RendererPrimitives2D/TileMapRendererPrimitive.h"
 
+#include "LayerSystem/LayerStack.h"
+
 namespace Ermine
 {
 	class Renderer2D
@@ -32,27 +34,29 @@ namespace Ermine
 
 		static void BeginScene(glm::mat4 CameraMAtrix,glm::mat4 ProjectionMatrix);
 
-		static void DrawActor2D(Actor2D* Act);
-		static void DrawTileMap(TileMap* Tm);
+		static void SubmitLayer(LayerStackLayer layer);
+		//static void DrawActor2D(Actor2D* Act);
+		//static void DrawTileMap(TileMap* Tm);
 
 		static void EndScene();
 
 		//static void SetNumberOfGridsOnScreen(glm::vec<2, int> NumberOnXAndY);
 		
-		void ClearStowedActors();
+		//void ClearStowedActors();
 
 	public:
 		//Shader Cache
-		Ermine::Shader* Actor2DShader;
-		Ermine::Shader* TileMapShader;
+		//Ermine::Shader* Actor2DShader;
+		//Ermine::Shader* TileMapShader;
 
 	protected:
 
 	protected:
 
 	private:
-		static void DrawActorsHelper();
-		void DrawTileMapHelper();
+		void DrawingHelper();
+		//static void DrawActorsHelper();
+		//void DrawTileMapHelper();
 
 		//std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer,
 			//																							   TileMap* tm);
@@ -67,8 +71,10 @@ namespace Ermine
 
 		bool SceneBegin;
 
-		std::vector<Actor2D*> StowedActors;
-		std::vector<TileMap*> StowedTileMaps;
+		LayerStack RendererLayerStack;
+		//These Buffers Are Irrelevant
+		/*std::vector<Actor2D*> StowedActors;
+		std::vector<TileMap*> StowedTileMaps;*/
 
 		/*//Variables Exclusive To TileMap Rendering
 		int NumberOfGridsInXOnScreen = 10;

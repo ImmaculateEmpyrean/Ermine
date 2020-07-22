@@ -16,6 +16,7 @@
 #include "GLFW/glfw3.h"
 #include "Graphics/Renderer/MaterialSystem/Shader.h"
 #include "Graphics/Renderer/MaterialSystem/Texture.h"
+#include "Graphics/Renderer/MaterialSystem/Material.h"
 
 #include "imgui.h"
 
@@ -88,9 +89,41 @@ void Ermine::App::OnAttach()
 
 void Ermine::App::OnTick()
 {
-	
+	static bool l = true;
+	//Ermine::Material mat(std::filesystem::path("Shader/Actor2DBaseMaterial.json"));
 
-	//static Ermine::TileMap Map("TileMap/TestTileMap.json");
+	auto Manager = Ermine::GlobalTextureCache::Get();
+	static auto Tex = Manager->GetTextureFromFile("AnoHiMitaHana.png");
+
+	static Sprite* spr = new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
+	static std::shared_ptr<Sprite> ShSpr;
+
+	if (l == true)
+	{
+		ShSpr.reset(spr);
+		l = false;
+	}
+
+	static Ermine::Actor2D* Act = new Ermine::Actor2D(ShSpr);
+	//Act->Translate({ 0.5f,0.5f });
+
+	glm::mat4 Camera = glm::mat4(1.0f);
+	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	LayerStackLayer Layer("Han");
+	Layer.SubmitRenderable(Act);
+
+	auto ProjectionMatrix = glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
+	
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+
+	Renderer2D::SubmitLayer(Layer);
+	
+	Renderer2D::EndScene();
+
+	Act->Translate({ 0.05f,0.05f });
+
+	/*//static Ermine::TileMap Map("TileMap/TestTileMap.json");
 	static Ermine::TileMap Map("TileMap/UnderConsideration.json");
 
 	static Ermine::TileSet Set("TileSet/TileSetTest.json");
@@ -128,7 +161,7 @@ void Ermine::App::OnTick()
 	Renderer2D::DrawTileMap(&Map);
 	Renderer2D::DrawActor2D(&Act);
 	
-	Renderer2D::EndScene();
+	Renderer2D::EndScene();*/
 }
 
 void Ermine::App::OnDetach()
