@@ -8,6 +8,7 @@
 
 #include "2DPrimitives/Renderable2D.h"
 #include "2DPrimitives/Actor2D.h"
+#include "2DPrimitives/TileMapLayerRenderable.h"
 
 namespace Ermine
 {

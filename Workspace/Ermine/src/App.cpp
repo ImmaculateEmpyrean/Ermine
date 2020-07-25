@@ -113,15 +113,33 @@ void Ermine::App::OnTick()
 	LayerStackLayer Layer("Han");
 	Layer.SubmitRenderable(Act);
 
-	auto ProjectionMatrix = glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
+	auto ProjectionMatrix = glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);//glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
 	
+	//Start Tilemap Drawing Routine//
+	static Ermine::TileMap Map("TileMap/UnderConsideration.json");
+	LayerStack Lay("Stigmata");
+	Lay.SubmitTileMapForDrawing((const TileMap*)&Map);
+
+	
+	//Ended Tilemap Drawing Routine//
+
+	static int ind = 10;
+
+	ImGui::Begin("GEt Number");
+	ImGui::SliderInt("Get Ind", &ind, 0, 10);
+	ImGui::End();
+
+
 	Renderer2D::BeginScene(Camera, ProjectionMatrix);
 
-	Renderer2D::SubmitLayer(Layer);
+	Renderer2D::ReplaceLayerStackWithStack(Lay);
+	Renderer2D::SubmitLayer(Layer, ind);
+	
+	//Renderer2D::SubmitLayer(Layer);
 	
 	Renderer2D::EndScene();
 
-	Act->Translate({ 0.05f,0.05f });
+	//Act->Translate({ 0.05f,0.05f });
 
 	/*//static Ermine::TileMap Map("TileMap/TestTileMap.json");
 	static Ermine::TileMap Map("TileMap/UnderConsideration.json");

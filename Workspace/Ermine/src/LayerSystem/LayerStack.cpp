@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "LayerStack.h"
 
+#include "2DPrimitives/TileMapLayerRenderable.h"
+
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+
 Ermine::LayerStack::LayerStack(std::string Name)
 	:
 	LayerStackName(Name)
@@ -44,8 +49,15 @@ void Ermine::LayerStack::PushLayerOntoStackFront(std::unique_ptr<Ermine::LayerSt
 
 void Ermine::LayerStack::PushLayerOntoStackAtPosition(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush, int index)
 {
-	LayerStackLayer* freepointer = LayerToPush.release();
-	AllLayersAssociated.insert(AllLayersAssociated.begin() + index, freepointer); //Added On The Index See That Index Is Valid
+	if (index < AllLayersAssociated.size())
+	{
+		LayerStackLayer* freepointer = LayerToPush.release();
+		AllLayersAssociated.insert(AllLayersAssociated.begin() + index, freepointer); //Added On The Index See That Index Is Valid
+	}
+	else
+	{
+		PushLayerOntoStackFront(std::move(LayerToPush));
+	}
 }
 
 void Ermine::LayerStack::PushLayerOnTheBackOfTheStack(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush)
@@ -69,6 +81,7 @@ std::optional<Ermine::LayerStackLayer*> Ermine::LayerStack::GetIndexFromName(std
 	//Returns Nothing As This is an optional and we can return nothing "could have returned nullptr to right.."
 	return {};
 }
+#endif
 
 void Ermine::LayerStack::Clear()
 {
@@ -81,17 +94,32 @@ void Ermine::LayerStack::Clear()
 	AllLayersAssociated.clear();
 }
 
-/*void Ermine::LayerStack::SubmitTileMapForDrawing(Ermine::TileMap const* Tm)
+void Ermine::LayerStack::SubmitTileMapForDrawing(Ermine::TileMap const* Tm)
 {
-	Ermine::TileMapRendererPrimitive RenderableObj = Tm->RendererFriendlyDrawable;
+	auto TextureCacheGlobal = Ermine::GlobalTextureCache::Get();
 
-	for (LayerStackLayer* layer : RenderableObj.GetAllLayersAsLayerStack().AllLayersAssociated)
+	for (int i = 0; i < Tm->Layers.size(); i++)
 	{
-		AllLayersAssociated.emplace_back(new LayerStackLayer(*layer));
-	}
-}*/
+		Ermine::TileMap::Layer Layer = (Tm->Layers[i]);
+		auto Pair = Tm->CreateVertexArrayForLayer(Layer);
+		
+		Pair.first.SetVertexAttribArray({
+				{3,GL_FLOAT,false},
+				{2,GL_FLOAT,false},
+				{1,GL_FLOAT,false}
+			});
 
-#endif
+		Renderable2D* Obj = new TileMapLayerRenderable(Pair.first, std::move(Material("Shader/TileMapLayerBaseMaterial.json")), Pair.second);
+
+		std::unique_ptr<LayerStackLayer> L = std::make_unique<LayerStackLayer>(Layer.Name);
+		L->SubmitRenderable(Obj);
+		this->PushLayerOntoStackFront(std::move(L));
+		
+		delete Obj;
+	}
+}
+
+
 
 void Ermine::LayerStack::RecievedEvent(Ermine::Event* EventPointer)
 {

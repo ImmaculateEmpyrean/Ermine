@@ -9,11 +9,14 @@
 #include <nlohmann/json.hpp>
 #include "TileSet.h"
 
-#include "Graphics/Renderer/RendererPrimitives/RendererPrimitives2D/TileMapRendererPrimitive.h"
+#include "Graphics/Renderer/RendererPrimitives/VertexArray.h"
+#include "Graphics/Renderer/RendererPrimitives/VertexBuffer.h"
+#include "Graphics/Renderer/RendererPrimitives/IndexBuffer.h"
+
+//#include "Graphics/Renderer/RendererPrimitives/RendererPrimitives2D/TileMapRendererPrimitive.h"
 
 namespace Ermine
 {
-	class Renderer2D;
 	class LayerStack; //Forward Declaration..
 	class NewTileMap; //Forward Declaration..
 
@@ -39,7 +42,7 @@ namespace Ermine
 		int GetStartIndex(int LayerNumber); 
 		int GetEndIndex(int LayerNumber);
 
-		std::shared_ptr<Sprite> GetSprite(int Index,int LayerNumber);
+		std::shared_ptr<Sprite> GetSprite(int Index,int LayerNumber) const;
 		//int GetIndex(std::shared_ptr<Sprite> SpriteToCheck,std::pair<int, int> TileDiamensions);
 
 		//Start Create Tilemaps Api Functions
@@ -157,8 +160,8 @@ namespace Ermine
 		//Set The TileMapPath Variable Before Calling This Method Otherwise It Wont Work..
 		void LoadTileMapFromPath();
 
-		void CreateRendererFriendlyDrawable();
-		std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer);
+		//void CreateRendererFriendlyDrawable();
+		std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer) const;
 		
 		bool HelperCheckIfTilesetExists(std::filesystem::path TileSetPath, int LayerNumber);
 
@@ -168,19 +171,14 @@ namespace Ermine
 		std::string TileMapName;
 		
 		std::vector<Layer> Layers;
-			
-		
 
 		//This Variable is used by the renderer to draw the Tilemap in question
-		Ermine::TileMapRendererPrimitive RendererFriendlyDrawable;
-		/*int NumberOfGridsInXOnScreen = 10; //Please Include Functions For This In The Api In The Near Future..
-		int NumberOfGridsInYOnScreen = 10; //Please Include Functions For This In The Api In The Near Future..*/
-
+		//Ermine::TileMapRendererPrimitive RendererFriendlyDrawable;
+		
 		//Flag Variables..
 		bool TilemapFullyFunctional = false; //This Flag Must Be Set To true If The tilemap is to be used by the renderer
 
 		friend class Ermine::LayerStack;
 		friend class Ermine::NewTileMap;
-		friend class Ermine::Renderer2D;
 	};
 }

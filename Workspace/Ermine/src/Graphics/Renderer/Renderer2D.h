@@ -13,6 +13,7 @@
 #include "2DPrimitives/Renderable2D.h"
 #include "2DPrimitives/Actor2D.h"
 #include "2DPrimitives/TileMap.h"
+#include "2DPrimitives/TileMapLayerRenderable.h"
 
 #include "Graphics/Renderer/MaterialSystem/Shader.h"
 #include "Graphics/Renderer/MaterialSystem/Texture.h"
@@ -35,7 +36,18 @@ namespace Ermine
 
 		static void BeginScene(glm::mat4 CameraMAtrix,glm::mat4 ProjectionMatrix);
 
+		//This Is THe Submition Method, It Appends The LAyer To The front Of The Screen
 		static void SubmitLayer(LayerStackLayer layer);
+
+		//This Is Alternative Submission Method It Places The Layer Wherever You want..
+		static void SubmitLayer(LayerStackLayer layer, int index);
+
+		//This Will Be Implemented Properly Another Day When The Event System Is Properly Fixed.. For Now It just copies Over The Layers into the layer stack held by the renderer
+		static void SubmitLayerStack(LayerStack& layerstack);
+		
+		//This is a smooth function clears layer stack in the renderer and places this stack in its place..
+		static void ReplaceLayerStackWithStack(LayerStack layerstack);
+
 		//static void DrawActor2D(Actor2D* Act);
 		//static void DrawTileMap(TileMap* Tm);
 

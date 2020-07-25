@@ -69,6 +69,25 @@ namespace Ermine
 		Renderer->RendererLayerStack.PushLayerOnTheBackOfTheStack(std::make_unique<LayerStackLayer>(layer));
 	}
 
+	void Renderer2D::SubmitLayer(LayerStackLayer layer, int index)
+	{
+		auto Renderer = Ermine::Renderer2D::Get();
+		Renderer->RendererLayerStack.PushLayerOntoStackAtPosition(std::make_unique<LayerStackLayer>(layer),index);
+	}
+
+	void Renderer2D::SubmitLayerStack(LayerStack& layerstack)
+	{
+		//Implement Some Other Time When The Design Is Finalized.. :>
+	}
+
+	void Renderer2D::ReplaceLayerStackWithStack(LayerStack layerstack)
+	{
+		auto Renderer = Renderer2D::Get();
+
+		Renderer->RendererLayerStack.Clear();
+		Renderer->RendererLayerStack = layerstack;
+	}
+
 	/*void Renderer2D::DrawActor2D(Actor2D* Act)
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
@@ -119,7 +138,25 @@ namespace Ermine
 					i->GetMaterialBeingUsed()->GetShader()->Uniformi(std::string("texture1"), BindSlot);
 				}
 				
+				if (i->GetType() == Renderable2DType::TileMap)
+				{
+					TileMapLayerRenderable* LayerRenderable = (TileMapLayerRenderable*)i;
 
+					std::vector<float> TextureMappingUnits;
+					TextureMappingUnits.resize(16);
+
+					for (int i = 0; i < 16; i++)
+						TextureMappingUnits[i] = 0.0f;
+
+					for (auto Cask = LayerRenderable->TexturesAndNumbers.begin(); Cask != LayerRenderable->TexturesAndNumbers.end(); Cask++)
+					{
+						std::shared_ptr<Texture> Tex = TextureCacheGlobal->GetTextureFromFile(Cask->first);
+						int BoundSlot = TextureCacheGlobal->Bind(Tex);
+
+						TextureMappingUnits[(int)Cask->second] = BoundSlot;
+					}
+					i->Mat->GetShader()->UniformNf(std::string("Sampler2DArray"), TextureMappingUnits);
+				}
 
 				i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
 				glDrawElements(GL_TRIANGLES, i->GetVertexArray()->GetIndexBufferLength(), GL_UNSIGNED_INT, 0);

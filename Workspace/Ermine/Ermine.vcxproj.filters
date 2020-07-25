@@ -236,6 +236,7 @@
     <ClInclude Include="src\2DPrimitives\Renderable2D.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Material.h" />
     <ClInclude Include="src\2DPrimitives\Renderable2DEnums.h" />
+    <ClInclude Include="src\2DPrimitives\TileMapLayerRenderable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp">
@@ -378,5 +379,6 @@
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\Renderable2D.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Material.cpp" />
+    <ClCompile Include="src\2DPrimitives\TileMapLayerRenderable.cpp" />
   </ItemGroup>
 </Project>

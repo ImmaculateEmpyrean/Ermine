@@ -145,6 +145,7 @@
     <ClInclude Include="src\2DPrimitives\Renderable2D.h" />
     <ClInclude Include="src\2DPrimitives\Sprite.h" />
     <ClInclude Include="src\2DPrimitives\TileMap.h" />
+    <ClInclude Include="src\2DPrimitives\TileMapLayerRenderable.h" />
     <ClInclude Include="src\2DPrimitives\TileSet.h" />
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="src\2DPrimitives\Renderable2D.cpp" />
     <ClCompile Include="src\2DPrimitives\Sprite.cpp" />
     <ClCompile Include="src\2DPrimitives\TileMap.cpp" />
+    <ClCompile Include="src\2DPrimitives\TileMapLayerRenderable.cpp" />
     <ClCompile Include="src\2DPrimitives\TileSet.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\Core.cpp" />

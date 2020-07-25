@@ -57,7 +57,7 @@ namespace Ermine
 		void Clear();
 
 		//No Changes Will Be Made To The TileMap As There is No Need To Make Any Kind Of Changes We Simply Get The Necessary Renderable And Be Done Wit It..
-		//void SubmitTileMapForDrawing(Ermine::TileMap const * Tm);
+		void SubmitTileMapForDrawing(Ermine::TileMap const * Tm);
 
 	public:
 

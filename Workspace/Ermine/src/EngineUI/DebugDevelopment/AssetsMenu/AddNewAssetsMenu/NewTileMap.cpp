@@ -7,6 +7,7 @@
 
 #include "nlohmann/json.hpp" 
 #include "EngineResourceHandlers/EditorDefaultStrings.h"
+#include "EngineResourceHandlers/GlobalTextureCache.h"
 
 Ermine::NewTileMap::NewTileMap(std::function<void(std::filesystem::path)> CreateTilesetViewWindowCallable)
 	:

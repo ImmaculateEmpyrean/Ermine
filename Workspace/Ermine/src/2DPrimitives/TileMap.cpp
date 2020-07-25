@@ -3,6 +3,8 @@
 
 #include "ErmineJsonFunctions.h"
 
+#include "EngineResourceHandlers/GlobalTextureCache.h"
+
 namespace Ermine
 {
 	TileMap::TileMap()
@@ -82,7 +84,7 @@ namespace Ermine
 		return Layers[LayerNumber].GetEndIndex();//TileSetStartIndexTracker[Layers[LayerNumber].TileSetStartIndexTracker.size() - 1] + Layers[LayerNumber].TileSetsBuffer[Layers[LayerNumber].TileSetsBuffer.size() - 1]->GetNumberOfSpritesInTileSet();
 	}
 
-	std::shared_ptr<Sprite> TileMap::GetSprite(int Index,int LayerNumber)
+	std::shared_ptr<Sprite> TileMap::GetSprite(int Index,int LayerNumber) const
 	{
 		//This Still Does Not Work..
 		//We WIll Simply Check RAnge
@@ -354,7 +356,7 @@ namespace Ermine
 
 		//Ended Extracting TileSets//
 
-		CreateRendererFriendlyDrawable();
+		//CreateRendererFriendlyDrawable();
 
 		TilemapFullyFunctional = true; //This Flag is Used To Set That Tilemap Can Be Used As Intended..
 	}
@@ -379,7 +381,7 @@ namespace Ermine
 		OutputFile.close();
 	}
 
-	void TileMap::CreateRendererFriendlyDrawable()
+	/*void TileMap::CreateRendererFriendlyDrawable()
 	{
 		RendererFriendlyDrawable.Flush(); //Clear This If Something Does Exist..
 
@@ -398,9 +400,9 @@ namespace Ermine
 
 		for (auto i : TextureMappingCache)
 			RendererFriendlyDrawable.SubmitLayerTextureToNumberCache(i);
-	}
+	}*/
 
-	std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> Ermine::TileMap::CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer)
+	std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> Ermine::TileMap::CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer) const
 	{
 		int NumberOfGridsInXOnScreen = Ermine::GetScreenWidth() / layer.TileWidth;
 		int NumberOfGridsInYOnScreen = Ermine::GetScreenHeight() / layer.TileHeight;
