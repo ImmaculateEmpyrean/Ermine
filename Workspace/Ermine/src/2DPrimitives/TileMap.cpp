@@ -407,8 +407,8 @@ namespace Ermine
 		int NumberOfGridsInXOnScreen = Ermine::GetScreenWidth() / layer.TileWidth;
 		int NumberOfGridsInYOnScreen = Ermine::GetScreenHeight() / layer.TileHeight;
 
-		int GridXToBeGenerated = layer.NumberOfTilesHorizontal;
-		int GridYToBeGenerated = layer.NumberOfTilesVertical;
+		//int GridXToBeGenerated = layer.NumberOfTilesHorizontal;
+		//int GridYToBeGenerated = layer.NumberOfTilesVertical;
 
 		float StepInX = Ermine::GetScreenWidth() / NumberOfGridsInXOnScreen;//Ermine::GetScreenHeight() / NumberOfGridsInXOnScreen;
 		float StepInY = Ermine::GetScreenHeight() / NumberOfGridsInYOnScreen;//Ermine::GetScreenWidth() / NumberOfGridsInYOnScreen;
@@ -466,9 +466,15 @@ namespace Ermine
 				TextureToNumberMapper[this->GetSprite(i, layer.LayerNumber)->GetTexture()->GetFilePath()] = TextureNumber++;
 			}
 
+			float HighestValueXinData = layer.TileWidth  * layer.NumberOfTilesHorizontal;
+			float HighestValueYinData = layer.TileHeight * layer.NumberOfTilesVertical;
+
+			float HighestValueXinDataEqualized = (HighestValueXinData / ((float)Ermine::GetScreenWidth())) /2.0f;
+			float HighestValueYinDataEqualized = (HighestValueYinData / ((float)Ermine::GetScreenHeight())) /2.0f ;
+
 			//Start Setting Up Top Right Vertex..
-			VertexBuffer.emplace_back(CurrentPositionX + StepInX); //x
-			VertexBuffer.emplace_back(CurrentPositionY + StepInY); //y
+			VertexBuffer.emplace_back(CurrentPositionX + StepInX);
+			VertexBuffer.emplace_back(CurrentPositionY + StepInY);
 			VertexBuffer.emplace_back(0.0f); //z
 
 			VertexBuffer.emplace_back(this->GetSprite(i, layer.LayerNumber)->GetBottomLeftUV().x); //u//VertexBuffer.emplace_back(this->GetSprite(i,layer.LayerNumber)->GetTopRightUV().x); //u //Original Was Commented Out Not Only Here But Everywhere..
@@ -534,6 +540,12 @@ namespace Ermine
 		return false;
 	}
 
+	float TileMap::NormalizationFunction(float x,float LowestValueInData,float HighestValueInData,float LowestValueInNewRange,float HighestValueInNewRange) const
+	{
+		float y = (((x - LowestValueInData) * (HighestValueInNewRange - LowestValueInNewRange)) / (HighestValueInData - LowestValueInData)) + LowestValueInNewRange;
+
+		return y;
+	}
 
 	TileMap::Layer::Layer(const Layer& rhs)
 	{

@@ -113,7 +113,7 @@ void Ermine::App::OnTick()
 	LayerStackLayer Layer("Han");
 	Layer.SubmitRenderable(Act);
 
-	auto ProjectionMatrix = glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);//glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
+	auto ProjectionMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);//glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
 	
 	//Start Tilemap Drawing Routine//
 	static Ermine::TileMap Map("TileMap/UnderConsideration.json");
@@ -139,7 +139,8 @@ void Ermine::App::OnTick()
 	
 	Renderer2D::EndScene();
 
-	//Act->Translate({ 0.05f,0.05f });
+	Act->Translate({ 1.0f,1.0f });
+	Act->Scale({ 1.02f,1.02f });
 
 	/*//static Ermine::TileMap Map("TileMap/TestTileMap.json");
 	static Ermine::TileMap Map("TileMap/UnderConsideration.json");

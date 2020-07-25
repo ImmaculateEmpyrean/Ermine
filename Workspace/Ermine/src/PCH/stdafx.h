@@ -16,6 +16,8 @@
 #include<algorithm>
 #include<functional>
 
+#include <cmath>
+
 #include<memory>
 #include<optional>
 

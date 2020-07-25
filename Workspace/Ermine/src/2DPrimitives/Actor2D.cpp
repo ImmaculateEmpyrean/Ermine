@@ -81,19 +81,19 @@ namespace Ermine
 
 		//Top Right..
 		ModelCoordinates[6] = Actorsprite->GetTopRightUV().x;
-		ModelCoordinates[7] = Actorsprite->GetTopRightUV().y;
+		ModelCoordinates[7] = Actorsprite->GetBottomLeftUV().y;//Actorsprite->GetTopRightUV().y;
 
 		//Bottom Right
 		ModelCoordinates[14] = Actorsprite->GetTopRightUV().x;//ModelCoordinates[14] = Actorsprite->GetBottomLeftUV().x;
-		ModelCoordinates[15] = Actorsprite->GetBottomLeftUV().y;
+		ModelCoordinates[15] = Actorsprite->GetTopRightUV().y;//Actorsprite->GetBottomLeftUV().y;
 
 		//Bottom Left
 		ModelCoordinates[22] = Actorsprite->GetBottomLeftUV().x;
-		ModelCoordinates[23] = Actorsprite->GetBottomLeftUV().y;
+		ModelCoordinates[23] = Actorsprite->GetTopRightUV().y;//Actorsprite->GetBottomLeftUV().y;
 
 		//Top Left
 		ModelCoordinates[30] = Actorsprite->GetBottomLeftUV().x;
-		ModelCoordinates[31] = Actorsprite->GetTopRightUV().y;
+		ModelCoordinates[31] = Actorsprite->GetBottomLeftUV().y;//Actorsprite->GetTopRightUV().y;
 
 		return ModelCoordinates;
 	}
