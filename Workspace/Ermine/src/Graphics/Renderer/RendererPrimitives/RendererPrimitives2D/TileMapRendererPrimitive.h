@@ -9,6 +9,9 @@
 #include "../VertexBuffer.h"
 #include "../IndexBuffer.h"
 
+//#include "LayerSystem/LayerStack.h"
+//#include "LayerSystem/LayerStackLayer.h"
+
 namespace Ermine
 {
 	class TileMapRendererPrimitive
@@ -40,6 +43,9 @@ namespace Ermine
 		std::unordered_map<std::filesystem::path, float> GetTextureToNumberCache(int index);
 
 		void Flush(); //This Clears The Contents of This Object..
+
+		//LayerStackLayer GetLayerAsLayerStackLayer(int LayerNumber);
+		//LayerStack GetAllLayersAsLayerStack();
 
 	protected:
 

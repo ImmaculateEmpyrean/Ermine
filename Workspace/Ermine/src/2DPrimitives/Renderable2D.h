@@ -10,10 +10,14 @@
 
 #include "Graphics/Renderer/MaterialSystem/Material.h"
 
+#include "Renderable2DEnums.h"
+
 //Maybe We Need a Material System Instead on a standrad shader system   //#include "Graphics/Renderer/MaterialSystem/Shader.h"
 
 namespace Ermine
 {
+	class Renderer2D; //Forward Declaration So That This Can Be Made a Friend Class..
+
 	class Renderable2D
 	{
 	public:
@@ -30,7 +34,9 @@ namespace Ermine
 		void SetMaterial(Material Shd);
 		std::shared_ptr<Material> GetMaterialBeingUsed();
 		
-		void Bind();
+		void Bind(); //Check If bind HAs To Be Virtual..
+
+		virtual Renderable2DType GetType() { return Renderable2DType::Renderable2D; }
 
 	public:
 
@@ -46,6 +52,8 @@ namespace Ermine
 
 		//The Shader Which Is Bound While Drawing...
 		std::shared_ptr<Material> Mat; 
+
+		friend class Ermine::Renderer2D;
 	};
 
 }

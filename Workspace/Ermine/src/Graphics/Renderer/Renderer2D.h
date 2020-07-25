@@ -10,6 +10,7 @@
 #include "EngineResourceHandlers/GlobalTextureCache.h" //This Is Now Primarirly Used For The HAsh Function Of The Unordered Map..
 
 #include "glm.hpp"
+#include "2DPrimitives/Renderable2D.h"
 #include "2DPrimitives/Actor2D.h"
 #include "2DPrimitives/TileMap.h"
 

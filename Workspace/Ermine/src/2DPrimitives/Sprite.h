@@ -4,8 +4,6 @@
 #include<string>
 #include<utility>
 
-#include "Renderable2D.h"
-
 #include "Graphics/Renderer/MaterialSystem/Texture.h"
 #include "glm.hpp"
 

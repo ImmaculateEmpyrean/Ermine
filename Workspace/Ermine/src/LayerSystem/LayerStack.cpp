@@ -81,6 +81,16 @@ void Ermine::LayerStack::Clear()
 	AllLayersAssociated.clear();
 }
 
+/*void Ermine::LayerStack::SubmitTileMapForDrawing(Ermine::TileMap const* Tm)
+{
+	Ermine::TileMapRendererPrimitive RenderableObj = Tm->RendererFriendlyDrawable;
+
+	for (LayerStackLayer* layer : RenderableObj.GetAllLayersAsLayerStack().AllLayersAssociated)
+	{
+		AllLayersAssociated.emplace_back(new LayerStackLayer(*layer));
+	}
+}*/
+
 #endif
 
 void Ermine::LayerStack::RecievedEvent(Ermine::Event* EventPointer)

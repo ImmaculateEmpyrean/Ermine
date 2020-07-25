@@ -13,7 +13,8 @@
 
 namespace Ermine
 {
-	class Renderer2D; //Forward Declaration..
+	class Renderer2D;
+	class LayerStack; //Forward Declaration..
 	class NewTileMap; //Forward Declaration..
 
 	class TileMap
@@ -178,7 +179,8 @@ namespace Ermine
 		//Flag Variables..
 		bool TilemapFullyFunctional = false; //This Flag Must Be Set To true If The tilemap is to be used by the renderer
 
-		friend class Ermine::Renderer2D;
+		friend class Ermine::LayerStack;
 		friend class Ermine::NewTileMap;
+		friend class Ermine::Renderer2D;
 	};
 }

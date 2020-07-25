@@ -16,6 +16,9 @@
 #include "EventSystem/Components/RecieverComponent.h"
 #include "EventSystem/Components/BroadcastComponent.h"
 
+#include "2DPrimitives/TileMap.h"
+#include "Graphics/Renderer/RendererPrimitives/RendererPrimitives2D/TileMapRendererPrimitive.h"
+
 namespace Ermine
 {
 	//Forward Declaration For Future Convienience..
@@ -52,6 +55,9 @@ namespace Ermine
 #endif
 
 		void Clear();
+
+		//No Changes Will Be Made To The TileMap As There is No Need To Make Any Kind Of Changes We Simply Get The Necessary Renderable And Be Done Wit It..
+		//void SubmitTileMapForDrawing(Ermine::TileMap const * Tm);
 
 	public:
 

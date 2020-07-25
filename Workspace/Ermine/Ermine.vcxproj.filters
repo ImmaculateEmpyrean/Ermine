@@ -235,6 +235,7 @@
     </ClInclude>
     <ClInclude Include="src\2DPrimitives\Renderable2D.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Material.h" />
+    <ClInclude Include="src\2DPrimitives\Renderable2DEnums.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp">

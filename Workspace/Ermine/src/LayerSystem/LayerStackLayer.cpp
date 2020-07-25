@@ -74,7 +74,7 @@ void Ermine::LayerStackLayer::HelperEmplaceRenderableInRenderablesContainer(Rend
 	if (dynamic_cast<Actor2D*>(RenderableObj))
 		Renderables.emplace_back(new Actor2D(*((Actor2D*)RenderableObj))); //Call The Copy Constructor Essentially..
 	else
-		STDOUTDefaultLog_Critical("This Line Myst Never Be Reached While Submitting Renderable To LAyerStack Layer");
+		Renderables.emplace_back(new Renderable2D(*RenderableObj)); //Dunno What This Is So Just Creating a Renderable Object.. (Note- Renderable Object Does Not Contain Texture Data Keep That In Mind..)
 }
 
 

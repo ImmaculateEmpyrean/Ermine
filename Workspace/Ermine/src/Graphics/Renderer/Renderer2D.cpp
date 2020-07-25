@@ -101,23 +101,28 @@ namespace Ermine
 
 	void Renderer2D::DrawingHelper()
 	{
+		//Getting The Texture Cache As It May Prove Helpful..
+		auto TextureCacheGlobal = Ermine::GlobalTextureCache::Get();
 		auto Renderer = Ermine::Renderer2D::Get();
+
 		for (auto layer : RendererLayerStack.AllLayersAssociated)
 		{
 			for (Renderable2D* i : layer->Renderables)
 			{
-				//Sort Renderables Based On The shader All The Renderables with the same shader go into one draw routine..
 				i->Bind();
-				if(dynamic_cast<Actor2D*>(i))
-				{
-					i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ModelMatrix"), ((Actor2D*)i)->GetModelMatrix());
 
+				if(i->GetType() == Renderable2DType::ACTOR2D)
+				{
+					Actor2D* Actor = (Actor2D*)i;
+					i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ModelMatrix"), ((Actor2D*)i)->GetModelMatrix());
 					int BindSlot = GlobalTextureCache::Get()->Bind(((Actor2D*)i)->GetSprite()->GetTexture());
 					i->GetMaterialBeingUsed()->GetShader()->Uniformi(std::string("texture1"), BindSlot);
 				}
-				i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+				
 
-				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+				i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+				glDrawElements(GL_TRIANGLES, i->GetVertexArray()->GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 			}
 		}
 	}

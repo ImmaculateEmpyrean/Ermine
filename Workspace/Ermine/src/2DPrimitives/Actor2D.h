@@ -7,10 +7,14 @@
 
 #include "Constructs/Quad.h"
 #include "glm.hpp"
-#include "Sprite.h"
+
+#include "2DPrimitives/Sprite.h"
+#include "Renderable2D.h"
 
 
 namespace Ermine {
+
+	//An Actor Is Something That Is Displayed And Movable Nothing Else.. Do Not Asume It Contains Only one Sprite Or Any Such Nonesense..
 
 	//The Actor Class Is Always Described With Respect To Center Of The Quad..
 	class Actor2D : public Renderable2D
@@ -48,6 +52,8 @@ namespace Ermine {
 
 		std::shared_ptr<Sprite> GetSprite();
 		void SetSprite(std::shared_ptr<Sprite> Sprite);
+
+		virtual Renderable2DType GetType() { return Renderable2DType::ACTOR2D; }
 
 	public:
 
