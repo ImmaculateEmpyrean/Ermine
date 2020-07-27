@@ -30,8 +30,9 @@
 #include "2DPrimitives/TileSet.h"
 #include "2DPrimitives/TileMap.h"
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
+
+
+#include "FontRenderingSystem/Font.h"
 
 #pragma region StaticDefines
 
@@ -55,11 +56,11 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
 	WindowHandler::GlobalWindowHandler->SubmitWindowFront(std::make_unique<DebugMainWindow>());
 	//Ended Create Window Handler..//
 
-	FT_Library ft;
+	/*static FT_Library ft;
 	if (FT_Init_FreeType(&ft))
 		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
 	else
-		std::cout << "Guess Freetype Compiled Successfully" << std::endl;
+		std::cout << "Guess Freetype Compiled Successfully" << std::endl;*/
 
 	OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
 }
@@ -89,7 +90,7 @@ void Ermine::App::OnAttach()
 
 void Ermine::App::OnTick()
 {
-	static bool l = true;
+	/*static bool l = true;
 	//Ermine::Material mat(std::filesystem::path("Shader/Actor2DBaseMaterial.json"));
 
 	auto Manager = Ermine::GlobalTextureCache::Get();
@@ -124,9 +125,12 @@ void Ermine::App::OnTick()
 	//Ended Tilemap Drawing Routine//
 
 	static int ind = 10;
+	static bool Coke = false;
 
-	ImGui::Begin("GEt Number");
+
+	ImGui::Begin("Control Panel");
 	ImGui::SliderInt("Get Ind", &ind, 0, 10);
+	ImGui::Checkbox("Get Coke", &Coke);
 	ImGui::End();
 
 
@@ -139,8 +143,11 @@ void Ermine::App::OnTick()
 	
 	Renderer2D::EndScene();
 
-	Act->Translate({ 1.0f,1.0f });
-	Act->Scale({ 1.02f,1.02f });
+	if (Coke == true)
+	{
+		Act->Translate({ 1.0f,1.0f });
+		Act->Scale({ 1.02f,1.02f });
+	}*/
 
 	/*//static Ermine::TileMap Map("TileMap/TestTileMap.json");
 	static Ermine::TileMap Map("TileMap/UnderConsideration.json");
@@ -181,6 +188,63 @@ void Ermine::App::OnTick()
 	Renderer2D::DrawActor2D(&Act);
 	
 	Renderer2D::EndScene();*/
+
+	static Ermine::Font fonttest("Font/Futura.ttf",20);
+
+	//Start Draw Freetype-gl Font Atlas..
+	//static Texture* Tex = new Texture("AnoHiMitaHana.png");
+	//Tex->Bind();
+
+	Ermine::Shader AtlasShader(std::filesystem::path("Shader/Vertex/DrawTextureAtlasToScreenVertexShader.vert"),
+						   std::filesystem::path("Shader/Fragment/DrawTextureAtlasToScreenFragmentShader.frag"));
+
+	float vertices[] = {
+		// positions          // texture coords
+		 0.5f,  0.5f, 0.0f,   1.0f, 1.0f, // top right
+		 0.5f, -0.5f, 0.0f,   1.0f, 0.0f, // bottom right
+		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, // bottom left
+		-0.5f,  0.5f, 0.0f,   0.0f, 1.0f  // top left 
+	};
+	unsigned int indices[] = {
+		0, 1, 3, // first triangle
+		1, 2, 3  // second triangle
+	};
+	unsigned int VBO, VAO, EBO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
+
+	glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	// position attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+	
+	// texture coord attribute
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, fonttest.FontTexture->atlas->id);//fonttest.FontAtlas->id);
+	glBindVertexArray(VAO);
+	AtlasShader.Bind();
+
+	AtlasShader.Uniformi("texture1", 0);
+
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
+	//Ended Draw Freetype-gl Font Atlas..
+	
 }
 
 void Ermine::App::OnDetach()

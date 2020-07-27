@@ -34,6 +34,9 @@
     <Filter Include="EventSystem\EventTypes">
       <UniqueIdentifier>{529B675D-3E95-90AF-2702-27C0139BF61B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FontRenderingSystem">
+      <UniqueIdentifier>{BF8B6ACC-2BED-47DA-B45A-8E8C20BB7E99}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Graphics">
       <UniqueIdentifier>{1653CE33-0220-293F-2B39-17E717655ECD}</UniqueIdentifier>
     </Filter>
@@ -81,10 +84,22 @@
     <ClInclude Include="src\2DPrimitives\Constructs\Vertex.h">
       <Filter>2DPrimitives\Constructs</Filter>
     </ClInclude>
+    <ClInclude Include="src\2DPrimitives\Label.h">
+      <Filter>2DPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\Renderable2D.h">
+      <Filter>2DPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\Renderable2DEnums.h">
+      <Filter>2DPrimitives</Filter>
+    </ClInclude>
     <ClInclude Include="src\2DPrimitives\Sprite.h">
       <Filter>2DPrimitives</Filter>
     </ClInclude>
     <ClInclude Include="src\2DPrimitives\TileMap.h">
+      <Filter>2DPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\TileMapLayerRenderable.h">
       <Filter>2DPrimitives</Filter>
     </ClInclude>
     <ClInclude Include="src\2DPrimitives\TileSet.h">
@@ -93,6 +108,9 @@
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\EngineResourceHandlers\EditorDefaultStrings.h">
+      <Filter>EngineResourceHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EngineResourceHandlers\GlobalFontCache.h">
       <Filter>EngineResourceHandlers</Filter>
     </ClInclude>
     <ClInclude Include="src\EngineResourceHandlers\GlobalTextureCache.h">
@@ -167,6 +185,12 @@
     <ClInclude Include="src\EventSystem\EventTypes\TileSelectedEvent.h">
       <Filter>EventSystem\EventTypes</Filter>
     </ClInclude>
+    <ClInclude Include="src\FontRenderingSystem\Font.h">
+      <Filter>FontRenderingSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Material.h">
+      <Filter>Graphics\Renderer\MaterialSystem</Filter>
+    </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Shader.h">
       <Filter>Graphics\Renderer\MaterialSystem</Filter>
     </ClInclude>
@@ -233,10 +257,6 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\2DPrimitives\Renderable2D.h" />
-    <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Material.h" />
-    <ClInclude Include="src\2DPrimitives\Renderable2DEnums.h" />
-    <ClInclude Include="src\2DPrimitives\TileMapLayerRenderable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp">
@@ -245,10 +265,16 @@
     <ClCompile Include="src\2DPrimitives\Constructs\Vertex.cpp">
       <Filter>2DPrimitives\Constructs</Filter>
     </ClCompile>
+    <ClCompile Include="src\2DPrimitives\Renderable2D.cpp">
+      <Filter>2DPrimitives</Filter>
+    </ClCompile>
     <ClCompile Include="src\2DPrimitives\Sprite.cpp">
       <Filter>2DPrimitives</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\TileMap.cpp">
+      <Filter>2DPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\TileMapLayerRenderable.cpp">
       <Filter>2DPrimitives</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\TileSet.cpp">
@@ -325,6 +351,12 @@
     <ClCompile Include="src\EventSystem\EventTypes\TileSelectedEvent.cpp">
       <Filter>EventSystem\EventTypes</Filter>
     </ClCompile>
+    <ClCompile Include="src\FontRenderingSystem\Font.cpp">
+      <Filter>FontRenderingSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Material.cpp">
+      <Filter>Graphics\Renderer\MaterialSystem</Filter>
+    </ClCompile>
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Shader.cpp">
       <Filter>Graphics\Renderer\MaterialSystem</Filter>
     </ClCompile>
@@ -377,8 +409,5 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\2DPrimitives\Renderable2D.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Material.cpp" />
-    <ClCompile Include="src\2DPrimitives\TileMapLayerRenderable.cpp" />
   </ItemGroup>
 </Project>

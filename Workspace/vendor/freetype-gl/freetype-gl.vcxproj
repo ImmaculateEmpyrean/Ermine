@@ -76,7 +76,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ER_BUILDING_ON_WINDOWS;ER_DEBUG_DEVELOP;ER_BUILDING_FOR_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>freetype-gl-master;..\freetype\freetype-2.10.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>freetype-gl-master;..\freetype\freetype-2.10.2\include;..\Glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -94,7 +94,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ER_BUILDING_ON_WINDOWS;ER_DEBUG_SHIP;ER_BUILDING_FOR_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>freetype-gl-master;..\freetype\freetype-2.10.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>freetype-gl-master;..\freetype\freetype-2.10.2\include;..\Glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -112,7 +112,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ER_BUILDING_ON_WINDOWS;ER_RELEASE_SHIP;ER_BUILDING_FOR_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>freetype-gl-master;..\freetype\freetype-2.10.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>freetype-gl-master;..\freetype\freetype-2.10.2\include;..\Glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -129,17 +129,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="freetype-gl-master\distance-field.h" />
+    <ClInclude Include="freetype-gl-master\edtaa3func.h" />
     <ClInclude Include="freetype-gl-master\freetype-gl.h" />
     <ClInclude Include="freetype-gl-master\opengl.h" />
     <ClInclude Include="freetype-gl-master\platform.h" />
     <ClInclude Include="freetype-gl-master\texture-atlas.h" />
+    <ClInclude Include="freetype-gl-master\texture-font.h" />
+    <ClInclude Include="freetype-gl-master\utf8-utils.h" />
     <ClInclude Include="freetype-gl-master\vec234.h" />
     <ClInclude Include="freetype-gl-master\vector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="freetype-gl-master\distance-field.c" />
+    <ClCompile Include="freetype-gl-master\edtaa3func.c" />
     <ClCompile Include="freetype-gl-master\platform.c" />
     <ClCompile Include="freetype-gl-master\texture-atlas.c" />
     <ClCompile Include="freetype-gl-master\texture-font.c" />
+    <ClCompile Include="freetype-gl-master\utf8-utils.c" />
     <ClCompile Include="freetype-gl-master\vector.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

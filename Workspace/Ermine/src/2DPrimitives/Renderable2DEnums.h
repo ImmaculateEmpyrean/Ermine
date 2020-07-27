@@ -7,5 +7,6 @@ enum class Renderable2DType
 {
 	Renderable2D = 1,
 	ACTOR2D		 = 2,
-	TileMap		 = 3
+	TileMap		 = 3,
+	Label		 = 4
 };

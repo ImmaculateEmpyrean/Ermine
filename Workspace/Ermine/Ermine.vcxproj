@@ -140,9 +140,10 @@
   <ItemGroup>
     <ClInclude Include="src\2DPrimitives\Actor2D.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\Quad.h" />
-    <ClInclude Include="src\2DPrimitives\Renderable2DEnums.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\Vertex.h" />
+    <ClInclude Include="src\2DPrimitives\Label.h" />
     <ClInclude Include="src\2DPrimitives\Renderable2D.h" />
+    <ClInclude Include="src\2DPrimitives\Renderable2DEnums.h" />
     <ClInclude Include="src\2DPrimitives\Sprite.h" />
     <ClInclude Include="src\2DPrimitives\TileMap.h" />
     <ClInclude Include="src\2DPrimitives\TileMapLayerRenderable.h" />
@@ -150,6 +151,7 @@
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\EngineResourceHandlers\EditorDefaultStrings.h" />
+    <ClInclude Include="src\EngineResourceHandlers\GlobalFontCache.h" />
     <ClInclude Include="src\EngineResourceHandlers\GlobalTextureCache.h" />
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.h" />
     <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileMap.h" />
@@ -174,6 +176,7 @@
     <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TileSelectedEvent.h" />
+    <ClInclude Include="src\FontRenderingSystem\Font.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Material.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Shader.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Texture.h" />
@@ -231,6 +234,7 @@
     <ClCompile Include="src\EventSystem\EventTypes\ScrollCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\TileSelectedEvent.cpp" />
+    <ClCompile Include="src\FontRenderingSystem\Font.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Material.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Shader.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Texture.cpp" />

@@ -1,13 +1,42 @@
-/* Freetype GL - A C OpenGL Freetype engine
+/* ============================================================================
+ * Freetype GL - A C OpenGL Freetype engine
+ * Platform:    Any
+ * WWW:         http://code.google.com/p/freetype-gl/
+ * ----------------------------------------------------------------------------
+ * Copyright 2011,2012 Nicolas P. Rougier. All rights reserved.
  *
- * Distributed under the OSI-approved BSD 2-Clause License.  See accompanying
- * file `LICENSE` for more details.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice,
+ *     this list of conditions and the following disclaimer.
+ *
+ *  2. Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY NICOLAS P. ROUGIER ''AS IS'' AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+ * EVENT SHALL NICOLAS P. ROUGIER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are
+ * those of the authors and should not be interpreted as representing official
+ * policies, either expressed or implied, of Nicolas P. Rougier.
+ * ============================================================================
  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 #include <limits.h>
+#include "opengl.h"
 #include "texture-atlas.h"
 
 
@@ -23,7 +52,7 @@ texture_atlas_new( const size_t width,
     // sampling texture
     ivec3 node = {{1,1,width-2}};
 
-    assert( (depth == 1) || (depth == 3) || (depth == 4) );
+	assert((depth == 1) || (depth == 2) || (depth == 3) || (depth == 4));
     if( self == NULL)
     {
         fprintf( stderr,
@@ -62,6 +91,10 @@ texture_atlas_delete( texture_atlas_t *self )
     {
         free( self->data );
     }
+    if( self->id )
+    {
+        glDeleteTextures( 1, &self->id );
+    }
     free( self );
 }
 
@@ -76,9 +109,10 @@ texture_atlas_set_region( texture_atlas_t * self,
                           const unsigned char * data,
                           const size_t stride )
 {
-    size_t i;
+    size_t i, j;
     size_t depth;
     size_t charsize;
+	unsigned char *row, *src;
 
     assert( self );
     assert( x > 0);
@@ -88,16 +122,25 @@ texture_atlas_set_region( texture_atlas_t * self,
     assert( y < (self->height-1));
     assert( (y + height) <= (self->height-1));
 
-    // prevent copying data from undefined position
-    // and prevent memcpy's undefined behavior when count is zero
-    assert(height == 0 || (data != NULL && width > 0));
-
     depth = self->depth;
     charsize = sizeof(char);
     for( i=0; i<height; ++i )
     {
-        memcpy( self->data+((y+i)*self->width + x ) * charsize * depth,
-                data + (i*stride) * charsize, width * charsize * depth  );
+		if (depth == 2)
+		{
+			row = self->data + ((y + i) * self->width + x) * charsize * depth;
+			src = data + (i * stride) * charsize;
+			for (j = 0; j < width; j++)
+			{
+				row[j * 2 + 0] = 0xff;
+				row[j * 2 + 1] = src[j];
+			}
+		}
+		else
+		{
+			memcpy(self->data + ((y + i)*self->width + x) * charsize * depth,
+				data + (i*stride) * charsize, width * charsize * depth);
+		}
     }
 }
 
@@ -111,36 +154,36 @@ texture_atlas_fit( texture_atlas_t * self,
 {
     ivec3 *node;
     int x, y, width_left;
-    size_t i;
+	size_t i;
 
     assert( self );
 
     node = (ivec3 *) (vector_get( self->nodes, index ));
     x = node->x;
-    y = node->y;
+	y = node->y;
     width_left = width;
-    i = index;
+	i = index;
 
-    if ( (x + width) > (self->width-1) )
+	if ( (x + width) > (self->width-1) )
     {
-        return -1;
+		return -1;
     }
-    y = node->y;
-    while( width_left > 0 )
-    {
+	y = node->y;
+	while( width_left > 0 )
+	{
         node = (ivec3 *) (vector_get( self->nodes, i ));
         if( node->y > y )
         {
             y = node->y;
         }
-        if( (y + height) > (self->height-1) )
+		if( (y + height) > (self->height-1) )
         {
-            return -1;
+			return -1;
         }
-        width_left -= node->z;
-        ++i;
-    }
-    return y;
+		width_left -= node->z;
+		++i;
+	}
+	return y;
 }
 
 
@@ -153,16 +196,16 @@ texture_atlas_merge( texture_atlas_t * self )
 
     assert( self );
 
-    for( i=0; i< self->nodes->size-1; ++i )
+	for( i=0; i< self->nodes->size-1; ++i )
     {
         node = (ivec3 *) (vector_get( self->nodes, i ));
         next = (ivec3 *) (vector_get( self->nodes, i+1 ));
-        if( node->y == next->y )
-        {
-            node->z += next->z;
+		if( node->y == next->y )
+		{
+			node->z += next->z;
             vector_erase( self->nodes, i+1 );
-            --i;
-        }
+			--i;
+		}
     }
 }
 
@@ -173,36 +216,36 @@ texture_atlas_get_region( texture_atlas_t * self,
                           const size_t width,
                           const size_t height )
 {
-    int y, best_index;
-    size_t best_height, best_width;
+
+	int y, best_height, best_width, best_index;
     ivec3 *node, *prev;
     ivec4 region = {{0,0,width,height}};
     size_t i;
 
     assert( self );
 
-    best_height = UINT_MAX;
+    best_height = INT_MAX;
     best_index  = -1;
-    best_width = UINT_MAX;
-    for( i=0; i<self->nodes->size; ++i )
-    {
+    best_width = INT_MAX;
+	for( i=0; i<self->nodes->size; ++i )
+	{
         y = texture_atlas_fit( self, i, width, height );
-        if( y >= 0 )
-        {
+		if( y >= 0 )
+		{
             node = (ivec3 *) vector_get( self->nodes, i );
-            if( ( (y + height) < best_height ) ||
-                ( ((y + height) == best_height) && (node->z > 0 && (size_t)node->z < best_width)) )
-            {
-                best_height = y + height;
-                best_index = i;
-                best_width = node->z;
-                region.x = node->x;
-                region.y = y;
-            }
+			if( ( (y + height) < best_height ) ||
+                ( ((y + height) == best_height) && (node->z < best_width)) )
+			{
+				best_height = y + height;
+				best_index = i;
+				best_width = node->z;
+				region.x = node->x;
+				region.y = y;
+			}
         }
     }
-
-    if( best_index == -1 )
+   
+	if( best_index == -1 )
     {
         region.x = -1;
         region.y = -1;
@@ -273,3 +316,49 @@ texture_atlas_clear( texture_atlas_t * self )
     vector_push_back( self->nodes, &node );
     memset( self->data, 0, self->width*self->height*self->depth );
 }
+
+
+// --------------------------------------------------- texture_atlas_upload ---
+void
+texture_atlas_upload( texture_atlas_t * self )
+{
+    assert( self );
+    assert( self->data );
+
+    if( !self->id )
+    {
+        glGenTextures( 1, &self->id );
+    }
+
+    glBindTexture( GL_TEXTURE_2D, self->id );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    if( self->depth == 4 )
+    {
+#ifdef GL_UNSIGNED_INT_8_8_8_8_REV
+        glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, self->width, self->height,
+                      0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, self->data );
+#else
+        glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, self->width, self->height,
+                      0, GL_RGBA, GL_UNSIGNED_BYTE, self->data );
+#endif
+    }
+    else if( self->depth == 3 )
+    {
+        glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, self->width, self->height,
+                      0, GL_RGB, GL_UNSIGNED_BYTE, self->data );
+    }
+	else if (self->depth == 2)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, self->width, self->height,
+			0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, self->data);
+	}
+    else
+    {
+        glTexImage2D( GL_TEXTURE_2D, 0, GL_RED, self->width, self->height,
+			0, GL_RED, GL_UNSIGNED_BYTE, self->data);
+    }
+}
+
