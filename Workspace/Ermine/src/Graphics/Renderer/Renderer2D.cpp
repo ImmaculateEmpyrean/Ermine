@@ -15,6 +15,8 @@
 
 #include "imgui.h"
 
+#include "2DPrimitives/Constructs/MovableObject.h"
+
 #pragma region StaticDeclarationRegion
 
 std::once_flag Ermine::Renderer2D::InitializationFlag;
@@ -130,10 +132,13 @@ namespace Ermine
 			{
 				i->Bind();
 
+				if(dynamic_cast <Ermine::MovableObject*>(i))
+				{
+					i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ModelMatrix"), ((Actor2D*)i)->GetModelMatrix());
+				}
 				if(i->GetType() == Renderable2DType::ACTOR2D)
 				{
 					Actor2D* Actor = (Actor2D*)i;
-					i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ModelMatrix"), ((Actor2D*)i)->GetModelMatrix());
 					int BindSlot = GlobalTextureCache::Get()->Bind(((Actor2D*)i)->GetSprite()->GetTexture());
 					i->GetMaterialBeingUsed()->GetShader()->Uniformi(std::string("texture1"), BindSlot);
 				}

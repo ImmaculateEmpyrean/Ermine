@@ -13,13 +13,14 @@
 
 #include "glm.hpp"
 #include "2DPrimitives/Renderable2D.h"
+#include "2DPrimitives/Constructs/MovableObject.h"
 
 #include "EngineResourceHandlers/GlobalFontCache.h"
 #include "FontRenderingSystem/Font.h"
 
 namespace Ermine
 {
-	class Label : public Renderable2D
+	class Label : public Renderable2D, public MovableObject
 	{
 	public:
 		//An Empty Label Makes No Sense Though It Could Exist I Suppose

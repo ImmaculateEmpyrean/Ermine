@@ -141,7 +141,8 @@
     <ClInclude Include="src\2DPrimitives\Actor2D.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\Quad.h" />
-    <ClInclude Include="src\2DPrimitives\Constructs\Vertex.h" />
+    <ClInclude Include="src\2DPrimitives\Constructs\VertexBase.h" />
+    <ClInclude Include="src\2DPrimitives\Constructs\VertexTextured.h" />
     <ClInclude Include="src\2DPrimitives\Label.h" />
     <ClInclude Include="src\2DPrimitives\Renderable2D.h" />
     <ClInclude Include="src\2DPrimitives\Renderable2DEnums.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="src\EventSystem\EventTypes\TileSelectedEvent.h" />
     <ClInclude Include="src\FontRenderingSystem\Font.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Material.h" />
+    <ClInclude Include="src\Graphics\Renderer\MaterialSystem\RenderableTextureModule.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Shader.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Texture.h" />
     <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h" />
@@ -205,7 +207,8 @@
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp" />
-    <ClCompile Include="src\2DPrimitives\Constructs\Vertex.cpp" />
+    <ClCompile Include="src\2DPrimitives\Constructs\VertexBase.cpp" />
+    <ClCompile Include="src\2DPrimitives\Constructs\VertexTextured.cpp" />
     <ClCompile Include="src\2DPrimitives\Renderable2D.cpp" />
     <ClCompile Include="src\2DPrimitives\Sprite.cpp" />
     <ClCompile Include="src\2DPrimitives\TileMap.cpp" />

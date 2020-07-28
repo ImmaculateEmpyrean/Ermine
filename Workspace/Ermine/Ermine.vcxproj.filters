@@ -81,9 +81,6 @@
     <ClInclude Include="src\2DPrimitives\Constructs\Quad.h">
       <Filter>2DPrimitives\Constructs</Filter>
     </ClInclude>
-    <ClInclude Include="src\2DPrimitives\Constructs\Vertex.h">
-      <Filter>2DPrimitives\Constructs</Filter>
-    </ClInclude>
     <ClInclude Include="src\2DPrimitives\Label.h">
       <Filter>2DPrimitives</Filter>
     </ClInclude>
@@ -258,13 +255,15 @@
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
     <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h" />
+    <ClInclude Include="src\Graphics\Renderer\MaterialSystem\RenderableTextureModule.h" />
+    <ClInclude Include="src\2DPrimitives\Constructs\VertexBase.h">
+      <Filter>2DPrimitives\Constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\Constructs\VertexTextured.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp">
       <Filter>2DPrimitives</Filter>
-    </ClCompile>
-    <ClCompile Include="src\2DPrimitives\Constructs\Vertex.cpp">
-      <Filter>2DPrimitives\Constructs</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\Renderable2D.cpp">
       <Filter>2DPrimitives</Filter>
@@ -412,5 +411,9 @@
     </ClCompile>
     <ClCompile Include="src\EngineResourceHandlers\GlobalFontCache.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp" />
+    <ClCompile Include="src\2DPrimitives\Constructs\VertexBase.cpp">
+      <Filter>2DPrimitives\Constructs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\Constructs\VertexTextured.cpp" />
   </ItemGroup>
 </Project>
