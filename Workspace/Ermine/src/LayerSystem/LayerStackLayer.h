@@ -32,6 +32,8 @@ namespace Ermine
 		//Note This Function Will Cause The Layer To Copy Said Object Into Memory.. 
 		void SubmitRenderable(Renderable2D* RenderableObj);
 
+		void AddLabel(std::string Text, glm::vec3 Color,glm::vec3 PositionInScreenCoordinates,std::string FontName);
+
 		//Clear All Submitted Renderables
 		void Clear();
 

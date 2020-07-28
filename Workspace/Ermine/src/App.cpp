@@ -84,7 +84,7 @@ void Ermine::App::OnAttach()
 
 void Ermine::App::OnTick()
 {
-	/*static bool l = true;
+	static bool l = true;
 	//Ermine::Material mat(std::filesystem::path("Shader/Actor2DBaseMaterial.json"));
 
 	auto Manager = Ermine::GlobalTextureCache::Get();
@@ -141,7 +141,7 @@ void Ermine::App::OnTick()
 	{
 		Act->Translate({ 1.0f,1.0f });
 		Act->Scale({ 1.02f,1.02f });
-	}*/
+	}
 
 	/*//static Ermine::TileMap Map("TileMap/TestTileMap.json");
 	static Ermine::TileMap Map("TileMap/UnderConsideration.json");
@@ -183,7 +183,7 @@ void Ermine::App::OnTick()
 	
 	Renderer2D::EndScene();*/
 
-	//static Ermine::Font fonttest("AgencyFb.ttf",80);
+	/*//static Ermine::Font fonttest("AgencyFb.ttf",80);
 	auto FontCache = GlobalFontCache::Get();
 	FontCache->SetFontSize(80);
 	FontCache->LoadFontFromFile(std::filesystem::path("AgencyFb.ttf"));
@@ -242,7 +242,7 @@ void Ermine::App::OnTick()
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
-	//Ended Draw Freetype-gl Font Atlas..
+	//Ended Draw Freetype-gl Font Atlas..*/
 	
 }
 

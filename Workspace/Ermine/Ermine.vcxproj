@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\2DPrimitives\Actor2D.h" />
+    <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\Quad.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\Vertex.h" />
     <ClInclude Include="src\2DPrimitives\Label.h" />
@@ -203,6 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp" />
+    <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\Vertex.cpp" />
     <ClCompile Include="src\2DPrimitives\Renderable2D.cpp" />
     <ClCompile Include="src\2DPrimitives\Sprite.cpp" />
