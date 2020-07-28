@@ -2,14 +2,14 @@
 #include<iostream>
 #include<vector>
 #include<string>
-
 #include<mutex>
 
 #include "Core.h"
 
-#include "EngineResourceHandlers/GlobalTextureCache.h" //This Is Now Primarirly Used For The HAsh Function Of The Unordered Map..
+#include "EngineResourceHandlers/GlobalTextureCache.h"
 
 #include "glm.hpp"
+
 #include "2DPrimitives/Renderable2D.h"
 #include "2DPrimitives/Actor2D.h"
 #include "2DPrimitives/TileMap.h"
@@ -19,7 +19,6 @@
 #include "Graphics/Renderer/MaterialSystem/Texture.h"
 
 #include "RendererPrimitives/VertexArray.h"
-//#include "RendererPrimitives/RendererPrimitives2D/TileMapRendererPrimitive.h"
 
 #include "LayerSystem/LayerStack.h"
 
@@ -43,37 +42,22 @@ namespace Ermine
 		static void SubmitLayer(LayerStackLayer layer, int index);
 
 		//This Will Be Implemented Properly Another Day When The Event System Is Properly Fixed.. For Now It just copies Over The Layers into the layer stack held by the renderer
-		static void SubmitLayerStack(LayerStack& layerstack);
+		//static void SubmitLayerStack(LayerStack& layerstack); //This Has Been Commented Out So As To Avoid Ambiguity.. Why Call A Method Which HAs Not Yet Been Implemented
 		
 		//This is a smooth function clears layer stack in the renderer and places this stack in its place..
 		static void ReplaceLayerStackWithStack(LayerStack layerstack);
 
-		//static void DrawActor2D(Actor2D* Act);
-		//static void DrawTileMap(TileMap* Tm);
-
 		static void EndScene();
 
-		//static void SetNumberOfGridsOnScreen(glm::vec<2, int> NumberOnXAndY);
-		
-		//void ClearStowedActors();
-
 	public:
-		//Shader Cache
-		//Ermine::Shader* Actor2DShader;
-		//Ermine::Shader* TileMapShader;
 
 	protected:
 
 	protected:
 
 	private:
-		void DrawingHelper();
-		//static void DrawActorsHelper();
-		//void DrawTileMapHelper();
-
-		//std::pair<VertexArray, std::unordered_map<std::filesystem::path, float>> CreateVertexArrayForLayer(Ermine::TileMap::Layer& layer,
-			//																							   TileMap* tm);
-
+		void DrawingRoutine();
+		
 	private:
 		static std::once_flag InitializationFlag;
 		static Renderer2D* GlobalRenderer2DObj;
@@ -85,12 +69,5 @@ namespace Ermine
 		bool SceneBegin;
 
 		LayerStack RendererLayerStack;
-		//These Buffers Are Irrelevant
-		/*std::vector<Actor2D*> StowedActors;
-		std::vector<TileMap*> StowedTileMaps;*/
-
-		/*//Variables Exclusive To TileMap Rendering
-		int NumberOfGridsInXOnScreen = 10;
-		int NumberOfGridsInYOnScreen = 10;*/
 	};
 }
