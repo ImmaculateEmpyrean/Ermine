@@ -409,5 +409,6 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
+    <ClCompile Include="src\EngineResourceHandlers\GlobalFontCache.cpp" />
   </ItemGroup>
 </Project>

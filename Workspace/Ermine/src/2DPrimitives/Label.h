@@ -14,7 +14,8 @@
 #include "glm.hpp"
 #include "2DPrimitives/Renderable2D.h"
 
-#include "freetype-gl-master/freetype-gl.h"
+#include "EngineResourceHandlers/GlobalFontCache.h"
+#include "FontRenderingSystem/Font.h"
 
 namespace Ermine
 {

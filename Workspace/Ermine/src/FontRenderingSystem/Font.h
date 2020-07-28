@@ -29,10 +29,18 @@ namespace Ermine
 		//This I Guess Is A Specialized Way To Create A Font 
 		Font(std::string FontName,std::filesystem::path FontFilePath);
 
+		//All Inclusive Way To Create A Font 
+		Font(std::string FontName, std::filesystem::path FontFilePath,int FontSize);
+
 		//Destructor..
 		~Font();
 
 	public:
+		Font(const Font& rhs);
+		Font(Font&& rhs);
+
+		Font operator=(const Font& rhs);
+		Font operator=(Font&& rhs);
 
 	public:
 
@@ -43,12 +51,14 @@ namespace Ermine
 	private:
 		void HelperLoadTextureAtlasAndFont(std::filesystem::path FontFilePath, int FontSize);
 
-	public: //For Now Change It Ti Private Once Its Done
+		void HelperCopyConstructor(const Font& rhs);
+		void HelperMoveConstructor(Font&& rhs);
+
+	public: //For Now Change It To Private Once Its Done
 		//The Default Name Is Populated Using The FileName If The Constructor Taking The FontName Is Not USed..
 		std::string FontName;
-
-		//The Size Must Be Specified When Loading In The Font. 0 Means No Font Is Loaded..
 		int FontSize = 0;
+		std::filesystem::path FontFilePath;
 
 		ftgl::texture_font_t* FontTexture = nullptr;
 		ftgl::texture_atlas_t* FontAtlas = nullptr;

@@ -31,7 +31,7 @@
 #include "2DPrimitives/TileMap.h"
 
 
-
+#include "EngineResourceHandlers/GlobalFontCache.h"
 #include "FontRenderingSystem/Font.h"
 
 #pragma region StaticDefines
@@ -55,12 +55,6 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
 	WindowHandler::GlobalWindowHandler = new WindowHandler();
 	WindowHandler::GlobalWindowHandler->SubmitWindowFront(std::make_unique<DebugMainWindow>());
 	//Ended Create Window Handler..//
-
-	/*static FT_Library ft;
-	if (FT_Init_FreeType(&ft))
-		std::cout << "ERROR::FREETYPE: Could not init FreeType Library" << std::endl;
-	else
-		std::cout << "Guess Freetype Compiled Successfully" << std::endl;*/
 
 	OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
 }
@@ -189,7 +183,12 @@ void Ermine::App::OnTick()
 	
 	Renderer2D::EndScene();*/
 
-	static Ermine::Font fonttest("Font/Futura.ttf",20);
+	//static Ermine::Font fonttest("AgencyFb.ttf",80);
+	auto FontCache = GlobalFontCache::Get();
+	FontCache->SetFontSize(80);
+	FontCache->LoadFontFromFile(std::filesystem::path("AgencyFb.ttf"));
+
+	auto fonttest = (*FontCache)["AgencyFb"];
 
 	//Start Draw Freetype-gl Font Atlas..
 	//static Texture* Tex = new Texture("AnoHiMitaHana.png");
@@ -232,7 +231,7 @@ void Ermine::App::OnTick()
 
 	
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, fonttest.FontTexture->atlas->id);//fonttest.FontAtlas->id);
+	glBindTexture(GL_TEXTURE_2D, fonttest->FontTexture->atlas->id);//fonttest.FontAtlas->id);
 	glBindVertexArray(VAO);
 	AtlasShader.Bind();
 

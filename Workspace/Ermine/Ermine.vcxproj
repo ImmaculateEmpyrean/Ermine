@@ -212,6 +212,7 @@
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\Core.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\EditorDefaultStrings.cpp" />
+    <ClCompile Include="src\EngineResourceHandlers\GlobalFontCache.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.cpp" />
     <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileMap.cpp" />
