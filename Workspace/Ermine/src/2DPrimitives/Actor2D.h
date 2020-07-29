@@ -3,15 +3,13 @@
 #include<string>
 #include<vector>
 
-#include "Graphics/Renderer/RendererPrimitives/VertexArray.h"
-
 #include "Constructs/Quad.h"
 #include "Constructs/MovableObject.h"
 #include "glm.hpp"
 
+#include "2DPrimitives/PrimitiveType2D.h"
 #include "2DPrimitives/Sprite.h"
-//#include "Renderable2D.h"
-#include "Graphics/Renderer/MaterialSystem/RenderableTextureModule.h"
+#include "Graphics/Renderer/RenderableComponents/RenderableTextureModule.h"
 
 namespace Ermine {
 
@@ -42,7 +40,7 @@ namespace Ermine {
 		std::shared_ptr<Sprite> GetSprite();
 		void SetSprite(std::shared_ptr<Sprite> Sprite);
 
-		virtual Renderable2DType GetType() { return Renderable2DType::ACTOR2D; }
+		virtual Ermine::PrimitiveType2D GetType() { return PrimitiveType2D::ACTOR2D; }
 
 	public:
 

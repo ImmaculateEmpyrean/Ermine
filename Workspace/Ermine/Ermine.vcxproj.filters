@@ -84,12 +84,6 @@
     <ClInclude Include="src\2DPrimitives\Label.h">
       <Filter>2DPrimitives</Filter>
     </ClInclude>
-    <ClInclude Include="src\2DPrimitives\Renderable2D.h">
-      <Filter>2DPrimitives</Filter>
-    </ClInclude>
-    <ClInclude Include="src\2DPrimitives\Renderable2DEnums.h">
-      <Filter>2DPrimitives</Filter>
-    </ClInclude>
     <ClInclude Include="src\2DPrimitives\Sprite.h">
       <Filter>2DPrimitives</Filter>
     </ClInclude>
@@ -255,17 +249,20 @@
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
     <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h" />
-    <ClInclude Include="src\Graphics\Renderer\MaterialSystem\RenderableTextureModule.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\VertexBase.h">
       <Filter>2DPrimitives\Constructs</Filter>
     </ClInclude>
     <ClInclude Include="src\2DPrimitives\Constructs\VertexTextured.h" />
+    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.h" />
+    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.h">
+      <Filter>2DPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\PrimitiveType2D.h">
+      <Filter>2DPrimitives</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp">
-      <Filter>2DPrimitives</Filter>
-    </ClCompile>
-    <ClCompile Include="src\2DPrimitives\Renderable2D.cpp">
       <Filter>2DPrimitives</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\Sprite.cpp">
@@ -415,6 +412,9 @@
       <Filter>2DPrimitives\Constructs</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\Constructs\VertexTextured.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\MaterialSystem\RenderableTextureModule.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.cpp">
+      <Filter>2DPrimitives</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

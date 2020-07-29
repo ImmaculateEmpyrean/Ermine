@@ -144,8 +144,8 @@
     <ClInclude Include="src\2DPrimitives\Constructs\VertexBase.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\VertexTextured.h" />
     <ClInclude Include="src\2DPrimitives\Label.h" />
-    <ClInclude Include="src\2DPrimitives\Renderable2D.h" />
-    <ClInclude Include="src\2DPrimitives\Renderable2DEnums.h" />
+    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.h" />
+    <ClInclude Include="src\2DPrimitives\PrimitiveType2D.h" />
     <ClInclude Include="src\2DPrimitives\Sprite.h" />
     <ClInclude Include="src\2DPrimitives\TileMap.h" />
     <ClInclude Include="src\2DPrimitives\TileMapLayerRenderable.h" />
@@ -180,7 +180,7 @@
     <ClInclude Include="src\EventSystem\EventTypes\TileSelectedEvent.h" />
     <ClInclude Include="src\FontRenderingSystem\Font.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Material.h" />
-    <ClInclude Include="src\Graphics\Renderer\MaterialSystem\RenderableTextureModule.h" />
+    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Shader.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Texture.h" />
     <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h" />
@@ -209,7 +209,7 @@
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\VertexBase.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\VertexTextured.cpp" />
-    <ClCompile Include="src\2DPrimitives\Renderable2D.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.cpp" />
     <ClCompile Include="src\2DPrimitives\Sprite.cpp" />
     <ClCompile Include="src\2DPrimitives\TileMap.cpp" />
     <ClCompile Include="src\2DPrimitives\TileMapLayerRenderable.cpp" />
@@ -242,7 +242,7 @@
     <ClCompile Include="src\EventSystem\EventTypes\TileSelectedEvent.cpp" />
     <ClCompile Include="src\FontRenderingSystem\Font.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Material.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\MaterialSystem\RenderableTextureModule.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Shader.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Texture.cpp" />
     <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp" />

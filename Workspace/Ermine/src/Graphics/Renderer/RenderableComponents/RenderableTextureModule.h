@@ -11,10 +11,10 @@
 #include<memory>
 #include<filesystem>
 
-#include "Texture.h"
-#include "Material.h"
+#include "Graphics/Renderer/MaterialSystem/Texture.h"
+#include "Graphics/Renderer/MaterialSystem/Material.h"
 
-#include "2DPrimitives/Renderable2D.h"
+#include "Renderable2D.h"
 
 #include "EngineResourceHandlers/GlobalTextureCache.h"
 

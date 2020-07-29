@@ -5,7 +5,8 @@
 
 #include "EngineResourceHandlers/GlobalTextureCache.h"
 
-#include "Graphics/Renderer/MaterialSystem/RenderableTextureModule.h"
+#include "2DPrimitives/PrimitiveType2D.h"
+#include "Graphics/Renderer/RenderableComponents/RenderableTextureModule.h"
 
 namespace Ermine
 {
@@ -23,7 +24,7 @@ namespace Ermine
 		virtual ~TileMapLayerRenderable();
 
 	public:
-		virtual Renderable2DType GetType() { return Renderable2DType::TileMap; }
+		virtual Ermine::PrimitiveType2D GetType() { return PrimitiveType2D::TileMap; }
 
 	public:
 

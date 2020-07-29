@@ -1,7 +1,7 @@
 #pragma once
 
 /*
-	A Label Is Used To Primarily Draw Text U Submit a Label To a Layer Which When Parsed By The Renderer Draws Text..
+	A Label Is Used To Primarily Draw Text, U Submit a Label To a Layer Which When Parsed By The Renderer Draws Text..
 */
 
 #include<iostream>
@@ -12,7 +12,7 @@
 #include<memory>
 
 #include "glm.hpp"
-#include "2DPrimitives/Renderable2D.h"
+#include "Graphics/Renderer/MaterialSystem/RenderableTextureModule.h"
 #include "2DPrimitives/Constructs/MovableObject.h"
 
 #include "EngineResourceHandlers/GlobalFontCache.h"
@@ -20,7 +20,7 @@
 
 namespace Ermine
 {
-	class Label : public Renderable2D, public MovableObject
+	class Label : public RenderableTextureModule , public MovableObject
 	{
 	public:
 		//An Empty Label Makes No Sense Though It Could Exist I Suppose

@@ -10,7 +10,6 @@
 
 #include "Graphics/Renderer/MaterialSystem/Material.h"
 
-#include "Renderable2DEnums.h"
 
 //Maybe We Need a Material System Instead on a standrad shader system   //#include "Graphics/Renderer/MaterialSystem/Shader.h"
 
@@ -39,8 +38,6 @@ namespace Ermine
 
 		//Clear The Vertex Array And The Material As Of This Class.. In Children This Must Behave Differently..
 		//virtual void Clear();
-
-		virtual Renderable2DType GetType() { return Renderable2DType::Renderable2D; }
 
 	public:
 

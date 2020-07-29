@@ -6,6 +6,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "Graphics/Renderer/RendererPrimitives/VertexArray.h"
+
 namespace Ermine
 {
 	Actor2D::Actor2D(std::shared_ptr<Sprite> Spr)

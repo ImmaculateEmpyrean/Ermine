@@ -13,9 +13,9 @@
 #include "Graphics/Renderer/MaterialSystem/Shader.h"
 #include "Graphics/Renderer/MaterialSystem/Texture.h"
 
-#include "2DPrimitives/Renderable2D.h"
 #include "2DPrimitives/Constructs/MovableObject.h"
-#include "Graphics/Renderer/MaterialSystem/RenderableTextureModule.h"
+#include "Graphics/Renderer/RenderableComponents/Renderable2D.h"
+#include "Graphics/Renderer/RenderableComponents/RenderableTextureModule.h"
 
 #pragma region StaticDeclarationRegion
 
