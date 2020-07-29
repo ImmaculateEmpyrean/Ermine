@@ -3,13 +3,15 @@
 #include<vector>
 #include<string>
 
-#include "Renderable2D.h"
+#include "EngineResourceHandlers/GlobalTextureCache.h"
+
+#include "Graphics/Renderer/MaterialSystem/RenderableTextureModule.h"
 
 namespace Ermine
 {
 	class Renderer2D;
 
-	class TileMapLayerRenderable : public Ermine::Renderable2D
+	class TileMapLayerRenderable : public Ermine::RenderableTextureModule//Ermine::Renderable2D
 	{
 	public:
 		//There is No Reason For This Constructor Exist And Yet it Does..
@@ -30,6 +32,9 @@ namespace Ermine
 	protected:
 
 	private:
+		virtual std::vector<float> BindTexturesContained() override;
+
+		void HelperSetupRenderableTextureModule();
 
 	private:
 		std::unordered_map<std::filesystem::path, float> TexturesAndNumbers;
