@@ -17,8 +17,12 @@ namespace Ermine
 	public:
 		//Material Can Be Empty For Now
 		Material() = default; 
+		
 		//Material As Located On The Disk..
 		Material(std::filesystem::path MaterialJsonFilePath);
+
+		//Material From Shader Paths
+		Material(std::filesystem::path VertexPath, std::filesystem::path FragmentPath);
 
 		~Material();
 	public:

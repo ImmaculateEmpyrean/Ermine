@@ -71,12 +71,22 @@ void Ermine::LayerStackLayer::HelperMoveConstructor(LayerStackLayer&& rhs)
 
 void Ermine::LayerStackLayer::HelperEmplaceRenderableInRenderablesContainer(Renderable2D* RenderableObj)
 {
-	if (dynamic_cast<Actor2D*>(RenderableObj))
-		Renderables.emplace_back(new Actor2D(*((Actor2D*)RenderableObj))); //Call The Copy Constructor Essentially..
-	if (dynamic_cast<TileMapLayerRenderable*>(RenderableObj))
-		Renderables.emplace_back(new TileMapLayerRenderable(*((TileMapLayerRenderable*)RenderableObj))); //Call The Copy Constructor Essentially..
+	if (RenderableObj != nullptr)
+	{
+		if (dynamic_cast<Actor2D*>(RenderableObj))
+			Renderables.emplace_back(new Actor2D(*((Actor2D*)RenderableObj))); //Call The Copy Constructor Essentially..
+		else if (dynamic_cast<TileMapLayerRenderable*>(RenderableObj))
+			Renderables.emplace_back(new TileMapLayerRenderable(*((TileMapLayerRenderable*)RenderableObj))); //Call The Copy Constructor Essentially..
+		else
+		{
+			Renderables.emplace_back(new Renderable2D(*RenderableObj)); //Dunno What This Is So Just Creating a Renderable Object.. (Note- Renderable Object Does Not Contain Texture Data Keep That In Mind..)
+			STDOUTDefaultLog_Trace("This Most Probably Shouldnt Be Reached Inside Layer Stack Layer :>");
+		}
+	}
 	else
-		Renderables.emplace_back(new Renderable2D(*RenderableObj)); //Dunno What This Is So Just Creating a Renderable Object.. (Note- Renderable Object Does Not Contain Texture Data Keep That In Mind..)
+	{
+		STDOUTDefaultLog_Error("Donot Submit NullPointers To Layer Stack Layer");
+	}
 }
 
 

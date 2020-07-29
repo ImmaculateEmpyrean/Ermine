@@ -23,6 +23,7 @@ namespace Ermine
 	public:
 		Renderable2D(); //An Empty Renderable Can Exist Please See That Something Default Exists For Debugging Purposes..
 		Renderable2D(VertexArray Vao);
+		Renderable2D(Material Mat);
 		Renderable2D(VertexArray Vao, Material Mat);
 
 		virtual ~Renderable2D();
@@ -35,6 +36,9 @@ namespace Ermine
 		std::shared_ptr<Material> GetMaterialBeingUsed();
 		
 		void Bind(); //Check If bind HAs To Be Virtual..
+
+		//Clear The Vertex Array And The Material As Of This Class.. In Children This Must Behave Differently..
+		//virtual void Clear();
 
 		virtual Renderable2DType GetType() { return Renderable2DType::Renderable2D; }
 

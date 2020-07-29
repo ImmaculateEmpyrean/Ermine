@@ -102,15 +102,26 @@ namespace Ermine
 
 				if(dynamic_cast <Ermine::MovableObject*>(i))
 				{
-					i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ModelMatrix"), ((Actor2D*)i)->GetModelMatrix());
-				}
-				if(i->GetType() == Renderable2DType::ACTOR2D)
-				{
-					Actor2D* Actor = (Actor2D*)i;
-					int BindSlot = GlobalTextureCache::Get()->Bind(((Actor2D*)i)->GetSprite()->GetTexture());
-					i->GetMaterialBeingUsed()->GetShader()->Uniformi(std::string("texture1"), BindSlot);
+					i->Bind();
+					
+					MovableObject* MovObj = dynamic_cast<MovableObject*>(i);
+					i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ModelMatrix"), (MovObj)->GetModelMatrix());
 				}
 				
+				if (dynamic_cast <Ermine::RenderableTextureModule*>(i))
+				{
+					i->Bind();
+
+					Ermine::RenderableTextureModule* Ptr = (RenderableTextureModule*)i;
+					std::vector<float> TextureArray = Ptr->BindTexturesContained();
+					
+					TextureArray.resize(16, -1);
+
+					TextureArray[0] = 0.0f;
+
+					i->GetMaterialBeingUsed()->GetShader()->UniformNf(std::string("Sampler2DArray"),TextureArray);
+				}
+
 				if (i->GetType() == Renderable2DType::TileMap)
 				{
 					TileMapLayerRenderable* LayerRenderable = (TileMapLayerRenderable*)i;

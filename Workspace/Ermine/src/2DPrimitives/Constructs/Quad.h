@@ -14,11 +14,11 @@ namespace Ermine
     public:
         static std::vector<float> GetModelCoordinates() {
             return {
-                // positions          // colors           // texture coords
-                 50.0f,  50.0f, 0.0f,   100.0f, 0.0f, 0.0f,   100.0f, 100.0f,   // top right
-                 50.0f, -50.0f, 0.0f,   0.0f, 100.0f, 0.0f,   100.0f, 0.0f,   // bottom right
-                -50.0f, -50.0f, 0.0f,   0.0f, 0.0f, 100.0f,   0.0f, 0.0f,   // bottom left
-                -50.0f,  50.0f, 0.0f,   100.0f, 100.0f, 0.0f,   0.0f, 100.0f    // top left 
+                // positions            // colors                 // texture coords   //Texture Number
+                 50.0f,  50.0f, 0.0f,   100.0f, 0.0f  , 0.0f  ,   -99.0f, -99.0f,         0.0f,
+                 50.0f, -50.0f, 0.0f,   0.0f  , 100.0f, 0.0f  ,   -99.0f, -99.0f,         0.0f,
+                -50.0f, -50.0f, 0.0f,   0.0f  , 0.0f  , 100.0f,   -99.0f, -99.0f,         0.0f,
+                -50.0f,  50.0f, 0.0f,   100.0f, 100.0f, 0.0f  ,   -99.0f, -99.0f,         0.0f
             };
         }
 
@@ -37,13 +37,13 @@ namespace Ermine
     private:
 
     private:
-        std::vector<float> vertices = {
+        /*std::vector<float> vertices = {
             // positions          // colors           // texture coords
              50.0f,  50.0f, 0.0f,   100.0f, 0.0f, 0.0f,   100.0f, 100.0f,   // top right
              50.0f, -50.0f, 0.0f,   0.0f, 100.0f, 0.0f,   100.0f, 0.0f,   // bottom right
             -50.0f, -50.0f, 0.0f,   0.0f, 0.0f, 100.0f,   0.0f, 0.0f,   // bottom left
             -50.0f,  50.0f, 0.0f,   100.0f, 100.0f, 0.0f,   0.0f, 100.0f    // top left 
-        };
+        };*/
 
 	};
 }

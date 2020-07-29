@@ -10,15 +10,15 @@
 #include "glm.hpp"
 
 #include "2DPrimitives/Sprite.h"
-#include "Renderable2D.h"
-
+//#include "Renderable2D.h"
+#include "Graphics/Renderer/MaterialSystem/RenderableTextureModule.h"
 
 namespace Ermine {
 
 	//An Actor Is Something That Is Displayed And Movable Nothing Else.. Do Not Asume It Contains Only one Sprite Or Any Such Nonesense..
 
 	//The Actor Class Is Always Described With Respect To Center Of The Quad..
-	class Actor2D : public Renderable2D,public MovableObject
+	class Actor2D : public RenderableTextureModule,public MovableObject
 	{
 	public:
 		//Having An Actor Without a Sprite At This Point Is Quiet Dangerous..
@@ -56,9 +56,6 @@ namespace Ermine {
 	private:
 		 //This Is Related To The World
 		std::shared_ptr<Sprite> Actorsprite; //This Sprite Is Owned By The Actor And Is Freed When The Actor2D Is Destroyed Probably..
-
-		
-
 	};
 
 }

@@ -242,6 +242,7 @@
     <ClCompile Include="src\EventSystem\EventTypes\TileSelectedEvent.cpp" />
     <ClCompile Include="src\FontRenderingSystem\Font.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Material.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\MaterialSystem\RenderableTextureModule.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Shader.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Texture.cpp" />
     <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp" />

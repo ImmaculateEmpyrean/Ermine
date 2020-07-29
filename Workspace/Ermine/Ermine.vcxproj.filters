@@ -415,5 +415,6 @@
       <Filter>2DPrimitives\Constructs</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\Constructs\VertexTextured.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\MaterialSystem\RenderableTextureModule.cpp" />
   </ItemGroup>
 </Project>

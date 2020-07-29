@@ -6,6 +6,10 @@
 
 namespace Ermine
 {
+	Material::Material(std::filesystem::path VertexPath, std::filesystem::path FragmentPath)
+	{
+		Shd = new Shader(VertexPath, FragmentPath);
+	}
 	Material::~Material()
 	{
 		if(Shd != nullptr)

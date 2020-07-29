@@ -9,6 +9,11 @@ Ermine::Renderable2D::Renderable2D(VertexArray Vao)
     Vao(std::make_shared<Ermine::VertexArray>(std::move(Vao)))
  {}
 
+Ermine::Renderable2D::Renderable2D(Material Mat)
+    :
+    Mat(std::make_shared<Ermine::Material>(std::move(Mat)))
+{}
+
 Ermine::Renderable2D::Renderable2D(VertexArray Vao, Material Mat)
     :
     Vao(std::make_shared<Ermine::VertexArray>(std::move(Vao))),
@@ -33,3 +38,9 @@ void Ermine::Renderable2D::Bind()
     Vao->Bind();
     Mat->Bind();
 }
+
+/*void Ermine::Renderable2D::Clear()
+{
+    Vao.reset();
+    Mat.reset();
+}*/

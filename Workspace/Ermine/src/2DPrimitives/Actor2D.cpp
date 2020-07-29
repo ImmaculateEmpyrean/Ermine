@@ -35,16 +35,16 @@ namespace Ermine
 		ModelCoordinates[7] = Actorsprite->GetBottomLeftUV().y;//Actorsprite->GetTopRightUV().y;
 
 		//Bottom Right
-		ModelCoordinates[14] = Actorsprite->GetTopRightUV().x;//ModelCoordinates[14] = Actorsprite->GetBottomLeftUV().x;
-		ModelCoordinates[15] = Actorsprite->GetTopRightUV().y;//Actorsprite->GetBottomLeftUV().y;
+		ModelCoordinates[15] = Actorsprite->GetTopRightUV().x;//ModelCoordinates[14] = Actorsprite->GetBottomLeftUV().x;
+		ModelCoordinates[16] = Actorsprite->GetTopRightUV().y;//Actorsprite->GetBottomLeftUV().y;
 
 		//Bottom Left
-		ModelCoordinates[22] = Actorsprite->GetBottomLeftUV().x;
-		ModelCoordinates[23] = Actorsprite->GetTopRightUV().y;//Actorsprite->GetBottomLeftUV().y;
+		ModelCoordinates[24] = Actorsprite->GetBottomLeftUV().x;
+		ModelCoordinates[25] = Actorsprite->GetTopRightUV().y;//Actorsprite->GetBottomLeftUV().y;
 
 		//Top Left
-		ModelCoordinates[30] = Actorsprite->GetBottomLeftUV().x;
-		ModelCoordinates[31] = Actorsprite->GetBottomLeftUV().y;//Actorsprite->GetTopRightUV().y;
+		ModelCoordinates[33] = Actorsprite->GetBottomLeftUV().x;
+		ModelCoordinates[34] = Actorsprite->GetBottomLeftUV().y;//Actorsprite->GetTopRightUV().y;
 
 		return ModelCoordinates;
 	}
@@ -61,6 +61,8 @@ namespace Ermine
 	void Actor2D::SetSprite(std::shared_ptr<Sprite> Sprite)
 	{
 		Actorsprite = Sprite;
+		RenderableTextureModule::Clear();
+		RenderableTextureModule::SubmitTexture(Actorsprite->GetTexture());
 	}
 
 
@@ -70,11 +72,13 @@ namespace Ermine
 		static std::vector<VertexAttribPointerSpecification> Spec = {
 				{3,GL_FLOAT,false},
 				{3,GL_FLOAT,false},
-				{2,GL_FLOAT,false}
+				{2,GL_FLOAT,false},
+				{1,GL_FLOAT,false}
 		};
 		Vao.SetVertexAttribArray(Spec);
+		
 		Renderable2D::SetVertexArray(std::move(Vao));
-
 		Renderable2D::SetMaterial(Ermine::Material(std::filesystem::path("Shader/Actor2DBaseMaterial.json")));
+		RenderableTextureModule::SubmitTexture(Actorsprite->GetTexture());
 	}
 }

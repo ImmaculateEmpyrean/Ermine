@@ -125,6 +125,8 @@ void Ermine::App::OnTick()
 	ImGui::Begin("Control Panel");
 	ImGui::SliderInt("Get Ind", &ind, 0, 10);
 	ImGui::Checkbox("Get Coke", &Coke);
+
+	ImGui::Image((ImTextureID)Manager->GetTextureFromFile("AnoHiMitaHana.png")->GetTextureID(), { 50,50 });
 	ImGui::End();
 
 
