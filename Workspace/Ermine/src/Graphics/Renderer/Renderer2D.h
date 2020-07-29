@@ -5,22 +5,9 @@
 #include<mutex>
 
 #include "Core.h"
-
-#include "EngineResourceHandlers/GlobalTextureCache.h"
-
 #include "glm.hpp"
-
-#include "2DPrimitives/Renderable2D.h"
-#include "2DPrimitives/Actor2D.h"
-#include "2DPrimitives/TileMap.h"
-#include "2DPrimitives/TileMapLayerRenderable.h"
-
-#include "Graphics/Renderer/MaterialSystem/Shader.h"
-#include "Graphics/Renderer/MaterialSystem/Texture.h"
-
-#include "RendererPrimitives/VertexArray.h"
-
 #include "LayerSystem/LayerStack.h"
+#include "EngineResourceHandlers/GlobalTextureCache.h"
 
 namespace Ermine
 {
