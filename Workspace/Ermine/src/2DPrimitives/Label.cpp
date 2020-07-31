@@ -129,10 +129,13 @@ void Ermine::Label::HelperConstructLabel()
 
 		//Start Construction OF The Vertices..
 
+		//s stands for x s0 for top left s1 for bottom right meaning s0 = left s1 = right
+		//t stands for y t0 for top left t1 for bottom right meaning t0 = top t1 = bottom
+		
 		//Start Construction Of Top Left Vertex..
 		TopLeft.SetPositonCoordinates({PositionXMin,PositionYMin,0.0f});
 		TopLeft.SetVertexColorValue(TextColor);
-		TopLeft.SetVertexUV({CharacterGlyph->s0,CharacterGlyph->s1});
+		TopLeft.SetVertexUV({CharacterGlyph->s0,CharacterGlyph->t0});
 		TopLeft.SetTextureNumber({ 0.0f });
 		//Ended Construction Of Top Left Vertex..
 				
@@ -146,20 +149,20 @@ void Ermine::Label::HelperConstructLabel()
 		//Start Construction Of Top Right Vertex..
 		TopRight.SetPositonCoordinates({ PositionXMax,PositionYMin,0.0f });
 		TopRight.SetVertexColorValue(TextColor);
-		TopRight.SetVertexUV({ CharacterGlyph->t0,CharacterGlyph->s1 });
+		TopRight.SetVertexUV({ CharacterGlyph->s1,CharacterGlyph->t0 });
 		TopRight.SetTextureNumber({ 0.0f });
 		//Ended Construction Of Top Right Vertex..
 
 		//Start Construction Of Bottom Right Vertex..
 		BottomRight.SetPositonCoordinates({ PositionXMax,PositionYMax,0.0f });
 		BottomRight.SetVertexColorValue(TextColor);
-		BottomRight.SetVertexUV({ CharacterGlyph->t0,CharacterGlyph->t1 });
+		BottomRight.SetVertexUV({ CharacterGlyph->s1,CharacterGlyph->t1 });
 		BottomRight.SetTextureNumber({ 0.0f });
 		//Ended Construction Of Bottom Right Vertex..
 
 		//Ended Construction Of The Vertices..
 
-		PositionXofGlyph = PositionXofGlyph + Ermine::NormalizationFunction(CharacterGlyph->advance_x, 0.0f, 1.0f, 0.0f, (float)Ermine::GetScreenWidth());
+		PositionXofGlyph = PositionXofGlyph + CharacterGlyph->advance_x;//Ermine::NormalizationFunction(CharacterGlyph->advance_x, 0.0f, 1.0f, 0.0f, (float)Ermine::GetScreenWidth());
 		NumberOfVertices = NumberOfVertices + 4;
 
 		//Counter Clockwise

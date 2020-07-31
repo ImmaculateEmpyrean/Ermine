@@ -256,7 +256,7 @@ void Ermine::App::OnTick()
 
 	glm::vec3 Color = { 1.0f,1.0f,1.0f };
 
-	static Ermine::Label Lab("A", Color,fonttest);
+	static Ermine::Label Lab("Hello World!!", Color,fonttest);
 
 	LayerStackLayer Layer("Han");
 	Layer.SubmitRenderable(&Lab);
