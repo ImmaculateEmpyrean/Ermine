@@ -21,4 +21,5 @@ namespace Ermine
 	int GetScreenHeight();
 	int GetScreenWidth();
 
+	float NormalizationFunction(float x, float LowestValueInData, float HighestValueInData, float LowestValueInNewRange = -1.0f, float HighestValueInNewRange = 1.0f);
 }

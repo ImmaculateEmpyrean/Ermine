@@ -1,0 +1,4 @@
+{
+    "VertexShaderCode":"#version330core\nlayout(location=0)invec3aPos;layout(location=1)invec3aVertexColors;layout(location=2)invec2aTexCoord;layout(location=3)infloataTextureNumber;outvec3TexColor;outvec2TexCoord;outfloatTextureNumber;uniformmat4ModelMatrix;uniformmat4ProjectionViewMatrix;voidmain(){TexColor=aVertexColors;TexCoord=vec2(aTexCoord.x,aTexCoord.y);TextureNumber=aTextureNumber;gl_Position=ProjectionViewMatrix*ModelMatrix*vec4(aPos,1.0);}",
+    "FragmentShaderCode":"#version 330 core \nout vec4 FragColor;in vec3 TexColor;in vec2 TexCoord;in float TextureNumber;uniform sampler2D[16] Sampler2DArray; void main(){     int TextureNumberInt = int(TextureNumber);    FragColor = vec4(TexColor.r,TexColor.g,TexColor.b,texture(Sampler2DArray[TextureNumberInt],TexCoord).a);}"
+}

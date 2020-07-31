@@ -55,7 +55,7 @@ namespace Ermine
 		std::vector<std::shared_ptr<Texture>>& GetBuffer();
 
 		//Binds Textures Contained Inside The Renderable Texture Module And Returns An Array Containing In which Slot Each Texture Is Bound..
-		virtual std::vector<float> BindTexturesContained();
+		virtual std::vector<int> BindTexturesContained();
 
 		//Clears Out The Contents Of The RenderableTextureModuleBuffer And Its PARENTS TOO...
 		virtual void Clear();

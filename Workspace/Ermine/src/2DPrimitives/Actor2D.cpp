@@ -80,7 +80,9 @@ namespace Ermine
 		Vao.SetVertexAttribArray(Spec);
 		
 		Renderable2D::SetVertexArray(std::move(Vao));
-		Renderable2D::SetMaterial(Ermine::Material(std::filesystem::path("Shader/Actor2DBaseMaterial.json")));
+		Renderable2D::SetMaterial(Ermine::Material(std::filesystem::path("Shader/Vertex/Actor2DUpdatedWithRenderableTextureModuleVertexShader.vert"),
+												   std::filesystem::path("Shader/Fragment/Actor2DUpdatedWithRenderableTextureModuleFragmentShader.frag")));
+		//Renderable2D::SetMaterial(Ermine::Material(std::filesystem::path("Shader/Actor2DBaseMaterial.json")));
 		RenderableTextureModule::SubmitTexture(Actorsprite->GetTexture());
 	}
 }

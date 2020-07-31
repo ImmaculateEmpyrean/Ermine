@@ -10,7 +10,10 @@ namespace Ermine
 	//Ended Static Definition Space//
 
 	GlobalFontCache::GlobalFontCache()
-	{}
+	{
+		LoadFontFromFile(std::filesystem::path("AgencyFb.ttf"));
+		DefaultFont = operator[]("AgencyFb");
+	}
 
 
 	GlobalFontCache* GlobalFontCache::Get()
@@ -51,8 +54,8 @@ namespace Ermine
 		}
 		Ermine::Font font(HelperFilePathToFileName(FontFilePath), FontFilePath, FontSize);
 	
-		std::unordered_map<std::string, Ermine::Font>& Cache = FontsCache[FontSize];
-		Cache.emplace(HelperFilePathToFileName(FontFilePath), font);
+		std::unordered_map<std::string, std::shared_ptr<Ermine::Font>>& Cache = FontsCache[FontSize];
+		Cache.emplace(HelperFilePathToFileName(FontFilePath), std::make_shared<Font>(font));
 	}
 
 
@@ -66,7 +69,7 @@ namespace Ermine
 	}
 
 
-	Font const* GlobalFontCache::operator[](std::string FontName)
+	std::shared_ptr<Font> GlobalFontCache::operator[](std::string FontName)
 	{
 		auto Casket = FontsCache.find(FontSize);
 		if (Casket != FontsCache.end())
@@ -75,7 +78,7 @@ namespace Ermine
 			if (MainCasket != Casket->second.end())
 			{
 				//This Font Already Exists So Just Return To The User
-				return &MainCasket->second;
+				return MainCasket->second;
 			}
 			else
 			{
@@ -88,6 +91,16 @@ namespace Ermine
 			STDOUTDefaultLog_Error("Requested A Font From The Global Font Cache That Does Not Exist (Even A Single Font In This FontSize Also Does Not Exist : {%d})",FontSize);
 			return nullptr;
 		}
+	}
+
+	std::shared_ptr<Font> GlobalFontCache::GetFontFromFilePath(std::filesystem::path FilePath)
+	{
+		return operator[](HelperFilePathToFileName(FilePath));
+	}
+
+	std::shared_ptr<Font> GlobalFontCache::GetDefaultFont()
+	{
+		return DefaultFont;
 	}
 
 

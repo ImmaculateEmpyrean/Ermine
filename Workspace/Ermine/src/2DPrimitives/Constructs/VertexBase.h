@@ -10,7 +10,13 @@
 
 #include<memory>
 
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+#include"Graphics/Renderer/RendererPrimitives/VertexArray.h"
+
 #include "glm.hpp"
+
+#include "Graphics/Renderer/RendererPrimitives/VertexAttribPointerSpecification.h"
 
 namespace Ermine
 {
@@ -29,7 +35,7 @@ namespace Ermine
 	public:
 
 		//Returns The Entire Vertex Data As a Vector Of Floats Has To Be Overloaded In Every Child..
-		virtual std::vector<float> GetVertexData();
+		virtual std::vector<float> GetVertexData() const;
 
 		//Set Position Coordinates Of The Vertex
 		void SetPositonCoordinates(glm::vec3 Position);
@@ -37,7 +43,7 @@ namespace Ermine
 		glm::vec3 GetPositionCoordinates();
 		
 		//Set VertexColor Values
-		void SetVertexColorValue(glm::vec3 Position);
+		void SetVertexColorValue(glm::vec3 VertexColor);
 		//Get VertexColor Coordinates Of The Vertex
 		glm::vec3 GetVertexColorValue();
 
@@ -48,22 +54,25 @@ namespace Ermine
 		virtual int GetVertexSize();
 
 		//This Sets The VertexAttributeArray Associated With This Vertex Must Be Overloaded On Each And every Child..
-		virtual void SetVertexAttribArray();
+		virtual void SetVertexAttribArray(VertexArray& Vao);
 
-		//Add Two VertexBases Together
-		std::vector<float> operator+(const VertexBase& rhs);
+		virtual operator std::vector<float>() const { return GetVertexData(); }
+
+		//This Function Takes In  A Number As Input And Generates A IndexBuffer Which Draws Quads With That Many Vertices.. See That The Number You Send Is A Multiple Of 4.. ALSO IMP THIS DOES NOT TAKE INTO ACT THE LAST VERTEX IF U SEND 24 0-23 is what matters
+		static std::vector<uint32_t>  GenerateIndexBufferQuad(int NumberOfVerticesToTakeIntoAccount = 4); 
 
 	public:
 
 	protected:
 
 	protected:
+		glm::vec3 Position = {-90.0f,-90.0f,-90.0f}; //Location 1
+		glm::vec3 VertexColor = { -91.0f,-91.0f,-90.1f }; //Location 2
 
 	private:
 
 	private:
-		glm::vec3 Position; //Location 1
-		glm::vec3 VertexColor; //Location 2
+		
 
 	};
 }

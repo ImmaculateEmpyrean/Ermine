@@ -84,7 +84,7 @@ void Ermine::App::OnAttach()
 
 void Ermine::App::OnTick()
 {
-	static bool l = true;
+	/*static bool l = true;
 	//Ermine::Material mat(std::filesystem::path("Shader/Actor2DBaseMaterial.json"));
 
 	auto Manager = Ermine::GlobalTextureCache::Get();
@@ -143,7 +143,7 @@ void Ermine::App::OnTick()
 	{
 		Act->Translate({ 1.0f,1.0f });
 		Act->Scale({ 1.02f,1.02f });
-	}
+	}*/
 
 	/*//static Ermine::TileMap Map("TileMap/TestTileMap.json");
 	static Ermine::TileMap Map("TileMap/UnderConsideration.json");
@@ -245,7 +245,41 @@ void Ermine::App::OnTick()
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 	//Ended Draw Freetype-gl Font Atlas..*/
+
+	static bool Coke = false;
 	
+	auto FontCache = GlobalFontCache::Get();
+	FontCache->SetFontSize(80);
+	FontCache->LoadFontFromFile(std::filesystem::path("AgencyFb.ttf"));
+
+	auto fonttest = (*FontCache)["AgencyFb"];
+
+	glm::vec3 Color = { 1.0f,1.0f,1.0f };
+
+	static Ermine::Label Lab("A", Color,fonttest);
+
+	LayerStackLayer Layer("Han");
+	Layer.SubmitRenderable(&Lab);
+
+	glm::mat4 Camera = glm::mat4(1.0f);
+	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
+	auto ProjectionMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);
+
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+
+	Renderer2D::SubmitLayer(Layer);
+		
+	Renderer2D::EndScene();
+
+	ImGui::Begin("Control Panel");
+	ImGui::Checkbox("Get Coke", &Coke);
+	ImGui::End();
+
+	if (Coke == true)
+	{
+		Lab.Translate({ 1.0f,1.0f });
+		Lab.Scale({ 1.02f,1.02f });
+	}
 }
 
 void Ermine::App::OnDetach()

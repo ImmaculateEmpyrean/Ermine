@@ -33,7 +33,7 @@ namespace Ermine
 	protected:
 
 	private:
-		virtual std::vector<float> BindTexturesContained() override;
+		virtual std::vector<int> BindTexturesContained() override;
 
 		void HelperSetupRenderableTextureModule();
 

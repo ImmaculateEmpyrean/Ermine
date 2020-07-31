@@ -10,8 +10,17 @@
 
 #include<memory>
 
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+#include"Graphics/Renderer/RendererPrimitives/VertexArray.h"
+
 #include "glm.hpp"
 #include "VertexBase.h"
+
+//Start Overload Operator + For std::vector<float>
+//This Operator Is Overloaded And Setup So That Vertex Classes Are Easily Added If And When Encountered..
+std::vector<float> operator+(const std::vector<float>& v1, const std::vector<float>& v2);
+//End Overload Operator + For std::vector<float>
 
 namespace Ermine
 {
@@ -36,7 +45,7 @@ namespace Ermine
 	public:
 
 		//Returns The Entire Vertex Data As a Vector Of Floats Has To Be Overloaded In Every Child..
-		virtual std::vector<float> GetVertexData();
+		virtual std::vector<float> GetVertexData() const override;
 
 		//Set VertexUV Values
 		void SetVertexUV(glm::vec2 VertexUVCoordinates);
@@ -44,9 +53,9 @@ namespace Ermine
 		glm::vec2 GetVertexUVCoordinates();
 
 		//Set TextureNumber Of The Vertex
-		void SetPositonCoordinates(float Position);
+		void SetTextureNumber(float TextureNumber);
 		//Get TextureNumber Of The Vertex
-		float GetPositionCoordinates();
+		float GetTextureNumber();
 
 		//Get The Number Of Elements In The Vertex..
 		virtual int GetNumberOfElementsInVertex();
@@ -54,23 +63,24 @@ namespace Ermine
 		//Get The Size Of The Vertex In Bytes..
 		virtual int GetVertexSize();
 
-		//This Sets The VertexAttributeArray Associated With This Vertex Must Be Overloaded On Each And every Child..
-		virtual void SetVertexAttribArray();
+		//This Sets The VertexAttributeArray Associated With This Vertex Make Sure You Bound The Required Vao Before Calling This Function Though..
+		virtual void SetVertexAttribArray(VertexArray& Vao);
 
-		//Add Two VertexBases Together
-		std::vector<float> operator+(const VertexTextured& rhs);
+		//This Is Used To Implicitly Convert The Vertex Class Into A Vector Of Floats Anytime AnyPlace.. 
+		virtual operator std::vector<float>() const override { return GetVertexData(); }
 
 	public:
 
 	protected:
 
 	protected:
+		glm::vec2 VertexUVCoordinates = {-92.0f,-92.0f };
+		float TextureNumber = -93.0f;
 
 	private:
 
 	private:
-		glm::vec2 VertexUVCoordinates;
-		float TextureNumber;
+		
 
 	};
 }

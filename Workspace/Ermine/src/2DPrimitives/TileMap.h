@@ -165,9 +165,6 @@ namespace Ermine
 		
 		bool HelperCheckIfTilesetExists(std::filesystem::path TileSetPath, int LayerNumber);
 
-		float NormalizationFunction(float x, float LowestValueInData, float HighestValueInData, float LowestValueInNewRange = -1.0f, float HighestValueInNewRange = 1.0f) const;
-		
-
 	private:
 		std::filesystem::path TileMapPath;
 

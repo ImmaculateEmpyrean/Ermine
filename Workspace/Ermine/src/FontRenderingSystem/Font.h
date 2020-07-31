@@ -42,6 +42,8 @@ namespace Ermine
 		Font operator=(const Font& rhs);
 		Font operator=(Font&& rhs);
 
+		ftgl::texture_glyph_t* GetCharGlyph(char ch);
+
 	public:
 
 	protected:

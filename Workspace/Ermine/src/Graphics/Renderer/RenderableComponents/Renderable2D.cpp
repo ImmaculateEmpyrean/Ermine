@@ -39,8 +39,8 @@ void Ermine::Renderable2D::Bind()
     Mat->Bind();
 }
 
-/*void Ermine::Renderable2D::Clear()
+void Ermine::Renderable2D::Clear()
 {
     Vao.reset();
     Mat.reset();
-}*/
+}

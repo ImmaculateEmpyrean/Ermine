@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "VertexBase.h"
 
-#include<glad/glad.h>
-#include "Graphics/Renderer/OpenGLErrorChecker.h"
-
 Ermine::VertexBase::VertexBase()
 	:
 	Position({ 0.0f,0.0f,0.0f }),
@@ -21,7 +18,7 @@ Ermine::VertexBase::VertexBase(glm::vec3 PositionData, glm::vec3 VertexColor)
 {}
 
 
-std::vector<float> Ermine::VertexBase::GetVertexData()
+std::vector<float> Ermine::VertexBase::GetVertexData() const
 {
 	std::vector<float> Vertex;
 	
@@ -35,7 +32,6 @@ std::vector<float> Ermine::VertexBase::GetVertexData()
 
 	return Vertex;
 }
-
 
 void Ermine::VertexBase::SetPositonCoordinates(glm::vec3 Position)
 {
@@ -67,52 +63,37 @@ int Ermine::VertexBase::GetVertexSize()
 	return 6 * sizeof(float);
 }
 
-void Ermine::VertexBase::SetVertexAttribArray()
+void Ermine::VertexBase::SetVertexAttribArray(VertexArray& Vao)
 {
-	GLCall(glVertexAttribPointer(0, 3, GL_FLOAT,GL_FALSE, GetVertexSize(), (void*)0));
-	GLCall(glEnableVertexAttribArray(0));
-
-	GLCall(glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, GetVertexSize(), (void*)(3*sizeof(float))));
-	GLCall(glEnableVertexAttribArray(1));
+	static std::vector<VertexAttribPointerSpecification> Spec = {
+				{3,GL_FLOAT,false},
+				{3,GL_FLOAT,false}
+	};
+	Vao.SetVertexAttribArray(Spec);
 }
 
-
-std::vector<float> Ermine::VertexBase::operator+(const VertexBase& rhs)
+std::vector<uint32_t> Ermine::VertexBase::GenerateIndexBufferQuad(int NumberOfVerticesToTakeIntoAccount)
 {
-	std::vector<float> Vertex;
+	std::vector<uint32_t> IndexBuffer;
 
-	//Start Adding First Vertex The One On LHS//
+	if((NumberOfVerticesToTakeIntoAccount % 4) != 0)
+	{
+		STDOUTDefaultLog_Error("Error In The Function GenerateIndexBufferQuad() Inside The Class VertexBase Cpp The NumberOfVerticesToTakenIntoAccount Might Not Be A Multiple Of 4 : The Value Sent IS : ({%d})", NumberOfVerticesToTakeIntoAccount);
+	}
 
-	//Start Adding Position//
-	Vertex.emplace_back(Position.x);
-	Vertex.emplace_back(Position.y);
-	Vertex.emplace_back(Position.z);
-	//Ended Adding Position//
+	int IndexCounter = 0;
+	while (IndexCounter < NumberOfVerticesToTakeIntoAccount)
+	{
+		IndexBuffer.emplace_back(IndexCounter);
+		IndexBuffer.emplace_back(IndexCounter + 1);
+		IndexBuffer.emplace_back(IndexCounter + 3);
 
-	//Start Adding VertexColor//
-	Vertex.emplace_back(VertexColor.x);
-	Vertex.emplace_back(VertexColor.y);
-	Vertex.emplace_back(VertexColor.z);
-	//Ended Adding VertexColor//
+		IndexBuffer.emplace_back(IndexCounter + 1);
+		IndexBuffer.emplace_back(IndexCounter + 2);
+		IndexBuffer.emplace_back(IndexCounter + 3);
 
-	//Ended Adding First Vertex The One On LHS//
+		IndexCounter = IndexCounter + 4;
+	}
 
-
-	//Start Adding Second Vertex The One On RHS//
-
-	//Start Adding Position//
-	Vertex.emplace_back(rhs.Position.x);
-	Vertex.emplace_back(rhs.Position.y);
-	Vertex.emplace_back(rhs.Position.z);
-	//Ended Adding Position//
-
-	//Start Adding VertexColor//
-	Vertex.emplace_back(rhs.VertexColor.x);
-	Vertex.emplace_back(rhs.VertexColor.y);
-	Vertex.emplace_back(rhs.VertexColor.z);
-	//Ended Adding VertexColor//
-
-	//Ended Adding Second Vertex The One On RHS//
-
-	return Vertex;
+	return IndexBuffer;
 }

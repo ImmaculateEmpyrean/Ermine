@@ -39,6 +39,13 @@ namespace Ermine
 
 		return width;
 	}
+
+
+	float NormalizationFunction(float x, float LowestValueInData, float HighestValueInData, float LowestValueInNewRange, float HighestValueInNewRange)
+	{
+		float y = (((x - LowestValueInData) * (HighestValueInNewRange - LowestValueInNewRange)) / (HighestValueInData - LowestValueInData)) + LowestValueInNewRange;
+		return y;
+	}
 }
 
 

@@ -37,9 +37,15 @@ namespace Ermine
 		void SetFontSize(int NewFontSize);
 		int  GetFontSize();
 
-		//Returns Pointer To Constant Font.. The Font Size Being The Currently Set FontSize VAriable Inside The GlobalFontCache Variable..
-		Font const* operator[](std::string FontName);
+		//Returns Pointer To Font.. The Font Size Being The Currently Set FontSize VAriable Inside The GlobalFontCache Variable..
+		std::shared_ptr<Font> operator[](std::string FontName);
+
+		//Returns Pointer To Font.. The Font Size Being The Currently Set FontSize VAriable Inside The GlobalFontCache Variable..
+		std::shared_ptr<Font> GetFontFromFilePath(std::filesystem::path FilePath);
 		
+		//Returns Default Font.. Use This More Like a Debug Font Of Sorts.. Your Take..
+		std::shared_ptr<Font> GetDefaultFont();
+
 	public:
 
 	protected:
@@ -58,7 +64,8 @@ namespace Ermine
 
 		/*This Is The Main Cache The Holds The Font Files To Be Used By The Engine At Will.. 
 		  Int is The Font Size While std::string is The Font Name.. */
-		std::unordered_map<int, std::unordered_map<std::string,Ermine::Font>> FontsCache;
+		std::unordered_map<int, std::unordered_map<std::string,std::shared_ptr<Ermine::Font>>> FontsCache;
 
+		std::shared_ptr<Font> DefaultFont;
 	};
 }

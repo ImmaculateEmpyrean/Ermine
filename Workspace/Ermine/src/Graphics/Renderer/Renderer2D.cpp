@@ -113,10 +113,10 @@ namespace Ermine
 					i->Bind();
 
 					Ermine::RenderableTextureModule* Ptr = (RenderableTextureModule*)i;
-					std::vector<float> TextureArray = Ptr->BindTexturesContained();
-					
-					TextureArray.resize(16, -1);
-					i->GetMaterialBeingUsed()->GetShader()->UniformNf(std::string("Sampler2DArray"),TextureArray);
+					std::vector<int> TextureArray = Ptr->BindTexturesContained();
+					TextureArray.resize(16, 0);
+
+					i->GetMaterialBeingUsed()->GetShader()->UniformNi(std::string("Sampler2DArray"),TextureArray);
 				}
 
 				i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);

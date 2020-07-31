@@ -189,6 +189,7 @@
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\RendererPrimitives2D\TileMapRendererPrimitive.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexAttribPointerSpecification.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.h" />
     <ClInclude Include="src\Graphics\Window\Window.h" />
     <ClInclude Include="src\InputSystem\ErmineKeyCodesDefinition.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\VertexBase.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\VertexTextured.cpp" />
+    <ClCompile Include="src\2DPrimitives\Label.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.cpp" />
     <ClCompile Include="src\2DPrimitives\Sprite.cpp" />
     <ClCompile Include="src\2DPrimitives\TileMap.cpp" />

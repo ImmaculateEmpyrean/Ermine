@@ -62,6 +62,11 @@ Ermine::Font Ermine::Font::operator=(Font&& rhs)
 	return *this;
 }
 
+ftgl::texture_glyph_t* Ermine::Font::GetCharGlyph(char ch)
+{
+	return ftgl::texture_font_get_glyph(FontTexture, ch);
+}
+
 
 void Ermine::Font::HelperLoadTextureAtlasAndFont(std::filesystem::path FontFilePath, int FontSize)
 {

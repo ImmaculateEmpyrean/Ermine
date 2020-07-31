@@ -56,12 +56,10 @@ namespace Ermine
     }
 
 
-    std::vector<float> RenderableTextureModule::BindTexturesContained()
+    std::vector<int> RenderableTextureModule::BindTexturesContained()
     {
-        Renderable2D::Bind();
-
-        std::vector<float> BoundVector;
-        BoundVector.resize(TexturesBuffer.size(), -99.0f);
+        std::vector<int> BoundVector;
+        BoundVector.resize(TexturesBuffer.size(), 0);
         
         auto TextureCacheGlobal = Ermine::GlobalTextureCache::Get();
 
@@ -69,8 +67,7 @@ namespace Ermine
         for (std::shared_ptr<Texture>& i : TexturesBuffer)
         {
             int BoundSlot = TextureCacheGlobal->Bind(i);
-            BoundVector[c] = BoundSlot;
-            c = c + 1;
+            BoundVector[c++] = BoundSlot;
         }
         return BoundVector;
     }
@@ -78,7 +75,7 @@ namespace Ermine
 
     void RenderableTextureModule::Clear()
     {
-        //Renderable2D::Clear();
+        Renderable2D::Clear();
         TexturesBuffer.clear();
     }
     void RenderableTextureModule::ClearTextureBuffer()

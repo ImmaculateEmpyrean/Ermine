@@ -1,10 +1,10 @@
-#version 330 core \n
+#version 330 core 
 out vec4 FragColor;
 
 in vec2 TexCoord;
 in float TextureNumber;
 
-uniform sampler2D[16] Sampler2DArray; 
+uniform sampler2D[16] Sampler2DArray;
 
 void main()
 { 

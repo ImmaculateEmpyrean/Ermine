@@ -37,7 +37,7 @@ namespace Ermine
 		void Bind(); //Check If bind HAs To Be Virtual..
 
 		//Clear The Vertex Array And The Material As Of This Class.. In Children This Must Behave Differently..
-		//virtual void Clear();
+		virtual void Clear();
 
 	public:
 

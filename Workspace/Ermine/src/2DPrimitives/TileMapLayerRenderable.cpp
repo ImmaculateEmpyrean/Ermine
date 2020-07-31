@@ -12,15 +12,15 @@ Ermine::TileMapLayerRenderable::TileMapLayerRenderable(VertexArray Vao, Material
 Ermine::TileMapLayerRenderable::~TileMapLayerRenderable()
 {}
 
-std::vector<float> Ermine::TileMapLayerRenderable::BindTexturesContained()
+std::vector<int> Ermine::TileMapLayerRenderable::BindTexturesContained()
 {
 	auto TextureCacheGlobal = Ermine::GlobalTextureCache::Get();
 
-	std::vector<float> TextureMappingUnits;
+	std::vector<int> TextureMappingUnits;
 	TextureMappingUnits.resize(16);
 
 	for (int i = 0; i < 16; i++)
-		TextureMappingUnits[i] = 0.0f;
+		TextureMappingUnits[i] = 0;
 
 	for (auto Cask = TexturesAndNumbers.begin(); Cask != TexturesAndNumbers.end(); Cask++)
 	{

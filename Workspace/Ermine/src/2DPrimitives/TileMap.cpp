@@ -540,13 +540,6 @@ namespace Ermine
 		return false;
 	}
 
-	float TileMap::NormalizationFunction(float x,float LowestValueInData,float HighestValueInData,float LowestValueInNewRange,float HighestValueInNewRange) const
-	{
-		float y = (((x - LowestValueInData) * (HighestValueInNewRange - LowestValueInNewRange)) / (HighestValueInData - LowestValueInData)) + LowestValueInNewRange;
-
-		return y;
-	}
-
 	TileMap::Layer::Layer(const Layer& rhs)
 	{
 		HelperCopyFunction(rhs);

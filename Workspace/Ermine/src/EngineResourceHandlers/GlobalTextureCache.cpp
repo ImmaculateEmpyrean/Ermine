@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "GlobalTextureCache.h"
 
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+
 #pragma region DefineStaticVariables
 
 Ermine::GlobalTextureCache* Ermine::GlobalTextureCache::TextureCache;
@@ -103,6 +106,18 @@ namespace Ermine
 
 		Tex->Bind(BindCounter);
 
-		return BindCounter;
+		//BindCounter++;
+
+		return BindCounter++;// -1;
+	}
+	int GlobalTextureCache::Bind(unsigned int OpenGlTexture)
+	{
+		if (BindCounter == 17)
+			BindCounter = 0;
+
+		glActiveTexture(GL_TEXTURE0 + BindCounter); // activate the texture unit first before binding texture
+		glBindTexture(GL_TEXTURE_2D, OpenGlTexture);
+
+		return BindCounter++;
 	}
 }
