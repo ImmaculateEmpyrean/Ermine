@@ -223,6 +223,53 @@ void Ermine::NewTileMap::Draw()
 			child_size = ImVec2(0, ImGui::GetContentRegionAvail().y - 50);
 
 		ImGui::BeginChild("TileMap##ScrollingRegion", child_size, false, ImGuiWindowFlags_HorizontalScrollbar);
+
+		//Start ToolBar For Convienience Functions
+		ImGui::Columns(2);
+
+		SetButtonColorRed();
+		if (ImGui::Button("Clear Layer##NewTileMapUIClass"))
+		{
+			for (auto& i : Map.Layers[LayerChosen].LayerData)
+			{
+				i = 0;
+			}
+		}
+		ClearButtonColor();
+
+		ImGui::NextColumn();
+
+		//Start Setting Up Eraser Functionality
+		static bool InitializeSupressedSprite = true;
+		static bool EraserSelected = false;
+		static bool EraserUnselected = true;
+		static int SupressedSpriteIndex = 0;
+		ImGui::Selectable("Tile Eraser##NewTileMapUIClassChild", &EraserSelected);
+		if (EraserSelected)
+		{
+			if (InitializeSupressedSprite)
+			{
+				SupressedSpriteIndex = SelectedSpriteIndex;
+				InitializeSupressedSprite = false;
+			}
+			EraserUnselected = true;
+			SelectedSpriteIndex = 0;
+		}
+		else
+		{
+			if (EraserUnselected)
+			{
+				EraserUnselected = false;
+				SelectedSpriteIndex = SupressedSpriteIndex;
+				InitializeSupressedSprite = true;
+			}
+		}
+		//Ended Setting Up Eraser Functionality
+
+		ImGui::Separator();
+		ImGui::Columns(1);
+		//Ended ToolBar For Convienience Functions
+
 		ImGui::Columns(Map.Layers[LayerChosen].NumberOfTilesHorizontal,(const char*)0,false);
 		for (int i = 0; i < Map.Layers[LayerChosen].NumberOfTilesHorizontal * Map.Layers[LayerChosen].NumberOfTilesVertical;i++)
 		{
@@ -354,8 +401,6 @@ void Ermine::NewTileMap::Draw()
 		DrawLayerDeletionWindow();
 
 	//Ended Child Window Draw Routines.. 
-
-	ImGui::ShowDemoWindow();
 }
 
 void Ermine::NewTileMap::DrawLayerNameInputWindow()
@@ -864,6 +909,28 @@ void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 
 	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&NewTileMap::RecieveTileSelectedEvents), RecieveTileSetSelectedEventsFlag,
 		Ermine::EventType::TileSelectedEvent);
+}
+
+void Ermine::NewTileMap::SetButtonColor(ImVec4 Color)
+{
+	ImVec4 ButtonColor = Color;
+
+	Color.x = std::min<float>(255.0f, Color.x * 1.2);
+	Color.y = std::min<float>(255.0f, Color.y * 1.2);
+	Color.z = std::min<float>(255.0f, Color.z * 1.2);
+
+	ImVec4 ButtonHovered = Color;
+
+	Color.x = std::min<float>(255.0f, Color.x * 1.2);
+	Color.y = std::min<float>(255.0f, Color.y * 1.2);
+	Color.z = std::min<float>(255.0f, Color.z * 1.2);
+
+	ImVec4 ButtonActive = Color;
+
+	ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImColor(255, 255, 255)));
+	ImGui::PushStyleColor(ImGuiCol_Button, ButtonColor);
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ButtonHovered);
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ButtonActive);
 }
 
 void Ermine::NewTileMap::SetButtonColorGreen()

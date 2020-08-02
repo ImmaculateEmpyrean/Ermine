@@ -63,6 +63,7 @@ namespace Ermine
 		void HelperMoveTileMapWindow(NewTileMap&& rhs);
 
 		//Start Set Button Colors
+		void SetButtonColor(ImVec4 Color);
 		void SetButtonColorGreen();
 		void SetButtonColorRed();
 
