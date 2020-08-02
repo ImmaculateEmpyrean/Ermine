@@ -8,9 +8,10 @@
 #include "glm.hpp"
 
 /*
-	A Sprite Is A Singular Quad Entity Which Can Be Drawn By The 2D Renderer.
 	A Sprite Consists Of The Texture From Which its Drawn And The UV's Corresponing To The Texture
 	If The Whole Texture is to be drawn set the uv's to include 0,0 and 1,1
+
+	The Sprite As Of Now Cannot Be Drawn By The Renderer2D
 */
 
 namespace Ermine
@@ -18,16 +19,18 @@ namespace Ermine
 	class Sprite 
 	{
 	public:
-		Sprite() = delete; //There is no reason for an empty sprite donot have one..
+		//Sprite Can Be Empty If It Needs To Be..
+		Sprite() = default; 
+
 		Sprite(std::shared_ptr<Texture> Tex, glm::vec2 BottomLeftUV,glm::vec2 TopRightUV);
 
 		virtual ~Sprite();
 
 	public:
-		std::shared_ptr<Texture> GetTexture();
+		virtual std::shared_ptr<Texture> GetTexture();
 
-		glm::vec2 GetBottomLeftUV();
-		glm::vec2 GetTopRightUV();
+		virtual glm::vec2 GetBottomLeftUV();
+		virtual glm::vec2 GetTopRightUV();
 
 		void SetTexture(std::shared_ptr<Texture> tex);
 
@@ -53,8 +56,8 @@ namespace Ermine
 	private:
 		std::shared_ptr<Texture> TextureContainingTheSprite; //This Texture Is Neither Created Or Owned By The Sprite..
 		
-		glm::vec2 BottomLeftUV;
-		glm::vec2 TopRightUV;
+		glm::vec2 BottomLeftUV = {0.0f,0.0f};
+		glm::vec2 TopRightUV = {1.0f,1.0f};
 
 	};
 }

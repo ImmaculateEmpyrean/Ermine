@@ -34,6 +34,8 @@
 #include "EngineResourceHandlers/GlobalFontCache.h"
 #include "FontRenderingSystem/Font.h"
 
+#include "2DPrimitives/SpriteBook.h"
+
 #pragma region StaticDefines
 
 std::once_flag Ermine::App::InitializationFlag;
@@ -55,6 +57,9 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
 	WindowHandler::GlobalWindowHandler = new WindowHandler();
 	WindowHandler::GlobalWindowHandler->SubmitWindowFront(std::make_unique<DebugMainWindow>());
 	//Ended Create Window Handler..//
+
+	//This Is To Enable Vsync On Windows Dunno Exactly what It Does Though..
+	((BOOL(WINAPI*)(int))wglGetProcAddress("wglSwapIntervalEXT"))(1);
 
 	OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
 }
@@ -246,7 +251,7 @@ void Ermine::App::OnTick()
 	glDeleteBuffers(1, &EBO);
 	//Ended Draw Freetype-gl Font Atlas..*/
 
-	static bool Coke = false;
+	/*static bool Coke = false;
 	
 	auto FontCache = GlobalFontCache::Get();
 	FontCache->SetFontSize(80);
@@ -279,7 +284,31 @@ void Ermine::App::OnTick()
 	{
 		Lab.Translate({ 1.0f,1.0f });
 		//Lab.Scale({ 1.02f,1.02f });
-	}
+	}*/
+
+	//Start SpriteBook Test//
+		
+	//The Example Is So Horrible Because Of The Way The Tileset Loads The Sprites.. It loads from top to bottom first.. however more testing is absolutely required to determine if the spritebook is even working.. 
+
+	static Ermine::TileSet Scarlet(std::filesystem::path("TileSet/Scarlet.json"));
+	static Ermine::Actor2D* Act = new Ermine::Actor2D(Scarlet.GetSpriteBuffer());
+	
+	glm::mat4 Camera = glm::mat4(1.0f);
+	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	LayerStackLayer Layer("Han");
+	Layer.SubmitRenderable(Act);
+	auto ProjectionMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);
+
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+
+	Renderer2D::SubmitLayer(Layer);
+
+	Renderer2D::EndScene();
+
+	Act->Translate({ 1.0f,1.0f });
+	//Ended SpriteBook Test//
+	
 }
 
 void Ermine::App::OnDetach()

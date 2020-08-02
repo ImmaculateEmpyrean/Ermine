@@ -9,6 +9,8 @@
 
 #include "2DPrimitives/PrimitiveType2D.h"
 #include "2DPrimitives/Sprite.h"
+#include "2DPrimitives/SpriteBook.h"
+
 #include "Graphics/Renderer/RenderableComponents/RenderableTextureModule.h"
 
 namespace Ermine {
@@ -25,8 +27,14 @@ namespace Ermine {
 		//Atleast a sprite is required to construct an actor 
 		Actor2D(std::shared_ptr<Sprite> Spr);
 
-		//This is The Default And BEst Constructor
+		//More Sprites The Better When Constructing The Actor..
+		Actor2D(std::vector<std::shared_ptr<Sprite>> SpriteBuffer);
+
+		//This is The Default And Best Constructor
 		Actor2D(std::shared_ptr<Sprite> Spr, glm::mat4 ModelMatrix);
+
+		//This is The Default and Best Constructor For SpriteBook
+		Actor2D(std::vector<std::shared_ptr<Sprite>> SpriteBuffer, glm::mat4 ModelMatrix);
 
 		//This Class Owns And Manages Pointers
 		virtual ~Actor2D();
@@ -50,6 +58,9 @@ namespace Ermine {
 
 	private:
 		void HelperInitializeRenderable2D();
+
+		//This Function Is Privated As There Is No Reason Anyone Must Know Or Call This Explicitly..
+		virtual std::vector<int> BindTexturesContained() override;
 
 	private:
 		 //This Is Related To The World

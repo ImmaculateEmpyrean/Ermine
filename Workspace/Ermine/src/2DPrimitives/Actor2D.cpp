@@ -16,11 +16,25 @@ namespace Ermine
 	{
 		HelperInitializeRenderable2D();
 	}
+	Actor2D::Actor2D(std::vector<std::shared_ptr<Sprite>> SpriteBuffer)
+	{
+		Actorsprite = std::make_shared<SpriteBook>("SpriteBuffer",SpriteBuffer);
+		HelperInitializeRenderable2D();
+	}
+
 	Actor2D::Actor2D(std::shared_ptr<Sprite> Spr, glm::mat4 ModelMatrix)
 		:
 		MovableObject(ModelMatrix),
 		Actorsprite(Spr)
 	{
+		HelperInitializeRenderable2D();
+	}
+
+	Actor2D::Actor2D(std::vector<std::shared_ptr<Sprite>> SpriteBuffer, glm::mat4 ModelMatrix)
+		:
+		MovableObject(ModelMatrix)
+	{
+		Actorsprite = std::make_shared<SpriteBook>("SpriteBuffer",SpriteBuffer);
 		HelperInitializeRenderable2D();
 	}
 
@@ -84,5 +98,20 @@ namespace Ermine
 												   std::filesystem::path("Shader/Fragment/Actor2DUpdatedWithRenderableTextureModuleFragmentShader.frag")));
 		//Renderable2D::SetMaterial(Ermine::Material(std::filesystem::path("Shader/Actor2DBaseMaterial.json")));
 		RenderableTextureModule::SubmitTexture(Actorsprite->GetTexture());
+	}
+	std::vector<int> Actor2D::BindTexturesContained()
+	{
+		std::vector<int> BoundVector;
+		BoundVector.resize(16, 0);
+
+		auto TextureCacheGlobal = Ermine::GlobalTextureCache::Get();
+
+		int BoundSlot = TextureCacheGlobal->Bind(Actorsprite->GetTexture());
+		BoundVector[0] = BoundSlot;
+		
+		//This Totally Must Not Be Here.. And Also Consider Creating a New COmponent Which Allows U to Set Uv's At Will..
+		HelperInitializeRenderable2D();
+
+		return BoundVector;
 	}
 }

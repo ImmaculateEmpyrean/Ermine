@@ -261,6 +261,7 @@
       <Filter>2DPrimitives</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexAttribPointerSpecification.h" />
+    <ClInclude Include="src\2DPrimitives\SpriteBook.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp">
@@ -418,5 +419,6 @@
       <Filter>2DPrimitives</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\Label.cpp" />
+    <ClCompile Include="src\2DPrimitives\SpriteBook.cpp" />
   </ItemGroup>
 </Project>
