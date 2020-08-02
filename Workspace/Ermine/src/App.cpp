@@ -250,13 +250,13 @@ void Ermine::App::OnTick()
 	
 	auto FontCache = GlobalFontCache::Get();
 	FontCache->SetFontSize(80);
-	FontCache->LoadFontFromFile(std::filesystem::path("AgencyFb.ttf"));
+	FontCache->LoadFontFromFile(std::filesystem::path("CalibriLight.ttf"));
 
-	auto fonttest = (*FontCache)["AgencyFb"];
+	auto fonttest = (*FontCache)["CalibriLight"];
 
 	glm::vec3 Color = { 1.0f,1.0f,1.0f };
 
-	static Ermine::Label Lab("Hello World!!", Color,fonttest);
+	static Ermine::Label Lab("Hello World", Color,fonttest);
 
 	LayerStackLayer Layer("Han");
 	Layer.SubmitRenderable(&Lab);
@@ -278,7 +278,7 @@ void Ermine::App::OnTick()
 	if (Coke == true)
 	{
 		Lab.Translate({ 1.0f,1.0f });
-		Lab.Scale({ 1.02f,1.02f });
+		//Lab.Scale({ 1.02f,1.02f });
 	}
 }
 

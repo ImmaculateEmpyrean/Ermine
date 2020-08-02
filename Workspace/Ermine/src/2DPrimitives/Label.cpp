@@ -108,6 +108,22 @@ void Ermine::Label::HelperConstructLabel()
 
 	int NumberOfVertices = 0;
 
+	//Offset Calculation Loop Calculate all offsets get the one with the highest offset subtract evrything with that offsert and use those relative ofsets in the loop down below to push the smaller characters just right while leaving the big ones almost intact biggest completely intact
+	std::vector<int> Offsets;
+	for (char ch : Text)
+	{
+		auto CharacterGlyph = fnt->GetCharGlyph(ch);
+		Offsets.emplace_back(CharacterGlyph->offset_y);
+	}
+
+	std::vector<int> OffsetsCopy = Offsets;
+	std::sort(OffsetsCopy.begin(), OffsetsCopy.end(), std::greater<int>());
+	int GreatestOffset = OffsetsCopy[0];
+
+	for (int& i : Offsets)
+		i = i - GreatestOffset;
+
+	int C = 0;
 	for (char ch : Text)
 	{
 		auto CharacterGlyph = fnt->GetCharGlyph(ch);
@@ -119,12 +135,13 @@ void Ermine::Label::HelperConstructLabel()
 		VertexTextured BottomLeft;
 		VertexTextured BottomRight;
 
+		//CharacterGlyph->
 		//Start All Of These Are In Poxel Coordinates
 		float PositionXMin = PositionXofGlyph;
 		float PositionXMax = PositionXMin + CharacterGlyph->width;   // Ermine::NormalizationFunction(, 0.0f, 1.0f, 0.0f, Ermine::GetScreenWidth());
 
-		float PositionYMin = PositionYofGlyph;
-		float PositionYMax = PositionYMin + CharacterGlyph->height;
+		float PositionYMin = PositionYofGlyph - Offsets[C++];//CharacterGlyph->offset_y;
+		float PositionYMax = PositionYMin + CharacterGlyph->height; //+ CharacterGlyph->offset_y;
 		//Ended All Of These Are In Poxel Coordinates
 
 		//Start Construction OF The Vertices..
