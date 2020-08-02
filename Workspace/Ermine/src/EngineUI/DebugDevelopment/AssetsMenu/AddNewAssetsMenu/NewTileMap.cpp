@@ -212,7 +212,16 @@ void Ermine::NewTileMap::Draw()
 	{
 		ImGui::SetNextWindowContentSize(ImVec2(Map.Layers[LayerChosen].TileWidth * Map.Layers[LayerChosen].NumberOfTilesHorizontal * 1.3f,0));
 		
-		ImVec2 child_size = ImVec2(0, ImGui::GetFontSize() * 20.0f);
+		//ImVec2 child_size = ImVec2(0, ImGui::GetFontSize() * 20.0f);
+		float HeightInY = Map.Layers[LayerChosen].NumberOfTilesVertical * Map.Layers[LayerChosen].TileHeight * 20.0f;
+
+		ImVec2 child_size;
+
+		if(HeightInY < ImGui::GetContentRegionAvail().y -50)
+			child_size = ImVec2(0,HeightInY);
+		else
+			child_size = ImVec2(0, ImGui::GetContentRegionAvail().y - 50);
+
 		ImGui::BeginChild("TileMap##ScrollingRegion", child_size, false, ImGuiWindowFlags_HorizontalScrollbar);
 		ImGui::Columns(Map.Layers[LayerChosen].NumberOfTilesHorizontal,(const char*)0,false);
 		for (int i = 0; i < Map.Layers[LayerChosen].NumberOfTilesHorizontal * Map.Layers[LayerChosen].NumberOfTilesVertical;i++)
