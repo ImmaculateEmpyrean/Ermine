@@ -17,6 +17,17 @@ Ermine::VertexBase::VertexBase(glm::vec3 PositionData, glm::vec3 VertexColor)
 	VertexColor(std::move(VertexColor))
 {}
 
+Ermine::VertexBase::VertexBase(std::vector<float> Vertex)
+{
+	Position.x = Vertex[0];
+	Position.y = Vertex[1];
+	Position.z = Vertex[2];
+
+	VertexColor.x = Vertex[3];
+	VertexColor.y = Vertex[4];
+	VertexColor.z = Vertex[5];
+}
+
 
 std::vector<float> Ermine::VertexBase::GetVertexData() const
 {

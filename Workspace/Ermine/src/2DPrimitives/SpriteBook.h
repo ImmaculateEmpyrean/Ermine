@@ -30,15 +30,18 @@ namespace Ermine
 		virtual ~SpriteBook() override;
 
 	public:
-		//This Advances The Frame Counter If Set In Delta Time Mode This May Behave Slightly Differently..
-		void CalculateFrameCounter();
-
 		//Start Implementing Overriden Contents From Sprite.//
 		virtual std::shared_ptr<Texture> GetTexture() override;
 
 		virtual glm::vec2 GetBottomLeftUV() override;
 		virtual glm::vec2 GetTopRightUV() override;
 		//Ended Implementing Overriden Contents From Sprite.//
+
+		int GetAnimationFps() { return AnimationFps; }
+		void SetAnimationFps(int Fps) { AnimationFps = Fps; }
+
+		std::string GetSpriteBookName() { return SpriteBookName; }
+		void SetSpriteBookName(std::string NewName) { SpriteBookName = NewName; }
 
 	public:
 
@@ -47,8 +50,13 @@ namespace Ermine
 	protected:
 
 	private:
+		//This Advances The Frame Counter If Set In Delta Time Mode This May Behave Slightly Differently..
+		void CalculateFrameCounter();
 
 	private:
+		//Animation Frame Rate
+		int AnimationFps = 10;
+
 		//The Name Is Generally Used Only For Debug Purposes..
 		std::string SpriteBookName;
 
@@ -56,7 +64,7 @@ namespace Ermine
 		std::vector<std::shared_ptr<Sprite>> SpriteContainer;
 
 		//Current Frame We Are In..
-		int FrameCounter = 0;
+		double FrameCounter = 0;
 		
 		//Feedback
 		bool BottomLeftFeedback = false;

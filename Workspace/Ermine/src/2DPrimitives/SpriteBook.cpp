@@ -28,10 +28,11 @@ namespace Ermine
 			TopRightFeedback = false;
 			return;
 		}
-		FrameCounter++;
+		FrameCounter = FrameCounter + (1.0f / (float)AnimationFps);
+		//FrameCounter++;
 
-		if (FrameCounter == SpriteContainer.size())
-			FrameCounter = 0;
+		if (FrameCounter >= SpriteContainer.size())
+			FrameCounter = 0.0f;
 	}
 
 	std::shared_ptr<Texture> SpriteBook::GetTexture()

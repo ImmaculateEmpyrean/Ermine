@@ -42,6 +42,12 @@ namespace Ermine
 		//VertexBase With Both UV And TextureNumber Set
 		VertexTextured(glm::vec2 VertexUVCoordinates, float TextureNumber);
 
+		//All Parameters Are Given This Constructor
+		VertexTextured(glm::vec3 PositionData, glm::vec3 VertexColor, glm::vec2 VertexUVCoordinates, float TextureNumber);
+
+		//All Parameters Are Given In Array Form
+		VertexTextured(std::vector<float> Vertex);
+
 	public:
 
 		//Returns The Entire Vertex Data As a Vector Of Floats Has To Be Overloaded In Every Child..

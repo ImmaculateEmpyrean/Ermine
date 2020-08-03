@@ -316,7 +316,37 @@ void Ermine::App::OnTick()
 
 	Renderer2D::EndScene();
 
-	Act->Translate({ 1.0f,1.0f });
+
+	static glm::vec2 Translate = glm::vec2(500.0f,600.0f);
+	static float Rotate = 4.7f;
+	static glm::vec2 Scale = glm::vec2(1.0f, 1.0f);
+
+	ImGui::Begin("Control Panel");
+
+	ImGui::InputFloat("Translate X :", &Translate.x, 1.0f, 2.0f, 4);
+	ImGui::InputFloat("Translate Y :", &Translate.y, 1.0f,2.0f, 4);
+	
+	ImGui::Separator();
+
+	ImGui::InputFloat("Rotate Angle :", &Rotate, 0.1f, 0.2f, 4);
+	
+	ImGui::Separator();
+
+	ImGui::InputFloat("Scale X : ", &Scale.x, 0.1f, 0.2f, 4);
+	ImGui::InputFloat("Scale Y : ", &Scale.y, 0.1f, 0.2f, 4);
+
+	ImGui::End();
+
+
+	Act->ClearRotations();
+	Act->Rotate(Rotate, true);
+
+	Act->ClearTranslations();
+	Act->Translate(Translate);
+
+	Act->ClearScale();
+	Act->Scale(Scale);
+
 	//Ended SpriteBook Test//
 	
 }

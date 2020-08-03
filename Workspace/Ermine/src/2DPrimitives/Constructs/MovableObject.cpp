@@ -26,6 +26,19 @@ namespace Ermine
 		return RecievedModelMatrix * ScaleMatrix * RotationMatrix * TranslationMatrix;
 	}
 
+	glm::mat4 MovableObject::GetTranslationMatrix()
+	{
+		return TranslationMatrix;
+	}
+	glm::mat4 MovableObject::GetRotationMatrix()
+	{
+		return RotationMatrix;
+	}
+	glm::mat4 MovableObject::GetScaleMatrix()
+	{
+		return ScaleMatrix;
+	}
+
 
 	void MovableObject::Translate(float x, float y)
 	{

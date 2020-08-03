@@ -22,6 +22,32 @@ namespace Ermine
             };
         }
 
+        //Start Get Individual Vertices
+        static std::vector<float> GetModelCoordinatesTopRight() {
+            return {
+                50.0f,  50.0f, 0.0f,   100.0f, 0.0f  , 0.0f  ,   -99.0f, -99.0f,         0.0f
+            };
+        }
+
+        static std::vector<float> GetModelCoordinatesBottomRight() {
+            return {
+                 50.0f, -50.0f, 0.0f,   0.0f  , 100.0f, 0.0f  ,   -99.0f, -99.0f,         0.0f
+            };
+        }
+
+        static std::vector<float> GetModelCoordinatesBottomLeft() {
+            return {
+                -50.0f, -50.0f, 0.0f,   0.0f  , 0.0f  , 100.0f,   -99.0f, -99.0f,         0.0f
+            };
+        }
+
+        static std::vector<float> GetModelCoordinatesTopLeft() {
+            return {
+                -50.0f,  50.0f, 0.0f,   100.0f, 100.0f, 0.0f  ,   -99.0f, -99.0f,         0.0f
+            };
+        }
+        //Ended Get Individual Vertices
+
         static std::vector<uint32_t> GetModelIndices() {
             return {
                     0, 1, 3, // first triangle

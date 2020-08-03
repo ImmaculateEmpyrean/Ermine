@@ -32,6 +32,9 @@ namespace Ermine
 		//VertexBase With Both Position And VertexColor Set
 		VertexBase(glm::vec3 PositionData, glm::vec3 VertexColor);
 
+		//All Parameters Are Given In Array Form
+		VertexBase(std::vector<float> Vertex);
+
 	public:
 
 		//Returns The Entire Vertex Data As a Vector Of Floats Has To Be Overloaded In Every Child..

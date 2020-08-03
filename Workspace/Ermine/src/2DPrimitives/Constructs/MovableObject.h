@@ -17,7 +17,11 @@ namespace Ermine
 		MovableObject(glm::mat4 ModelMatrix);
 
 	public:
-		glm::mat4 GetModelMatrix();
+		virtual glm::mat4 GetModelMatrix();
+
+		glm::mat4 GetTranslationMatrix();
+		glm::mat4 GetRotationMatrix();
+		glm::mat4 GetScaleMatrix();
 
 		void Translate(float x, float y);
 		void Translate(glm::vec2 TranslateByHowMuch);
@@ -39,7 +43,7 @@ namespace Ermine
 
 	private:
 
-	private:
+	public:
 		//The Model Matrix Recieved By The Constructor If Any.. This Is The Default Matrix We Will Default to In The Case Clear Is Called..
 		glm::mat4 RecievedModelMatrix;
 

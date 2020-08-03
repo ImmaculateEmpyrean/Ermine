@@ -40,7 +40,7 @@ namespace Ermine {
 		virtual ~Actor2D();
 
 	public:
-		
+		virtual glm::mat4 GetModelMatrix() override;
 
 		std::vector<float> GetModelSpaceCoordinates();
 		static std::vector<uint32_t> GetModelSpaceIndices();

@@ -38,6 +38,24 @@ Ermine::VertexTextured::VertexTextured(glm::vec2 VertexUVCoordinates, float Text
     this->TextureNumber = TextureNumber;
 }
 
+Ermine::VertexTextured::VertexTextured(glm::vec3 PositionData, glm::vec3 VertexColor, glm::vec2 VertexUVCoordinates, float TextureNumber)
+    :
+    VertexBase(PositionData,VertexColor)
+{
+    this->VertexUVCoordinates = VertexUVCoordinates;
+    this->TextureNumber = TextureNumber;
+}
+
+Ermine::VertexTextured::VertexTextured(std::vector<float> Vertex)
+    :
+    VertexBase(Vertex)
+{
+    VertexUVCoordinates.x = Vertex[6];
+    VertexUVCoordinates.x = Vertex[7];
+
+    TextureNumber = Vertex[8];
+}
+
 
 std::vector<float> Ermine::VertexTextured::GetVertexData() const
 {
