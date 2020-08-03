@@ -28,7 +28,10 @@ namespace Ermine
 			TopRightFeedback = false;
 			return;
 		}
-		FrameCounter = FrameCounter + (1.0f / (float)AnimationFps);
+		double FrameRateNow = 1.0 / TimeStep.GetSeconds();
+		double FrameRateToAdd = (float)AnimationFps / FrameRateNow;
+		FrameCounter = FrameCounter + FrameRateToAdd;
+		//FrameCounter = FrameCounter + (1.0f / (float)AnimationFps);
 		//FrameCounter++;
 
 		if (FrameCounter >= SpriteContainer.size())
