@@ -57,10 +57,7 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
 	WindowHandler::GlobalWindowHandler = new WindowHandler();
 	WindowHandler::GlobalWindowHandler->SubmitWindowFront(std::make_unique<DebugMainWindow>());
 	//Ended Create Window Handler..//
-
-	//This Is To Enable Vsync On Windows Dunno Exactly what It Does Though..
-	((BOOL(WINAPI*)(int))wglGetProcAddress("wglSwapIntervalEXT"))(1);
-
+		
 	OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
 }
 
@@ -85,6 +82,10 @@ void Ermine::App::NextFrame()
 	DeltaTimeVar = TimeS;
 	//Ended Calculate Delta Time..//
 	
+	//Start Test Block Delete After Usuage
+	glfwSwapInterval(0); //Disable VSYNC
+	//Ended Test Block Delete After Usuage
+
 	OnTick();
 	
 	ManagedWindow->PostNewFrameProcess();
@@ -296,7 +297,7 @@ void Ermine::App::OnTick()
 	}*/
 
 
-	//STDOUTLog_Trace("TimeStep : {0}", Ermine::TimeStep.GetSeconds());
+	STDOUTLog_Trace("TimeStep : {0}", Ermine::TimeStep.GetSeconds());
 
 	//Start SpriteBook Test//
 	//The Example Is So Horrible Because Of The Way The Tileset Loads The Sprites.. It loads from top to bottom first.. however more testing is absolutely required to determine if the spritebook is even working.. 
