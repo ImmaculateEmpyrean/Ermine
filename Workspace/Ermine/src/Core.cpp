@@ -9,6 +9,8 @@ int Count = 0;
 
 namespace Ermine
 {
+	Ermine::DeltaTime Ermine::TimeStep = DeltaTime();
+
 	void PrintCount()
 	{
 		std::cout <<"Count : "<< Count << std::endl;
@@ -47,20 +49,3 @@ namespace Ermine
 		return y;
 	}
 }
-
-
-
-/*void* operator new(size_t size)
-{
-	Count++;
-	std::cout << "New operator allocating : " << size<<std::endl;
-	void* p = malloc(size);
-	return p;
-}
-
-void operator delete(void* p)
-{
-	Count--;
-	std::cout << "Delete operator Deleting" <<std::endl;
-	free(p);
-}*/

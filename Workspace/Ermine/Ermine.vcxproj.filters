@@ -262,6 +262,7 @@
     </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexAttribPointerSpecification.h" />
     <ClInclude Include="src\2DPrimitives\SpriteBook.h" />
+    <ClInclude Include="src\DeltaTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp">
@@ -420,5 +421,6 @@
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\Label.cpp" />
     <ClCompile Include="src\2DPrimitives\SpriteBook.cpp" />
+    <ClCompile Include="src\DeltaTime.cpp" />
   </ItemGroup>
 </Project>

@@ -76,9 +76,18 @@ void Ermine::App::NextFrame()
 {
 	ManagedWindow->PreNewFrameProcess();
 	WindowHandler::GlobalWindowHandler->UpdateDraw();
-	OnTick();
-	ManagedWindow->PostNewFrameProcess();
 
+	//Start Calculate Delta Time..//
+	static float DeltaTimeVar = 0.0f;
+	float TimeS = glfwGetTime();// -Ermine::TimeStep;
+	DeltaTimeVar = TimeS - DeltaTimeVar;
+	Ermine::TimeStep = Ermine::DeltaTime(DeltaTimeVar);
+	DeltaTimeVar = TimeS;
+	//Ended Calculate Delta Time..//
+	
+	OnTick();
+	
+	ManagedWindow->PostNewFrameProcess();
 	Quit = ManagedWindow->ShouldIQuit();
 }
 
@@ -286,10 +295,11 @@ void Ermine::App::OnTick()
 		//Lab.Scale({ 1.02f,1.02f });
 	}*/
 
-	//Start SpriteBook Test//
-		
-	//The Example Is So Horrible Because Of The Way The Tileset Loads The Sprites.. It loads from top to bottom first.. however more testing is absolutely required to determine if the spritebook is even working.. 
 
+	//STDOUTLog_Trace("TimeStep : {0}", Ermine::TimeStep.GetSeconds());
+
+	//Start SpriteBook Test//
+	//The Example Is So Horrible Because Of The Way The Tileset Loads The Sprites.. It loads from top to bottom first.. however more testing is absolutely required to determine if the spritebook is even working.. 
 	static Ermine::TileSet Scarlet(std::filesystem::path("TileSet/Scarlet.json"));
 	static Ermine::Actor2D* Act = new Ermine::Actor2D(Scarlet.GetSpriteBuffer());
 	

@@ -12,6 +12,8 @@
 
 #define BIT(x) (1<<x)
 
+#include "DeltaTime.h"
+
 namespace Ermine
 {
 	void PrintCount();
@@ -22,4 +24,7 @@ namespace Ermine
 	int GetScreenWidth();
 
 	float NormalizationFunction(float x, float LowestValueInData, float HighestValueInData, float LowestValueInNewRange = -1.0f, float HighestValueInNewRange = 1.0f);
+	
+	//This Structure Contains Information Abt Delta Time And Is Updated By The App Class..
+	extern DeltaTime TimeStep;
 }

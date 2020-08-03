@@ -145,6 +145,7 @@
     <ClInclude Include="src\2DPrimitives\Constructs\VertexTextured.h" />
     <ClInclude Include="src\2DPrimitives\Label.h" />
     <ClInclude Include="src\2DPrimitives\SpriteBook.h" />
+    <ClInclude Include="src\DeltaTime.h" />
     <ClInclude Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.h" />
     <ClInclude Include="src\2DPrimitives\PrimitiveType2D.h" />
     <ClInclude Include="src\2DPrimitives\Sprite.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="src\2DPrimitives\Constructs\VertexTextured.cpp" />
     <ClCompile Include="src\2DPrimitives\Label.cpp" />
     <ClCompile Include="src\2DPrimitives\SpriteBook.cpp" />
+    <ClCompile Include="src\DeltaTime.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.cpp" />
     <ClCompile Include="src\2DPrimitives\Sprite.cpp" />
     <ClCompile Include="src\2DPrimitives\TileMap.cpp" />
