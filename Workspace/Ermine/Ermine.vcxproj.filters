@@ -46,6 +46,9 @@
     <Filter Include="Graphics\Renderer\MaterialSystem">
       <UniqueIdentifier>{BFE051CD-AB31-3D0F-D495-2BD1C045D078}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Renderer\RenderableComponents">
+      <UniqueIdentifier>{C5E8DB6F-B13A-B35F-9A59-F06F864ACC48}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Graphics\Renderer\RendererPrimitives">
       <UniqueIdentifier>{0E483E1B-FA2E-0013-A37F-66308F457979}</UniqueIdentifier>
     </Filter>
@@ -78,13 +81,28 @@
     <ClInclude Include="src\2DPrimitives\Actor2D.h">
       <Filter>2DPrimitives</Filter>
     </ClInclude>
+    <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h">
+      <Filter>2DPrimitives\Constructs</Filter>
+    </ClInclude>
     <ClInclude Include="src\2DPrimitives\Constructs\Quad.h">
+      <Filter>2DPrimitives\Constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\Constructs\VertexBase.h">
+      <Filter>2DPrimitives\Constructs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\Constructs\VertexTextured.h">
       <Filter>2DPrimitives\Constructs</Filter>
     </ClInclude>
     <ClInclude Include="src\2DPrimitives\Label.h">
       <Filter>2DPrimitives</Filter>
     </ClInclude>
+    <ClInclude Include="src\2DPrimitives\PrimitiveType2D.h">
+      <Filter>2DPrimitives</Filter>
+    </ClInclude>
     <ClInclude Include="src\2DPrimitives\Sprite.h">
+      <Filter>2DPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\SpriteBook.h">
       <Filter>2DPrimitives</Filter>
     </ClInclude>
     <ClInclude Include="src\2DPrimitives\TileMap.h">
@@ -98,6 +116,7 @@
     </ClInclude>
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core.h" />
+    <ClInclude Include="src\DeltaTime.h" />
     <ClInclude Include="src\EngineResourceHandlers\EditorDefaultStrings.h">
       <Filter>EngineResourceHandlers</Filter>
     </ClInclude>
@@ -191,6 +210,12 @@
     <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h">
       <Filter>Graphics\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.h">
+      <Filter>Graphics\Renderer\RenderableComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.h">
+      <Filter>Graphics\Renderer\RenderableComponents</Filter>
+    </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\Renderer.h">
       <Filter>Graphics\Renderer</Filter>
     </ClInclude>
@@ -204,6 +229,9 @@
       <Filter>Graphics\Renderer\RendererPrimitives\RendererPrimitives2D</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h">
+      <Filter>Graphics\Renderer\RendererPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexAttribPointerSpecification.h">
       <Filter>Graphics\Renderer\RendererPrimitives</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.h">
@@ -248,27 +276,27 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h" />
-    <ClInclude Include="src\2DPrimitives\Constructs\VertexBase.h">
-      <Filter>2DPrimitives\Constructs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\2DPrimitives\Constructs\VertexTextured.h" />
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.h" />
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.h">
-      <Filter>2DPrimitives</Filter>
-    </ClInclude>
-    <ClInclude Include="src\2DPrimitives\PrimitiveType2D.h">
-      <Filter>2DPrimitives</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexAttribPointerSpecification.h" />
-    <ClInclude Include="src\2DPrimitives\SpriteBook.h" />
-    <ClInclude Include="src\DeltaTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp">
       <Filter>2DPrimitives</Filter>
     </ClCompile>
+    <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
+      <Filter>2DPrimitives\Constructs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\Constructs\VertexBase.cpp">
+      <Filter>2DPrimitives\Constructs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\Constructs\VertexTextured.cpp">
+      <Filter>2DPrimitives\Constructs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\Label.cpp">
+      <Filter>2DPrimitives</Filter>
+    </ClCompile>
     <ClCompile Include="src\2DPrimitives\Sprite.cpp">
+      <Filter>2DPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\SpriteBook.cpp">
       <Filter>2DPrimitives</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\TileMap.cpp">
@@ -282,7 +310,11 @@
     </ClCompile>
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\Core.cpp" />
+    <ClCompile Include="src\DeltaTime.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\EditorDefaultStrings.cpp">
+      <Filter>EngineResourceHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EngineResourceHandlers\GlobalFontCache.cpp">
       <Filter>EngineResourceHandlers</Filter>
     </ClCompile>
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp">
@@ -366,6 +398,12 @@
     <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp">
       <Filter>Graphics\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.cpp">
+      <Filter>Graphics\Renderer\RenderableComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.cpp">
+      <Filter>Graphics\Renderer\RenderableComponents</Filter>
+    </ClCompile>
     <ClCompile Include="src\Graphics\Renderer\Renderer2D.cpp">
       <Filter>Graphics\Renderer</Filter>
     </ClCompile>
@@ -409,18 +447,5 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\EngineResourceHandlers\GlobalFontCache.cpp" />
-    <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp" />
-    <ClCompile Include="src\2DPrimitives\Constructs\VertexBase.cpp">
-      <Filter>2DPrimitives\Constructs</Filter>
-    </ClCompile>
-    <ClCompile Include="src\2DPrimitives\Constructs\VertexTextured.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.cpp">
-      <Filter>2DPrimitives</Filter>
-    </ClCompile>
-    <ClCompile Include="src\2DPrimitives\Label.cpp" />
-    <ClCompile Include="src\2DPrimitives\SpriteBook.cpp" />
-    <ClCompile Include="src\DeltaTime.cpp" />
   </ItemGroup>
 </Project>

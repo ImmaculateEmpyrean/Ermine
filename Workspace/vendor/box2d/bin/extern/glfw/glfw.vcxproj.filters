@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\context.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\init.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\input.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\monitor.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\vulkan.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\window.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\win32_init.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\win32_joystick.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\win32_monitor.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\win32_time.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\win32_thread.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\win32_window.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\wgl_context.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\egl_context.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\osmesa_context.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\internal.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\mappings.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\include\GLFW\glfw3.h">
+      <Filter>include\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\include\GLFW\glfw3native.h">
+      <Filter>include\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\win32_platform.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\win32_joystick.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\wgl_context.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\egl_context.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\src\osmesa_context.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{1052112C-A1A1-3588-B120-AD9014BA92EB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GLFW">
+      <UniqueIdentifier>{29C62A79-DA34-3A14-8372-26EB69AD8DE1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{CCE5CFC0-60D6-39AD-8211-5AB5D486BCBC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

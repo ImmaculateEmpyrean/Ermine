@@ -1,0 +1,471 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5FD90552-3E33-35FD-BB93-AB76654CAA7C}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>testbed</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <LocalDebuggerWorkingDirectory Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">A:/Projects/OpenProjects/Box2D/Workspace/box2d/testbed</LocalDebuggerWorkingDirectory>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">A:\Projects\OpenProjects\Box2D\Workspace\box2d\bin\testbed\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">testbed.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">testbed</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <LocalDebuggerWorkingDirectory Condition="'$(Configuration)|$(Platform)'=='Release|x64'">A:/Projects/OpenProjects/Box2D/Workspace/box2d/testbed</LocalDebuggerWorkingDirectory>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">A:\Projects\OpenProjects\Box2D\Workspace\box2d\bin\testbed\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">testbed.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">testbed</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <LocalDebuggerWorkingDirectory Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">A:/Projects/OpenProjects/Box2D/Workspace/box2d/testbed</LocalDebuggerWorkingDirectory>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">A:\Projects\OpenProjects\Box2D\Workspace\box2d\bin\testbed\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">testbed.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">testbed</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <LocalDebuggerWorkingDirectory Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">A:/Projects/OpenProjects/Box2D/Workspace/box2d/testbed</LocalDebuggerWorkingDirectory>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">A:\Projects\OpenProjects\Box2D\Workspace\box2d\bin\testbed\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">testbed.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">testbed</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed;A:\Projects\OpenProjects\Box2D\Workspace\box2d\src\..\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\imgui\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\sajson\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed;A:\Projects\OpenProjects\Box2D\Workspace\box2d\src\..\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\imgui\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\sajson\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed;A:\Projects\OpenProjects\Box2D\Workspace\box2d\src\..\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\imgui\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\sajson\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory A:/Projects/OpenProjects/Box2D/Workspace/box2d/testbed/data/ A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/data/
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\src\Debug\box2d.lib;..\extern\glfw\Debug\glfw.lib;..\extern\imgui\Debug\imgui.lib;..\extern\sajson\Debug\sajson.lib;..\extern\glad\Debug\glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/Debug/testbed.lib</ImportLibrary>
+      <ProgramDataBaseFile>A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/Debug/testbed.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed;A:\Projects\OpenProjects\Box2D\Workspace\box2d\src\..\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\imgui\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\sajson\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed;A:\Projects\OpenProjects\Box2D\Workspace\box2d\src\..\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\imgui\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\sajson\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed;A:\Projects\OpenProjects\Box2D\Workspace\box2d\src\..\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\imgui\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\sajson\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory A:/Projects/OpenProjects/Box2D/Workspace/box2d/testbed/data/ A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/data/
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\src\Release\box2d.lib;..\extern\glfw\Release\glfw.lib;..\extern\imgui\Release\imgui.lib;..\extern\sajson\Release\sajson.lib;..\extern\glad\Release\glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/Release/testbed.lib</ImportLibrary>
+      <ProgramDataBaseFile>A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/Release/testbed.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed;A:\Projects\OpenProjects\Box2D\Workspace\box2d\src\..\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\imgui\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\sajson\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed;A:\Projects\OpenProjects\Box2D\Workspace\box2d\src\..\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\imgui\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\sajson\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed;A:\Projects\OpenProjects\Box2D\Workspace\box2d\src\..\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\imgui\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\sajson\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory A:/Projects/OpenProjects/Box2D/Workspace/box2d/testbed/data/ A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/data/
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\src\MinSizeRel\box2d.lib;..\extern\glfw\MinSizeRel\glfw.lib;..\extern\imgui\MinSizeRel\imgui.lib;..\extern\sajson\MinSizeRel\sajson.lib;..\extern\glad\MinSizeRel\glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/MinSizeRel/testbed.lib</ImportLibrary>
+      <ProgramDataBaseFile>A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/MinSizeRel/testbed.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed;A:\Projects\OpenProjects\Box2D\Workspace\box2d\src\..\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\imgui\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\sajson\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed;A:\Projects\OpenProjects\Box2D\Workspace\box2d\src\..\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\imgui\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\sajson\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed;A:\Projects\OpenProjects\Box2D\Workspace\box2d\src\..\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glfw\include;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\imgui\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\sajson\..;A:\Projects\OpenProjects\Box2D\Workspace\box2d\extern\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory A:/Projects/OpenProjects/Box2D/Workspace/box2d/testbed/data/ A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/data/
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\src\RelWithDebInfo\box2d.lib;..\extern\glfw\RelWithDebInfo\glfw.lib;..\extern\imgui\RelWithDebInfo\imgui.lib;..\extern\sajson\RelWithDebInfo\sajson.lib;..\extern\glad\RelWithDebInfo\glad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/RelWithDebInfo/testbed.lib</ImportLibrary>
+      <ProgramDataBaseFile>A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/RelWithDebInfo/testbed.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule A:/Projects/OpenProjects/Box2D/Workspace/box2d/testbed/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SA:/Projects/OpenProjects/Box2D/Workspace/box2d -BA:/Projects/OpenProjects/Box2D/Workspace/box2d/bin --check-stamp-file A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">A:\Projects\OpenProjects\Box2D\Workspace\box2d\bin\testbed\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule A:/Projects/OpenProjects/Box2D/Workspace/box2d/testbed/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SA:/Projects/OpenProjects/Box2D/Workspace/box2d -BA:/Projects/OpenProjects/Box2D/Workspace/box2d/bin --check-stamp-file A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">A:\Projects\OpenProjects\Box2D\Workspace\box2d\bin\testbed\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule A:/Projects/OpenProjects/Box2D/Workspace/box2d/testbed/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SA:/Projects/OpenProjects/Box2D/Workspace/box2d -BA:/Projects/OpenProjects/Box2D/Workspace/box2d/bin --check-stamp-file A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">A:\Projects\OpenProjects\Box2D\Workspace\box2d\bin\testbed\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule A:/Projects/OpenProjects/Box2D/Workspace/box2d/testbed/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SA:/Projects/OpenProjects/Box2D/Workspace/box2d -BA:/Projects/OpenProjects/Box2D/Workspace/box2d/bin --check-stamp-file A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">A:\Projects\OpenProjects\Box2D\Workspace\box2d\bin\testbed\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\draw.cpp" />
+    <ClInclude Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\draw.h" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\imgui_impl_glfw.cpp" />
+    <ClInclude Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\imgui_impl_glfw.h" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\imgui_impl_opengl3.cpp" />
+    <ClInclude Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\imgui_impl_opengl3.h" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\main.cpp" />
+    <ClInclude Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\settings.h" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\settings.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\test.cpp" />
+    <ClInclude Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\test.h" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\add_pair.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\apply_force.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\body_types.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\box_stack.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\breakable.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\bridge.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\bullet_test.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\cantilever.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\car.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\chain.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\chain_problem.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\character_collision.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\circle_stack.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\collision_filtering.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\collision_processing.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\compound_shapes.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\confined.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\continuous_test.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\convex_hull.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\conveyor_belt.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\distance_joint.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\distance_test.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\dominos.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\dump_loader.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\dynamic_tree.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\edge_shapes.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\edge_test.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\friction.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\gear_joint.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\heavy1.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\heavy2.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\mobile_balanced.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\mobile_unbalanced.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\motor_joint.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\pinball.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\platformer.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\polygon_collision.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\polygon_shapes.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\prismatic_joint.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\pulley_joint.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\pyramid.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\ray_cast.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\restitution.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\revolute_joint.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\rope.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\rope_joint.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\sensor.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\shape_cast.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\shape_editing.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\skier.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\slider_crank_1.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\slider_crank_2.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\theo_jansen.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\tiles.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\time_of_impact.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\tumbler.cpp" />
+    <ClCompile Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\testbed\tests\wheel_joint.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\bin\ZERO_CHECK.vcxproj">
+      <Project>{13FA1D53-AB9A-3D1E-B3BA-2228A9CC9827}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\bin\src\box2d.vcxproj">
+      <Project>{CF10475C-C84C-3C6E-A442-79F6D9CE29EF}</Project>
+      <Name>box2d</Name>
+    </ProjectReference>
+    <ProjectReference Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\bin\extern\glad\glad.vcxproj">
+      <Project>{2133A5C4-08C0-3478-A1B1-FEC1D3C8FD67}</Project>
+      <Name>glad</Name>
+    </ProjectReference>
+    <ProjectReference Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\bin\extern\glfw\glfw.vcxproj">
+      <Project>{6DF352DD-EB66-31EC-837C-7F5084304B52}</Project>
+      <Name>glfw</Name>
+    </ProjectReference>
+    <ProjectReference Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\bin\extern\imgui\imgui.vcxproj">
+      <Project>{D63B9467-A01D-35A4-8EDF-EAA453FFE428}</Project>
+      <Name>imgui</Name>
+    </ProjectReference>
+    <ProjectReference Include="A:\Projects\OpenProjects\Box2D\Workspace\box2d\bin\extern\sajson\sajson.vcxproj">
+      <Project>{FE1EAD8B-BC68-3AF1-A867-51AB790DC533}</Project>
+      <Name>sajson</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

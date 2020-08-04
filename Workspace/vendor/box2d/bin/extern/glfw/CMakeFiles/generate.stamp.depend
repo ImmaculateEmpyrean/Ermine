@@ -1,0 +1,8 @@
+# CMake generation dependency list for this directory.
+A:/Projects/OpenProjects/Box2D/Workspace/box2d/extern/glfw/CMakeLists.txt
+C:/Program Files/CMake/share/cmake-3.16/Modules/CheckCSourceCompiles.cmake
+C:/Program Files/CMake/share/cmake-3.16/Modules/CheckIncludeFile.cmake
+C:/Program Files/CMake/share/cmake-3.16/Modules/CheckLibraryExists.cmake
+C:/Program Files/CMake/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.16/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-3.16/Modules/FindThreads.cmake

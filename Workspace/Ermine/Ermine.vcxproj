@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllimport);ER_DEBUG_DEVELOP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -100,7 +100,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllimport);ER_DEBUG_SHIP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -120,7 +120,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DLL=__declspec(dllimport);ER_RELEASE_SHIP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -144,16 +144,15 @@
     <ClInclude Include="src\2DPrimitives\Constructs\VertexBase.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\VertexTextured.h" />
     <ClInclude Include="src\2DPrimitives\Label.h" />
-    <ClInclude Include="src\2DPrimitives\SpriteBook.h" />
-    <ClInclude Include="src\DeltaTime.h" />
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.h" />
     <ClInclude Include="src\2DPrimitives\PrimitiveType2D.h" />
     <ClInclude Include="src\2DPrimitives\Sprite.h" />
+    <ClInclude Include="src\2DPrimitives\SpriteBook.h" />
     <ClInclude Include="src\2DPrimitives\TileMap.h" />
     <ClInclude Include="src\2DPrimitives\TileMapLayerRenderable.h" />
     <ClInclude Include="src\2DPrimitives\TileSet.h" />
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core.h" />
+    <ClInclude Include="src\DeltaTime.h" />
     <ClInclude Include="src\EngineResourceHandlers\EditorDefaultStrings.h" />
     <ClInclude Include="src\EngineResourceHandlers\GlobalFontCache.h" />
     <ClInclude Include="src\EngineResourceHandlers\GlobalTextureCache.h" />
@@ -182,10 +181,11 @@
     <ClInclude Include="src\EventSystem\EventTypes\TileSelectedEvent.h" />
     <ClInclude Include="src\FontRenderingSystem\Font.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Material.h" />
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Shader.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Texture.h" />
     <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h" />
+    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.h" />
+    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.h" />
     <ClInclude Include="src\Graphics\Renderer\Renderer.h" />
     <ClInclude Include="src\Graphics\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h" />
@@ -213,15 +213,14 @@
     <ClCompile Include="src\2DPrimitives\Constructs\VertexBase.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\VertexTextured.cpp" />
     <ClCompile Include="src\2DPrimitives\Label.cpp" />
-    <ClCompile Include="src\2DPrimitives\SpriteBook.cpp" />
-    <ClCompile Include="src\DeltaTime.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.cpp" />
     <ClCompile Include="src\2DPrimitives\Sprite.cpp" />
+    <ClCompile Include="src\2DPrimitives\SpriteBook.cpp" />
     <ClCompile Include="src\2DPrimitives\TileMap.cpp" />
     <ClCompile Include="src\2DPrimitives\TileMapLayerRenderable.cpp" />
     <ClCompile Include="src\2DPrimitives\TileSet.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\Core.cpp" />
+    <ClCompile Include="src\DeltaTime.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\EditorDefaultStrings.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\GlobalFontCache.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp" />
@@ -248,10 +247,11 @@
     <ClCompile Include="src\EventSystem\EventTypes\TileSelectedEvent.cpp" />
     <ClCompile Include="src\FontRenderingSystem\Font.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Material.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Shader.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Texture.cpp" />
     <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.cpp" />
     <ClCompile Include="src\Graphics\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\RendererPrimitives2D\TileMapRendererPrimitive.cpp" />
@@ -300,6 +300,9 @@
     </ProjectReference>
     <ProjectReference Include="..\vendor\freetype-gl\freetype-gl.vcxproj">
       <Project>{09D6E609-758B-5FFF-FE7F-59D66A345603}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\vendor\box2d\Box2D.vcxproj">
+      <Project>{A434E80C-1049-10BE-D9CA-B31D459E0CEF}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

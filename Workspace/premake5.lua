@@ -29,6 +29,7 @@ IncludeDir["JSON"]="vendor/JSON/json-3.7.3/single_include"
 IncludeDir["JSON_ERMINE"]="vendor/JSON"
 IncludeDir["freetype"]="vendor/freetype/freetype-2.10.2/include"
 IncludeDir["freetypegl"]="vendor/freetype-gl"
+IncludeDir["Box2D"] ="vendor/box2d/include"
 
 group "Dependencies"
     include "vendor/Glad"
@@ -39,6 +40,7 @@ group "Dependencies"
     include "vendor/JSON"
     include "vendor/freetype"
     include "vendor/freetype-gl"
+	include "vendor/box2d"
 --group ""
 project "LogSystem"
     location "LogSystem"
@@ -129,7 +131,8 @@ project "Ermine"
          "%{IncludeDir.JSON}",
          "%{IncludeDir.JSON_ERMINE}",
          "%{IncludeDir.freetype}",
-         "%{IncludeDir.freetypegl}"
+         "%{IncludeDir.freetypegl}",
+		 "%{IncludeDir.Box2D}"
     }
 
     links {
@@ -143,7 +146,8 @@ project "Ermine"
         "stb",
         "JSON",
         "Freetype",
-        "freetype-gl"
+        "freetype-gl",
+		"Box2D"
     }
 
     defines{
@@ -217,7 +221,8 @@ project "Game"
          "%{IncludeDir.JSON}",
          "%{IncludeDir.JSON_ERMINE}",
          "%{IncludeDir.freetype}",
-         "%{IncludeDir.freetypegl}"
+         "%{IncludeDir.freetypegl}",
+		 "%{IncludeDir.Box2D}"
     }
 
     links {
@@ -230,7 +235,8 @@ project "Game"
         "stb",
         "JSON",
         "FreeType",
-        "freetype-gl"
+        "freetype-gl",
+		"Box2D"
     }
     defines{
         "DLL=__declspec(dllexport)"

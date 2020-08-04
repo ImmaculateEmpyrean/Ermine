@@ -1,0 +1,9 @@
+A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/CMakeFiles/ALL_BUILD.dir
+A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/CMakeFiles/ZERO_CHECK.dir
+A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/src/CMakeFiles/box2d.dir
+A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/unit-test/CMakeFiles/unit_test.dir
+A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/extern/glad/CMakeFiles/glad.dir
+A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/extern/glfw/CMakeFiles/glfw.dir
+A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/extern/imgui/CMakeFiles/imgui.dir
+A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/extern/sajson/CMakeFiles/sajson.dir
+A:/Projects/OpenProjects/Box2D/Workspace/box2d/bin/testbed/CMakeFiles/testbed.dir
