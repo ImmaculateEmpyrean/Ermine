@@ -15,6 +15,9 @@
 
 #include "InputSystem/InputInterrogator.h"
 
+#include "Physics/Physics.h"
+#include "Physics/PhysicsWorldInitializationStruct.h"
+
 //Forward Declared
 int main(int argc, char* argv[]);
 
@@ -25,7 +28,7 @@ namespace Ermine
 	class App
 	{
 	private:
-		App(std::string AppTitle, std::pair<int, int> Diamensions);
+		App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsWorldInitializationStruct PhysicsConfig);
 
 	public:
 		~App();

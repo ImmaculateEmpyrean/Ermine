@@ -276,6 +276,10 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\2DPrimitives\PhysicsActor2D.h" />
+    <ClInclude Include="src\Physics\PhysicsComponent2D.h" />
+    <ClInclude Include="src\Physics\PhysicsWorldInitializationStruct.h" />
+    <ClInclude Include="src\Physics\Physics.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Actor2D.cpp">
@@ -447,5 +451,6 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
+    <ClCompile Include="src\Physics\Physics.cpp" />
   </ItemGroup>
 </Project>

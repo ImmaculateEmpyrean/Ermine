@@ -36,7 +36,7 @@
 
 #include "2DPrimitives/SpriteBook.h"
 
-#include <box2d/box2d.h>
+
 
 #pragma region StaticDefines
 
@@ -45,11 +45,11 @@ Ermine::App* Ermine::App::PointerToApp = nullptr;
 
 #pragma endregion StaticDefines
 
-Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
+Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsWorldInitializationStruct PhysicsConfig)
 	:
 	AppTitle(AppTitle),
 	Diamensions(Diamensions),
-	InpInterrogator() //Scrutinize
+	InpInterrogator()
 {
 	ManagedWindow = new Window(AppTitle, Diamensions);
 
@@ -61,15 +61,12 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
 	//Ended Create Window Handler..//
 	
 	//Start Box2D Checker//
-
-	b2Vec2 Gravity(0.0f, -10.0f);
-
-	b2World Universum(Gravity);
+	Universum = new b2World(b2Vec2(PhysicsConfig.Gravity.x, PhysicsConfig.Gravity.y));
 
 	b2BodyDef GroundBodyDefinition;
 	GroundBodyDefinition.position.Set(0.0f, -20.0f);
 
-	b2Body* GroundBody = Universum.CreateBody(&GroundBodyDefinition);
+	b2Body* GroundBody = Universum->CreateBody(&GroundBodyDefinition);
 
 	b2PolygonShape GroundShape;
 	GroundShape.SetAsBox(50.0f, 10.0f);
@@ -80,7 +77,7 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
 	CubeBodyDefinition.position.Set(0.0f, 10.0f);
 	CubeBodyDefinition.type = b2_dynamicBody;
 
-	b2Body* CubeBody = Universum.CreateBody(&CubeBodyDefinition);
+	b2Body* CubeBody = Universum->CreateBody(&CubeBodyDefinition);
 
 	b2PolygonShape BoxShape;
 	BoxShape.SetAsBox(10.f, 5.0f);
@@ -102,7 +99,7 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
 
 	for (int i = 0; Position.y>=1.0f;i++)
 	{
-		Universum.Step(timestep, velocityiterations, positionIterations);
+		Universum->Step(timestep, velocityiterations, positionIterations);
 
 		Position = CubeBody->GetPosition();
 		angle = CubeBody->GetAngle();
@@ -427,7 +424,9 @@ Ermine::App* Ermine::App::Get()
 #if defined(ER_DEBUG_SHIP) || defined(ER_RELEASE_SHIP)
 		PointerToApp = new App(GetGameNameString(), GetGameWindowDiamensions());
 #elif defined(ER_DEBUG_DEVELOP)
-		PointerToApp = new App("Ermine Development Environment", GetGameWindowDiamensions());
+		PhysicsWorldInitializationStruct Phy;
+		Phy.Gravity = glm::vec2(0.0f, -10.0f);
+		PointerToApp = new App("Ermine Development Environment", GetGameWindowDiamensions(),Phy);
 #endif
 
 	});
