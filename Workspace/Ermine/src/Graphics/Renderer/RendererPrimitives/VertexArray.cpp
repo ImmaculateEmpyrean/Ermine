@@ -134,6 +134,11 @@ namespace Ermine
 		}
 	}
 
+	std::vector<float> VertexArray::GetVertexBufferData()
+	{
+		return Vbo.GetBufferData();
+	}
+
 
 	void VertexArray::HelperCopyVertexArray(const VertexArray& rhs)
 	{

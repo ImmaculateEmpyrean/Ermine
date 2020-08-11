@@ -138,7 +138,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\2DPrimitives\Actor2D.h" />
+    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2D.h" />
+    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DBase.h" />
+    <ClInclude Include="src\2DPrimitives\ActorFamily\ActorFamilyEnnumerations.h" />
+    <ClInclude Include="src\2DPrimitives\ActorFamily\ImageBase.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\Quad.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\VertexBase.h" />
@@ -212,7 +215,9 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\2DPrimitives\Actor2D.cpp" />
+    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp" />
+    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DBase.cpp" />
+    <ClCompile Include="src\2DPrimitives\ActorFamily\ImageBase.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\VertexBase.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\VertexTextured.cpp" />

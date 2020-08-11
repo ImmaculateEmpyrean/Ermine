@@ -36,6 +36,9 @@ namespace Ermine
 
 		void Clear();
 
+		//Donot Use This Function Without Good Reason It Is Likely Way Too EXPENSIVE To Break Even..
+		std::vector<float> GetVertexBufferData();
+
 		//It Does Add Two Vertex Arrays Together And Returns a new VErtex Array THe VertexBuffers and Index Buffers Are Ahem Added..
 		VertexArray operator+(VertexArray& rhs); 
 

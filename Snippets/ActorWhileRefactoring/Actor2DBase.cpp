@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Actor2D.h"
+#include "Actor2DBase.h"
 
 #include "glm.hpp"
 
@@ -8,49 +8,51 @@
 
 #include "Graphics/Renderer/RendererPrimitives/VertexArray.h"
 
-#include "Constructs/VertexBase.h"
-#include "Constructs/VertexTextured.h"
+#include "2DPrimitives/Constructs/VertexBase.h"
+#include "2DPrimitives/Constructs/VertexTextured.h"
 
 namespace Ermine
 {
-	Actor2D::Actor2D(std::shared_ptr<Sprite> Spr)
+	Actor2DBase::Actor2DBase(std::shared_ptr<Sprite> Spr)
 		:
 		Actorsprite(Spr)
 	{
 		HelperInitializeRenderable2D();
 	}
-	Actor2D::Actor2D(std::vector<std::shared_ptr<Sprite>> SpriteBuffer)
+	Actor2DBase::Actor2DBase(std::vector<std::shared_ptr<Sprite>> SpriteBuffer)
 	{
 		Actorsprite = std::make_shared<SpriteBook>("SpriteBuffer",SpriteBuffer);
 		HelperInitializeRenderable2D();
 	}
 
-	Actor2D::Actor2D(std::shared_ptr<Sprite> Spr, glm::mat4 ModelMatrix)
+	/*Actor2DBase::Actor2DBase(std::shared_ptr<Sprite> Spr, glm::mat4 ModelMatrix)
 		:
 		MovableObject(ModelMatrix),
 		Actorsprite(Spr)
 	{
 		HelperInitializeRenderable2D();
-	}
+	}*/
 
-	Actor2D::Actor2D(std::vector<std::shared_ptr<Sprite>> SpriteBuffer, glm::mat4 ModelMatrix)
+	/*Actor2D::Actor2D(std::vector<std::shared_ptr<Sprite>> SpriteBuffer, glm::mat4 ModelMatrix)
 		:
 		MovableObject(ModelMatrix)
 	{
 		Actorsprite = std::make_shared<SpriteBook>("SpriteBuffer",SpriteBuffer);
 		HelperInitializeRenderable2D();
+	}*/
+
+	Actor2DBase::~Actor2DBase()
+	{
+		//This Destructir Has No Use In The Base Actor.. It Might Be Required Elsewhere.. SO For The Purpose Of Making It Virtual we Have Declared It..
 	}
 
-	Actor2D::~Actor2D()
-	{}
 
-
-	glm::mat4 Actor2D::GetModelMatrix()
+	/*glm::mat4 Actor2D::GetModelMatrix()
 	{
 		return MovableObject::RecievedModelMatrix  * MovableObject::TranslationMatrix;
-	}
+	}*/
 
-	std::vector<float> Actor2D::GetModelSpaceCoordinates()
+	std::vector<float> Actor2DBase::GetModelSpaceCoordinates()
 	{
 		Ermine::VertexTextured TopRight(Quad::GetModelCoordinatesTopRight());
 		Ermine::VertexTextured BottomRight(Quad::GetModelCoordinatesBottomRight());
@@ -68,16 +70,6 @@ namespace Ermine
 
 		glm::vec3 TopLeftPos = TopLeft.GetPositionCoordinates();
 		glm::vec4 TopLeftPos4 = glm::vec4(TopLeftPos, 0.0f);
-
-		TopRightPos4    = RotationMatrix * TopRightPos4;
-		BottomRightPos4 = RotationMatrix * BottomRightPos4;
-		BottomLeftPos4  = RotationMatrix * BottomLeftPos4;
-		TopLeftPos4     = RotationMatrix * TopLeftPos4;
-
-		TopRightPos4    = ScaleMatrix * TopRightPos4;
-		BottomRightPos4 = ScaleMatrix * BottomRightPos4;
-		BottomLeftPos4  = ScaleMatrix * BottomLeftPos4;
-		TopLeftPos4     = ScaleMatrix * TopLeftPos4;
 		
 		TopRight.SetPositonCoordinates(TopRightPos4);
 		BottomRight.SetPositonCoordinates(BottomRightPos4);
@@ -95,37 +87,19 @@ namespace Ermine
 		ModelCoordinates = ModelCoordinates + BottomLeft;
 		ModelCoordinates = ModelCoordinates + TopLeft;
 
-		//std::vector<float> ModelCoordinates = Quad::GetModelCoordinates();
-
-		//Top Right..
-		/*ModelCoordinates[6] = Actorsprite->GetTopRightUV().x;
-		ModelCoordinates[7] = Actorsprite->GetBottomLeftUV().y;//Actorsprite->GetTopRightUV().y;
-
-		//Bottom Right
-		ModelCoordinates[15] = Actorsprite->GetTopRightUV().x;//ModelCoordinates[14] = Actorsprite->GetBottomLeftUV().x;
-		ModelCoordinates[16] = Actorsprite->GetTopRightUV().y;//Actorsprite->GetBottomLeftUV().y;
-
-		//Bottom Left
-		ModelCoordinates[24] = Actorsprite->GetBottomLeftUV().x;
-		ModelCoordinates[25] = Actorsprite->GetTopRightUV().y;//Actorsprite->GetBottomLeftUV().y;
-
-		//Top Left
-		ModelCoordinates[33] = Actorsprite->GetBottomLeftUV().x;
-		ModelCoordinates[34] = Actorsprite->GetBottomLeftUV().y;//Actorsprite->GetTopRightUV().y;*/
-
 		return ModelCoordinates;
 	}
 
-	std::vector<uint32_t> Actor2D::GetModelSpaceIndices()
+	std::vector<uint32_t> Actor2DBase::GetModelSpaceIndices()
 	{
 		return Quad::GetModelIndices();
 	}
 
-	std::shared_ptr<Sprite> Actor2D::GetSprite()
+	std::shared_ptr<Sprite> Actor2DBase::GetSprite()
 	{
 		return Actorsprite;
 	}
-	void Actor2D::SetSprite(std::shared_ptr<Sprite> Sprite)
+	void Actor2DBase::SetSprite(std::shared_ptr<Sprite> Sprite)
 	{
 		Actorsprite = Sprite;
 		RenderableTextureModule::Clear();
@@ -133,7 +107,7 @@ namespace Ermine
 	}
 
 
-	void Actor2D::HelperInitializeRenderable2D()
+	void Actor2DBase::HelperInitializeRenderable2D()
 	{
 		auto Vao = Ermine::VertexArray(VertexBuffer(GetModelSpaceCoordinates()), IndexBuffer(GetModelSpaceIndices()));
 		static std::vector<VertexAttribPointerSpecification> Spec = {
@@ -147,10 +121,9 @@ namespace Ermine
 		Renderable2D::SetVertexArray(std::move(Vao));
 		Renderable2D::SetMaterial(Ermine::Material(std::filesystem::path("Shader/Vertex/Actor2DUpdatedWithRenderableTextureModuleVertexShader.vert"),
 												   std::filesystem::path("Shader/Fragment/Actor2DUpdatedWithRenderableTextureModuleFragmentShader.frag")));
-		//Renderable2D::SetMaterial(Ermine::Material(std::filesystem::path("Shader/Actor2DBaseMaterial.json")));
 		RenderableTextureModule::SubmitTexture(Actorsprite->GetTexture());
 	}
-	std::vector<int> Actor2D::BindTexturesContained()
+	std::vector<int> Actor2DBase::BindTexturesContained()
 	{
 		std::vector<int> BoundVector;
 		BoundVector.resize(16, 0);

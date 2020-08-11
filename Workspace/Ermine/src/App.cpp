@@ -24,7 +24,7 @@
 
 #include<nlohmann/json.hpp>
 
-#include "2DPrimitives/Actor2D.h"
+#include "2DPrimitives/ActorFamily/Actor2D.h"
 #include "Graphics/Renderer/Renderer2D.h"
 
 #include "2DPrimitives/TileSet.h"
