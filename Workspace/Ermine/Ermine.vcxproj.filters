@@ -273,7 +273,6 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\2DPrimitives\PhysicsActor2D.h" />
     <ClInclude Include="src\Physics\PhysicsComponent2D.h" />
     <ClInclude Include="src\Physics\PhysicsWorldInitializationStruct.h" />
     <ClInclude Include="src\Physics\Physics.h" />
@@ -283,6 +282,7 @@
     <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DBase.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\ActorFamilyEnnumerations.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\ImageBase.h" />
+    <ClInclude Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
@@ -455,5 +455,6 @@
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DBase.cpp" />
     <ClCompile Include="src\2DPrimitives\ActorFamily\ImageBase.cpp" />
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp" />
+    <ClCompile Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.cpp" />
   </ItemGroup>
 </Project>
