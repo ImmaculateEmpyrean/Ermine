@@ -14,6 +14,13 @@ namespace Ermine
 	//This Scale Factor Is Responsible 
 	extern float ScaleFactor;
 
+	//This Is Responsible For The Timestep By The Physics Engine
+	extern float PhysicsWorldTimestep;
+
+	//Variables For Instructing The Physics Engine
+	extern int32 PhysicsVelocityIterations;
+	extern int32 PhysicsPositionIterations;
+
 	//Start Convert Box2D World Coordinates to Pixel Space Coordinates//
 	glm::vec2 coordWorldToPixels(glm::vec2 world);
 	glm::vec2 coordWorldToPixels(float worldX, float worldY);
@@ -30,10 +37,10 @@ namespace Ermine
 	//Ended Scale scalar quantity between worlds//
 
 	//Start Scale vector between worlds//
-	glm::vec2 vectorPixelsToWorld(glm::vec2 v);
-	glm::vec2 vectorPixelsToWorld(glm::vec2 v);
-	glm::vec2 vectorPixelsToWorld(float x, float y);
-	glm::vec2 vectorWorldToPixels(glm::vec2 v);
-	glm::vec2 vectorWorldToPixelsPVector(glm::vec2 v);
+	glm::vec2 vectorPixelsToWorld(glm::vec2 screen);
+	glm::vec2 vectorPixelsToWorld(float pixelX, float pixelY);
+
+	glm::vec2 vectorWorldToPixels(glm::vec2 world);
+	glm::vec2 vectorWorldToPixelsPVector(float worldX,float worldY);
 	//Ended Scale Vector Between Worlds
 }

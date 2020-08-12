@@ -11,11 +11,93 @@ b2World* Ermine::Universum = nullptr;
 //This Variable Is Used To Convert To And From The Pixel Space..
 float Ermine::ScaleFactor = 0.01f;
 
-glm::vec2 Ermine::coordWorldToPixels(glm::vec2 world)
+//This Is Used To Set The Time Which The Physics World Advances Every Frame..
+float Ermine::PhysicsWorldTimestep = 1.0f / 60.0f;
+
+//Not Exactly Sure Looks Like Some Physics Stuff.. Found Out On The Internet That These Are Acceptable Default Values..
+int32 Ermine::PhysicsVelocityIterations = 6;
+int32 Ermine::PhysicsPositionIterations = 2;
+
+namespace Ermine
 {
-	return glm::vec2();
-}
-glm::vec2 Ermine::coordWorldToPixels(float worldX, float worldY)
-{
-	return glm::vec2();
+	glm::vec2 coordWorldToPixels(glm::vec2 world)
+	{
+		//This Will Be Returned to the user in the end..
+		glm::vec2 PixelCoordinates;
+
+		//first get the value converted to the proper coordinate system..
+		auto Intermediary = vectorWorldToPixels(world);
+
+		//Start transpose it with respect to the origin..//
+		PixelCoordinates.x = Intermediary.x + Ermine::GetScreenWidth() / 2;
+		PixelCoordinates.y = (Intermediary.y * -1) + Ermine::GetScreenHeight() / 2;
+		//Ended transpose it with respect to the origin..//
+
+		return PixelCoordinates;
+	}
+	glm::vec2 coordWorldToPixels(float worldX, float worldY)
+	{
+		//Return the Result of The Previous Function..
+		return coordWorldToPixels(glm::vec2(worldX, worldY));	
+	}
+
+	glm::vec2 coordPixelsToWorld(glm::vec2 screen)
+	{
+		//This Will Be Returned to the user in the end..
+		glm::vec2 WorldCoordinates;
+
+		//first get the value converted to the proper coordinate system..
+		auto Intermediary = vectorPixelsToWorld(screen);
+
+		//Start transpose it with respect to the origin..//
+		WorldCoordinates.x = Intermediary.x - Ermine::GetScreenWidth() / 2;
+		WorldCoordinates.y = (Intermediary.y * -1) - Ermine::GetScreenHeight() / 2;
+		//Ended transpose it with respect to the origin..//
+
+		return WorldCoordinates;
+	}
+	glm::vec2 coordPixelsToWorld(float pixelX, float pixelY)
+	{
+		//Return the Result of The Previous Function..
+		return coordWorldToPixels(glm::vec2(pixelX,pixelY));
+	}
+
+
+	float scalarPixelsToWorld(float val)
+	{
+		return val * ScaleFactor;
+	}
+	float scalarWorldToPixels(float val)
+	{
+		return val / ScaleFactor;
+	}
+
+
+	glm::vec2 vectorPixelsToWorld(glm::vec2 screen)
+	{
+		glm::vec2 WorldCoordinates;
+		WorldCoordinates.x = screen.x * ScaleFactor;
+		WorldCoordinates.y = screen.y * ScaleFactor;
+
+		return WorldCoordinates;
+	}
+	glm::vec2 vectorPixelsToWorld(float pixelX, float pixelY)
+	{
+		//just use the function on the top of this function
+		return vectorPixelsToWorld(glm::vec2(pixelX, pixelY));
+	}
+
+	glm::vec2 vectorWorldToPixels(glm::vec2 world)
+	{
+		glm::vec2 PixelCoordinates;
+		PixelCoordinates.x = world.x / ScaleFactor;
+		PixelCoordinates.y = world.y / ScaleFactor;
+
+		return PixelCoordinates;
+	}
+	glm::vec2 vectorWorldToPixelsPVector(float worldX,float worldY)
+	{
+		//Use The result of The Previous function to return to the user.. 
+		return vectorWorldToPixels(glm::vec2(worldX, worldY));
+	}
 }

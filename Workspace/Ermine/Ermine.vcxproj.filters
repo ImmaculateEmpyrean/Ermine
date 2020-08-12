@@ -456,5 +456,6 @@
     <ClCompile Include="src\2DPrimitives\ActorFamily\ImageBase.cpp" />
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp" />
     <ClCompile Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.cpp" />
+    <ClCompile Include="src\Physics\PhysicsComponent2D.cpp" />
   </ItemGroup>
 </Project>

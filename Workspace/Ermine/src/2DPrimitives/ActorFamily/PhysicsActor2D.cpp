@@ -5,4 +5,5 @@ Ermine::PhysicsActor::PhysicsActor(std::shared_ptr<Ermine::Sprite> Spr)
 	:
 	ImageBase(Spr)
 {
+
 }

@@ -36,6 +36,8 @@
 
 #include "2DPrimitives/SpriteBook.h"
 
+#include "Physics/PhysicsComponent2D.h"
+
 
 
 #pragma region StaticDefines
@@ -60,8 +62,10 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsW
 	WindowHandler::GlobalWindowHandler->SubmitWindowFront(std::make_unique<DebugMainWindow>());
 	//Ended Create Window Handler..//
 	
-	//Start Box2D Checker//
 	Universum = new b2World(b2Vec2(PhysicsConfig.Gravity.x, PhysicsConfig.Gravity.y));
+
+	//Start Box2D Checker//
+	/*Universum = new b2World(b2Vec2(PhysicsConfig.Gravity.x, PhysicsConfig.Gravity.y));
 
 	b2BodyDef GroundBodyDefinition;
 	GroundBodyDefinition.position.Set(0.0f, -20.0f);
@@ -107,7 +111,9 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsW
 		std::cout << "Position : [" << Position.x << "," << Position.y << "]" << " Angle : " << angle << std::endl;
 	}
 
-	//Ended Box2D Checker//
+	//Ended Box2D Checker//*/
+
+	
 
 	OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
 }
@@ -139,6 +145,9 @@ void Ermine::App::NextFrame()
 
 	OnTick();
 	
+	//The Physics World Has To Step So That It Is Ready For The Next Iteration..
+	Universum->Step(PhysicsWorldTimestep, PhysicsVelocityIterations, PhysicsPositionIterations);
+
 	ManagedWindow->PostNewFrameProcess();
 	Quit = ManagedWindow->ShouldIQuit();
 }
@@ -401,6 +410,20 @@ void Ermine::App::OnTick()
 
 	//Ended SpriteBook Test//
 
+#pragma region PhysicsComponentTest
+
+	//Start Physics Component Test//
+
+	static PhysicsComponent2D Obj;
+	b2Vec2 Position = Obj.operator b2Body* ()->GetPosition();
+	float angle = Obj.operator b2Body * ()->GetAngle();
+
+	std::cout << "Position : [" << Position.x << "," << Position.y << "]" << " Angle : " << angle << std::endl;
+	//std::cout << Obj.operator b2Body * ()->GetPosition().y<<std::endl;
+
+	//Ended Physics Component Test//
+
+#pragma endregion PhysicsComponentTest
 }
 
 void Ermine::App::OnDetach()

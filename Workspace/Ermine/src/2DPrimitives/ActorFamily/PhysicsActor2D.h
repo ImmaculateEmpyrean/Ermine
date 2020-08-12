@@ -4,6 +4,7 @@
 #include<string>
 
 #include "ImageBase.h"
+#include "Physics/Physics.h"
 #include "Physics/PhysicsComponent2D.h"
 
 /*
