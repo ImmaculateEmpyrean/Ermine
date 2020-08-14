@@ -25,6 +25,8 @@
 #include<nlohmann/json.hpp>
 
 #include "2DPrimitives/ActorFamily/Actor2D.h"
+#include "2DPrimitives/ActorFamily/PhysicsActor2D.h"
+
 #include "Graphics/Renderer/Renderer2D.h"
 
 #include "2DPrimitives/TileSet.h"
@@ -112,8 +114,6 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsW
 	}
 
 	//Ended Box2D Checker//*/
-
-	
 
 	OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
 }
@@ -357,7 +357,7 @@ void Ermine::App::OnTick()
 	}*/
 
 
-	//STDOUTLog_Trace("TimeStep : {0}", Ermine::TimeStep.GetSeconds());
+	/*//STDOUTLog_Trace("TimeStep : {0}", Ermine::TimeStep.GetSeconds());
 
 	//Start SpriteBook Test//
 	//The Example Is So Horrible Because Of The Way The Tileset Loads The Sprites.. It loads from top to bottom first.. however more testing is absolutely required to determine if the spritebook is even working.. 
@@ -408,22 +408,69 @@ void Ermine::App::OnTick()
 	Act->ClearScale();
 	Act->Scale(Scale);
 
-	//Ended SpriteBook Test//
+	//Ended SpriteBook Test//*/
 
 #pragma region PhysicsComponentTest
 
 	//Start Physics Component Test//
+	
+	b2BodyDef Def;
+	Def.position.Set(0.0f, 0.0f);
+	Def.type = b2_dynamicBody;
 
-	static PhysicsComponent2D Obj;
-	b2Vec2 Position = Obj.operator b2Body* ()->GetPosition();
-	float angle = Obj.operator b2Body * ()->GetAngle();
+	static auto BoxShape = b2PolygonShape();
+	BoxShape.SetAsBox(10.0f, 10.0f);
 
-	std::cout << "Position : [" << Position.x << "," << Position.y << "]" << " Angle : " << angle << std::endl;
+	b2FixtureDef FDef;
+	FDef.density = 1.0f;
+	FDef.shape = &BoxShape;
+	FDef.friction = 0.3f;
+
+	static PhysicsComponent2D Obj(Def,FDef);
+	//b2Vec2 Position = Obj.operator b2Body* ()->GetPosition();
+	//float angle = Obj.operator b2Body * ()->GetAngle();
+
+	//std::cout << "Position : [" << Position.x << "," << Position.y << "]" << " Angle : " << angle << std::endl;
 	//std::cout << Obj.operator b2Body * ()->GetPosition().y<<std::endl;
 
 	//Ended Physics Component Test//
 
 #pragma endregion PhysicsComponentTest
+
+#pragma region PhysicsActorTest
+	static bool l = true;
+	//Ermine::Material mat(std::filesystem::path("Shader/Actor2DBaseMaterial.json"));
+
+	auto Manager = Ermine::GlobalTextureCache::Get();
+	static auto Tex = Manager->GetTextureFromFile("Texture/BoxSprite.png");
+
+	static Sprite* spr = new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
+	static std::shared_ptr<Sprite> ShSpr;
+
+	if (l == true)
+	{
+		ShSpr.reset(spr);
+		l = false;
+	}
+
+	static Ermine::PhysicsActor* Act = new Ermine::PhysicsActor(ShSpr, std::move(Obj));
+
+	//static Ermine::Actor2D* Act = new Ermine::Actor2D(ShSpr);
+	//Act->Translate({ 0.5f,0.5f });
+
+	glm::mat4 Camera = glm::mat4(1.0f);
+	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	LayerStackLayer Layer("Han");
+	Layer.SubmitRenderable(Act);
+
+	auto ProjectionMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);//glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
+
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+	Renderer2D::SubmitLayer(Layer);
+	Renderer2D::EndScene();
+
+#pragma endregion PhysicsActorTest
 }
 
 void Ermine::App::OnDetach()
@@ -448,7 +495,7 @@ Ermine::App* Ermine::App::Get()
 		PointerToApp = new App(GetGameNameString(), GetGameWindowDiamensions());
 #elif defined(ER_DEBUG_DEVELOP)
 		PhysicsWorldInitializationStruct Phy;
-		Phy.Gravity = glm::vec2(0.0f, -10.0f);
+		Phy.Gravity = glm::vec2(0.0f, -1.0f);		
 		PointerToApp = new App("Ermine Development Environment", GetGameWindowDiamensions(),Phy);
 #endif
 

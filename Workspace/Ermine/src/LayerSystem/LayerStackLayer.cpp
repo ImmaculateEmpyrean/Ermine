@@ -84,6 +84,25 @@ void Ermine::LayerStackLayer::HelperEmplaceRenderableInRenderablesContainer(Rend
 			Renderables.emplace_back(new TileMapLayerRenderable(*((TileMapLayerRenderable*)RenderableObj))); //Call The Copy Constructor Essentially..
 		else if (dynamic_cast<Label*>(RenderableObj))
 			Renderables.emplace_back(new Label(*((Label*)RenderableObj))); //Call The Copy Constructor Essentially..
+		else if (dynamic_cast<PhysicsComponent2D*>(RenderableObj))
+		{
+			//Actually Get It Into A PhysicsComponent2D Pointer Now..
+			PhysicsComponent2D* Comp = dynamic_cast<PhysicsComponent2D*>(RenderableObj);
+
+			//Get The Translation Matrix which Is To be Sent Into The Gpu For Translating The Object With Respect To The World..
+			glm::mat4 TranslationMatrix = Comp->GetTranslationMatrix();
+
+			//Get A Copy Of The RenderableObject To Be Sent So As To Create A Physics Renderable..
+			Renderable2D* RenderableCopy = new Renderable2D(*RenderableObj);
+
+			//CReate A RenderablePhysicsComponent Which Can Cleanly Be deleted By The Renderer Once Its Usuage Is Done
+			Renderables.emplace_back(new RenderablePhysicsComponent2D(std::move(*RenderableCopy), TranslationMatrix));
+
+			//The Renderable2D is Already Moved Into The Renderables Buffer So Just Go Ahead And Delete This Husk..
+			delete RenderableCopy;
+		}
+		else if (dynamic_cast<RenderablePhysicsComponent2D*>(RenderableObj))
+			Renderables.emplace_back(new RenderablePhysicsComponent2D(*((RenderablePhysicsComponent2D*)RenderableObj)));
 		else
 		{
 			Renderables.emplace_back(new Renderable2D(*RenderableObj)); //Dunno What This Is So Just Creating a Renderable Object.. (Note- Renderable Object Does Not Contain Texture Data Keep That In Mind..)

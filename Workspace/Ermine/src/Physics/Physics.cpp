@@ -9,7 +9,7 @@
 b2World* Ermine::Universum = nullptr;
 
 //This Variable Is Used To Convert To And From The Pixel Space..
-float Ermine::ScaleFactor = 0.01f;
+float Ermine::ScaleFactor = 0.1f;
 
 //This Is Used To Set The Time Which The Physics World Advances Every Frame..
 float Ermine::PhysicsWorldTimestep = 1.0f / 60.0f;
@@ -30,7 +30,7 @@ namespace Ermine
 
 		//Start transpose it with respect to the origin..//
 		PixelCoordinates.x = Intermediary.x + Ermine::GetScreenWidth() / 2;
-		PixelCoordinates.y = (Intermediary.y * -1) + Ermine::GetScreenHeight() / 2;
+		PixelCoordinates.y = abs((Intermediary.y * -1) + Ermine::GetScreenHeight() / 2); //Here Maybe + instead of -
 		//Ended transpose it with respect to the origin..//
 
 		return PixelCoordinates;
@@ -51,7 +51,7 @@ namespace Ermine
 
 		//Start transpose it with respect to the origin..//
 		WorldCoordinates.x = Intermediary.x - Ermine::GetScreenWidth() / 2;
-		WorldCoordinates.y = (Intermediary.y * -1) - Ermine::GetScreenHeight() / 2;
+		WorldCoordinates.y = (Intermediary.y * -1) + Ermine::GetScreenHeight() / 2; //Here Maybe - instead of +
 		//Ended transpose it with respect to the origin..//
 
 		return WorldCoordinates;

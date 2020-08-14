@@ -17,6 +17,10 @@
 #include "Graphics/Renderer/RenderableComponents/Renderable2D.h"
 #include "Graphics/Renderer/RenderableComponents/RenderableTextureModule.h"
 
+#include "Physics/Physics.h"
+#include "Physics/PhysicsComponent2D.h"
+#include "RenderableComponents/RenderablePhysicsComponent2D.h"
+
 #pragma region StaticDeclarationRegion
 
 std::once_flag Ermine::Renderer2D::InitializationFlag;
@@ -100,6 +104,7 @@ namespace Ermine
 			{
 				i->Bind();
 
+				//Start If A Movable Object Is Detected Inside The Rendererable Do The Following Steps//
 				if(dynamic_cast <Ermine::MovableObject*>(i))
 				{
 					i->Bind();
@@ -107,7 +112,19 @@ namespace Ermine
 					MovableObject* MovObj = dynamic_cast<MovableObject*>(i);
 					i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ModelMatrix"), (MovObj)->GetModelMatrix());
 				}
-				
+				//Ended If A Movable Object Is Detected Inside The Rendererable Do The Following Steps//
+
+				//Start If A PhysicsComponent2D is detected inside the rendererable do the following steps//
+				if (dynamic_cast <Ermine::RenderablePhysicsComponent2D*>(i))
+				{
+					i->Bind();
+
+					RenderablePhysicsComponent2D* PhysicsObject = dynamic_cast<RenderablePhysicsComponent2D*>(i);
+					i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ModelMatrix"), (PhysicsObject)->GetTranslationMatrix());
+				}
+				//Ended If A PhysicsComponent2D is detected inside the rendererable do the following steps//
+
+				//Start If A Renderable Texture module Is detected Inside the renderable do the following steps//
 				if (dynamic_cast <Ermine::RenderableTextureModule*>(i))
 				{
 					i->Bind();
@@ -118,9 +135,12 @@ namespace Ermine
 
 					i->GetMaterialBeingUsed()->GetShader()->UniformNi(std::string("Sampler2DArray"),TextureArray);
 				}
+				//Ended If A Renderable Texture module Is detected Inside the renderable do the following steps//
 
+				//Start These Steps Are To Be Done on All Kinds Of Renderables..//
 				i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
 				glDrawElements(GL_TRIANGLES, i->GetVertexArray()->GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+				//Ended These Steps Are To Be Done on All Kinds Of Renderables..//
 			}
 		}
 	}
