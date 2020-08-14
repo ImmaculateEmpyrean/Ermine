@@ -18,7 +18,7 @@ namespace Ermine
 
 		//Create A Shape To Be associated With The Fixture..
 		b2PolygonShape Shape = b2PolygonShape();
-		Shape.SetAsBox(10.0f, 5.0f);
+		Shape.SetAsBox(BodySize.x,BodySize.y);
 
 		//For The Created DataStructure Set The Default Values..
 		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
@@ -41,6 +41,25 @@ namespace Ermine
 		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
 	}
 
+	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,
+										   glm::vec2 BodySize)
+		:
+		BodyDefinitionOfTheComponent(Definition),
+		BodySize(BodySize)
+	{
+		//First Create The Body In The Box2D World As Intended..
+		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
+
+		//Create A Shape To Be associated With The Fixture..
+		b2PolygonShape Shape = b2PolygonShape();
+		Shape.SetAsBox(this->BodySize.x/2.0f,this->BodySize.y/2.0f);
+
+		FixturesAssociatedWithTheBody.emplace_back(FixtureDefinition);
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
+
+		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
+	}
+
 	PhysicsComponent2D::~PhysicsComponent2D()
 	{
 		//Donot Bother Deleting a Nullptr Right..
@@ -52,17 +71,6 @@ namespace Ermine
 #pragma endregion Constructors
 
 #pragma region CopyAndMoveConstruction
-	/*PhysicsComponent2D::PhysicsComponent2D(const PhysicsComponent2D& rhs)
-	{
-		HelperCopyFunction(rhs);
-	}
-
-	PhysicsComponent2D PhysicsComponent2D::operator=(const PhysicsComponent2D& rhs)
-	{
-		HelperCopyFunction(rhs);
-		return *this;
-	}*/
-
 	PhysicsComponent2D& PhysicsComponent2D::operator=(PhysicsComponent2D&& rhs)
 	{
 		HelperMoveFunction(std::move(rhs));
@@ -75,25 +83,7 @@ namespace Ermine
 	}
 #pragma endregion CopyAndMoveConstruction
 
-#pragma region HelperMoveAndCopy
-	/*void PhysicsComponent2D::HelperCopyFunction(const PhysicsComponent2D& rhs)
-	{
-		//Copy The Body Definition From The Right Handside to create the exact body..
-		BodyDefinitionOfTheComponent = rhs.BodyDefinitionOfTheComponent;
-
-		//Try To Copy The entire Lot Of Fixtures Definition From The Right Handside To This object 
-		FixturesAssociatedWithTheBody = rhs.FixturesAssociatedWithTheBody;
-
-		//The Body Can Now Be created as the definition is successfully recieved from the rhs
-		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
-
-		//Associate All The Fixtures To The Body Which Has Been Created Previously
-		for (auto& AssociatedFixtures : FixturesAssociatedWithTheBody)
-			BodyManagedByTheComponent->CreateFixture(&AssociatedFixtures);
-
-		//done
-	}*/
-
+#pragma region HelperFunctions
 	void PhysicsComponent2D::HelperMoveFunction(PhysicsComponent2D&& rhs)
 	{
 		//Try Moving The Body Definition Into The New Object
@@ -106,8 +96,17 @@ namespace Ermine
 		//the rhs must loose ownership over its body for its destructor not to delete it
 		BodyManagedByTheComponent = rhs.BodyManagedByTheComponent;
 		rhs.BodyManagedByTheComponent = nullptr;
+
+		//Get The Size Of The Body from the Right Side
+		BodySize = rhs.BodySize;
 	}
-#pragma endregion HelperMoveAndCopy
+
+
+	void PhysicsComponent2D::HelperConstructorCreateBox(b2FixtureDef FixtureDefinition)
+	{
+		
+	}
+#pragma endregion HelperFunctions
 
 #pragma region GetBodyTransform
 

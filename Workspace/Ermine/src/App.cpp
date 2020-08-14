@@ -64,7 +64,16 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsW
 	WindowHandler::GlobalWindowHandler->SubmitWindowFront(std::make_unique<DebugMainWindow>());
 	//Ended Create Window Handler..//
 	
+	//Start Setup Physics Of the engine..//
+	
+	//Create A Box2d Universe
 	Universum = new b2World(b2Vec2(PhysicsConfig.Gravity.x, PhysicsConfig.Gravity.y));
+	
+	//Compute Box2d Physics World Bounds..
+	Ermine::RecalculatePhysicsWorldBounds();
+
+	//Ended Setup Physics of The Engine..//
+
 
 	//Start Box2D Checker//
 	/*Universum = new b2World(b2Vec2(PhysicsConfig.Gravity.x, PhysicsConfig.Gravity.y));
@@ -414,8 +423,11 @@ void Ermine::App::OnTick()
 
 	//Start Physics Component Test//
 	
+	glm::vec2 LocPixelCoordinates = { 500.0f,0.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
+	glm::vec2 Loc = Ermine::coordPixelsToWorld(LocPixelCoordinates);
+
 	b2BodyDef Def;
-	Def.position.Set(0.0f, 0.0f);
+	Def.position.Set(Loc.x,Loc.y);
 	Def.type = b2_dynamicBody;
 
 	static auto BoxShape = b2PolygonShape();
@@ -426,7 +438,23 @@ void Ermine::App::OnTick()
 	FDef.shape = &BoxShape;
 	FDef.friction = 0.3f;
 
-	static PhysicsComponent2D Obj(Def,FDef);
+	static PhysicsComponent2D Obj(Def,FDef,glm::vec2(10.0f,10.0f));
+
+	
+	b2BodyDef GroundBodyDefinition;
+	GroundBodyDefinition.position.Set(0.0f,0.0f);
+	GroundBodyDefinition.type = b2_staticBody;
+
+	static auto GroundShape = b2PolygonShape();
+	GroundShape.SetAsBox(100.0f,10.0f);
+
+	b2FixtureDef GroundFixture;
+	GroundFixture.density = 1.0f;
+	GroundFixture.shape = &GroundShape;
+	GroundFixture.friction = 0.3f;
+
+	static PhysicsComponent2D GroundBody(GroundBodyDefinition,GroundFixture,glm::vec2(50.0f,2.0f));
+
 	//b2Vec2 Position = Obj.operator b2Body* ()->GetPosition();
 	//float angle = Obj.operator b2Body * ()->GetAngle();
 
@@ -443,18 +471,23 @@ void Ermine::App::OnTick()
 
 	auto Manager = Ermine::GlobalTextureCache::Get();
 	static auto Tex = Manager->GetTextureFromFile("Texture/BoxSprite.png");
+	static auto GroundTex = Manager->GetTextureFromFile("Texture/FloorTile.png");
 
 	static Sprite* spr = new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
+	static Sprite* Grndspr = new Sprite(GroundTex, { 0.0f,0.0f }, { 1.0f,1.0f });
+
 	static std::shared_ptr<Sprite> ShSpr;
+	static std::shared_ptr<Sprite> GrndShSpr;
 
 	if (l == true)
 	{
 		ShSpr.reset(spr);
+		GrndShSpr.reset(Grndspr);
 		l = false;
 	}
 
 	static Ermine::PhysicsActor* Act = new Ermine::PhysicsActor(ShSpr, std::move(Obj));
-
+	static Ermine::PhysicsActor* GrndAct = new Ermine::PhysicsActor(GrndShSpr, std::move(GroundBody));
 	//static Ermine::Actor2D* Act = new Ermine::Actor2D(ShSpr);
 	//Act->Translate({ 0.5f,0.5f });
 
@@ -463,6 +496,7 @@ void Ermine::App::OnTick()
 
 	LayerStackLayer Layer("Han");
 	Layer.SubmitRenderable(Act);
+	Layer.SubmitRenderable(GrndAct);
 
 	auto ProjectionMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);//glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
 

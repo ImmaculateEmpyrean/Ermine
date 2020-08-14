@@ -21,6 +21,9 @@ namespace Ermine
 		//This Fixes The Shape As A SingleBox.. To Have Something Else Go With A Different Constructor
 		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition);
 
+		//Use This Constructor To Explicitly Fix The Size Of The Box
+		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,glm::vec2 BodySize);
+
 		//A Destructor Is Needed As This Class Is Managing Memory
 		~PhysicsComponent2D();
 	public:
@@ -50,8 +53,18 @@ namespace Ermine
 		//Start Get Various Matrices Related With Transformation//
 		//Gives The Translation Matrix.. 
 		glm::mat4 GetTranslationMatrix();
+		
 		//Gives The Rotation Matrix..
 		glm::mat4 GetRotationMatrix();
+
+
+		//Get Size Of The Body
+		glm::vec2 GetBodySize() { return BodySize; }
+		
+		//Get Width Of The Body
+		float GetBodyWidth() { return BodySize.x; }
+		//Get Height of The Body
+		float GetBodyHeight() { return BodySize.y; }
 		//Ended Get Various Matrices Related With Transformation//
 
 	public:
@@ -61,7 +74,7 @@ namespace Ermine
 	protected:
 
 	private:
-		//void HelperCopyFunction(const PhysicsComponent2D& rhs);
+		void HelperConstructorCreateBox(b2FixtureDef FixtureDefinition);
 		void HelperMoveFunction(PhysicsComponent2D&& rhs);
 
 	private:
@@ -69,5 +82,7 @@ namespace Ermine
 		b2BodyDef BodyDefinitionOfTheComponent;
 		
 		std::vector<b2FixtureDef> FixturesAssociatedWithTheBody;
+
+		glm::vec2 BodySize = glm::vec2(10.0f,5.0f);
 	};
 }

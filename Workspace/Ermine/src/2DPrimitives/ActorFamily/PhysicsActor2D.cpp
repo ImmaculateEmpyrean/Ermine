@@ -31,16 +31,16 @@ namespace Ermine
 		Ermine::VertexTextured BottomLeft(Quad::GetModelCoordinatesBottomLeft());
 		Ermine::VertexTextured TopLeft(Quad::GetModelCoordinatesTopLeft());
 
-		glm::vec3 TopRightPos = TopRight.GetPositionCoordinates();
+		glm::vec3 TopRightPos = glm::vec3(GetBodyWidth() / 2.0f, GetBodyHeight() / 2, 0.0f);
 		glm::vec4 TopRightPos4 = glm::vec4(TopRightPos, 0.0f);
 
-		glm::vec3 BottomRightPos = BottomRight.GetPositionCoordinates();
+		glm::vec3 BottomRightPos = glm::vec3(GetBodyWidth() / 2.0f, -1.0f * (GetBodyHeight() / 2), 0.0f);
 		glm::vec4 BottomRightPos4 = glm::vec4(BottomRightPos, 0.0f);
 
-		glm::vec3 BottomLeftPos = BottomLeft.GetPositionCoordinates();
+		glm::vec3 BottomLeftPos = glm::vec3(-1.0f * (GetBodyWidth() / 2.0f), -1.0f * (GetBodyHeight() / 2), 0.0f);
 		glm::vec4 BottomLeftPos4 = glm::vec4(BottomLeftPos, 0.0f);
 
-		glm::vec3 TopLeftPos = TopLeft.GetPositionCoordinates();
+		glm::vec3 TopLeftPos = glm::vec3(-1.0f * (GetBodyWidth() / 2.0f), (GetBodyHeight() / 2),0.0f);//TopLeft.GetPositionCoordinates();
 		glm::vec4 TopLeftPos4 = glm::vec4(TopLeftPos, 0.0f);
 
 		//Start Get Rotation Matrix For This Physics Actor..//

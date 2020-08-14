@@ -21,15 +21,27 @@ namespace Ermine
 	extern int32 PhysicsVelocityIterations;
 	extern int32 PhysicsPositionIterations;
 
+	//Variables That Compute The Extent Of The Physics World..
+	extern glm::vec2 PhysicsWorldTopLeft;
+	extern glm::vec2 PhysicsWorldBottomRight;
+
+	//ReCalculate Physics World Bounds Using This Function..
+	///In The Future See That This Function Is Called When ScreenHeight Or ScreenWidth Is Changed
+	void RecalculatePhysicsWorldBounds();
+
+#pragma region AllTheseFunctionsAreWrong
+
 	//Start Convert Box2D World Coordinates to Pixel Space Coordinates//
 	glm::vec2 coordWorldToPixels(glm::vec2 world);
 	glm::vec2 coordWorldToPixels(float worldX, float worldY);
 	//Ended Convert Box2D World Coordinates to Pixel Space Coordinates//
 
-	//Start Convert Pixel Space Coordinates to Box2D World Coordinates//
-	glm::vec2 coordPixelsToWorld(glm::vec2 screen);
+	///Think I Fixed The Following BAtch But Still Need More Testing to be Done..
+	//Start Convert Pixel Space Coordinates to Box2D World Coordinates// 
+	glm::vec2 coordPixelsToWorld(glm::vec2 screen); 
 	glm::vec2 coordPixelsToWorld(float pixelX, float pixelY);
 	//Ended Convert Pixel Space Coordinates to Box2D World Coordinates//
+	///EndCard.. for the batch
 
 	//Start Scale scalar quantity between worlds//
 	float scalarPixelsToWorld(float val);
@@ -41,6 +53,8 @@ namespace Ermine
 	glm::vec2 vectorPixelsToWorld(float pixelX, float pixelY);
 
 	glm::vec2 vectorWorldToPixels(glm::vec2 world);
-	glm::vec2 vectorWorldToPixelsPVector(float worldX,float worldY);
+	glm::vec2 vectorWorldToPixels(float worldX,float worldY);
 	//Ended Scale Vector Between Worlds
+
+#pragma endregion AllTheseFunctionsAreWrong
 }

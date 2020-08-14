@@ -9,7 +9,7 @@
 b2World* Ermine::Universum = nullptr;
 
 //This Variable Is Used To Convert To And From The Pixel Space..
-float Ermine::ScaleFactor = 0.1f;
+static float Ermine::ScaleFactor = 0.01f;
 
 //This Is Used To Set The Time Which The Physics World Advances Every Frame..
 float Ermine::PhysicsWorldTimestep = 1.0f / 60.0f;
@@ -18,8 +18,21 @@ float Ermine::PhysicsWorldTimestep = 1.0f / 60.0f;
 int32 Ermine::PhysicsVelocityIterations = 6;
 int32 Ermine::PhysicsPositionIterations = 2;
 
+//These Variables Hold Information Abt The extant Of The Physical World..
+// Donot Forget To Update Them Whenever The Scale Factor Has Changed Or ScreenWidth Or Height Has Changed
+glm::vec2 Ermine::PhysicsWorldTopLeft; 
+glm::vec2 Ermine::PhysicsWorldBottomRight;
+
 namespace Ermine
 {
+	void RecalculatePhysicsWorldBounds()
+	{
+		//It Does What It Does Note- Physics World Is Not The Same As Pixel World keep That In Mind Before Trying To Change The Function..
+		PhysicsWorldTopLeft = glm::vec2((-1.0f * (Ermine::GetScreenWidth() / 2.0f) * ScaleFactor, (Ermine::GetScreenHeight() / 2.0f)) * ScaleFactor);
+		PhysicsWorldBottomRight = glm::vec2((Ermine::GetScreenWidth() / 2.0f) * ScaleFactor, (-1.0f * (Ermine::GetScreenHeight() / 2.0f)) * ScaleFactor);
+	}
+
+
 	glm::vec2 coordWorldToPixels(glm::vec2 world)
 	{
 		//This Will Be Returned to the user in the end..
@@ -47,11 +60,18 @@ namespace Ermine
 		glm::vec2 WorldCoordinates;
 
 		//first get the value converted to the proper coordinate system..
-		auto Intermediary = vectorPixelsToWorld(screen);
+		//auto Intermediary = vectorPixelsToWorld(screen);
+		glm::vec2 Intermediary;
+		Intermediary.x = Ermine::NormalizationFunction(screen.x, 0.0f, Ermine::GetScreenWidth(), (-1.0f * (Ermine::GetScreenWidth() / 2)) * ScaleFactor, (Ermine::GetScreenWidth() / 2) * ScaleFactor);
+		Intermediary.y = Ermine::NormalizationFunction(screen.y, 0.0f, Ermine::GetScreenHeight(),(-1.0f * (Ermine::GetScreenHeight() / 2))* ScaleFactor, (Ermine::GetScreenHeight() / 2)*ScaleFactor);
 
-		//Start transpose it with respect to the origin..//
-		WorldCoordinates.x = Intermediary.x - Ermine::GetScreenWidth() / 2;
-		WorldCoordinates.y = (Intermediary.y * -1) + Ermine::GetScreenHeight() / 2; //Here Maybe - instead of +
+		WorldCoordinates.x = Intermediary.x;
+
+		//Y in Pixel Coordinates Is Flipped As Compared To The Y Here
+		//Get How Much Y Has Advanced Up And Advance That Much Down..
+		//float MovementInY = (Ermine::GetScreenHeight() / 2 * ScaleFactor) - Intermediary.y;
+		
+		WorldCoordinates.y =  Intermediary.y * -1;
 		//Ended transpose it with respect to the origin..//
 
 		return WorldCoordinates;
