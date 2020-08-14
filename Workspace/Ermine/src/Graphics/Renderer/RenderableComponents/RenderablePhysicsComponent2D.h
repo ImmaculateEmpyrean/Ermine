@@ -5,18 +5,18 @@
 
 #include "glm.hpp"
 
-#include "Renderable2D.h"
+#include "RenderableTextureModule.h"
 
 namespace Ermine
 {
-	class RenderablePhysicsComponent2D : public Renderable2D
+	class RenderablePhysicsComponent2D : public RenderableTextureModule
 	{
 	public:
 		//There Is No Point in Constructing Such A Specialized Object For No good Reason Better Delete The Empty Constructor For It Only Complicates Matters..
 		RenderablePhysicsComponent2D() = delete;
 
 		//This Is The Easiest Way To Construct A RenderablePhysicsComponent2D..
-		RenderablePhysicsComponent2D(Renderable2D Obj, glm::mat4 TranslationMatrix);
+		RenderablePhysicsComponent2D(RenderableTextureModule Obj, glm::mat4 TranslationMatrix);
 
 		//A Virtual Destructor May Be Useful In The Context Of Children..
 		virtual ~RenderablePhysicsComponent2D();

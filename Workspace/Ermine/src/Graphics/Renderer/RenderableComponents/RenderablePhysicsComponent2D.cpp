@@ -5,9 +5,9 @@ namespace Ermine
 {
 #pragma region Constructors
 	
-	RenderablePhysicsComponent2D::RenderablePhysicsComponent2D(Renderable2D Obj, glm::mat4 TranslationMatrix)
+	RenderablePhysicsComponent2D::RenderablePhysicsComponent2D(RenderableTextureModule Obj, glm::mat4 TranslationMatrix)
 		:
-		Renderable2D(std::move(Obj)),
+		RenderableTextureModule(std::move(Obj)),
 		TranslationMatrix(TranslationMatrix)
 	{}
 	
