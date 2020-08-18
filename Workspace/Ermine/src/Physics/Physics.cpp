@@ -38,21 +38,26 @@ namespace Ermine
 		//This Will Be Returned to the user in the end..
 		glm::vec2 PixelCoordinates;
 
-		//first get the value converted to the proper coordinate system..
-		auto Intermediary = vectorWorldToPixels(world);
+		glm::vec2 Intermediary;
+		Intermediary.x = Ermine::NormalizationFunction(world.x, (-1.0f * (Ermine::GetScreenWidth() / 2)) * ScaleFactor, (Ermine::GetScreenWidth() / 2) * ScaleFactor, 0.0f, Ermine::GetScreenWidth());
+		Intermediary.y = Ermine::NormalizationFunction(world.y, (-1.0f * (Ermine::GetScreenHeight() / 2)) * ScaleFactor, (Ermine::GetScreenHeight() / 2) * ScaleFactor, 0.0f, Ermine::GetScreenHeight());
 
-		//Start transpose it with respect to the origin..//
-		PixelCoordinates.x = Intermediary.x + Ermine::GetScreenWidth() / 2;
-		PixelCoordinates.y = abs((Intermediary.y * -1) + Ermine::GetScreenHeight() / 2); //Here Maybe + instead of -
+		PixelCoordinates.x = Intermediary.x;
+
+		//Y in Pixel Coordinates Is Flipped As Compared To The Y Here
+		//Get How Much Y Has Advanced Up And Advance That Much Down..
+		//float MovementInY = (Ermine::GetScreenHeight() / 2 * ScaleFactor) - Intermediary.y;
+
+		PixelCoordinates.y = Ermine::GetScreenWidth() - Intermediary.y;
 		//Ended transpose it with respect to the origin..//
 
 		return PixelCoordinates;
 	}
-	glm::vec2 coordWorldToPixels(float worldX, float worldY)
+	/*glm::vec2 coordWorldToPixels(float worldX, float worldY)
 	{
 		//Return the Result of The Previous Function..
 		return coordWorldToPixels(glm::vec2(worldX, worldY));	
-	}
+	}*/
 
 	glm::vec2 coordPixelsToWorld(glm::vec2 screen)
 	{
@@ -76,14 +81,14 @@ namespace Ermine
 
 		return WorldCoordinates;
 	}
-	glm::vec2 coordPixelsToWorld(float pixelX, float pixelY)
+	/*glm::vec2 coordPixelsToWorld(float pixelX, float pixelY)
 	{
 		//Return the Result of The Previous Function..
-		return coordWorldToPixels(glm::vec2(pixelX,pixelY));
-	}
+		return coordPixelsToWorld(glm::vec2(pixelX,pixelY));
+	}*/
 
 
-	float scalarPixelsToWorld(float val)
+	/*float scalarPixelsToWorld(float val)
 	{
 		return val * ScaleFactor;
 	}
@@ -119,5 +124,5 @@ namespace Ermine
 	{
 		//Use The result of The Previous function to return to the user.. 
 		return vectorWorldToPixels(glm::vec2(worldX, worldY));
-	}
+	}*/
 }
