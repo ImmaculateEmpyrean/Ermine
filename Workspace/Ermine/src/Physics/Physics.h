@@ -43,7 +43,7 @@ namespace Ermine
 	//Ended Convert Pixel Space Coordinates to Box2D World Coordinates//
 	///EndCard.. for the batch
 
-	/*//Start Scale scalar quantity between worlds//
+	//Start Scale scalar quantity between worlds//
 	float scalarPixelsToWorld(float val);
 	float scalarWorldToPixels(float val);
 	//Ended Scale scalar quantity between worlds//
@@ -53,7 +53,7 @@ namespace Ermine
 	glm::vec2 vectorPixelsToWorld(float pixelX, float pixelY);
 
 	glm::vec2 vectorWorldToPixels(glm::vec2 world);
-	glm::vec2 vectorWorldToPixels(float worldX,float worldY);*/
+	glm::vec2 vectorWorldToPixels(float worldX,float worldY);
 	//Ended Scale Vector Between Worlds
 
 #pragma endregion AllTheseFunctionsAreWrong

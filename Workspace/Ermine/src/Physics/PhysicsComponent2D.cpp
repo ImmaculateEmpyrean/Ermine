@@ -31,17 +31,22 @@ namespace Ermine
 	}
 
 	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,
-										   glm::vec2 BodySize)
+										   glm::vec2 BodySizeInPixelSpace)
 		:
-		BodyDefinitionOfTheComponent(Definition),
-		BodySize(BodySize)
+		BodyDefinitionOfTheComponent(Definition)
 	{
+		//Calculate Size Of The Body In Box2D Space..
+		glm::vec2 BodySizeWorldCoordinates = Ermine::vectorPixelsToWorld(BodySizeInPixelSpace);
+
+		//Setup The Body Size In Proper Box2D Space
+		BodySize = BodySizeWorldCoordinates;
+
 		//First Create The Body In The Box2D World As Intended..
 		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
 
 		//Create A Shape To Be associated With The Fixture..
 		b2PolygonShape Shape = b2PolygonShape();
-		Shape.SetAsBox(this->BodySize.x/2.0f,this->BodySize.y/2.0f);
+		Shape.SetAsBox(BodySizeWorldCoordinates.x/2.0f, BodySizeWorldCoordinates.y /2.0f);
 
 		FixturesAssociatedWithTheBody.emplace_back(FixtureDefinition);
 		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;

@@ -88,7 +88,7 @@ namespace Ermine
 	}*/
 
 
-	/*float scalarPixelsToWorld(float val)
+	float scalarPixelsToWorld(float val)
 	{
 		return val * ScaleFactor;
 	}
@@ -120,9 +120,9 @@ namespace Ermine
 
 		return PixelCoordinates;
 	}
-	glm::vec2 vectorWorldToPixelsPVector(float worldX,float worldY)
+	glm::vec2 vectorWorldToPixels(float worldX,float worldY)
 	{
 		//Use The result of The Previous function to return to the user.. 
 		return vectorWorldToPixels(glm::vec2(worldX, worldY));
-	}*/
+	}
 }
