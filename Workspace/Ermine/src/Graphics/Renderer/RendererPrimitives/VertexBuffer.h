@@ -15,6 +15,7 @@ namespace Ermine
 
 	public:
 		std::vector<float> GetBufferData() const { return BufferData; }
+		void SetBufferData(std::vector<float> Data);
 
 		void Bind();
 		void UnBind();

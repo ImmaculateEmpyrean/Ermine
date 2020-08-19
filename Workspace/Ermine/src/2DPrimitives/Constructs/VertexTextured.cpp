@@ -57,6 +57,24 @@ Ermine::VertexTextured::VertexTextured(std::vector<float> Vertex)
 }
 
 
+std::vector<std::vector<float>>&& Ermine::VertexTextured::GetVertexBufferSeperated(std::vector<float>& LargeContainerHavingMyltipleVertexBuffers)
+{
+    std::vector<std::vector<float>> Container;
+    int c = 0;
+    for (float i : LargeContainerHavingMyltipleVertexBuffers)
+    {
+        if (c == 9)
+        {
+            c = 0;
+            Container.emplace_back(std::vector<float>());
+        }
+
+        Container[Container.size() - 1].emplace_back(i);
+        c++;
+    }
+    return std::move(Container);
+}
+
 std::vector<float> Ermine::VertexTextured::GetVertexData() const
 {
     std::vector<float> VertexData;

@@ -25,6 +25,15 @@ namespace Ermine
 	}
 
 
+	void VertexBuffer::SetBufferData(std::vector<float> Data)
+	{
+		GLCall(glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer));
+		GLCall(glBufferData(GL_ARRAY_BUFFER, Data.size() * sizeof(float), &Data.front(), GL_DYNAMIC_DRAW));
+
+		//Set New Data Inside The Buffer Data.. The New Data Is The Recieved Data..
+		BufferData = Data;
+	}
+
 	void VertexBuffer::Bind()
 	{
 		GLCall(glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer));

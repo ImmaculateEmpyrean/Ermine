@@ -19,7 +19,7 @@ namespace Ermine
 
 		//Use This Constructor For More Of Your Work As Compared To The Default One..
 		//This Fixes The Shape As A SingleBox.. To Have Something Else Go With A Different Constructor
-		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition);
+		//PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition);
 
 		//Use This Constructor To Explicitly Fix The Size Of The Box
 		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,glm::vec2 BodySize);

@@ -30,17 +30,6 @@ namespace Ermine
 
 	}
 
-	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition)
-		:
-		BodyDefinitionOfTheComponent(Definition)
-	{
-		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
-
-		FixturesAssociatedWithTheBody.emplace_back(FixtureDefinition);
-
-		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
-	}
-
 	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,
 										   glm::vec2 BodySize)
 		:

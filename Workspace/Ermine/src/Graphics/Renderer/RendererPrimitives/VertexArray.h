@@ -31,11 +31,15 @@ namespace Ermine
 		void UnBind();
 
 		void SetVertexAttribArray(std::vector<VertexAttribPointerSpecification> SpecContainer);
+		std::vector<VertexAttribPointerSpecification> GetVertexAttribArray();
 
 		int GetIndexBufferLength();
 
 		void Clear();
 
+		//This Functions Call The Set Vertex Buffer Data Function Inside The Vbo Object..
+		//This Function For Some Reason Is Not Working Properly..
+		void SetVertexBufferData(std::vector<float> Data);
 		//Donot Use This Function Without Good Reason It Is Likely Way Too EXPENSIVE To Break Even..
 		std::vector<float> GetVertexBufferData();
 

@@ -75,7 +75,8 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsW
 	//Ended Setup Physics of The Engine..//
 
 	//Start Test Ground//
-	glm::vec2 LocPixelCoordinates = { 500.0f,500.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
+
+	/*glm::vec2 LocPixelCoordinates = { 500.0f,500.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
 	glm::vec2 Loc = Ermine::coordPixelsToWorld(LocPixelCoordinates);
 
 	b2BodyDef GroundBodyDefinition;
@@ -93,7 +94,7 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsW
 	b2Body* GroundBody;
 	GroundBody = Universum->CreateBody(&GroundBodyDefinition);
 
-	GroundBody->CreateFixture(&GroundFixture);
+	GroundBody->CreateFixture(&GroundFixture);*/
 
 	//Ended Test Ground//
 
@@ -445,24 +446,45 @@ void Ermine::App::OnTick()
 
 	//Start Physics Component Test//
 	
-	glm::vec2 LocPixelCoordinates = { 500.0f,0.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
+	glm::vec2 LocPixelCoordinates = { 0.0f,0.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
 	glm::vec2 Loc = Ermine::coordPixelsToWorld(LocPixelCoordinates);
 
 	b2BodyDef Def;
 	Def.position.Set(Loc.x,Loc.y);
 	Def.type = b2_dynamicBody;
 
-	static auto BoxShape = b2PolygonShape();
-	BoxShape.SetAsBox(10.0f, 10.0f);
+	//static auto BoxShape = b2PolygonShape();
+	//BoxShape.SetAsBox(5.0f, 5.0f);
 
 	b2FixtureDef FDef;
 	FDef.density = 1.0f;
-	FDef.shape = &BoxShape;
+	//FDef.shape = &BoxShape;
 	FDef.friction = 0.3f;
 
-	static PhysicsComponent2D Obj(Def, FDef,glm::vec2(10.0f,10.0f));
+	//Start Create Ground Physics Component..//
 
-	//static PhysicsComponent2D GroundBody(GroundBodyDefinition,GroundFixture,glm::vec2(50.0f,2.0f));
+	glm::vec2 LocPixelCoordinatesGrd = { 0.0f,250.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
+	glm::vec2 LocGrd = Ermine::coordPixelsToWorld(LocPixelCoordinatesGrd);
+
+	b2BodyDef GroundBodyDefinition;
+	GroundBodyDefinition.position.Set(LocGrd.x,LocGrd.y);
+	GroundBodyDefinition.type = b2_staticBody;
+
+	//static auto GroundShape = b2PolygonShape();
+	//GroundShape.SetAsBox(100.0f, 0.01f);
+
+	b2FixtureDef GroundFixture;
+	GroundFixture.density = 1.0f;
+	//GroundFixture.shape = &GroundShape;
+	GroundFixture.friction = 0.3f;
+
+	static PhysicsComponent2D GroundBody(GroundBodyDefinition,GroundFixture,glm::vec2(100.0f,0.01f));
+
+	//Ended Create Ground Physics Component..//
+
+	static PhysicsComponent2D Obj(Def, FDef,glm::vec2(1.0f,1.0f));
+
+	
 
 	//b2Vec2 Position = Obj.operator b2Body* ()->GetPosition();
 	//float angle = Obj.operator b2Body * ()->GetAngle();
@@ -495,8 +517,9 @@ void Ermine::App::OnTick()
 		l = false;
 	}
 
+
 	static Ermine::PhysicsActor* Act = new Ermine::PhysicsActor(ShSpr, std::move(Obj));
-	//static Ermine::PhysicsActor* GrndAct = new Ermine::PhysicsActor(GrndShSpr, std::move(GroundBody));
+	static Ermine::PhysicsActor* GrndAct = new Ermine::PhysicsActor(GrndShSpr, std::move(GroundBody));
 	//static Ermine::Actor2D* Act = new Ermine::Actor2D(ShSpr);
 	//Act->Translate({ 0.5f,0.5f });
 
@@ -505,7 +528,7 @@ void Ermine::App::OnTick()
 
 	LayerStackLayer Layer("Han");
 	Layer.SubmitRenderable(Act);
-	//Layer.SubmitRenderable(GrndAct);
+	Layer.SubmitRenderable(GrndAct);
 
 	auto ProjectionMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);//glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
 

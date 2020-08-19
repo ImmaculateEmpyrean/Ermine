@@ -49,6 +49,8 @@ namespace Ermine
 		VertexTextured(std::vector<float> Vertex);
 
 	public:
+		//This Function Is General Purpose It Is Used To Seperate Larger Containers Into Smaller Containers..
+		virtual std::vector<std::vector<float>>&& GetVertexBufferSeperated(std::vector<float>& LargeContainerHavingMyltipleVertexBuffers );
 
 		//Returns The Entire Vertex Data As a Vector Of Floats Has To Be Overloaded In Every Child..
 		virtual std::vector<float> GetVertexData() const override;

@@ -100,6 +100,11 @@ namespace Ermine
 	
 	void VertexArray::SetVertexAttribArray(std::vector<VertexAttribPointerSpecification> SpecContainer)
 	{
+		//Start This Might Be Wrong So just Delete It If Domething Goes Abnormally Wrong..
+		AttributesSetCount = 0;
+		NextVertexAttribStartLoc = 0;
+		//Ended This Might Be Wrong So just Delete It If Domething Goes Abnormally Wrong..
+
 		//Copy The Buffer Over So That Future Copying And Moving Can Be Done Easily..
 		BufferToStoreAllRecievedSpecification = SpecContainer;
 
@@ -116,9 +121,12 @@ namespace Ermine
 
 			NextVertexAttribStartLoc = NextVertexAttribStartLoc + (i.NumberOfComponents * HelperSizeOfTheComponent(i.TypeOfTheComponent));
 			AttributesSetCount++;
-
-			
 		}
+	}
+
+	std::vector<VertexAttribPointerSpecification> VertexArray::GetVertexAttribArray()
+	{
+		return BufferToStoreAllRecievedSpecification;
 	}
 
 	int VertexArray::GetIndexBufferLength()
@@ -132,6 +140,18 @@ namespace Ermine
 		{
 			GLCall(glDeleteVertexArrays(1, &vertex_array));
 		}
+	}
+
+	void VertexArray::SetVertexBufferData(std::vector<float> Data)
+	{
+		//Bind The Vertex Array In Question So That The Vertex Buffer Is Bound To It Irrefutable..
+		Bind();
+
+		//Call The Set Buffer Data On The Vertex Buffer In Question...
+		Vbo.SetBufferData(Data);
+
+		//Set The Vertex Attrib Pointer Maybe Again..
+		SetVertexAttribArray(BufferToStoreAllRecievedSpecification);
 	}
 
 	std::vector<float> VertexArray::GetVertexBufferData()

@@ -15,6 +15,8 @@
 #include "2DPrimitives/TileMapLayerRenderable.h"
 #include "2DPrimitives/Label.h"
 
+#include "Physics/Physics.h"
+
 namespace Ermine
 {
 	//Forward Declaration For The Purposes Of Being a friend...
