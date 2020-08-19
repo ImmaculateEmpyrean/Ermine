@@ -536,6 +536,20 @@ void Ermine::App::OnTick()
 	Renderer2D::SubmitLayer(Layer);
 	Renderer2D::EndScene();
 
+	static float ForceApplied[2];
+	
+	bool ApplyForce = false;
+
+	ImGui::Begin("Physics Test On Box");
+	ImGui::InputFloat2("##PhysicsTestOnBoxdfsg", ForceApplied,2);
+	//ImGui::Checkbox("##PhysicsTestApplyForceOnBox", &ApplyForce);
+	if(ImGui::Button("ApplyForce!!!##PhysicsTestApplyForceOnBox"))
+		ApplyForce = true;
+	ImGui::End();
+
+	if (ApplyForce)
+		Act->AddForceToCentre(glm::vec2(ForceApplied[0], ForceApplied[1]));
+
 #pragma endregion PhysicsActorTest
 }
 

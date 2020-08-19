@@ -94,13 +94,27 @@ namespace Ermine
 		//Get The Size Of The Body from the Right Side
 		BodySize = rhs.BodySize;
 	}
-
-
-	void PhysicsComponent2D::HelperConstructorCreateBox(b2FixtureDef FixtureDefinition)
-	{
-		
-	}
 #pragma endregion HelperFunctions
+
+	void PhysicsComponent2D::AddForce(glm::vec2 Force, glm::vec2 BodyPointAtWhichForceIsApplied)
+	{
+		//In Pixel Space Y Points Down While In Box2D It Points Up..
+		Force.y = -1.0f * Force.y;
+
+		//Convert The Coordinates Of Body Point At Which Force Is Applied From Poxel Space To Box2D Space..
+		BodyPointAtWhichForceIsApplied = Ermine::coordPixelsToWorld(BodyPointAtWhichForceIsApplied);
+
+		//Ask Box2D To Apply The Force On The Object In Question..
+		BodyManagedByTheComponent->ApplyForce(b2Vec2(Force.x, Force.y), b2Vec2(BodyPointAtWhichForceIsApplied.x, BodyPointAtWhichForceIsApplied.y), true);
+	}
+	void PhysicsComponent2D::AddForceToCentre(glm::vec2 Force)
+	{
+		//In Pixel Space Y Points Down While In Box2D It Points Up..
+		Force.y = -1.0f * Force.y;
+
+		//Ask Body2D To Apply The Force To The Body Centre..
+		BodyManagedByTheComponent->ApplyForceToCenter(b2Vec2(Force.x,Force.y), true);
+	}
 
 #pragma region GetBodyTransform
 

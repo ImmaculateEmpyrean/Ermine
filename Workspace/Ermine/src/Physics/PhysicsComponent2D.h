@@ -67,6 +67,10 @@ namespace Ermine
 		float GetBodyHeight() { return BodySize.y; }
 		//Ended Get Various Matrices Related With Transformation//
 
+		//Start Section Add Something To The Body..//
+		void AddForceToCentre(glm::vec2 Force);
+		void AddForce(glm::vec2 Force,glm::vec2 BodyPointAtWhichForceIsApplied);
+
 	public:
 
 	protected:
@@ -74,7 +78,7 @@ namespace Ermine
 	protected:
 
 	private:
-		void HelperConstructorCreateBox(b2FixtureDef FixtureDefinition);
+		//void HelperConstructorCreateBox(b2FixtureDef FixtureDefinition);
 		void HelperMoveFunction(PhysicsComponent2D&& rhs);
 
 	private:
