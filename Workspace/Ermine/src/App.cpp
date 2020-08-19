@@ -446,7 +446,7 @@ void Ermine::App::OnTick()
 
 	//Start Physics Component Test//
 	
-	glm::vec2 LocPixelCoordinates = { 0.0f,0.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
+	glm::vec2 LocPixelCoordinates = { 500.0f,0.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
 	glm::vec2 Loc = Ermine::coordPixelsToWorld(LocPixelCoordinates);
 
 	b2BodyDef Def;
@@ -463,7 +463,7 @@ void Ermine::App::OnTick()
 
 	//Start Create Ground Physics Component..//
 
-	glm::vec2 LocPixelCoordinatesGrd = { 0.0f,500.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
+	glm::vec2 LocPixelCoordinatesGrd = { 500.0f,1000.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
 	glm::vec2 LocGrd = Ermine::coordPixelsToWorld(LocPixelCoordinatesGrd);
 
 	b2BodyDef GroundBodyDefinition;
@@ -478,11 +478,11 @@ void Ermine::App::OnTick()
 	//GroundFixture.shape = &GroundShape;
 	GroundFixture.friction = 0.3f;
 
-	static PhysicsComponent2D GroundBody(GroundBodyDefinition,GroundFixture,glm::vec2(100.0f,50.0f));
+	static PhysicsComponent2D GroundBody(GroundBodyDefinition,GroundFixture,glm::vec2(1000.0f,50.0f));
 
 	//Ended Create Ground Physics Component..//
 
-	static PhysicsComponent2D Obj(Def, FDef,glm::vec2(10.0f,10.0f));
+	static PhysicsComponent2D Obj(Def, FDef,glm::vec2(100.0f,100.0f));
 
 	
 

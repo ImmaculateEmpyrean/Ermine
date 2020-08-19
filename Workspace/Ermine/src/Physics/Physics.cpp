@@ -51,6 +51,11 @@ namespace Ermine
 		PixelCoordinates.y = Ermine::GetScreenWidth() - Intermediary.y;
 		//Ended transpose it with respect to the origin..//
 
+		//Start Translation To Pixel World Centre
+		PixelCoordinates.x = PixelCoordinates.x - Ermine::GetScreenWidth() / 2;
+		PixelCoordinates.y = PixelCoordinates.y - Ermine::GetScreenHeight() / 2;
+		//Ended Translation To Pixel World Centre
+
 		return PixelCoordinates;
 	}
 	/*glm::vec2 coordWorldToPixels(float worldX, float worldY)
@@ -64,6 +69,11 @@ namespace Ermine
 		//This Will Be Returned to the user in the end..
 		glm::vec2 WorldCoordinates;
 
+		//Start Translation To Pixel World Centre
+		screen.x = screen.x + Ermine::GetScreenWidth() / 2;
+		screen.y = screen.y + Ermine::GetScreenHeight() / 2;
+		//Ended Translation To Pixel World Centre
+
 		//first get the value converted to the proper coordinate system..
 		//auto Intermediary = vectorPixelsToWorld(screen);
 		glm::vec2 Intermediary;
@@ -76,7 +86,7 @@ namespace Ermine
 		//Get How Much Y Has Advanced Up And Advance That Much Down..
 		//float MovementInY = (Ermine::GetScreenHeight() / 2 * ScaleFactor) - Intermediary.y;
 		
-		WorldCoordinates.y =  Intermediary.y * -1;
+		WorldCoordinates.y = -1.0f * Intermediary.y;
 		//Ended transpose it with respect to the origin..//
 
 		return WorldCoordinates;
