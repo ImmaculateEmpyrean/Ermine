@@ -444,8 +444,7 @@ void Ermine::App::OnTick()
 
 #pragma region PhysicsComponentTest
 
-	//Start Physics Component Test//
-	
+	//Start Creating Box Physics Component//
 	glm::vec2 LocPixelCoordinates = { 500.0f,0.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
 	glm::vec2 Loc = Ermine::coordPixelsToWorld(LocPixelCoordinates);
 
@@ -453,13 +452,19 @@ void Ermine::App::OnTick()
 	Def.position.Set(Loc.x,Loc.y);
 	Def.type = b2_dynamicBody;
 
-	//static auto BoxShape = b2PolygonShape();
-	//BoxShape.SetAsBox(5.0f, 5.0f);
-
 	b2FixtureDef FDef;
 	FDef.density = 1.0f;
-	//FDef.shape = &BoxShape;
 	FDef.friction = 0.3f;
+
+	static b2CircleShape CircleShape;
+	CircleShape.m_radius = 0.5f;
+	static b2Shape* Shp = &CircleShape;
+	
+	FDef.shape = Shp;
+
+	static PhysicsComponent2D Obj = PhysicsComponent2D(Def, FDef);
+	//static PhysicsComponent2D Obj(Def, FDef, glm::vec2(100.0f, 100.0f));
+	//Ended Creating Box Physics Component//
 
 	//Start Create Ground Physics Component..//
 
@@ -482,7 +487,7 @@ void Ermine::App::OnTick()
 
 	//Ended Create Ground Physics Component..//
 
-	static PhysicsComponent2D Obj(Def, FDef,glm::vec2(100.0f,100.0f));
+	
 
 	
 
@@ -541,8 +546,15 @@ void Ermine::App::OnTick()
 	bool ApplyForce = false;
 
 	ImGui::Begin("Physics Test On Box");
+	
 	ImGui::InputFloat2("##PhysicsTestOnBoxdfsg", ForceApplied,2);
-	//ImGui::Checkbox("##PhysicsTestApplyForceOnBox", &ApplyForce);
+	ImGui::SameLine();
+	if (ImGui::Button("Reverse Force Applied"))
+	{
+		ForceApplied[0] = ForceApplied[0] * -1;
+		ForceApplied[1] = ForceApplied[1] * -1;
+	}
+
 	if(ImGui::Button("ApplyForce!!!##PhysicsTestApplyForceOnBox"))
 		ApplyForce = true;
 	ImGui::End();

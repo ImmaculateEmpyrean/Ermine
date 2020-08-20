@@ -31,27 +31,98 @@ namespace Ermine
 	}
 
 	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,
-										   glm::vec2 BodySizeInPixelSpace)
+										   glm::vec2 BoxSizeInPixels)
 		:
 		BodyDefinitionOfTheComponent(Definition)
 	{
 		//Calculate Size Of The Body In Box2D Space..
-		glm::vec2 BodySizeWorldCoordinates = Ermine::vectorPixelsToWorld(BodySizeInPixelSpace);
-
-		//Setup The Body Size In Proper Box2D Space
-		BodySize = BodySizeWorldCoordinates;
-
-		//First Create The Body In The Box2D World As Intended..
-		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
+		BodySize = Ermine::vectorPixelsToWorld(BoxSizeInPixels);
 
 		//Create A Shape To Be associated With The Fixture..
 		b2PolygonShape Shape = b2PolygonShape();
-		Shape.SetAsBox(BodySizeWorldCoordinates.x/2.0f, BodySizeWorldCoordinates.y /2.0f);
+		Shape.SetAsBox(BodySize.x/2.0f, BodySize.y /2.0f);
 
 		FixturesAssociatedWithTheBody.emplace_back(FixtureDefinition);
 		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
 
-		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
+		HelperConstructorConstructBody();
+	}
+
+	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition)
+		:
+		BodyDefinitionOfTheComponent(Definition)
+	{
+		//Get The Fixture Associated With The Body And Place It inside The Buffer 
+		FixturesAssociatedWithTheBody.emplace_back(FixtureDefinition);
+
+		//Construct The Body Using The Fixtures AlreadySetup
+		HelperConstructorConstructBody();
+
+		//Calculate Size Of The Body In Box2D Space..
+		BodySize = HelperGetWidthAndHeightOfTheBoundingBox();
+	}
+
+	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, std::vector<BodyPart> AllPartsConstitutingTheBody)
+		:
+		BodyDefinitionOfTheComponent(Definition)
+	{
+		//Start Calculating Size Of The Body..
+		int XOffsetLargest  = 0, YOffsetLargest  = 0;
+		int XOffsetSmallest = 0, YOffsetSmallest = 0;
+
+		for (auto i : AllPartsConstitutingTheBody)
+		{
+			//If Values Are Not already In Box2D Space Convert Into Box2D Space..
+			if (i.InBox2DSpace == false)
+				i.ConvertOffsetFromCentreAndPartSizeToBox2DSpace();
+
+			//Calculate length And Breadth Of The Box..
+			int Numx, Numy;
+
+			if (i.OffsetFromTheCentre.x >= 0)
+			{
+				Numx = i.OffsetFromTheCentre.x + (i.PartSize.x / 2);
+
+				if (i.OffsetFromTheCentre.y >= 0)
+					Numy = i.OffsetFromTheCentre.y + (i.PartSize.y / 2);
+				else
+					Numy = i.OffsetFromTheCentre.y - (i.PartSize.y / 2);
+			}
+			else
+			{
+				Numx = i.OffsetFromTheCentre.x - (i.PartSize.x / 2);
+
+				if (i.OffsetFromTheCentre.y >= 0)
+					Numy = i.OffsetFromTheCentre.y + (i.PartSize.y / 2);
+				else
+					Numy = i.OffsetFromTheCentre.y - (i.PartSize.y / 2);
+			}
+
+			//Check If This Box Has The Largest Side.. 
+			if (XOffsetLargest < Numx)
+				XOffsetLargest = Numx;
+
+			if (YOffsetLargest < Numy)
+				YOffsetLargest = Numy;
+
+			//Check If This Box Has The LArgest Side In Opposite Direction..
+			if (XOffsetSmallest > Numx)
+				XOffsetSmallest = Numx;
+
+			if (YOffsetSmallest > Numy)
+				YOffsetSmallest = Numy;
+
+		}
+		//Calculate The Body Size Using The Largest Box Sizes In Both Direction..
+		BodySize.x = XOffsetLargest - XOffsetSmallest;
+		BodySize.y = YOffsetLargest - YOffsetSmallest;
+		//Ended Calculating Size Of The Body..
+
+		for (auto i : AllPartsConstitutingTheBody)
+		{
+			FixturesAssociatedWithTheBody.emplace_back(i.FixtureDefinition);
+			BodyManagedByTheComponent->CreateFixture(&i.FixtureDefinition);
+		}
 	}
 
 	PhysicsComponent2D::~PhysicsComponent2D()
@@ -78,6 +149,17 @@ namespace Ermine
 #pragma endregion CopyAndMoveConstruction
 
 #pragma region HelperFunctions
+	
+	void PhysicsComponent2D::HelperConstructorConstructBody()
+	{
+		//First Create The Body In The Box2D World As Intended..
+		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
+
+		for(auto FixtureDefinition: FixturesAssociatedWithTheBody)
+		BodyManagedByTheComponent->CreateFixture(&FixtureDefinition);
+	}
+	
+	
 	void PhysicsComponent2D::HelperMoveFunction(PhysicsComponent2D&& rhs)
 	{
 		//Try Moving The Body Definition Into The New Object
@@ -94,6 +176,36 @@ namespace Ermine
 		//Get The Size Of The Body from the Right Side
 		BodySize = rhs.BodySize;
 	}
+
+	glm::vec2 PhysicsComponent2D::HelperGetWidthAndHeightOfTheBoundingBox()
+	{
+		b2AABB aabb;
+		aabb.lowerBound = b2Vec2(FLT_MAX, FLT_MAX); 
+		aabb.upperBound = b2Vec2(-FLT_MAX, -FLT_MAX);
+		b2Transform t;
+		t.SetIdentity();
+		b2Fixture* fixture = BodyManagedByTheComponent->GetFixtureList();
+		while (fixture != NULL) {
+			const b2Shape* shape = fixture->GetShape();
+			const int childCount = shape->GetChildCount();
+			for (int child = 0; child < childCount; ++child) {
+				b2AABB shapeAABB;
+				shape->ComputeAABB(&shapeAABB, t, child);
+				shapeAABB.lowerBound = shapeAABB.lowerBound;
+				shapeAABB.upperBound = shapeAABB.upperBound;
+				aabb.Combine(shapeAABB);
+			}
+			fixture = fixture->GetNext();
+		}
+
+		b2Vec2 lowerVertex = aabb.lowerBound;
+		b2Vec2 heigherVertex = aabb.upperBound;
+		float bodyWidth = heigherVertex.x - lowerVertex.x;
+		float bodyHeight = heigherVertex.y - lowerVertex.y;
+
+		return glm::vec2(bodyWidth, bodyHeight);
+	}
+
 #pragma endregion HelperFunctions
 
 	void PhysicsComponent2D::AddForce(glm::vec2 Force, glm::vec2 BodyPointAtWhichForceIsApplied)

@@ -284,6 +284,7 @@
     <ClInclude Include="src\2DPrimitives\ActorFamily\ImageBase.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.h" />
     <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderablePhysicsComponent2D.h" />
+    <ClInclude Include="src\Physics\BodyPart.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
@@ -459,5 +460,6 @@
     <ClCompile Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.cpp" />
     <ClCompile Include="src\Physics\PhysicsComponent2D.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderablePhysicsComponent2D.cpp" />
+    <ClCompile Include="src\Physics\BodyPart.cpp" />
   </ItemGroup>
 </Project>

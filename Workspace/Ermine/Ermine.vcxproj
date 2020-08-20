@@ -207,6 +207,7 @@
     <ClInclude Include="src\LayerSystem\LayerStack.h" />
     <ClInclude Include="src\LayerSystem\LayerStackLayer.h" />
     <ClInclude Include="src\PCH\stdafx.h" />
+    <ClInclude Include="src\Physics\BodyPart.h" />
     <ClInclude Include="src\Physics\Physics.h" />
     <ClInclude Include="src\Physics\PhysicsComponent2D.h" />
     <ClInclude Include="src\Physics\PhysicsWorldInitializationStruct.h" />
@@ -279,6 +280,7 @@
     <ClCompile Include="src\PCH\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Physics\BodyPart.cpp" />
     <ClCompile Include="src\Physics\Physics.cpp" />
     <ClCompile Include="src\Physics\PhysicsComponent2D.cpp" />
     <ClCompile Include="src\Test.cpp" />

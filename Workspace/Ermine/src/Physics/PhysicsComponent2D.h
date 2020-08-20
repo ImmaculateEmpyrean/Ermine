@@ -5,6 +5,7 @@
 
 #include <box2d/box2d.h>
 #include "Physics.h"
+#include "BodyPart.h"
 /*
 	This Component Must Be Inherited By Any Class In Ermine If It Wants Physics Implemented..	
 */
@@ -17,12 +18,14 @@ namespace Ermine
 		//A Default Physics component Can Be Constructed However It Cannot Be Default..
 		PhysicsComponent2D();
 
-		//Use This Constructor For More Of Your Work As Compared To The Default One..
-		//This Fixes The Shape As A SingleBox.. To Have Something Else Go With A Different Constructor
-		//PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition);
+		//Use This Constructor To Explicitly Fix The Size Of The Box And Also Say That The Shape Is a Box..
+		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,glm::vec2 BodySizeInPixelSpace);
 
-		//Use This Constructor To Explicitly Fix The Size Of The Box
-		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,glm::vec2 BodySize);
+		//Use This Constructor If U Wanna Set a Custom Shape..
+		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition);
+
+		//Use This Constructor If U Wanna Set A Lot Of Fixtures And Shapes..
+		PhysicsComponent2D(b2BodyDef Definition,std::vector<BodyPart> AllPartsConstitutingTheBody);
 
 		//A Destructor Is Needed As This Class Is Managing Memory
 		~PhysicsComponent2D();
@@ -78,8 +81,11 @@ namespace Ermine
 	protected:
 
 	private:
-		//void HelperConstructorCreateBox(b2FixtureDef FixtureDefinition);
+		void HelperConstructorConstructBody();
 		void HelperMoveFunction(PhysicsComponent2D&& rhs);
+
+		//Return The Width And Height Of The Bounding Box Of The Entire Box2D Object In Box2D Space.. REMEMBER THE BODY MUST EXIST FOR THIS TO WORK..
+		glm::vec2 HelperGetWidthAndHeightOfTheBoundingBox();
 
 	private:
 		b2Body* BodyManagedByTheComponent;
