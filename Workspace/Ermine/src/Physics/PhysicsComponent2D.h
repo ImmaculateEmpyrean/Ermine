@@ -25,7 +25,7 @@ namespace Ermine
 		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition);
 
 		//Use This Constructor If U Wanna Set A Lot Of Fixtures And Shapes..
-		PhysicsComponent2D(b2BodyDef Definition,std::vector<BodyPart> AllPartsConstitutingTheBody);
+		PhysicsComponent2D(b2BodyDef Definition,std::vector<b2FixtureDef> FixtureDefinitions);
 
 		//A Destructor Is Needed As This Class Is Managing Memory
 		~PhysicsComponent2D();

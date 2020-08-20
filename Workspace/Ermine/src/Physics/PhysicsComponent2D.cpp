@@ -62,67 +62,16 @@ namespace Ermine
 		BodySize = HelperGetWidthAndHeightOfTheBoundingBox();
 	}
 
-	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, std::vector<BodyPart> AllPartsConstitutingTheBody)
+	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, std::vector<b2FixtureDef> FixtureDefinitions)
 		:
-		BodyDefinitionOfTheComponent(Definition)
+		BodyDefinitionOfTheComponent(Definition),
+		FixturesAssociatedWithTheBody(FixtureDefinitions)
 	{
-		//Start Calculating Size Of The Body..
-		int XOffsetLargest  = 0, YOffsetLargest  = 0;
-		int XOffsetSmallest = 0, YOffsetSmallest = 0;
+		//Construct The Body Using The Fixtures AlreadySetup
+		HelperConstructorConstructBody();
 
-		for (auto i : AllPartsConstitutingTheBody)
-		{
-			//If Values Are Not already In Box2D Space Convert Into Box2D Space..
-			if (i.InBox2DSpace == false)
-				i.ConvertOffsetFromCentreAndPartSizeToBox2DSpace();
-
-			//Calculate length And Breadth Of The Box..
-			int Numx, Numy;
-
-			if (i.OffsetFromTheCentre.x >= 0)
-			{
-				Numx = i.OffsetFromTheCentre.x + (i.PartSize.x / 2);
-
-				if (i.OffsetFromTheCentre.y >= 0)
-					Numy = i.OffsetFromTheCentre.y + (i.PartSize.y / 2);
-				else
-					Numy = i.OffsetFromTheCentre.y - (i.PartSize.y / 2);
-			}
-			else
-			{
-				Numx = i.OffsetFromTheCentre.x - (i.PartSize.x / 2);
-
-				if (i.OffsetFromTheCentre.y >= 0)
-					Numy = i.OffsetFromTheCentre.y + (i.PartSize.y / 2);
-				else
-					Numy = i.OffsetFromTheCentre.y - (i.PartSize.y / 2);
-			}
-
-			//Check If This Box Has The Largest Side.. 
-			if (XOffsetLargest < Numx)
-				XOffsetLargest = Numx;
-
-			if (YOffsetLargest < Numy)
-				YOffsetLargest = Numy;
-
-			//Check If This Box Has The LArgest Side In Opposite Direction..
-			if (XOffsetSmallest > Numx)
-				XOffsetSmallest = Numx;
-
-			if (YOffsetSmallest > Numy)
-				YOffsetSmallest = Numy;
-
-		}
-		//Calculate The Body Size Using The Largest Box Sizes In Both Direction..
-		BodySize.x = XOffsetLargest - XOffsetSmallest;
-		BodySize.y = YOffsetLargest - YOffsetSmallest;
-		//Ended Calculating Size Of The Body..
-
-		for (auto i : AllPartsConstitutingTheBody)
-		{
-			FixturesAssociatedWithTheBody.emplace_back(i.FixtureDefinition);
-			BodyManagedByTheComponent->CreateFixture(&i.FixtureDefinition);
-		}
+		//Calculate Size Of The Body In Box2D Space..
+		BodySize = HelperGetWidthAndHeightOfTheBoundingBox();
 	}
 
 	PhysicsComponent2D::~PhysicsComponent2D()

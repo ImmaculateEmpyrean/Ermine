@@ -459,10 +459,55 @@ void Ermine::App::OnTick()
 	static b2CircleShape CircleShape;
 	CircleShape.m_radius = 0.5f;
 	static b2Shape* Shp = &CircleShape;
-	
+
 	FDef.shape = Shp;
 
-	static PhysicsComponent2D Obj = PhysicsComponent2D(Def, FDef);
+	//Start Creating Fixtures For The Complex Body..
+	std::vector<b2FixtureDef> Fixtures;
+	
+	//1
+	b2FixtureDef CentralBoxFixture;
+	CentralBoxFixture.density = 1.0f;
+	CentralBoxFixture.friction = 0.3f;
+
+	glm::vec2 BoxShapeWidthAndHeight = Ermine::vectorPixelsToWorld(glm::vec2(100.0f, 100.0f));
+	b2PolygonShape BoxShape;
+	BoxShape.SetAsBox(BoxShapeWidthAndHeight.x/2, BoxShapeWidthAndHeight.y/2);
+
+	CentralBoxFixture.shape = &BoxShape;
+
+	Fixtures.emplace_back(CentralBoxFixture);
+
+	//2
+	b2FixtureDef BottomCircleFixture;
+	BottomCircleFixture.density = 1.0f;
+	BottomCircleFixture.friction = 0.3f;
+	
+	b2CircleShape CircleShapeBottom;
+	CircleShapeBottom.m_radius = 0.5f;
+	CircleShapeBottom.m_p = b2Vec2(0, -1 * Ermine::vectorPixelsToWorld(glm::vec2(100.0f, 100.0f)).y);
+
+	BottomCircleFixture.shape = &CircleShapeBottom;
+
+	Fixtures.emplace_back(BottomCircleFixture);
+
+	//3
+	b2FixtureDef RightCircleFixture;
+	RightCircleFixture.density = 1.0f;
+	RightCircleFixture.friction = 0.3f;
+
+	b2CircleShape CircleShapeRight;
+	CircleShapeRight.m_radius = 0.5f;
+	CircleShapeRight.m_p = b2Vec2(Ermine::vectorPixelsToWorld(glm::vec2(100.0f, 100.0f)).y, 0.0f);
+
+	RightCircleFixture.shape = &CircleShapeRight;
+
+	Fixtures.emplace_back(RightCircleFixture);
+	//Ended Creating Fixtures For The Complex Bodies..
+
+	static PhysicsComponent2D Obj(Def,Fixtures);
+
+	//static PhysicsComponent2D Obj = PhysicsComponent2D(Def, FDef);
 	//static PhysicsComponent2D Obj(Def, FDef, glm::vec2(100.0f, 100.0f));
 	//Ended Creating Box Physics Component//
 
