@@ -32,7 +32,9 @@ namespace Ermine
 		Ermine::VertexTextured BottomRight(Quad::GetModelCoordinatesBottomRight());
 		Ermine::VertexTextured BottomLeft(Quad::GetModelCoordinatesBottomLeft());
 		Ermine::VertexTextured TopLeft(Quad::GetModelCoordinatesTopLeft());
-
+		
+		//NOTE- The VectorWorldToPixels() PArtly Works Because We Never Pass In A Negative Value.. This Function Is Not To Translate The Points On The Graph 
+		
 		glm::vec2 TopRightPixelCalculate = Ermine::vectorWorldToPixels(glm::vec2(GetBodyWidthBox2DSpace() / 2.0f, GetBodyHeightBox2DSpace() / 2));//glm::vec2 TopRightPixelCalculate = Ermine::coordWorldToPixels(glm::vec2(GetBodyWidth() / 2.0f, GetBodyHeight() / 2));
 		glm::vec3 TopRightPos = glm::vec3(TopRightPixelCalculate.x,TopRightPixelCalculate.y, 0.0f);
 		glm::vec4 TopRightPos4 = glm::vec4(TopRightPos, 0.0f);

@@ -198,30 +198,45 @@ namespace Ermine
 					std::vector<float> VertexBuffer;
 					//Store All The Indexes Here..
 					std::vector<uint32_t> IndexBuffer;
-					int IndexCounter = 0;
+					uint32_t IndexCounter = 0;
 
 					b2PolygonShape* PolygonShape = (b2PolygonShape*)f->GetShape();
 					
 					for (int i = 0; i < PolygonShape->m_count; i++)
 					{
-						glm::vec2 VertexInPixelSpace = Ermine::coordWorldToPixels(glm::vec2(PolygonShape->m_vertices[i].x, PolygonShape->m_vertices[i].y)); //This Is Returning Garbage Fix It..
+						b2Vec2 BodyPostionB2Vec2 = body->GetPosition();
+						glm::vec2 BodyPosition = glm::vec2(BodyPostionB2Vec2.x, BodyPostionB2Vec2.y);
+
+						glm::vec2 Vertex = glm::vec2(PolygonShape->m_vertices[i].x, PolygonShape->m_vertices[i].y); //This Is Returning Garbage Fix It..
+						
+						Vertex = Vertex; //+ BodyPosition;
+
+						glm::vec2 VertexInPixelSpace = Ermine::vectorWorldToPixels(Vertex);
+
 						VertexBuffer.emplace_back(VertexInPixelSpace.x);
 						VertexBuffer.emplace_back(VertexInPixelSpace.y);
+						VertexBuffer.emplace_back(3.0f);
 
 						//Add A New Index Into The Index Buffer
 						IndexBuffer.emplace_back(IndexCounter++);
+						IndexBuffer.emplace_back(IndexCounter);
 					}
-					IndexBuffer.emplace_back(0); //This Is Done In Order To GEt A Closed Polygon..
+					IndexBuffer[IndexBuffer.size() - 1] = 0;
 
 					VertexArray Vao(VertexBuffer, IndexBuffer);
 					static std::vector<VertexAttribPointerSpecification> Spec = {
-						   {2,GL_FLOAT,false},
+						   {3,GL_FLOAT,false}
 					};
 
 					Vao.SetVertexAttribArray(Spec);
+					Vao.Bind();
 
+					PhyCompShader.Bind();
+
+					//PhyCompShader.Uniform4f(std::string("InFragColor"), glm::vec4(255.0f,255.0f,255.0f,1.0f));
 					PhyCompShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
-					glDrawElements(GL_LINE, Vao.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+					PhyCompShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix());
+					glDrawElements(GL_LINES, Vao.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				}
 			}
 		}

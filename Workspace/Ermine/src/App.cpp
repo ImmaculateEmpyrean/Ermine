@@ -569,7 +569,8 @@ void Ermine::App::OnTick()
 
 	if (l == true)
 	{
-		Renderer2D::SubmitPhysicsComponent2D(dynamic_cast<PhysicsComponent2D*>(Act));
+		PhysicsComponent2D* Comp = dynamic_cast<PhysicsComponent2D*>(Act);
+		Renderer2D::SubmitPhysicsComponent2D(Comp);
 
 		l = false;
 	}

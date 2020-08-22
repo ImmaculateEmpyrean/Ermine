@@ -97,6 +97,7 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
 
     GLCall(glEnable(GL_BLEND));
     GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+    //GLCall(glEnable(GL_DEPTH_TEST));
 
 
 #if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
