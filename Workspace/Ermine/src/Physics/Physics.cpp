@@ -35,67 +35,37 @@ namespace Ermine
 
 	glm::vec2 coordWorldToPixels(glm::vec2 world)
 	{
-		//This Will Be Returned to the user in the end..
-		glm::vec2 PixelCoordinates;
+		world.x = world.x / ScaleFactor;
+		world.y = world.y / ScaleFactor;
 
-		glm::vec2 Intermediary;
-		Intermediary.x = Ermine::NormalizationFunction(world.x, (-1.0f * (Ermine::GetScreenWidth() / 2)) * ScaleFactor, (Ermine::GetScreenWidth() / 2) * ScaleFactor, 0.0f, Ermine::GetScreenWidth());
-		Intermediary.y = Ermine::NormalizationFunction(world.y, (-1.0f * (Ermine::GetScreenHeight() / 2)) * ScaleFactor, (Ermine::GetScreenHeight() / 2) * ScaleFactor, 0.0f, Ermine::GetScreenHeight());
+		glm::vec2 PixelSpace;
+		PixelSpace.x = world.x + (Ermine::GetScreenWidth() / 2);
+		PixelSpace.y = (Ermine::GetScreenHeight() / 2) - world.y;
 
-		PixelCoordinates.x = Intermediary.x;
-
-		//Y in Pixel Coordinates Is Flipped As Compared To The Y Here
-		//Get How Much Y Has Advanced Up And Advance That Much Down..
-		//float MovementInY = (Ermine::GetScreenHeight() / 2 * ScaleFactor) - Intermediary.y;
-
-		PixelCoordinates.y = Ermine::GetScreenWidth() - Intermediary.y;
-		//Ended transpose it with respect to the origin..//
-
-		//Start Translation To Pixel World Centre
-		PixelCoordinates.x = PixelCoordinates.x - Ermine::GetScreenWidth() / 2;
-		PixelCoordinates.y = PixelCoordinates.y - Ermine::GetScreenHeight() / 2;
-		//Ended Translation To Pixel World Centre
-
-		return PixelCoordinates;
+		return PixelSpace;
 	}
-	/*glm::vec2 coordWorldToPixels(float worldX, float worldY)
+	glm::vec2 coordWorldToPixels(float worldX, float worldY)
 	{
 		//Return the Result of The Previous Function..
 		return coordWorldToPixels(glm::vec2(worldX, worldY));	
-	}*/
+	}
 
 	glm::vec2 coordPixelsToWorld(glm::vec2 screen)
 	{
-		//This Will Be Returned to the user in the end..
-		glm::vec2 WorldCoordinates;
+		glm::vec2 WorldSpace;
+		WorldSpace.x = screen.x - (Ermine::GetScreenWidth() / 2);
+		WorldSpace.y = (Ermine::GetScreenHeight() / 2) - screen.y;
 
-		//Start Translation To Pixel World Centre
-		screen.x = screen.x + Ermine::GetScreenWidth() / 2;
-		screen.y = screen.y + Ermine::GetScreenHeight() / 2;
-		//Ended Translation To Pixel World Centre
+		WorldSpace.x = WorldSpace.x * ScaleFactor;
+		WorldSpace.y = WorldSpace.y * ScaleFactor;
 
-		//first get the value converted to the proper coordinate system..
-		//auto Intermediary = vectorPixelsToWorld(screen);
-		glm::vec2 Intermediary;
-		Intermediary.x = Ermine::NormalizationFunction(screen.x, 0.0f, Ermine::GetScreenWidth(), (-1.0f * (Ermine::GetScreenWidth() / 2)) * ScaleFactor, (Ermine::GetScreenWidth() / 2) * ScaleFactor);
-		Intermediary.y = Ermine::NormalizationFunction(screen.y, 0.0f, Ermine::GetScreenHeight(),(-1.0f * (Ermine::GetScreenHeight() / 2))* ScaleFactor, (Ermine::GetScreenHeight() / 2)*ScaleFactor);
-
-		WorldCoordinates.x = Intermediary.x;
-
-		//Y in Pixel Coordinates Is Flipped As Compared To The Y Here
-		//Get How Much Y Has Advanced Up And Advance That Much Down..
-		//float MovementInY = (Ermine::GetScreenHeight() / 2 * ScaleFactor) - Intermediary.y;
-		
-		WorldCoordinates.y = -1.0f * Intermediary.y;
-		//Ended transpose it with respect to the origin..//
-
-		return WorldCoordinates;
+		return WorldSpace;
 	}
-	/*glm::vec2 coordPixelsToWorld(float pixelX, float pixelY)
+	glm::vec2 coordPixelsToWorld(float pixelX, float pixelY)
 	{
 		//Return the Result of The Previous Function..
 		return coordPixelsToWorld(glm::vec2(pixelX,pixelY));
-	}*/
+	}
 
 
 	float scalarPixelsToWorld(float val)

@@ -12,6 +12,9 @@
 
 namespace Ermine
 {
+	//This Class Is Forward Declared So That It Can Be Made A Friend.. We Need To Access This Class Inorder To Draw The Outlines On Screen In The Debug Mode..
+	class Renderer2D;
+
 	class PhysicsComponent2D
 	{
 	public:
@@ -59,16 +62,26 @@ namespace Ermine
 		
 		//Gives The Rotation Matrix..
 		glm::mat4 GetRotationMatrix();
-
-
-		//Get Size Of The Body
-		glm::vec2 GetBodySize() { return BodySize; }
-		
-		//Get Width Of The Body
-		float GetBodyWidth() { return BodySize.x; }
-		//Get Height of The Body
-		float GetBodyHeight() { return BodySize.y; }
 		//Ended Get Various Matrices Related With Transformation//
+
+		//Start Get Size Of The Body//
+
+		//Get Size Of The Body Box2D Space
+		glm::vec2 GetBodySizeBox2DSpace() { return BodySize; }
+		//Get Size Of The Body Pixel Space
+		glm::vec2 GetBodySizePixelSpace() { return Ermine::vectorWorldToPixels(BodySize); }
+		
+		//Get Width Of The Body In Box2D Space
+		float GetBodyWidthBox2DSpace() { return BodySize.x; }
+		//Get Width Of The Body In Pixel Space
+		float GetBodyWidthPixelSpace() { return Ermine::scalarWorldToPixels(BodySize.x); }
+
+		//Get Height of The Body In Box2D Space
+		float GetBodyHeightBox2DSpace() { return BodySize.y; }
+		//Get Height of The Body in Pixel Space
+		float GetBodyHeightPixelSpace() { return Ermine::scalarWorldToPixels(BodySize.y);}
+		
+		//Ended Get Size Of The Body//
 
 		//Start Section Add Something To The Body..//
 		void AddForceToCentre(glm::vec2 Force);
@@ -94,5 +107,7 @@ namespace Ermine
 		std::vector<b2FixtureDef> FixturesAssociatedWithTheBody;
 
 		glm::vec2 BodySize = glm::vec2(10.0f,5.0f);
+
+		friend class Ermine::Renderer2D;
 	};
 }

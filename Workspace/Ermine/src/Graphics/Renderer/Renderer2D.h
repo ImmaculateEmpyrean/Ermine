@@ -36,6 +36,21 @@ namespace Ermine
 
 		static void EndScene();
 
+		//Start Functions To Interact With The Flag Start Physics Debugger//
+		static void TurnOnPhysicsDebugger();
+		static void TurnOffPhysicsDebugger();
+		//Ended Functions To Interact With The Flag Start Physics Debugger//
+
+		//Start Use These Functions To Interact With The Buffer Which Determines Which PhysicsComponent2D Objects Have Their Shape outlines Drawn..//
+
+		//This Function Does Not Own The Memory Allocated To The Pointer Donot Think Of Freeing The Memory At Any Point
+		static void SubmitPhysicsComponent2D(PhysicsComponent2D* PhyComp); 
+		
+		//This Function Is Used To Clear Out The Buffer Of The Components Which Have To Be Drawn Not Free Their Memory..
+		static void ClearPhysicsTrackingBuffer();
+
+		//Ended Use These Functions To Interact With The Buffer Which Determines Which PhysicsComponent2D Objects Have Their Shape outlines Drawn..//
+
 	public:
 
 	protected:
@@ -44,17 +59,31 @@ namespace Ermine
 
 	private:
 		void DrawingRoutine();
-		
+		void PhysicsDebuggerDrawingRoutine();
+
 	private:
+		//Tools To Make This Class a Singleton..
 		static std::once_flag InitializationFlag;
 		static Renderer2D* GlobalRenderer2DObj;
 
+		//Various Matrices To Transform The World To Better Suit What We Are Drawing..
 		glm::mat4 CameraMatrix;
 		glm::mat4 ProjectionMatrix;
 		glm::mat4 ProjectionViewMatrix;
 
+		//Start Flags//
 		bool SceneBegin;
 
+		//This Flag Is Used To Turn On The Physics Debugger Which Is Responsible For Drawing Outlines Of The Shapes IN The Box2D World.. 
+		bool UsePhysicsDebugger = false;
+
+		//Ended Flags//
+
+		//This Is The Buffer Which Has To Be Drawn This Frame..
 		LayerStack RendererLayerStack;
+
+		//This Buffer Stores All The Physics Components We Are Required to Draw The Outline Off..
+		std::vector<PhysicsComponent2D*> PhysicsComponentsBuffer;
+
 	};
 }

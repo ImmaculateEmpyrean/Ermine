@@ -68,7 +68,6 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsW
 	
 	//Create A Box2d Universe
 	Universum = new b2World(b2Vec2(PhysicsConfig.Gravity.x, PhysicsConfig.Gravity.y));
-	
 	//Compute Box2d Physics World Bounds..
 	Ermine::RecalculatePhysicsWorldBounds();
 
@@ -462,7 +461,7 @@ void Ermine::App::OnTick()
 
 	FDef.shape = Shp;
 
-	//Start Creating Fixtures For The Complex Body..
+	/*//Start Creating Fixtures For The Complex Body..
 	std::vector<b2FixtureDef> Fixtures;
 	
 	//1
@@ -503,12 +502,12 @@ void Ermine::App::OnTick()
 	RightCircleFixture.shape = &CircleShapeRight;
 
 	Fixtures.emplace_back(RightCircleFixture);
-	//Ended Creating Fixtures For The Complex Bodies..
+	//Ended Creating Fixtures For The Complex Bodies..*/
 
-	static PhysicsComponent2D Obj(Def,Fixtures);
+	//static PhysicsComponent2D Obj(Def,Fixtures);
 
 	//static PhysicsComponent2D Obj = PhysicsComponent2D(Def, FDef);
-	//static PhysicsComponent2D Obj(Def, FDef, glm::vec2(100.0f, 100.0f));
+	static PhysicsComponent2D Obj(Def, FDef, glm::vec2(100.0f, 100.0f));
 	//Ended Creating Box Physics Component//
 
 	//Start Create Ground Physics Component..//
@@ -531,10 +530,6 @@ void Ermine::App::OnTick()
 	static PhysicsComponent2D GroundBody(GroundBodyDefinition,GroundFixture,glm::vec2(1000.0f,50.0f));
 
 	//Ended Create Ground Physics Component..//
-
-	
-
-	
 
 	//b2Vec2 Position = Obj.operator b2Body* ()->GetPosition();
 	//float angle = Obj.operator b2Body * ()->GetAngle();
@@ -564,12 +559,20 @@ void Ermine::App::OnTick()
 	{
 		ShSpr.reset(spr);
 		GrndShSpr.reset(Grndspr);
-		l = false;
+
+		Renderer2D::TurnOnPhysicsDebugger();
 	}
 
 
 	static Ermine::PhysicsActor* Act = new Ermine::PhysicsActor(ShSpr, std::move(Obj));
 	static Ermine::PhysicsActor* GrndAct = new Ermine::PhysicsActor(GrndShSpr, std::move(GroundBody));
+
+	if (l == true)
+	{
+		Renderer2D::SubmitPhysicsComponent2D(dynamic_cast<PhysicsComponent2D*>(Act));
+
+		l = false;
+	}
 	//static Ermine::Actor2D* Act = new Ermine::Actor2D(ShSpr);
 	//Act->Translate({ 0.5f,0.5f });
 

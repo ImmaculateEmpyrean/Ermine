@@ -88,8 +88,35 @@ namespace Ermine
 		Renderer->SceneBegin = false;
 
 		Renderer->DrawingRoutine();
-		
+
+#ifdef ER_DEBUG_DEVELOP //This Feature Is Only Available In Debug Mode.. (Its Way Too Expensive And Not Needed In Other Modes..)
+		if(Renderer->UsePhysicsDebugger == true)
+			Renderer->PhysicsDebuggerDrawingRoutine(); //Also The Physics Debugger Must Be Turned On 
+#endif
 		Renderer->RendererLayerStack.Clear();
+	}
+
+	void Renderer2D::TurnOnPhysicsDebugger()
+	{
+		auto Renderer = Ermine::Renderer2D::Get();
+		Renderer->UsePhysicsDebugger = true;
+	}
+	void Renderer2D::TurnOffPhysicsDebugger()
+	{
+		auto Renderer = Ermine::Renderer2D::Get();
+		Renderer->UsePhysicsDebugger = false;
+	}
+
+
+	void Renderer2D::SubmitPhysicsComponent2D(PhysicsComponent2D* PhyComp)
+	{
+		auto Renderer = Ermine::Renderer2D::Get();
+		Renderer->PhysicsComponentsBuffer.emplace_back(PhyComp);
+	}
+	void Renderer2D::ClearPhysicsTrackingBuffer()
+	{
+		auto Renderer = Ermine::Renderer2D::Get();
+		Renderer->PhysicsComponentsBuffer.clear();
 	}
 
 	void Renderer2D::DrawingRoutine()
@@ -141,6 +168,61 @@ namespace Ermine
 				i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
 				glDrawElements(GL_TRIANGLES, i->GetVertexArray()->GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				//Ended These Steps Are To Be Done on All Kinds Of Renderables..//
+			}
+		}
+	}
+
+
+	void Renderer2D::PhysicsDebuggerDrawingRoutine()
+	{
+		auto Renderer = Ermine::Renderer2D::Get();
+
+		//Create The Shader Once And Keep It To Be Used In The Future..
+		static Ermine::Shader PhyCompShader(std::filesystem::path("Shader/Vertex/PhysicsDebuggerVertexShader.vert"),
+											std::filesystem::path("Shader/Fragment/PhysicsDebuggerFragmentShader.frag"));
+		
+		for (auto Component : PhysicsComponentsBuffer)
+		{
+			b2Body* body = Component->BodyManagedByTheComponent;
+
+			//Start Getting All Fixtures Associated With The Body..
+			int FixtureCount = 0;
+			for (b2Fixture* f = body->GetFixtureList(); f ;f =f->GetNext())
+			{
+				//Get The Type Of The Shape So That We Can Start Getting The Vertices..
+				b2Shape::Type shapetype = f->GetType();
+
+				if (shapetype == b2Shape::e_polygon)
+				{
+					//Store All The Vertexes To Draw Here..
+					std::vector<float> VertexBuffer;
+					//Store All The Indexes Here..
+					std::vector<uint32_t> IndexBuffer;
+					int IndexCounter = 0;
+
+					b2PolygonShape* PolygonShape = (b2PolygonShape*)f->GetShape();
+					
+					for (int i = 0; i < PolygonShape->m_count; i++)
+					{
+						glm::vec2 VertexInPixelSpace = Ermine::coordWorldToPixels(glm::vec2(PolygonShape->m_vertices[i].x, PolygonShape->m_vertices[i].y)); //This Is Returning Garbage Fix It..
+						VertexBuffer.emplace_back(VertexInPixelSpace.x);
+						VertexBuffer.emplace_back(VertexInPixelSpace.y);
+
+						//Add A New Index Into The Index Buffer
+						IndexBuffer.emplace_back(IndexCounter++);
+					}
+					IndexBuffer.emplace_back(0); //This Is Done In Order To GEt A Closed Polygon..
+
+					VertexArray Vao(VertexBuffer, IndexBuffer);
+					static std::vector<VertexAttribPointerSpecification> Spec = {
+						   {2,GL_FLOAT,false},
+					};
+
+					Vao.SetVertexAttribArray(Spec);
+
+					PhyCompShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					glDrawElements(GL_LINE, Vao.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+				}
 			}
 		}
 	}
