@@ -212,9 +212,13 @@ namespace Ermine
 						Vertex = Vertex; //+ BodyPosition;
 
 						glm::vec2 VertexInPixelSpace = Ermine::vectorWorldToPixels(Vertex);
+						glm::vec4 VertexInPixelSpace4 = glm::vec4(VertexInPixelSpace, 0.0f,0.0f);
 
-						VertexBuffer.emplace_back(VertexInPixelSpace.x);
-						VertexBuffer.emplace_back(VertexInPixelSpace.y);
+						VertexInPixelSpace4 = Component->GetRotationMatrix()* VertexInPixelSpace4;
+
+
+						VertexBuffer.emplace_back(VertexInPixelSpace4.x);
+						VertexBuffer.emplace_back(VertexInPixelSpace4.y);
 						VertexBuffer.emplace_back(3.0f);
 
 						//Add A New Index Into The Index Buffer
@@ -237,6 +241,13 @@ namespace Ermine
 					PhyCompShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
 					PhyCompShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix());
 					glDrawElements(GL_LINES, Vao.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+				}
+
+				if (shapetype == b2Shape::e_circle)
+				{
+					b2CircleShape* CircleShape = (b2CircleShape*)f->GetShape();
+
+					//CircleShape->Ver
 				}
 			}
 		}

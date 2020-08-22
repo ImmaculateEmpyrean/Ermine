@@ -461,7 +461,7 @@ void Ermine::App::OnTick()
 
 	FDef.shape = Shp;
 
-	/*//Start Creating Fixtures For The Complex Body..
+	//Start Creating Fixtures For The Complex Body..
 	std::vector<b2FixtureDef> Fixtures;
 	
 	//1
@@ -504,10 +504,10 @@ void Ermine::App::OnTick()
 	Fixtures.emplace_back(RightCircleFixture);
 	//Ended Creating Fixtures For The Complex Bodies..*/
 
-	//static PhysicsComponent2D Obj(Def,Fixtures);
+	static PhysicsComponent2D Obj(Def,Fixtures);
 
 	//static PhysicsComponent2D Obj = PhysicsComponent2D(Def, FDef);
-	static PhysicsComponent2D Obj(Def, FDef, glm::vec2(100.0f, 100.0f));
+	//static PhysicsComponent2D Obj(Def, FDef, glm::vec2(100.0f, 100.0f));
 	//Ended Creating Box Physics Component//
 
 	//Start Create Ground Physics Component..//
