@@ -6,6 +6,8 @@
 #include "GLFW/glfw3.h"
 #include "OpenGLErrorChecker.h"
 
+#include "2DPrimitives/Constructs/Quad.h"
+
 #include "RendererPrimitives/VertexArray.h"
 #include "RendererPrimitives/VertexBuffer.h"
 #include "RendererPrimitives/IndexBuffer.h"
@@ -222,10 +224,22 @@ namespace Ermine
 						VertexBuffer.emplace_back(3.0f);
 
 						//Add A New Index Into The Index Buffer
-						IndexBuffer.emplace_back(IndexCounter++);
-						IndexBuffer.emplace_back(IndexCounter);
+						IndexCounter++;
+						//IndexBuffer.emplace_back(IndexCounter++);
+						//IndexBuffer.emplace_back(IndexCounter);
 					}
-					IndexBuffer[IndexBuffer.size() - 1] = 0;
+					int Sc = 1;
+					int Tr = 2;
+					for (int i = 0; Tr < IndexCounter; i++)
+					{
+						IndexBuffer.emplace_back(0);
+						IndexBuffer.emplace_back(Sc);
+						IndexBuffer.emplace_back(Tr);
+
+						Sc++;
+						Tr++;
+					}
+					//IndexBuffer[IndexBuffer.size() - 1] = 0;
 
 					VertexArray Vao(VertexBuffer, IndexBuffer);
 					static std::vector<VertexAttribPointerSpecification> Spec = {
@@ -240,14 +254,45 @@ namespace Ermine
 					//PhyCompShader.Uniform4f(std::string("InFragColor"), glm::vec4(255.0f,255.0f,255.0f,1.0f));
 					PhyCompShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
 					PhyCompShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix());
-					glDrawElements(GL_LINES, Vao.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+					glDrawElements(GL_TRIANGLES, Vao.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				}
 
 				if (shapetype == b2Shape::e_circle)
 				{
-					b2CircleShape* CircleShape = (b2CircleShape*)f->GetShape();
+					//Start Get The Shader Ready To Be Drawn//
+					static Ermine::Shader Shd(std::filesystem::path("Shader/Vertex/PhysicsDebuggerDrawCircle.vert"), std::filesystem::path("Shader/Fragment/PhysicsDebuggerDrawCircle.frag"));
+					Shd.Bind();
+					//Shd.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					Shd.Uniform2f(std::string("u_resolution"), glm::vec2(1000.0f, 1000.0f));
+					Shd.Bind();
+					//Ended Get The Shader Ready To Be Drawn//
 
-					//CircleShape->Ver
+					b2CircleShape* CircleShape = (b2CircleShape*)f->GetShape();
+					
+					float radius = CircleShape->m_radius;
+					b2Vec2 OffsetFromCentre = CircleShape->m_p;
+
+					std::vector<uint32_t> IndexBuffer = Quad::GetModelIndices();
+					
+					std::vector<float> VertexBuffer{ 
+						// positions    
+					 0.5f,  0.5f, 0.0f, 
+					 0.5f, -0.5f, 0.0f, 
+					-0.5f, -0.5f, 0.0f, 
+					-0.5f,  0.5f, 0.0f
+					};
+
+					VertexArray Vaof(VertexBuffer, IndexBuffer);
+					Vaof.Bind();
+					
+					static std::vector<VertexAttribPointerSpecification> Spec = {
+						{3,GL_FLOAT,false}
+					};
+
+					Vaof.SetVertexAttribArray(Spec);
+					Vaof.Bind();
+
+					glDrawElements(GL_TRIANGLES, Vaof.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				}
 			}
 		}
