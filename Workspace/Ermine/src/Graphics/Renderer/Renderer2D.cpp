@@ -263,23 +263,23 @@ namespace Ermine
 					static Ermine::Shader Shd(std::filesystem::path("Shader/Vertex/PhysicsDebuggerDrawCircle.vert"), std::filesystem::path("Shader/Fragment/PhysicsDebuggerDrawCircle.frag"));
 					Shd.Bind();
 					//Shd.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
-					Shd.Uniform2f(std::string("u_resolution"), glm::vec2(1000.0f, 1000.0f));
+					Shd.Uniform2f(std::string("u_resolution"), glm::vec2(Ermine::GetScreenWidth(),Ermine::GetScreenHeight()));
 					Shd.Bind();
 					//Ended Get The Shader Ready To Be Drawn//
 
 					b2CircleShape* CircleShape = (b2CircleShape*)f->GetShape();
 					
-					float radius = CircleShape->m_radius;
+					float radius = Ermine::scalarWorldToPixels(CircleShape->m_radius);
+					Shd.Uniformf(std::string("CircleRadius"),radius);
 					b2Vec2 OffsetFromCentre = CircleShape->m_p;
 
 					std::vector<uint32_t> IndexBuffer = Quad::GetModelIndices();
 					
 					std::vector<float> VertexBuffer{ 
-						// positions    
 					 0.5f,  0.5f, 0.0f, 
-					 0.5f, -0.5f, 0.0f, 
-					-0.5f, -0.5f, 0.0f, 
-					-0.5f,  0.5f, 0.0f
+					 0.5f, -0.5f, 0.0f,
+					-0.5f, -0.5f, 0.0f,
+					-0.5f,  0.5f, 0.0f  
 					};
 
 					VertexArray Vaof(VertexBuffer, IndexBuffer);
@@ -288,10 +288,10 @@ namespace Ermine
 					static std::vector<VertexAttribPointerSpecification> Spec = {
 						{3,GL_FLOAT,false}
 					};
-
+					  
 					Vaof.SetVertexAttribArray(Spec);
 					Vaof.Bind();
-
+					   
 					glDrawElements(GL_TRIANGLES, Vaof.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				}
 			}
