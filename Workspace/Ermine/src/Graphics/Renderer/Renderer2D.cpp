@@ -262,8 +262,9 @@ namespace Ermine
 					//Start Get The Shader Ready To Be Drawn//
 					static Ermine::Shader Shd(std::filesystem::path("Shader/Vertex/PhysicsDebuggerDrawCircle.vert"), std::filesystem::path("Shader/Fragment/PhysicsDebuggerDrawCircle.frag"));
 					Shd.Bind();
-					//Shd.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
-					Shd.Uniform2f(std::string("u_resolution"), glm::vec2(Ermine::GetScreenWidth(),Ermine::GetScreenHeight()));
+					Shd.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					Shd.Uniform2f(std::string("u_resolution"), glm::vec2(Ermine::GetScreenWidth(), Ermine::GetScreenHeight()));
+					
 					Shd.Bind();
 					//Ended Get The Shader Ready To Be Drawn//
 
@@ -272,15 +273,28 @@ namespace Ermine
 					float radius = Ermine::scalarWorldToPixels(CircleShape->m_radius);
 					Shd.Uniformf(std::string("CircleRadius"),radius);
 					b2Vec2 OffsetFromCentre = CircleShape->m_p;
+					b2Vec2 BodyPos = body->GetPosition();
+
+					BodyPos = BodyPos + OffsetFromCentre;
+
+					glm::vec2 PositionInWorldPosition = Ermine::coordWorldToPixels(glm::vec2(BodyPos.x, BodyPos.y));
+					Shd.Uniform2f(std::string("CircleCentre"), PositionInWorldPosition);//Ermine::GetScreenWidth()/2.0f,Ermine::GetScreenHeight()/2.0f));
+					
+					std::vector<float> VertexBuffer{
+					 PositionInWorldPosition.x + radius	,PositionInWorldPosition.y - radius,1.0f,
+					 PositionInWorldPosition.x + radius	,PositionInWorldPosition.y + radius,1.0f,
+					 PositionInWorldPosition.x - radius	,PositionInWorldPosition.y + radius,1.0f,
+					 PositionInWorldPosition.x - radius	,PositionInWorldPosition.y - radius,1.0f
+					};
 
 					std::vector<uint32_t> IndexBuffer = Quad::GetModelIndices();
 					
-					std::vector<float> VertexBuffer{ 
-					 0.5f,  0.5f, 0.0f, 
-					 0.5f, -0.5f, 0.0f,
-					-0.5f, -0.5f, 0.0f,
-					-0.5f,  0.5f, 0.0f  
-					};
+					/*std::vector<float> VertexBuffer{ 
+					 400.0f,200.0f,1.0f,
+					 400.0f,400.0f,1.0f,
+					 200.0f,400.0f,1.0f,
+					 200.0f,200.0f,1.0f
+					};*/
 
 					VertexArray Vaof(VertexBuffer, IndexBuffer);
 					Vaof.Bind();
