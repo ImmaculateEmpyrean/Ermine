@@ -269,7 +269,7 @@ namespace Ermine
 					{
 						b2Vec2 Vertex = ChainShape->m_vertices[i];
 						
-						glm::vec2 VertexInPixelSpace = Ermine::coordWorldToPixels(glm::vec2(Vertex.x, Vertex.y));
+						glm::vec2 VertexInPixelSpace = Ermine::vectorWorldToPixels(glm::vec2(Vertex.x, Vertex.y));
 
 						VertexBuffer.emplace_back(VertexInPixelSpace.x);
 						VertexBuffer.emplace_back(VertexInPixelSpace.y);
@@ -291,6 +291,8 @@ namespace Ermine
 					//PhyCompShader.Uniform4f(std::string("InFragColor"), glm::vec4(255.0f,255.0f,255.0f,1.0f));
 					PhyCompShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
 					PhyCompShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix());
+
+					auto Pos = body->GetPosition();
 
 					glDrawElements(GL_LINE_STRIP, Vao.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				}

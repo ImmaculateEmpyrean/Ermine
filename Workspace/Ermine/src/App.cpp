@@ -508,7 +508,7 @@ void Ermine::App::OnTick()
 
 	//Start Create Chain Shape IN Box2D//
 
-	glm::vec2 ChainLocPixelCoordinates = { 500.0f,700.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
+	glm::vec2 ChainLocPixelCoordinates = { 0.0f,500.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
 	glm::vec2 ChainLoc = Ermine::coordPixelsToWorld(ChainLocPixelCoordinates);
 
 	b2BodyDef ChainBodyDef;
@@ -517,13 +517,13 @@ void Ermine::App::OnTick()
 
 	std::vector<b2Vec2> ChainVertexes;
 
-	glm::vec2 P1 = Ermine::coordPixelsToWorld(glm::vec2(0.0f,0.0f));
+	glm::vec2 P1 = Ermine::vectorPixelsToWorld(glm::vec2(0.0f,0.0f));
 	ChainVertexes.emplace_back(b2Vec2(P1.x,P1.y));
 
-	glm::vec2 P2 = Ermine::coordPixelsToWorld(glm::vec2(100.0f,100.0f));
+	glm::vec2 P2 = Ermine::vectorPixelsToWorld(glm::vec2(700.0f,0.0f));
 	ChainVertexes.emplace_back(b2Vec2(P2.x,P2.y));
 
-	glm::vec2 P3 = Ermine::coordPixelsToWorld(glm::vec2(200.0f,0.0f));
+	glm::vec2 P3 = Ermine::vectorPixelsToWorld(glm::vec2(1000.0f,0.0f));
 	ChainVertexes.emplace_back(b2Vec2(P3.x,P3.y));
 
 	b2ChainShape* ChShp = new b2ChainShape();
@@ -537,6 +537,9 @@ void Ermine::App::OnTick()
 	ChainShapeFixtureDef.shape = ChShp;
 
 	static PhysicsComponent2D ChainShapeObj(ChainBodyDef, ChainShapeFixtureDef);
+	
+	delete ChShp;
+
 	//Ended Create Chain Shape In Box2D//
 
 	//static PhysicsComponent2D Obj = PhysicsComponent2D(Def, FDef);
