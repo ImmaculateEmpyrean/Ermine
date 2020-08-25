@@ -506,6 +506,39 @@ void Ermine::App::OnTick()
 
 	static PhysicsComponent2D Obj(Def,Fixtures);
 
+	//Start Create Chain Shape IN Box2D//
+
+	glm::vec2 ChainLocPixelCoordinates = { 500.0f,700.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
+	glm::vec2 ChainLoc = Ermine::coordPixelsToWorld(ChainLocPixelCoordinates);
+
+	b2BodyDef ChainBodyDef;
+	ChainBodyDef.position.Set(ChainLoc.x, ChainLoc.y);
+	ChainBodyDef.type = b2_staticBody;
+
+	std::vector<b2Vec2> ChainVertexes;
+
+	glm::vec2 P1 = Ermine::coordPixelsToWorld(glm::vec2(0.0f,0.0f));
+	ChainVertexes.emplace_back(b2Vec2(P1.x,P1.y));
+
+	glm::vec2 P2 = Ermine::coordPixelsToWorld(glm::vec2(100.0f,100.0f));
+	ChainVertexes.emplace_back(b2Vec2(P2.x,P2.y));
+
+	glm::vec2 P3 = Ermine::coordPixelsToWorld(glm::vec2(200.0f,0.0f));
+	ChainVertexes.emplace_back(b2Vec2(P3.x,P3.y));
+
+	b2ChainShape* ChShp = new b2ChainShape();
+
+	ChShp->CreateChain(&ChainVertexes[0], ChainVertexes.size());
+
+	b2FixtureDef ChainShapeFixtureDef;
+	ChainShapeFixtureDef.density = 1.0f;
+	ChainShapeFixtureDef.friction = 0.3f;
+
+	ChainShapeFixtureDef.shape = ChShp;
+
+	static PhysicsComponent2D ChainShapeObj(ChainBodyDef, ChainShapeFixtureDef);
+	//Ended Create Chain Shape In Box2D//
+
 	//static PhysicsComponent2D Obj = PhysicsComponent2D(Def, FDef);
 	//static PhysicsComponent2D Obj(Def, FDef, glm::vec2(100.0f, 100.0f));
 	//Ended Creating Box Physics Component//
@@ -571,6 +604,8 @@ void Ermine::App::OnTick()
 	{
 		PhysicsComponent2D* Comp = dynamic_cast<PhysicsComponent2D*>(Act);
 		Renderer2D::SubmitPhysicsComponent2D(Comp);
+
+		Renderer2D::SubmitPhysicsComponent2D(&ChainShapeObj);
 
 		l = false;
 	}

@@ -256,7 +256,44 @@ namespace Ermine
 					PhyCompShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix());
 					glDrawElements(GL_TRIANGLES, Vao.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				}
+				if (shapetype == b2Shape::e_chain)
+				{
+					b2ChainShape* ChainShape = (b2ChainShape*)f->GetShape();
 
+					std::vector<float> VertexBuffer;
+					std::vector<uint32_t> IndexBuffer;
+					
+					uint32_t IndexCounter = 0;
+
+					for (int i = 0; i < ChainShape->m_count; i++)
+					{
+						b2Vec2 Vertex = ChainShape->m_vertices[i];
+						
+						glm::vec2 VertexInPixelSpace = Ermine::coordWorldToPixels(glm::vec2(Vertex.x, Vertex.y));
+
+						VertexBuffer.emplace_back(VertexInPixelSpace.x);
+						VertexBuffer.emplace_back(VertexInPixelSpace.y);
+						VertexBuffer.emplace_back(3.0f);
+
+						IndexBuffer.emplace_back(IndexCounter++);
+					}
+					
+					VertexArray Vao(VertexBuffer, IndexBuffer);
+					static std::vector<VertexAttribPointerSpecification> Spec = {
+						   {3,GL_FLOAT,false}
+					};
+
+					Vao.SetVertexAttribArray(Spec);
+					Vao.Bind();
+
+					PhyCompShader.Bind();
+
+					//PhyCompShader.Uniform4f(std::string("InFragColor"), glm::vec4(255.0f,255.0f,255.0f,1.0f));
+					PhyCompShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					PhyCompShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix());
+
+					glDrawElements(GL_LINE_STRIP, Vao.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+				}
 				if (shapetype == b2Shape::e_circle)
 				{
 					//Start Get The Shader Ready To Be Drawn//
