@@ -44,8 +44,11 @@ namespace Ermine
 		//Start Use These Functions To Interact With The Buffer Which Determines Which PhysicsComponent2D Objects Have Their Shape outlines Drawn..//
 
 		//This Function Does Not Own The Memory Allocated To The Pointer Donot Think Of Freeing The Memory At Any Point
-		static void SubmitPhysicsComponent2D(PhysicsComponent2D* PhyComp); 
-		
+		static void SubmitPhysicsComponent2D(PhysicsComponent2D* PhyComp);
+
+		//This Function Removes A PhysicsComponent2D If Its Being Tracked And Its Shapes Are Drawn In RealTime..
+		static void RemovePhysicsComponent2D(PhysicsComponent2D* PhyComp);
+
 		//This Function Is Used To Clear Out The Buffer Of The Components Which Have To Be Drawn Not Free Their Memory..
 		static void ClearPhysicsTrackingBuffer();
 

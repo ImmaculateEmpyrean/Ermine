@@ -86,6 +86,17 @@ namespace Ermine
 		//Start Section Add Something To The Body..//
 		void AddForceToCentre(glm::vec2 Force);
 		void AddForce(glm::vec2 Force,glm::vec2 BodyPointAtWhichForceIsApplied);
+		//Ended Section Add Something To The Body..//
+
+		//Start Section Utility Functions..//
+
+		//Attaches This Component To The Debugger Which Traces All Its Shapes In Realtime So That Debugging Physics Is Made Easier..
+		void StartDebugTrace();
+		
+		//Detaches This Component From The Debugger Which Traces All Its Shapes In Realtime.
+		void StopDebugTrace();
+
+		//Ended Section Utility Functions..//
 
 	public:
 
@@ -101,6 +112,14 @@ namespace Ermine
 		glm::vec2 HelperGetWidthAndHeightOfTheBoundingBox();
 
 	private:
+		//This Handle Is Stored Inside The Physics Component Class So That We Can Submit The Body To The Renderer Easily..
+		static std::function<void(PhysicsComponent2D*)> FuncSubmitBodyToRenderer2D;
+
+		//This Handle Is Stored Inside The Physics Component Class So That We Can Detach The Body From The Renderer Easily..
+		static std::function<void(PhysicsComponent2D*)> FuncDetachBodyFromRenderer2D;
+
+		bool IsDebugTraceEnabled = false;
+
 		b2Body* BodyManagedByTheComponent;
 		b2BodyDef BodyDefinitionOfTheComponent;
 		

@@ -146,6 +146,9 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsW
 
 	//Ended Box2D Checker//*/
 
+	//Called The Renderer Get In Hopes That It Will Initialize The Renderer2D..
+	auto Renderer = Renderer2D::Get();
+
 	OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
 }
 
@@ -636,11 +639,14 @@ void Ermine::App::OnTick()
 	static Ermine::PhysicsActor* Act = new Ermine::PhysicsActor(ShSpr, std::move(Obj));
 	static Ermine::PhysicsActor* GrndAct = new Ermine::PhysicsActor(GrndShSpr, std::move(GroundBody));
 
+	PhysicsComponent2D* Comp = dynamic_cast<PhysicsComponent2D*>(Act);
+	Comp->StartDebugTrace();
+	EdgeShapeObj.StartDebugTrace();
 	if (l == true)
 	{
-		PhysicsComponent2D* Comp = dynamic_cast<PhysicsComponent2D*>(Act);
-		Renderer2D::SubmitPhysicsComponent2D(Comp);
-		Renderer2D::SubmitPhysicsComponent2D(&EdgeShapeObj);
+		//PhysicsComponent2D* Comp = dynamic_cast<PhysicsComponent2D*>(Act);
+		//Renderer2D::SubmitPhysicsComponent2D(Comp);
+		//Renderer2D::SubmitPhysicsComponent2D(&EdgeShapeObj);
 		//Renderer2D::SubmitPhysicsComponent2D(&ChainShapeObj);
 
 		l = false;

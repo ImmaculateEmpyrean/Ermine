@@ -3,6 +3,10 @@
 
 namespace Ermine
 {
+	//Start Definition Of Static Variables..//
+	std::function<void(PhysicsComponent2D*)> Ermine::PhysicsComponent2D::FuncSubmitBodyToRenderer2D;
+	std::function<void(PhysicsComponent2D*)> Ermine::PhysicsComponent2D::FuncDetachBodyFromRenderer2D;
+	//Ended Definition Of Static Variables..//
 
 #pragma region Constructors
 	//The Default Constructor.. Not The Best Constructor In The World But it May be Useful For Debugging
@@ -175,6 +179,32 @@ namespace Ermine
 
 		//Ask Body2D To Apply The Force To The Body Centre..
 		BodyManagedByTheComponent->ApplyForceToCenter(b2Vec2(Force.x,Force.y), true);
+	}
+
+
+	void PhysicsComponent2D::StartDebugTrace()
+	{
+		if (IsDebugTraceEnabled == false)
+		{
+			//Submit Yourself To The Renderer..
+			FuncSubmitBodyToRenderer2D(this);
+
+			//Dont Submit More Than One Copy Of The Body..
+			IsDebugTraceEnabled = true;
+		}
+		
+	}
+
+	void Ermine::PhysicsComponent2D::StopDebugTrace()
+	{
+		if (IsDebugTraceEnabled == true)
+		{
+			//Submit Yourself To The Renderer..
+			FuncDetachBodyFromRenderer2D(this);
+
+			//Dont Try To Remove The Body Which Was Not Even Submitted Right?
+			IsDebugTraceEnabled = false;
+		}
 	}
 
 #pragma region GetBodyTransform

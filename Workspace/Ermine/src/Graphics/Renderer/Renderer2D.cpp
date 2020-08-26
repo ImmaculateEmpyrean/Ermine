@@ -45,6 +45,12 @@ namespace Ermine
 	{
 		std::call_once(InitializationFlag, []() {
 			GlobalRenderer2DObj = new Renderer2D();
+
+			//Set The Function The PhysicsComponent2D Must Use To Submit Itself Into The Renderer..
+			PhysicsComponent2D::FuncSubmitBodyToRenderer2D = std::bind(&Ermine::Renderer2D::SubmitPhysicsComponent2D, std::placeholders::_1);
+
+			//Set The Function The PhysicsComponent2D Must Use To Submit Itself Into The Renderer..
+			PhysicsComponent2D::FuncDetachBodyFromRenderer2D = std::bind(&Ermine::Renderer2D::RemovePhysicsComponent2D, std::placeholders::_1);
 		});
 
 		return GlobalRenderer2DObj;
@@ -114,6 +120,31 @@ namespace Ermine
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
 		Renderer->PhysicsComponentsBuffer.emplace_back(PhyComp);
+	}
+
+	void Ermine::Renderer2D::RemovePhysicsComponent2D(PhysicsComponent2D* PhyComp)
+	{
+		auto Renderer = Ermine::Renderer2D::Get();
+
+		bool Flag = false;
+		int i;
+		for (i = 0; i < Renderer->PhysicsComponentsBuffer.size(); i++)
+		{
+			if (PhyComp == Renderer->PhysicsComponentsBuffer[i])
+			{
+				//The Flag Represents That There Is Something We Want To Erase..
+				Flag = true;
+
+				break;
+			}
+
+			if (Flag == true)
+			{
+				//Erase This Physics Component Right..
+				Renderer->PhysicsComponentsBuffer.erase(Renderer->PhysicsComponentsBuffer.begin() + i);
+			}
+		}
+
 	}
 	void Renderer2D::ClearPhysicsTrackingBuffer()
 	{
