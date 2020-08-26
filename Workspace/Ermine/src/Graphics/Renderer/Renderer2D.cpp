@@ -174,96 +174,110 @@ namespace Ermine
 		}
 	}
 
-
 	void Renderer2D::PhysicsDebuggerDrawingRoutine()
 	{
+		
 		auto Renderer = Ermine::Renderer2D::Get();
 
-		//Create The Shader Once And Keep It To Be Used In The Future..
-		static Ermine::Shader PhyCompShader(std::filesystem::path("Shader/Vertex/PhysicsDebuggerVertexShader.vert"),
-											std::filesystem::path("Shader/Fragment/PhysicsDebuggerFragmentShader.frag"));
+		//Start Function Defaults Declarations..//
+		static Ermine::Shader BasicDebuggerShader(std::filesystem::path("Shader/Vertex/PhysicsDebuggerVertexShader.vert"),
+												  std::filesystem::path("Shader/Fragment/PhysicsDebuggerFragmentShader.frag"));
+
+		static Ermine::Shader CircleShader(std::filesystem::path("Shader/Vertex/PhysicsDebuggerDrawCircle.vert"), 
+										   std::filesystem::path("Shader/Fragment/PhysicsDebuggerDrawCircle.frag"));
 		
+		static std::vector<VertexAttribPointerSpecification> TriangleAndLineVertexArraySpecification = {
+						   {3,GL_FLOAT,false}
+		};
+
+		static std::vector<VertexAttribPointerSpecification> CircleVertexArraySpecification = {
+						   {3,GL_FLOAT,false},
+						   {1,GL_FLOAT,false},
+						   {2,GL_FLOAT,false},
+						   {2,GL_FLOAT,false}
+		};
+		//Ended Function Defaults Declarations..//
+
+		//Main Loop To Draw All Physics Components
 		for (auto Component : PhysicsComponentsBuffer)
 		{
+			//Start Declaration Of Buffers..//
+
+			//Buffers To Hold Triangle Data..//
+			std::vector<float> TrianglesVertexBuffer;
+			std::vector<uint32_t> TrianglesIndexBuffer;
+			uint32_t TriangleIndexCounter = 0;
+
+			//Buffers To Hold Line Data..//
+			std::vector<float> LineVertexBuffer;
+			std::vector<uint32_t> LineIndexBuffer;
+			uint32_t LineIndexCounter = 0;
+
+			//Buffers To Hold Circle Data..//
+			std::vector<float> CircleVertexBuffer;
+			std::vector<uint32_t> CircleIndexBuffer;
+			uint32_t CircleIndexCounter = 0;
+
+			//Ended Declaration Of Buffers..//
+
+			//Get The Main Physics Body From The Components In Question..
 			b2Body* body = Component->BodyManagedByTheComponent;
 
 			//Start Getting All Fixtures Associated With The Body..
-			int FixtureCount = 0;
-			for (b2Fixture* f = body->GetFixtureList(); f ;f =f->GetNext())
+			for (b2Fixture* f = body->GetFixtureList(); f; f = f->GetNext())
 			{
 				//Get The Type Of The Shape So That We Can Start Getting The Vertices..
 				b2Shape::Type shapetype = f->GetType();
 
+				//Start Extract Vertices From Polygon//
 				if (shapetype == b2Shape::e_polygon)
 				{
-					//Store All The Vertexes To Draw Here..
-					std::vector<float> VertexBuffer;
-					//Store All The Indexes Here..
-					std::vector<uint32_t> IndexBuffer;
-					uint32_t IndexCounter = 0;
-
+					//Start Getting VErtices And Indices Of The Polygon..
 					b2PolygonShape* PolygonShape = (b2PolygonShape*)f->GetShape();
 					
+					//Get This Variable So That We Can Know From Where To Where This Shape Occupies VErtices.. We Also Need  The First One Right..
+					uint32_t TriangleIndexStart = TriangleIndexCounter;
+
 					for (int i = 0; i < PolygonShape->m_count; i++)
 					{
 						b2Vec2 BodyPostionB2Vec2 = body->GetPosition();
 						glm::vec2 BodyPosition = glm::vec2(BodyPostionB2Vec2.x, BodyPostionB2Vec2.y);
 
 						glm::vec2 Vertex = glm::vec2(PolygonShape->m_vertices[i].x, PolygonShape->m_vertices[i].y); //This Is Returning Garbage Fix It..
-						
+
 						Vertex = Vertex; //+ BodyPosition;
 
 						glm::vec2 VertexInPixelSpace = Ermine::vectorWorldToPixels(Vertex);
-						glm::vec4 VertexInPixelSpace4 = glm::vec4(VertexInPixelSpace, 0.0f,0.0f);
+						glm::vec4 VertexInPixelSpace4 = glm::vec4(VertexInPixelSpace, 0.0f, 0.0f);
 
-						VertexInPixelSpace4 = Component->GetRotationMatrix()* VertexInPixelSpace4;
+						VertexInPixelSpace4 = Component->GetRotationMatrix() * VertexInPixelSpace4;
 
 
-						VertexBuffer.emplace_back(VertexInPixelSpace4.x);
-						VertexBuffer.emplace_back(VertexInPixelSpace4.y);
-						VertexBuffer.emplace_back(3.0f);
+						TrianglesVertexBuffer.emplace_back(VertexInPixelSpace4.x);
+						TrianglesVertexBuffer.emplace_back(VertexInPixelSpace4.y);
+						TrianglesVertexBuffer.emplace_back(3.0f);
 
-						//Add A New Index Into The Index Buffer
-						IndexCounter++;
-						//IndexBuffer.emplace_back(IndexCounter++);
-						//IndexBuffer.emplace_back(IndexCounter);
+						TriangleIndexCounter++;
 					}
-					int Sc = 1;
-					int Tr = 2;
-					for (int i = 0; Tr < IndexCounter; i++)
+
+					int Sc = TriangleIndexStart + 1;
+					int Tr = TriangleIndexStart + 2;
+					for (int i = TriangleIndexStart; Tr < TriangleIndexCounter; i++)
 					{
-						IndexBuffer.emplace_back(0);
-						IndexBuffer.emplace_back(Sc);
-						IndexBuffer.emplace_back(Tr);
+						TrianglesIndexBuffer.emplace_back(TriangleIndexStart);
+						TrianglesIndexBuffer.emplace_back(Sc);
+						TrianglesIndexBuffer.emplace_back(Tr);
 
 						Sc++;
 						Tr++;
 					}
-					//IndexBuffer[IndexBuffer.size() - 1] = 0;
-
-					VertexArray Vao(VertexBuffer, IndexBuffer);
-					static std::vector<VertexAttribPointerSpecification> Spec = {
-						   {3,GL_FLOAT,false}
-					};
-
-					Vao.SetVertexAttribArray(Spec);
-					Vao.Bind();
-
-					PhyCompShader.Bind();
-
-					//PhyCompShader.Uniform4f(std::string("InFragColor"), glm::vec4(255.0f,255.0f,255.0f,1.0f));
-					PhyCompShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
-					PhyCompShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix());
-					glDrawElements(GL_TRIANGLES, Vao.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				}
-				if (shapetype == b2Shape::e_edge)
+				//Ended Extract Vertices From Polygon//
+
+				//Start Extract Vertices From Edge Shape//
+				if(shapetype == b2Shape::e_edge)
 				{
 					b2EdgeShape* EdgeShape = (b2EdgeShape*)f->GetShape();
-
-					std::vector<float> VertexBuffer;
-					std::vector<uint32_t> IndexBuffer;
-
-					uint32_t IndexCounter = 0;
 
 					b2Vec2 P1 = EdgeShape->m_vertex1;
 					b2Vec2 P2 = EdgeShape->m_vertex2;
@@ -271,129 +285,133 @@ namespace Ermine
 					glm::vec2 PixelPoint1 = Ermine::vertexWorldToPixels(P1.x, P1.y);
 					glm::vec2 PixelPoint2 = Ermine::vertexWorldToPixels(P2.x, P2.y);
 
-					VertexBuffer.emplace_back(PixelPoint1.x);
-					VertexBuffer.emplace_back(PixelPoint1.y);
-					VertexBuffer.emplace_back(1.0f);
+					LineVertexBuffer.emplace_back(PixelPoint1.x);
+					LineVertexBuffer.emplace_back(PixelPoint1.y);
+					LineVertexBuffer.emplace_back(1.0f);
 
-					VertexBuffer.emplace_back(PixelPoint2.x);
-					VertexBuffer.emplace_back(PixelPoint2.y);
-					VertexBuffer.emplace_back(1.0f);
+					LineVertexBuffer.emplace_back(PixelPoint2.x);
+					LineVertexBuffer.emplace_back(PixelPoint2.y);
+					LineVertexBuffer.emplace_back(1.0f);
 
-					for(int i=0;i<2;i++)
-						IndexBuffer.emplace_back(IndexCounter++);
-
-					VertexArray Vao(VertexBuffer, IndexBuffer);
-					static std::vector<VertexAttribPointerSpecification> Spec = {
-						   {3,GL_FLOAT,false}
-					};
-
-					Vao.SetVertexAttribArray(Spec);
-					Vao.Bind();
-
-					PhyCompShader.Bind();
-
-					//PhyCompShader.Uniform4f(std::string("InFragColor"), glm::vec4(255.0f,255.0f,255.0f,1.0f));
-					PhyCompShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
-					PhyCompShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix());
-
-					auto Pos = body->GetPosition();
-
-					glDrawElements(GL_LINE_STRIP, Vao.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
-
+					LineIndexBuffer.emplace_back(LineIndexCounter++);
+					LineIndexBuffer.emplace_back(LineIndexCounter++);
 				}
+				//Ended Extract Vertices From Edge Shape//
+
+				//Start Extract Vertices From Chain Shape..//
 				if (shapetype == b2Shape::e_chain)
 				{
 					b2ChainShape* ChainShape = (b2ChainShape*)f->GetShape();
-
-					std::vector<float> VertexBuffer;
-					std::vector<uint32_t> IndexBuffer;
 					
-					uint32_t IndexCounter = 0;
-
 					for (int i = 0; i < ChainShape->m_count; i++)
 					{
 						b2Vec2 Vertex = ChainShape->m_vertices[i];
-						
+
 						glm::vec2 VertexInPixelSpace = Ermine::vertexWorldToPixels(glm::vec2(Vertex.x, Vertex.y));
 						//VertexInPixelSpace.y = -1.0f * VertexInPixelSpace.y;
 
-						VertexBuffer.emplace_back(VertexInPixelSpace.x);
-						VertexBuffer.emplace_back(VertexInPixelSpace.y);
-						VertexBuffer.emplace_back(3.0f);
+						LineVertexBuffer.emplace_back(VertexInPixelSpace.x);
+						LineVertexBuffer.emplace_back(VertexInPixelSpace.y);
+						LineVertexBuffer.emplace_back(3.0f);
 
-						IndexBuffer.emplace_back(IndexCounter++);
+						LineIndexBuffer.emplace_back(LineIndexCounter++);
 					}
-					
-					VertexArray Vao(VertexBuffer, IndexBuffer);
-					static std::vector<VertexAttribPointerSpecification> Spec = {
-						   {3,GL_FLOAT,false}
-					};
-
-					Vao.SetVertexAttribArray(Spec);
-					Vao.Bind();
-
-					PhyCompShader.Bind();
-
-					//PhyCompShader.Uniform4f(std::string("InFragColor"), glm::vec4(255.0f,255.0f,255.0f,1.0f));
-					PhyCompShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
-					PhyCompShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix());
-
-					auto Pos = body->GetPosition();
-
-					glDrawElements(GL_LINE_STRIP, Vao.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				}
+				//Ended Extract Vertices From Chain Shape..//
+
+				//Start Extract Vertices To Draw A Circle..//
 				if (shapetype == b2Shape::e_circle)
 				{
-					//Start Get The Shader Ready To Be Drawn//
-					static Ermine::Shader Shd(std::filesystem::path("Shader/Vertex/PhysicsDebuggerDrawCircle.vert"), std::filesystem::path("Shader/Fragment/PhysicsDebuggerDrawCircle.frag"));
-					Shd.Bind();
-					Shd.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
-					Shd.Uniform2f(std::string("u_resolution"), glm::vec2(Ermine::GetScreenWidth(), Ermine::GetScreenHeight()));
-					
-					Shd.Bind();
-					//Ended Get The Shader Ready To Be Drawn//
-
 					b2CircleShape* CircleShape = (b2CircleShape*)f->GetShape();
-					
+
 					float radius = Ermine::scalarWorldToPixels(CircleShape->m_radius);
-					Shd.Uniformf(std::string("CircleRadius"),radius);
 					b2Vec2 OffsetFromCentre = CircleShape->m_p;
 					b2Vec2 BodyPos = body->GetPosition();
 
 					BodyPos = BodyPos + OffsetFromCentre;
 
-					glm::vec2 PositionInWorldPosition = Ermine::coordWorldToPixels(glm::vec2(BodyPos.x, BodyPos.y));
-					Shd.Uniform2f(std::string("CircleCentre"), PositionInWorldPosition);//Ermine::GetScreenWidth()/2.0f,Ermine::GetScreenHeight()/2.0f));
+					glm::vec2 PositionInPixelSpace= Ermine::coordWorldToPixels(glm::vec2(BodyPos.x, BodyPos.y));
 					
-					std::vector<float> VertexBuffer{
-					 PositionInWorldPosition.x + radius	,PositionInWorldPosition.y - radius,1.0f,
-					 PositionInWorldPosition.x + radius	,PositionInWorldPosition.y + radius,1.0f,
-					 PositionInWorldPosition.x - radius	,PositionInWorldPosition.y + radius,1.0f,
-					 PositionInWorldPosition.x - radius	,PositionInWorldPosition.y - radius,1.0f
-					};
+					//Vertex 0
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x + radius);
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y - radius);
+					CircleVertexBuffer.emplace_back(1.0f);
+					CircleVertexBuffer.emplace_back(radius);
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenWidth());
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenHeight());
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
 
+					//Vertex 1
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x + radius);
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y + radius);
+					CircleVertexBuffer.emplace_back(1.0f);
+					CircleVertexBuffer.emplace_back(radius);
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenWidth());
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenHeight());
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
+
+					//Vertex 2
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x - radius);
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y + radius);
+					CircleVertexBuffer.emplace_back(1.0f);
+					CircleVertexBuffer.emplace_back(radius);
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenWidth());
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenHeight());
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
+
+					//Vertex 3
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x - radius);
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y - radius);
+					CircleVertexBuffer.emplace_back(1.0f);
+					CircleVertexBuffer.emplace_back(radius);
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenWidth());
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenHeight());
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
+
+					
 					std::vector<uint32_t> IndexBuffer = Quad::GetModelIndices();
 					
-					/*std::vector<float> VertexBuffer{ 
-					 400.0f,200.0f,1.0f,
-					 400.0f,400.0f,1.0f,
-					 200.0f,400.0f,1.0f,
-					 200.0f,200.0f,1.0f
-					};*/
-
-					VertexArray Vaof(VertexBuffer, IndexBuffer);
-					Vaof.Bind();
+					for (auto& i : IndexBuffer)
+						CircleIndexBuffer.emplace_back(i + CircleIndexCounter);
 					
-					static std::vector<VertexAttribPointerSpecification> Spec = {
-						{3,GL_FLOAT,false}
-					};
-					  
-					Vaof.SetVertexAttribArray(Spec);
-					Vaof.Bind();
-					   
-					glDrawElements(GL_TRIANGLES, Vaof.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+					CircleIndexCounter = CircleIndexCounter + 4;
 				}
+				//Ended Extract Vertices To Draw A Circle..//
 			}
+			//Populate The Vertex And Index Buffers Of A Body By This Point
+
+			//Start Drawing Everything Using OpenGL Draw Calls//
+			VertexArray TriangleVertexArray(TrianglesVertexBuffer, TrianglesIndexBuffer);
+			TriangleVertexArray.SetVertexAttribArray(TriangleAndLineVertexArraySpecification);
+			TriangleVertexArray.Bind();
+
+			BasicDebuggerShader.Bind();
+			BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+			BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
+			glDrawElements(GL_TRIANGLES, TriangleVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+
+			VertexArray LineVertexArray(LineVertexBuffer, LineIndexBuffer);
+			LineVertexArray.SetVertexAttribArray(TriangleAndLineVertexArraySpecification);
+			LineVertexArray.Bind();
+
+			BasicDebuggerShader.Bind();
+			BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+			BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
+			glDrawElements(GL_LINE_STRIP, LineVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+
+			VertexArray CircleVertexArray(CircleVertexBuffer, CircleIndexBuffer);
+			CircleVertexArray.SetVertexAttribArray(CircleVertexArraySpecification);
+			CircleVertexArray.Bind();
+
+			CircleShader.Bind();
+			CircleShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+			CircleShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
+			glDrawElements(GL_TRIANGLES, CircleVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+			//Ended Drawing Everything Using OpenGL Draw Calls//
 		}
 	}
 }
