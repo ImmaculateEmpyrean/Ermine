@@ -256,6 +256,51 @@ namespace Ermine
 					PhyCompShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix());
 					glDrawElements(GL_TRIANGLES, Vao.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				}
+				if (shapetype == b2Shape::e_edge)
+				{
+					b2EdgeShape* EdgeShape = (b2EdgeShape*)f->GetShape();
+
+					std::vector<float> VertexBuffer;
+					std::vector<uint32_t> IndexBuffer;
+
+					uint32_t IndexCounter = 0;
+
+					b2Vec2 P1 = EdgeShape->m_vertex1;
+					b2Vec2 P2 = EdgeShape->m_vertex2;
+
+					glm::vec2 PixelPoint1 = Ermine::vertexWorldToPixels(P1.x, P1.y);
+					glm::vec2 PixelPoint2 = Ermine::vertexWorldToPixels(P2.x, P2.y);
+
+					VertexBuffer.emplace_back(PixelPoint1.x);
+					VertexBuffer.emplace_back(PixelPoint1.y);
+					VertexBuffer.emplace_back(1.0f);
+
+					VertexBuffer.emplace_back(PixelPoint2.x);
+					VertexBuffer.emplace_back(PixelPoint2.y);
+					VertexBuffer.emplace_back(1.0f);
+
+					for(int i=0;i<2;i++)
+						IndexBuffer.emplace_back(IndexCounter++);
+
+					VertexArray Vao(VertexBuffer, IndexBuffer);
+					static std::vector<VertexAttribPointerSpecification> Spec = {
+						   {3,GL_FLOAT,false}
+					};
+
+					Vao.SetVertexAttribArray(Spec);
+					Vao.Bind();
+
+					PhyCompShader.Bind();
+
+					//PhyCompShader.Uniform4f(std::string("InFragColor"), glm::vec4(255.0f,255.0f,255.0f,1.0f));
+					PhyCompShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					PhyCompShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix());
+
+					auto Pos = body->GetPosition();
+
+					glDrawElements(GL_LINE_STRIP, Vao.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+
+				}
 				if (shapetype == b2Shape::e_chain)
 				{
 					b2ChainShape* ChainShape = (b2ChainShape*)f->GetShape();
@@ -269,7 +314,8 @@ namespace Ermine
 					{
 						b2Vec2 Vertex = ChainShape->m_vertices[i];
 						
-						glm::vec2 VertexInPixelSpace = Ermine::vectorWorldToPixels(glm::vec2(Vertex.x, Vertex.y));
+						glm::vec2 VertexInPixelSpace = Ermine::vertexWorldToPixels(glm::vec2(Vertex.x, Vertex.y));
+						//VertexInPixelSpace.y = -1.0f * VertexInPixelSpace.y;
 
 						VertexBuffer.emplace_back(VertexInPixelSpace.x);
 						VertexBuffer.emplace_back(VertexInPixelSpace.y);

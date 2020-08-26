@@ -105,4 +105,35 @@ namespace Ermine
 		//Use The result of The Previous function to return to the user.. 
 		return vectorWorldToPixels(glm::vec2(worldX, worldY));
 	}
+
+
+	glm::vec2 vertexPixelsToWorld(glm::vec2 screen)
+	{
+		glm::vec2 WorldCoordinates;
+		WorldCoordinates.x = screen.x * ScaleFactor;
+		WorldCoordinates.y = screen.y * ScaleFactor;
+
+		WorldCoordinates.y = WorldCoordinates.y * -1.0f;
+
+		return WorldCoordinates;
+	}
+	glm::vec2 vertexPixelsToWorld(float pixelX, float pixelY)
+	{
+		return vertexPixelsToWorld(glm::vec2(pixelX, pixelY));
+	}
+	
+	glm::vec2 vertexWorldToPixels(glm::vec2 world)
+	{
+		glm::vec2 PixelCoordinates;
+		PixelCoordinates.x = world.x / ScaleFactor;
+		PixelCoordinates.y = world.y / ScaleFactor;
+
+		PixelCoordinates.y = PixelCoordinates.y * -1.0f;
+
+		return PixelCoordinates;
+	}
+	glm::vec2 vertexWorldToPixels(float worldX, float worldY)
+	{
+		return vertexWorldToPixels(glm::vec2(worldX,worldY));
+	}
 }

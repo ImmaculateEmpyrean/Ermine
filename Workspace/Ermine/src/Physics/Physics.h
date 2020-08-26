@@ -56,5 +56,12 @@ namespace Ermine
 	glm::vec2 vectorWorldToPixels(float worldX,float worldY);
 	//Ended Scale Vector Between Worlds
 
+	//Start Function Which Are Use To Set Location Of The Vertexes Of Physics Objects//
+	glm::vec2 vertexPixelsToWorld(glm::vec2 screen);
+	glm::vec2 vertexPixelsToWorld(float pixelX, float pixelY);
+
+	glm::vec2 vertexWorldToPixels(glm::vec2 world);
+	glm::vec2 vertexWorldToPixels(float worldX, float worldY);
+	//Ended Function Which Are Use To Set Location Of The Vertexes Of Physics Objects//
 #pragma endregion AllTheseFunctionsAreWrong
 }

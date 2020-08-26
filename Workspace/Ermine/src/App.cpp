@@ -508,7 +508,7 @@ void Ermine::App::OnTick()
 
 	//Start Create Chain Shape IN Box2D//
 
-	glm::vec2 ChainLocPixelCoordinates = { 0.0f,500.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
+	/*glm::vec2 ChainLocPixelCoordinates = { 0.0f,500.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
 	glm::vec2 ChainLoc = Ermine::coordPixelsToWorld(ChainLocPixelCoordinates);
 
 	b2BodyDef ChainBodyDef;
@@ -517,13 +517,13 @@ void Ermine::App::OnTick()
 
 	std::vector<b2Vec2> ChainVertexes;
 
-	glm::vec2 P1 = Ermine::vectorPixelsToWorld(glm::vec2(0.0f,0.0f));
+	glm::vec2 P1 = Ermine::vertexPixelsToWorld(glm::vec2(0.0f,0.0f));
 	ChainVertexes.emplace_back(b2Vec2(P1.x,P1.y));
 
-	glm::vec2 P2 = Ermine::vectorPixelsToWorld(glm::vec2(700.0f,0.0f));
+	glm::vec2 P2 = Ermine::vertexPixelsToWorld(glm::vec2(500.0f,100.0f));
 	ChainVertexes.emplace_back(b2Vec2(P2.x,P2.y));
 
-	glm::vec2 P3 = Ermine::vectorPixelsToWorld(glm::vec2(1000.0f,0.0f));
+	glm::vec2 P3 = Ermine::vertexPixelsToWorld(glm::vec2(1000.0f,200.0f));
 	ChainVertexes.emplace_back(b2Vec2(P3.x,P3.y));
 
 	b2ChainShape* ChShp = new b2ChainShape();
@@ -538,9 +538,42 @@ void Ermine::App::OnTick()
 
 	static PhysicsComponent2D ChainShapeObj(ChainBodyDef, ChainShapeFixtureDef);
 	
-	delete ChShp;
+	delete ChShp;*/
 
 	//Ended Create Chain Shape In Box2D//
+
+	//Start Create Edge Shape//
+
+	glm::vec2 ChainLocPixelCoordinates = { 100.0f,500.0f };//{ Ermine::GetScreenWidth()/2,Ermine::GetScreenHeight()/2};
+	glm::vec2 ChainLoc = Ermine::coordPixelsToWorld(ChainLocPixelCoordinates);
+
+	b2BodyDef EdgeBodyDef;
+	EdgeBodyDef.position.Set(ChainLoc.x, ChainLoc.y);
+	EdgeBodyDef.type = b2_staticBody;
+
+	std::vector<b2Vec2> EdgeVertexes;
+
+	glm::vec2 P1 = Ermine::vertexPixelsToWorld(glm::vec2(0.0f,0.0f));
+	EdgeVertexes.emplace_back(b2Vec2(P1.x,P1.y));
+
+	glm::vec2 P2 = Ermine::vertexPixelsToWorld(glm::vec2(500.0f,100.0f));
+	EdgeVertexes.emplace_back(b2Vec2(P2.x,P2.y));
+
+	b2EdgeShape* EdShp = new b2EdgeShape();
+
+	EdShp->Set(EdgeVertexes[0], EdgeVertexes[1]);
+
+	b2FixtureDef EdgeShapeFixtureDef;
+	EdgeShapeFixtureDef.density = 1.0f;
+	EdgeShapeFixtureDef.friction = 0.3f;
+
+	EdgeShapeFixtureDef.shape = EdShp;
+
+	static PhysicsComponent2D EdgeShapeObj(EdgeBodyDef, EdgeShapeFixtureDef);
+
+	delete EdShp;
+
+	//Ended Create Edge Shape//
 
 	//static PhysicsComponent2D Obj = PhysicsComponent2D(Def, FDef);
 	//static PhysicsComponent2D Obj(Def, FDef, glm::vec2(100.0f, 100.0f));
@@ -607,8 +640,8 @@ void Ermine::App::OnTick()
 	{
 		PhysicsComponent2D* Comp = dynamic_cast<PhysicsComponent2D*>(Act);
 		Renderer2D::SubmitPhysicsComponent2D(Comp);
-
-		Renderer2D::SubmitPhysicsComponent2D(&ChainShapeObj);
+		Renderer2D::SubmitPhysicsComponent2D(&EdgeShapeObj);
+		//Renderer2D::SubmitPhysicsComponent2D(&ChainShapeObj);
 
 		l = false;
 	}
