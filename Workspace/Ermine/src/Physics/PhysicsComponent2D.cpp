@@ -12,7 +12,7 @@ namespace Ermine
 	//The Default Constructor.. Not The Best Constructor In The World But it May be Useful For Debugging
 	PhysicsComponent2D::PhysicsComponent2D()
 	{
-		BodyDefinitionOfTheComponent.position.Set(20.0f,20.0f);
+		BodyDefinitionOfTheComponent.position.Set(0.0f,0.0f);
 		BodyDefinitionOfTheComponent.type = b2_dynamicBody;
 
 		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
@@ -32,6 +32,39 @@ namespace Ermine
 		//Attact the Fixture To The Body..
 		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
 
+	}
+
+	PhysicsComponent2D::PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace,glm::vec2 BodySizeInPixelSpace ,bool StaticBody)
+	{
+		glm::vec2 LocationInWorldSpace = Ermine::coordPixelsToWorld(BodyLocationInPixelSpace);
+		BodyDefinitionOfTheComponent.position.Set(LocationInWorldSpace.x,LocationInWorldSpace.y);
+
+		glm::vec2 BodySizeInWorldSpace = Ermine::vectorPixelsToWorld(BodySizeInPixelSpace);
+		BodySize.x = BodySizeInWorldSpace.x;
+		BodySize.y = BodySizeInWorldSpace.y;
+
+		if(StaticBody)
+			BodyDefinitionOfTheComponent.type = b2_staticBody;
+		else
+			BodyDefinitionOfTheComponent.type = b2_dynamicBody;
+
+		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
+
+		//Create A Physics Component Shape DataStructure Inside The Buffer Array
+		FixturesAssociatedWithTheBody.emplace_back(b2FixtureDef());
+
+		//Create A Shape To Be associated With The Fixture..
+		b2PolygonShape Shape = b2PolygonShape();
+		Shape.SetAsBox(BodySize.x/2.0f, BodySize.y/2.0f);
+
+		//For The Created DataStructure Set The Default Values..
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].density = 1.0f;
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].friction = 0.3f;
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].restitution = 0.5f;
+
+		//Attact the Fixture To The Body..
+		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
 	}
 
 	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,

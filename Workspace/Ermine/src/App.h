@@ -18,6 +18,8 @@
 #include "Physics/Physics.h"
 #include "Physics/PhysicsWorldInitializationStruct.h"
 
+#include "RandomNumberGenerator.h"
+
 //Forward Declared
 int main(int argc, char* argv[]);
 

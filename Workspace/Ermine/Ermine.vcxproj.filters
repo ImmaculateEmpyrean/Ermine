@@ -285,6 +285,9 @@
     <ClInclude Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.h" />
     <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderablePhysicsComponent2D.h" />
     <ClInclude Include="src\Physics\BodyPart.h" />
+    <ClInclude Include="src\Physics\Joints\RevoluteJoint.h" />
+    <ClInclude Include="src\Physics\Joints\JointBase.h" />
+    <ClInclude Include="src\RandomNumberGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
@@ -461,5 +464,6 @@
     <ClCompile Include="src\Physics\PhysicsComponent2D.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderablePhysicsComponent2D.cpp" />
     <ClCompile Include="src\Physics\BodyPart.cpp" />
+    <ClCompile Include="src\RandomNumberGenerator.cpp" />
   </ItemGroup>
 </Project>

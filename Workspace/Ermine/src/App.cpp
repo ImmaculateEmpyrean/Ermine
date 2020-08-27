@@ -120,7 +120,89 @@ void Ermine::App::OnAttach()
 
 void Ermine::App::OnTick()
 {
+	//static Ermine::PhysicsComponent2D TopBeam = Ermine::PhysicsComponent2D();
+	static Ermine::PhysicsComponent2D TopBeam(glm::vec2(500.0f, 25.0f),glm::vec2(1000.0f,25.0f));
+	static Ermine::PhysicsComponent2D BottomBeam(glm::vec2(500.0f, 988.0f), glm::vec2(1000.0f, 25.0f));
 	
+	static Ermine::PhysicsComponent2D LeftBeam(glm::vec2(12.0f, 500.0f), glm::vec2(25.0f, 1000.0f));
+	static Ermine::PhysicsComponent2D RightBeam(glm::vec2(988.0f, 500.0f), glm::vec2(25.0f, 1000.0f));
+
+	static Ermine::PhysicsComponent2D TestBox(glm::vec2(500.0f, 500.0f), glm::vec2(100.0f, 100.0f), false);
+	static Ermine::PhysicsComponent2D TestBox2(glm::vec2(700.0f, 500.0f), glm::vec2(100.0f, 100.0f), false);
+
+
+	static bool Once = true;
+
+	if (Once)
+	{
+		Once = false;
+		Renderer2D::TurnOnPhysicsDebugger();
+
+		TopBeam.StartDebugTrace();
+		BottomBeam.StartDebugTrace();
+
+		LeftBeam.StartDebugTrace();
+		RightBeam.StartDebugTrace();
+
+		TestBox.StartDebugTrace();
+		TestBox2.StartDebugTrace();
+	}
+
+	glm::mat4 Camera = glm::mat4(1.0f);
+	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
+	auto ProjectionMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);//glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
+
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+	
+	Renderer2D::EndScene();
+
+	static float ForceAppliedBox1[2];
+	static float ForceAppliedBox2[2];
+
+	bool ApplyForce = false;
+	bool RandomForceApplication = false;
+
+	ImGui::Begin("Physics Test On Box");
+
+	ImGui::InputFloat2("##PhysicsTestOnBox1", ForceAppliedBox1, 2);
+	ImGui::SameLine();
+	if (ImGui::Button("Reverse Force Applied"))
+	{
+		ForceAppliedBox1[0] = ForceAppliedBox1[0] * -1;
+		ForceAppliedBox1[1] = ForceAppliedBox1[1] * -1;
+	}
+	/*-------------------------------------------------------------*/
+	ImGui::InputFloat2("##PhysicsTestOnBox2", ForceAppliedBox2, 2);
+	ImGui::SameLine();
+	if (ImGui::Button("Reverse Force Applied"))
+	{
+		ForceAppliedBox2[0] = ForceAppliedBox2[0] * -1;
+		ForceAppliedBox2[1] = ForceAppliedBox2[1] * -1;
+	}
+
+	/*-------------------------------------------------------------*/
+	ImGui::Text("Apply Force Randomly!!");
+	ImGui::SameLine();
+	ImGui::Checkbox("##AplyForceRandomlyCheckBox", &RandomForceApplication);
+
+	if (RandomForceApplication == false)
+	{
+		if (ImGui::Button("ApplyForce!!!##PhysicsTestApplyForceOnBox"))
+			ApplyForce = true;
+	}
+	ImGui::End();
+
+	if (ApplyForce)
+	{
+		TestBox. AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
+		TestBox2.AddForceToCentre(glm::vec2(ForceAppliedBox2[0], ForceAppliedBox2[1]));
+	}
+	if (RandomForceApplication)
+	{
+		TestBox.AddForceToCentre(glm::vec2((float)ER_RAND_INT(30, 300), (float)ER_RAND_INT(-270, 300)));
+		TestBox2.AddForceToCentre(glm::vec2((float)ER_RAND_INT(30, 300), (float)ER_RAND_INT(-270, 300)));
+		//TestBox.AddForce(glm::vec2(Ermine::RandomNumber::GetNumberInRange()))
+	}
 }
 
 void Ermine::App::OnDetach()

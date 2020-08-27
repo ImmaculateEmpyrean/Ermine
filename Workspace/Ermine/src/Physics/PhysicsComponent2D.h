@@ -21,6 +21,9 @@ namespace Ermine
 		//A Default Physics component Can Be Constructed However It Cannot Be Default..
 		PhysicsComponent2D();
 
+		//Use This Constructor To Quickly Construct A Static Box At THe Specified Location No Other Nonsense For Now..
+		PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, glm::vec2 BodySizeInPixelSpace ,bool StaticBody = true);
+
 		//Use This Constructor To Explicitly Fix The Size Of The Box And Also Say That The Shape Is a Box..
 		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,glm::vec2 BodySizeInPixelSpace);
 
