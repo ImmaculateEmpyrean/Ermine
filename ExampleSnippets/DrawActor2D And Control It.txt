@@ -1,0 +1,60 @@
+    static bool l = true;
+	//Ermine::Material mat(std::filesystem::path("Shader/Actor2DBaseMaterial.json"));
+
+	auto Manager = Ermine::GlobalTextureCache::Get();
+	static auto Tex = Manager->GetTextureFromFile("AnoHiMitaHana.png");
+
+	static Sprite* spr = new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
+	static std::shared_ptr<Sprite> ShSpr;
+
+	if (l == true)
+	{
+		ShSpr.reset(spr);
+		l = false;
+	}
+
+	static Ermine::Actor2D* Act = new Ermine::Actor2D(ShSpr);
+	//Act->Translate({ 0.5f,0.5f });
+
+	glm::mat4 Camera = glm::mat4(1.0f);
+	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	LayerStackLayer Layer("Han");
+	Layer.SubmitRenderable(Act);
+
+	auto ProjectionMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);//glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
+	
+	//Start Tilemap Drawing Routine//
+	static Ermine::TileMap Map("TileMap/UnderConsideration.json");
+	LayerStack Lay("Stigmata");
+	Lay.SubmitTileMapForDrawing((const TileMap*)&Map);
+
+	
+	//Ended Tilemap Drawing Routine//
+
+	static int ind = 10;
+	static bool Coke = false;
+
+
+	ImGui::Begin("Control Panel");
+	ImGui::SliderInt("Get Ind", &ind, 0, 10);
+	ImGui::Checkbox("Get Coke", &Coke);
+
+	ImGui::Image((ImTextureID)Manager->GetTextureFromFile("AnoHiMitaHana.png")->GetTextureID(), { 50,50 });
+	ImGui::End();
+
+
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+
+	Renderer2D::ReplaceLayerStackWithStack(Lay);
+	Renderer2D::SubmitLayer(Layer, ind);
+	
+	//Renderer2D::SubmitLayer(Layer);
+	
+	Renderer2D::EndScene();
+
+	if (Coke == true)
+	{
+		Act->Translate({ 1.0f,1.0f });
+		Act->Scale({ 1.02f,1.02f });
+	}

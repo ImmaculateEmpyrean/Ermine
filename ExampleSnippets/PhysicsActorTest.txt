@@ -1,0 +1,76 @@
+#pragma region PhysicsActorTest
+	static bool l = true;
+	//Ermine::Material mat(std::filesystem::path("Shader/Actor2DBaseMaterial.json"));
+
+	auto Manager = Ermine::GlobalTextureCache::Get();
+	static auto Tex = Manager->GetTextureFromFile("Texture/BoxSprite.png");
+	static auto GroundTex = Manager->GetTextureFromFile("Texture/FloorTile.png");
+
+	static Sprite* spr = new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
+	static Sprite* Grndspr = new Sprite(GroundTex, { 0.0f,0.0f }, { 1.0f,1.0f });
+
+	static std::shared_ptr<Sprite> ShSpr;
+	static std::shared_ptr<Sprite> GrndShSpr;
+
+	if (l == true)
+	{
+		ShSpr.reset(spr);
+		GrndShSpr.reset(Grndspr);
+
+		Renderer2D::TurnOnPhysicsDebugger();
+	}
+
+
+	static Ermine::PhysicsActor* Act = new Ermine::PhysicsActor(ShSpr, std::move(Obj));
+	static Ermine::PhysicsActor* GrndAct = new Ermine::PhysicsActor(GrndShSpr, std::move(GroundBody));
+
+	PhysicsComponent2D* Comp = dynamic_cast<PhysicsComponent2D*>(Act);
+	Comp->StartDebugTrace();
+	EdgeShapeObj.StartDebugTrace();
+	if (l == true)
+	{
+		//PhysicsComponent2D* Comp = dynamic_cast<PhysicsComponent2D*>(Act);
+		//Renderer2D::SubmitPhysicsComponent2D(Comp);
+		//Renderer2D::SubmitPhysicsComponent2D(&EdgeShapeObj);
+		//Renderer2D::SubmitPhysicsComponent2D(&ChainShapeObj);
+
+		l = false;
+	}
+	//static Ermine::Actor2D* Act = new Ermine::Actor2D(ShSpr);
+	//Act->Translate({ 0.5f,0.5f });
+
+	glm::mat4 Camera = glm::mat4(1.0f);
+	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	LayerStackLayer Layer("Han");
+	Layer.SubmitRenderable(Act);
+	Layer.SubmitRenderable(GrndAct);
+
+	auto ProjectionMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);//glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
+
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+	Renderer2D::SubmitLayer(Layer);
+	Renderer2D::EndScene();
+
+	static float ForceApplied[2];
+	
+	bool ApplyForce = false;
+
+	ImGui::Begin("Physics Test On Box");
+	
+	ImGui::InputFloat2("##PhysicsTestOnBoxdfsg", ForceApplied,2);
+	ImGui::SameLine();
+	if (ImGui::Button("Reverse Force Applied"))
+	{
+		ForceApplied[0] = ForceApplied[0] * -1;
+		ForceApplied[1] = ForceApplied[1] * -1;
+	}
+
+	if(ImGui::Button("ApplyForce!!!##PhysicsTestApplyForceOnBox"))
+		ApplyForce = true;
+	ImGui::End();
+
+	if (ApplyForce)
+		Act->AddForceToCentre(glm::vec2(ForceApplied[0], ForceApplied[1]));
+
+#pragma endregion PhysicsActorTest

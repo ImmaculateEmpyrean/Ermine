@@ -1,0 +1,34 @@
+    static bool Coke = false;
+	
+	auto FontCache = GlobalFontCache::Get();
+	FontCache->SetFontSize(80);
+	FontCache->LoadFontFromFile(std::filesystem::path("CalibriLight.ttf"));
+
+	auto fonttest = (*FontCache)["CalibriLight"];
+
+	glm::vec3 Color = { 1.0f,1.0f,1.0f };
+
+	static Ermine::Label Lab("Hello World", Color,fonttest);
+
+	LayerStackLayer Layer("Han");
+	Layer.SubmitRenderable(&Lab);
+
+	glm::mat4 Camera = glm::mat4(1.0f);
+	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
+	auto ProjectionMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);
+
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+
+	Renderer2D::SubmitLayer(Layer);
+		
+	Renderer2D::EndScene();
+
+	ImGui::Begin("Control Panel");
+	ImGui::Checkbox("Get Coke", &Coke);
+	ImGui::End();
+
+	if (Coke == true)
+	{
+		Lab.Translate({ 1.0f,1.0f });
+		//Lab.Scale({ 1.02f,1.02f });
+	}

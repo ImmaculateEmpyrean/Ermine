@@ -1,0 +1,52 @@
+/*//STDOUTLog_Trace("TimeStep : {0}", Ermine::TimeStep.GetSeconds());
+
+	//Start SpriteBook Test//
+	//The Example Is So Horrible Because Of The Way The Tileset Loads The Sprites.. It loads from top to bottom first.. however more testing is absolutely required to determine if the spritebook is even working.. 
+	static Ermine::TileSet Scarlet(std::filesystem::path("TileSet/Scarlet.json"));
+	static Ermine::Actor2D* Act = new Ermine::Actor2D(Scarlet.GetSpriteBuffer());
+	
+	glm::mat4 Camera = glm::mat4(1.0f);
+	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	LayerStackLayer Layer("Han");
+	Layer.SubmitRenderable(Act);
+	auto ProjectionMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);
+
+	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+
+	Renderer2D::SubmitLayer(Layer);
+
+	Renderer2D::EndScene();
+
+
+	static glm::vec2 Translate = glm::vec2(500.0f,600.0f);
+	static float Rotate = 4.7f;
+	static glm::vec2 Scale = glm::vec2(1.0f, 1.0f);
+
+	ImGui::Begin("Control Panel");
+
+	ImGui::InputFloat("Translate X :", &Translate.x, 1.0f, 2.0f, 4);
+	ImGui::InputFloat("Translate Y :", &Translate.y, 1.0f,2.0f, 4);
+	
+	ImGui::Separator();
+
+	ImGui::InputFloat("Rotate Angle :", &Rotate, 0.1f, 0.2f, 4);
+	
+	ImGui::Separator();
+
+	ImGui::InputFloat("Scale X : ", &Scale.x, 0.1f, 0.2f, 4);
+	ImGui::InputFloat("Scale Y : ", &Scale.y, 0.1f, 0.2f, 4);
+
+	ImGui::End();
+
+
+	Act->ClearRotations();
+	Act->Rotate(Rotate, true);
+
+	Act->ClearTranslations();
+	Act->Translate(Translate);
+
+	Act->ClearScale();
+	Act->Scale(Scale);
+
+	//Ended SpriteBook Test//*/
