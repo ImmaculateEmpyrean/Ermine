@@ -113,6 +113,16 @@ namespace Ermine
 
 	PhysicsComponent2D::~PhysicsComponent2D()
 	{
+		for (auto& i : JointsBuffer)
+		{
+			if (i == nullptr)
+				continue; //As The Joint Is Already TAken Care Of..
+			else
+			{
+				Universum->DestroyJoint(i->GetJoint());
+			}
+		}
+
 		//Donot Bother Deleting a Nullptr Right..
 		if (BodyManagedByTheComponent != nullptr)
 		{
@@ -238,6 +248,23 @@ namespace Ermine
 			//Dont Try To Remove The Body Which Was Not Even Submitted Right?
 			IsDebugTraceEnabled = false;
 		}
+	}
+
+
+	void PhysicsComponent2D::CreateDistanceJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
+	{
+		Ermine::DistanceJoint* Joint = new Ermine::DistanceJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
+
+		BodyB->JointsBuffer.emplace_back(Joint);
+		JointsBuffer.emplace_back(Joint);
+	}
+	void PhysicsComponent2D::CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision)
+	{
+		//Will Implement In The Future..
+	}
+	void PhysicsComponent2D::CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision)
+	{
+		//Will Implement In The Future..
 	}
 
 #pragma region GetBodyTransform

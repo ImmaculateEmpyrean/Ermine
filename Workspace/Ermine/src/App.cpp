@@ -146,6 +146,8 @@ void Ermine::App::OnTick()
 
 		TestBox.StartDebugTrace();
 		TestBox2.StartDebugTrace();
+
+		TestBox.CreateDistanceJoint(&TestBox2);
 	}
 
 	glm::mat4 Camera = glm::mat4(1.0f);

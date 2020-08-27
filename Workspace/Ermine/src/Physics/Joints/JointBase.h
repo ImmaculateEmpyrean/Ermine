@@ -29,10 +29,17 @@ namespace Ermine
 		JointBase& operator=(JointBase&& rhs);
 
 		//This Class HAs The Ability To Be Implicitly Converted To A b2Joint* Try Not To Misuse This Too Much..
-		operator b2Joint*();
+		virtual operator b2Joint*() = 0;
 
 		//This Identifier Is Unique To This JointBase Instance It Is Generated On Instantiation And As JointBase Is Uncopiable It Hopefully Is Accessible As An Identifier Of Sorts..
 		unsigned int GetUniqueIdentifier();
+
+		//Get The Bodies In Question.. Note Joint Base Does Not Own The Body Pointers.. Be VEry Careful Donot Choose To Delete Them
+		b2Body* GetBodyA() { return BodyA; }
+		b2Body* GetBodyB() { return BodyB; }
+
+		//Get The Joint In Question.. It Is Delegated To The Actual Implemntation To Provide The Joint To The User Though..
+		virtual b2Joint* GetJoint() = 0;
 
 	public:
 
@@ -48,6 +55,8 @@ namespace Ermine
 
 		//0 Means Nothing.. The GetUniqueIdentifier() Must Never Return 0..
 		unsigned int UniqueIdentifier = 0;
-		b2Joint* JointHeld;
+		
+		b2Body* BodyA;
+		b2Body* BodyB;
 	};
 }

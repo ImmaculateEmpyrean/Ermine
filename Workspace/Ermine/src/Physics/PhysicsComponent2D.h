@@ -6,6 +6,10 @@
 #include <box2d/box2d.h>
 #include "Physics.h"
 #include "BodyPart.h"
+
+#include "Joints/JointBase.h"
+#include "Joints/DistanceJoint.h"
+
 /*
 	This Component Must Be Inherited By Any Class In Ermine If It Wants Physics Implemented..	
 */
@@ -101,6 +105,16 @@ namespace Ermine
 
 		//Ended Section Utility Functions..//
 
+		//Start Creating Joint Functions..//
+
+		//Start Creating Distance Joint..// 
+		void CreateDistanceJoint(PhysicsComponent2D* BodyB,bool CollideCollision=false);
+		void CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision = false);
+		void CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision = false);
+		//Ended Creating Distance Joint..//
+
+		
+
 	public:
 
 	protected:
@@ -127,6 +141,8 @@ namespace Ermine
 		b2BodyDef BodyDefinitionOfTheComponent;
 		
 		std::vector<b2FixtureDef> FixturesAssociatedWithTheBody;
+
+		std::vector<Ermine::JointBase*> JointsBuffer;
 
 		glm::vec2 BodySize = glm::vec2(10.0f,5.0f);
 

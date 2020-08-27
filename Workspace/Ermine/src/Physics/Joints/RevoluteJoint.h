@@ -14,7 +14,8 @@ namespace Ermine
 		RevoluteJoint() = delete;
 
 		//This Is Something Like The Default Constructor In This Case Use It Most Of The Time
-		RevoluteJoint(b2Body* BodyA,b2Body)
+		RevoluteJoint(b2Body* BodyA, b2Body BodyB, bool ShouldBodiesAttachedByTheJointCollide = false);
+
 	public:
 
 	public:
