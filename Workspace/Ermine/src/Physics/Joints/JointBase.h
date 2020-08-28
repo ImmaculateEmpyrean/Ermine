@@ -14,7 +14,7 @@ namespace Ermine
 		JointBase() = delete;
 
 		//This Is Something Like The Default Constructor In This Case Use It Most Of The Time
-		JointBase(b2Body* BodyA, b2Body* BodyB, bool CollisionEnableBetweenTheBoduesWhichShareTheJoint);
+		JointBase(b2Body* BodyA, b2Body* BodyB);
 
 		//The Destructor Is Very Vital As It Must Inform Universum To Delete A Jointy At The Appropriate Time.. Its Made Virtual Because Why NOT..
 		virtual ~JointBase();
@@ -48,6 +48,7 @@ namespace Ermine
 	protected:
 
 	private:
+		void HelperMoveConstructor(Ermine::JointBase&& rhs);
 
 	private:
 		//This Variable Is Used To Assign The Identifier To Each Instance Of The Class.. 

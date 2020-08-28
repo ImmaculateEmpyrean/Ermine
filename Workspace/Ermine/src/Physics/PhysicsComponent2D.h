@@ -107,14 +107,16 @@ namespace Ermine
 
 		//Start Creating Joint Functions..//
 
+		//This Is The Best Way To Delete A Joint Just Give It The Identifier You Wanna Delete..
+		void DeleteJoint(unsigned int Identifier);
+
 		//Start Creating Distance Joint..// 
-		void CreateDistanceJoint(PhysicsComponent2D* BodyB,bool CollideCollision=false);
-		void CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision = false);
-		void CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision = false);
+		JointBase* CreateDistanceJoint(PhysicsComponent2D* BodyB,bool CollideCollision=false);
+		JointBase* CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision = false);
+		JointBase* CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision = false);
 		//Ended Creating Distance Joint..//
 
-		
-
+		//Ended Creating Joint Functions..//
 	public:
 
 	protected:
@@ -142,7 +144,8 @@ namespace Ermine
 		
 		std::vector<b2FixtureDef> FixturesAssociatedWithTheBody;
 
-		std::vector<Ermine::JointBase*> JointsBuffer;
+		std::unordered_map<unsigned int, Ermine::JointBase*> JointsBuffer;
+		//std::vector<Ermine::JointBase*> JointsBuffer;
 
 		glm::vec2 BodySize = glm::vec2(10.0f,5.0f);
 

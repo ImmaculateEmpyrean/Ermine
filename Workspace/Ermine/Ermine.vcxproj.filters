@@ -468,5 +468,6 @@
     <ClCompile Include="src\RandomNumberGenerator.cpp" />
     <ClCompile Include="src\Physics\Joints\DistanceJoint.cpp" />
     <ClCompile Include="src\Physics\Joints\JointBase.cpp" />
+    <ClCompile Include="src\Physics\Joints\RevoluteJoint.cpp" />
   </ItemGroup>
 </Project>

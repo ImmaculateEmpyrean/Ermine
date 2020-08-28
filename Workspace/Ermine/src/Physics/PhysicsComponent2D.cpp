@@ -113,15 +113,14 @@ namespace Ermine
 
 	PhysicsComponent2D::~PhysicsComponent2D()
 	{
-		for (auto& i : JointsBuffer)
+
+		for (auto& casket : JointsBuffer)
 		{
-			if (i == nullptr)
-				continue; //As The Joint Is Already TAken Care Of..
-			else
-			{
-				Universum->DestroyJoint(i->GetJoint());
-			}
+			if (casket.second != nullptr)
+				delete casket.second;
 		}
+
+		JointsBuffer.clear();
 
 		//Donot Bother Deleting a Nullptr Right..
 		if (BodyManagedByTheComponent != nullptr)
@@ -251,20 +250,47 @@ namespace Ermine
 	}
 
 
-	void PhysicsComponent2D::CreateDistanceJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
+	void PhysicsComponent2D::DeleteJoint(unsigned int Identifier)
+	{
+		auto& casket = JointsBuffer.find(Identifier);
+
+		if (casket != JointsBuffer.end())
+		{
+			if (casket->second != nullptr)
+			{
+				delete casket->second;
+				casket->second = nullptr;
+			}
+			JointsBuffer.erase(casket->first);
+		}
+	}
+
+	JointBase* PhysicsComponent2D::CreateDistanceJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
 	{
 		Ermine::DistanceJoint* Joint = new Ermine::DistanceJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
 
-		BodyB->JointsBuffer.emplace_back(Joint);
-		JointsBuffer.emplace_back(Joint);
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(),Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
 	}
-	void PhysicsComponent2D::CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision)
+	JointBase* PhysicsComponent2D::CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision)
 	{
-		//Will Implement In The Future..
+		Ermine::DistanceJoint* Joint = new Ermine::DistanceJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA, CollideCollision);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
 	}
-	void PhysicsComponent2D::CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision)
+	JointBase* PhysicsComponent2D::CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision)
 	{
-		//Will Implement In The Future..
+		Ermine::DistanceJoint* Joint = new Ermine::DistanceJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA, LocalAnchorPointB, CollideCollision);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
 	}
 
 #pragma region GetBodyTransform

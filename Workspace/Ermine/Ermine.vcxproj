@@ -287,6 +287,7 @@
     <ClCompile Include="src\Physics\BodyPart.cpp" />
     <ClCompile Include="src\Physics\Joints\DistanceJoint.cpp" />
     <ClCompile Include="src\Physics\Joints\JointBase.cpp" />
+    <ClCompile Include="src\Physics\Joints\RevoluteJoint.cpp" />
     <ClCompile Include="src\Physics\Physics.cpp" />
     <ClCompile Include="src\Physics\PhysicsComponent2D.cpp" />
     <ClCompile Include="src\RandomNumberGenerator.cpp" />
