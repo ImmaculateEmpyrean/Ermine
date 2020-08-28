@@ -203,16 +203,16 @@ namespace Ermine
 
 #pragma endregion HelperFunctions
 
-	void PhysicsComponent2D::AddForce(glm::vec2 Force, glm::vec2 BodyPointAtWhichForceIsApplied)
+	void PhysicsComponent2D::AddForce(glm::vec2 Force, glm::vec2 WorldPositionInPixelCoordinatesWhereTheForceWasApplied)
 	{
 		//In Pixel Space Y Points Down While In Box2D It Points Up..
-		Force.y = -1.0f * Force.y;
+		//Force.y = -1.0f * Force.y;
 
 		//Convert The Coordinates Of Body Point At Which Force Is Applied From Poxel Space To Box2D Space..
-		BodyPointAtWhichForceIsApplied = Ermine::coordPixelsToWorld(BodyPointAtWhichForceIsApplied);
+		WorldPositionInPixelCoordinatesWhereTheForceWasApplied = Ermine::coordPixelsToWorld(WorldPositionInPixelCoordinatesWhereTheForceWasApplied);
 
 		//Ask Box2D To Apply The Force On The Object In Question..
-		BodyManagedByTheComponent->ApplyForce(b2Vec2(Force.x, Force.y), b2Vec2(BodyPointAtWhichForceIsApplied.x, BodyPointAtWhichForceIsApplied.y), true);
+		BodyManagedByTheComponent->ApplyForce(b2Vec2(Force.x, Force.y), b2Vec2(WorldPositionInPixelCoordinatesWhereTheForceWasApplied.x, WorldPositionInPixelCoordinatesWhereTheForceWasApplied.y), true);
 	}
 	void PhysicsComponent2D::AddForceToCentre(glm::vec2 Force)
 	{

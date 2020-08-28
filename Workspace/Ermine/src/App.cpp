@@ -203,7 +203,7 @@ void Ermine::App::OnTick()
 
 	if (ApplyForce)
 	{
-		WideBox.AddForce(glm::vec2(0.0f, -0.5f), glm::vec2(40.0f,0.0f));
+		WideBox.AddForce(glm::vec2(0.0f, -0.5f), glm::vec2(600.0f,0.0f));
 		//TestBox. AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
 		//TestBox2.AddForceToCentre(glm::vec2(ForceAppliedBox2[0], ForceAppliedBox2[1]));
 	}

@@ -93,7 +93,7 @@ namespace Ermine
 
 		//Start Section Add Something To The Body..//
 		void AddForceToCentre(glm::vec2 Force);
-		void AddForce(glm::vec2 Force,glm::vec2 BodyPointAtWhichForceIsApplied);
+		void AddForce(glm::vec2 Force,glm::vec2 WorldPositionInPixelCoordinatesWhereTheForceWasApplied);
 		//Ended Section Add Something To The Body..//
 
 		//Start Section Utility Functions..//
