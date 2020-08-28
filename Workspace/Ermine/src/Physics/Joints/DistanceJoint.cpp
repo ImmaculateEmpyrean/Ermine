@@ -24,8 +24,11 @@ namespace Ermine
 
 	DistanceJoint::~DistanceJoint()
 	{
-		Universum->DestroyJoint(DistanceJointHandle);
-		DistanceJointHandle = nullptr;
+		if (DistanceJointHandle != nullptr)
+		{
+			Universum->DestroyJoint(DistanceJointHandle);
+			DistanceJointHandle = nullptr;
+		}
 	}
 
 

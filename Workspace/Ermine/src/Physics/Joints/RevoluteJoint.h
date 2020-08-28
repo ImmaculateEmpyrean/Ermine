@@ -21,6 +21,8 @@ namespace Ermine
 		virtual ~RevoluteJoint() override;
 
 	public:
+		virtual b2Joint* GetJoint() override { return RevoluteJointHandle; }
+		virtual operator b2Joint* () override { return RevoluteJointHandle; }
 
 	public:
 

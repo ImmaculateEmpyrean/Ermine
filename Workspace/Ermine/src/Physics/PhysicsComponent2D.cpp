@@ -293,6 +293,17 @@ namespace Ermine
 		return Joint;
 	}
 
+	JointBase* PhysicsComponent2D::CreateRevoluteJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
+	{
+		Ermine::RevoluteJoint* Joint = new Ermine::RevoluteJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent,CollideCollision);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+
+
 #pragma region GetBodyTransform
 
 	glm::vec2 PhysicsComponent2D::GetBodyLocationBox2DSpace()

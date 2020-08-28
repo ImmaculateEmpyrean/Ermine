@@ -9,6 +9,7 @@
 
 #include "Joints/JointBase.h"
 #include "Joints/DistanceJoint.h"
+#include "Joints/RevoluteJoint.h"
 
 /*
 	This Component Must Be Inherited By Any Class In Ermine If It Wants Physics Implemented..	
@@ -115,6 +116,10 @@ namespace Ermine
 		JointBase* CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision = false);
 		JointBase* CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision = false);
 		//Ended Creating Distance Joint..//
+
+		//Start Creating Revolute Joint..//
+		JointBase* CreateRevoluteJoint(PhysicsComponent2D* BodyB, bool CollideCollision = false);
+		//Ended Creating Revolute Joint..//
 
 		//Ended Creating Joint Functions..//
 	public:

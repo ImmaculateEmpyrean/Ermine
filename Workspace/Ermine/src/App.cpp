@@ -127,9 +127,11 @@ void Ermine::App::OnTick()
 	static Ermine::PhysicsComponent2D LeftBeam(glm::vec2(12.0f, 500.0f), glm::vec2(25.0f, 1000.0f));
 	static Ermine::PhysicsComponent2D RightBeam(glm::vec2(988.0f, 500.0f), glm::vec2(25.0f, 1000.0f));
 
-	static Ermine::PhysicsComponent2D TestBox(glm::vec2(500.0f, 500.0f), glm::vec2(100.0f, 100.0f), false);
-	static Ermine::PhysicsComponent2D TestBox2(glm::vec2(700.0f, 500.0f), glm::vec2(100.0f, 100.0f), false);
+	//static Ermine::PhysicsComponent2D TestBox(glm::vec2(500.0f, 500.0f), glm::vec2(100.0f, 100.0f), false);
+	//static Ermine::PhysicsComponent2D TestBox2(glm::vec2(700.0f, 500.0f), glm::vec2(100.0f, 100.0f), false);
 
+	static Ermine::PhysicsComponent2D SmallBox(glm::vec2(500.0f, 500.0f), glm::vec2(10.0f, 10.0f), true);
+	static Ermine::PhysicsComponent2D WideBox(glm::vec2(700.0f, 500.0f), glm::vec2(100.0f, 10.0f), false);
 
 	static bool Once = true;
 
@@ -144,10 +146,15 @@ void Ermine::App::OnTick()
 		LeftBeam.StartDebugTrace();
 		RightBeam.StartDebugTrace();
 
-		TestBox.StartDebugTrace();
-		TestBox2.StartDebugTrace();
+		//TestBox.StartDebugTrace();
+		//TestBox2.StartDebugTrace();
 
-		TestBox.CreateDistanceJoint(&TestBox2,glm::vec2(110.0f,0.0f),glm::vec2(-110.0f,0.0f));
+		//TestBox.CreateDistanceJoint(&TestBox2,glm::vec2(110.0f,0.0f),glm::vec2(-110.0f,0.0f));
+
+		SmallBox.StartDebugTrace();
+		WideBox.StartDebugTrace();
+
+		SmallBox.CreateRevoluteJoint(&WideBox);
 	}
 
 	glm::mat4 Camera = glm::mat4(1.0f);
@@ -196,13 +203,14 @@ void Ermine::App::OnTick()
 
 	if (ApplyForce)
 	{
-		TestBox. AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
-		TestBox2.AddForceToCentre(glm::vec2(ForceAppliedBox2[0], ForceAppliedBox2[1]));
+		WideBox.AddForce(glm::vec2(0.0f, -0.5f), glm::vec2(40.0f,0.0f));
+		//TestBox. AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
+		//TestBox2.AddForceToCentre(glm::vec2(ForceAppliedBox2[0], ForceAppliedBox2[1]));
 	}
 	if (RandomForceApplication)
 	{
-		TestBox.AddForceToCentre(glm::vec2((float)ER_RAND_INT(30, 300), (float)ER_RAND_INT(-270, 300)));
-		TestBox2.AddForceToCentre(glm::vec2((float)ER_RAND_INT(30, 300), (float)ER_RAND_INT(-270, 300)));
+		//TestBox.AddForceToCentre(glm::vec2((float)ER_RAND_INT(30, 300), (float)ER_RAND_INT(-270, 300)));
+		//TestBox2.AddForceToCentre(glm::vec2((float)ER_RAND_INT(30, 300), (float)ER_RAND_INT(-270, 300)));
 		//TestBox.AddForce(glm::vec2(Ermine::RandomNumber::GetNumberInRange()))
 	}
 }
