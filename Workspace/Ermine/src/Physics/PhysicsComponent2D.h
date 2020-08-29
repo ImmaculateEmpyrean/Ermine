@@ -109,6 +109,7 @@ namespace Ermine
 		//Start Creating Joint Functions..//
 
 		//This Is The Best Way To Delete A Joint Just Give It The Identifier You Wanna Delete..
+		JointBase* GetJoint(unsigned int Identifier);
 		void DeleteJoint(unsigned int Identifier);
 
 		//Start Creating Distance Joint..// 
@@ -119,7 +120,14 @@ namespace Ermine
 
 		//Start Creating Revolute Joint..//
 		JointBase* CreateRevoluteJoint(PhysicsComponent2D* BodyB, bool CollideCollision = false);
+		JointBase* CreateRevoluteJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision = false);
+		JointBase* CreateRevoluteJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision = false);
+		JointBase* CreateRevoluteJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB,float ReferenceAngleInRadians, bool CollideCollision = false);
 		//Ended Creating Revolute Joint..//
+
+		//Start Creating Prismatic Joint..//
+
+		//Ended Creating Prismatic Joint..//
 
 		//Ended Creating Joint Functions..//
 	public:

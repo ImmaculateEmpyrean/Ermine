@@ -250,6 +250,18 @@ namespace Ermine
 	}
 
 
+	JointBase* PhysicsComponent2D::GetJoint(unsigned int Identifier)
+	{
+		auto& casket = JointsBuffer.find(Identifier);
+
+		if (casket != JointsBuffer.end())
+		{
+			if (casket->second != nullptr)
+			{
+				return casket->second;
+			}
+		}
+	}
 	void PhysicsComponent2D::DeleteJoint(unsigned int Identifier)
 	{
 		auto& casket = JointsBuffer.find(Identifier);
@@ -265,6 +277,7 @@ namespace Ermine
 		}
 	}
 
+	//Create Distance Joint Functions
 	JointBase* PhysicsComponent2D::CreateDistanceJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
 	{
 		Ermine::DistanceJoint* Joint = new Ermine::DistanceJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
@@ -293,9 +306,37 @@ namespace Ermine
 		return Joint;
 	}
 
+	//Create Revolute Joint Functions
 	JointBase* PhysicsComponent2D::CreateRevoluteJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
 	{
 		Ermine::RevoluteJoint* Joint = new Ermine::RevoluteJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent,CollideCollision);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+	JointBase* PhysicsComponent2D::CreateRevoluteJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision)
+	{
+		Ermine::RevoluteJoint* Joint = new Ermine::RevoluteJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA, CollideCollision);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+	JointBase* PhysicsComponent2D::CreateRevoluteJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision)
+	{
+		Ermine::RevoluteJoint* Joint = new Ermine::RevoluteJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA,LocalAnchorPointB, CollideCollision);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+	JointBase* PhysicsComponent2D::CreateRevoluteJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInRadians, bool CollideCollision)
+	{
+		Ermine::RevoluteJoint* Joint = new Ermine::RevoluteJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA, LocalAnchorPointB,ReferenceAngleInRadians, CollideCollision);
 
 		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
 		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);

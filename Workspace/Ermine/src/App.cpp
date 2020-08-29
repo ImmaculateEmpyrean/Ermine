@@ -127,11 +127,11 @@ void Ermine::App::OnTick()
 	static Ermine::PhysicsComponent2D LeftBeam(glm::vec2(12.0f, 500.0f), glm::vec2(25.0f, 1000.0f));
 	static Ermine::PhysicsComponent2D RightBeam(glm::vec2(988.0f, 500.0f), glm::vec2(25.0f, 1000.0f));
 
-	//static Ermine::PhysicsComponent2D TestBox(glm::vec2(500.0f, 500.0f), glm::vec2(100.0f, 100.0f), false);
+	static Ermine::PhysicsComponent2D TestBox(glm::vec2(450.0f, 200.0f), glm::vec2(100.0f, 100.0f), false);
 	//static Ermine::PhysicsComponent2D TestBox2(glm::vec2(700.0f, 500.0f), glm::vec2(100.0f, 100.0f), false);
 
 	static Ermine::PhysicsComponent2D SmallBox(glm::vec2(500.0f, 500.0f), glm::vec2(10.0f, 10.0f), true);
-	static Ermine::PhysicsComponent2D WideBox(glm::vec2(700.0f, 500.0f), glm::vec2(100.0f, 10.0f), false);
+	static Ermine::PhysicsComponent2D WideBox(glm::vec2(700.0f, 500.0f), glm::vec2(200.0f, 10.0f), false);
 
 	static bool Once = true;
 
@@ -146,7 +146,7 @@ void Ermine::App::OnTick()
 		LeftBeam.StartDebugTrace();
 		RightBeam.StartDebugTrace();
 
-		//TestBox.StartDebugTrace();
+		TestBox.StartDebugTrace();
 		//TestBox2.StartDebugTrace();
 
 		//TestBox.CreateDistanceJoint(&TestBox2,glm::vec2(110.0f,0.0f),glm::vec2(-110.0f,0.0f));
@@ -154,7 +154,14 @@ void Ermine::App::OnTick()
 		SmallBox.StartDebugTrace();
 		WideBox.StartDebugTrace();
 
-		SmallBox.CreateRevoluteJoint(&WideBox);
+		unsigned int JointIdentifier = SmallBox.CreateRevoluteJoint(&WideBox)->GetUniqueIdentifier();
+
+		JointBase* Joint = SmallBox.GetJoint(JointIdentifier);
+
+		((RevoluteJoint*)Joint)->EnableMotor(true);
+		((RevoluteJoint*)Joint)->SetMotorSpeed(1.0f);
+		((RevoluteJoint*)Joint)->SetMaxMotorTorque(1.0f);
+
 	}
 
 	glm::mat4 Camera = glm::mat4(1.0f);

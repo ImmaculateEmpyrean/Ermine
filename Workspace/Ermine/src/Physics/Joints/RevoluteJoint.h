@@ -17,12 +17,46 @@ namespace Ermine
 		//This Is Something Like The Default Constructor In This Case Use It Most Of The Time
 		RevoluteJoint(b2Body* BodyA, b2Body* BodyB, bool ShouldBodiesAttachedByTheJointCollide = false);
 
+		//This Constructor Is To Be Used To Set Up Anchor Points All Coordinates In Pixel Space
+		RevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
+
+		//This Constructor Is To Be Used To Set Up Anchor Points All Coordinates In Pixel Space
+		RevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
+
+		//This Constructor Is To Be Used To Set Up Anchor Points All Coordinates In Pixel Space And Also Reference Angle While At It.. Use This Constructor If You Are Gonna Call Get Reference Function In The Future..
+		RevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre,float ReferenceAngle, bool ShouldBodiesAttachedByTheJointCollide = false);
+
 		//Destructor To Get Rid Of The Joint After It Is Used Up..
 		virtual ~RevoluteJoint() override;
 
 	public:
 		virtual b2Joint* GetJoint() override { return RevoluteJointHandle; }
 		virtual operator b2Joint* () override { return RevoluteJointHandle; }
+
+		virtual void SetLimits();
+
+		//Start This Joint Incorporates A Motor So Basic Motor Functions Are Provided//
+		
+		//alter joint motor
+		
+		void EnableMotor(bool enabled);
+		void SetMotorSpeed(float speed);
+		void SetMaxMotorTorque(float torque);
+
+		//query joint motor
+		
+		bool IsMotorEnabled();
+		float GetMotorSpeed();
+		float GetMotorTorque();
+		
+		//Ended This Joint Incorporates A Motor So Basic Motor Functions Are Provided//
+
+		//Start Get Reference Angle Functions//
+
+		float GetReferenceAngleInDegrees();
+		float GetReferenceAngleInRadians();
+
+		//Ended Get Reference Angle Functions//
 
 	public:
 
@@ -31,7 +65,8 @@ namespace Ermine
 	protected:
 
 	private:
-
+		void HelperConstructRevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, float ReferenceAngle, bool ShouldBodiesAttachedByTheJointCollide);
+		
 	private:
 		b2RevoluteJoint* RevoluteJointHandle = nullptr;
 

@@ -210,6 +210,7 @@
     <ClInclude Include="src\Physics\BodyPart.h" />
     <ClInclude Include="src\Physics\Joints\DistanceJoint.h" />
     <ClInclude Include="src\Physics\Joints\JointBase.h" />
+    <ClInclude Include="src\Physics\Joints\PrismaticJoint.h" />
     <ClInclude Include="src\Physics\Joints\RevoluteJoint.h" />
     <ClInclude Include="src\Physics\Physics.h" />
     <ClInclude Include="src\Physics\PhysicsComponent2D.h" />
@@ -287,6 +288,7 @@
     <ClCompile Include="src\Physics\BodyPart.cpp" />
     <ClCompile Include="src\Physics\Joints\DistanceJoint.cpp" />
     <ClCompile Include="src\Physics\Joints\JointBase.cpp" />
+    <ClCompile Include="src\Physics\Joints\PrismaticJoint.cpp" />
     <ClCompile Include="src\Physics\Joints\RevoluteJoint.cpp" />
     <ClCompile Include="src\Physics\Physics.cpp" />
     <ClCompile Include="src\Physics\PhysicsComponent2D.cpp" />
