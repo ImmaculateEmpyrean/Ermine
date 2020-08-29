@@ -344,6 +344,16 @@ namespace Ermine
 		return Joint;
 	}
 
+	JointBase* PhysicsComponent2D::CreatePrismaticJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
+	{
+		Ermine::PrismaticJoint* Joint = new Ermine::PrismaticJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+
 
 #pragma region GetBodyTransform
 

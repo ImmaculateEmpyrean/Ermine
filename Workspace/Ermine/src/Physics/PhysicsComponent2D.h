@@ -10,6 +10,7 @@
 #include "Joints/JointBase.h"
 #include "Joints/DistanceJoint.h"
 #include "Joints/RevoluteJoint.h"
+#include "Joints/PrismaticJoint.h"
 
 /*
 	This Component Must Be Inherited By Any Class In Ermine If It Wants Physics Implemented..	
@@ -126,7 +127,7 @@ namespace Ermine
 		//Ended Creating Revolute Joint..//
 
 		//Start Creating Prismatic Joint..//
-
+		JointBase* CreatePrismaticJoint(PhysicsComponent2D* BodyB, bool CollideCollision = false);
 		//Ended Creating Prismatic Joint..//
 
 		//Ended Creating Joint Functions..//

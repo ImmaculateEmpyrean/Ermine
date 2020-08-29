@@ -162,6 +162,7 @@ void Ermine::App::OnTick()
 		((RevoluteJoint*)Joint)->SetMotorSpeed(1.0f);
 		((RevoluteJoint*)Joint)->SetMaxMotorTorque(1.0f);
 
+		((RevoluteJoint*)Joint)->SetRotationLimits(90.0f,true);
 	}
 
 	glm::mat4 Camera = glm::mat4(1.0f);

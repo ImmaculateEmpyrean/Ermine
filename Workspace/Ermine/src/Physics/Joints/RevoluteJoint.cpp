@@ -22,10 +22,11 @@ Ermine::RevoluteJoint::RevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 Anc
 	HelperConstructRevoluteJoint(BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorAWithRespectToBoxCentre, 0.0f, ShouldBodiesAttachedByTheJointCollide);
 }
 
-Ermine::RevoluteJoint::RevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, float ReferenceAngle, bool ShouldBodiesAttachedByTheJointCollide)
+Ermine::RevoluteJoint::RevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, float ReferenceAngleDegrees, bool ShouldBodiesAttachedByTheJointCollide)
 	:
 	JointBase(BodyA, BodyB)
 {
+	float ReferenceAngle = glm::radians<float>(ReferenceAngleDegrees);
 	HelperConstructRevoluteJoint(BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorAWithRespectToBoxCentre, ReferenceAngle, ShouldBodiesAttachedByTheJointCollide);
 }
 
@@ -38,9 +39,30 @@ Ermine::RevoluteJoint::~RevoluteJoint()
 	}
 }
 
-void Ermine::RevoluteJoint::SetLimits()
+
+void Ermine::RevoluteJoint::SetRotationLimits(float LowerLimitDegrees, float UpperLimitDegrees)
 {
-	//TODO Still Has To Implemnted Properly..
+	float LowerLimitRadians = glm::radians<float>(LowerLimitDegrees);
+	float UpperLimitRadians = glm::radians<float>(UpperLimitDegrees);
+
+	RevoluteJointHandle->EnableLimit(true);
+	RevoluteJointHandle->SetLimits(LowerLimitRadians, UpperLimitRadians);
+}
+void Ermine::RevoluteJoint::SetRotationLimits(float LimitDegrees, bool IsUpperLimit)
+{
+	float LimitRadians = glm::radians<float>(LimitDegrees);
+	
+	RevoluteJointHandle->EnableLimit(true);
+
+	if(IsUpperLimit == true)
+		RevoluteJointHandle->SetLimits(-99999.0f, LimitRadians);
+	else 
+		RevoluteJointHandle->SetLimits(LimitRadians, 99999.0f);
+}
+
+void Ermine::RevoluteJoint::ClearLimits()
+{
+	RevoluteJointHandle->EnableLimit(false);
 }
 
 
