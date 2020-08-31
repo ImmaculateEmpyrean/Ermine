@@ -29,6 +29,9 @@ namespace Ermine
 	///In The Future See That This Function Is Called When ScreenHeight Or ScreenWidth Is Changed
 	void RecalculatePhysicsWorldBounds();
 
+	glm::vec2 B2Vec2ToGLM(b2Vec2 Vector);
+	b2Vec2 GLMToB2Vec2(glm::vec2 Vector);
+
 #pragma region AllTheseFunctionsAreWrong
 
 	//Start Convert Box2D World Coordinates to Pixel Space Coordinates//

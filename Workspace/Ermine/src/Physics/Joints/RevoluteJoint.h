@@ -39,6 +39,18 @@ namespace Ermine
 		void ClearLimits();
 		//Start This Joint Incorporates A Motor So Basic Motor Functions Are Provided//
 		
+		//Start Query Abt Anchor Points..
+
+		//You Will Get It Still In Pixel Coordinates 50 or something Maybe not 0.5.. 
+		glm::vec2 GetAnchorALocLocalSpace();
+		glm::vec2 GetAnchorBLocLocalSpace();
+
+		//It Does Say Pixel Coordinate System Right.. 
+		glm::vec2 GetAnchorALocPixelSpace();
+		glm::vec2 GetAnchorBLocPixelSpace();
+
+		//Ended Query Abt Anchor Points..
+
 		//alter joint motor
 		
 		void EnableMotor(bool enabled);

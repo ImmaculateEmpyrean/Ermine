@@ -33,6 +33,17 @@ namespace Ermine
 	}
 
 
+	//Start Vector Conversion Functions From Vec2 To B2Vec2
+	glm::vec2 B2Vec2ToGLM(b2Vec2 Vector)
+	{
+		return glm::vec2(Vector.x, Vector.y);
+	}
+	b2Vec2 GLMToB2Vec2(glm::vec2 Vector)
+	{
+		return b2Vec2(Vector.x, Vector.y);
+	}
+	//Ended Vector Conversion Functions From Vec2 To B2Vec2
+
 	glm::vec2 coordWorldToPixels(glm::vec2 world)
 	{
 		world.x = world.x / ScaleFactor;

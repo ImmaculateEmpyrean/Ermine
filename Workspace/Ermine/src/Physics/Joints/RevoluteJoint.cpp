@@ -65,6 +65,30 @@ void Ermine::RevoluteJoint::ClearLimits()
 	RevoluteJointHandle->EnableLimit(false);
 }
 
+glm::vec2 Ermine::RevoluteJoint::GetAnchorALocLocalSpace()
+{
+	glm::vec2 AnchorALocalPosition = glm::vec2(RevoluteJointHandle->GetLocalAnchorA().x, RevoluteJointHandle->GetLocalAnchorA().y);
+	return Ermine::vertexWorldToPixels(AnchorALocalPosition);
+}
+
+glm::vec2 Ermine::RevoluteJoint::GetAnchorBLocLocalSpace()
+{
+	glm::vec2 AnchorBLocalPosition = glm::vec2(RevoluteJointHandle->GetLocalAnchorB().x, RevoluteJointHandle->GetLocalAnchorB().y);
+	return Ermine::vertexWorldToPixels(AnchorBLocalPosition);
+}
+
+glm::vec2 Ermine::RevoluteJoint::GetAnchorALocPixelSpace()
+{
+	glm::vec2 AnchorAWorldPosition = glm::vec2(RevoluteJointHandle->GetAnchorA().x, RevoluteJointHandle->GetAnchorA().y);
+	return Ermine::coordWorldToPixels(AnchorAWorldPosition);
+}
+
+glm::vec2 Ermine::RevoluteJoint::GetAnchorBLocPixelSpace()
+{
+	glm::vec2 AnchorBWorldPosition = glm::vec2(RevoluteJointHandle->GetAnchorB().x, RevoluteJointHandle->GetAnchorB().y);
+	return Ermine::coordWorldToPixels(AnchorBWorldPosition);
+}
+
 
 #pragma region MotorFunctions
 
