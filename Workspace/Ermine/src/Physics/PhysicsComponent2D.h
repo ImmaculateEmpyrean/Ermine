@@ -11,6 +11,9 @@
 #include "Joints/DistanceJoint.h"
 #include "Joints/RevoluteJoint.h"
 #include "Joints/PrismaticJoint.h"
+#include "Joints/WheelJoint.h"
+#include "Joints/RopeJoint.h"
+#include "Joints/WeldJoint.h"
 
 /*
 	This Component Must Be Inherited By Any Class In Ermine If It Wants Physics Implemented..	
@@ -27,8 +30,11 @@ namespace Ermine
 		//A Default Physics component Can Be Constructed However It Cannot Be Default..
 		PhysicsComponent2D();
 
-		//Use This Constructor To Quickly Construct A Static Box At THe Specified Location No Other Nonsense For Now..
+		//Use This Constructor To Quickly Construct A Box At The Specified Location No Other Nonsense For Now..
 		PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, glm::vec2 BodySizeInPixelSpace ,bool StaticBody = true);
+
+		//Use This Constructor To Quicklu Construct A Circle At The Specified Location No Other Nonesense For Now..
+		PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, float BodyRadiusInPixelSpace, bool StaticBody = true);
 
 		//Use This Constructor To Explicitly Fix The Size Of The Box And Also Say That The Shape Is a Box..
 		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,glm::vec2 BodySizeInPixelSpace);
@@ -127,9 +133,23 @@ namespace Ermine
 		//Ended Creating Revolute Joint..//
 
 		//Start Creating Prismatic Joint..//
-		JointBase* CreatePrismaticJoint(PhysicsComponent2D* BodyB, bool CollideCollision = false);
+		JointBase* CreatePrismaticJoint(PhysicsComponent2D* BodyB, bool CollideConnected = false);
 		//Ended Creating Prismatic Joint..//
 
+		//Start Creating Wheel Joint..//
+		JointBase* CreateWheelJoint(PhysicsComponent2D* BodyB, bool CollideConnected = false);
+		//Ended Creating Wheel Joint..//
+
+		//Start Creating Rope Joint..//
+		JointBase* CreateRopeJoint(PhysicsComponent2D* BodyB, bool CollideConnected = false);
+		JointBase* CreateRopeJoint(PhysicsComponent2D* BodyB, float RopeLength, bool CollideConnected = false);
+		JointBase* CreateRopeJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates,float RopeLength, bool CollideConnected = false);
+		//Ended Creating Rope Joint..//
+
+		//Start Creating Weld Joint..//
+		JointBase* CreateWeldJoint(PhysicsComponent2D* BodyB, bool CollideConnected = false);
+		JointBase* CreateWeldJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, bool CollideConnected = false);
+		JointBase* CreateWeldJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, bool CollideConnected = false);
 		//Ended Creating Joint Functions..//
 	public:
 

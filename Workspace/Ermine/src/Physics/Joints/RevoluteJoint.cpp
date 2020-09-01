@@ -19,7 +19,7 @@ Ermine::RevoluteJoint::RevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 Anc
 	:
 	JointBase(BodyA, BodyB)
 {
-	HelperConstructRevoluteJoint(BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorAWithRespectToBoxCentre, 0.0f, ShouldBodiesAttachedByTheJointCollide);
+	HelperConstructRevoluteJoint(BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre, 0.0f, ShouldBodiesAttachedByTheJointCollide);
 }
 
 Ermine::RevoluteJoint::RevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, float ReferenceAngleDegrees, bool ShouldBodiesAttachedByTheJointCollide)
@@ -27,7 +27,7 @@ Ermine::RevoluteJoint::RevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 Anc
 	JointBase(BodyA, BodyB)
 {
 	float ReferenceAngle = glm::radians<float>(ReferenceAngleDegrees);
-	HelperConstructRevoluteJoint(BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorAWithRespectToBoxCentre, ReferenceAngle, ShouldBodiesAttachedByTheJointCollide);
+	HelperConstructRevoluteJoint(BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre, ReferenceAngle, ShouldBodiesAttachedByTheJointCollide);
 }
 
 Ermine::RevoluteJoint::~RevoluteJoint()

@@ -127,11 +127,8 @@ void Ermine::App::OnTick()
 	static Ermine::PhysicsComponent2D LeftBeam(glm::vec2(12.0f, 500.0f), glm::vec2(25.0f, 1000.0f));
 	static Ermine::PhysicsComponent2D RightBeam(glm::vec2(988.0f, 500.0f), glm::vec2(25.0f, 1000.0f));
 
-	static Ermine::PhysicsComponent2D TestBox(glm::vec2(450.0f, 200.0f), glm::vec2(100.0f, 100.0f), false);
-	//static Ermine::PhysicsComponent2D TestBox2(glm::vec2(700.0f, 500.0f), glm::vec2(100.0f, 100.0f), false);
-
-	static Ermine::PhysicsComponent2D SmallBox(glm::vec2(500.0f, 500.0f), glm::vec2(10.0f, 10.0f), true);
-	static Ermine::PhysicsComponent2D WideBox(glm::vec2(700.0f, 500.0f), glm::vec2(200.0f, 10.0f), false);
+	static Ermine::PhysicsComponent2D TestBox1 = Ermine::PhysicsComponent2D(glm::vec2(500.0f, 500.0f), glm::vec2(50.0f, 50.0f), false);
+	static Ermine::PhysicsComponent2D TestBox2 = Ermine::PhysicsComponent2D(glm::vec2(600.0f, 500.0f), glm::vec2(50.0f, 50.0f), false);
 
 	static bool Once = true;
 
@@ -146,23 +143,10 @@ void Ermine::App::OnTick()
 		LeftBeam.StartDebugTrace();
 		RightBeam.StartDebugTrace();
 
-		TestBox.StartDebugTrace();
-		//TestBox2.StartDebugTrace();
+		TestBox1.StartDebugTrace();
+		TestBox2.StartDebugTrace();
 
-		//TestBox.CreateDistanceJoint(&TestBox2,glm::vec2(110.0f,0.0f),glm::vec2(-110.0f,0.0f));
-
-		SmallBox.StartDebugTrace();
-		WideBox.StartDebugTrace();
-
-		unsigned int JointIdentifier = SmallBox.CreateRevoluteJoint(&WideBox)->GetUniqueIdentifier();
-
-		JointBase* Joint = SmallBox.GetJoint(JointIdentifier);
-
-		((RevoluteJoint*)Joint)->EnableMotor(true);
-		((RevoluteJoint*)Joint)->SetMotorSpeed(1.0f);
-		((RevoluteJoint*)Joint)->SetMaxMotorTorque(1.0f);
-
-		((RevoluteJoint*)Joint)->SetRotationLimits(90.0f,true);
+		TestBox1.CreateWeldJoint(&TestBox2, false);
 	}
 
 	glm::mat4 Camera = glm::mat4(1.0f);
@@ -179,7 +163,7 @@ void Ermine::App::OnTick()
 	bool ApplyForce = false;
 	bool RandomForceApplication = false;
 
-	ImGui::Begin("Physics Test On Box");
+	ImGui::Begin("Physics Test ");
 
 	ImGui::InputFloat2("##PhysicsTestOnBox1", ForceAppliedBox1, 2);
 	ImGui::SameLine();
@@ -211,15 +195,11 @@ void Ermine::App::OnTick()
 
 	if (ApplyForce)
 	{
-		WideBox.AddForce(glm::vec2(0.0f, -0.5f), glm::vec2(600.0f,0.0f));
-		//TestBox. AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
-		//TestBox2.AddForceToCentre(glm::vec2(ForceAppliedBox2[0], ForceAppliedBox2[1]));
+		TestBox1.AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
 	}
 	if (RandomForceApplication)
 	{
-		//TestBox.AddForceToCentre(glm::vec2((float)ER_RAND_INT(30, 300), (float)ER_RAND_INT(-270, 300)));
-		//TestBox2.AddForceToCentre(glm::vec2((float)ER_RAND_INT(30, 300), (float)ER_RAND_INT(-270, 300)));
-		//TestBox.AddForce(glm::vec2(Ermine::RandomNumber::GetNumberInRange()))
+		
 	}
 }
 

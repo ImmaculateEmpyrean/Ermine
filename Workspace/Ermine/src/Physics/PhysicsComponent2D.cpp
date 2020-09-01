@@ -63,7 +63,40 @@ namespace Ermine
 		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].friction = 0.3f;
 		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].restitution = 0.5f;
 
-		//Attact the Fixture To The Body..
+		//Attach the Fixture To The Body..
+		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
+	}
+
+	PhysicsComponent2D::PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, float BodyRadiusInPixelSpace, bool StaticBody)
+	{
+		glm::vec2 LocationInWorldSpace = Ermine::coordPixelsToWorld(BodyLocationInPixelSpace);
+		BodyDefinitionOfTheComponent.position.Set(LocationInWorldSpace.x, LocationInWorldSpace.y);
+
+		float BodySizeInWorldSpace = Ermine::scalarPixelsToWorld(BodyRadiusInPixelSpace);
+		BodySize.x = BodySizeInWorldSpace;
+		BodySize.y = BodySizeInWorldSpace;
+
+		if (StaticBody)
+			BodyDefinitionOfTheComponent.type = b2_staticBody;
+		else
+			BodyDefinitionOfTheComponent.type = b2_dynamicBody;
+
+		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
+
+		//Create A Physics Component Shape DataStructure Inside The Buffer Array
+		FixturesAssociatedWithTheBody.emplace_back(b2FixtureDef());
+
+		//Create A Shape To Be associated With The Fixture..
+		b2CircleShape Shape = b2CircleShape();
+		Shape.m_radius = BodySizeInWorldSpace;
+		
+		//For The Created DataStructure Set The Default Values..
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].density = 1.0f;
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].friction = 0.3f;
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].restitution = 0.5f;
+
+		//Attach the Fixture To The Body..
 		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
 	}
 
@@ -346,12 +379,79 @@ namespace Ermine
 
 	JointBase* PhysicsComponent2D::CreatePrismaticJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
 	{
-		Ermine::PrismaticJoint* Joint = new Ermine::PrismaticJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
+		Ermine::WheelJoint* Joint = new Ermine::WheelJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
 
 		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
 		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
 
 		return Joint;
+	}
+
+	JointBase* PhysicsComponent2D::CreateWheelJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
+	{
+		Ermine::WheelJoint* Joint = new Ermine::WheelJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+
+	JointBase* PhysicsComponent2D::CreateRopeJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
+	{
+		Ermine::RopeJoint* Joint = new Ermine::RopeJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+	JointBase* PhysicsComponent2D::CreateRopeJoint(PhysicsComponent2D* BodyB, float RopeLength, bool CollideConnected)
+	{
+		Ermine::RopeJoint* Joint = new Ermine::RopeJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent,RopeLength, CollideConnected);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+	JointBase* PhysicsComponent2D::CreateRopeJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, float RopeLength, bool CollideConnected)
+	{
+		Ermine::RopeJoint* Joint = new Ermine::RopeJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent,LocalAnchorAPixelCoordinates,LocalAnchorBPixelCoordinates, RopeLength, CollideConnected);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+
+	JointBase* PhysicsComponent2D::CreateWeldJoint(PhysicsComponent2D* BodyB, bool CollideConnected)
+	{
+		Ermine::WeldJoint* Joint = new Ermine::WeldJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideConnected);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+	JointBase* PhysicsComponent2D::CreateWeldJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, bool CollideConnected)
+	{
+		Ermine::WeldJoint* Joint = new Ermine::WeldJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent,LocalAnchorAPixelCoordinates, CollideConnected);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+	JointBase* PhysicsComponent2D::CreateWeldJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, bool CollideConnected)
+	{
+		Ermine::WeldJoint* Joint = new Ermine::WeldJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorAPixelCoordinates, LocalAnchorBPixelCoordinates ,CollideConnected);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+
 	}
 
 

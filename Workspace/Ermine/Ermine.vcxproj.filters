@@ -290,6 +290,9 @@
     <ClInclude Include="src\RandomNumberGenerator.h" />
     <ClInclude Include="src\Physics\Joints\DistanceJoint.h" />
     <ClInclude Include="src\Physics\Joints\PrismaticJoint.h" />
+    <ClInclude Include="src\Physics\Joints\WheelJoint.h" />
+    <ClInclude Include="src\Physics\Joints\RopeJoint.h" />
+    <ClInclude Include="src\Physics\Joints\WeldJoint.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
@@ -471,5 +474,8 @@
     <ClCompile Include="src\Physics\Joints\JointBase.cpp" />
     <ClCompile Include="src\Physics\Joints\RevoluteJoint.cpp" />
     <ClCompile Include="src\Physics\Joints\PrismaticJoint.cpp" />
+    <ClCompile Include="src\Physics\Joints\WheelJoint.cpp" />
+    <ClCompile Include="src\Physics\Joints\RopeJoint.cpp" />
+    <ClCompile Include="src\Physics\Joints\WeldJoint.cpp" />
   </ItemGroup>
 </Project>
