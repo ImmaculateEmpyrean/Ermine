@@ -24,11 +24,54 @@ namespace Ermine
 
 	DistanceJoint::~DistanceJoint()
 	{
-		if (DistanceJointHandle != nullptr)
+		if (ValidFlag == true)
 		{
 			Universum->DestroyJoint(DistanceJointHandle);
 			DistanceJointHandle = nullptr;
 		}
+	}
+
+
+	glm::vec2 DistanceJoint::GetBodyALocalAnchorLocation()
+	{
+		if (ValidFlag == true)
+		{
+			b2Vec2 LocalAnchorLocation = DistanceJointHandle->GetLocalAnchorA();
+			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+			return LocalAnchorLocPixel;
+		}
+		else return glm::vec2(-9999.0f, -9999.0f);
+	}
+	glm::vec2 DistanceJoint::GetBodyBLocalAnchorLocation()
+	{
+		if (ValidFlag == true)
+		{
+			b2Vec2 LocalAnchorLocation = DistanceJointHandle->GetLocalAnchorB();
+			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+			return LocalAnchorLocPixel;
+		}
+		else return glm::vec2(-9999.0f, -9999.0f);
+	}
+
+	glm::vec2 DistanceJoint::GetBodyAWorldAnchorLocationPixels()
+	{
+		if (ValidFlag == true)
+		{
+			b2Vec2 LocalAnchorLocation = DistanceJointHandle->GetAnchorA();
+			glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+			return LocalAnchorLocPixel;
+		}
+		else return glm::vec2(-9999.0f, -9999.0f);
+	}
+	glm::vec2 DistanceJoint::GetBodyBWorldAnchorLocationPixels()
+	{
+		if (ValidFlag == true)
+		{
+			b2Vec2 LocalAnchorLocation = DistanceJointHandle->GetAnchorB();
+			glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+			return LocalAnchorLocPixel;
+		}
+		else return glm::vec2(-9999.0f, -9999.0f);
 	}
 
 
@@ -47,5 +90,7 @@ namespace Ermine
 		DisDef.localAnchorB = b2Vec2(LocalAnchorBWorldSpace.x,LocalAnchorBWorldSpace.y);
 
 		DistanceJointHandle = (b2DistanceJoint*)Ermine::Universum->CreateJoint(&DisDef);
+
+		JointBase::JointHandle = DistanceJointHandle;
 	}
 }

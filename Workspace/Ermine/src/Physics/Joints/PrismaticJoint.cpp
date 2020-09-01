@@ -43,7 +43,7 @@ Ermine::PrismaticJoint::PrismaticJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 A
 
 Ermine::PrismaticJoint::~PrismaticJoint()
 {
-	if (PrismaticJointHandle != nullptr)
+	if (ValidFlag == true)
 	{
 		Ermine::Universum->DestroyJoint(PrismaticJointHandle);
 		PrismaticJointHandle = nullptr;
@@ -77,67 +77,104 @@ void Ermine::PrismaticJoint::ClearLimits()
 }
 
 
-glm::vec2 Ermine::PrismaticJoint::GetAnchorALocLocalSpace()
+glm::vec2 Ermine::PrismaticJoint::GetBodyALocalAnchorLocation()
 {
-	glm::vec2 AnchorALocalPosition = glm::vec2(PrismaticJointHandle->GetLocalAnchorA().x, PrismaticJointHandle->GetLocalAnchorA().y);
-	return Ermine::vertexWorldToPixels(AnchorALocalPosition);
+	if (ValidFlag == true)
+	{
+		b2Vec2 LocalAnchorLocation = PrismaticJointHandle->GetLocalAnchorA();
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else return glm::vec2(-9999.0f, -9999.0f);
 }
-glm::vec2 Ermine::PrismaticJoint::GetAnchorBLocLocalSpace()
+glm::vec2 Ermine::PrismaticJoint::GetBodyBLocalAnchorLocation()
 {
-	glm::vec2 AnchorBLocalPosition = glm::vec2(PrismaticJointHandle->GetLocalAnchorB().x, PrismaticJointHandle->GetLocalAnchorB().y);
-	return Ermine::vertexWorldToPixels(AnchorBLocalPosition);
+	if (ValidFlag == true)
+	{
+		b2Vec2 LocalAnchorLocation = PrismaticJointHandle->GetLocalAnchorB();
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else return glm::vec2(-9999.0f, -9999.0f);
 }
 
-glm::vec2 Ermine::PrismaticJoint::GetAnchorALocPixelSpace()
+glm::vec2 Ermine::PrismaticJoint::GetBodyAWorldAnchorLocationPixels()
 {
-	glm::vec2 AnchorAWorldPosition = glm::vec2(PrismaticJointHandle->GetAnchorA().x, PrismaticJointHandle->GetAnchorA().y);
-	return Ermine::coordWorldToPixels(AnchorAWorldPosition);
+	if (ValidFlag == true)
+	{
+		b2Vec2 LocalAnchorLocation = PrismaticJointHandle->GetAnchorA();
+		glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else return glm::vec2(-9999.0f, -9999.0f);
 }
-glm::vec2 Ermine::PrismaticJoint::GetAnchorBLocPixelSpace()
+glm::vec2 Ermine::PrismaticJoint::GetBodyBWorldAnchorLocationPixels()
 {
-	glm::vec2 AnchorBWorldPosition = glm::vec2(PrismaticJointHandle->GetAnchorB().x, PrismaticJointHandle->GetAnchorB().y);
-	return Ermine::coordWorldToPixels(AnchorBWorldPosition);
+	if (ValidFlag == true)
+	{
+		b2Vec2 LocalAnchorLocation = PrismaticJointHandle->GetAnchorB();
+		glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else return glm::vec2(-9999.0f, -9999.0f);
 }
 
 
 #pragma region MotorFunctions
 void Ermine::PrismaticJoint::EnableMotor(bool enabled)
 {
-	PrismaticJointHandle->EnableMotor(true);
+	if(ValidFlag == true)
+		PrismaticJointHandle->EnableMotor(true);
 }
 void Ermine::PrismaticJoint::SetMotorSpeed(float speed)
 {
-	PrismaticJointHandle->EnableMotor(true);
-	PrismaticJointHandle->SetMotorSpeed(speed);
+	if (ValidFlag == true)
+	{
+		PrismaticJointHandle->EnableMotor(true);
+		PrismaticJointHandle->SetMotorSpeed(speed);
+	}
 }
 void Ermine::PrismaticJoint::SetMaxMotorForce(float Force)
 {
-	PrismaticJointHandle->SetMaxMotorForce(Force);
+	if (ValidFlag == true)
+	{
+		PrismaticJointHandle->SetMaxMotorForce(Force);
+	}
 }
 
 bool Ermine::PrismaticJoint::IsMotorEnabled()
 {
-	return PrismaticJointHandle->IsMotorEnabled();
+	if (ValidFlag == true)
+		return PrismaticJointHandle->IsMotorEnabled();
+	else return false;
 }
 float Ermine::PrismaticJoint::GetMotorSpeed()
 {
-	return PrismaticJointHandle->GetMotorSpeed();
+	if (ValidFlag == true)
+		return PrismaticJointHandle->GetMotorSpeed();
+	else return 9999.0f;
 }
 float Ermine::PrismaticJoint::GetMotorForce()
 {
-	return PrismaticJointHandle->GetMotorForce(1.0f/Ermine::PhysicsWorldTimestep);
+	if (ValidFlag == true)
+		return PrismaticJointHandle->GetMotorForce(1.0f / Ermine::PhysicsWorldTimestep);
+	else return 9999.0f;
 }
 
 #pragma endregion MotorFunctions
 
 float Ermine::PrismaticJoint::GetReferenceAngleInDegrees()
 {
-	return glm::degrees<float>(GetReferenceAngleInRadians());
+	if (ValidFlag == true)
+		return glm::degrees<float>(GetReferenceAngleInRadians());
+	else return 9999.0f;
 }
 
 float Ermine::PrismaticJoint::GetReferenceAngleInRadians()
 {
-	return PrismaticJointHandle->GetReferenceAngle();
+	if (ValidFlag == true)
+		return PrismaticJointHandle->GetReferenceAngle();
+	else return 9999.0f;
 }
 
 void Ermine::PrismaticJoint::HelperConstructPrismaticJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, 
@@ -165,4 +202,6 @@ void Ermine::PrismaticJoint::HelperConstructPrismaticJoint(b2Body* BodyA, b2Body
 	PrDef.referenceAngle = ReferenceAngleRadians;
 
 	PrismaticJointHandle = (b2PrismaticJoint*)Universum->CreateJoint(&PrDef);
+
+	JointBase::JointHandle = PrismaticJointHandle;
 }

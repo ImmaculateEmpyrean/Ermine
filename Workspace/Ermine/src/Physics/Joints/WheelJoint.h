@@ -21,6 +21,11 @@ namespace Ermine
 		virtual b2Joint* GetJoint() override { return WheelJointHandle; }
 		virtual operator b2Joint* () override { return WheelJointHandle; }
 
+		virtual glm::vec2 GetBodyALocalAnchorLocation() override;
+		virtual glm::vec2 GetBodyBLocalAnchorLocation() override;
+
+		virtual glm::vec2 GetBodyAWorldAnchorLocationPixels() override;
+		virtual glm::vec2 GetBodyBWorldAnchorLocationPixels() override;
 	protected:
 
 	protected:

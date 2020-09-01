@@ -25,51 +25,84 @@ Ermine::RopeJoint::RopeJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 LocalAnchor
 
 float Ermine::RopeJoint::GetLength()
 {
-	return RopeJointHandle->GetLength();
+	if (ValidFlag == true)
+		return RopeJointHandle->GetLength();
+	else return -9999.0f;
 }
 void Ermine::RopeJoint::SetMaxLength(float MaxLength)
 {
-	float MaxLengthWorld = Ermine::scalarPixelsToWorld(MaxLength);
-	RopeJointHandle->SetMaxLength(MaxLengthWorld);
+	if (ValidFlag == true)
+	{
+		float MaxLengthWorld = Ermine::scalarPixelsToWorld(MaxLength);
+		RopeJointHandle->SetMaxLength(MaxLengthWorld);
+	}
 }
 
 float Ermine::RopeJoint::GetMaxLength()
 {
-	float MaxLengthWorld = Ermine::scalarWorldToPixels(RopeJointHandle->GetMaxLength());
-	return MaxLengthWorld;
+	if (ValidFlag == true)
+	{
+		float MaxLengthWorld = Ermine::scalarWorldToPixels(RopeJointHandle->GetMaxLength());
+		return MaxLengthWorld;
+	}
+	else return -9999.0f;
 }
 
 
-glm::vec2 Ermine::RopeJoint::GetAnchorAPixelCoordinates()
+glm::vec2 Ermine::RopeJoint::GetBodyALocalAnchorLocation()
 {
-	glm::vec2 AnchorAWorldLocation = Ermine::B2Vec2ToGLM(RopeJointHandle->GetAnchorA());
-	return Ermine::coordWorldToPixels(AnchorAWorldLocation);
+	if (ValidFlag == true)
+	{
+		b2Vec2 LocalAnchorLocation = RopeJointHandle->GetLocalAnchorA();
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else return glm::vec2(-9999.0f, -9999.0f);
 }
-glm::vec2 Ermine::RopeJoint::GetAnchorBPixelCoordinates()
+glm::vec2 Ermine::RopeJoint::GetBodyBLocalAnchorLocation()
 {
-	glm::vec2 AnchorBWorldLocation = Ermine::B2Vec2ToGLM(RopeJointHandle->GetAnchorB());
-	return Ermine::coordWorldToPixels(AnchorBWorldLocation);
+	if (ValidFlag == true)
+	{
+		b2Vec2 LocalAnchorLocation = RopeJointHandle->GetLocalAnchorB();
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else return glm::vec2(-9999.0f, -9999.0f);
 }
 
-glm::vec2 Ermine::RopeJoint::GetAnchorALocalCoordinates()
+glm::vec2 Ermine::RopeJoint::GetBodyAWorldAnchorLocationPixels()
 {
-	glm::vec2 AnchorALocalLocation = Ermine::B2Vec2ToGLM(RopeJointHandle->GetLocalAnchorA());
-	return Ermine::vertexWorldToPixels(AnchorALocalLocation);
+	if (ValidFlag == true)
+	{
+		b2Vec2 LocalAnchorLocation = RopeJointHandle->GetAnchorA();
+		glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else return glm::vec2(-9999.0f, -9999.0f);
 }
-glm::vec2 Ermine::RopeJoint::GetAnchorBLocalCoordinates()
+glm::vec2 Ermine::RopeJoint::GetBodyBWorldAnchorLocationPixels()
 {
-	glm::vec2 AnchorBLocalLocation = Ermine::B2Vec2ToGLM(RopeJointHandle->GetLocalAnchorB());
-	return Ermine::vertexWorldToPixels(AnchorBLocalLocation);
+	if (ValidFlag == true)
+	{
+		b2Vec2 LocalAnchorLocation = RopeJointHandle->GetAnchorB();
+		glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else return glm::vec2(-9999.0f, -9999.0f);
 }
 
 
 glm::vec2 Ermine::RopeJoint::GetReactionForce()
 {
-	return Ermine::B2Vec2ToGLM(RopeJointHandle->GetReactionForce(Ermine::PhysicsWorldTimestep));
+	if (ValidFlag == true)
+		return Ermine::B2Vec2ToGLM(RopeJointHandle->GetReactionForce(Ermine::PhysicsWorldTimestep));
+	else return glm::vec2(-9999.0f, -9999.0f);
 }
 float Ermine::RopeJoint::GetReactionTorque()
 {
-	return RopeJointHandle->GetReactionTorque(Ermine::PhysicsWorldTimestep);
+	if (ValidFlag == true)
+		return RopeJointHandle->GetReactionTorque(Ermine::PhysicsWorldTimestep);
+	else return -9999.0f;
 }
 
 
@@ -90,4 +123,6 @@ void Ermine::RopeJoint::HelperCreateRopeJointHandle(b2Body* BodyA, b2Body* BodyB
 	RDef.maxLength = RopeLength;
 
 	RopeJointHandle = (b2RopeJoint*)Universum->CreateJoint(&RDef);
+
+	JointBase::JointHandle = RopeJointHandle;
 }

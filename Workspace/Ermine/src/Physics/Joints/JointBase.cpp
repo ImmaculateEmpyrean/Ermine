@@ -34,6 +34,18 @@ unsigned int Ermine::JointBase::GetUniqueIdentifier()
     return UniqueIdentifier;
 }
 
+void Ermine::JointBase::SetUserData(void* Data)
+{
+    if(JointHandle != nullptr)
+        JointHandle->SetUserData(Data);
+}
+void* Ermine::JointBase::GetUserData()
+{
+    if (JointHandle != nullptr)
+        return JointHandle->GetUserData();
+    else return nullptr;
+}
+
 void Ermine::JointBase::HelperMoveConstructor(Ermine::JointBase&& rhs)
 {
     BodyA = std::move(rhs.BodyA);

@@ -146,11 +146,26 @@ namespace Ermine
 
 	PhysicsComponent2D::~PhysicsComponent2D()
 	{
-
+		//First Try Deleting Invalid Caskets
 		for (auto& casket : JointsBuffer)
 		{
 			if (casket.second != nullptr)
-				delete casket.second;
+			{
+				if (casket.second->ValidFlag == false)
+				{
+					delete casket.second;
+					casket.second = nullptr;
+				}
+			}
+		} 
+
+		//Set Caskets As Invalid Which Are In Infact Invalid..
+		for (auto& casket : JointsBuffer)
+		{
+			if (casket.second != nullptr)
+			{
+				casket.second->ValidFlag = false;
+			}
 		}
 
 		JointsBuffer.clear();
@@ -379,7 +394,43 @@ namespace Ermine
 
 	JointBase* PhysicsComponent2D::CreatePrismaticJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
 	{
-		Ermine::WheelJoint* Joint = new Ermine::WheelJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
+		Ermine::PrismaticJoint* Joint = new Ermine::PrismaticJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+	JointBase* PhysicsComponent2D::CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision)
+	{
+		Ermine::PrismaticJoint* Joint = new Ermine::PrismaticJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent,LocalAnchorPointA, CollideCollision);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+	JointBase* PhysicsComponent2D::CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision)
+	{
+		Ermine::PrismaticJoint* Joint = new Ermine::PrismaticJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA,LocalAnchorPointB, CollideCollision);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+	JointBase* PhysicsComponent2D::CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInRadians, bool CollideCollision)
+	{
+		Ermine::PrismaticJoint* Joint = new Ermine::PrismaticJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA, LocalAnchorPointB,ReferenceAngleInRadians, CollideCollision);
+
+		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+
+		return Joint;
+	}
+	JointBase* PhysicsComponent2D::CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInRadians, glm::vec2 SlidingAxis, bool CollideCollision)
+	{
+		Ermine::PrismaticJoint* Joint = new Ermine::PrismaticJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA, LocalAnchorPointB, ReferenceAngleInRadians,SlidingAxis, CollideCollision);
 
 		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
 		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);

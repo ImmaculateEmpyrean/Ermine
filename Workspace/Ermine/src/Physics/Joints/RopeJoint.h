@@ -37,11 +37,11 @@ namespace Ermine
 
 		//Start Getting Anchor position..//
 
-		glm::vec2 GetAnchorAPixelCoordinates();
-		glm::vec2 GetAnchorBPixelCoordinates();
+		virtual glm::vec2 GetBodyALocalAnchorLocation() override;
+		virtual glm::vec2 GetBodyBLocalAnchorLocation() override;
 
-		glm::vec2 GetAnchorALocalCoordinates();
-		glm::vec2 GetAnchorBLocalCoordinates();
+		virtual glm::vec2 GetBodyAWorldAnchorLocationPixels() override;
+		virtual glm::vec2 GetBodyBWorldAnchorLocationPixels() override;
 
 		//Ended Getting Anchor Position..//
 

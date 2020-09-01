@@ -32,7 +32,7 @@ Ermine::RevoluteJoint::RevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 Anc
 
 Ermine::RevoluteJoint::~RevoluteJoint()
 {
-	if (RevoluteJointHandle != nullptr)
+	if (ValidFlag == true)
 	{
 		Ermine::Universum->DestroyJoint(RevoluteJointHandle);
 		RevoluteJointHandle = nullptr;
@@ -65,28 +65,48 @@ void Ermine::RevoluteJoint::ClearLimits()
 	RevoluteJointHandle->EnableLimit(false);
 }
 
-glm::vec2 Ermine::RevoluteJoint::GetAnchorALocLocalSpace()
+glm::vec2 Ermine::RevoluteJoint::GetBodyALocalAnchorLocation()
 {
-	glm::vec2 AnchorALocalPosition = glm::vec2(RevoluteJointHandle->GetLocalAnchorA().x, RevoluteJointHandle->GetLocalAnchorA().y);
-	return Ermine::vertexWorldToPixels(AnchorALocalPosition);
+	if (ValidFlag == true)
+	{
+		b2Vec2 LocalAnchorLocation = RevoluteJointHandle->GetLocalAnchorA();
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else return glm::vec2(-9999.0f, -9999.0f);
 }
 
-glm::vec2 Ermine::RevoluteJoint::GetAnchorBLocLocalSpace()
+glm::vec2 Ermine::RevoluteJoint::GetBodyBLocalAnchorLocation()
 {
-	glm::vec2 AnchorBLocalPosition = glm::vec2(RevoluteJointHandle->GetLocalAnchorB().x, RevoluteJointHandle->GetLocalAnchorB().y);
-	return Ermine::vertexWorldToPixels(AnchorBLocalPosition);
+	if (ValidFlag == true)
+	{
+		b2Vec2 LocalAnchorLocation = RevoluteJointHandle->GetLocalAnchorB();
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else return glm::vec2(-9999.0f, -9999.0f);
 }
 
-glm::vec2 Ermine::RevoluteJoint::GetAnchorALocPixelSpace()
+glm::vec2 Ermine::RevoluteJoint::GetBodyAWorldAnchorLocationPixels()
 {
-	glm::vec2 AnchorAWorldPosition = glm::vec2(RevoluteJointHandle->GetAnchorA().x, RevoluteJointHandle->GetAnchorA().y);
-	return Ermine::coordWorldToPixels(AnchorAWorldPosition);
+	if (ValidFlag == true)
+	{
+		b2Vec2 LocalAnchorLocation = RevoluteJointHandle->GetAnchorA();
+		glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else return glm::vec2(-9999.0f, -9999.0f);
 }
 
-glm::vec2 Ermine::RevoluteJoint::GetAnchorBLocPixelSpace()
+glm::vec2 Ermine::RevoluteJoint::GetBodyBWorldAnchorLocationPixels()
 {
-	glm::vec2 AnchorBWorldPosition = glm::vec2(RevoluteJointHandle->GetAnchorB().x, RevoluteJointHandle->GetAnchorB().y);
-	return Ermine::coordWorldToPixels(AnchorBWorldPosition);
+	if (ValidFlag == true)
+	{
+		b2Vec2 LocalAnchorLocation = RevoluteJointHandle->GetAnchorB();
+		glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else return glm::vec2(-9999.0f, -9999.0f);
 }
 
 
@@ -94,28 +114,37 @@ glm::vec2 Ermine::RevoluteJoint::GetAnchorBLocPixelSpace()
 
 void Ermine::RevoluteJoint::EnableMotor(bool enabled)
 {
-	RevoluteJointHandle->EnableMotor(enabled);
+	if(ValidFlag == true)
+		RevoluteJointHandle->EnableMotor(enabled);
 }
 void Ermine::RevoluteJoint::SetMotorSpeed(float speed)
 {
-	RevoluteJointHandle->SetMotorSpeed(speed);
+	if (ValidFlag == true)
+		RevoluteJointHandle->SetMotorSpeed(speed);
 }
 void Ermine::RevoluteJoint::SetMaxMotorTorque(float torque)
 {
-	RevoluteJointHandle->SetMaxMotorTorque(torque);
+	if (ValidFlag == true)
+		RevoluteJointHandle->SetMaxMotorTorque(torque);
 }
 
 bool Ermine::RevoluteJoint::IsMotorEnabled()
 {
-	return RevoluteJointHandle->IsMotorEnabled();
+	if (ValidFlag == true)
+		return RevoluteJointHandle->IsMotorEnabled();
+	else return false;
 }
 float Ermine::RevoluteJoint::GetMotorSpeed()
 {
-	return RevoluteJointHandle->GetMotorSpeed();
+	if (ValidFlag == true)
+		return RevoluteJointHandle->GetMotorSpeed();
+	else return -9999.0f;
 }
 float Ermine::RevoluteJoint::GetMotorTorque()
 {
-	return RevoluteJointHandle->GetMotorTorque(1.0f / PhysicsWorldTimestep);
+	if (ValidFlag == true)
+		return RevoluteJointHandle->GetMotorTorque(1.0f / PhysicsWorldTimestep);
+	else return -9999.0f;
 }
 
 #pragma endregion MotorFunctions
@@ -123,11 +152,15 @@ float Ermine::RevoluteJoint::GetMotorTorque()
 
 float Ermine::RevoluteJoint::GetReferenceAngleInDegrees()
 {
-	return glm::degrees<float>(GetReferenceAngleInRadians());
+	if (ValidFlag == true)
+		return glm::degrees<float>(GetReferenceAngleInRadians());
+	else return -9999.0f;
 }
 float Ermine::RevoluteJoint::GetReferenceAngleInRadians()
 {
-	return RevoluteJointHandle->GetReferenceAngle();
+	if (ValidFlag == true)
+		return RevoluteJointHandle->GetReferenceAngle();
+	else return -9999.0f;
 }
 
 
@@ -148,4 +181,6 @@ void Ermine::RevoluteJoint::HelperConstructRevoluteJoint(b2Body* BodyA, b2Body* 
 	RevDef.referenceAngle = ReferenceAngle;
 
 	RevoluteJointHandle = (b2RevoluteJoint*)Ermine::Universum->CreateJoint(&RevDef);
+
+	JointBase::JointHandle = RevoluteJointHandle;
 }

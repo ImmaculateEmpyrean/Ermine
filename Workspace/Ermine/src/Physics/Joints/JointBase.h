@@ -31,6 +31,9 @@ namespace Ermine
 		//This Class HAs The Ability To Be Implicitly Converted To A b2Joint* Try Not To Misuse This Too Much..
 		virtual operator b2Joint*() = 0;
 
+		//This Class HAs The Ability To Be Implicitly Converted To A Bool Which Is None Other Than The Valid Flag
+		operator bool() { return ValidFlag; }
+
 		//This Identifier Is Unique To This JointBase Instance It Is Generated On Instantiation And As JointBase Is Uncopiable It Hopefully Is Accessible As An Identifier Of Sorts..
 		unsigned int GetUniqueIdentifier();
 
@@ -41,11 +44,30 @@ namespace Ermine
 		//Get The Joint In Question.. It Is Delegated To The Actual Implemntation To Provide The Joint To The User Though..
 		virtual b2Joint* GetJoint() = 0;
 
+		//Start Functions To Get The Anchor Locations
+
+		virtual glm::vec2 GetBodyALocalAnchorLocation() = 0;
+		virtual glm::vec2 GetBodyBLocalAnchorLocation() = 0;
+
+		virtual glm::vec2 GetBodyAWorldAnchorLocationPixels() = 0;
+		virtual glm::vec2 GetBodyBWorldAnchorLocationPixels() = 0;
+
+		//Ended Functions To Get The Anchor Locations
+
+		//Set The User Data Assigned To The Joint If Needed..
+		void SetUserData(void* Data);
+		
+		//Get The User Data Assigned To The Joint If Needed..
+		void* GetUserData();
+
 	public:
+		//The Valid Flag Says Wether The Object Is Valid Or Not.. Not Valid Means The Joint Probably Got Deleted..
+		bool ValidFlag = true;
 
 	protected:
 
 	protected:
+		b2Joint* JointHandle;
 
 	private:
 		void HelperMoveConstructor(Ermine::JointBase&& rhs);
@@ -59,5 +81,7 @@ namespace Ermine
 		
 		b2Body* BodyA;
 		b2Body* BodyB;
+
+		
 	};
 }

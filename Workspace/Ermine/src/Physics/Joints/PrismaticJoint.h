@@ -43,13 +43,11 @@ namespace Ermine
 
 		//Start Query Abt Anchor Points..
 		
-		//You Will Get It Still In Pixel Coordinates 50 or something Maybe not 0.5.. 
-		glm::vec2 GetAnchorALocLocalSpace();
-		glm::vec2 GetAnchorBLocLocalSpace();
+		virtual glm::vec2 GetBodyALocalAnchorLocation() override;
+		virtual glm::vec2 GetBodyBLocalAnchorLocation() override;
 
-		//It Does Say Pixel Coordinate System Right.. 
-		glm::vec2 GetAnchorALocPixelSpace();
-		glm::vec2 GetAnchorBLocPixelSpace();
+		virtual glm::vec2 GetBodyAWorldAnchorLocationPixels() override;
+		virtual glm::vec2 GetBodyBWorldAnchorLocationPixels() override;
 
 		//Ended Query Abt Anchor Points..
 

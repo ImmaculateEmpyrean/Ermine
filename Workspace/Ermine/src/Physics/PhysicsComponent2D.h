@@ -134,6 +134,10 @@ namespace Ermine
 
 		//Start Creating Prismatic Joint..//
 		JointBase* CreatePrismaticJoint(PhysicsComponent2D* BodyB, bool CollideConnected = false);
+		JointBase* CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision = false);
+		JointBase* CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision = false);
+		JointBase* CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInRadians, bool CollideCollision = false);
+		JointBase* CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInRadians,glm::vec2 SlidingAxis, bool CollideCollision = false);
 		//Ended Creating Prismatic Joint..//
 
 		//Start Creating Wheel Joint..//

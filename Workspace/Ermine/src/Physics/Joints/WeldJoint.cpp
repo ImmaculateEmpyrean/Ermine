@@ -31,6 +31,50 @@ namespace Ermine
 		}
 	}
 
+
+	glm::vec2 WeldJoint::GetBodyALocalAnchorLocation()
+	{
+		if (ValidFlag == true)
+		{
+			b2Vec2 LocalAnchorLocation = WeldJointHandle->GetLocalAnchorA();
+			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+			return LocalAnchorLocPixel;
+		}
+		else return glm::vec2(-9999.0f, -9999.0f);
+	}
+	glm::vec2 WeldJoint::GetBodyBLocalAnchorLocation()
+	{
+		if (ValidFlag == true)
+		{
+			b2Vec2 LocalAnchorLocation = WeldJointHandle->GetLocalAnchorB();
+			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+			return LocalAnchorLocPixel;
+		}
+		else return glm::vec2(-9999.0f, -9999.0f);
+	}
+
+	glm::vec2 WeldJoint::GetBodyAWorldAnchorLocationPixels()
+	{
+		if (ValidFlag == true)
+		{
+			b2Vec2 LocalAnchorLocation = WeldJointHandle->GetAnchorA();
+			glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+			return LocalAnchorLocPixel;
+		}
+		else return glm::vec2(-9999.0f, -9999.0f);
+	}
+	glm::vec2 WeldJoint::GetBodyBWorldAnchorLocationPixels()
+	{
+		if (ValidFlag == true)
+		{
+			b2Vec2 LocalAnchorLocation = WeldJointHandle->GetAnchorB();
+			glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+			return LocalAnchorLocPixel;
+		}
+		else return glm::vec2(-9999.0f, -9999.0f);
+	}
+
+
 	void WeldJoint::HelperConstructWeldJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool CollideConnected)
 	{
 		glm::vec2 AnchorAWithRespectToBoxCentreWorldSpace = vertexPixelsToWorld(AnchorAWithRespectToBoxCentre);
@@ -46,5 +90,7 @@ namespace Ermine
 		WeldDef.localAnchorB = Ermine::GLMToB2Vec2(AnchorBWithRespectToBoxCentreWorldSpace);
 
 		WeldJointHandle = (b2WeldJoint*)Ermine::Universum->CreateJoint(&WeldDef);
+
+		JointBase::JointHandle = WeldJointHandle;
 	}
 }
