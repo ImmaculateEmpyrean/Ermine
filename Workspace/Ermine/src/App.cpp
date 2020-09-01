@@ -127,8 +127,13 @@ void Ermine::App::OnTick()
 	static Ermine::PhysicsComponent2D LeftBeam(glm::vec2(12.0f, 500.0f), glm::vec2(25.0f, 1000.0f));
 	static Ermine::PhysicsComponent2D RightBeam(glm::vec2(988.0f, 500.0f), glm::vec2(25.0f, 1000.0f));
 
-	static Ermine::PhysicsComponent2D TestBox1 = Ermine::PhysicsComponent2D(glm::vec2(500.0f, 500.0f), glm::vec2(50.0f, 50.0f), false);
-	static Ermine::PhysicsComponent2D TestBox2 = Ermine::PhysicsComponent2D(glm::vec2(600.0f, 500.0f), glm::vec2(50.0f, 50.0f), false);
+	static Ermine::PhysicsComponent2D CarBody(glm::vec2(500.0f,500.0f), glm::vec2(100.0f, 50.0f),false);
+
+	static Ermine::PhysicsComponent2D RightAxle(glm::vec2(600.0f, 600.0f), glm::vec2(10.0f, 10.0f), false);
+	static Ermine::PhysicsComponent2D LeftAxle(glm::vec2(400.0f, 600.0f), glm::vec2(10.0f, 10.0f), false);
+
+	static Ermine::PhysicsComponent2D RightWheel(glm::vec2(600.0f, 600.0f), 20.0f, false);
+	static Ermine::PhysicsComponent2D LeftWheel(glm::vec2(400.0f, 600.0f), 20.0f, false);
 
 	static bool Once = true;
 
@@ -143,10 +148,25 @@ void Ermine::App::OnTick()
 		LeftBeam.StartDebugTrace();
 		RightBeam.StartDebugTrace();
 
-		TestBox1.StartDebugTrace();
-		TestBox2.StartDebugTrace();
+		CarBody.StartDebugTrace();
 
-		TestBox1.CreateWeldJoint(&TestBox2, false);
+		RightAxle.StartDebugTrace();
+		LeftAxle.StartDebugTrace();
+
+		RightWheel.StartDebugTrace();
+		LeftWheel.StartDebugTrace();
+
+		RightAxle.CreateRevoluteJoint(&RightWheel, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), false);
+		LeftAxle.CreateRevoluteJoint(&LeftWheel, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), false);
+
+		auto Joint  = CarBody.CreatePrismaticJoint(&RightAxle, glm::vec2(30.0f, 50.0f), glm::vec2(0.0f, 0.0f), false);
+		auto Joint2 = CarBody.CreatePrismaticJoint(&LeftAxle, glm::vec2(-30.0f, 50.0f), glm::vec2(0.0f, 0.0f), false);
+
+		Ermine::PrismaticJoint* PrismaticJoint = (Ermine::PrismaticJoint*)Joint;
+		PrismaticJoint->SetMovementLimits(0.0f, 0.0f);
+		
+		Ermine::PrismaticJoint* PrismaticJoint2 = (Ermine::PrismaticJoint*)Joint2;
+		PrismaticJoint2->SetMovementLimits(0.0f, 0.0f);
 	}
 
 	glm::mat4 Camera = glm::mat4(1.0f);
@@ -195,7 +215,7 @@ void Ermine::App::OnTick()
 
 	if (ApplyForce)
 	{
-		TestBox1.AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
+		CarBody.AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
 	}
 	if (RandomForceApplication)
 	{
