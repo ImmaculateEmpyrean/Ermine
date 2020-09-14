@@ -130,19 +130,17 @@ namespace Ermine
 		int i;
 		for (i = 0; i < Renderer->PhysicsComponentsBuffer.size(); i++)
 		{
-			if (PhyComp == Renderer->PhysicsComponentsBuffer[i])
+			if ((b2Body*)PhyComp == ((b2Body*)Renderer->PhysicsComponentsBuffer[i]))
 			{
 				//The Flag Represents That There Is Something We Want To Erase..
 				Flag = true;
-
 				break;
 			}
-
-			if (Flag == true)
-			{
-				//Erase This Physics Component Right..
-				Renderer->PhysicsComponentsBuffer.erase(Renderer->PhysicsComponentsBuffer.begin() + i);
-			}
+		}
+		if (Flag == true)
+		{
+			//Erase This Physics Component Right..
+			Renderer->PhysicsComponentsBuffer.erase(Renderer->PhysicsComponentsBuffer.begin() + i);
 		}
 
 	}

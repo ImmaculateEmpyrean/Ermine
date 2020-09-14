@@ -171,12 +171,34 @@ void Ermine::App::OnTick()
 		PrismaticJoint2->SetMovementLimits(0.0f, 0.0f);
 	}
 
+	//Start Add A Image To The Physics Component//
+
+	static auto TextureCache =  Ermine::GlobalTextureCache::Get();
+	static auto Tex = TextureCache->GetTextureFromFile("Texture/mini-topless.png");
+	static Ermine::Sprite* Spr = new Ermine::Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
+
+	static bool OnceFlag = false;
+
+	static std::shared_ptr<Ermine::Sprite> SprPointer;
+
+	if (OnceFlag == false)
+	{
+		OnceFlag = true;
+
+		SprPointer.reset(Spr);
+	}
+	static Ermine::PhysicsActor* PhyActor = new Ermine::PhysicsActor(SprPointer, std::move(CarBody));
+	LayerStackLayer Layer("Han");
+	Layer.SubmitRenderable(PhyActor);
+
+	//Ended Add A Image To The Physics Component//
+
 	glm::mat4 Camera = glm::mat4(1.0f);
 	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
 	auto ProjectionMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);//glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
 
 	Renderer2D::BeginScene(Camera, ProjectionMatrix);
-	
+	Renderer2D::SubmitLayer(Layer);
 	Renderer2D::EndScene();
 
 	static float ForceAppliedBox1[2];

@@ -205,6 +205,9 @@ namespace Ermine
 	
 	void PhysicsComponent2D::HelperMoveFunction(PhysicsComponent2D&& rhs)
 	{
+		if (rhs.IsDebugTraceEnabled)
+			rhs.FuncDetachBodyFromRenderer2D(&rhs);
+
 		//Try Moving The Body Definition Into The New Object
 		BodyDefinitionOfTheComponent = std::move(rhs.BodyDefinitionOfTheComponent);
 
@@ -218,6 +221,17 @@ namespace Ermine
 
 		//Get The Size Of The Body from the Right Side
 		BodySize = rhs.BodySize;
+
+		//This Handle Is Stored Inside The Physics Component Class So That We Can Submit The Body To The Renderer Easily..
+		FuncSubmitBodyToRenderer2D = rhs.FuncSubmitBodyToRenderer2D;
+
+		//This Handle Is Stored Inside The Physics Component Class So That We Can Detach The Body From The Renderer Easily..
+		FuncDetachBodyFromRenderer2D = rhs.FuncDetachBodyFromRenderer2D;
+
+		IsDebugTraceEnabled = rhs.IsDebugTraceEnabled;
+
+		if (IsDebugTraceEnabled)
+			FuncSubmitBodyToRenderer2D(this); //Submit Yourself To DebugDraw..
 	}
 
 	glm::vec2 PhysicsComponent2D::HelperGetWidthAndHeightOfTheBoundingBox()
