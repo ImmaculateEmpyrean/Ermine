@@ -3,7 +3,11 @@
 #include<vector>
 #include<string>
 
+#include<filesystem>
+
 #include "../PrecursorWindow.h"
+
+#ifdef ER_DEBUG_DEVELOP
 
 namespace Ermine
 {
@@ -29,3 +33,5 @@ namespace Ermine
 
 	};
 }
+
+#endif

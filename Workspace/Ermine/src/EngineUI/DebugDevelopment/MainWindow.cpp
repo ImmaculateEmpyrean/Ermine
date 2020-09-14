@@ -14,6 +14,8 @@
 #include "EngineUI/DebugDevelopment/AssetsMenu/ViewAssetsMenu/TextureViewWizard.h"
 #include "EngineUI/DebugDevelopment/AssetsMenu/ViewAssetsMenu/TilesetViewWizard.h"
 
+#ifdef ER_DEBUG_DEVELOP
+
 Ermine::DebugMainWindow::DebugMainWindow()
 {
     // Demonstrate the various window flags. Typically you would just use the default!
@@ -119,3 +121,5 @@ void Ermine::DebugMainWindow::AddTilesetViewerWindowToWindowHandler(std::filesys
     auto Handler = Ermine::WindowHandler::Get();
     Handler->SubmitWindowFront(std::make_unique<Ermine::TilesetViewer>(Ermine::TilesetViewer(TilesetPath)));
 }
+
+#endif

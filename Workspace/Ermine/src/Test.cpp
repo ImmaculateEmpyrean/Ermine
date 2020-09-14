@@ -25,25 +25,29 @@ void DLL __cdecl TestFunc();
 
 int main(int argc, char* argv[])
 {
+#ifdef ER_DEBUG_DEVELOP
 	//Start Initialize Memory Leak Checking Module..
 	int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
 	flag |= (_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	_CrtSetDbgFlag(flag);
 	//Ended Initialize Memory Leak Checking Module..
+#endif
 
 	auto App = Ermine::App::Get();
-	//Test::InputChecker InpObj;
+	
 	while (!App->Quit)
 	{
 		App->NextFrame();
 	}
   
-	//int* n = new int[100];
 	Ermine::EventBroadcastStation::DestroyStation();
 	Ermine::GlobalTextureCache::ShutDownGlobalTextureCache();
 	
+#ifdef ER_DEBUG_DEVELOP
 	Ermine::EditorDefaultStrings::DestroyContext();
-	
+#endif
+
+#ifdef ER_DEBUG_DEVELOP
 	//Start Print Detected Memory Leaks To File..
 	FILE* pFile;
 	freopen_s(&pFile, "MemoryLeakLog.txt", "w", stdout);
@@ -51,4 +55,5 @@ int main(int argc, char* argv[])
 	_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDOUT);
 	_CrtDumpMemoryLeaks(); fclose(pFile);
 	//Ended Print Detected Memory Leaks To File..
+#endif
 }

@@ -3,7 +3,9 @@
 
 #include "Graphics/Window/Window.h"
 
+#ifdef ER_DEBUG_DEVELOP
 #include "EngineUI/DebugDevelopment/MainWindow.h"
+#endif 
 
 #include "ExchangeStructs/ExchangeAppEvents.h"
 
@@ -61,7 +63,11 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsW
 
 	//Start Create Window Handler..//
 	WindowHandler::GlobalWindowHandler = new WindowHandler();
+
+#ifdef ER_DEBUG_DEVELOP
 	WindowHandler::GlobalWindowHandler->SubmitWindowFront(std::make_unique<DebugMainWindow>());
+#endif
+	
 	//Ended Create Window Handler..//
 	
 	//Start Setup Physics Of the engine..//
@@ -100,10 +106,6 @@ void Ermine::App::NextFrame()
 	DeltaTimeVar = TimeS;
 	//Ended Calculate Delta Time..//
 	
-	//Start Test Block Delete After Usuage
-	glfwSwapInterval(0); //Disable VSYNC
-	//Ended Test Block Delete After Usuage
-
 	OnTick();
 	
 	//The Physics World Has To Step So That It Is Ready For The Next Iteration..
@@ -233,8 +235,7 @@ Ermine::App* Ermine::App::Get()
 	std::call_once(InitializationFlag, []() {
 
 #if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
-		//Donot Initialize Logs On Release Builds..
-		//Start Initializing Log Library
+		//Start Initializing Log Library                  Donot Initialize Logs On Release Builds..
 		std::vector<std::pair<std::string, CreateLogFile>> Configuration;
 		Configuration.emplace_back(std::make_pair<std::string, CreateLogFile>("Augustus", CreateLogFile::CreateLogFile));
 		Log::Init(Configuration);
@@ -242,7 +243,7 @@ Ermine::App* Ermine::App::Get()
 #endif
 
 #if defined(ER_DEBUG_SHIP) || defined(ER_RELEASE_SHIP)
-		PointerToApp = new App(GetGameNameString(), GetGameWindowDiamensions());
+		PointerToApp = new App(GetGameNameString(), GetGameWindowDiamensions(), GetPhysicsWorldInitializationStruct());
 #elif defined(ER_DEBUG_DEVELOP)
 		PhysicsWorldInitializationStruct Phy;
 		Phy.Gravity = glm::vec2(0.0f, -1.0f);		

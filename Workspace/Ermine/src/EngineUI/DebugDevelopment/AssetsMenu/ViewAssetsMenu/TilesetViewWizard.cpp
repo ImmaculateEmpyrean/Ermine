@@ -8,6 +8,8 @@
 #include "EngineResourceHandlers/GlobalTextureCache.h"
 #include "EngineResourceHandlers/EditorDefaultStrings.h"
 
+#ifdef ER_DEBUG_DEVELOP
+
 Ermine::TilesetViewWizard::TilesetViewWizard()
 {
 	HelperInitializeBuffers();
@@ -261,3 +263,5 @@ void Ermine::TilesetViewWizard::HelperMoveConstructor(TilesetViewWizard&& rhs)
 	ChangePathFromWhichTilesetsAreDisplayed = rhs.ChangePathFromWhichTilesetsAreDisplayed;
 	DisplayChangePathFromWhichTilesetsAreDisplayedWindow = rhs.DisplayChangePathFromWhichTilesetsAreDisplayedWindow;
 }
+
+#endif

@@ -1,6 +1,7 @@
 #include"stdafx.h"
 
 #include "ExchangeStructs/ExchangeAppEvents.h"
+#include "../Ermine/src/Physics/PhysicsWorldInitializationStruct.h"
 
 void AppOnAttach()
 {
@@ -35,4 +36,12 @@ std::string GetGameNameString()
 std::pair<int, int> DLL GetGameWindowDiamensions()
 {
 	return std::make_pair<int, int>(1000, 1000);
+}
+
+Ermine::PhysicsWorldInitializationStruct DLL GetPhysicsWorldInitializationStruct()
+{
+	Ermine::PhysicsWorldInitializationStruct Phy;
+	Phy.Gravity = glm::vec2(0.0f, -1.0f);
+
+	return Phy;
 }

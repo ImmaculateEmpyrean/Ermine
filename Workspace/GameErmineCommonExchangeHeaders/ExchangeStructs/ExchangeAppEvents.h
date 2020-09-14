@@ -7,6 +7,11 @@
 
 //#define DLL __declspec(dllexport)
 
+namespace Ermine
+{
+	class PhysicsWorldInitializationStruct;
+}
+
 struct DLL ExchangeAppEvents
 {
 public:
@@ -19,3 +24,5 @@ extern std::string DLL GetGameNameString(); //Only Used In Shipping Builds Other
 extern std::pair<int, int> DLL GetGameWindowDiamensions(); //Used Everyehere.. Maybe Not Used When Building For Android In The Future
 
 extern ExchangeAppEvents DLL GetAppEventsStruct(); //This Must Be Implemented In The Game...
+
+extern Ermine::PhysicsWorldInitializationStruct DLL GetPhysicsWorldInitializationStruct();

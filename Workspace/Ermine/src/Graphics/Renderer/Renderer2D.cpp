@@ -97,7 +97,7 @@ namespace Ermine
 
 		Renderer->DrawingRoutine();
 
-#ifdef ER_DEBUG_DEVELOP //This Feature Is Only Available In Debug Mode.. (Its Way Too Expensive And Not Needed In Other Modes..)
+#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)  //This Feature Is Only Available In Debug Mode.. (Its Way Too Expensive And Not Needed In Other Modes..)
 		if(Renderer->UsePhysicsDebugger == true)
 			Renderer->PhysicsDebuggerDrawingRoutine(); //Also The Physics Debugger Must Be Turned On 
 #endif

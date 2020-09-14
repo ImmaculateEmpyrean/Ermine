@@ -3,6 +3,8 @@
 
 #include "nlohmann/json.hpp"
 
+#ifdef ER_DEBUG_DEVELOP
+
 //start Static Declarations
 Ermine::EditorDefaultStrings* Ermine::EditorDefaultStrings::SingleTonPointer = nullptr;
 std::once_flag Ermine::EditorDefaultStrings::InitializationFlag;
@@ -76,3 +78,5 @@ void Ermine::EditorDefaultStrings::ReWriteJsonFileWithLatestValues()
 
 	OutFile.close();
 }
+
+#endif

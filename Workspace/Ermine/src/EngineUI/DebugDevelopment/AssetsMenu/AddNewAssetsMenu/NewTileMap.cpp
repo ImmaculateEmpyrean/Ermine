@@ -9,6 +9,8 @@
 #include "EngineResourceHandlers/EditorDefaultStrings.h"
 #include "EngineResourceHandlers/GlobalTextureCache.h"
 
+#ifdef ER_DEBUG_DEVELOP
+
 Ermine::NewTileMap::NewTileMap(std::function<void(std::filesystem::path)> CreateTilesetViewWindowCallable)
 	:
 	CallableCreateTileSetViewWindow(CreateTilesetViewWindowCallable)
@@ -953,3 +955,5 @@ void Ermine::NewTileMap::ClearButtonColor()
 {
 	ImGui::PopStyleColor(4);
 }
+
+#endif
