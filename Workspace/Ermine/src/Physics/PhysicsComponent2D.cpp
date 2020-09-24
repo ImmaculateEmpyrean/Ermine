@@ -72,9 +72,9 @@ namespace Ermine
 		glm::vec2 LocationInWorldSpace = Ermine::coordPixelsToWorld(BodyLocationInPixelSpace);
 		BodyDefinitionOfTheComponent.position.Set(LocationInWorldSpace.x, LocationInWorldSpace.y);
 
-		float BodySizeInWorldSpace = Ermine::scalarPixelsToWorld(BodyRadiusInPixelSpace);
-		BodySize.x = BodySizeInWorldSpace;
-		BodySize.y = BodySizeInWorldSpace;
+		float BodyRadiusInWorldSpace = Ermine::scalarPixelsToWorld(BodyRadiusInPixelSpace);
+		BodySize.x = BodyRadiusInWorldSpace * 2.0f;
+		BodySize.y = BodyRadiusInWorldSpace * 2.0f;
 
 		if (StaticBody)
 			BodyDefinitionOfTheComponent.type = b2_staticBody;
@@ -88,7 +88,7 @@ namespace Ermine
 
 		//Create A Shape To Be associated With The Fixture..
 		b2CircleShape Shape = b2CircleShape();
-		Shape.m_radius = BodySizeInWorldSpace;
+		Shape.m_radius = BodyRadiusInWorldSpace;
 		
 		//For The Created DataStructure Set The Default Values..
 		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
@@ -568,7 +568,7 @@ namespace Ermine
 		glm::vec2 BodyLocation = GetBodyLocationPixelSpace();
 
 		//glm::translate requires glm::vec3 to be inputted hence convert vec2 into vec3
-		glm::vec3 BodyLocation3 = glm::vec3(BodyLocation, 0.0f);
+		glm::vec3 BodyLocation3 = glm::vec3(BodyLocation, 1.0f);
 
 		//Ask GLM To calculate the Translation Matrix..
 		TranslationMatrix = glm::translate(TranslationMatrix, BodyLocation3);

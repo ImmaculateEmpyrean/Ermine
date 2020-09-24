@@ -158,17 +158,17 @@ void Ermine::App::OnTick()
 		RightWheel.StartDebugTrace();
 		LeftWheel.StartDebugTrace();
 
-		RightAxle.CreateRevoluteJoint(&RightWheel, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), false);
-		LeftAxle.CreateRevoluteJoint(&LeftWheel, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), false);
+		//RightAxle.CreateRevoluteJoint(&RightWheel, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), false);
+		//LeftAxle.CreateRevoluteJoint(&LeftWheel, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), false);
 
-		auto Joint  = CarBody.CreatePrismaticJoint(&RightAxle, glm::vec2(30.0f, 50.0f), glm::vec2(0.0f, 0.0f),0.2f, false);
-		auto Joint2 = CarBody.CreatePrismaticJoint(&LeftAxle, glm::vec2(-30.0f, 50.0f), glm::vec2(0.0f, 0.0f),0.2f, false);
+		//auto Joint  = CarBody.CreatePrismaticJoint(&RightAxle, glm::vec2(30.0f, 50.0f), glm::vec2(0.0f, 0.0f),0.2f, false);
+	//	auto Joint2 = CarBody.CreatePrismaticJoint(&LeftAxle, glm::vec2(-30.0f, 50.0f), glm::vec2(0.0f, 0.0f),0.2f, false);
 
-		Ermine::PrismaticJoint* PrismaticJoint = (Ermine::PrismaticJoint*)Joint;
-		PrismaticJoint->SetMovementLimits(0.0f, 0.0f);
+		//Ermine::PrismaticJoint* PrismaticJoint = (Ermine::PrismaticJoint*)Joint;
+		//PrismaticJoint->SetMovementLimits(0.0f, 0.0f);
 		
-		Ermine::PrismaticJoint* PrismaticJoint2 = (Ermine::PrismaticJoint*)Joint2;
-		PrismaticJoint2->SetMovementLimits(0.0f, 0.0f);
+		//Ermine::PrismaticJoint* PrismaticJoint2 = (Ermine::PrismaticJoint*)Joint2;
+		//PrismaticJoint2->SetMovementLimits(0.0f, 0.0f);
 	}
 
 	//Start Add A Image To The Physics Component//
@@ -198,7 +198,7 @@ void Ermine::App::OnTick()
 	auto ProjectionMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);//glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
 
 	Renderer2D::BeginScene(Camera, ProjectionMatrix);
-	Renderer2D::SubmitLayer(Layer);
+	//Renderer2D::SubmitLayer(Layer);
 	Renderer2D::EndScene();
 
 	static float ForceAppliedBox1[2];
@@ -239,7 +239,7 @@ void Ermine::App::OnTick()
 
 	if (ApplyForce)
 	{
-		CarBody.AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
+		RightWheel.AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
 	}
 	if (RandomForceApplication)
 	{

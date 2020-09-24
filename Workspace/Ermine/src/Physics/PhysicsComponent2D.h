@@ -47,6 +47,7 @@ namespace Ermine
 
 		//A Destructor Is Needed As This Class Is Managing Memory
 		~PhysicsComponent2D();
+
 	public:
 		//Copy Constructor is deleted because two objects cannot share the position..
 		PhysicsComponent2D(const PhysicsComponent2D& rhs) = delete;

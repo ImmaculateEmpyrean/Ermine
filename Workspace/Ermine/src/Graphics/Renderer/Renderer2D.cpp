@@ -242,10 +242,19 @@ namespace Ermine
 			std::vector<uint32_t> LineIndexBuffer;
 			uint32_t LineIndexCounter = 0;
 
+			//Start Circular Buffers..//
+
 			//Buffers To Hold Circle Data..//
 			std::vector<float> CircleVertexBuffer;
 			std::vector<uint32_t> CircleIndexBuffer;
 			uint32_t CircleIndexCounter = 0;
+
+			//Buffers To Hold Circular Line Data..//
+			std::vector<float> CircleLineVertexBuffer;
+			std::vector<uint32_t> CircleLineIndexBuffer;
+			uint32_t CircleLineIndexCounter = 0;
+
+			//Ended Circular Buffers
 
 			//Ended Declaration Of Buffers..//
 
@@ -354,6 +363,8 @@ namespace Ermine
 					b2CircleShape* CircleShape = (b2CircleShape*)f->GetShape();
 
 					float radius = Ermine::scalarWorldToPixels(CircleShape->m_radius);
+					//float radius = CircleShape->m_radius;
+
 					b2Vec2 OffsetFromCentre = CircleShape->m_p;
 					b2Vec2 BodyPos = body->GetPosition();
 
@@ -361,7 +372,7 @@ namespace Ermine
 
 					glm::vec2 PositionInPixelSpace= Ermine::coordWorldToPixels(glm::vec2(BodyPos.x, BodyPos.y));
 					
-					//Vertex 0
+					/*//Vertex 0
 					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x + radius);
 					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y - radius);
 					CircleVertexBuffer.emplace_back(1.0f);
@@ -399,6 +410,46 @@ namespace Ermine
 					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenWidth());
 					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenHeight());
 					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);*/
+
+					//Vertex 0
+					CircleVertexBuffer.emplace_back(radius);
+					CircleVertexBuffer.emplace_back(-1.0f * radius);
+					CircleVertexBuffer.emplace_back(1.0f);
+					CircleVertexBuffer.emplace_back(radius);
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenWidth());
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenHeight());
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
+
+					//Vertex 1
+					CircleVertexBuffer.emplace_back(radius);
+					CircleVertexBuffer.emplace_back(radius);
+					CircleVertexBuffer.emplace_back(1.0f);
+					CircleVertexBuffer.emplace_back(radius);
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenWidth());
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenHeight());
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
+
+					//Vertex 2
+					CircleVertexBuffer.emplace_back(-1.0f * radius);
+					CircleVertexBuffer.emplace_back(radius);
+					CircleVertexBuffer.emplace_back(1.0f);
+					CircleVertexBuffer.emplace_back(radius);
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenWidth());
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenHeight());
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
+
+					//Vertex 3
+					CircleVertexBuffer.emplace_back(-1.0f * radius);
+					CircleVertexBuffer.emplace_back(-1.0f * radius);
+					CircleVertexBuffer.emplace_back(1.0f);
+					CircleVertexBuffer.emplace_back(radius);
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenWidth());
+					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenHeight());
+					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
 					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
 
 					
@@ -408,6 +459,43 @@ namespace Ermine
 						CircleIndexBuffer.emplace_back(i + CircleIndexCounter);
 					
 					CircleIndexCounter = CircleIndexCounter + 4;
+
+					//Start Writing Into Circle Line Buffer
+
+					glm::mat4 RotationMatrix(1.0f);
+					RotationMatrix = glm::rotate<float>(RotationMatrix, Component->GetAngleOfTheBody(), glm::vec3(0.0, 0.0, 1.0));
+					
+					//Vertex 0
+					glm::vec4 Vertex0(1.0);
+					Vertex0.x = 0.0f;
+					Vertex0.y = -1.0 * CircleShape->m_radius;
+					Vertex0.z = 1.0f;
+					
+					Vertex0 = RotationMatrix * Vertex0;
+
+					glm::vec2 Vertex0PixelSpace = Ermine::vertexWorldToPixels(glm::vec2(Vertex0.x , Vertex0.y));
+
+					CircleLineVertexBuffer.emplace_back(Vertex0PixelSpace.x);
+					CircleLineVertexBuffer.emplace_back(Vertex0PixelSpace.y);
+					CircleLineVertexBuffer.emplace_back(1.0f);
+
+					//Vertex 1
+					glm::vec4 Vertex1(1.0f);
+					Vertex1.x = 0.0f;
+					Vertex1.y = 1.0 * CircleShape->m_radius;
+					Vertex1.z = 1.0f;
+
+					Vertex1 = RotationMatrix * Vertex1;
+
+					glm::vec2 Vertex1PixelSpace = Ermine::vertexWorldToPixels(glm::vec2(Vertex1.x, Vertex1.y));
+
+					CircleLineVertexBuffer.emplace_back(Vertex1PixelSpace.x);
+					CircleLineVertexBuffer.emplace_back(Vertex1PixelSpace.y);
+					CircleLineVertexBuffer.emplace_back(1.0f);
+
+					//Ended Writing Into Circle Line Buffer
+					CircleLineIndexBuffer.emplace_back(CircleLineIndexCounter++);
+					CircleLineIndexBuffer.emplace_back(CircleLineIndexCounter++);
 				}
 				//Ended Extract Vertices To Draw A Circle..//
 			}
@@ -421,6 +509,7 @@ namespace Ermine
 			BasicDebuggerShader.Bind();
 			BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
 			BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
+			BasicDebuggerShader.Uniform4f(std::string("Body_Color"), glm::vec4(1.0f,1.0f,1.0f,0.4f));
 			glDrawElements(GL_TRIANGLES, TriangleVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 
 			VertexArray LineVertexArray(LineVertexBuffer, LineIndexBuffer);
@@ -430,7 +519,10 @@ namespace Ermine
 			BasicDebuggerShader.Bind();
 			BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
 			BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
+			BasicDebuggerShader.Uniform4f(std::string("Body_Color"), glm::vec4(1.0f, 1.0f, 1.0f, 0.4f));
 			glDrawElements(GL_LINE_STRIP, LineVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+
+			//Start Draw Circle..//
 
 			VertexArray CircleVertexArray(CircleVertexBuffer, CircleIndexBuffer);
 			CircleVertexArray.SetVertexAttribArray(CircleVertexArraySpecification);
@@ -439,7 +531,22 @@ namespace Ermine
 			CircleShader.Bind();
 			CircleShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
 			CircleShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
+			//CircleShader.UniformMat4(std::string("ModelMatrix"), glm::mat4(1.0));
 			glDrawElements(GL_TRIANGLES, CircleVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+
+			VertexArray CircleLineVertexArray(CircleLineVertexBuffer, CircleLineIndexBuffer); //For Some Reason There Is A Problem If We Try To Multiply The Model Matrix.. :< Dunno Check It Out Tommorow
+			CircleLineVertexArray.SetVertexAttribArray(TriangleAndLineVertexArraySpecification);
+			CircleLineVertexArray.Bind();
+
+			BasicDebuggerShader.Bind();
+			BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+			//BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), glm::mat4(1.0));
+			BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
+			BasicDebuggerShader.Uniform4f(std::string("Body_Color"), glm::vec4(1.0f, 1.0f, 1.0f, 0.4f));
+			glDrawElements(GL_LINE_STRIP, CircleLineVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+			//Ended Draw Circle..//
+
+
 			//Ended Drawing Everything Using OpenGL Draw Calls//
 		}
 	}
