@@ -208,6 +208,8 @@
     <ClInclude Include="src\LayerSystem\LayerStackLayer.h" />
     <ClInclude Include="src\PCH\stdafx.h" />
     <ClInclude Include="src\Physics\BodyPart.h" />
+    <ClInclude Include="src\Physics\FixtureColorStruct.h" />
+    <ClInclude Include="src\Physics\FixtureUserDataStruct.h" />
     <ClInclude Include="src\Physics\Joints\DistanceJoint.h" />
     <ClInclude Include="src\Physics\Joints\JointBase.h" />
     <ClInclude Include="src\Physics\Joints\RopeJoint.h" />

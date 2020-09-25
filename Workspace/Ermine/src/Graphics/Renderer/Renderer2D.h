@@ -9,6 +9,8 @@
 #include "LayerSystem/LayerStack.h"
 #include "EngineResourceHandlers/GlobalTextureCache.h"
 
+#include "Physics/FixtureUserDataStruct.h"
+
 namespace Ermine
 {
 	class Renderer2D
@@ -52,6 +54,11 @@ namespace Ermine
 		//This Function Is Used To Clear Out The Buffer Of The Components Which Have To Be Drawn Not Free Their Memory..
 		static void ClearPhysicsTrackingBuffer();
 
+		//This Function Is USed To Toggle Colors Of Drawn Shapes..
+		static void SetCircleColor(glm::vec4 CircleShapeColor, glm::vec4 RadialLineColor);
+		static void SetPolygonColor(glm::vec4 BoxColor);
+		static void SetLineColor(glm::vec4 LineColor);
+
 		//Ended Use These Functions To Interact With The Buffer Which Determines Which PhysicsComponent2D Objects Have Their Shape outlines Drawn..//
 
 	public:
@@ -88,5 +95,15 @@ namespace Ermine
 		//This Buffer Stores All The Physics Components We Are Required to Draw The Outline Off..
 		std::vector<PhysicsComponent2D*> PhysicsComponentsBuffer;
 
+		//Start Physics Color Department..//
+		
+		glm::vec4 CircleColor = glm::vec4(1.0f,0.0f,0.0f,0.4f);
+		glm::vec4 CircleRadialLineColor = glm::vec4(0.0f,0.0f,0.0f,0.5f);
+
+		glm::vec4 PolygonColor = glm::vec4(1.0f,1.0f,1.0f,0.4f);
+
+		glm::vec4 LineColor = glm::vec4(1.0f,1.0f,1.0f,0.4f);
+
+		//Ended Physics Color Department..//
 	};
 }

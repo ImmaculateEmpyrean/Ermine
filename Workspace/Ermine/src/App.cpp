@@ -158,6 +158,7 @@ void Ermine::App::OnTick()
 		RightWheel.StartDebugTrace();
 		LeftWheel.StartDebugTrace();
 
+		CarBody.SetDebugColorToBody(glm::vec4(0.0f, 0.0f, 1.0f, 0.4f));
 		//RightAxle.CreateRevoluteJoint(&RightWheel, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), false);
 		//LeftAxle.CreateRevoluteJoint(&LeftWheel, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), false);
 

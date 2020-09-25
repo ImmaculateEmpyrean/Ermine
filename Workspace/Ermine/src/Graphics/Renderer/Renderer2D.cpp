@@ -150,6 +150,28 @@ namespace Ermine
 		Renderer->PhysicsComponentsBuffer.clear();
 	}
 
+
+	void Renderer2D::SetCircleColor(glm::vec4 CircleShapeColor, glm::vec4 RadialLineColor)
+	{
+		auto Renderer = Renderer2D::Get();
+		
+		Renderer->CircleColor = CircleShapeColor;
+		Renderer->CircleRadialLineColor = RadialLineColor;
+	}
+	void Renderer2D::SetPolygonColor(glm::vec4 PolygonColor)
+	{
+		auto Renderer = Renderer2D::Get();
+
+		Renderer->PolygonColor = PolygonColor;
+	}
+	void Renderer2D::SetLineColor(glm::vec4 LineColor)
+	{
+		auto Renderer = Renderer2D::Get();
+
+		Renderer->LineColor = LineColor;
+	}
+
+
 	void Renderer2D::DrawingRoutine()
 	{
 		//Getting The Texture Cache As It May Prove Helpful..
@@ -216,7 +238,9 @@ namespace Ermine
 										   std::filesystem::path("Shader/Fragment/PhysicsDebuggerDrawCircle.frag"));
 		
 		static std::vector<VertexAttribPointerSpecification> TriangleAndLineVertexArraySpecification = {
-						   {3,GL_FLOAT,false}
+						   {3,GL_FLOAT,false},
+						   {1,GL_FLOAT,false},
+						   {4,GL_FLOAT,false}
 		};
 
 		static std::vector<VertexAttribPointerSpecification> CircleVertexArraySpecification = {
@@ -230,46 +254,43 @@ namespace Ermine
 		//Main Loop To Draw All Physics Components
 		for (auto Component : PhysicsComponentsBuffer)
 		{
-			//Start Declaration Of Buffers..//
-
-			//Buffers To Hold Triangle Data..//
-			std::vector<float> TrianglesVertexBuffer;
-			std::vector<uint32_t> TrianglesIndexBuffer;
-			uint32_t TriangleIndexCounter = 0;
-
-			//Buffers To Hold Line Data..//
-			std::vector<float> LineVertexBuffer;
-			std::vector<uint32_t> LineIndexBuffer;
-			uint32_t LineIndexCounter = 0;
-
-			//Start Circular Buffers..//
-
-			//Buffers To Hold Circle Data..//
-			std::vector<float> CircleVertexBuffer;
-			std::vector<uint32_t> CircleIndexBuffer;
-			uint32_t CircleIndexCounter = 0;
-
-			//Buffers To Hold Circular Line Data..//
-			std::vector<float> CircleLineVertexBuffer;
-			std::vector<uint32_t> CircleLineIndexBuffer;
-			uint32_t CircleLineIndexCounter = 0;
-
-			//Ended Circular Buffers
-
-			//Ended Declaration Of Buffers..//
-
 			//Get The Main Physics Body From The Components In Question..
 			b2Body* body = Component->BodyManagedByTheComponent;
 
 			//Start Getting All Fixtures Associated With The Body..
 			for (b2Fixture* f = body->GetFixtureList(); f; f = f->GetNext())
 			{
+				///Start Calculate Required Debug Color..//
+				float UseVertexColor = 0.0f;
+				glm::vec4 VertexColor = glm::vec4(1.0f);
+				FixtureUserDataStruct* Struct = (FixtureUserDataStruct*)f->GetUserData();
+
+				if (Struct != nullptr)
+				{
+					UseVertexColor = (float)Struct->DebugTraceColor.UseColor;
+					VertexColor = Struct->DebugTraceColor.Color;
+
+					if (Struct->DebugTraceColor.UseColor == false)
+					{
+						//This Branch Is Only Triggered When Fixture Color To Be Used Is False..
+						UseVertexColor =(float)Component->UseCustomColorsOnDebugTrace; //If This Is Also False Then You Are Leaving The Renderer To Draw The Color..
+						VertexColor = Component->CustomDebugTraceColor;
+					}
+				}
+				///Ended Calculate Required Debug Color..//
+
+
 				//Get The Type Of The Shape So That We Can Start Getting The Vertices..
 				b2Shape::Type shapetype = f->GetType();
 
 				//Start Extract Vertices From Polygon//
 				if (shapetype == b2Shape::e_polygon)
 				{
+					//Buffers To Hold Triangle Data..//
+					std::vector<float> TrianglesVertexBuffer;
+					std::vector<uint32_t> TrianglesIndexBuffer;
+					uint32_t TriangleIndexCounter = 0;
+
 					//Start Getting VErtices And Indices Of The Polygon..
 					b2PolygonShape* PolygonShape = (b2PolygonShape*)f->GetShape();
 					
@@ -290,10 +311,19 @@ namespace Ermine
 
 						VertexInPixelSpace4 = Component->GetRotationMatrix() * VertexInPixelSpace4;
 
-
+						//Vertex Coordinates In Pixel Coordinates..
 						TrianglesVertexBuffer.emplace_back(VertexInPixelSpace4.x);
 						TrianglesVertexBuffer.emplace_back(VertexInPixelSpace4.y);
 						TrianglesVertexBuffer.emplace_back(3.0f);
+
+						//Should I Use Vertex Color 0 is false..
+						TrianglesVertexBuffer.emplace_back(UseVertexColor);
+
+						//Vertex Color..
+						TrianglesVertexBuffer.emplace_back(VertexColor.x);
+						TrianglesVertexBuffer.emplace_back(VertexColor.y);
+						TrianglesVertexBuffer.emplace_back(VertexColor.z);
+						TrianglesVertexBuffer.emplace_back(VertexColor.w);
 
 						TriangleIndexCounter++;
 					}
@@ -309,12 +339,26 @@ namespace Ermine
 						Sc++;
 						Tr++;
 					}
+					VertexArray TriangleVertexArray(TrianglesVertexBuffer, TrianglesIndexBuffer);
+					TriangleVertexArray.SetVertexAttribArray(TriangleAndLineVertexArraySpecification);
+					TriangleVertexArray.Bind();
+
+					BasicDebuggerShader.Bind();
+					BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
+					BasicDebuggerShader.Uniform4f(std::string("Body_Color_Uniform"), PolygonColor);
+					glDrawElements(GL_TRIANGLES, TriangleVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				}
 				//Ended Extract Vertices From Polygon//
 
 				//Start Extract Vertices From Edge Shape//
 				if(shapetype == b2Shape::e_edge)
 				{
+					//Buffers To Hold Line Data..//
+					std::vector<float> LineVertexBuffer;
+					std::vector<uint32_t> LineIndexBuffer;
+					uint32_t LineIndexCounter = 0;
+
 					b2EdgeShape* EdgeShape = (b2EdgeShape*)f->GetShape();
 
 					b2Vec2 P1 = EdgeShape->m_vertex1;
@@ -323,22 +367,61 @@ namespace Ermine
 					glm::vec2 PixelPoint1 = Ermine::vertexWorldToPixels(P1.x, P1.y);
 					glm::vec2 PixelPoint2 = Ermine::vertexWorldToPixels(P2.x, P2.y);
 
+					//Vertex 0
+					//Vertex Coordinates In Pixel Space
 					LineVertexBuffer.emplace_back(PixelPoint1.x);
 					LineVertexBuffer.emplace_back(PixelPoint1.y);
 					LineVertexBuffer.emplace_back(1.0f);
 
+					//Should I Use Vertex Color 0 is false..
+					LineVertexBuffer.emplace_back(UseVertexColor);
+
+					//Vertex Color..
+					LineVertexBuffer.emplace_back(VertexColor.x);
+					LineVertexBuffer.emplace_back(VertexColor.y);
+					LineVertexBuffer.emplace_back(VertexColor.z);
+					LineVertexBuffer.emplace_back(VertexColor.w);
+					//Ended Vertex 0
+
+					//Vertex 1
+					//Vertex Coordinates In Pixel Space
 					LineVertexBuffer.emplace_back(PixelPoint2.x);
 					LineVertexBuffer.emplace_back(PixelPoint2.y);
 					LineVertexBuffer.emplace_back(1.0f);
 
+					//Should I Use Vertex Color 0 is false..
+					LineVertexBuffer.emplace_back(UseVertexColor);
+
+					//Vertex Color..
+					LineVertexBuffer.emplace_back(VertexColor.x);
+					LineVertexBuffer.emplace_back(VertexColor.y);
+					LineVertexBuffer.emplace_back(VertexColor.z);
+					LineVertexBuffer.emplace_back(VertexColor.w);
+					//Ended Vertex 1
+
 					LineIndexBuffer.emplace_back(LineIndexCounter++);
 					LineIndexBuffer.emplace_back(LineIndexCounter++);
+
+					VertexArray LineVertexArray(LineVertexBuffer, LineIndexBuffer);
+					LineVertexArray.SetVertexAttribArray(TriangleAndLineVertexArraySpecification);
+					LineVertexArray.Bind();
+
+					BasicDebuggerShader.Bind();
+					BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
+					BasicDebuggerShader.Uniform4f(std::string("Body_Color_Uniform"), LineColor);
+					glDrawElements(GL_LINE_STRIP, LineVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				}
 				//Ended Extract Vertices From Edge Shape//
 
 				//Start Extract Vertices From Chain Shape..//
 				if (shapetype == b2Shape::e_chain)
 				{
+					//Buffers To Hold Line Data..//
+					std::vector<float> LineVertexBuffer;
+					std::vector<uint32_t> LineIndexBuffer;
+					uint32_t LineIndexCounter = 0;
+
 					b2ChainShape* ChainShape = (b2ChainShape*)f->GetShape();
 					
 					for (int i = 0; i < ChainShape->m_count; i++)
@@ -352,14 +435,47 @@ namespace Ermine
 						LineVertexBuffer.emplace_back(VertexInPixelSpace.y);
 						LineVertexBuffer.emplace_back(3.0f);
 
+						//Should I Use Vertex Color 0 is false..
+						LineVertexBuffer.emplace_back(UseVertexColor);
+
+						//Vertex Color..
+						LineVertexBuffer.emplace_back(VertexColor.x);
+						LineVertexBuffer.emplace_back(VertexColor.y);
+						LineVertexBuffer.emplace_back(VertexColor.z);
+						LineVertexBuffer.emplace_back(VertexColor.w);
+
 						LineIndexBuffer.emplace_back(LineIndexCounter++);
 					}
+
+					VertexArray LineVertexArray(LineVertexBuffer, LineIndexBuffer);
+					LineVertexArray.SetVertexAttribArray(TriangleAndLineVertexArraySpecification);
+					LineVertexArray.Bind();
+
+					BasicDebuggerShader.Bind();
+					BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
+					BasicDebuggerShader.Uniform4f(std::string("Body_Color_Uniform"), LineColor);
+					glDrawElements(GL_LINE_STRIP, LineVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				}
 				//Ended Extract Vertices From Chain Shape..//
 
 				//Start Extract Vertices To Draw A Circle..//
 				if (shapetype == b2Shape::e_circle)
 				{
+					//Start Circular Buffers..//
+
+					//Buffers To Hold Circle Data..//
+					std::vector<float> CircleVertexBuffer;
+					std::vector<uint32_t> CircleIndexBuffer;
+					uint32_t CircleIndexCounter = 0;
+
+					//Buffers To Hold Circular Line Data..//
+					std::vector<float> CircleLineVertexBuffer;
+					std::vector<uint32_t> CircleLineIndexBuffer;
+					uint32_t CircleLineIndexCounter = 0;
+
+					//Ended Circular Buffers
+
 					b2CircleShape* CircleShape = (b2CircleShape*)f->GetShape();
 
 					float radius = Ermine::scalarWorldToPixels(CircleShape->m_radius);
@@ -372,46 +488,6 @@ namespace Ermine
 
 					glm::vec2 PositionInPixelSpace= Ermine::coordWorldToPixels(glm::vec2(BodyPos.x, BodyPos.y));
 					
-					/*//Vertex 0
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x + radius);
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y - radius);
-					CircleVertexBuffer.emplace_back(1.0f);
-					CircleVertexBuffer.emplace_back(radius);
-					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenWidth());
-					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenHeight());
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
-
-					//Vertex 1
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x + radius);
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y + radius);
-					CircleVertexBuffer.emplace_back(1.0f);
-					CircleVertexBuffer.emplace_back(radius);
-					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenWidth());
-					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenHeight());
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
-
-					//Vertex 2
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x - radius);
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y + radius);
-					CircleVertexBuffer.emplace_back(1.0f);
-					CircleVertexBuffer.emplace_back(radius);
-					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenWidth());
-					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenHeight());
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
-
-					//Vertex 3
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x - radius);
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y - radius);
-					CircleVertexBuffer.emplace_back(1.0f);
-					CircleVertexBuffer.emplace_back(radius);
-					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenWidth());
-					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenHeight());
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
-					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);*/
-
 					//Vertex 0
 					CircleVertexBuffer.emplace_back(radius);
 					CircleVertexBuffer.emplace_back(-1.0f * radius);
@@ -479,6 +555,15 @@ namespace Ermine
 					CircleLineVertexBuffer.emplace_back(Vertex0PixelSpace.y);
 					CircleLineVertexBuffer.emplace_back(1.0f);
 
+					//Should I Use Vertex Color 0 is false..
+					CircleLineVertexBuffer.emplace_back(0.0f);
+
+					//Vertex Color..
+					CircleLineVertexBuffer.emplace_back(1.0f);
+					CircleLineVertexBuffer.emplace_back(0.0f);
+					CircleLineVertexBuffer.emplace_back(0.0f);
+					CircleLineVertexBuffer.emplace_back(0.4f);
+
 					//Vertex 1
 					glm::vec4 Vertex1(1.0f);
 					Vertex1.x = 0.0f;
@@ -493,61 +578,43 @@ namespace Ermine
 					CircleLineVertexBuffer.emplace_back(Vertex1PixelSpace.y);
 					CircleLineVertexBuffer.emplace_back(1.0f);
 
+					//Should I Use Vertex Color 0 is false..
+					CircleLineVertexBuffer.emplace_back(0.0f);
+
+					//Vertex Color..
+					CircleLineVertexBuffer.emplace_back(1.0f);
+					CircleLineVertexBuffer.emplace_back(0.0f);
+					CircleLineVertexBuffer.emplace_back(0.0f);
+					CircleLineVertexBuffer.emplace_back(0.4f);
+
 					//Ended Writing Into Circle Line Buffer
 					CircleLineIndexBuffer.emplace_back(CircleLineIndexCounter++);
 					CircleLineIndexBuffer.emplace_back(CircleLineIndexCounter++);
+
+					//Start Draw Circle..//
+
+					VertexArray CircleVertexArray(CircleVertexBuffer, CircleIndexBuffer);
+					CircleVertexArray.SetVertexAttribArray(CircleVertexArraySpecification);
+					CircleVertexArray.Bind();
+
+					CircleShader.Bind();
+					CircleShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					CircleShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
+					glDrawElements(GL_TRIANGLES, CircleVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+
+					VertexArray CircleLineVertexArray(CircleLineVertexBuffer, CircleLineIndexBuffer); //For Some Reason There Is A Problem If We Try To Multiply The Model Matrix.. :< Dunno Check It Out Tommorow
+					CircleLineVertexArray.SetVertexAttribArray(TriangleAndLineVertexArraySpecification);
+					CircleLineVertexArray.Bind();
+
+					BasicDebuggerShader.Bind();
+					BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
+					BasicDebuggerShader.Uniform4f(std::string("Body_Color_Uniform"), CircleRadialLineColor);
+					glDrawElements(GL_LINE_STRIP, CircleLineVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+					//Ended Draw Circle..//
 				}
 				//Ended Extract Vertices To Draw A Circle..//
 			}
-			//Populate The Vertex And Index Buffers Of A Body By This Point
-
-			//Start Drawing Everything Using OpenGL Draw Calls//
-			VertexArray TriangleVertexArray(TrianglesVertexBuffer, TrianglesIndexBuffer);
-			TriangleVertexArray.SetVertexAttribArray(TriangleAndLineVertexArraySpecification);
-			TriangleVertexArray.Bind();
-
-			BasicDebuggerShader.Bind();
-			BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
-			BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
-			BasicDebuggerShader.Uniform4f(std::string("Body_Color"), glm::vec4(1.0f,1.0f,1.0f,0.4f));
-			glDrawElements(GL_TRIANGLES, TriangleVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
-
-			VertexArray LineVertexArray(LineVertexBuffer, LineIndexBuffer);
-			LineVertexArray.SetVertexAttribArray(TriangleAndLineVertexArraySpecification);
-			LineVertexArray.Bind();
-
-			BasicDebuggerShader.Bind();
-			BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
-			BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
-			BasicDebuggerShader.Uniform4f(std::string("Body_Color"), glm::vec4(1.0f, 1.0f, 1.0f, 0.4f));
-			glDrawElements(GL_LINE_STRIP, LineVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
-
-			//Start Draw Circle..//
-
-			VertexArray CircleVertexArray(CircleVertexBuffer, CircleIndexBuffer);
-			CircleVertexArray.SetVertexAttribArray(CircleVertexArraySpecification);
-			CircleVertexArray.Bind();
-
-			CircleShader.Bind();
-			CircleShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
-			CircleShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
-			//CircleShader.UniformMat4(std::string("ModelMatrix"), glm::mat4(1.0));
-			glDrawElements(GL_TRIANGLES, CircleVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
-
-			VertexArray CircleLineVertexArray(CircleLineVertexBuffer, CircleLineIndexBuffer); //For Some Reason There Is A Problem If We Try To Multiply The Model Matrix.. :< Dunno Check It Out Tommorow
-			CircleLineVertexArray.SetVertexAttribArray(TriangleAndLineVertexArraySpecification);
-			CircleLineVertexArray.Bind();
-
-			BasicDebuggerShader.Bind();
-			BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
-			//BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), glm::mat4(1.0));
-			BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
-			BasicDebuggerShader.Uniform4f(std::string("Body_Color"), glm::vec4(1.0f, 1.0f, 1.0f, 0.4f));
-			glDrawElements(GL_LINE_STRIP, CircleLineVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
-			//Ended Draw Circle..//
-
-
-			//Ended Drawing Everything Using OpenGL Draw Calls//
 		}
 	}
 }

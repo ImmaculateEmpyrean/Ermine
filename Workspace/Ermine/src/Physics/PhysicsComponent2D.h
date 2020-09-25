@@ -6,6 +6,7 @@
 #include <box2d/box2d.h>
 #include "Physics.h"
 #include "BodyPart.h"
+#include "Physics/FixtureUserDataStruct.h"
 
 #include "Joints/JointBase.h"
 #include "Joints/DistanceJoint.h"
@@ -156,6 +157,11 @@ namespace Ermine
 		JointBase* CreateWeldJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, bool CollideConnected = false);
 		JointBase* CreateWeldJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, bool CollideConnected = false);
 		//Ended Creating Joint Functions..//
+
+		//Start Area For Preparation Of Debug Colors..//
+		void SetDebugColorToBody(glm::vec4 Color);
+		void SetDebugColorToFixture(b2Fixture* Fixture, glm::vec4 Color);
+
 	public:
 
 	protected:
@@ -177,6 +183,8 @@ namespace Ermine
 		static std::function<void(PhysicsComponent2D*)> FuncDetachBodyFromRenderer2D;
 
 		bool IsDebugTraceEnabled = false;
+		bool UseCustomColorsOnDebugTrace = false;
+		glm::vec4 CustomDebugTraceColor = glm::vec4(1.0f); //This Enables All The Shapes Inside The Body To Use This Color..
 
 		b2Body* BodyManagedByTheComponent;
 		b2BodyDef BodyDefinitionOfTheComponent;
@@ -184,7 +192,6 @@ namespace Ermine
 		std::vector<b2FixtureDef> FixturesAssociatedWithTheBody;
 
 		std::unordered_map<unsigned int, Ermine::JointBase*> JointsBuffer;
-		//std::vector<Ermine::JointBase*> JointsBuffer;
 
 		glm::vec2 BodySize = glm::vec2(10.0f,5.0f);
 

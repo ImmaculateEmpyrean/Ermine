@@ -29,6 +29,10 @@ namespace Ermine
 		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].density = 1.0f;
 		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].friction = 0.3f;
 
+#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct();
+#endif 
+		
 		//Attact the Fixture To The Body..
 		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
 
@@ -63,6 +67,10 @@ namespace Ermine
 		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].friction = 0.3f;
 		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].restitution = 0.5f;
 
+#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct(); //Made A Shared Pointer In Hopes That It Will Delete Itself When The Time Comes.. 
+#endif 
+
 		//Attach the Fixture To The Body..
 		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
 	}
@@ -96,6 +104,10 @@ namespace Ermine
 		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].friction = 0.3f;
 		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].restitution = 0.5f;
 
+#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct(); //Made A Shared Pointer In Hopes That It Will Delete Itself When The Time Comes.. 
+#endif 
+
 		//Attach the Fixture To The Body..
 		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
 	}
@@ -114,6 +126,10 @@ namespace Ermine
 
 		FixturesAssociatedWithTheBody.emplace_back(FixtureDefinition);
 		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
+
+#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct(); //Made A Shared Pointer In Hopes That It Will Delete Itself When The Time Comes.. 
+#endif 
 
 		HelperConstructorConstructBody();
 	}
@@ -173,6 +189,12 @@ namespace Ermine
 		//Donot Bother Deleting a Nullptr Right..
 		if (BodyManagedByTheComponent != nullptr)
 		{
+			for (auto i = BodyManagedByTheComponent->GetFixtureList(); i!= nullptr;i++)
+			{
+				if(i->GetUserData() != nullptr)
+					delete i->GetUserData();
+			}
+
 			Universum->DestroyBody(BodyManagedByTheComponent);
 		}
 	}
@@ -198,8 +220,17 @@ namespace Ermine
 		//First Create The Body In The Box2D World As Intended..
 		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
 
-		for(auto FixtureDefinition: FixturesAssociatedWithTheBody)
-		BodyManagedByTheComponent->CreateFixture(&FixtureDefinition);
+		for (auto FixtureDefinition : FixturesAssociatedWithTheBody)
+		{
+#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
+			if (FixtureDefinition.userData == nullptr)
+			{
+				FixtureDefinition.userData = new FixtureUserDataStruct();
+			}
+#endif
+			BodyManagedByTheComponent->CreateFixture(&FixtureDefinition);
+		}
+		
 	}
 	
 	
@@ -232,6 +263,9 @@ namespace Ermine
 
 		if (IsDebugTraceEnabled)
 			FuncSubmitBodyToRenderer2D(this); //Submit Yourself To DebugDraw..
+
+		UseCustomColorsOnDebugTrace = rhs.UseCustomColorsOnDebugTrace;
+		CustomDebugTraceColor = rhs.CustomDebugTraceColor;
 	}
 
 	glm::vec2 PhysicsComponent2D::HelperGetWidthAndHeightOfTheBoundingBox()
@@ -303,7 +337,7 @@ namespace Ermine
 	{
 		if (IsDebugTraceEnabled == true)
 		{
-			//Submit Yourself To The Renderer..
+			//Detach Yourself From The Renderer..
 			FuncDetachBodyFromRenderer2D(this);
 
 			//Dont Try To Remove The Body Which Was Not Even Submitted Right?
@@ -517,6 +551,30 @@ namespace Ermine
 
 		return Joint;
 
+	}
+
+	void PhysicsComponent2D::SetDebugColorToBody(glm::vec4 Color)
+	{
+		UseCustomColorsOnDebugTrace = true;
+		CustomDebugTraceColor = Color;
+	}
+
+	void PhysicsComponent2D::SetDebugColorToFixture(b2Fixture* Fixture, glm::vec4 Color)
+	{
+		if (Fixture->GetUserData() != nullptr)
+		{
+			FixtureUserDataStruct* Struct = (FixtureUserDataStruct*)Fixture->GetUserData();
+			Struct->DebugTraceColor.UseColor = true;
+			Struct->DebugTraceColor.Color = Color;
+		}
+		else
+		{
+			FixtureUserDataStruct *Struct = new FixtureUserDataStruct();
+			Struct->DebugTraceColor.UseColor = true;
+			Struct->DebugTraceColor.Color = Color;
+
+			Fixture->SetUserData(Struct);
+		}
 	}
 
 

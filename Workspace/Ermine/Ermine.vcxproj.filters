@@ -293,6 +293,8 @@
     <ClInclude Include="src\Physics\Joints\WheelJoint.h" />
     <ClInclude Include="src\Physics\Joints\RopeJoint.h" />
     <ClInclude Include="src\Physics\Joints\WeldJoint.h" />
+    <ClInclude Include="src\Physics\FixtureColorStruct.h" />
+    <ClInclude Include="src\Physics\FixtureUserDataStruct.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
