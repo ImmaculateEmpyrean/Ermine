@@ -34,11 +34,20 @@ namespace Ermine
 		//Use This Constructor To Quickly Construct A Box At The Specified Location No Other Nonsense For Now..
 		PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, glm::vec2 BodySizeInPixelSpace ,bool StaticBody = true);
 
-		//Use This Constructor To Quicklu Construct A Circle At The Specified Location No Other Nonesense For Now..
+		//Use This Constructor To Quickly Construct A Box At The Specified Location No Other Nonsense For Now Except The Ability To Specify The Color..
+		PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, glm::vec2 BodySizeInPixelSpace, bool StaticBody,glm::vec4 DebugTraceColor);
+
+		//Use This Constructor To Quickly Construct A Circle At The Specified Location No Other Nonesense For Now..
 		PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, float BodyRadiusInPixelSpace, bool StaticBody = true);
+
+		//Use This Constructor To Quickly Construct A Circle At The Specified Location No Other Nonesense For Now Except The Ability To Specify The Color Of The Body.. 
+		PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, float BodyRadiusInPixelSpace, bool StaticBody,glm::vec4 DebugTraceColor);
 
 		//Use This Constructor To Explicitly Fix The Size Of The Box And Also Say That The Shape Is a Box..
 		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,glm::vec2 BodySizeInPixelSpace);
+
+		//Use This Constructor To Explicitly Fix The Size Of The Box And Also Say That The Shape Is a Box U Get To Specify The Color Of This Body If This Constructor Is USed..
+		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition, glm::vec2 BodySizeInPixelSpace,glm::vec4 DebugTraceColor);
 
 		//Use This Constructor If U Wanna Set a Custom Shape..
 		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition);
@@ -171,6 +180,11 @@ namespace Ermine
 	private:
 		void HelperConstructorConstructBody();
 		void HelperMoveFunction(PhysicsComponent2D&& rhs);
+
+		void HelperConstructCircle(glm::vec2 BodyLocationInPixelSpace, float BodyRadiusInPixelSpace, bool StaticBody);
+
+		void HelperConstructBox(b2BodyDef Definition, b2FixtureDef FixtureDefinition, glm::vec2 BodySizeInPixelSpace);
+		void HelperConstructBox(glm::vec2 BodyLocationInPixelSpace, glm::vec2 BodySizeInPixelSpace, bool StaticBody);
 
 		//Return The Width And Height Of The Bounding Box Of The Entire Box2D Object In Box2D Space.. REMEMBER THE BODY MUST EXIST FOR THIS TO WORK..
 		glm::vec2 HelperGetWidthAndHeightOfTheBoundingBox();

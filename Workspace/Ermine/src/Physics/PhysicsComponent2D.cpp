@@ -40,98 +40,41 @@ namespace Ermine
 
 	PhysicsComponent2D::PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace,glm::vec2 BodySizeInPixelSpace ,bool StaticBody)
 	{
-		glm::vec2 LocationInWorldSpace = Ermine::coordPixelsToWorld(BodyLocationInPixelSpace);
-		BodyDefinitionOfTheComponent.position.Set(LocationInWorldSpace.x,LocationInWorldSpace.y);
+		HelperConstructBox(BodyLocationInPixelSpace, BodySizeInPixelSpace, StaticBody);
+	}
 
-		glm::vec2 BodySizeInWorldSpace = Ermine::vectorPixelsToWorld(BodySizeInPixelSpace);
-		BodySize.x = BodySizeInWorldSpace.x;
-		BodySize.y = BodySizeInWorldSpace.y;
-
-		if(StaticBody)
-			BodyDefinitionOfTheComponent.type = b2_staticBody;
-		else
-			BodyDefinitionOfTheComponent.type = b2_dynamicBody;
-
-		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
-
-		//Create A Physics Component Shape DataStructure Inside The Buffer Array
-		FixturesAssociatedWithTheBody.emplace_back(b2FixtureDef());
-
-		//Create A Shape To Be associated With The Fixture..
-		b2PolygonShape Shape = b2PolygonShape();
-		Shape.SetAsBox(BodySize.x/2.0f, BodySize.y/2.0f);
-
-		//For The Created DataStructure Set The Default Values..
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].density = 1.0f;
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].friction = 0.3f;
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].restitution = 0.5f;
-
-#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct(); //Made A Shared Pointer In Hopes That It Will Delete Itself When The Time Comes.. 
-#endif 
-
-		//Attach the Fixture To The Body..
-		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
+	PhysicsComponent2D::PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, glm::vec2 BodySizeInPixelSpace, bool StaticBody, glm::vec4 Color)
+	{
+		HelperConstructBox(BodyLocationInPixelSpace, BodySizeInPixelSpace, StaticBody);
+		UseCustomColorsOnDebugTrace = true;
+		CustomDebugTraceColor = Color;
 	}
 
 	PhysicsComponent2D::PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, float BodyRadiusInPixelSpace, bool StaticBody)
 	{
-		glm::vec2 LocationInWorldSpace = Ermine::coordPixelsToWorld(BodyLocationInPixelSpace);
-		BodyDefinitionOfTheComponent.position.Set(LocationInWorldSpace.x, LocationInWorldSpace.y);
+		HelperConstructCircle(BodyLocationInPixelSpace, BodyRadiusInPixelSpace, StaticBody);
+	}
 
-		float BodyRadiusInWorldSpace = Ermine::scalarPixelsToWorld(BodyRadiusInPixelSpace);
-		BodySize.x = BodyRadiusInWorldSpace * 2.0f;
-		BodySize.y = BodyRadiusInWorldSpace * 2.0f;
-
-		if (StaticBody)
-			BodyDefinitionOfTheComponent.type = b2_staticBody;
-		else
-			BodyDefinitionOfTheComponent.type = b2_dynamicBody;
-
-		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
-
-		//Create A Physics Component Shape DataStructure Inside The Buffer Array
-		FixturesAssociatedWithTheBody.emplace_back(b2FixtureDef());
-
-		//Create A Shape To Be associated With The Fixture..
-		b2CircleShape Shape = b2CircleShape();
-		Shape.m_radius = BodyRadiusInWorldSpace;
-		
-		//For The Created DataStructure Set The Default Values..
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].density = 1.0f;
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].friction = 0.3f;
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].restitution = 0.5f;
-
-#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct(); //Made A Shared Pointer In Hopes That It Will Delete Itself When The Time Comes.. 
-#endif 
-
-		//Attach the Fixture To The Body..
-		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
+	PhysicsComponent2D::PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, float BodyRadiusInPixelSpace, bool StaticBody, glm::vec4 Color)
+	{
+		HelperConstructCircle(BodyLocationInPixelSpace, BodyRadiusInPixelSpace, StaticBody);
+		UseCustomColorsOnDebugTrace = true;
+		CustomDebugTraceColor = Color;
 	}
 
 	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,
 										   glm::vec2 BoxSizeInPixels)
-		:
-		BodyDefinitionOfTheComponent(Definition)
+		
 	{
-		//Calculate Size Of The Body In Box2D Space..
-		BodySize = Ermine::vectorPixelsToWorld(BoxSizeInPixels);
+		HelperConstructBox(Definition, FixtureDefinition, BoxSizeInPixels);
+	}
 
-		//Create A Shape To Be associated With The Fixture..
-		b2PolygonShape Shape = b2PolygonShape();
-		Shape.SetAsBox(BodySize.x/2.0f, BodySize.y /2.0f);
-
-		FixturesAssociatedWithTheBody.emplace_back(FixtureDefinition);
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
-
-#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct(); //Made A Shared Pointer In Hopes That It Will Delete Itself When The Time Comes.. 
-#endif 
-
-		HelperConstructorConstructBody();
+	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition, 
+										   glm::vec2 BodySizeInPixelSpace, glm::vec4 Color)
+	{
+		HelperConstructBox(Definition, FixtureDefinition, BodySizeInPixelSpace); //The Helper Is Trusted To Properly Construct The Object..
+		UseCustomColorsOnDebugTrace = true;
+		CustomDebugTraceColor = Color;
 	}
 
 	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition)
@@ -266,6 +209,100 @@ namespace Ermine
 
 		UseCustomColorsOnDebugTrace = rhs.UseCustomColorsOnDebugTrace;
 		CustomDebugTraceColor = rhs.CustomDebugTraceColor;
+	}
+
+	void PhysicsComponent2D::HelperConstructBox(b2BodyDef Definition, b2FixtureDef FixtureDefinition, glm::vec2 BodySizeInPixelSpace)
+	{
+		BodyDefinitionOfTheComponent = Definition;
+		//Calculate Size Of The Body In Box2D Space..
+		BodySize = Ermine::vectorPixelsToWorld(BodySizeInPixelSpace);
+
+		//Create A Shape To Be associated With The Fixture..
+		b2PolygonShape Shape = b2PolygonShape();
+		Shape.SetAsBox(BodySize.x / 2.0f, BodySize.y / 2.0f);
+
+		FixturesAssociatedWithTheBody.emplace_back(FixtureDefinition);
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
+
+#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct(); //Made A Shared Pointer In Hopes That It Will Delete Itself When The Time Comes.. 
+#endif
+
+		HelperConstructorConstructBody();
+	}
+
+	void PhysicsComponent2D::HelperConstructBox(glm::vec2 BodyLocationInPixelSpace, glm::vec2 BodySizeInPixelSpace, bool StaticBody)
+	{
+		glm::vec2 LocationInWorldSpace = Ermine::coordPixelsToWorld(BodyLocationInPixelSpace);
+		BodyDefinitionOfTheComponent.position.Set(LocationInWorldSpace.x, LocationInWorldSpace.y);
+
+		glm::vec2 BodySizeInWorldSpace = Ermine::vectorPixelsToWorld(BodySizeInPixelSpace);
+		BodySize.x = BodySizeInWorldSpace.x;
+		BodySize.y = BodySizeInWorldSpace.y;
+
+		if (StaticBody)
+			BodyDefinitionOfTheComponent.type = b2_staticBody;
+		else
+			BodyDefinitionOfTheComponent.type = b2_dynamicBody;
+
+		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
+
+		//Create A Physics Component Shape DataStructure Inside The Buffer Array
+		FixturesAssociatedWithTheBody.emplace_back(b2FixtureDef());
+
+		//Create A Shape To Be associated With The Fixture..
+		b2PolygonShape Shape = b2PolygonShape();
+		Shape.SetAsBox(BodySize.x / 2.0f, BodySize.y / 2.0f);
+
+		//For The Created DataStructure Set The Default Values..
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].density = 1.0f;
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].friction = 0.3f;
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].restitution = 0.5f;
+
+#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct(); //Made A Shared Pointer In Hopes That It Will Delete Itself When The Time Comes.. 
+#endif 
+
+		//Attach the Fixture To The Body..
+		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
+	}
+
+	void PhysicsComponent2D::HelperConstructCircle(glm::vec2 BodyLocationInPixelSpace, float BodyRadiusInPixelSpace, bool StaticBody)
+	{
+		glm::vec2 LocationInWorldSpace = Ermine::coordPixelsToWorld(BodyLocationInPixelSpace);
+		BodyDefinitionOfTheComponent.position.Set(LocationInWorldSpace.x, LocationInWorldSpace.y);
+
+		float BodyRadiusInWorldSpace = Ermine::scalarPixelsToWorld(BodyRadiusInPixelSpace);
+		BodySize.x = BodyRadiusInWorldSpace * 2.0f;
+		BodySize.y = BodyRadiusInWorldSpace * 2.0f;
+
+		if (StaticBody)
+			BodyDefinitionOfTheComponent.type = b2_staticBody;
+		else
+			BodyDefinitionOfTheComponent.type = b2_dynamicBody;
+
+		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
+
+		//Create A Physics Component Shape DataStructure Inside The Buffer Array
+		FixturesAssociatedWithTheBody.emplace_back(b2FixtureDef());
+
+		//Create A Shape To Be associated With The Fixture..
+		b2CircleShape Shape = b2CircleShape();
+		Shape.m_radius = BodyRadiusInWorldSpace;
+
+		//For The Created DataStructure Set The Default Values..
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].density = 1.0f;
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].friction = 0.3f;
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].restitution = 0.5f;
+
+#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct(); //Made A Shared Pointer In Hopes That It Will Delete Itself When The Time Comes.. 
+#endif 
+
+		//Attach the Fixture To The Body..
+		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
 	}
 
 	glm::vec2 PhysicsComponent2D::HelperGetWidthAndHeightOfTheBoundingBox()

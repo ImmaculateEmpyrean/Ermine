@@ -123,11 +123,11 @@ void Ermine::App::OnAttach()
 void Ermine::App::OnTick()
 {
 	//static Ermine::PhysicsComponent2D TopBeam = Ermine::PhysicsComponent2D();
-	static Ermine::PhysicsComponent2D TopBeam(glm::vec2(500.0f, 25.0f),glm::vec2(1000.0f,25.0f));
-	static Ermine::PhysicsComponent2D BottomBeam(glm::vec2(500.0f, 988.0f), glm::vec2(1000.0f, 25.0f));
+	static Ermine::PhysicsComponent2D TopBeam(glm::vec2(500.0f, 25.0f),glm::vec2(1000.0f,25.0f),true,glm::vec4(1.0f,0.0f,0.0f,1.0f));
+	static Ermine::PhysicsComponent2D BottomBeam(glm::vec2(500.0f, 988.0f), glm::vec2(1000.0f, 25.0f), true, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 	
-	static Ermine::PhysicsComponent2D LeftBeam(glm::vec2(12.0f, 500.0f), glm::vec2(25.0f, 1000.0f));
-	static Ermine::PhysicsComponent2D RightBeam(glm::vec2(988.0f, 500.0f), glm::vec2(25.0f, 1000.0f));
+	static Ermine::PhysicsComponent2D LeftBeam(glm::vec2(12.0f, 500.0f), glm::vec2(25.0f, 1000.0f), true, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	static Ermine::PhysicsComponent2D RightBeam(glm::vec2(988.0f, 500.0f), glm::vec2(25.0f, 1000.0f), true, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
 
 	static Ermine::PhysicsComponent2D CarBody(glm::vec2(500.0f,500.0f), glm::vec2(100.0f, 50.0f),false);
 
@@ -163,7 +163,7 @@ void Ermine::App::OnTick()
 		//LeftAxle.CreateRevoluteJoint(&LeftWheel, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), false);
 
 		//auto Joint  = CarBody.CreatePrismaticJoint(&RightAxle, glm::vec2(30.0f, 50.0f), glm::vec2(0.0f, 0.0f),0.2f, false);
-	//	auto Joint2 = CarBody.CreatePrismaticJoint(&LeftAxle, glm::vec2(-30.0f, 50.0f), glm::vec2(0.0f, 0.0f),0.2f, false);
+		//auto Joint2 = CarBody.CreatePrismaticJoint(&LeftAxle, glm::vec2(-30.0f, 50.0f), glm::vec2(0.0f, 0.0f),0.2f, false);
 
 		//Ermine::PrismaticJoint* PrismaticJoint = (Ermine::PrismaticJoint*)Joint;
 		//PrismaticJoint->SetMovementLimits(0.0f, 0.0f);
