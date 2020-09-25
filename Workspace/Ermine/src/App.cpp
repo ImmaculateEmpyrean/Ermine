@@ -134,7 +134,7 @@ void Ermine::App::OnTick()
 	static Ermine::PhysicsComponent2D RightAxle(glm::vec2(600.0f, 600.0f), glm::vec2(10.0f, 10.0f), false);
 	static Ermine::PhysicsComponent2D LeftAxle(glm::vec2(400.0f, 600.0f), glm::vec2(10.0f, 10.0f), false);
 
-	static Ermine::PhysicsComponent2D RightWheel(glm::vec2(600.0f, 600.0f), 20.0f, false);
+	static Ermine::PhysicsComponent2D RightWheel(glm::vec2(600.0f, 600.0f), 20.0f, false,glm::vec4(1.0f,1.0f,1.0f,0.4f));
 	static Ermine::PhysicsComponent2D LeftWheel(glm::vec2(400.0f, 600.0f), 20.0f, false);
 
 	static bool Once = true;

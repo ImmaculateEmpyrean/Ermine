@@ -247,7 +247,9 @@ namespace Ermine
 						   {3,GL_FLOAT,false},
 						   {1,GL_FLOAT,false},
 						   {2,GL_FLOAT,false},
-						   {2,GL_FLOAT,false}
+						   {2,GL_FLOAT,false},
+						   {1,GL_FLOAT,false},
+						   {4,GL_FLOAT,false}
 		};
 		//Ended Function Defaults Declarations..//
 
@@ -498,6 +500,15 @@ namespace Ermine
 					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
 					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
 
+					//Flag If I Should Be Using Vertex Color
+					CircleVertexBuffer.emplace_back(UseVertexColor);
+
+					//Vertex Color To Be Packaged Into The VertexBuffer
+					CircleVertexBuffer.emplace_back(VertexColor.x);
+					CircleVertexBuffer.emplace_back(VertexColor.y);
+					CircleVertexBuffer.emplace_back(VertexColor.z);
+					CircleVertexBuffer.emplace_back(VertexColor.w);
+
 					//Vertex 1
 					CircleVertexBuffer.emplace_back(radius);
 					CircleVertexBuffer.emplace_back(radius);
@@ -507,6 +518,14 @@ namespace Ermine
 					CircleVertexBuffer.emplace_back((float)Ermine::GetScreenHeight());
 					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
 					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
+
+					CircleVertexBuffer.emplace_back(UseVertexColor);
+
+					//Vertex Color To Be Packaged Into The VertexBuffer
+					CircleVertexBuffer.emplace_back(VertexColor.x);
+					CircleVertexBuffer.emplace_back(VertexColor.y);
+					CircleVertexBuffer.emplace_back(VertexColor.z);
+					CircleVertexBuffer.emplace_back(VertexColor.w);
 
 					//Vertex 2
 					CircleVertexBuffer.emplace_back(-1.0f * radius);
@@ -518,6 +537,14 @@ namespace Ermine
 					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
 					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
 
+					CircleVertexBuffer.emplace_back(UseVertexColor);
+
+					//Vertex Color To Be Packaged Into The VertexBuffer
+					CircleVertexBuffer.emplace_back(VertexColor.x);
+					CircleVertexBuffer.emplace_back(VertexColor.y);
+					CircleVertexBuffer.emplace_back(VertexColor.z);
+					CircleVertexBuffer.emplace_back(VertexColor.w);
+
 					//Vertex 3
 					CircleVertexBuffer.emplace_back(-1.0f * radius);
 					CircleVertexBuffer.emplace_back(-1.0f * radius);
@@ -528,7 +555,15 @@ namespace Ermine
 					CircleVertexBuffer.emplace_back(PositionInPixelSpace.x);
 					CircleVertexBuffer.emplace_back(PositionInPixelSpace.y);
 
-					
+					CircleVertexBuffer.emplace_back(UseVertexColor);
+
+					//Vertex Color To Be Packaged Into The VertexBuffer
+					CircleVertexBuffer.emplace_back(VertexColor.x);
+					CircleVertexBuffer.emplace_back(VertexColor.y);
+					CircleVertexBuffer.emplace_back(VertexColor.z);
+					CircleVertexBuffer.emplace_back(VertexColor.w);
+
+
 					std::vector<uint32_t> IndexBuffer = Quad::GetModelIndices();
 					
 					for (auto& i : IndexBuffer)
@@ -600,6 +635,7 @@ namespace Ermine
 					CircleShader.Bind();
 					CircleShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
 					CircleShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
+					CircleShader.Uniform4f(std::string("Uniform_CircleColor"), CircleColor);
 					glDrawElements(GL_TRIANGLES, CircleVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 
 					VertexArray CircleLineVertexArray(CircleLineVertexBuffer, CircleLineIndexBuffer); //For Some Reason There Is A Problem If We Try To Multiply The Model Matrix.. :< Dunno Check It Out Tommorow
