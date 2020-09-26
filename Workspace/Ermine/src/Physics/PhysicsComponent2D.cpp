@@ -680,6 +680,8 @@ namespace Ermine
 		//Ask Box2D For The Rotation Data..
 		float RotationAngle = GetAngleOfTheBody();
 
+		RotationAngle = RotationAngle * -1.0f;
+
 		//Ask GLm To rotate using glm::rotate function..
 		RotationMatrix = glm::rotate(RotationMatrix, RotationAngle, glm::vec3(0.0, 0.0, 1.0));
 
