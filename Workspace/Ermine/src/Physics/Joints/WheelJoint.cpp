@@ -5,30 +5,27 @@ Ermine::WheelJoint::WheelJoint(b2Body* BodyA, b2Body* BodyB, bool collideConnect
 	:
 	JointBase(BodyA,BodyB)
 {
-	b2WheelJointDef WDef;
+	b2WheelJointDef jd;
+	b2Vec2 axis(0.0f, 1.0f);
 
-	WDef.bodyA = BodyA;
-	WDef.bodyB = BodyB;
+	float mass1 = BodyB->GetMass();
+	
+	float hertz = 4.0f;
+	float dampingRatio = 0.7f;
+	float omega = 2.0f * b2_pi * hertz;
 
-	WDef.collideConnected = collideConnected;
+	jd.Initialize(BodyA, BodyB, BodyB->GetPosition(), axis);
+	jd.motorSpeed = 0.0f;
+	jd.maxMotorTorque = 20.0f;
+	jd.enableMotor = true;
+	jd.stiffness = mass1 * omega * omega;
+	jd.damping = 2.0f * mass1 * dampingRatio * omega;
+	jd.lowerTranslation = -0.25f;
+	jd.upperTranslation = 0.25f;
+	jd.enableLimit = true;
+	WheelJointHandle = (b2WheelJoint*)Universum->CreateJoint(&jd);
 
-	WDef.localAnchorA = b2Vec2(Ermine::scalarPixelsToWorld(100.0f), Ermine::scalarPixelsToWorld(-150.0f));
-	WDef.localAnchorB = b2Vec2(0.0f, 0.0f);
-
-	//WDef.damping = 100.0f;
-	//WDef.stiffness = 20.0f;
-	WDef.motorSpeed = glm::radians<float>(10);
-	WDef.maxMotorTorque = 100.0f;
-	WDef.enableMotor = true;
-
-	WDef.enableLimit = true;
-	WDef.upperTranslation = 1.0f;
-	WDef.lowerTranslation = 1.0f;
-	//WDef.enableLimit = true;
-
-	WDef.localAxisA = b2Vec2(1.0f, 0.0f);
-
-	WheelJointHandle = (b2WheelJoint*)Universum->CreateJoint(&WDef);
+	//WheelJointHandle = (b2WheelJoint*)Universum->CreateJoint(&WDef);
 	JointBase::JointHandle = WheelJointHandle;
 }
 

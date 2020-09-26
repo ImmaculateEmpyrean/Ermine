@@ -261,7 +261,7 @@ namespace Ermine
 		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].restitution = 0.5f;
 
 #if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct(); //Made A Shared Pointer In Hopes That It Will Delete Itself When The Time Comes.. 
+		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct();
 #endif 
 
 		//Attach the Fixture To The Body..

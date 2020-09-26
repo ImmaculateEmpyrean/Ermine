@@ -25,7 +25,7 @@ namespace Ermine
 		RopeJoint(b2Body* BodyA, b2Body* BodyB, float RopeLength = 0.0f, bool CollideConnected = false);
 
 		//This Constructor Allows You To Setup Anchor Points Along With Rope Length..
-		RopeJoint(b2Body* BodyA, b2Body* BodyB,glm::vec2 LocalAnchorAPixelCoordinates ,glm::vec2 LocalAnchorBPixelCoordinates , float RopeLength = 0.0f, bool CollideConnected = false);
+		RopeJoint(b2Body* BodyA, b2Body* BodyB,glm::vec2 LocalAnchorAPixelCoordinates ,glm::vec2 LocalAnchorBPixelCoordinates , float RopeLengthInPixels = 0.0f, bool CollideConnected = false);
 
 	public:
 		virtual b2Joint* GetJoint() override { return RopeJointHandle; }

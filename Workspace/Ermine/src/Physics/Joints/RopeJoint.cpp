@@ -108,6 +108,8 @@ float Ermine::RopeJoint::GetReactionTorque()
 
 void Ermine::RopeJoint::HelperCreateRopeJointHandle(b2Body* BodyA, b2Body* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, float RopeLength, bool CollideConnected)
 {
+	float RopeLengthWorld = Ermine::scalarPixelsToWorld(RopeLength);
+
 	glm::vec2 LocalAnchorAWorldCoordinates = Ermine::vertexPixelsToWorld(LocalAnchorAPixelCoordinates);
 	glm::vec2 LocalAnchorBWorldCoordinates = Ermine::vertexPixelsToWorld(LocalAnchorBPixelCoordinates);
 
@@ -120,7 +122,7 @@ void Ermine::RopeJoint::HelperCreateRopeJointHandle(b2Body* BodyA, b2Body* BodyB
 	RDef.localAnchorA = b2Vec2(LocalAnchorAWorldCoordinates.x, LocalAnchorAWorldCoordinates.y);
 	RDef.localAnchorB = b2Vec2(LocalAnchorBWorldCoordinates.x, LocalAnchorBWorldCoordinates.y);
 
-	RDef.maxLength = RopeLength;
+	RDef.maxLength = RopeLengthWorld;
 
 	RopeJointHandle = (b2RopeJoint*)Universum->CreateJoint(&RDef);
 
