@@ -57,15 +57,10 @@ namespace Ermine
 	}
 
 
-	void Renderer2D::BeginScene(glm::mat4 Camera, glm::mat4 ProjectionMatrix)
+	void Renderer2D::BeginScene()
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
 		
-		Renderer->CameraMatrix = Camera;
-		Renderer->ProjectionMatrix = ProjectionMatrix;
-
-		Renderer->ProjectionViewMatrix = ProjectionMatrix * Camera;
-
 		Renderer->SceneBegin = true;
 	}
 
@@ -177,6 +172,7 @@ namespace Ermine
 		//Getting The Texture Cache As It May Prove Helpful..
 		auto TextureCacheGlobal = Ermine::GlobalTextureCache::Get();
 		auto Renderer = Ermine::Renderer2D::Get();
+		auto Camera = Ermine::OrthographicCamera::Get();
 
 		for (auto layer : RendererLayerStack.AllLayersAssociated)
 		{
@@ -218,7 +214,7 @@ namespace Ermine
 				//Ended If A Renderable Texture module Is detected Inside the renderable do the following steps//
 
 				//Start These Steps Are To Be Done on All Kinds Of Renderables..//
-				i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+				i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ProjectionViewMatrix"), Camera->GetProjectionViewMatrix());
 				glDrawElements(GL_TRIANGLES, i->GetVertexArray()->GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				//Ended These Steps Are To Be Done on All Kinds Of Renderables..//
 			}
@@ -227,7 +223,7 @@ namespace Ermine
 
 	void Renderer2D::PhysicsDebuggerDrawingRoutine()
 	{
-		
+		auto Camera = Ermine::OrthographicCamera::Get();
 		auto Renderer = Ermine::Renderer2D::Get();
 
 		//Start Function Defaults Declarations..//
@@ -346,7 +342,7 @@ namespace Ermine
 					TriangleVertexArray.Bind();
 
 					BasicDebuggerShader.Bind();
-					BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Camera->GetProjectionViewMatrix());
 					BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
 					BasicDebuggerShader.Uniform4f(std::string("Body_Color_Uniform"), PolygonColor);
 					glDrawElements(GL_TRIANGLES, TriangleVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
@@ -409,7 +405,7 @@ namespace Ermine
 					LineVertexArray.Bind();
 
 					BasicDebuggerShader.Bind();
-					BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Camera->GetProjectionViewMatrix());
 					BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
 					BasicDebuggerShader.Uniform4f(std::string("Body_Color_Uniform"), LineColor);
 					glDrawElements(GL_LINE_STRIP, LineVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
@@ -454,7 +450,7 @@ namespace Ermine
 					LineVertexArray.Bind();
 
 					BasicDebuggerShader.Bind();
-					BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Camera->GetProjectionViewMatrix());
 					BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
 					BasicDebuggerShader.Uniform4f(std::string("Body_Color_Uniform"), LineColor);
 					glDrawElements(GL_LINE_STRIP, LineVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
@@ -633,7 +629,7 @@ namespace Ermine
 					CircleVertexArray.Bind();
 
 					CircleShader.Bind();
-					CircleShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					CircleShader.UniformMat4(std::string("ProjectionViewMatrix"), Camera->GetProjectionViewMatrix());
 					CircleShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
 					CircleShader.Uniform4f(std::string("Uniform_CircleColor"), CircleColor);
 					glDrawElements(GL_TRIANGLES, CircleVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
@@ -643,7 +639,7 @@ namespace Ermine
 					CircleLineVertexArray.Bind();
 
 					BasicDebuggerShader.Bind();
-					BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Renderer->ProjectionViewMatrix);
+					BasicDebuggerShader.UniformMat4(std::string("ProjectionViewMatrix"), Camera->GetProjectionViewMatrix());
 					BasicDebuggerShader.UniformMat4(std::string("ModelMatrix"), Component->GetTranslationMatrix()); //This Is The Only Reason Why We Are Drawing Per Body.. 
 					BasicDebuggerShader.Uniform4f(std::string("Body_Color_Uniform"), CircleRadialLineColor);
 					glDrawElements(GL_LINE_STRIP, CircleLineVertexArray.GetIndexBufferLength(), GL_UNSIGNED_INT, 0);

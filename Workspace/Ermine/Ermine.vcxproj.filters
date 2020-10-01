@@ -295,6 +295,7 @@
     <ClInclude Include="src\Physics\Joints\WeldJoint.h" />
     <ClInclude Include="src\Physics\FixtureColorStruct.h" />
     <ClInclude Include="src\Physics\FixtureUserDataStruct.h" />
+    <ClInclude Include="src\Graphics\OrthographicCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
@@ -479,5 +480,6 @@
     <ClCompile Include="src\Physics\Joints\WheelJoint.cpp" />
     <ClCompile Include="src\Physics\Joints\RopeJoint.cpp" />
     <ClCompile Include="src\Physics\Joints\WeldJoint.cpp" />
+    <ClCompile Include="src\Graphics\OrthographicCamera.cpp" />
   </ItemGroup>
 </Project>

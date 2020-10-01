@@ -214,11 +214,7 @@ void Ermine::App::OnTick()
 
 	//Ended Add A Image To The Physics Component//
 
-	glm::mat4 Camera = glm::mat4(1.0f);
-	glm::translate(Camera, glm::vec3(0.0f, 0.0f, -3.0f));
-	auto ProjectionMatrix = glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-1.0f, 1.0f, -1.0f, 1.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);//glm::ortho<float>(0.0f, ((float)Ermine::GetScreenWidth()), ((float)Ermine::GetScreenHeight()), 0.0f, -5.0f, 5.0f);//glm::ortho<float>(-2.0f, 2.0f, -2.0f, 2.0f, -5.0f, 5.0f);
-
-	Renderer2D::BeginScene(Camera, ProjectionMatrix);
+	Renderer2D::BeginScene();
 	Renderer2D::SubmitLayer(Layer);
 	Renderer2D::EndScene();
 
@@ -261,6 +257,9 @@ void Ermine::App::OnTick()
 	if (ApplyForce)
 	{
 		PhyActor->AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
+		auto Camera = Ermine::OrthographicCamera::Get();
+
+		Camera->TranslateCamera({ 10.0f,0.0f });
 		//WheelActorRight->AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
 		//RightAxle.AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
 		//RightWheel.AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));

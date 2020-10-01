@@ -9,6 +9,8 @@
 #include "LayerSystem/LayerStack.h"
 #include "EngineResourceHandlers/GlobalTextureCache.h"
 
+#include "Graphics/OrthographicCamera.h"
+
 #include "Physics/FixtureUserDataStruct.h"
 
 namespace Ermine
@@ -22,7 +24,7 @@ namespace Ermine
 	public:
 		static Renderer2D* Get();
 
-		static void BeginScene(glm::mat4 CameraMAtrix,glm::mat4 ProjectionMatrix);
+		static void BeginScene();
 
 		//This Is THe Submition Method, It Appends The LAyer To The front Of The Screen
 		static void SubmitLayer(LayerStackLayer layer);
@@ -75,11 +77,6 @@ namespace Ermine
 		//Tools To Make This Class a Singleton..
 		static std::once_flag InitializationFlag;
 		static Renderer2D* GlobalRenderer2DObj;
-
-		//Various Matrices To Transform The World To Better Suit What We Are Drawing..
-		glm::mat4 CameraMatrix;
-		glm::mat4 ProjectionMatrix;
-		glm::mat4 ProjectionViewMatrix;
 
 		//Start Flags//
 		bool SceneBegin;

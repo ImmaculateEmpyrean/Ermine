@@ -649,8 +649,8 @@ namespace Ermine
 	float PhysicsComponent2D::GetAngleOfTheBody()
 	{
 		//Directly Ask Box2D For The Angle to Send Back to the User..
-		//This May Have To Be Inverted to Take Y Axis Flip Into Account Just Check Abt It In The Future..
-		return BodyManagedByTheComponent->GetAngle();
+		//This May Have To Be Inverted to Take Y Axis Flip Into Account Just Check Abt It In The Future.. //Done The Inversion.. Not Tested Though.. :<
+		return BodyManagedByTheComponent->GetAngle() *-1.0f;;
 	}
 
 
