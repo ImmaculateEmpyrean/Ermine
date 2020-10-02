@@ -43,7 +43,7 @@ namespace Ermine
 
 	glm::mat4 Actor2D::GetModelMatrix()
 	{
-		return MovableObject::RecievedModelMatrix * MovableObject::TranslationMatrix;
+		return MovableObject::GetModelMatrix();
 	}
 
 	std::vector<float> Actor2D::CalculateModelSpaceVertexes()
@@ -65,18 +65,6 @@ namespace Ermine
 		glm::vec3 TopLeftPos = TopLeft.GetPositionCoordinates();
 		glm::vec4 TopLeftPos4 = glm::vec4(TopLeftPos, 0.0f);
 
-		/*Start This I Guess Is The Only Difference Between Movable And Non Movable Actor */
-		TopRightPos4 = RotationMatrix * TopRightPos4;
-		BottomRightPos4 = RotationMatrix * BottomRightPos4;
-		BottomLeftPos4 = RotationMatrix * BottomLeftPos4;
-		TopLeftPos4 = RotationMatrix * TopLeftPos4;
-
-		TopRightPos4 = ScaleMatrix * TopRightPos4;
-		BottomRightPos4 = ScaleMatrix * BottomRightPos4;
-		BottomLeftPos4 = ScaleMatrix * BottomLeftPos4;
-		TopLeftPos4 = ScaleMatrix * TopLeftPos4;
-		/*Ended This I Guess Is The Only Difference Between Movable And Non Movable Actor */
-
 		TopRight.SetPositonCoordinates(TopRightPos4);
 		BottomRight.SetPositonCoordinates(BottomRightPos4);
 		BottomLeft.SetPositonCoordinates(BottomLeftPos4);
@@ -94,5 +82,11 @@ namespace Ermine
 		ModelCoordinates = ModelCoordinates + TopLeft;
 
 		return ModelCoordinates;
+	}
+
+
+	glm::vec2 Actor2D::GetScreenLocation()
+	{
+		return MovableObject::GetScreenLocation();
 	}
 }

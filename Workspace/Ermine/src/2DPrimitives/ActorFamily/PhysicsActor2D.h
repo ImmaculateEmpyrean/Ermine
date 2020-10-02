@@ -29,6 +29,9 @@ namespace Ermine
 		virtual ~PhysicsActor() override;
 
 	public:
+		//This Function Returns The Screen Location Of The Object In Question
+		virtual glm::vec2 GetScreenLocation() override;
+
 		virtual std::vector<float> CalculateModelSpaceVertexes() override;
 
 		//This Function Has To Be Overriden In all Children Do Not Forget Otherwise One Child May Be Thought Of As The Other..

@@ -1,80 +1,266 @@
 #include "stdafx.h"
 #include "MovableObject.h"
 
+#include <gtx/matrix_decompose.hpp>
+
 namespace Ermine
 {
+#pragma region Constructors
+
 	MovableObject::MovableObject()
 	{
-		TranslationMatrix = glm::mat4(1.0f);
-		RotationMatrix = glm::mat4(1.0f);
-		ScaleMatrix = glm::mat4(1.0f);
-
-		RecievedModelMatrix = glm::mat4(1.0f);
+		HelperRecalculateCache();
+	}
+	MovableObject::MovableObject(glm::vec2 SpawnPosition)
+		:
+		Position(SpawnPosition)
+	{
+		HelperRecalculateCache();
+	}
+	MovableObject::MovableObject(glm::vec2 SpawnPosition, float Rotation)
+		:
+		Position(SpawnPosition),
+		Rotation(Rotation)
+	{
+		HelperRecalculateCache();
+	}
+	MovableObject::MovableObject(glm::vec2 SpawnPosition, float Rotation, glm::vec2 Scale)
+		:
+		Position(SpawnPosition),
+		Rotation(Rotation),
+		scale(Scale)
+	{
+		HelperRecalculateCache();
+	}
+	MovableObject::MovableObject(float Rotation, glm::vec2 Scale)
+		:
+		Rotation(Rotation),
+		scale(Scale)
+	{
+		HelperRecalculateCache();
 	}
 	MovableObject::MovableObject(glm::mat4 ModelMatrix)
-		:
-		RecievedModelMatrix(ModelMatrix)
 	{
-		TranslationMatrix = glm::mat4(1.0f);
-		RotationMatrix = glm::mat4(1.0f);
-		ScaleMatrix = glm::mat4(1.0f);
+		glm::vec3 scale;
+		glm::quat rotation;
+		glm::vec3 translation;
+		glm::vec3 skew;
+		glm::vec4 perspective;
+		glm::decompose(ModelMatrix, scale, rotation, translation, skew, perspective);
+
+		Position.x = translation.x;
+		Position.y = translation.y;
+
+		Rotation = rotation.z;
+
+		this->scale.x = scale.x;
+		this->scale.y = scale.y;
+
+		HelperRecalculateCache();
 	}
 
+#pragma endregion Constructors
+
+#pragma region Getters
 
 	glm::mat4 MovableObject::GetModelMatrix()
 	{
-		return RecievedModelMatrix * ScaleMatrix * RotationMatrix * TranslationMatrix;
+		if (ModelMatrixCacheValid == true)
+			return ModelMatrix;
+		else
+		{
+			HelperRecalculateModelMatrix();
+			//Recursively Call To Check If The Cache Is Valid Yet (It Will Return True On The Second Try Hopefully.)
+			return GetModelMatrix();
+		}
 	}
 
 	glm::mat4 MovableObject::GetTranslationMatrix()
 	{
-		return TranslationMatrix;
-	}
-	glm::mat4 MovableObject::GetRotationMatrix()
-	{
-		return RotationMatrix;
-	}
-	glm::mat4 MovableObject::GetScaleMatrix()
-	{
-		return ScaleMatrix;
+		if (CacheValid == true)
+			return TranslationMatrix;
+		else
+		{
+			HelperRecalculateCache();
+			//Recursively Call To Check If The Cache Is Valid Yet (It Will Return True On The Second Try Hopefully.)
+			return GetTranslationMatrix();
+		}
 	}
 
+	glm::mat4 MovableObject::GetRotationMatrix()
+	{
+		if (CacheValid == true)
+			return RotationMatrix;
+		else
+		{
+			HelperRecalculateCache();
+			//Recursively Call To Check If The Cache Is Valid Yet (It Will Return True On The Second Try Hopefully.)
+			return GetRotationMatrix();
+		}
+	}
+
+	glm::mat4 MovableObject::GetScaleMatrix()
+	{
+		if (CacheValid == true)
+			return ScaleMatrix;
+		else
+		{
+			HelperRecalculateCache();
+			//Recursively Call To Check If The Cache Is Valid Yet (It Will Return True On The Second Try Hopefully.)
+			return GetScaleMatrix();
+		}
+	}
+
+	glm::vec2 MovableObject::GetScreenLocation()
+	{
+		return Position;
+	}
+
+	float MovableObject::GetRotation()
+	{
+		return Rotation;
+	}
+
+	glm::vec2 MovableObject::GetScale()
+	{
+		return scale;
+	}
+
+#pragma endregion Getters
+
+#pragma region Setters
+
+	void MovableObject::SetPosition(float x, float y)
+	{
+		SetPosition(glm::vec2(x, y));
+	}
+
+	void MovableObject::SetPosition(glm::vec2 NewPos)
+	{
+		Position = NewPos;
+
+		CacheValid = false;
+		ModelMatrixCacheValid = false;
+	}
 
 	void MovableObject::Translate(float x, float y)
 	{
-		TranslationMatrix = glm::translate(TranslationMatrix, { x,y,0.0f });
-	}
-	void MovableObject::Translate(glm::vec2 TranslateByHowMuch)
-	{
-		TranslationMatrix = glm::translate(TranslationMatrix, { TranslateByHowMuch.x,TranslateByHowMuch.y,0.0f });
-	}
-	void MovableObject::ClearTranslations()
-	{
-		TranslationMatrix = glm::mat4(1.0f);
+		Translate(glm::vec2(x, y));
 	}
 
-	void MovableObject::Rotate(float Angle, bool IsInPI)
+	void MovableObject::Translate(glm::vec2 TranslateByHowMuch)
 	{
-		if (!IsInPI) //There Might Be Slight Error Here.. Check When Free.. If Its Already In radians Why Bother Converting iNto Radian..
-			RotationMatrix = glm::rotate(RotationMatrix, glm::radians(Angle), glm::vec3(0.0, 0.0, 1.0)); //Rotate On Z Axis Since This is 2D..
-		else
-			RotationMatrix = glm::rotate(RotationMatrix, Angle, glm::vec3(0.0, 0.0, 1.0)); //Rotate On Z Axis Since This is 2D..
+		Position = Position + TranslateByHowMuch;
+
+		CacheValid = false;
+		ModelMatrixCacheValid = false;
 	}
+
+	void MovableObject::ClearTranslations()
+	{
+		Position = glm::vec2(0.0f, 0.0f);
+
+		CacheValid = false;
+		ModelMatrixCacheValid = false;
+	}
+
+	void MovableObject::Rotate(float Angle, bool Degrees)
+	{
+		if (Degrees == true)
+			Rotation = Rotation + Angle;
+		else Rotation = Rotation + glm::degrees<float>(Angle);
+
+		if (Rotation >= 360.0f)
+			Rotation = Rotation - 360.0f;
+
+		CacheValid = false;
+		ModelMatrixCacheValid = false;
+	}
+
+	void MovableObject::SetRotation(float Angle, bool Degrees)
+	{
+		if (Degrees == true)
+			Rotation = Angle;
+		else Rotation = glm::degrees<float>(Angle);
+
+		if (Rotation >= 360.0f)
+			Rotation = Rotation - 360.0f;
+
+		CacheValid = false;
+		ModelMatrixCacheValid = false;
+	}
+
 	void MovableObject::ClearRotations()
 	{
-		RotationMatrix = glm::mat4(1.0f);
+		Rotation = 0.0f;
+
+		CacheValid = false;
+		ModelMatrixCacheValid = false;
+	}
+
+	void MovableObject::SetScale(float x, float y)
+	{
+		SetScale(glm::vec2(x, y));
+	}
+
+	void MovableObject::SetScale(glm::vec2 Scale)
+	{
+		scale = Scale;
+
+		CacheValid = false;
+		ModelMatrixCacheValid = false;
 	}
 
 	void MovableObject::Scale(float x, float y)
 	{
-		ScaleMatrix = glm::scale(ScaleMatrix, { x,y,1.0f });
+		Scale(glm::vec2(x, y));
 	}
+
 	void MovableObject::Scale(glm::vec2 ScaleByHowMuch)
 	{
-		ScaleMatrix = glm::scale(ScaleMatrix, { ScaleByHowMuch.x,ScaleByHowMuch.y,1.0f });
+		scale = scale + ScaleByHowMuch;
+
+		CacheValid = false;
+		ModelMatrixCacheValid = false;
 	}
+
 	void MovableObject::ClearScale()
 	{
-		ScaleMatrix = glm::mat4(1.0f);
+		scale = glm::vec2(0.0f, 0.0f);
+
+		CacheValid = false;
+		ModelMatrixCacheValid = false;
 	}
+
+#pragma endregion Setters
+
+#pragma region Helpers
+
+	void Ermine::MovableObject::HelperRecalculateCache()
+	{
+		TranslationMatrix = glm::mat4(1.0f);
+		TranslationMatrix = glm::translate(TranslationMatrix, glm::vec3(Position, 0.0f));
+
+		RotationMatrix = glm::mat4(1.0f);
+		RotationMatrix = glm::rotate(RotationMatrix, glm::radians<float>(Rotation), glm::vec3(0.0f, 0.0f, 1.0f));
+
+		ScaleMatrix = glm::mat4(1.0f);
+		ScaleMatrix = glm::scale(ScaleMatrix, glm::vec3(scale, 1.0f));
+
+		HelperRecalculateModelMatrix();
+
+		CacheValid = true;
+	}
+
+	void Ermine::MovableObject::HelperRecalculateModelMatrix()
+	{
+		ModelMatrix = glm::mat4(1.0f);
+		ModelMatrix = glm::translate(ModelMatrix, glm::vec3(Position, 0.0f));
+		ModelMatrix = glm::rotate(ModelMatrix, glm::radians<float>(Rotation), glm::vec3(0.0f, 0.0f, 1.0f));
+		ModelMatrix = glm::scale(ModelMatrix, glm::vec3(scale, 1.0f));
+
+		ModelMatrixCacheValid = true;
+	}
+
+#pragma endregion Helpers
 }

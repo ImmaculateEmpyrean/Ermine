@@ -44,6 +44,9 @@ namespace Ermine {
 		virtual Ermine::ActorFamilyIdentifier GetActorFamilyIdentifier() override { return ActorFamilyIdentifier::Actor2D; }
 
 		virtual std::vector<float> CalculateModelSpaceVertexes() override;
+		
+		virtual glm::vec2 GetScreenLocation() override;
+
 	public:
 
 	protected:

@@ -26,6 +26,14 @@ namespace Ermine
 	{
 		//This Is Not Used As Of Now.. A Formality So That Virtual Dispatches Properly..
 	}
+
+
+	glm::vec2 PhysicsActor::GetScreenLocation()
+	{
+		return PhysicsComponent2D::GetBodyLocationPixelSpace();
+	}
+
+
 	std::vector<float> PhysicsActor::CalculateModelSpaceVertexes()
 	{
 		Ermine::VertexTextured TopRight(Quad::GetModelCoordinatesTopRight());
