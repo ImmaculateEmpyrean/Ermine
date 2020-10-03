@@ -48,17 +48,35 @@ void Ermine::OrthographicCamera::Deinitialize()
 
 glm::mat4 Ermine::OrthographicCamera::GetProjectionViewMatrix()
 {
-    return ProjectionViewMatrix;
+    if (CacheUptoDate)
+        return ProjectionViewMatrix;
+    else
+    {
+        HelperRecalculateViewMatrix();
+        return GetProjectionViewMatrix();
+    }
 }
 
 glm::mat4 Ermine::OrthographicCamera::GetViewMatrix()
 {
-    return ViewMatrix;
+    if(CacheUptoDate)
+        return ViewMatrix;
+    else
+    {
+        HelperRecalculateViewMatrix();
+        return GetViewMatrix();
+    }
 }
 
 glm::mat4 Ermine::OrthographicCamera::GetProjectionMatrix()
 {
-    return ProjectionMatrix;
+    if(CacheUptoDate)
+        return ProjectionMatrix;
+    else
+    {
+        HelperRecalculateViewMatrix();
+        return GetProjectionMatrix();
+    }
 }
 
 glm::vec3 Ermine::OrthographicCamera::GetCameraLocation()
@@ -68,36 +86,24 @@ glm::vec3 Ermine::OrthographicCamera::GetCameraLocation()
 
 void Ermine::OrthographicCamera::SetCameraLocation(glm::vec2 Point)
 {
-    CameraPosition.x = Point.x;
-    CameraPosition.y = Point.y;
-    
-    //Update View Matrix Using The New Translation Coordinates..
-    HelperRecalculateViewMatrix();
+    SetCameraLocation(glm::vec3(Point, 0.0f));
 }
 
 void Ermine::OrthographicCamera::SetCameraLocation(glm::vec3 Point)
 {
     CameraPosition = Point;
-
-    //Update View Matrix Using The New Translation Coordinates..
-    HelperRecalculateViewMatrix();
+    CacheUptoDate = false;
 }
 
 void Ermine::OrthographicCamera::TranslateCamera(glm::vec2 TranslateByAmount)
 {
-    CameraPosition.x = CameraPosition.x + TranslateByAmount.x;
-    CameraPosition.y = CameraPosition.y + TranslateByAmount.y;
-
-    //Update View Matrix Using The New Translation Coordinates..
-    HelperRecalculateViewMatrix();
+    TranslateCamera(glm::vec3(TranslateByAmount, 0.0f));
 }
 
 void Ermine::OrthographicCamera::TranslateCamera(glm::vec3 TranslateByAmount)
 {
     CameraPosition = CameraPosition + TranslateByAmount;
-
-    //Update View Matrix Using The New Translation Coordinates..
-    HelperRecalculateViewMatrix();
+    CacheUptoDate = false;
 }
 
 float Ermine::OrthographicCamera::GetCameraRotation(bool Degrees)
@@ -112,8 +118,7 @@ void Ermine::OrthographicCamera::SetCameraRotation(float RotationInDegrees)
 {
     this->RotationInDegrees = RotationInDegrees;
 
-    //Update View Matrix Using The New Rotation Coordinates..
-    HelperRecalculateViewMatrix();
+    CacheUptoDate = false;
 }
 
 void Ermine::OrthographicCamera::RotateCameraBy(float RotationInDegrees)
@@ -125,19 +130,22 @@ void Ermine::OrthographicCamera::RotateCameraBy(float RotationInDegrees)
         this->RotationInDegrees = this->RotationInDegrees - 360.0f;
     }
 
-    //Update View Matrix Using The New Rotation Coordinates..
-    HelperRecalculateViewMatrix();
+    CacheUptoDate = false;
 }
 
 void Ermine::OrthographicCamera::SetProjectionMatrix(glm::mat4 ProjectionMatrix)
 {
     //Set The Internal Projection Matrix To The Recieved Projection Matrix
     this->ProjectionMatrix = ProjectionMatrix;
+
+    CacheUptoDate = false;
 }
 
 void Ermine::OrthographicCamera::SetFOV(float Left, float Right, float Bottom, float Top)
 {
     this->ProjectionMatrix = glm::ortho<float>(Left, Right, Bottom, Top, -5.0f, 5.0f);
+
+    CacheUptoDate = false;
 }
 
 void Ermine::OrthographicCamera::SetDepth(float NearLimit, float FarLimit)
@@ -179,7 +187,48 @@ void Ermine::OrthographicCamera::SetDepth(float NearLimit, float FarLimit)
     }
 
     this->ProjectionMatrix = glm::ortho<float>(Left, Right, Bottom, Top, NearLimit, FarLimit);
+
+    CacheUptoDate = false;
 }
+
+
+void Ermine::OrthographicCamera::CentreOnActor(Actor2DBase* Act, bool InheritRotation)
+{
+    //Making SUre This Set To False In The First Place So That There Will Be No Problem When Trying To Switch Connections Id You Are Doing That I Reckon
+    TemperoryPauseCentreOnActor = false;
+
+    //From The Next Frame On Will Centre On This Actor
+    ActorToCentreOn = Act;
+
+    //Need This To Start Tracking..
+    ActorDefaultPosition = Act->GetScreenLocation();
+}
+void Ermine::OrthographicCamera::StopCentreOnActor()
+{
+    TemperoryPauseCentreOnActor = true;
+}
+void Ermine::OrthographicCamera::ResumeCentreOnActor()
+{
+    TemperoryPauseCentreOnActor = false;
+}
+
+
+void Ermine::OrthographicCamera::OnUpdate()
+{
+    if (ActorToCentreOn != nullptr)
+    {
+        if (TemperoryPauseCentreOnActor == false)
+        {
+            glm::vec2 ActorCurrentScreenLocation = ActorToCentreOn->GetScreenLocation();
+            glm::vec2 Movement = ActorCurrentScreenLocation - ActorDefaultPosition;
+            TranslateCamera(Movement);
+            ActorDefaultPosition = ActorCurrentScreenLocation;
+
+            //Rotation Is Not Yet Implemented And The Function Could Be Much Better..
+        }
+    }
+}
+
 
 void Ermine::OrthographicCamera::HelperRecalculateViewMatrix()
 {
@@ -193,4 +242,6 @@ void Ermine::OrthographicCamera::HelperRecalculateViewMatrix()
 
     //The Projection View Matrix Must Also Be Updated Since It So Clearly Depends On The View Matrix..
     this->ProjectionViewMatrix = ProjectionMatrix * ViewMatrix;
+
+    CacheUptoDate = true;
 }

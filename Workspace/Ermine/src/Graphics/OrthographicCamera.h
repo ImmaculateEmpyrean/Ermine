@@ -7,6 +7,8 @@
 
 #include<glm.hpp>
 
+#include "2DPrimitives/ActorFamily/Actor2D.h"
+
 namespace Ermine
 {
 	class OrthographicCamera
@@ -52,6 +54,18 @@ namespace Ermine
 		void SetFOV(float Left, float Right, float Bottom, float Top); //FOV Of a Orthographic Camera Is More Like A Box Than A Frustrum..
 		void SetDepth(float NearLimit, float FarLimit); //This Is Really Not Required In Orthographic Camera Being USed For 2D Scenes.. But Whatever..
 
+		//Center On An Actor
+		void CentreOnActor(Actor2DBase* Act,bool InheritRotation);
+		
+		//Use This Function To Pause Centring On An Actor..
+		void StopCentreOnActor();
+
+		//Use This Function To Resume Centring On An Actor..
+		void ResumeCentreOnActor();
+
+		//Call This Function Every Frame To Update Camera Properties..
+		void OnUpdate();
+
 	public:
 
 	protected:
@@ -66,9 +80,20 @@ namespace Ermine
 		static std::once_flag InitializedFlag;
 		static OrthographicCamera* Camera;
 
+		Actor2DBase* ActorToCentreOn = nullptr;
+		bool InheritActorRotation = false;
+		glm::vec2 ActorDefaultPosition = glm::vec2(0.0f);
+		float DefaultRotOfActor = 0.0f; //Value Given In Degrees..
+
+		bool TemperoryPauseCentreOnActor = false;
+
+		//Start Cache//
+		bool CacheUptoDate = false;
+
 		glm::mat4 ProjectionViewMatrix;
 		glm::mat4 ViewMatrix;
 		glm::mat4 ProjectionMatrix;
+		//Ended Cache//
 
 		glm::vec3 CameraPosition;
 		float RotationInDegrees;
