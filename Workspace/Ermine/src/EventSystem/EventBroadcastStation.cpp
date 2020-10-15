@@ -71,6 +71,8 @@ void Ermine::EventBroadcastStation::QueueBroadcast(std::unique_ptr<Event> Broadc
 		break;
 	case EventType::TileSelectedEvent: TileSelectedCallbackEventsQueue.push_back(*((TileSelectedEvent*)(EvePtr)));
 		break;
+	case EventType::OnTickEvent: OnTickCallbackEventsQueue.push_back(*((OnTickEvent*)(EvePtr)));
+		break;
 	default: STDOUTDefaultLog_Critical("Unknown Event Type Recieved For QUeing Check Api Maybe... Dunno I should never trigger");
 	}
 	delete EvePtr;
@@ -99,6 +101,8 @@ void Ermine::EventBroadcastStation::QueueSubscription(std::unique_ptr<EventSubsc
 		break;
 	case EventType::TileSelectedEvent: TileSelectedCallbackEventSubscriptions.push_back(*((TileSelectedEventSubscription*)(EvePtr)));
 		break;
+	case EventType::OnTickEvent: OnTickCallbackEventSubscriptions.push_back(*((OnTickEventSubscription*)(EvePtr)));
+		break;
 	default: STDOUTDefaultLog_Critical("Unknown Subscription Type Recieved For Queing Check Api Maybe... Dunno I should never trigger");
 	}
 
@@ -119,6 +123,7 @@ void Ermine::EventBroadcastStation::DispatchMessages()
 	DispatchMouseButtonCallbackMessages();
 	DispatchScrollCallbackMessages();
 	DispatchTileSelectedCallbackMessages();
+	DispatchOnTickCallbackMessages();
 }
 
 void Ermine::EventBroadcastStation::DispatchConcreteMessages()
@@ -258,5 +263,25 @@ void Ermine::EventBroadcastStation::DispatchTileSelectedCallbackMessages()
 			}
 		}
 		TileSelectedCallbackEventsQueue.erase(TileSelectedCallbackEventsQueue.begin() + i);
+	}
+}
+
+void Ermine::EventBroadcastStation::DispatchOnTickCallbackMessages()
+{
+	for (int i = 0; i < OnTickCallbackEventsQueue.size(); i++)
+	{
+		for (auto j : OnTickCallbackEventSubscriptions)
+		{
+			if (j.CanIRecieveEventFlag == true)
+			{
+				j.CallableObject(&OnTickCallbackEventsQueue[i]);
+			}
+			//If The Event Is Already handled No Point In Handling it Further Right..
+			if (OnTickCallbackEventsQueue[i].IsEventHandled() == true)
+			{
+				break;
+			}
+		}
+		OnTickCallbackEventsQueue.erase(OnTickCallbackEventsQueue.begin() + i);
 	}
 }

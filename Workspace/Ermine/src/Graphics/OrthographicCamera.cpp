@@ -106,6 +106,11 @@ void Ermine::OrthographicCamera::TranslateCamera(glm::vec3 TranslateByAmount)
     CacheUptoDate = false;
 }
 
+void Ermine::OrthographicCamera::SetTranslateVelocityToCamera(glm::vec2 Velocity)
+{
+    this->CameraVelocity = Velocity;
+}
+
 float Ermine::OrthographicCamera::GetCameraRotation(bool Degrees)
 {
     if (Degrees)
@@ -192,7 +197,7 @@ void Ermine::OrthographicCamera::SetDepth(float NearLimit, float FarLimit)
 }
 
 
-void Ermine::OrthographicCamera::CentreOnActor(Actor2DBase* Act, bool InheritRotation)
+void Ermine::OrthographicCamera::CentreOnActor(Actor2DBase* Act, glm::vec2 OffsetOfCameraFromActorCentre, float CentreSpeed, bool InheritRotation)
 {
     //Making SUre This Set To False In The First Place So That There Will Be No Problem When Trying To Switch Connections Id You Are Doing That I Reckon
     TemperoryPauseCentreOnActor = false;
@@ -200,9 +205,38 @@ void Ermine::OrthographicCamera::CentreOnActor(Actor2DBase* Act, bool InheritRot
     //From The Next Frame On Will Centre On This Actor
     ActorToCentreOn = Act;
 
+    //This Is The Speed At Which The Camera Centres On The Actor.. It Always Makes A Beeline As Of Now.. Other modes Are Not Yet Implemented..
+    if (CentreSpeed >= 0.0f && CentreSpeed <= 1.0f)
+        this->CentreSpeed = CentreSpeed;
+    else if (CentreSpeed < 0.0f)
+        this->CentreSpeed = 0.0f;
+    else if (CentreSpeed > 1.0f)
+        this->CentreSpeed = 1.0f;
+
+    //Inherit Rotation Flag To Ask Wether The Camera Wishes To Inherit The Rotation Of The Actor..
+    this->InheritActorRotation = InheritActorRotation;
+
     //Need This To Start Tracking..
-    ActorDefaultPosition = Act->GetScreenLocation();
+    ActorDefaultPosition = Act->GetScreenLocation() + OffsetOfCameraFromActorCentre;
+    this->OffsetOfCameraFromActorCentre = OffsetOfCameraFromActorCentre;
 }
+
+
+void Ermine::OrthographicCamera::SetCentreSpeed(float CentreSpeed)
+{
+    if (CentreSpeed >= 0.0f && CentreSpeed <= 1.0f)
+        this->CentreSpeed = CentreSpeed;
+    else if (CentreSpeed < 0.0f)
+        this->CentreSpeed = 0.0f;
+    else if (CentreSpeed > 1.0f)
+        this->CentreSpeed = 1.0f;
+}
+void Ermine::OrthographicCamera::SetInheritRotation(bool InheritRotation)
+{
+    this->InheritActorRotation = InheritRotation;
+}
+
+
 void Ermine::OrthographicCamera::StopCentreOnActor()
 {
     TemperoryPauseCentreOnActor = true;
@@ -213,20 +247,131 @@ void Ermine::OrthographicCamera::ResumeCentreOnActor()
 }
 
 
+std::queue<glm::vec2> StepsBufferX;
+std::queue<glm::vec2> StepsBufferY;
+
 void Ermine::OrthographicCamera::OnUpdate()
 {
     if (ActorToCentreOn != nullptr)
     {
         if (TemperoryPauseCentreOnActor == false)
         {
-            glm::vec2 ActorCurrentScreenLocation = ActorToCentreOn->GetScreenLocation();
+            /*glm::vec2 MovementBuffer = glm::vec2(1.0f);
+
+            glm::vec2 ActorCurrentLocation = ActorToCentreOn->GetScreenLocation();
+            glm::vec2 MovementLimit = (ActorCurrentLocation - ActorDefaultPosition) * CentreSpeed;
+
+            MovementBuffer = (ActorCurrentLocation - ActorDefaultPosition);
+
+            glm::vec2 StepCounter = glm::vec2(0.0f);
+
+            //The Problem Is Most Likely Here.. Its Not TAking Y Into Account..
+            while (StepCounter.x < abs(MovementBuffer.x))
+            {
+                StepsBufferX.push(glm::vec2(MovementLimit.x,0.0f));
+                StepCounter = StepCounter + abs(MovementLimit);
+            }
+
+            StepCounter = glm::vec2(0.0f);
+
+            while (StepCounter.y < abs(MovementBuffer.y))
+            {
+                StepsBufferY.push(glm::vec2(0.0f, MovementLimit.y));
+                StepCounter = StepCounter + abs(MovementLimit);
+            }
+
+            ActorDefaultPosition = ActorCurrentLocation;
+
+            if (StepsBufferX.size() != 0)
+            {
+                TranslateCamera(StepsBufferX.front());
+                StepsBufferX.pop();
+            }
+
+            if (StepsBufferY.size() != 0)
+            {
+                TranslateCamera(StepsBufferY.front());
+                StepsBufferY.pop();
+            }*/
+
+            /* //Initialiation.. Well We Need Some Value Right..
+            static glm::vec2 LastPos = ActorToCentreOn->GetScreenLocation();
+            glm::vec2 Velocity = ActorToCentreOn->GetScreenLocation() - LastPos;
+            
+            OffsetOfCameraFromActorCentre = OffsetOfCameraFromActorCentre + Velocity;
+
+            static float CentreSpeedApplied = CentreSpeed;
+
+            glm::vec2 CameraVelocity = CentreSpeedApplied * Velocity;
+
+            if (CentreSpeedApplied < 1.0f);
+            {
+                CentreSpeedApplied = CentreSpeedApplied + 0.005f;
+                if (CentreSpeedApplied > 1.0f)
+                    CentreSpeedApplied = 1.0f;
+            }
+
+            if (CameraVelocity == glm::vec2(0.0f, 0.0f))
+            {
+                if (OffsetOfCameraFromActorCentre.x != 0.0f || OffsetOfCameraFromActorCentre.y != 0.0f)
+                {
+                    CameraVelocity.x = OffsetOfCameraFromActorCentre.x /10;
+                    CameraVelocity.y = OffsetOfCameraFromActorCentre.y / 10;
+                }
+            }
+
+            if (OffsetOfCameraFromActorCentre.x == 0.0f && OffsetOfCameraFromActorCentre.y == 0.0f)
+            {
+                CentreSpeedApplied = CentreSpeed;
+            }
+
+            SetTranslateVelocityToCamera(CameraVelocity);
+            OffsetOfCameraFromActorCentre = OffsetOfCameraFromActorCentre - CameraVelocity;
+
+            //This Variable Will Again Be Used In The Next Frame With Previous Value.. Hehehe
+            LastPos = ActorToCentreOn->GetScreenLocation();*/
+
+            static glm::vec2 LastPos = ActorToCentreOn->GetScreenLocation();
+            static glm::vec2 LastVelocity = ActorToCentreOn->GetScreenLocation() - LastPos;
+
+            glm::vec2 Velocity =  ActorToCentreOn->GetScreenLocation() - LastPos;
+
+            glm::vec2 Acc = Velocity - LastVelocity;
+
+            static glm::vec2 EffectOffset = glm::vec2(0.0f);
+
+            if(Acc.x > 0.0f)
+                if(EffectOffset.x <= 50.0f)
+                    EffectOffset.x = EffectOffset.x + 0.1f;
+
+            if (Acc.x < 0.0f)
+                if (EffectOffset.x <= -50.0f)
+                    EffectOffset.x = EffectOffset.x + 0.1f;
+
+            if (Acc.y > 0.0f)
+                if (EffectOffset.y <= 50.0f)
+                    EffectOffset.y = EffectOffset.y + 0.1f;
+
+            if (Acc.y < 0.0f)
+                if (EffectOffset.y <= -50.0f)
+                    EffectOffset.y = EffectOffset.y + 0.1f;
+
+            OffsetOfCameraFromActorCentre = OffsetOfCameraFromActorCentre + EffectOffset;
+
+            glm::vec2 ActorCurrentScreenLocation = ActorToCentreOn->GetScreenLocation() + OffsetOfCameraFromActorCentre;
             glm::vec2 Movement = ActorCurrentScreenLocation - ActorDefaultPosition;
             TranslateCamera(Movement);
             ActorDefaultPosition = ActorCurrentScreenLocation;
 
-            //Rotation Is Not Yet Implemented And The Function Could Be Much Better..
+            OffsetOfCameraFromActorCentre = OffsetOfCameraFromActorCentre - EffectOffset;
+
+            LastPos = ActorToCentreOn->GetScreenLocation();
+            LastVelocity = Velocity;
         }
     }
+
+    //Translate The Camera Using The Camera Velocity Set.. (Maybe Ill Hook Up Camera To Box2D ha If It Needs Collisions I Would Have Most Probably Done It.. MAYBE
+    TranslateCamera(CameraVelocity);
 }
 
 

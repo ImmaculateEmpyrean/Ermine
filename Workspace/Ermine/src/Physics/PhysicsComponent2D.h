@@ -109,10 +109,22 @@ namespace Ermine
 		
 		//Ended Get Size Of The Body//
 
+		//Start Get Some Value From The Body
+		glm::vec2 GetVelocityOfTheBody();
+		float GetAngularVelocityOfTheBody();
+		//Ended Get Some Value From The Body
+
 		//Start Section Add Something To The Body..//
 		void AddForceToCentre(glm::vec2 Force);
 		void AddForce(glm::vec2 Force,glm::vec2 WorldPositionInPixelCoordinatesWhereTheForceWasApplied);
 		//Ended Section Add Something To The Body..//
+
+		//Start Section Set Something To The Body..//
+		void SetPosition(glm::vec2 Position); //DONOT USE THIS FUNCTION.. WHAT IS EVENN THE POINT OF USING A PHYSICS ENGINE?
+
+		void SetVelocity(glm::vec2 Velocity);
+		void SetAngularVelocity(float AngularVelocity);
+		//Ended Section Set Something To The Body..//
 
 		//Start Section Utility Functions..//
 

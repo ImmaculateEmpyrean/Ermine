@@ -28,9 +28,56 @@ namespace Ermine
 	}
 
 
+	//Movable Actor Overrides//
+	glm::vec2 PhysicsActor::GetActorPosition()
+	{
+		return PhysicsComponent2D::GetBodyLocationPixelSpace();
+	}
+
+	void PhysicsActor::SetActorPosition(glm::vec2 ActorPosition)
+	{
+		PhysicsComponent2D::SetPosition(ActorPosition);
+	}
+
+	glm::vec2 PhysicsActor::GetActorVelocity()
+	{
+		return PhysicsComponent2D::GetVelocityOfTheBody();
+	}
+
+	void PhysicsActor::SetActorVelocity(glm::vec2 ActorVelocity)
+	{
+		PhysicsComponent2D::SetVelocity(ActorVelocity);
+	}
+
+	float PhysicsActor::GetAngularVelocity(bool Degrees)
+	{
+		if(Degrees == true)
+			return glm::degrees<float>(PhysicsComponent2D::GetAngularVelocityOfTheBody());
+		else return PhysicsComponent2D::GetAngularVelocityOfTheBody();
+	}
+
+	void PhysicsActor::SetAngularVelocity(float AngularVelocity, bool Degrees)
+	{ 
+		if (Degrees == true)
+			AngularVelocity = glm::radians<float>(AngularVelocity);
+
+		PhysicsComponent2D::SetAngularVelocity(AngularVelocity);
+	}
+	//Ended Movable Overrides//
+
+
 	glm::vec2 PhysicsActor::GetScreenLocation()
 	{
 		return PhysicsComponent2D::GetBodyLocationPixelSpace();
+	}
+
+	void PhysicsActor::SetVelocity(glm::vec2 Velocity)
+	{
+		PhysicsComponent2D::SetVelocity(Velocity);
+	}
+	void PhysicsActor::SetAngularVelocity(float Velocity)
+	{
+		PhysicsComponent2D::SetAngularVelocity(Velocity);
 	}
 
 

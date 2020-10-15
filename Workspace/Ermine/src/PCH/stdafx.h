@@ -7,6 +7,8 @@
 #include<vector>
 #include<unordered_map>
 #include<tuple>
+#include<queue>
+#include<stack>
 
 #include<thread>
 #include<mutex>

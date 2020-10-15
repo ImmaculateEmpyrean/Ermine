@@ -347,6 +347,37 @@ namespace Ermine
 		//Ask Box2D To Apply The Force On The Object In Question..
 		BodyManagedByTheComponent->ApplyForce(b2Vec2(Force.x, Force.y), b2Vec2(WorldPositionInPixelCoordinatesWhereTheForceWasApplied.x, WorldPositionInPixelCoordinatesWhereTheForceWasApplied.y), true);
 	}
+
+
+	void PhysicsComponent2D::SetPosition(glm::vec2 Position)
+	{
+		glm::vec2 WorldCoordinates = Ermine::vectorPixelsToWorld(Position);
+		BodyManagedByTheComponent->SetTransform(Ermine::GLMToB2Vec2(WorldCoordinates), BodyManagedByTheComponent->GetAngle());
+	}
+
+	void PhysicsComponent2D::SetVelocity(glm::vec2 Velocity)
+	{
+		glm::vec2 VelocityInBox2DLand = Ermine::vectorPixelsToWorld(Velocity);
+		BodyManagedByTheComponent->SetLinearVelocity(Ermine::GLMToB2Vec2(VelocityInBox2DLand));
+	}
+
+	void PhysicsComponent2D::SetAngularVelocity(float AngularVelocity)
+	{
+		float AngularVelocityInBox2DLand = Ermine::scalarPixelsToWorld(AngularVelocity);
+		BodyManagedByTheComponent->SetAngularVelocity(AngularVelocityInBox2DLand);
+	}
+
+
+	glm::vec2 PhysicsComponent2D::GetVelocityOfTheBody()
+	{
+		return Ermine::vectorWorldToPixels(Ermine::B2Vec2ToGLM(BodyManagedByTheComponent->GetLinearVelocity()));
+	}
+
+	float PhysicsComponent2D::GetAngularVelocityOfTheBody()
+	{
+		return glm::degrees<float>(BodyManagedByTheComponent->GetAngularVelocity());
+	}
+
 	void PhysicsComponent2D::AddForceToCentre(glm::vec2 Force)
 	{
 		//In Pixel Space Y Points Down While In Box2D It Points Up..

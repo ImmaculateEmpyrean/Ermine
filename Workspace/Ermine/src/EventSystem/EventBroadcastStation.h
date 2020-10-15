@@ -15,6 +15,7 @@
 #include "EventTypes/MouseButtonCallbackEvent.h"
 #include "EventTypes/ScrollCallbackEvent.h"
 #include "EventTypes/TileSelectedEvent.h"
+#include "EventTypes/OnTickEvent.h"
 
 //TODO Write a Macro Instead Of all those obnoxious helper functions...
 
@@ -56,6 +57,7 @@ namespace Ermine
 		std::vector<MouseButtonCallbackEvent>MouseButtonCallbackEventsQueue;
 		std::vector<ScrollCallbackEvent>ScrollCallbackEventsQueue;
 		std::vector<TileSelectedEvent> TileSelectedCallbackEventsQueue;
+		std::vector<OnTickEvent> OnTickCallbackEventsQueue;
 		//Donot Forget to add destructors for these containers inside the destructor..
 
 	private:
@@ -67,6 +69,7 @@ namespace Ermine
 		std::vector<MouseButtonCallbackEventSubscription> MouseButtonCallbackEventSubscriptions;
 		std::vector<ScrollCallbackEventSubscription> ScrollCallbackEventSubscriptions;
 		std::vector<TileSelectedEventSubscription> TileSelectedCallbackEventSubscriptions;
+		std::vector<OnTickEventSubscription> OnTickCallbackEventSubscriptions;
 		//Donot Forget to add destructors for these containers inside the destructor..
 
 	private:
@@ -78,6 +81,7 @@ namespace Ermine
 		void DispatchMouseButtonCallbackMessages();
 		void DispatchScrollCallbackMessages();
 		void DispatchTileSelectedCallbackMessages();
+		void DispatchOnTickCallbackMessages();
 	};
 
 }

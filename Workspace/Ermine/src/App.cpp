@@ -213,7 +213,7 @@ void Ermine::App::OnTick()
 	{
 		auto Cam = Ermine::OrthographicCamera::Get();
 
-		Cam->CentreOnActor(PhyActor, false);
+		Cam->CentreOnActor(PhyActor,glm::vec2(0.0f,0.0f),1.0f,false);
 
 		CameraSetFlag = true;
 	}
@@ -234,40 +234,40 @@ void Ermine::App::OnTick()
 
 
 
-	static float ForceAppliedBox1[2];
-	static float ForceAppliedBox2[2];
+	static float ForceAppliedBox1[2] = { 0.0f,0.0f };
+	static float ForceAppliedBox2[2] = { 0.0f,0.0f };
+	static float VelocityApplied[2]  = { 0.0f,0.0f };
 
 	bool ApplyForce = false;
 	bool RandomForceApplication = false;
+	bool SetVelocity = false;
 
 	ImGui::Begin("Physics Test ");
 
-	ImGui::InputFloat2("##PhysicsTestOnBox1", ForceAppliedBox1, 2);
+	ImGui::InputFloat2("##Add Force For The Car To Move", ForceAppliedBox1, 2);
 	ImGui::SameLine();
 	if (ImGui::Button("Reverse Force Applied"))
 	{
 		ForceAppliedBox1[0] = ForceAppliedBox1[0] * -1;
 		ForceAppliedBox1[1] = ForceAppliedBox1[1] * -1;
 	}
+	ImGui::SameLine();
+
+	if (ImGui::Button("ApplyForce!!!##PhysicsTestApplyForceOnBox"))
+		ApplyForce = true;
+
 	/*-------------------------------------------------------------*/
-	ImGui::InputFloat2("##PhysicsTestOnBox2", ForceAppliedBox2, 2);
+	ImGui::InputFloat2("##Set Car Velocity##PhysicsTestApplyForceOnBox", VelocityApplied, 2);
 	ImGui::SameLine();
 	if (ImGui::Button("Reverse Force Applied"))
 	{
-		ForceAppliedBox2[0] = ForceAppliedBox2[0] * -1;
-		ForceAppliedBox2[1] = ForceAppliedBox2[1] * -1;
+		VelocityApplied[0] = VelocityApplied[0] * -1;
+		VelocityApplied[1] = VelocityApplied[1] * -1;
 	}
-
-	/*-------------------------------------------------------------*/
-	ImGui::Text("Apply Force Randomly!!");
 	ImGui::SameLine();
-	ImGui::Checkbox("##AplyForceRandomlyCheckBox", &RandomForceApplication);
-
-	if (RandomForceApplication == false)
-	{
-		if (ImGui::Button("ApplyForce!!!##PhysicsTestApplyForceOnBox"))
-			ApplyForce = true;
-	}
+	if (ImGui::Button("SetVelocity!!!##PhysicsTestApplyForceOnBox"))
+		SetVelocity = true;
+	/*-------------------------------------------------------------*/
 	ImGui::End();
 
 	if (ApplyForce)
@@ -280,9 +280,15 @@ void Ermine::App::OnTick()
 		//RightAxle.AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
 		//RightWheel.AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
 	}
+
+	if (SetVelocity == true)
+	{
+		PhyActor->SetVelocity(glm::vec2(VelocityApplied[0], VelocityApplied[1]));
+	}
+
 	if (RandomForceApplication)
 	{
-
+		
 	}
 }
 

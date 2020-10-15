@@ -296,6 +296,8 @@
     <ClInclude Include="src\Physics\FixtureColorStruct.h" />
     <ClInclude Include="src\Physics\FixtureUserDataStruct.h" />
     <ClInclude Include="src\Graphics\OrthographicCamera.h" />
+    <ClInclude Include="src\2DPrimitives\ActorFamily\Interfaces\MovableActor.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\OnTickEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
@@ -481,5 +483,6 @@
     <ClCompile Include="src\Physics\Joints\RopeJoint.cpp" />
     <ClCompile Include="src\Physics\Joints\WeldJoint.cpp" />
     <ClCompile Include="src\Graphics\OrthographicCamera.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\OnTickEvent.cpp" />
   </ItemGroup>
 </Project>

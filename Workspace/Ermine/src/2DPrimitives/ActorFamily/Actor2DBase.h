@@ -2,11 +2,14 @@
 #include<iostream>
 #include<string>
 #include<vector>
+#include<mutex>
 
 #include "2DPrimitives/PrimitiveType2D.h"
 #include "ActorFamilyEnnumerations.h"
 
 #include "Graphics/Renderer/RendererPrimitives/VertexArray.h" //This Need Not Be Included Here I Think I Can Getby with A Simple Forward Declaration But Whatever..
+
+#include "EventSystem/EventBroadcastStation.h"
 
 namespace Ermine {
 
@@ -45,15 +48,22 @@ namespace Ermine {
 		//This Function Is Used To Get The Centre Of Any Actor On Screen.. 
 		virtual glm::vec2 GetScreenLocation() = 0;
 
+		//This Function Simply Returns An Object That LOcks The Mutex Simply Let It Be Destroyed After You Are Done To Unlock The Mutex..
+		std::unique_lock<std::mutex>&& GetActorStandradMutex();
+
+		//This Is An Event.. Implement This If You Wanna Recieve Tick Events On Your Actor..
+		virtual void OnTick(float DeltaTime) { return; };
+
 	protected:
 
 	protected:
 
 	private:
+		void OnTickActorBase(float DeltaTime);
 
 	private:
-	
-
+		//This Mutex Must Be Claimed When Performing Anything On Actor.. Since Actor NOw Is Multithreaded.. 
+		std::mutex ActorStandradMutex;
 	};
 
 }

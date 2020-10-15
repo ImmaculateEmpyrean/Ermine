@@ -45,6 +45,8 @@ namespace Ermine
 
 		void TranslateCamera(glm::vec2 TranslateByAmount);
 		void TranslateCamera(glm::vec3 TranslateByAmount);
+		void SetTranslateVelocityToCamera(glm::vec2 Velocity);
+		
 
 		float GetCameraRotation(bool Degrees = true);
 		void SetCameraRotation(float RotationInDegrees); //Set Camera Rotation Sire..
@@ -55,8 +57,11 @@ namespace Ermine
 		void SetDepth(float NearLimit, float FarLimit); //This Is Really Not Required In Orthographic Camera Being USed For 2D Scenes.. But Whatever..
 
 		//Center On An Actor
-		void CentreOnActor(Actor2DBase* Act,bool InheritRotation);
+		void CentreOnActor(Actor2DBase* Act,glm::vec2 OffsetOfCameraFromActorCentre,float CentreSpeed = 1.0f,bool InheritRotation = false);
 		
+		void SetCentreSpeed(float CentreSpeed);
+		void SetInheritRotation(bool InheritRotation);
+
 		//Use This Function To Pause Centring On An Actor..
 		void StopCentreOnActor();
 
@@ -81,11 +86,20 @@ namespace Ermine
 		static OrthographicCamera* Camera;
 
 		Actor2DBase* ActorToCentreOn = nullptr;
+		float CentreSpeed = 1.0f;
 		bool InheritActorRotation = false;
 		glm::vec2 ActorDefaultPosition = glm::vec2(0.0f);
+		glm::vec2 OffsetOfCameraFromActorCentre = glm::vec2(0.0f);
 		float DefaultRotOfActor = 0.0f; //Value Given In Degrees..
 
 		bool TemperoryPauseCentreOnActor = false;
+
+		//Do Not Mess With Cache..//
+		bool FLAG = false;
+		bool Initialized = false;
+		int Counter = 0;
+		int CounterMax= 0;
+		//Do Not Mess With Cache..//
 
 		//Start Cache//
 		bool CacheUptoDate = false;
@@ -96,6 +110,7 @@ namespace Ermine
 		//Ended Cache//
 
 		glm::vec3 CameraPosition;
+		glm::vec2 CameraVelocity = glm::vec2(0.0f,0.0f);
 		float RotationInDegrees;
 	};
 }

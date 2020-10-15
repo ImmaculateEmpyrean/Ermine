@@ -7,13 +7,15 @@
 #include "Physics/Physics.h"
 #include "Physics/PhysicsComponent2D.h"
 
+#include "Interfaces/MovableActor.h"
+
 /*
 	Physics Actor2D Extends ImageBase By Implementing The Physics Component In It..
 */
 
 namespace Ermine
 {
-	class PhysicsActor:public Ermine::ImageBase, public PhysicsComponent2D
+	class PhysicsActor:public Ermine::ImageBase, public PhysicsComponent2D,public Ermine::MovableActor 
 	{
 	public:
 		//Physics Actor Cannot Be Constructed Defaultly As imageBase Cant Be Constructed Defaultly..
@@ -28,9 +30,23 @@ namespace Ermine
 		//Virtual Destructor For The Children Down The Line..
 		virtual ~PhysicsActor() override;
 
+		/*Start Overriding Movable Actor Functions*/
+		virtual glm::vec2 GetActorPosition() override;
+		virtual void SetActorPosition(glm::vec2 ActorPosition) override;
+
+		virtual glm::vec2 GetActorVelocity() override;
+		virtual void SetActorVelocity(glm::vec2 ActorVelocity) override;
+		
+		virtual float GetAngularVelocity(bool Degrees = true) override;
+		virtual void  SetAngularVelocity(float AngularVelocity, bool Degrees) override;
+		/*Ended Overriding Movable Actor Functions*/
+
 	public:
 		//This Function Returns The Screen Location Of The Object In Question
 		virtual glm::vec2 GetScreenLocation() override;
+
+		void SetVelocity(glm::vec2 Velocity);
+		void SetAngularVelocity(float Velocity);
 
 		virtual std::vector<float> CalculateModelSpaceVertexes() override;
 

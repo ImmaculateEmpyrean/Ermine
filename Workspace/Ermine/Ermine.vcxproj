@@ -142,6 +142,7 @@
     <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DBase.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\ActorFamilyEnnumerations.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\ImageBase.h" />
+    <ClInclude Include="src\2DPrimitives\ActorFamily\Interfaces\MovableActor.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\Quad.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\VertexBase.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="src\EventSystem\EventTypes\CursorPositionCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\KeyCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\OnTickEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TileSelectedEvent.h" />
@@ -265,6 +267,7 @@
     <ClCompile Include="src\EventSystem\EventTypes\CursorPositionCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\KeyCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\OnTickEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\ScrollCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\TileSelectedEvent.cpp" />
