@@ -6,6 +6,8 @@
 #include<thread>
 #include<mutex>
 
+#include "SubscriptionTicket.h"
+
 #include "Event.h"
 
 #include "EventTypes/TestConcreteEvent.h"
@@ -44,8 +46,9 @@ namespace Ermine
 		void DispatchMessages(); //This Will Trigger Delievery of Messages //Note Lock Mutexes Appropriately...
 		
 		void QueueBroadcast(std::unique_ptr<Event> BroadcastPackage); //This Message Is Used To Send in a package for Broadcast
-		void QueueSubscription(std::unique_ptr<EventSubscription> Subscription);
-
+		
+		Ermine::SubscriptionTicket  QueueSubscription(std::unique_ptr<EventSubscription> Subscription);
+		void						DestroySubscription(Ermine::SubscriptionTicket SubscriptionTicket); //Note We Have No Way To Check Ownership Of Subscription For Now Be VERY CAREFUL...................................................
 	private:
 		//This Is The Storage Area We Will Store Everything Of Note Here...
 
@@ -62,14 +65,25 @@ namespace Ermine
 
 	private:
 		//We Will Store The Subscriptions Here...
-		std::vector<ConcreteEventSubscription> ConcreteEventSubscriptions;
+		/*std::vector<ConcreteEventSubscription> ConcreteEventSubscriptions;
 		std::vector<KeyCallbackEventSubscription> KeyCallbackEventsSubscriptions;
-		std::vector<CharacterCallbackEventSubscription> CharacterCallbackEventSubscriptions;
+		std::vector<CharacterCallbackEventSubscription> CharacterCallbackEventSubscriptions; 
 		std::vector<CursorPositionCallbackEventSubscription> CursorPositionCallbackEventSubscriptions;
 		std::vector<MouseButtonCallbackEventSubscription> MouseButtonCallbackEventSubscriptions;
 		std::vector<ScrollCallbackEventSubscription> ScrollCallbackEventSubscriptions;
 		std::vector<TileSelectedEventSubscription> TileSelectedCallbackEventSubscriptions;
-		std::vector<OnTickEventSubscription> OnTickCallbackEventSubscriptions;
+		std::vector<OnTickEventSubscription> OnTickCallbackEventSubscriptions;*/
+
+		//More Modern Approach X>
+		std::unordered_map<int,ConcreteEventSubscription> ConcreteEventSubscriptions;
+		std::unordered_map<int,KeyCallbackEventSubscription> KeyCallbackEventsSubscriptions;
+		std::unordered_map<int,CharacterCallbackEventSubscription> CharacterCallbackEventSubscriptions;
+		std::unordered_map<int,CursorPositionCallbackEventSubscription> CursorPositionCallbackEventSubscriptions;
+		std::unordered_map<int,MouseButtonCallbackEventSubscription> MouseButtonCallbackEventSubscriptions;
+		std::unordered_map<int,ScrollCallbackEventSubscription> ScrollCallbackEventSubscriptions;
+		std::unordered_map<int,TileSelectedEventSubscription> TileSelectedCallbackEventSubscriptions;
+		std::unordered_map<int,OnTickEventSubscription> OnTickCallbackEventSubscriptions;
+
 		//Donot Forget to add destructors for these containers inside the destructor..
 
 	private:
@@ -82,6 +96,16 @@ namespace Ermine
 		void DispatchScrollCallbackMessages();
 		void DispatchTileSelectedCallbackMessages();
 		void DispatchOnTickCallbackMessages();
+
+		//This Method Gets A Subscription Ticket If A Slot Is Available.. The Bool is also Set True Remember.. 
+		int GetOpenSubscriptionTicket();
+		void CloseSubscriptionTicket(int SubscriptionTicket);
+
+	private:
+
+		//This Container
+		static std::vector<bool> SubscriptionTicketsInUse;
+
 	};
 
 }

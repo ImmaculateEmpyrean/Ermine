@@ -298,6 +298,7 @@
     <ClInclude Include="src\Graphics\OrthographicCamera.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\Interfaces\MovableActor.h" />
     <ClInclude Include="src\EventSystem\EventTypes\OnTickEvent.h" />
+    <ClInclude Include="src\EventSystem\SubscriptionTicket.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
@@ -484,5 +485,6 @@
     <ClCompile Include="src\Physics\Joints\WeldJoint.cpp" />
     <ClCompile Include="src\Graphics\OrthographicCamera.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\OnTickEvent.cpp" />
+    <ClCompile Include="src\EventSystem\SubscriptionTicket.cpp" />
   </ItemGroup>
 </Project>

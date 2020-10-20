@@ -183,6 +183,7 @@
     <ClInclude Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\OnTickEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h" />
+    <ClInclude Include="src\EventSystem\SubscriptionTicket.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TileSelectedEvent.h" />
     <ClInclude Include="src\FontRenderingSystem\Font.h" />
@@ -269,6 +270,7 @@
     <ClCompile Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\OnTickEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\ScrollCallbackEvent.cpp" />
+    <ClCompile Include="src\EventSystem\SubscriptionTicket.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\TestConcreteEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\TileSelectedEvent.cpp" />
     <ClCompile Include="src\FontRenderingSystem\Font.cpp" />

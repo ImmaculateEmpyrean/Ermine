@@ -2,6 +2,7 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include<optional>
 
 #include<memory>
 #include<functional>
@@ -9,6 +10,7 @@
 
 #include "../EnumEventType.h"
 
+#include "../SubscriptionTicket.h"
 #include "../EventBroadcastStation.h"
 
 #include "../Event.h"
@@ -28,7 +30,7 @@ namespace Ermine
 	
 	public:
 		//Use This New Function More
-		static void Bind(std::function<void(Event*)> Callable, std::atomic<bool>& SwitchTOControlIfAnEventCanBeExecuted,
-			EventType SubscriptionType);
+		static Ermine::SubscriptionTicket Bind(std::function<void(Event*)> Callable, std::atomic<bool>& SwitchTOControlIfAnEventCanBeExecuted,
+											   EventType SubscriptionType); //Consider Wrapping The Return Type In std::optional in the future..
 	};
 }
