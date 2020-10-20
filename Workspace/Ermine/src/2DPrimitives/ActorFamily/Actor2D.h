@@ -7,13 +7,15 @@
 #include "2DPrimitives/Constructs/MovableObject.h"
 #include "glm.hpp"
 
+#include "Interfaces/MovableActor.h"
+
 namespace Ermine {
 
 	//An Actor Is Something That Is Displayed And Movable Nothing Else.. Do Not Asume It Contains Only one Sprite Or Any Such Nonesense..
 	//This Is The Non Physics Variant Of tHe Actor.. It Is Moved On The screen Without The Help Of Box2D.. For The Aid Of Physics In Moving Something On The Screen Goto PhysicsActor2D..
 
 	//The Actor Class Is Always Described With Respect To Center Of The Quad..
-	class Actor2D : public ImageBase ,public MovableObject
+	class Actor2D : public ImageBase ,public MovableObject, public MovableActor
 	{
 	public:
 		//Having An Actor Without a Sprite At This Point Is Quiet Dangerous..
@@ -46,6 +48,17 @@ namespace Ermine {
 		virtual std::vector<float> CalculateModelSpaceVertexes() override;
 		
 		virtual glm::vec2 GetScreenLocation() override;
+
+		//Start Implementation Of Movable Actor//
+		virtual glm::vec2 GetActorPosition() override;
+		virtual void SetActorPosition(glm::vec2 ActorPosition) override;
+
+		virtual glm::vec2 GetActorVelocity() override;
+		virtual void SetActorVelocity(glm::vec2 ActorVelocity) override;
+
+		virtual float GetAngularVelocity(bool Degrees) override;
+		virtual void  SetAngularVelocity(float AngularVelocity, bool Degrees) override;
+		//Ended Implementation Of Movable Actor//
 
 	public:
 

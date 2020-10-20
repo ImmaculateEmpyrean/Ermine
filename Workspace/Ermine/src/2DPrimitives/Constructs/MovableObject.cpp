@@ -116,9 +116,22 @@ namespace Ermine
 		return Position;
 	}
 
+	glm::vec2 MovableObject::GetVelocity()
+	{
+		return Velocity;
+	}
+
 	float MovableObject::GetRotation()
 	{
 		return Rotation;
+	}
+
+	float MovableObject::GetAngularVelocity(bool Degrees)
+	{
+		if (Degrees == true)
+			return AngularVelocityInDegrees;
+		else
+			return glm::radians<float>(AngularVelocityInDegrees);
 	}
 
 	glm::vec2 MovableObject::GetScale()
@@ -164,6 +177,24 @@ namespace Ermine
 		ModelMatrixCacheValid = false;
 	}
 
+	void MovableObject::SetVelocity(float x, float y)
+	{
+		SetVelocity(glm::vec2(x, y));
+	}
+
+	void MovableObject::SetVelocity(glm::vec2 Velocity)
+	{
+		this->Velocity = Velocity;
+
+		CacheValid = false;
+		ModelMatrixCacheValid = false;
+	}
+
+	void MovableObject::ClearVelocity()
+	{
+		Velocity = glm::vec2(0.0f);
+	}
+
 	void MovableObject::Rotate(float Angle, bool Degrees)
 	{
 		if (Degrees == true)
@@ -196,6 +227,22 @@ namespace Ermine
 
 		CacheValid = false;
 		ModelMatrixCacheValid = false;
+	}
+
+	void MovableObject::SetAngularVelocity(float Angle, bool Degrees)
+	{
+		if (Degrees == false)
+			Angle = glm::degrees<float>(Angle);
+
+		AngularVelocityInDegrees = Angle;
+
+		CacheValid = false;
+		ModelMatrixCacheValid = false;
+	}
+
+	void MovableObject::ClearAngularVelocity()
+	{
+		AngularVelocityInDegrees = 0.0f;
 	}
 
 	void MovableObject::SetScale(float x, float y)

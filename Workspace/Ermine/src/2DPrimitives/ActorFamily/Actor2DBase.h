@@ -57,26 +57,27 @@ namespace Ermine {
 		virtual glm::vec2 GetScreenLocation() = 0;
 
 		//This Function Simply Returns An Object That LOcks The Mutex Simply Let It Be Destroyed After You Are Done To Unlock The Mutex..
-		std::unique_lock<std::recursive_mutex>&& GetActorStandradMutex();
+		std::unique_lock<std::recursive_mutex> GetActorStandradMutex();
 
 		
 		//This Tick Can Be Overriden By Any Child.. And Maybe Used To Set Something In Relation To The Entire Class On A Tick.. i.e This Function Will Most Definitely Be Called On All Instances Of Actor and its virtual so it will u know be dispatched to the proper class 
 		virtual void ClassOnTick(float DeltaTime) { return; }
 
 		//This Is An Event.. Assign Some Function Here If You Wanna Tick..
-		std::function<void(float)>& OnTick() { return OnTickFunction; }
+		void OnTick(std::function<void(float)> OnTickFunction);
 
 	protected:
 
 	protected:
 
 	private:
+		//This Function Always Recieves The Broadcast From The Station
 		void OnTickActorBase(Event* Message);
 
 		void HelperConstructActorBase();
 
 	private:
-		//This Mutex Must Be Claimed When Performing Anything On Actor.. Since Actor NOw Is Multithreaded.. 
+		//This Mutex Must Be Claimed When Performing Anything On Actor.. Since Actor Now Is Multithreaded.. 
 		std::recursive_mutex ActorStandradMutex;
 
 		std::atomic_bool ActorReadyToRecieveEvents = true;

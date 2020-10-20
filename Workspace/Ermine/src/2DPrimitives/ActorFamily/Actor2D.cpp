@@ -89,4 +89,32 @@ namespace Ermine
 	{
 		return MovableObject::GetScreenLocation();
 	}
+
+#pragma region MovableActorImplementation
+	glm::vec2 Actor2D::GetActorPosition()
+	{
+		return MovableObject::GetScreenLocation();
+	}
+	void Actor2D::SetActorPosition(glm::vec2 ActorPosition)
+	{
+		MovableObject::SetPosition(ActorPosition);
+	}
+	glm::vec2 Actor2D::GetActorVelocity()
+	{
+		return MovableObject::GetVelocity();
+	}
+	void Actor2D::SetActorVelocity(glm::vec2 ActorVelocity)
+	{
+		MovableObject::SetVelocity(ActorVelocity);
+	}
+	float Actor2D::GetAngularVelocity(bool Degrees)
+	{
+		return MovableObject::GetAngularVelocity(Degrees);
+	}
+	void Actor2D::SetAngularVelocity(float AngularVelocity, bool Degrees)
+	{
+		MovableObject::SetAngularVelocity(AngularVelocity, Degrees);
+	}
+#pragma endregion MovableActorImplementation
+
 }

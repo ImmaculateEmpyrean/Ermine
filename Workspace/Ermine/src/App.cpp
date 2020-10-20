@@ -220,9 +220,9 @@ void Ermine::App::OnTick()
 
 
 		//Start Nothing To Do With Camera Section..//
-		PhyActor->OnTick() = [](float Dt) {
+		PhyActor->OnTick( [](float Dt) {
 			STDOUTDefaultLog_Critical("Hey The Tick Is Working");
-		};
+		});
 		//Ended Nothing To Do With Camera Section..//
 	}
 

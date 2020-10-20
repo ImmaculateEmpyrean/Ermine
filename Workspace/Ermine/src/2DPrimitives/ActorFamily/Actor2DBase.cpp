@@ -30,10 +30,20 @@ namespace Ermine
 	}
 
 
-	std::unique_lock<std::recursive_mutex>&& Actor2DBase::GetActorStandradMutex()
+	std::unique_lock<std::recursive_mutex> Actor2DBase::GetActorStandradMutex()
 	{
-		return std::move(std::unique_lock<std::recursive_mutex>(ActorStandradMutex));
+		std::unique_lock<std::recursive_mutex> Lock_Gaurd(ActorStandradMutex);
+		return std::move(Lock_Gaurd);
 	}
+
+
+	void Actor2DBase::OnTick(std::function<void(float)> OnTickFunction)
+	{
+		//Aquire The Mutex So As To Make This Thread Safe..
+		auto Mutex = GetActorStandradMutex();
+		this->OnTickFunction = OnTickFunction;
+	}
+
 
 	void Actor2DBase::OnTickActorBase(Event* Message)
 	{
@@ -51,6 +61,8 @@ namespace Ermine
 #pragma region Helpers
 	void Actor2DBase::HelperConstructActorBase()
 	{
+
+		//Subscription Must Be Given Last
 		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&Actor2DBase::OnTickActorBase), ActorReadyToRecieveEvents, Ermine::EventType::OnTickEvent)));
 	}
 #pragma endregion Helpers

@@ -5,6 +5,8 @@
 
 #include<glm.hpp>
 
+#include<mutex>
+
 namespace Ermine
 {
 	class MovableObject
@@ -39,9 +41,11 @@ namespace Ermine
 
 		//The Location Returned Is In Screen Coordinates..
 		glm::vec2 GetScreenLocation();
+		glm::vec2 GetVelocity();
 
 		//The Rotation Returned Is In Degrees..
 		float GetRotation();
+		float GetAngularVelocity(bool Degrees);
 
 		//The Scale Returned Is In Times The Original Size :> 
 		glm::vec2 GetScale();
@@ -54,10 +58,17 @@ namespace Ermine
 		void Translate(glm::vec2 TranslateByHowMuch);
 		void ClearTranslations();
 
+		void SetVelocity(float x, float y);
+		void SetVelocity(glm::vec2 Velocity);
+		void ClearVelocity();
+
 		//Just Pass In True If The Angle Is Actually Pi Most Probably It Is In Degrees...(if false is passed then i assume DEGREES).
 		void Rotate(float Angle, bool Degrees = true);
 		void SetRotation(float Angle, bool Degrees = true);
 		void ClearRotations();
+
+		void SetAngularVelocity(float Angle,bool Degrees = true);
+		void ClearAngularVelocity();
 
 		void SetScale(float x, float y);
 		void SetScale(glm::vec2 Scale);
@@ -98,5 +109,9 @@ namespace Ermine
 
 		//Only Scaling In X and Y Are Tracked.. Scaling In Z Has No Meaning For a 2D Engine Like Ermine..
 		glm::vec2 scale = glm::vec2(1.0f, 1.0f);
+
+		//Dependent On Tick
+		glm::vec2 Velocity = glm::vec2(0.0f);
+		float AngularVelocityInDegrees = 0.0f;
 	};
 }
