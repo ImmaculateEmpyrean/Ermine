@@ -106,6 +106,7 @@ void Ermine::App::NextFrame()
 	DeltaTimeVar = TimeS;
 	//Ended Calculate Delta Time..//
 	
+	Ermine::BroadcastComponent::BroadcastEvent(std::make_unique<Ermine::OnTickEvent>(DeltaTimeVar));
 	OnTick();
 	
 	//The Physics World Has To Step So That It Is Ready For The Next Iteration..
@@ -216,6 +217,13 @@ void Ermine::App::OnTick()
 		Cam->CentreOnActor(PhyActor,glm::vec2(0.0f,0.0f),1.0f,false);
 
 		CameraSetFlag = true;
+
+
+		//Start Nothing To Do With Camera Section..//
+		PhyActor->OnTick() = [](float Dt) {
+			STDOUTDefaultLog_Critical("Hey The Tick Is Working");
+		};
+		//Ended Nothing To Do With Camera Section..//
 	}
 
 	static Ermine::PhysicsActor* WheelActorLeft = new Ermine::PhysicsActor(WheelPointer, std::move(LeftWheel));

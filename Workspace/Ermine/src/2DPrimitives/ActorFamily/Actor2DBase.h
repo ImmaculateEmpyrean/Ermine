@@ -23,7 +23,7 @@ namespace Ermine {
 	{
 	public:
 		//A Class which Holds Nothing Exposed To The Outside Readily Need Not Be Constructed In a Specialized Way Unless Absolutely Required..
-		Actor2DBase(bool OnTickImplemented = false);
+		Actor2DBase();
 
 		//A Virtual Destructor For The Children Which May Actually Manage Data Members..
 		virtual ~Actor2DBase();
@@ -59,8 +59,12 @@ namespace Ermine {
 		//This Function Simply Returns An Object That LOcks The Mutex Simply Let It Be Destroyed After You Are Done To Unlock The Mutex..
 		std::unique_lock<std::recursive_mutex>&& GetActorStandradMutex();
 
-		//This Is An Event.. Implement This If You Wanna Recieve Tick Events On Your Actor..
-		virtual void OnTick(float DeltaTime);
+		
+		//This Tick Can Be Overriden By Any Child.. And Maybe Used To Set Something In Relation To The Entire Class On A Tick.. i.e This Function Will Most Definitely Be Called On All Instances Of Actor and its virtual so it will u know be dispatched to the proper class 
+		virtual void ClassOnTick(float DeltaTime) { return; }
+
+		//This Is An Event.. Assign Some Function Here If You Wanna Tick..
+		std::function<void(float)>& OnTick() { return OnTickFunction; }
 
 	protected:
 
@@ -69,17 +73,17 @@ namespace Ermine {
 	private:
 		void OnTickActorBase(Event* Message);
 
-		void HelperConstructActorBase(bool RecieveOnTickEvents);
+		void HelperConstructActorBase();
 
 	private:
 		//This Mutex Must Be Claimed When Performing Anything On Actor.. Since Actor NOw Is Multithreaded.. 
 		std::recursive_mutex ActorStandradMutex;
 
-		//The OnTick Function Is Being Triggered Every Frame.. If This Flag Is True.. (Note- Changing This Flag Only Does Nothing Good Presumably..)
-		bool OnTickImplemented = true;
-
 		std::atomic_bool ActorReadyToRecieveEvents = true;
 		Ermine::SubscriptionTicket* OnTickEventTicket = nullptr;
+
+		//This Is The Function Which Will Be Run By The Actor As The Event OnTick.. Assign A Function Of Your Choice To Be Run
+		std::function<void(float)> OnTickFunction = nullptr;
 	};
 
 }

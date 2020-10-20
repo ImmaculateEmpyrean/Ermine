@@ -7,17 +7,17 @@
 
 namespace Ermine
 {
-	Actor2DBase::Actor2DBase(bool OnTickImplemented)
+	Actor2DBase::Actor2DBase()
 	{
-		HelperConstructActorBase(OnTickImplemented);
+		HelperConstructActorBase();
 	}
 	Actor2DBase::Actor2DBase(const Actor2DBase& rhs)
 	{
-		HelperConstructActorBase(rhs.OnTickImplemented);
+		HelperConstructActorBase();
 	}
 	Actor2DBase::Actor2DBase(Actor2DBase&& rhs) 
 	{
-		HelperConstructActorBase(rhs.OnTickImplemented);
+		HelperConstructActorBase();
 	}
 
 	Actor2DBase::~Actor2DBase()
@@ -38,22 +38,20 @@ namespace Ermine
 	void Actor2DBase::OnTickActorBase(Event* Message)
 	{
 		std::lock_guard<std::recursive_mutex> Loc(ActorStandradMutex);
-		OnTick(((OnTickEvent*)Message)->GetDeltaTime());
+
+		//First Get The Class Tick Done
+		ClassOnTick(((OnTickEvent*)Message)->GetDeltaTime());
+
+		//Get The Specific Event If There Is Any..
+		if (OnTickFunction != nullptr)
+			OnTickFunction(((OnTickEvent*)Message)->GetDeltaTime());
 	}
 
 
 #pragma region Helpers
-	void Actor2DBase::HelperConstructActorBase(bool RecieveOnTickEvents)
+	void Actor2DBase::HelperConstructActorBase()
 	{
-		this->OnTickImplemented = RecieveOnTickEvents;
-
-		if (RecieveOnTickEvents == true)
-			OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&Actor2DBase::OnTickActorBase), ActorReadyToRecieveEvents, Ermine::EventType::OnTickEvent)));
+		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&Actor2DBase::OnTickActorBase), ActorReadyToRecieveEvents, Ermine::EventType::OnTickEvent)));
 	}
 #pragma endregion Helpers
-
-	void Actor2DBase::OnTick(float DeltaTime)
-	{
-		return;
-	}
 }
