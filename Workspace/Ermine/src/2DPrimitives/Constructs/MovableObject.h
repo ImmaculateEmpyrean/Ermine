@@ -7,6 +7,10 @@
 
 #include<mutex>
 
+#include "EventSystem/EventBroadcastStation.h"
+#include "EventSystem/Components/RecieverComponent.h"
+#include "EventSystem/SubscriptionTicket.h"
+
 namespace Ermine
 {
 	class MovableObject
@@ -30,7 +34,16 @@ namespace Ermine
 		//Send In a Default Model Matrix So That We Can Default To it..
 		MovableObject(glm::mat4 ModelMatrix);
 
+		//Movable Object Must Destroy Data Properly As It Manages Data..
+		~MovableObject();
+
 	public:
+		//Copy And Move Are To Be Defined Since This Class Manages Memory As Of Now..
+		MovableObject(const MovableObject& rhs);
+		MovableObject& operator=(const MovableObject& rhs);
+
+		MovableObject(MovableObject&& rhs);
+		MovableObject& operator=(MovableObject&& rhs);
 		//Start Getter Methods
 
 		//This Is The Most Important Method Of The Class If You Ask Me.. 
@@ -89,6 +102,12 @@ namespace Ermine
 		//Use This As Much as Possible..
 		void HelperRecalculateModelMatrix();
 
+		//This Function Is Not At All Exposed To The Outside World.. Used By The Movable Object To Update Itself
+		void Update(Event* Eve);
+
+		void HelperCopy(const MovableObject& rhs);
+		void HelperMove(MovableObject&& rhs);
+
 	public:
 		//Start Declaration Of The Cache..//
 		bool CacheValid = false;
@@ -113,5 +132,9 @@ namespace Ermine
 		//Dependent On Tick
 		glm::vec2 Velocity = glm::vec2(0.0f);
 		float AngularVelocityInDegrees = 0.0f;
+
+		std::mutex MovableObjectStandradMutex;
+		std::atomic_bool SwitchToControlEventExecution = true;
+		Ermine::SubscriptionTicket* OnTickEventTicket = nullptr;
 	};
 }

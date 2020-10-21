@@ -31,11 +31,11 @@ namespace Ermine {
 	public:
 		//Copy Must Be Custom Constructed As To Account For The Ticket
 		Actor2DBase(const Actor2DBase& rhs);
-		Actor2DBase operator=(const Actor2DBase& rhs) = delete; //This Class Can Never Be Instantiated.. What Point In This Operator
+		Actor2DBase& operator=(const Actor2DBase& rhs);
 		
 		//Move Must Be Custom Constructed As To Account For The Ticket
 		Actor2DBase(Actor2DBase&& rhs);
-		Actor2DBase operator=(Actor2DBase&& rhs) = delete; //This Class Can Never Be Instantiated.. What Point In This Operator
+		Actor2DBase& operator=(Actor2DBase&& rhs);
 
 	public:
 		//This Function Has To Be Overriden In all Children Do Not Forget Otherwise One Child May Be Thought Of As The Other..

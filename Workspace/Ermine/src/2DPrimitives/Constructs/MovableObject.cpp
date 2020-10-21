@@ -9,12 +9,18 @@ namespace Ermine
 
 	MovableObject::MovableObject()
 	{
+		//Subscribe To Recieve Tick Events.. Required If You Wanna Update Velocity And Angular Velocity In Real Time
+		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&MovableObject::Update), SwitchToControlEventExecution, Ermine::EventType::OnTickEvent)));
+
 		HelperRecalculateCache();
 	}
 	MovableObject::MovableObject(glm::vec2 SpawnPosition)
 		:
 		Position(SpawnPosition)
 	{
+		//Subscribe To Recieve Tick Events.. Required If You Wanna Update Velocity And Angular Velocity In Real Time
+		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&MovableObject::Update), SwitchToControlEventExecution, Ermine::EventType::OnTickEvent)));
+
 		HelperRecalculateCache();
 	}
 	MovableObject::MovableObject(glm::vec2 SpawnPosition, float Rotation)
@@ -22,6 +28,9 @@ namespace Ermine
 		Position(SpawnPosition),
 		Rotation(Rotation)
 	{
+		//Subscribe To Recieve Tick Events.. Required If You Wanna Update Velocity And Angular Velocity In Real Time
+		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&MovableObject::Update), SwitchToControlEventExecution, Ermine::EventType::OnTickEvent)));
+
 		HelperRecalculateCache();
 	}
 	MovableObject::MovableObject(glm::vec2 SpawnPosition, float Rotation, glm::vec2 Scale)
@@ -30,6 +39,9 @@ namespace Ermine
 		Rotation(Rotation),
 		scale(Scale)
 	{
+		//Subscribe To Recieve Tick Events.. Required If You Wanna Update Velocity And Angular Velocity In Real Time
+		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&MovableObject::Update), SwitchToControlEventExecution, Ermine::EventType::OnTickEvent)));
+
 		HelperRecalculateCache();
 	}
 	MovableObject::MovableObject(float Rotation, glm::vec2 Scale)
@@ -37,6 +49,9 @@ namespace Ermine
 		Rotation(Rotation),
 		scale(Scale)
 	{
+		//Subscribe To Recieve Tick Events.. Required If You Wanna Update Velocity And Angular Velocity In Real Time
+		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&MovableObject::Update), SwitchToControlEventExecution, Ermine::EventType::OnTickEvent)));
+
 		HelperRecalculateCache();
 	}
 	MovableObject::MovableObject(glm::mat4 ModelMatrix)
@@ -57,6 +72,89 @@ namespace Ermine
 		this->scale.y = scale.y;
 
 		HelperRecalculateCache();
+	}
+
+	MovableObject::~MovableObject()
+	{
+		if (OnTickEventTicket != nullptr)
+			delete OnTickEventTicket;
+	}
+
+	MovableObject::MovableObject(const MovableObject& rhs)
+	{
+		//The Helper Function Hopefully Functions Properly..
+		HelperCopy(rhs);
+	}
+	MovableObject& MovableObject::operator=(const MovableObject& rhs)
+	{
+		//The Helper Function Hopefully Functions Properly..
+		HelperCopy(rhs);
+		return *this;
+	}
+
+	MovableObject::MovableObject(MovableObject&& rhs)
+	{
+		//The Helper Function Hopefully Functions Properly..
+		HelperMove(std::move(rhs));
+	}
+	MovableObject& MovableObject::operator=(MovableObject&& rhs)
+	{
+		//The Helper Function Hopefully Functions Properly..
+		HelperMove(std::move(rhs));
+		return *this;
+	}
+
+
+	void MovableObject::HelperCopy(const MovableObject& rhs)
+	{
+		CacheValid = rhs.CacheValid;
+		ModelMatrixCacheValid = rhs.ModelMatrixCacheValid;
+
+		ModelMatrix = rhs.ModelMatrix;
+
+		TranslationMatrix = rhs.TranslationMatrix;
+		RotationMatrix    = rhs.RotationMatrix;
+		ScaleMatrix = rhs.ScaleMatrix;
+
+		Position = rhs.Position;
+
+		Rotation = rhs.Rotation;
+
+		scale = rhs.scale;
+
+		Velocity = rhs.Velocity;
+		AngularVelocityInDegrees = rhs.AngularVelocityInDegrees;
+
+		SwitchToControlEventExecution.store(rhs.SwitchToControlEventExecution.load());
+		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&MovableObject::Update), SwitchToControlEventExecution, Ermine::EventType::OnTickEvent)));
+	}
+
+	void MovableObject::HelperMove(MovableObject&& rhs)
+	{
+		CacheValid = std::move(rhs.CacheValid);
+		ModelMatrixCacheValid = std::move(rhs.ModelMatrixCacheValid);
+
+		ModelMatrix = std::move(rhs.ModelMatrix);
+
+		TranslationMatrix = std::move(rhs.TranslationMatrix);
+		RotationMatrix = std::move(rhs.RotationMatrix);
+		ScaleMatrix = std::move(rhs.ScaleMatrix);
+
+		Position = std::move(rhs.Position);
+
+		Rotation = std::move(rhs.Rotation);
+
+		scale = std::move(rhs.scale);
+
+		Velocity = std::move(rhs.Velocity);
+		AngularVelocityInDegrees = std::move(rhs.AngularVelocityInDegrees);
+
+		SwitchToControlEventExecution.store(rhs.SwitchToControlEventExecution.load());
+
+		//This Part Is The Only Difference I Know Of Between Copy And Move Essentially As To Me.. glm maybe wired for move or not I donot know//
+		OnTickEventTicket = rhs.OnTickEventTicket;
+		rhs.OnTickEventTicket = nullptr;
+		//Ended Part//
 	}
 
 #pragma endregion Constructors
@@ -308,6 +406,16 @@ namespace Ermine
 
 		ModelMatrixCacheValid = true;
 	}
+
+	void MovableObject::Update(Event* Eve)
+	{
+		std::lock_guard<std::mutex> GaurdMovableObjectMutex(MovableObjectStandradMutex);
+
+
+
+	}
+
+	
 
 #pragma endregion Helpers
 }

@@ -15,9 +15,20 @@ namespace Ermine
 	{
 		HelperConstructActorBase();
 	}
+	Actor2DBase& Actor2DBase::operator=(const Actor2DBase& rhs)
+	{
+		HelperConstructActorBase();
+		return *this;
+	}
 	Actor2DBase::Actor2DBase(Actor2DBase&& rhs) 
 	{
 		HelperConstructActorBase();
+	}
+
+	Actor2DBase& Actor2DBase::operator=(Actor2DBase&& rhs)
+	{
+		HelperConstructActorBase();
+		return *this;
 	}
 
 	Actor2DBase::~Actor2DBase()
@@ -61,7 +72,6 @@ namespace Ermine
 #pragma region Helpers
 	void Actor2DBase::HelperConstructActorBase()
 	{
-
 		//Subscription Must Be Given Last
 		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&Actor2DBase::OnTickActorBase), ActorReadyToRecieveEvents, Ermine::EventType::OnTickEvent)));
 	}
