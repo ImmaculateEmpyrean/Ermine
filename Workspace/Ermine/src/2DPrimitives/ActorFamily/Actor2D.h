@@ -7,7 +7,7 @@
 #include "2DPrimitives/Constructs/MovableObject.h"
 #include "glm.hpp"
 
-#include "Interfaces/MovableActor.h"
+#include "Interfaces/IMovableActor.h"
 
 namespace Ermine {
 
@@ -15,9 +15,11 @@ namespace Ermine {
 	//This Is The Non Physics Variant Of tHe Actor.. It Is Moved On The screen Without The Help Of Box2D.. For The Aid Of Physics In Moving Something On The Screen Goto PhysicsActor2D..
 
 	//The Actor Class Is Always Described With Respect To Center Of The Quad..
-	class Actor2D : public ImageBase ,public MovableObject, public MovableActor
+	class Actor2D : public ImageBase ,public MovableObject, public IMovableActor
 	{
 	public:
+		
+#pragma region Constructors
 		//Having An Actor Without a Sprite At This Point Is Quiet Dangerous..
 		Actor2D() = delete;
 
@@ -36,19 +38,30 @@ namespace Ermine {
 		//This Is Done For Future Proofing Purpose.. Its Children May One Day Choose To Manage Memory On Their Own..
 		virtual ~Actor2D();
 
+		//Start Must Implement Custom Copy And Move As This Class Now Holds A Mutex..//
+		Actor2D(const Actor2D& rhs);
+		Actor2D& operator=(const Actor2D& rhs);
+
+		Actor2D(Actor2D&& rhs);
+		Actor2D& operator=(Actor2D&& rhs);
+		//Ended Must Implement Custom Copy And Move As This Class Now Holds A Mutex..//
+#pragma endregion
+
+#pragma region IMutexOverrides
+		//Start IMutex Overrides//
+		virtual std::unique_lock<std::recursive_mutex> GetUniqueLock() override { return std::move(std::unique_lock<std::recursive_mutex>(Actor2DMutex)); }
+		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::ActorBase; }
+		//Ended IMutex Overrides//
+#pragma endregion
+		
 	public:
-		//This Function Comes From Inside The Movement Module Of The Actor.. It is Overriden As We Want To To Turn Off Rotation And Scaling Functionality..
-		//The Rotation And scale Functionality Is Essentially Turned Off Because The Default Rotation And scaling Function Of The Actor Is With respect To the Centre Of The Actor And Not The World Centre..
-		//The MovementComponent Defaults To Rotating, Scaling And Translating On The Origin of The World We Wish To Avoid That.. i.e it is overriden..
-		virtual glm::mat4 GetModelMatrix() override;
 
 		//This Function Has To Be Overriden In all Children Do Not Forget Otherwise One Child May Be Thought Of As The Other..
 		virtual Ermine::ActorFamilyIdentifier GetActorFamilyIdentifier() override { return ActorFamilyIdentifier::Actor2D; }
 
 		virtual std::vector<float> CalculateModelSpaceVertexes() override;
-		
-		virtual glm::vec2 GetScreenLocation() override;
 
+#pragma region IMovableActorOverrides 
 		//Start Implementation Of Movable Actor//
 		virtual glm::vec2 GetActorPosition() override;
 		virtual void SetActorPosition(glm::vec2 ActorPosition) override;
@@ -59,7 +72,10 @@ namespace Ermine {
 		virtual float GetAngularVelocity(bool Degrees) override;
 		virtual void  SetAngularVelocity(float AngularVelocity, bool Degrees) override;
 		//Ended Implementation Of Movable Actor//
+#pragma endregion
 
+		//This Function Is Used To Get The Centre Of Any Actor On Screen.. 
+		virtual glm::vec2 GetScreenLocation() override { return GetScreenLocation(); };
 	public:
 
 	protected:
@@ -67,17 +83,9 @@ namespace Ermine {
 	protected:
 
 	private:
-		//This Function Initializes The Renderable2D Part Of The Object When Called.. it is Generally Called By The Renderer.. So That The Vertex Array Is Reset To Reflect Changes In The Model Spaces..
-		//virtual void RefreshRenderable2D() override;
-
-		//This Function Is Privated As There Is No Reason Anyone Must Know Or Call This Explicitly..
-		//This Function Is Contained Inside The Renderable TextureModule Actually And Is A Public Function inside That Class.. So Eventhough Its a Private Function Here.. It Can Be Called From There With Minimal Effort
-		//As Of Now The this Is The Function The Renderer Calls to Bind The Textures If A TextureModule Is Found..vThink Of It As A Callback.. 
-		//virtual std::vector<int> BindTexturesContained() override;
-
+		
 	private:
-
-
+		std::recursive_mutex Actor2DMutex;
 	};
 
 }

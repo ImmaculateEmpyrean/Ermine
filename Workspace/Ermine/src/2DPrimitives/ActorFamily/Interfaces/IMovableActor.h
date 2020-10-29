@@ -10,10 +10,10 @@
 
 namespace Ermine
 {
-	class MovableActor
+	class IMovableActor
 	{
 	public:
-		MovableActor() = default;
+		IMovableActor() = default;
 
 	public:
 		//Start Main Interface Functions//

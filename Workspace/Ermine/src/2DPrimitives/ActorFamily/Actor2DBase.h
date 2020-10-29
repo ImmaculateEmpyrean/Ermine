@@ -4,6 +4,9 @@
 #include<vector>
 #include<mutex>
 
+#include "Object.h"
+#include "MutexSystem/Interfaces/IMutex.h"
+
 #include "2DPrimitives/PrimitiveType2D.h"
 #include "ActorFamilyEnnumerations.h"
 
@@ -19,7 +22,7 @@ namespace Ermine {
 
 	//The Class Actor2DBase As Of Now Is expected To do Nothing And Hence It Is Left Open.. In Thhe Future It May Be Populated..
 
-	class Actor2DBase
+	class Actor2DBase : public Ermine::Object, public Ermine::IMutex
 	{
 	public:
 		//A Class which Holds Nothing Exposed To The Outside Readily Need Not Be Constructed In a Specialized Way Unless Absolutely Required..
@@ -38,12 +41,22 @@ namespace Ermine {
 		Actor2DBase& operator=(Actor2DBase&& rhs);
 
 	public:
+#pragma region IMutexOverrides
+		//Start IMutex Overrides//
+		virtual std::unique_lock<std::recursive_mutex> GetUniqueLock() override { return std::unique_lock<std::recursive_mutex>(ActorStandradMutex); }
+		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::ActorBase; }
+		//Ended IMutex Overrides//
+#pragma endregion
+		
+
 		//This Function Has To Be Overriden In all Children Do Not Forget Otherwise One Child May Be Thought Of As The Other..
 		virtual Ermine::ActorFamilyIdentifier GetActorFamilyIdentifier() { return ActorFamilyIdentifier::Actor2DBase; }
 
 		//This Function Is Used To Recognize The Family 
 		Ermine::PrimitiveType2D GetFamilyIdentifier() { return PrimitiveType2D::ACTOR2D; }
 
+
+#pragma region VirtualInterfaceFunctions
 		//This Function Is Used To Get The ModelSpace Indices.. This Is Different If The Actor is a Quad As Opposed To a PolyLine Hence It Cannot Be Implemnted Here.. 
 		virtual std::vector<uint32_t> GetIndices() = 0;
 
@@ -55,16 +68,15 @@ namespace Ermine {
 
 		//This Function Is Used To Get The Centre Of Any Actor On Screen.. 
 		virtual glm::vec2 GetScreenLocation() = 0;
+#pragma endregion
+				
 
-		//This Function Simply Returns An Object That LOcks The Mutex Simply Let It Be Destroyed After You Are Done To Unlock The Mutex..
-		std::unique_lock<std::recursive_mutex> GetActorStandradMutex();
-
-		
 		//This Tick Can Be Overriden By Any Child.. And Maybe Used To Set Something In Relation To The Entire Class On A Tick.. i.e This Function Will Most Definitely Be Called On All Instances Of Actor and its virtual so it will u know be dispatched to the proper class 
 		virtual void ClassOnTick(float DeltaTime) { return; }
 
 		//This Is An Event.. Assign Some Function Here If You Wanna Tick..
 		void OnTick(std::function<void(float)> OnTickFunction);
+
 
 	protected:
 
@@ -74,7 +86,13 @@ namespace Ermine {
 		//This Function Always Recieves The Broadcast From The Station
 		void OnTickActorBase(Event* Message);
 
+
+#pragma region Helpers
 		void HelperConstructActorBase();
+		void HelperCopyConstructor(const Actor2DBase& rhs);
+		void HelperMoveConstructor(Actor2DBase&& rhs);
+#pragma endregion
+
 
 	private:
 		//This Mutex Must Be Claimed When Performing Anything On Actor.. Since Actor Now Is Multithreaded.. 

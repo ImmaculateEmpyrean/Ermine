@@ -296,9 +296,15 @@
     <ClInclude Include="src\Physics\FixtureColorStruct.h" />
     <ClInclude Include="src\Physics\FixtureUserDataStruct.h" />
     <ClInclude Include="src\Graphics\OrthographicCamera.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Interfaces\MovableActor.h" />
     <ClInclude Include="src\EventSystem\EventTypes\OnTickEvent.h" />
     <ClInclude Include="src\EventSystem\SubscriptionTicket.h" />
+    <ClInclude Include="src\NoiseGeneration\FastNoiseLite.h" />
+    <ClInclude Include="src\MutexSystem\MutexManager.h" />
+    <ClInclude Include="src\MutexSystem\MutexManagerLevelConfiguration.h" />
+    <ClInclude Include="src\Object.h" />
+    <ClInclude Include="src\MutexSystem\Interfaces\IMutex.h" />
+    <ClInclude Include="src\MutexSystem\MutexCasket.h" />
+    <ClInclude Include="src\2DPrimitives\ActorFamily\Interfaces\IMovableActor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
@@ -486,5 +492,8 @@
     <ClCompile Include="src\Graphics\OrthographicCamera.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\OnTickEvent.cpp" />
     <ClCompile Include="src\EventSystem\SubscriptionTicket.cpp" />
+    <ClCompile Include="src\Object.cpp" />
+    <ClCompile Include="src\MutexSystem\MutexManager.cpp" />
+    <ClCompile Include="src\MutexSystem\MutexCasket.cpp" />
   </ItemGroup>
 </Project>

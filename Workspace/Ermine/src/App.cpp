@@ -42,7 +42,8 @@
 
 #include "Physics/PhysicsComponent2D.h"
 
-
+//#include "NoiseGeneration/FastNoiseLite.h"
+#include "NoiseGeneration/PerlinNoise.hpp"
 
 #pragma region StaticDefines
 
@@ -127,177 +128,64 @@ void Ermine::App::OnAttach()
 
 void Ermine::App::OnTick()
 {
-	//static Ermine::PhysicsComponent2D TopBeam = Ermine::PhysicsComponent2D();
-	static Ermine::PhysicsComponent2D TopBeam(glm::vec2(500.0f, 25.0f), glm::vec2(1000.0f, 25.0f), true, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-	static Ermine::PhysicsComponent2D BottomBeam(glm::vec2(500.0f, 988.0f), glm::vec2(1000.0f, 25.0f), true, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-
-	static Ermine::PhysicsComponent2D LeftBeam(glm::vec2(12.0f, 500.0f), glm::vec2(25.0f, 1000.0f), true, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-	static Ermine::PhysicsComponent2D RightBeam(glm::vec2(988.0f, 500.0f), glm::vec2(25.0f, 1000.0f), true, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
-
-	static Ermine::PhysicsComponent2D CarBody(glm::vec2(500.0f, 500.0f), glm::vec2(100.0f, 50.0f), false);
-
-	static Ermine::PhysicsComponent2D RightAxle(glm::vec2(530.0f, 545.0f), glm::vec2(10.0f, 10.0f), false);
-	static Ermine::PhysicsComponent2D LeftAxle(glm::vec2(465.0f, 545.0f), glm::vec2(10.0f, 10.0f), false);
-
-	static Ermine::PhysicsComponent2D RightWheel(glm::vec2(530.0f, 545.0f), 14.0f, false, glm::vec4(1.0f, 1.0f, 1.0f, 0.4f));
-	static Ermine::PhysicsComponent2D LeftWheel(glm::vec2(465.0f, 545.0f), 14.0f, false);
-
 	static bool Once = true;
 
 	if (Once)
 	{
 		Once = false;
-		Renderer2D::TurnOnPhysicsDebugger();
 
-		TopBeam.StartDebugTrace();
-		BottomBeam.StartDebugTrace();
+		
 
-		LeftBeam.StartDebugTrace();
-		RightBeam.StartDebugTrace();
-
-		//CarBody.StartDebugTrace();
-
-		//RightAxle.StartDebugTrace();
-		//LeftAxle.StartDebugTrace();
-
-		//RightWheel.StartDebugTrace();
-		//LeftWheel.StartDebugTrace();
-
-		CarBody.SetDebugColorToBody(glm::vec4(0.0f, 0.0f, 1.0f, 0.4f));
-		RightAxle.CreateRevoluteJoint(&RightWheel, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), false);
-		LeftAxle.CreateRevoluteJoint(&LeftWheel, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), false);
-
-		//CarBody.CreateRevoluteJoint(&RightWheel, glm::vec2(50.0f, 25.0f), glm::vec2(0.0f, 0.0f), false);
-
-		CarBody.CreateWheelJoint(&RightAxle);
-		//CarBody.CreateWheelJoint(&RightWheel);
-		CarBody.CreateWheelJoint(&LeftAxle);
-		//CarBody.CreateWheelJoint(&LeftWheel);
-
-
-		//auto Joint  = CarBody.CreatePrismaticJoint(&RightAxle, glm::vec2(30.0f, 50.0f), glm::vec2(0.0f, 0.0f),0.2f, false);
-		//auto Joint2 = CarBody.CreatePrismaticJoint(&LeftAxle, glm::vec2(-30.0f, 50.0f), glm::vec2(0.0f, 0.0f),0.2f, false);
-
-		//Ermine::PrismaticJoint* PrismaticJoint = (Ermine::PrismaticJoint*)Joint;
-		//PrismaticJoint->SetMovementLimits(0.0f, 0.0f);
-
-		//Ermine::PrismaticJoint* PrismaticJoint2 = (Ermine::PrismaticJoint*)Joint2;
-		//PrismaticJoint2->SetMovementLimits(0.0f, 0.0f);
 	}
 
-	//Start Add A Image To The Physics Component//
+	static bool l = true;
+	//Ermine::Material mat(std::filesystem::path("Shader/Actor2DBaseMaterial.json"));
 
-	static auto TextureCache = Ermine::GlobalTextureCache::Get();
-	static auto Tex = TextureCache->GetTextureFromFile("Texture/mini-topless.png");
-	static Ermine::Sprite* Spr = new Ermine::Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
+	auto Manager = Ermine::GlobalTextureCache::Get();
+	static auto Tex = Manager->GetTextureFromFile("AnoHiMitaHana.png");
 
-	static auto WheelTex = TextureCache->GetTextureFromFile("Texture/wheel-front.png");
-	static Ermine::Sprite* WheelSpr = new Ermine::Sprite(WheelTex, { 0.0f,0.0f }, { 1.0f,1.0f });
+	static Sprite* spr = new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
+	static std::shared_ptr<Sprite> ShSpr;
 
-	static bool OnceFlag = false;
-	static bool CameraSetFlag = false;
-
-	static std::shared_ptr<Ermine::Sprite> SprPointer;
-
-	static std::shared_ptr<Ermine::Sprite> WheelPointer;
-	if (OnceFlag == false)
+	if (l == true)
 	{
-		OnceFlag = true;
-
-		SprPointer.reset(Spr);
-
-		WheelPointer.reset(WheelSpr);
-	}
-	static Ermine::PhysicsActor* PhyActor = new Ermine::PhysicsActor(SprPointer, std::move(CarBody));
-
-	if (CameraSetFlag == false)
-	{
-		auto Cam = Ermine::OrthographicCamera::Get();
-
-		Cam->CentreOnActor(PhyActor,glm::vec2(0.0f,0.0f),1.0f,false);
-
-		CameraSetFlag = true;
-
-
-		//Start Nothing To Do With Camera Section..//
-		PhyActor->OnTick( [](float Dt) {
-			STDOUTDefaultLog_Critical("Hey The Tick Is Working");
-		});
-		//Ended Nothing To Do With Camera Section..//
+		ShSpr.reset(spr);
+		l = false;
 	}
 
-	static Ermine::PhysicsActor* WheelActorLeft = new Ermine::PhysicsActor(WheelPointer, std::move(LeftWheel));
-	static Ermine::PhysicsActor* WheelActorRight = new Ermine::PhysicsActor(WheelPointer, std::move(RightWheel));
+	static Ermine::Actor2D* Act = new Ermine::Actor2D(ShSpr);
+	//Act->Translate({ 0.5f,0.5f });
 
 	LayerStackLayer Layer("Han");
-	Layer.SubmitRenderable(PhyActor);
-	Layer.SubmitRenderable(WheelActorLeft);
-	Layer.SubmitRenderable(WheelActorRight);
+	Layer.SubmitRenderable(Act);
 
-	//Ended Add A Image To The Physics Component//
+	
 
-	Renderer2D::BeginScene();
-	Renderer2D::SubmitLayer(Layer);
-	Renderer2D::EndScene();
+	static int ind = 10;
+	static bool Coke = false;
 
 
+	ImGui::Begin("Control Panel");
+	ImGui::SliderInt("Get Ind", &ind, 0, 10);
+	ImGui::Checkbox("Get Coke", &Coke);
 
-	static float ForceAppliedBox1[2] = { 0.0f,0.0f };
-	static float ForceAppliedBox2[2] = { 0.0f,0.0f };
-	static float VelocityApplied[2]  = { 0.0f,0.0f };
-
-	bool ApplyForce = false;
-	bool RandomForceApplication = false;
-	bool SetVelocity = false;
-
-	ImGui::Begin("Physics Test ");
-
-	ImGui::InputFloat2("##Add Force For The Car To Move", ForceAppliedBox1, 2);
-	ImGui::SameLine();
-	if (ImGui::Button("Reverse Force Applied"))
-	{
-		ForceAppliedBox1[0] = ForceAppliedBox1[0] * -1;
-		ForceAppliedBox1[1] = ForceAppliedBox1[1] * -1;
-	}
-	ImGui::SameLine();
-
-	if (ImGui::Button("ApplyForce!!!##PhysicsTestApplyForceOnBox"))
-		ApplyForce = true;
-
-	/*-------------------------------------------------------------*/
-	ImGui::InputFloat2("##Set Car Velocity##PhysicsTestApplyForceOnBox", VelocityApplied, 2);
-	ImGui::SameLine();
-	if (ImGui::Button("Reverse Force Applied"))
-	{
-		VelocityApplied[0] = VelocityApplied[0] * -1;
-		VelocityApplied[1] = VelocityApplied[1] * -1;
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("SetVelocity!!!##PhysicsTestApplyForceOnBox"))
-		SetVelocity = true;
-	/*-------------------------------------------------------------*/
+	ImGui::Image((ImTextureID)Manager->GetTextureFromFile("AnoHiMitaHana.png")->GetTextureID(), { 50,50 });
 	ImGui::End();
 
-	if (ApplyForce)
-	{
-		PhyActor->AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
-		//auto Camera = Ermine::OrthographicCamera::Get();
 
-		//Camera->TranslateCamera({ 10.0f,0.0f });
-		//WheelActorRight->AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
-		//RightAxle.AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
-		//RightWheel.AddForceToCentre(glm::vec2(ForceAppliedBox1[0], ForceAppliedBox1[1]));
-	}
+	Renderer2D::BeginScene();
 
-	if (SetVelocity == true)
-	{
-		PhyActor->SetVelocity(glm::vec2(VelocityApplied[0], VelocityApplied[1]));
-	}
+	Renderer2D::SubmitLayer(Layer, ind);
 
-	if (RandomForceApplication)
+
+	Renderer2D::EndScene();
+
+	if (Coke == true)
 	{
-		
+		Act->Translate({ 1.0f,1.0f });
+		Act->Scale({ 1.02f,1.02f });
 	}
+	
 }
 
 void Ermine::App::OnDetach()

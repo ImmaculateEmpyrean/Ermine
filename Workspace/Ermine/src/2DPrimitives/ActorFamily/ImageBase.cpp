@@ -6,6 +6,7 @@
 
 namespace Ermine
 {
+#pragma region Constructors
 	ImageBase::ImageBase(std::shared_ptr<Sprite> Spr)
 		:
 		Actor2DBase(), //Invoking The Default Constructor I Guess..
@@ -27,14 +28,46 @@ namespace Ermine
 	}
 
 	ImageBase::~ImageBase()
+	{}
+
+
+	ImageBase::ImageBase(const ImageBase& rhs)
+		:
+		Actor2DBase(rhs),
+		RenderableTextureModule(rhs)
 	{
-		//This Function Is Currently Not In Use This Is For The Children Down The Line..
-		//If They Wanna Manage Memory By Themselves.. 
+		Actorsprite = rhs.Actorsprite;
+	}
+	ImageBase& ImageBase::operator=(const ImageBase& rhs)
+	{
+		Actor2DBase::operator=(rhs);
+		RenderableTextureModule::operator=(rhs);
+
+		Actorsprite = rhs.Actorsprite;
+		return *this;
 	}
 
+	ImageBase::ImageBase(ImageBase&& rhs)
+		:
+		Actor2DBase(std::move(rhs)),
+		RenderableTextureModule(std::move(rhs))
+	{
+		Actorsprite = std::move(rhs.Actorsprite);
+		rhs.Actorsprite = nullptr;
+	}
+	ImageBase& ImageBase::operator=(ImageBase&& rhs)
+	{
+		Actor2DBase::operator=(std::move(rhs));
+		RenderableTextureModule::operator=(std::move(rhs));
+
+		Actorsprite = std::move(rhs.Actorsprite);
+		return *this;
+	}
+
+#pragma endregion Constructors
 
 	//Start Setter And Getter For The ActorSprite..// 
-	std::shared_ptr<Sprite> ImageBase::GetSprite()
+	std::shared_ptr<Sprite> ImageBase::GetSprite() const
 	{
 		return Actorsprite;
 	}

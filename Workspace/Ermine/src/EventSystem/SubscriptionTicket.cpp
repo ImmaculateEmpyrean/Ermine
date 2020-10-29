@@ -9,14 +9,18 @@ Ermine::SubscriptionTicket::SubscriptionTicket(int Ticket,Ermine::EventType Even
 
 Ermine::SubscriptionTicket::SubscriptionTicket(SubscriptionTicket&& rhs)
 {
-    this->Ticket = rhs.Ticket;
+    this->Ticket = std::move(rhs.Ticket);
     rhs.Ticket = -1;
+
+    EventType = rhs.EventType;
 }
 
 Ermine::SubscriptionTicket Ermine::SubscriptionTicket::operator=(SubscriptionTicket&& rhs)
 {
     this->Ticket = rhs.Ticket;
     rhs.Ticket = -1;
+
+    EventType = rhs.EventType;
 
     return std::move(*this);
 }

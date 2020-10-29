@@ -17,6 +17,8 @@ namespace Ermine
 	class ImageBase :public Actor2DBase, public RenderableTextureModule
 	{
 	public:
+
+#pragma region Constructors
 		//No Point In Having An Empty ImageBase 
 		ImageBase() = delete;
 
@@ -29,12 +31,29 @@ namespace Ermine
 		//A Virtual Destructor For Control To Be Sent To The Children If And when Needed...
 		virtual ~ImageBase();
 
+		//Image Base Now Incorporates A Mutex And Hence It Cant Be Copied Or Moved Trivially..//
+		ImageBase(const ImageBase& rhs);
+		ImageBase& operator=(const ImageBase& rhs);
+
+		ImageBase(ImageBase&& rhs);
+		ImageBase& operator=(ImageBase&& rhs);
+		//Image Base Now Incorporates A Mutex And Hence It Cant Be Copied Or Moved Trivially..//
+#pragma endregion
+
 	public:
+
+#pragma region IMutexOverrides
+		//Start IMutex Overrides//
+		virtual std::unique_lock<std::recursive_mutex> GetUniqueLock() override { return std::unique_lock<std::recursive_mutex>(ImageBaseMutex); }
+		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::ImageBase; }
+		//Ended IMutex Overrides//
+#pragma endregion
+
 		//This Function Has To Be Overriden In all Children Do Not Forget Otherwise One Child May Be Thought Of As The Other..
 		virtual Ermine::ActorFamilyIdentifier GetActorFamilyIdentifier() { return ActorFamilyIdentifier::ImageBase; }
 
 		//The ImageBase Provides Some Functions To Interact With The Sprite It Stores..
-		std::shared_ptr<Sprite> GetSprite();
+		std::shared_ptr<Sprite> GetSprite() const;
 		void SetSprite(std::shared_ptr<Sprite> Sprite);
 
 		//We Now Know That This Is A Quad.. Hence Return The Indices which Make The Quad Possible..
@@ -61,7 +80,14 @@ namespace Ermine
 		//As Of Now The this Is The Function The Renderer Calls to Bind The Textures If A TextureModule Is Found..vThink Of It As A Callback.. 
 		virtual std::vector<int> BindTexturesContained() override;
 
-	protected: //This Must Be Able to Be Set Manually By A Child Class..
-		std::shared_ptr<Sprite> Actorsprite; //This Sprite Is Owned By The Actor And Is Freed When The Actor2D Is Destroyed Probably..
+	private: 
+		
+
+	private:
+		//This Must Be Able to Be Set Manually By A Child Class.. edit -It Will Be Done USing Method Calls Not Exactly INteraction With The Object
+		std::shared_ptr<Sprite> Actorsprite;
+
+		//This Is The Main Mutex Held By The Class In Question.. Must Be Aquired Before Most Methods Can Begin Executing..
+		std::recursive_mutex ImageBaseMutex;
 	};
 }

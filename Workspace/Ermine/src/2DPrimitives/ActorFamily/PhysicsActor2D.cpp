@@ -27,6 +27,20 @@ namespace Ermine
 		//This Is Not Used As Of Now.. A Formality So That Virtual Dispatches Properly..
 	}
 
+	PhysicsActor::PhysicsActor(PhysicsActor&& rhs)
+		:
+		ImageBase(std::move(rhs)),
+		PhysicsComponent2D(std::move(rhs))
+	{}
+
+	PhysicsActor& PhysicsActor::operator=(PhysicsActor&& rhs)
+	{
+		ImageBase::operator=(std::move(rhs));
+		PhysicsComponent2D::operator=(std::move(rhs));
+
+		return *this;
+	}
+#pragma endregion Constructors
 
 	//Movable Actor Overrides//
 	glm::vec2 PhysicsActor::GetActorPosition()
@@ -130,6 +144,7 @@ namespace Ermine
 		BottomLeft.SetPositonCoordinates(BottomLeftPos4);
 		TopLeft.SetPositonCoordinates(TopLeftPos4);
 
+		std::shared_ptr<Ermine::Sprite> Actorsprite = GetSprite();
 		TopRight.SetVertexUV(glm::vec2(Actorsprite->GetTopRightUV().x, Actorsprite->GetBottomLeftUV().y));
 		BottomRight.SetVertexUV(glm::vec2(Actorsprite->GetTopRightUV().x, Actorsprite->GetTopRightUV().y));
 		BottomLeft.SetVertexUV(glm::vec2(Actorsprite->GetBottomLeftUV().x, Actorsprite->GetTopRightUV().y));
@@ -143,6 +158,7 @@ namespace Ermine
 
 		return ModelCoordinates;
 	}
-#pragma endregion Constructors
+	
+
 
 }

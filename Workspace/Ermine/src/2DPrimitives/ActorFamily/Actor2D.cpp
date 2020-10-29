@@ -38,13 +38,42 @@ namespace Ermine
 
 	Actor2D::~Actor2D()
 	{}
-	
-#pragma endregion Constructors
 
-	glm::mat4 Actor2D::GetModelMatrix()
+	//Sorely Missed Copy Constructor
+	Actor2D::Actor2D(const Actor2D & rhs)
+		:
+		ImageBase(rhs.GetSprite()),
+		MovableObject(rhs)
+	{}
+
+	//Copy Operator
+	Actor2D& Actor2D::operator=(const Actor2D& rhs)
 	{
-		return MovableObject::GetModelMatrix();
+		ImageBase::operator=(rhs);
+		MovableObject::operator=(rhs);
+
+		return *this;
 	}
+
+	//Sorely Missed Move Constructor
+	Actor2D::Actor2D(Actor2D&& rhs)
+		:
+		ImageBase(std::move(rhs.GetSprite())),
+		MovableObject(std::move(rhs))
+	{
+		rhs.SetSprite(nullptr);
+	}
+
+	//Sorely Missed Move Operator 
+	Actor2D& Actor2D::operator=(Actor2D&& rhs)
+	{
+		ImageBase::operator=(std::move(rhs));
+		MovableObject::operator=(std::move(rhs));
+
+		return *this;
+	}
+
+#pragma endregion Constructors
 
 	std::vector<float> Actor2D::CalculateModelSpaceVertexes()
 	{
@@ -70,10 +99,11 @@ namespace Ermine
 		BottomLeft.SetPositonCoordinates(BottomLeftPos4);
 		TopLeft.SetPositonCoordinates(TopLeftPos4);
 
-		TopRight.SetVertexUV(glm::vec2(Actorsprite->GetTopRightUV().x, Actorsprite->GetBottomLeftUV().y));
-		BottomRight.SetVertexUV(glm::vec2(Actorsprite->GetTopRightUV().x, Actorsprite->GetTopRightUV().y));
-		BottomLeft.SetVertexUV(glm::vec2(Actorsprite->GetBottomLeftUV().x, Actorsprite->GetTopRightUV().y));
-		TopLeft.SetVertexUV(glm::vec2(Actorsprite->GetBottomLeftUV().x, Actorsprite->GetBottomLeftUV().y));
+		std::shared_ptr<Ermine::Sprite> Actorsprite = GetSprite();
+		TopRight.   SetVertexUV(glm::vec2(Actorsprite->GetTopRightUV().x  , Actorsprite->GetBottomLeftUV().y));
+		BottomRight.SetVertexUV(glm::vec2(Actorsprite->GetTopRightUV().x  , Actorsprite->GetTopRightUV().  y));
+		BottomLeft. SetVertexUV(glm::vec2(Actorsprite->GetBottomLeftUV().x, Actorsprite->GetTopRightUV().  y));
+		TopLeft.    SetVertexUV(glm::vec2(Actorsprite->GetBottomLeftUV().x, Actorsprite->GetBottomLeftUV().y));
 
 		std::vector<float> ModelCoordinates;
 		ModelCoordinates = TopRight;
@@ -82,12 +112,6 @@ namespace Ermine
 		ModelCoordinates = ModelCoordinates + TopLeft;
 
 		return ModelCoordinates;
-	}
-
-
-	glm::vec2 Actor2D::GetScreenLocation()
-	{
-		return MovableObject::GetScreenLocation();
 	}
 
 #pragma region MovableActorImplementation

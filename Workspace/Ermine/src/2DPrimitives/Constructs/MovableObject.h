@@ -16,6 +16,7 @@ namespace Ermine
 	class MovableObject
 	{
 	public:
+#pragma region Constructors
 		//This Can Exist But It Is Not Set To Default..
 		MovableObject(); 
 
@@ -45,6 +46,9 @@ namespace Ermine
 		MovableObject(MovableObject&& rhs);
 		MovableObject& operator=(MovableObject&& rhs);
 		//Start Getter Methods
+#pragma endregion
+
+	public:
 
 		//This Is The Most Important Method Of The Class If You Ask Me.. 
 		virtual glm::mat4 GetModelMatrix();

@@ -24,6 +24,7 @@ namespace Ermine
 {
 	//This Class Is Forward Declared So That It Can Be Made A Friend.. We Need To Access This Class Inorder To Draw The Outlines On Screen In The Debug Mode..
 	class Renderer2D;
+	class PhysicsActor2D;
 
 	class PhysicsComponent2D
 	{
@@ -59,12 +60,12 @@ namespace Ermine
 		~PhysicsComponent2D();
 
 	public:
-		//Copy Constructor is deleted because two objects cannot share the position..
+		//Copy Constructor is disabled BEWARE because two objects cannot share the position..
 		PhysicsComponent2D(const PhysicsComponent2D& rhs) = delete;
 		//Move Constructor Must Be The Staple Goto As The Copy Constructor Does Not Exist..
 		PhysicsComponent2D(PhysicsComponent2D&& rhs);
 
-		//Copy Assignment Operator is deleted because two objects cannot share the position..
+		//Copy Assignment Operator is disabled BEWARE because two objects cannot share the position..
 		PhysicsComponent2D operator=(const PhysicsComponent2D& rhs) = delete;
 		//Move Assignemnt Operator is the staple Goto As Copy Version Is Deleted..
 		PhysicsComponent2D& operator=(PhysicsComponent2D&& rhs);
@@ -222,5 +223,6 @@ namespace Ermine
 		glm::vec2 BodySize = glm::vec2(10.0f,5.0f);
 
 		friend class Ermine::Renderer2D;
+		friend class Ermine::PhysicsActor2D;
 	};
 }

@@ -18,7 +18,7 @@ namespace Ermine
 
 		//Two People Cant Have The Same Ticket Right...
 		SubscriptionTicket(const SubscriptionTicket& rhs) = delete;
-		SubscriptionTicket operator = (const SubscriptionTicket& rhs) = delete;
+		SubscriptionTicket& operator = (const SubscriptionTicket& rhs) = delete;
 
 		//Moving A Ticket Is Most Certainly Possible..
 		SubscriptionTicket(SubscriptionTicket&& rhs);

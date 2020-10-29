@@ -410,12 +410,7 @@ namespace Ermine
 	void MovableObject::Update(Event* Eve)
 	{
 		std::lock_guard<std::mutex> GaurdMovableObjectMutex(MovableObjectStandradMutex);
-
-
-
 	}
-
-	
 
 #pragma endregion Helpers
 }
