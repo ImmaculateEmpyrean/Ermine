@@ -179,8 +179,8 @@ void Ermine::App::OnTick()
 
 	if (Coke == true)
 	{
-		Act->Translate({ 1.0f,1.0f });
-		Act->Scale({ 1.02f,1.02f });
+		Act->Translate({ 10.0f,10.0f });
+		//Act->Scale({ 1.02f,1.02f });
 	}
 	
 }

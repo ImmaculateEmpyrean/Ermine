@@ -306,6 +306,7 @@
     <ClInclude Include="src\MutexSystem\MutexCasket.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\Interfaces\IMovableActor.h" />
     <ClInclude Include="src\MutexSystem\MutexGaurd.h" />
+    <ClInclude Include="src\MutexSystem\LockChamber.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">

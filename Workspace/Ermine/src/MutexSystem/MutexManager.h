@@ -36,6 +36,7 @@ namespace Ermine
 	protected:
 
 	private:
+		std::unique_lock<std::recursive_mutex> GetMutex(std::string ObjectName, unsigned int LevelNumber);
 
 	private:
 		//This Is The Singleton Pointer..
@@ -43,5 +44,7 @@ namespace Ermine
 		static thread_local std::once_flag InitializationFlag;
 
 		std::unordered_map<std::string, std::vector<Ermine::MutexCasket>> StorageBuffer;
+
+		std::unordered_map<std::string, std::unordered_map<unsigned int, std::recursive_mutex>> MutexStorage;
 	};
 }
