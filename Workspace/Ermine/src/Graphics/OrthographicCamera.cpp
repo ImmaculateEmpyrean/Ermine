@@ -8,10 +8,14 @@ Ermine::OrthographicCamera* Ermine::OrthographicCamera::Camera = nullptr;
 
 Ermine::OrthographicCamera::OrthographicCamera()
 {
+    auto Mutex = GetCameraUniqueLock();
+
     this->ProjectionMatrix = glm::ortho<float>(0.0f, (float)Ermine::GetScreenWidth(), (float)Ermine::GetScreenHeight(), 0.0f,-5.0f,5.0f);
     
     CameraPosition = { 0.0f,0.0f,0.0f };
     RotationInDegrees = 0.0f;
+
+    OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&OrthographicCamera::OnTickFunctionMessageReciever), CameraReadyToRecieveEvents, Ermine::EventType::OnTickEvent)));
 
     //Must Also Initilize The View Matrix Right :>
     HelperRecalculateViewMatrix();
@@ -19,16 +23,13 @@ Ermine::OrthographicCamera::OrthographicCamera()
 
 Ermine::OrthographicCamera::~OrthographicCamera()
 {
-    if (Camera != nullptr)
-    {
-        delete Camera;
-        Camera = nullptr;
-        STDOUTDefaultLog_Info("Orthographic Deleted Successfully..");
-    }
-    else
-    {
-        STDOUTDefaultLog_Info("Attempted To Delete Camera Twice Or Tried To Delete An Unitialized Camera Object!..");
-    }
+    auto Mutex = GetCameraUniqueLock();
+    //Destriy The Subscription..
+    auto Station = Ermine::EventBroadcastStation::GetStation();
+    Station->DestroySubscription(std::move(*OnTickEventTicket));
+
+    //Delete The Allocated Space Even If The Variable Is Moved As Per The Norm..
+    delete OnTickEventTicket;
 }
 
 Ermine::OrthographicCamera* Ermine::OrthographicCamera::Get()
@@ -43,11 +44,15 @@ Ermine::OrthographicCamera* Ermine::OrthographicCamera::Get()
 void Ermine::OrthographicCamera::Deinitialize()
 {
     //Calling The Destructor On Camera On Hopes That It Will Deinitialize It..
-    Camera->~OrthographicCamera();
+    if (Camera == nullptr)
+        delete Camera;
+    else STDOUTDefaultLog_Info("Trying To Delete Orthographic Camera Twice.. This Maybe Part Of A Bigger Semantic Problem.. Please Do Check..");
 }
 
 glm::mat4 Ermine::OrthographicCamera::GetProjectionViewMatrix()
 {
+    auto Mutex = GetCameraUniqueLock();
+
     if (CacheUptoDate)
         return ProjectionViewMatrix;
     else
@@ -59,6 +64,8 @@ glm::mat4 Ermine::OrthographicCamera::GetProjectionViewMatrix()
 
 glm::mat4 Ermine::OrthographicCamera::GetViewMatrix()
 {
+    auto Mutex = GetCameraUniqueLock();
+
     if(CacheUptoDate)
         return ViewMatrix;
     else
@@ -70,6 +77,8 @@ glm::mat4 Ermine::OrthographicCamera::GetViewMatrix()
 
 glm::mat4 Ermine::OrthographicCamera::GetProjectionMatrix()
 {
+    auto Mutex = GetCameraUniqueLock();
+
     if(CacheUptoDate)
         return ProjectionMatrix;
     else
@@ -81,38 +90,45 @@ glm::mat4 Ermine::OrthographicCamera::GetProjectionMatrix()
 
 glm::vec3 Ermine::OrthographicCamera::GetCameraLocation()
 {
+    auto Mutex = GetCameraUniqueLock();
     return CameraPosition;
 }
 
 void Ermine::OrthographicCamera::SetCameraLocation(glm::vec2 Point)
 {
+    auto Mutex = GetCameraUniqueLock();
     SetCameraLocation(glm::vec3(Point, 0.0f));
 }
 
 void Ermine::OrthographicCamera::SetCameraLocation(glm::vec3 Point)
 {
+    auto Mutex = GetCameraUniqueLock();
     CameraPosition = Point;
     CacheUptoDate = false;
 }
 
 void Ermine::OrthographicCamera::TranslateCamera(glm::vec2 TranslateByAmount)
 {
+    auto Mutex = GetCameraUniqueLock();
     TranslateCamera(glm::vec3(TranslateByAmount, 0.0f));
 }
 
 void Ermine::OrthographicCamera::TranslateCamera(glm::vec3 TranslateByAmount)
 {
+    auto Mutex = GetCameraUniqueLock();
     CameraPosition = CameraPosition + TranslateByAmount;
     CacheUptoDate = false;
 }
 
 void Ermine::OrthographicCamera::SetTranslateVelocityToCamera(glm::vec2 Velocity)
 {
+    auto Mutex = GetCameraUniqueLock();
     this->CameraVelocity = Velocity;
 }
 
 float Ermine::OrthographicCamera::GetCameraRotation(bool Degrees)
 {
+    auto Mutex = GetCameraUniqueLock();
     if (Degrees)
     {
         return RotationInDegrees;
@@ -121,6 +137,7 @@ float Ermine::OrthographicCamera::GetCameraRotation(bool Degrees)
 }
 void Ermine::OrthographicCamera::SetCameraRotation(float RotationInDegrees)
 {
+    auto Mutex = GetCameraUniqueLock();
     this->RotationInDegrees = RotationInDegrees;
 
     CacheUptoDate = false;
@@ -128,6 +145,7 @@ void Ermine::OrthographicCamera::SetCameraRotation(float RotationInDegrees)
 
 void Ermine::OrthographicCamera::RotateCameraBy(float RotationInDegrees)
 {
+    auto Mutex = GetCameraUniqueLock();
     this->RotationInDegrees = RotationInDegrees;
 
     if (this->RotationInDegrees >= 360.0f)
@@ -140,6 +158,7 @@ void Ermine::OrthographicCamera::RotateCameraBy(float RotationInDegrees)
 
 void Ermine::OrthographicCamera::SetProjectionMatrix(glm::mat4 ProjectionMatrix)
 {
+    auto Mutex = GetCameraUniqueLock();
     //Set The Internal Projection Matrix To The Recieved Projection Matrix
     this->ProjectionMatrix = ProjectionMatrix;
 
@@ -148,6 +167,7 @@ void Ermine::OrthographicCamera::SetProjectionMatrix(glm::mat4 ProjectionMatrix)
 
 void Ermine::OrthographicCamera::SetFOV(float Left, float Right, float Bottom, float Top)
 {
+    auto Mutex = GetCameraUniqueLock();
     this->ProjectionMatrix = glm::ortho<float>(Left, Right, Bottom, Top, -5.0f, 5.0f);
 
     CacheUptoDate = false;
@@ -155,6 +175,7 @@ void Ermine::OrthographicCamera::SetFOV(float Left, float Right, float Bottom, f
 
 void Ermine::OrthographicCamera::SetDepth(float NearLimit, float FarLimit)
 {
+    auto Mutex = GetCameraUniqueLock();
     //This Function Is Absolutely Not Tested And I Would Not Recommend Using This Function Without First Testing It Thoroughly..
     //Furthermore This Function I Think Is Pretty Expensive (Instrumentation Not Done :<) PLease Dont USe This Often.. Not Using It Ever Is Better
     
@@ -199,6 +220,8 @@ void Ermine::OrthographicCamera::SetDepth(float NearLimit, float FarLimit)
 
 void Ermine::OrthographicCamera::CentreOnActor(Actor2DBase* Act, glm::vec2 OffsetOfCameraFromActorCentre, float CentreSpeed, bool InheritRotation)
 {
+    auto Mutex = GetCameraUniqueLock();
+
     //Making SUre This Set To False In The First Place So That There Will Be No Problem When Trying To Switch Connections Id You Are Doing That I Reckon
     TemperoryPauseCentreOnActor = false;
 
@@ -224,6 +247,8 @@ void Ermine::OrthographicCamera::CentreOnActor(Actor2DBase* Act, glm::vec2 Offse
 
 void Ermine::OrthographicCamera::SetCentreSpeed(float CentreSpeed)
 {
+    auto Mutex = GetCameraUniqueLock();
+
     if (CentreSpeed >= 0.0f && CentreSpeed <= 1.0f)
         this->CentreSpeed = CentreSpeed;
     else if (CentreSpeed < 0.0f)
@@ -233,16 +258,20 @@ void Ermine::OrthographicCamera::SetCentreSpeed(float CentreSpeed)
 }
 void Ermine::OrthographicCamera::SetInheritRotation(bool InheritRotation)
 {
+    auto Mutex = GetCameraUniqueLock();
+
     this->InheritActorRotation = InheritRotation;
 }
 
 
 void Ermine::OrthographicCamera::StopCentreOnActor()
 {
+    auto Mutex = GetCameraUniqueLock();
     TemperoryPauseCentreOnActor = true;
 }
 void Ermine::OrthographicCamera::ResumeCentreOnActor()
 {
+    auto Mutex = GetCameraUniqueLock();
     TemperoryPauseCentreOnActor = false;
 }
 
@@ -252,6 +281,7 @@ std::queue<glm::vec2> StepsBufferY;
 
 void Ermine::OrthographicCamera::OnUpdate()
 {
+    auto Mutex = GetCameraUniqueLock();
     if (ActorToCentreOn != nullptr)
     {
         if (TemperoryPauseCentreOnActor == false)
@@ -377,6 +407,7 @@ void Ermine::OrthographicCamera::OnUpdate()
 
 void Ermine::OrthographicCamera::HelperRecalculateViewMatrix()
 {
+    auto Mutex = GetCameraUniqueLock();
     //Construct Identity Matrix
     glm::mat4 IdentityMat(1.0f);
 
@@ -390,3 +421,27 @@ void Ermine::OrthographicCamera::HelperRecalculateViewMatrix()
 
     CacheUptoDate = true;
 }
+
+void Ermine::OrthographicCamera::OnTickFunctionMessageReciever(Event* Eve)
+{
+    if (Eve->GetEventType() != Ermine::EventType::OnTickEvent)
+    {
+        STDOUTDefaultLog_Critical("Orthographic Camera Recieved An Event Which Is Not The Event Tick Into The Event Tick Reciever.. Please See That Such A Thing Is Not Repeated..");
+        //Exitting As This IS An Unrecoverable Catestrophic Error..
+        exit(-1);
+    }
+
+    Ermine::OnTickEvent* TickEvent = (Ermine::OnTickEvent*)Eve;
+    float DeltaTime = TickEvent->GetDeltaTime();
+
+    OnTickCameraDefaultProcessing(DeltaTime);
+
+    if (OnTickFunction != nullptr)
+        OnTickFunction(DeltaTime);
+}
+
+void Ermine::OrthographicCamera::OnTickCameraDefaultProcessing(float DeltaTime)
+{
+
+}
+

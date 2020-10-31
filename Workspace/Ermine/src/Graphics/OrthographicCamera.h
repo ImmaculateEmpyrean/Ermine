@@ -7,11 +7,17 @@
 
 #include<glm.hpp>
 
+#include<Object.h>
+
+#include "EventSystem/EventBroadcastStation.h"
+#include "EventSystem/Components/RecieverComponent.h"
+#include "EventSystem/EventTypes/OnTickEvent.h"
+
 #include "2DPrimitives/ActorFamily/Actor2D.h"
 
 namespace Ermine
 {
-	class OrthographicCamera
+	class OrthographicCamera:public Object
 	{
 	private:
 		//You Dont Really Need Two Or More Cameras Right.. So For Now Lets Have it As A Singleton..
@@ -81,7 +87,21 @@ namespace Ermine
 		//This Function Recalculates ProjectionViewMatrix And ViewMatrix
 		void HelperRecalculateViewMatrix();
 
+		//Use This Function To Set The Function To Be Called By The Camera Every Frame..
+		void OnTick(std::function<void(float)> OnTickFunction) { this->OnTickFunction = OnTickFunction; }
+		
+		void OnTickFunctionMessageReciever(Event* Eve);
+		void OnTickCameraDefaultProcessing(float DeltaTime);
+
+		std::unique_lock<std::recursive_mutex> GetCameraUniqueLock() { return std::move(std::unique_lock<std::recursive_mutex>(OrthigraphicCameraMutex)); }
+
 	private:
+		std::atomic_bool CameraReadyToRecieveEvents = true;
+		Ermine::SubscriptionTicket* OnTickEventTicket = nullptr;
+
+		//This Is The Function Which Will Be Run By The Camera As The Event OnTick.. Assign A Function Of Your Choice To Be Run
+		std::function<void(float)> OnTickFunction = nullptr;
+
 		static std::once_flag InitializedFlag;
 		static OrthographicCamera* Camera;
 
@@ -112,5 +132,7 @@ namespace Ermine
 		glm::vec3 CameraPosition;
 		glm::vec2 CameraVelocity = glm::vec2(0.0f,0.0f);
 		float RotationInDegrees;
+
+		std::recursive_mutex OrthigraphicCameraMutex;
 	};
 }
