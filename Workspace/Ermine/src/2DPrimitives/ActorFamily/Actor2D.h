@@ -49,7 +49,6 @@ namespace Ermine {
 
 #pragma region IMutexOverrides
 		//Start IMutex Overrides//
-		virtual std::unique_lock<std::recursive_mutex> GetUniqueLock() override { return std::move(std::unique_lock<std::recursive_mutex>(Actor2DMutex)); }
 		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::Actor2D; }
 		virtual Ermine::MutexGaurd GetErmineMutexGaurd() { return std::move(MutexGaurd(this, Ermine::MutexLevel::Actor2D)); };
 		//Ended IMutex Overrides//
@@ -89,7 +88,8 @@ namespace Ermine {
 	private:
 		
 	private:
-		std::recursive_mutex Actor2DMutex;
+
+
 	};
 
 }

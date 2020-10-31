@@ -44,7 +44,6 @@ namespace Ermine
 
 #pragma region IMutexOverrides
 		//Start IMutex Overrides//
-		virtual std::unique_lock<std::recursive_mutex> GetUniqueLock() override { return std::unique_lock<std::recursive_mutex>(ImageBaseMutex); }
 		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::ImageBase; }
 		virtual Ermine::MutexGaurd GetErmineMutexGaurd() { return std::move(MutexGaurd(this, Ermine::MutexLevel::ImageBase)); };
 		//Ended IMutex Overrides//
@@ -87,8 +86,5 @@ namespace Ermine
 	private:
 		//This Must Be Able to Be Set Manually By A Child Class.. edit -It Will Be Done USing Method Calls Not Exactly INteraction With The Object
 		std::shared_ptr<Sprite> Actorsprite;
-
-		//This Is The Main Mutex Held By The Class In Question.. Must Be Aquired Before Most Methods Can Begin Executing..
-		std::recursive_mutex ImageBaseMutex;
 	};
 }

@@ -43,7 +43,6 @@ namespace Ermine {
 	public:
 #pragma region IMutexOverrides
 		//Start IMutex Overrides//
-		virtual std::unique_lock<std::recursive_mutex> GetUniqueLock() override { return std::unique_lock<std::recursive_mutex>(ActorStandradMutex); }
 		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::ActorBase; }
 		virtual Ermine::MutexGaurd GetErmineMutexGaurd() { return std::move(MutexGaurd(this, Ermine::MutexLevel::ActorBase)); };
 		//Ended IMutex Overrides//
@@ -96,9 +95,6 @@ namespace Ermine {
 
 
 	private:
-		//This Mutex Must Be Claimed When Performing Anything On Actor.. Since Actor Now Is Multithreaded.. 
-		std::recursive_mutex ActorStandradMutex;
-
 		std::atomic_bool ActorReadyToRecieveEvents = true;
 		Ermine::SubscriptionTicket* OnTickEventTicket = nullptr;
 

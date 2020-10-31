@@ -17,7 +17,7 @@ namespace Ermine
 	class IMutex
 	{
 	public:
-		virtual std::unique_lock<std::recursive_mutex> GetUniqueLock() = 0;
+		//virtual std::unique_lock<std::recursive_mutex> GetUniqueLock() = 0;
 		virtual Ermine::MutexLevel GetMutexLevel() = 0;
 
 		virtual Ermine::MutexGaurd GetErmineMutexGaurd() = 0;
