@@ -61,6 +61,7 @@ namespace Ermine
 		//Start IMutex Overrides//
 		virtual std::unique_lock<std::recursive_mutex> GetUniqueLock() override { return std::unique_lock<std::recursive_mutex>(PhysicsActorMutex); }
 		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::PhysicsActor; }
+		virtual Ermine::MutexGaurd GetErmineMutexGaurd() { return std::move(MutexGaurd(this, Ermine::MutexLevel::PhysicsActor)); };
 		//Ended IMutex Overrides//
 #pragma endregion
 

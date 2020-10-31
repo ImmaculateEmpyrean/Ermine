@@ -32,8 +32,8 @@ namespace Ermine
 		virtual ~ImageBase();
 
 		//Image Base Now Incorporates A Mutex And Hence It Cant Be Copied Or Moved Trivially..//
-		ImageBase(const ImageBase& rhs);
-		ImageBase& operator=(const ImageBase& rhs);
+		ImageBase(ImageBase& rhs);
+		ImageBase& operator=(ImageBase& rhs);
 
 		ImageBase(ImageBase&& rhs);
 		ImageBase& operator=(ImageBase&& rhs);
@@ -46,6 +46,7 @@ namespace Ermine
 		//Start IMutex Overrides//
 		virtual std::unique_lock<std::recursive_mutex> GetUniqueLock() override { return std::unique_lock<std::recursive_mutex>(ImageBaseMutex); }
 		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::ImageBase; }
+		virtual Ermine::MutexGaurd GetErmineMutexGaurd() { return std::move(MutexGaurd(this, Ermine::MutexLevel::ImageBase)); };
 		//Ended IMutex Overrides//
 #pragma endregion
 
@@ -53,7 +54,7 @@ namespace Ermine
 		virtual Ermine::ActorFamilyIdentifier GetActorFamilyIdentifier() { return ActorFamilyIdentifier::ImageBase; }
 
 		//The ImageBase Provides Some Functions To Interact With The Sprite It Stores..
-		std::shared_ptr<Sprite> GetSprite() const;
+		std::shared_ptr<Sprite> GetSprite();
 		void SetSprite(std::shared_ptr<Sprite> Sprite);
 
 		//We Now Know That This Is A Quad.. Hence Return The Indices which Make The Quad Possible..

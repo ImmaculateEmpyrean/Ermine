@@ -39,8 +39,8 @@ namespace Ermine {
 		virtual ~Actor2D();
 
 		//Start Must Implement Custom Copy And Move As This Class Now Holds A Mutex..//
-		Actor2D(const Actor2D& rhs);
-		Actor2D& operator=(const Actor2D& rhs);
+		Actor2D(Actor2D& rhs);
+		Actor2D& operator=(Actor2D& rhs);
 
 		Actor2D(Actor2D&& rhs);
 		Actor2D& operator=(Actor2D&& rhs);
@@ -50,7 +50,8 @@ namespace Ermine {
 #pragma region IMutexOverrides
 		//Start IMutex Overrides//
 		virtual std::unique_lock<std::recursive_mutex> GetUniqueLock() override { return std::move(std::unique_lock<std::recursive_mutex>(Actor2DMutex)); }
-		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::ActorBase; }
+		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::Actor2D; }
+		virtual Ermine::MutexGaurd GetErmineMutexGaurd() { return std::move(MutexGaurd(this, Ermine::MutexLevel::Actor2D)); };
 		//Ended IMutex Overrides//
 #pragma endregion
 		
@@ -60,6 +61,9 @@ namespace Ermine {
 		virtual Ermine::ActorFamilyIdentifier GetActorFamilyIdentifier() override { return ActorFamilyIdentifier::Actor2D; }
 
 		virtual std::vector<float> CalculateModelSpaceVertexes() override;
+
+		//This Function Is Overriden So As To Update MovableObject.. But for now it is empty..
+		virtual void ClassOnTick(float dt) override {};
 
 #pragma region IMovableActorOverrides 
 		//Start Implementation Of Movable Actor//

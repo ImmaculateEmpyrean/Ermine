@@ -13,7 +13,7 @@ namespace Ermine
 
 	public:
 		std::string GetUniqueIdentifier() { return UniqueIdentifier; }
-
+		
 	public:
 
 	protected:
@@ -21,6 +21,7 @@ namespace Ermine
 	protected:
 
 	private:
+		virtual void Dummy() {}
 
 	private:
 		static int Counter;

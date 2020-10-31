@@ -15,6 +15,5 @@ namespace Ermine
 
 		Actor2D = 3,
 		PhysicsActor = 3
-
 	};
 }

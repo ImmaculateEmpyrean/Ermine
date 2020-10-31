@@ -9,18 +9,12 @@ namespace Ermine
 
 	MovableObject::MovableObject()
 	{
-		//Subscribe To Recieve Tick Events.. Required If You Wanna Update Velocity And Angular Velocity In Real Time
-		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&MovableObject::Update), SwitchToControlEventExecution, Ermine::EventType::OnTickEvent)));
-
 		HelperRecalculateCache();
 	}
 	MovableObject::MovableObject(glm::vec2 SpawnPosition)
 		:
 		Position(SpawnPosition)
 	{
-		//Subscribe To Recieve Tick Events.. Required If You Wanna Update Velocity And Angular Velocity In Real Time
-		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&MovableObject::Update), SwitchToControlEventExecution, Ermine::EventType::OnTickEvent)));
-
 		HelperRecalculateCache();
 	}
 	MovableObject::MovableObject(glm::vec2 SpawnPosition, float Rotation)
@@ -28,9 +22,6 @@ namespace Ermine
 		Position(SpawnPosition),
 		Rotation(Rotation)
 	{
-		//Subscribe To Recieve Tick Events.. Required If You Wanna Update Velocity And Angular Velocity In Real Time
-		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&MovableObject::Update), SwitchToControlEventExecution, Ermine::EventType::OnTickEvent)));
-
 		HelperRecalculateCache();
 	}
 	MovableObject::MovableObject(glm::vec2 SpawnPosition, float Rotation, glm::vec2 Scale)
@@ -39,9 +30,6 @@ namespace Ermine
 		Rotation(Rotation),
 		scale(Scale)
 	{
-		//Subscribe To Recieve Tick Events.. Required If You Wanna Update Velocity And Angular Velocity In Real Time
-		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&MovableObject::Update), SwitchToControlEventExecution, Ermine::EventType::OnTickEvent)));
-
 		HelperRecalculateCache();
 	}
 	MovableObject::MovableObject(float Rotation, glm::vec2 Scale)
@@ -49,13 +37,11 @@ namespace Ermine
 		Rotation(Rotation),
 		scale(Scale)
 	{
-		//Subscribe To Recieve Tick Events.. Required If You Wanna Update Velocity And Angular Velocity In Real Time
-		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&MovableObject::Update), SwitchToControlEventExecution, Ermine::EventType::OnTickEvent)));
-
 		HelperRecalculateCache();
 	}
 	MovableObject::MovableObject(glm::mat4 ModelMatrix)
 	{
+
 		glm::vec3 scale;
 		glm::quat rotation;
 		glm::vec3 translation;
@@ -75,10 +61,7 @@ namespace Ermine
 	}
 
 	MovableObject::~MovableObject()
-	{
-		if (OnTickEventTicket != nullptr)
-			delete OnTickEventTicket;
-	}
+	{}
 
 	MovableObject::MovableObject(const MovableObject& rhs)
 	{
@@ -125,8 +108,6 @@ namespace Ermine
 		Velocity = rhs.Velocity;
 		AngularVelocityInDegrees = rhs.AngularVelocityInDegrees;
 
-		SwitchToControlEventExecution.store(rhs.SwitchToControlEventExecution.load());
-		OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&MovableObject::Update), SwitchToControlEventExecution, Ermine::EventType::OnTickEvent)));
 	}
 
 	void MovableObject::HelperMove(MovableObject&& rhs)
@@ -149,12 +130,6 @@ namespace Ermine
 		Velocity = std::move(rhs.Velocity);
 		AngularVelocityInDegrees = std::move(rhs.AngularVelocityInDegrees);
 
-		SwitchToControlEventExecution.store(rhs.SwitchToControlEventExecution.load());
-
-		//This Part Is The Only Difference I Know Of Between Copy And Move Essentially As To Me.. glm maybe wired for move or not I donot know//
-		OnTickEventTicket = rhs.OnTickEventTicket;
-		rhs.OnTickEventTicket = nullptr;
-		//Ended Part//
 	}
 
 #pragma endregion Constructors
@@ -163,6 +138,8 @@ namespace Ermine
 
 	glm::mat4 MovableObject::GetModelMatrix()
 	{
+		
+
 		if (ModelMatrixCacheValid == true)
 			return ModelMatrix;
 		else
@@ -407,9 +384,9 @@ namespace Ermine
 		ModelMatrixCacheValid = true;
 	}
 
-	void MovableObject::Update(Event* Eve)
+	void MovableObject::Update()
 	{
-		std::lock_guard<std::mutex> GaurdMovableObjectMutex(MovableObjectStandradMutex);
+		STDOUTDefaultLog_Trace("Update Called in Movable Object");
 	}
 
 #pragma endregion Helpers

@@ -133,9 +133,6 @@ void Ermine::App::OnTick()
 	if (Once)
 	{
 		Once = false;
-
-		
-
 	}
 
 	static bool l = true;

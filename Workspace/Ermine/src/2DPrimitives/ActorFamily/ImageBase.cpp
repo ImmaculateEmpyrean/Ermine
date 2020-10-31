@@ -12,6 +12,8 @@ namespace Ermine
 		Actor2DBase(), //Invoking The Default Constructor I Guess..
 		Actorsprite(Spr)
 	{
+		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+
 		//Setup The Renderable to Be Working..
 		RefreshRenderable2D(); 
 	}
@@ -19,6 +21,8 @@ namespace Ermine
 		:
 		Actor2DBase() //Invoking The Default Constructor I Guess..
 	{
+		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+		
 		//A SpriteBuffer Properly Translates To A SpriteBook..
 		//A SpriteBook Has The Same Interfaace As The Sprite So I dont See Much Of A Problem..
 		Actorsprite = std::make_shared<SpriteBook>("SpriteBuffer", SpriteBuffer);
@@ -28,18 +32,26 @@ namespace Ermine
 	}
 
 	ImageBase::~ImageBase()
-	{}
+	{
+		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+	}
 
 
-	ImageBase::ImageBase(const ImageBase& rhs)
+	ImageBase::ImageBase(ImageBase& rhs)
 		:
 		Actor2DBase(rhs),
 		RenderableTextureModule(rhs)
 	{
+		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+		auto gaurd2 = rhs.GetErmineMutexGaurd();
+
 		Actorsprite = rhs.Actorsprite;
 	}
-	ImageBase& ImageBase::operator=(const ImageBase& rhs)
+	ImageBase& ImageBase::operator=(ImageBase& rhs)
 	{
+		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+		auto gaurd2 = rhs.GetErmineMutexGaurd();
+
 		Actor2DBase::operator=(rhs);
 		RenderableTextureModule::operator=(rhs);
 
@@ -52,11 +64,17 @@ namespace Ermine
 		Actor2DBase(std::move(rhs)),
 		RenderableTextureModule(std::move(rhs))
 	{
+		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+		auto gaurd2 = rhs.GetErmineMutexGaurd();
+
 		Actorsprite = std::move(rhs.Actorsprite);
 		rhs.Actorsprite = nullptr;
 	}
 	ImageBase& ImageBase::operator=(ImageBase&& rhs)
 	{
+		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+		auto gaurd2 = rhs.GetErmineMutexGaurd();
+
 		Actor2DBase::operator=(std::move(rhs));
 		RenderableTextureModule::operator=(std::move(rhs));
 
@@ -67,12 +85,16 @@ namespace Ermine
 #pragma endregion Constructors
 
 	//Start Setter And Getter For The ActorSprite..// 
-	std::shared_ptr<Sprite> ImageBase::GetSprite() const
+	std::shared_ptr<Sprite> ImageBase::GetSprite()
 	{
+		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+
 		return Actorsprite;
 	}
 	void ImageBase::SetSprite(std::shared_ptr<Sprite> Sprite)
 	{
+		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+
 		Actorsprite = Sprite;
 		RenderableTextureModule::Clear();
 		RenderableTextureModule::SubmitTexture(Actorsprite->GetTexture());
@@ -83,10 +105,14 @@ namespace Ermine
 	//The Quad Class Already Contains A Nice Static Function.. Just Gotta Make Use Of It..
 	std::vector<uint32_t> ImageBase::GetIndices()
 	{
+		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+
 		return Ermine::Quad::GetModelIndices();
 	}
 	std::vector<float> ImageBase::CalculateModelSpaceVertexes()
 	{
+		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+
 		Ermine::VertexTextured TopRight(Quad::GetModelCoordinatesTopRight());
 		Ermine::VertexTextured BottomRight(Quad::GetModelCoordinatesBottomRight());
 		Ermine::VertexTextured BottomLeft(Quad::GetModelCoordinatesBottomLeft());
@@ -127,6 +153,8 @@ namespace Ermine
 	//Calculate Model Vertexes And Update The Renderable U Know The One thing That Actually Mattres When Drawing
 	void ImageBase::RefreshRenderable2D()
 	{
+		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+
 		auto Vao = Ermine::VertexArray(VertexBuffer(CalculateModelSpaceVertexes()), 
 									   IndexBuffer(GetIndices()));
 		
@@ -142,6 +170,8 @@ namespace Ermine
 
 	std::vector<VertexAttribPointerSpecification> ImageBase::GetVertexAttribSpecificationForTheActor()
 	{
+		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+
 		static std::vector<VertexAttribPointerSpecification> Spec = {
 				{3,GL_FLOAT,false},
 				{3,GL_FLOAT,false},
@@ -153,6 +183,8 @@ namespace Ermine
 
 	std::vector<int> ImageBase::BindTexturesContained()
 	{
+		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+
 		std::vector<int> BoundVector;
 		BoundVector.resize(16, 0);
 

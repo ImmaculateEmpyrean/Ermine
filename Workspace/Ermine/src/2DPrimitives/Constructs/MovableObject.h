@@ -5,7 +5,11 @@
 
 #include<glm.hpp>
 
+#include "Object.h"
 #include<mutex>
+
+#include "MutexSystem/Interfaces/IMutex.h"
+#include "MutexSystem/MutexGaurd.h"
 
 #include "EventSystem/EventBroadcastStation.h"
 #include "EventSystem/Components/RecieverComponent.h"
@@ -13,6 +17,8 @@
 
 namespace Ermine
 {
+	class Actor2D;
+
 	class MovableObject
 	{
 	public:
@@ -48,7 +54,14 @@ namespace Ermine
 		//Start Getter Methods
 #pragma endregion
 
-	public:
+	/*public:
+#pragma region IMutexOverrides
+		//Start IMutex Overrides//
+		virtual std::unique_lock<std::recursive_mutex> GetUniqueLock() override { return std::unique_lock<std::recursive_mutex>(MovableObjectStandradMutex); }
+		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::MovableObject; }
+		//Ended IMutex Overrides//
+#pragma endregion
+*/
 
 		//This Is The Most Important Method Of The Class If You Ask Me.. 
 		virtual glm::mat4 GetModelMatrix();
@@ -107,7 +120,7 @@ namespace Ermine
 		void HelperRecalculateModelMatrix();
 
 		//This Function Is Not At All Exposed To The Outside World.. Used By The Movable Object To Update Itself
-		void Update(Event* Eve);
+		void Update();
 
 		void HelperCopy(const MovableObject& rhs);
 		void HelperMove(MovableObject&& rhs);
@@ -137,8 +150,6 @@ namespace Ermine
 		glm::vec2 Velocity = glm::vec2(0.0f);
 		float AngularVelocityInDegrees = 0.0f;
 
-		std::mutex MovableObjectStandradMutex;
-		std::atomic_bool SwitchToControlEventExecution = true;
-		Ermine::SubscriptionTicket* OnTickEventTicket = nullptr;
+		friend class Ermine::Actor2D;
 	};
 }

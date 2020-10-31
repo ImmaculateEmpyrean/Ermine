@@ -37,17 +37,19 @@ namespace Ermine
 	}
 
 	Actor2D::~Actor2D()
-	{}
+	{
+		MUTEXGAURD(Ermine::MutexLevel::Actor2D);
+	}
 
 	//Sorely Missed Copy Constructor
-	Actor2D::Actor2D(const Actor2D & rhs)
+	Actor2D::Actor2D(Actor2D & rhs)
 		:
 		ImageBase(rhs.GetSprite()),
 		MovableObject(rhs)
 	{}
 
 	//Copy Operator
-	Actor2D& Actor2D::operator=(const Actor2D& rhs)
+	Actor2D& Actor2D::operator=(Actor2D& rhs)
 	{
 		ImageBase::operator=(rhs);
 		MovableObject::operator=(rhs);
@@ -61,12 +63,18 @@ namespace Ermine
 		ImageBase(std::move(rhs.GetSprite())),
 		MovableObject(std::move(rhs))
 	{
+		MUTEXGAURD(Ermine::MutexLevel::Actor2D);
+		auto Gaurd = rhs.GetErmineMutexGaurd();
+
 		rhs.SetSprite(nullptr);
 	}
 
 	//Sorely Missed Move Operator 
 	Actor2D& Actor2D::operator=(Actor2D&& rhs)
 	{
+		MUTEXGAURD(Ermine::MutexLevel::Actor2D);
+		auto Gaurd = rhs.GetErmineMutexGaurd();
+
 		ImageBase::operator=(std::move(rhs));
 		MovableObject::operator=(std::move(rhs));
 
@@ -77,6 +85,8 @@ namespace Ermine
 
 	std::vector<float> Actor2D::CalculateModelSpaceVertexes()
 	{
+		MUTEXGAURD(Ermine::MutexLevel::Actor2D);
+
 		Ermine::VertexTextured TopRight(Quad::GetModelCoordinatesTopRight());
 		Ermine::VertexTextured BottomRight(Quad::GetModelCoordinatesBottomRight());
 		Ermine::VertexTextured BottomLeft(Quad::GetModelCoordinatesBottomLeft());
@@ -117,26 +127,32 @@ namespace Ermine
 #pragma region MovableActorImplementation
 	glm::vec2 Actor2D::GetActorPosition()
 	{
+		MUTEXGAURD(Ermine::MutexLevel::Actor2D);
 		return MovableObject::GetScreenLocation();
 	}
 	void Actor2D::SetActorPosition(glm::vec2 ActorPosition)
 	{
+		MUTEXGAURD(Ermine::MutexLevel::Actor2D);
 		MovableObject::SetPosition(ActorPosition);
 	}
 	glm::vec2 Actor2D::GetActorVelocity()
 	{
+		MUTEXGAURD(Ermine::MutexLevel::Actor2D);
 		return MovableObject::GetVelocity();
 	}
 	void Actor2D::SetActorVelocity(glm::vec2 ActorVelocity)
 	{
+		MUTEXGAURD(Ermine::MutexLevel::Actor2D);
 		MovableObject::SetVelocity(ActorVelocity);
 	}
 	float Actor2D::GetAngularVelocity(bool Degrees)
 	{
+		MUTEXGAURD(Ermine::MutexLevel::Actor2D);
 		return MovableObject::GetAngularVelocity(Degrees);
 	}
 	void Actor2D::SetAngularVelocity(float AngularVelocity, bool Degrees)
 	{
+		MUTEXGAURD(Ermine::MutexLevel::Actor2D);
 		MovableObject::SetAngularVelocity(AngularVelocity, Degrees);
 	}
 #pragma endregion MovableActorImplementation

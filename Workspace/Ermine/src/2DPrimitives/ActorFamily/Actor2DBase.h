@@ -33,8 +33,8 @@ namespace Ermine {
 
 	public:
 		//Copy Must Be Custom Constructed As To Account For The Ticket
-		Actor2DBase(const Actor2DBase& rhs);
-		Actor2DBase& operator=(const Actor2DBase& rhs);
+		Actor2DBase(Actor2DBase& rhs);
+		Actor2DBase& operator=(Actor2DBase& rhs);
 		
 		//Move Must Be Custom Constructed As To Account For The Ticket
 		Actor2DBase(Actor2DBase&& rhs);
@@ -45,6 +45,7 @@ namespace Ermine {
 		//Start IMutex Overrides//
 		virtual std::unique_lock<std::recursive_mutex> GetUniqueLock() override { return std::unique_lock<std::recursive_mutex>(ActorStandradMutex); }
 		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::ActorBase; }
+		virtual Ermine::MutexGaurd GetErmineMutexGaurd() { return std::move(MutexGaurd(this, Ermine::MutexLevel::ActorBase)); };
 		//Ended IMutex Overrides//
 #pragma endregion
 		
@@ -89,7 +90,7 @@ namespace Ermine {
 
 #pragma region Helpers
 		void HelperConstructActorBase();
-		void HelperCopyConstructor(const Actor2DBase& rhs);
+		void HelperCopyConstructor(Actor2DBase& rhs);
 		void HelperMoveConstructor(Actor2DBase&& rhs);
 #pragma endregion
 
