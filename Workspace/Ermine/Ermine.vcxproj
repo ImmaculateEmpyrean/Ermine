@@ -211,11 +211,11 @@
     <ClInclude Include="src\LayerSystem\LayerStack.h" />
     <ClInclude Include="src\LayerSystem\LayerStackLayer.h" />
     <ClInclude Include="src\MutexSystem\Interfaces\IMutex.h" />
-    <ClInclude Include="src\MutexSystem\LockChamber.h" />
     <ClInclude Include="src\MutexSystem\MutexCasket.h" />
     <ClInclude Include="src\MutexSystem\MutexGaurd.h" />
     <ClInclude Include="src\MutexSystem\MutexManager.h" />
     <ClInclude Include="src\MutexSystem\MutexManagerLevelConfiguration.h" />
+    <ClInclude Include="src\MutexSystem\MutexState.h" />
     <ClInclude Include="src\NoiseGeneration\FastNoiseLite.h" />
     <ClInclude Include="src\Object.h" />
     <ClInclude Include="src\PCH\stdafx.h" />

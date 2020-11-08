@@ -156,11 +156,8 @@ void Ermine::App::OnTick()
 	LayerStackLayer Layer("Han");
 	Layer.SubmitRenderable(Act);
 
-	
-
 	static int ind = 10;
 	static bool Coke = false;
-
 
 	ImGui::Begin("Control Panel");
 	ImGui::SliderInt("Get Ind", &ind, 0, 10);

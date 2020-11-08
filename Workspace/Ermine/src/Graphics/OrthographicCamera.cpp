@@ -442,6 +442,6 @@ void Ermine::OrthographicCamera::OnTickFunctionMessageReciever(Event* Eve)
 
 void Ermine::OrthographicCamera::OnTickCameraDefaultProcessing(float DeltaTime)
 {
-
+    //This Function IS Not Really Needed In Most Cases As OnUpdate Serves The Same Purpose I Guess..
 }
 

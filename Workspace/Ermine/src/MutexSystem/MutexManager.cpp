@@ -4,8 +4,8 @@
 #include "Interfaces/IMutex.h"
 
 //Start Static Variables Declarations..//
-thread_local Ermine::MutexManager* Ermine::MutexManager::Manager = nullptr;
-thread_local std::once_flag Ermine::MutexManager::InitializationFlag;
+Ermine::MutexManager* Ermine::MutexManager::Manager = nullptr;
+std::once_flag Ermine::MutexManager::InitializationFlag;
 //Ended Static Variables Declarations..//
 
 Ermine::MutexManager* Ermine::MutexManager::GetManager()
@@ -17,8 +17,11 @@ Ermine::MutexManager* Ermine::MutexManager::GetManager()
     return Manager;
 }
 
-void Ermine::MutexManager::AcquireMutex(Ermine::Object* Obj, MutexLevel WhichMutex)
+Ermine::MutexState Ermine::MutexManager::AcquireMutex(Ermine::Object* Obj, MutexLevel WhichMutex)
 {
+    if (GetMutexState(Obj->GetUniqueIdentifier()) != Ermine::MutexState::Okay)
+        return Ermine::MutexState::Okay;
+
     bool FlagToAvoidFlood = false;
     bool FlagToAvoidGettingMutex = false;
 
@@ -33,8 +36,8 @@ void Ermine::MutexManager::AcquireMutex(Ermine::Object* Obj, MutexLevel WhichMut
         if (Casket != StorageBuffer.end())
         {
             //Casket Is Found.. //Maybe This Line Gas An Error Check It Out In The Future..
-            std::vector<Ermine::MutexCasket> LockCasket = std::move(Casket->second);
-            for (Ermine::MutexCasket& i : LockCasket)
+            //std::vector<Ermine::MutexCasket> LockCasket = std::move(Casket->second);
+            for (Ermine::MutexCasket& i : Casket->second)
             {
                 Ermine::MutexLevel CasketLevel = i.GetLevelNumber().value_or(Ermine::MutexLevel::Empty);
 
@@ -51,19 +54,16 @@ void Ermine::MutexManager::AcquireMutex(Ermine::Object* Obj, MutexLevel WhichMut
             {
                 if (FlagToAvoidGettingMutex == false)
                 {
-                    LockCasket.emplace_back(std::move(Ermine::MutexCasket(GetMutex(Obj->GetUniqueIdentifier(), (unsigned int)MutexInterface->GetMutexLevel()), MutexInterface->GetMutexLevel())));
-                    //LockCasket.emplace_back(std::move(Ermine::MutexCasket(MutexInterface->GetUniqueLock(), MutexInterface->GetMutexLevel())));
+                    Casket->second.emplace_back(std::move(Ermine::MutexCasket(GetMutex(Obj->GetUniqueIdentifier(), (unsigned int)MutexInterface->GetMutexLevel()), MutexInterface->GetMutexLevel())));
                 }
-                StorageBuffer.emplace(Obj->GetUniqueIdentifier(), std::move(LockCasket));
             }
             else
             {
                 //The Casket Has Been Flooded
-                LockCasket.clear();
-
+                Casket->second.clear();
+                
                 //Create A New Casket And Insert It Into The Storage Since One Does Not Exist..
-                LockCasket.emplace_back(std::move(Ermine::MutexCasket(GetMutex(Obj->GetUniqueIdentifier(),(unsigned int)MutexInterface->GetMutexLevel()), MutexInterface->GetMutexLevel())));//LockCasket.emplace_back(std::move(Ermine::MutexCasket(MutexInterface->GetUniqueLock(), MutexInterface->GetMutexLevel())));
-                StorageBuffer[Obj->GetUniqueIdentifier()] = std::move(LockCasket);
+                Casket->second.emplace_back(std::move(Ermine::MutexCasket(GetMutex(Obj->GetUniqueIdentifier(),(unsigned int)MutexInterface->GetMutexLevel()), MutexInterface->GetMutexLevel())));
             }
         }
         else
@@ -74,9 +74,10 @@ void Ermine::MutexManager::AcquireMutex(Ermine::Object* Obj, MutexLevel WhichMut
             StorageBuffer[Obj->GetUniqueIdentifier()] = std::move(LockCasket);
         }
     }
+    return GetMutexState(Obj->GetUniqueIdentifier());
 }
 
-void Ermine::MutexManager::ReleaseMutex(Ermine::Object* Obj, MutexLevel WhichMutex)
+void Ermine::MutexManager::ReleaseMutex(Ermine::Object* Obj, MutexLevel WhichMutex,Ermine::MutexState StateOfTheMutex)
 {
     IMutex* MutexInterface = dynamic_cast<IMutex*>(Obj);
     Ermine::MutexLevel RecievedLevel = MutexInterface->GetMutexLevel();
@@ -100,12 +101,24 @@ void Ermine::MutexManager::ReleaseMutex(Ermine::Object* Obj, MutexLevel WhichMut
             if (i == LockCasket.end())
                 break;
         }
-
         StorageBuffer[Obj->GetUniqueIdentifier()] = std::move(LockCasket);
     }
+    SetMutexState(Obj->GetUniqueIdentifier(), StateOfTheMutex);
 }
 
 std::unique_lock<std::recursive_mutex> Ermine::MutexManager::GetMutex(std::string ObjectName, unsigned int LevelNumber)
 {
-    return std::move(std::unique_lock<std::recursive_mutex>((MutexStorage[ObjectName])[LevelNumber]));
+    return std::move(std::unique_lock<std::recursive_mutex>((MutexStorage[ObjectName]).second[LevelNumber]));
+}
+
+Ermine::MutexState Ermine::MutexManager::GetMutexState(std::string ObjectName)
+{
+    if (MutexStorage.find(ObjectName) == MutexStorage.end())
+        return MutexState::Okay;
+    else
+        return (MutexStorage[ObjectName]).first;
+}
+void Ermine::MutexManager::SetMutexState(std::string ObjectName,Ermine::MutexState State)
+{
+    (MutexStorage[ObjectName]).first = State;
 }
