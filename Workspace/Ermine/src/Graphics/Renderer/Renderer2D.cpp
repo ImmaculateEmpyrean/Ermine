@@ -176,36 +176,36 @@ namespace Ermine
 
 		for (auto layer : RendererLayerStack.AllLayersAssociated)
 		{
-			for (Renderable2D* i : layer->Renderables)
+			for (std::shared_ptr<Ermine::Renderable2D> i : layer->Renderables)
 			{
 				i->Bind();
 
 				//Start If A Movable Object Is Detected Inside The Rendererable Do The Following Steps//
-				if(dynamic_cast <Ermine::MovableObject*>(i))
+				if(dynamic_cast <Ermine::MovableObject*>(&(*i)))
 				{
 					i->Bind();
 					
-					MovableObject* MovObj = dynamic_cast<MovableObject*>(i);
+					MovableObject* MovObj = dynamic_cast<MovableObject*>(&(*i));
 					i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ModelMatrix"), (MovObj)->GetModelMatrix());
 				}
 				//Ended If A Movable Object Is Detected Inside The Rendererable Do The Following Steps//
 
 				//Start If A PhysicsComponent2D is detected inside the rendererable do the following steps//
-				if (dynamic_cast <Ermine::RenderablePhysicsComponent2D*>(i))
+				if (dynamic_cast <Ermine::RenderablePhysicsComponent2D*>(&(*i)))
 				{
 					i->Bind();
 
-					RenderablePhysicsComponent2D* PhysicsObject = dynamic_cast<RenderablePhysicsComponent2D*>(i);
+					RenderablePhysicsComponent2D* PhysicsObject = dynamic_cast<RenderablePhysicsComponent2D*>(&(*i));
 					i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ModelMatrix"), (PhysicsObject)->GetTranslationMatrix());
 				}
 				//Ended If A PhysicsComponent2D is detected inside the rendererable do the following steps//
 
 				//Start If A Renderable Texture module Is detected Inside the renderable do the following steps//
-				if (dynamic_cast <Ermine::RenderableTextureModule*>(i))
+				if (dynamic_cast <Ermine::RenderableTextureModule*>(&(*i)))
 				{
 					i->Bind();
 
-					Ermine::RenderableTextureModule* Ptr = (RenderableTextureModule*)i;
+					Ermine::RenderableTextureModule* Ptr = (RenderableTextureModule*)&(*i);
 					std::vector<int> TextureArray = Ptr->BindTexturesContained();
 					TextureArray.resize(16, 0);
 

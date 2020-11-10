@@ -15,6 +15,7 @@ void EventBroadcastStationMainRoutine()
 	{
 		_sleep(100);
 		auto Station = Ermine::EventBroadcastStation::GetStation();
+		Station->
 		Station->DispatchMessages();
 	}
 }
@@ -151,12 +152,10 @@ void Ermine::EventBroadcastStation::DestroySubscription(Ermine::SubscriptionTick
 	//Also I Think The Mutex Is Way Too Coarse Grained.. Maybe Fix It A Bit In The Future
 }
 
-
-
 void Ermine::EventBroadcastStation::DispatchMessages()
 {
 	std::unique_lock<std::mutex> Loc(MainMutex);//std::lock_guard<std::mutex> Loc(MainMutex, std::adopt_lock);
-	
+
 	//Just Iterate Over All Buffers And Try To Dispatch The Messages...
 	DispatchConcreteMessages();
 	DispatchKeyCallbackMessages();
@@ -166,6 +165,11 @@ void Ermine::EventBroadcastStation::DispatchMessages()
 	DispatchScrollCallbackMessages();
 	DispatchTileSelectedCallbackMessages();
 	DispatchOnTickCallbackMessages();
+}
+
+void Ermine::EventBroadcastStation::CheckObjectsHealthAndDeleteLowHealth()
+{
+
 }
 
 void Ermine::EventBroadcastStation::DispatchConcreteMessages()

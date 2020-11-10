@@ -80,8 +80,37 @@ namespace Ermine
 
 		return *this;
 	}
-
 #pragma endregion Constructors
+
+#pragma region GeneratorFunctions
+	std::shared_ptr<Actor2D> Actor2D::GenerateActor2D(std::filesystem::path TexturePath)
+	{
+		auto Sprite = GenSprite(TexturePath, glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f));
+		std::shared_ptr<Ermine::Actor2D> Act = std::make_shared<Ermine::Actor2D>(Sprite);
+		return Act;
+	}
+
+	std::shared_ptr<Actor2D> Actor2D::GenerateActor2D(std::filesystem::path TexturePath, glm::vec2 ActorScreenLocation, float Rotation, glm::vec2 Scale)
+	{
+		glm::mat4 ModelMatrix = GenModelMatrix(ActorScreenLocation, Rotation, Scale);
+		auto Spr = GenSprite(TexturePath, glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f));
+		std::shared_ptr<Ermine::Actor2D> Act = std::make_shared<Ermine::Actor2D>(Spr,ModelMatrix);
+		return Act;
+	}
+
+	std::shared_ptr<Actor2D> Actor2D::GenerateActor2D(std::shared_ptr<Sprite> Spr)
+	{
+		std::shared_ptr<Ermine::Actor2D> Act = std::make_shared<Ermine::Actor2D>(Spr);
+		return Act;
+	}
+
+	std::shared_ptr<Actor2D> Actor2D::GenerateActor2D(std::shared_ptr<Sprite> Spr, glm::vec2 ActorScreenLocation, float Rotation, glm::vec2 Scale)
+	{
+		glm::mat4 ModelMatrix = GenModelMatrix(ActorScreenLocation, Rotation, Scale);
+		std::shared_ptr<Ermine::Actor2D> Act = std::make_shared<Ermine::Actor2D>(Spr,ModelMatrix);
+		return Act;
+	}
+#pragma endregion
 
 	std::vector<float> Actor2D::CalculateModelSpaceVertexes()
 	{
@@ -156,5 +185,26 @@ namespace Ermine
 		MovableObject::SetAngularVelocity(AngularVelocity, Degrees);
 	}
 #pragma endregion MovableActorImplementation
+
+	std::shared_ptr<Ermine::Sprite> Actor2D::GenSprite(std::filesystem::path TexturePath, glm::vec2 BottomLeft, glm::vec2 TopRight)
+	{
+		auto Cache = Ermine::GlobalTextureCache::Get();
+		std::shared_ptr<Ermine::Texture> Tex = Cache->GetTextureFromFile(TexturePath);
+
+		std::shared_ptr<Ermine::Sprite> Sprite = Ermine::Sprite::GenerateSprite(Tex,BottomLeft,TopRight);
+
+		return Sprite;
+	}
+
+	glm::mat4 Actor2D::GenModelMatrix(glm::vec2 ActorScreenLocation, float Rotation, glm::vec2 Scale)
+	{
+		glm::mat4 ModelMatrix = glm::mat4(1.0f);
+		ModelMatrix = glm::translate(ModelMatrix, glm::vec3(ActorScreenLocation, 0.0f));
+		ModelMatrix = glm::rotate(ModelMatrix, glm::radians<float>(Rotation), glm::vec3(0.0f, 0.0f, 1.0f));
+		ModelMatrix = glm::scale(ModelMatrix, glm::vec3(Scale, 1.0f));
+
+		return ModelMatrix;
+	}
+
 
 }

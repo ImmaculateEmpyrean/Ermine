@@ -59,6 +59,8 @@ namespace Ermine
 		//std::lock_guard<std::recursive_mutex> Loc(ActorStandradMutex);
 		MUTEXGAURD(Ermine::MutexLevel::ActorBase);
 
+		if()
+
 		//First Get The Class Tick Done
 		ClassOnTick(((OnTickEvent*)Message)->GetDeltaTime());
 

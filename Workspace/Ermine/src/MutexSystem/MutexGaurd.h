@@ -36,6 +36,7 @@ class MutexGaurd;
 		void Unlock();
 		void Lock();
 
+		MutexState GetMutexState();
 	protected:
 
 	protected:

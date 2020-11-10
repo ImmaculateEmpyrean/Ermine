@@ -9,6 +9,8 @@
 
 #include "Interfaces/IMovableActor.h"
 
+#include "EngineResourceHandlers/GlobalTextureCache.h"
+
 namespace Ermine {
 
 	//An Actor Is Something That Is Displayed And Movable Nothing Else.. Do Not Asume It Contains Only one Sprite Or Any Such Nonesense..
@@ -45,6 +47,13 @@ namespace Ermine {
 		Actor2D(Actor2D&& rhs);
 		Actor2D& operator=(Actor2D&& rhs);
 		//Ended Must Implement Custom Copy And Move As This Class Now Holds A Mutex..//
+#pragma endregion
+
+#pragma region GeneratorFunctions
+		static std::shared_ptr<Actor2D> GenerateActor2D(std::filesystem::path TexturePath);
+		static std::shared_ptr<Actor2D> GenerateActor2D(std::filesystem::path TexturePath, glm::vec2 ActorScreenLocation, float Rotation = 0.0f, glm::vec2 Scale = {1.0f,1.0f});
+		static std::shared_ptr<Actor2D> GenerateActor2D(std::shared_ptr<Sprite> Spr);
+		static std::shared_ptr<Actor2D> GenerateActor2D(std::shared_ptr<Sprite> Spr, glm::vec2 ActorScreenLocation, float Rotation = 0.0f, glm::vec2 Scale = { 1.0f,1.0f });
 #pragma endregion
 
 #pragma region IMutexOverrides
@@ -86,7 +95,8 @@ namespace Ermine {
 	protected:
 
 	private:
-		
+		static std::shared_ptr<Ermine::Sprite> GenSprite(std::filesystem::path TexturePath,glm::vec2 BottomLeft,glm::vec2 TopRight);
+		static glm::mat4 GenModelMatrix(glm::vec2 ActorScreenLocation, float Rotation, glm::vec2 Scale);
 	private:
 
 

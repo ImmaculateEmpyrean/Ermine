@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Sprite.h"
 
+#include "EngineResourceHandlers/GlobalTextureCache.h"
+
 namespace Ermine
 {
 	Sprite::Sprite(std::shared_ptr<Texture> Tex, glm::vec2 BottomLeftUV, glm::vec2 TopRightUV)
@@ -11,6 +13,21 @@ namespace Ermine
 	{}
 	Sprite::~Sprite()
 	{}
+
+	std::shared_ptr<Ermine::Sprite> Sprite::GenerateSprite(std::filesystem::path TexturePath, glm::vec2 BottomLeftUV, glm::vec2 TopRightUV)
+	{
+		auto Cache = Ermine::GlobalTextureCache::Get();
+		std::shared_ptr<Ermine::Texture> Text = Cache->GetTextureFromFile(TexturePath);
+
+		std::shared_ptr<Ermine::Sprite> Spr = std::make_shared<Ermine::Sprite>(Text,BottomLeftUV,TopRightUV);
+		return Spr;
+	}
+
+	std::shared_ptr<Ermine::Sprite> Sprite::GenerateSprite(std::shared_ptr<Texture> Tex, glm::vec2 BottomLeftUV, glm::vec2 TopRightUV)
+	{
+		std::shared_ptr<Ermine::Sprite> Spr = std::make_shared<Ermine::Sprite>(Tex, BottomLeftUV, TopRightUV);
+		return Spr;
+	}
 
 
 	std::shared_ptr<Texture> Sprite::GetTexture()

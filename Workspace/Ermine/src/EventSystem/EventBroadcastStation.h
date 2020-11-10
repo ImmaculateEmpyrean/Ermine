@@ -45,6 +45,8 @@ namespace Ermine
 
 		void DispatchMessages(); //This Will Trigger Delievery of Messages //Note Lock Mutexes Appropriately...
 		
+		void CheckObjectsHealthAndDeleteLowHealth(); //Delete Objects Whose Health Is Low
+
 		void QueueBroadcast(std::unique_ptr<Event> BroadcastPackage); //This Message Is Used To Send in a package for Broadcast
 		
 		Ermine::SubscriptionTicket  QueueSubscription(std::unique_ptr<EventSubscription> Subscription);

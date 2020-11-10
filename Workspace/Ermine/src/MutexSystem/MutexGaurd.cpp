@@ -121,3 +121,8 @@ void Ermine::MutexGaurd::Lock()
 		}
 	}
 }
+
+Ermine::MutexState Ermine::MutexGaurd::GetMutexState()
+{
+	return MutexState();
+}

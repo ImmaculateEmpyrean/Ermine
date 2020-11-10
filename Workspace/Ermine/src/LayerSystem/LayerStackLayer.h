@@ -61,7 +61,7 @@ namespace Ermine
 		
 	private:
 		std::string LayerName;
-		std::vector<Renderable2D*> Renderables;
+		std::vector<std::shared_ptr<Ermine::Renderable2D>> Renderables;
 
 		friend class Ermine::Renderer2D;
 		friend class Ermine::LayerStack;

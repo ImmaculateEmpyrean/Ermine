@@ -10,8 +10,7 @@ Ermine::LayerStackLayer::LayerStackLayer(std::string Name)
 
 Ermine::LayerStackLayer::~LayerStackLayer()
 {
-	for (auto i : Renderables)
-		delete i;
+	//The Renderables Buffer Holds SharedPointers Hence No Need To Manually Delete Anyrhing..
 }
 
 Ermine::LayerStackLayer::LayerStackLayer(const LayerStackLayer& rhs)
@@ -46,6 +45,14 @@ void Ermine::LayerStackLayer::AddLabel(std::string Text, glm::vec3 Color, glm::v
 
 void Ermine::LayerStackLayer::Clear()
 {
+	for (std::shared_ptr<Ermine::Renderable2D> i : Renderables)
+	{
+		if(dynamic_cast<Object*>(&(*i)))
+		{
+			Object* Ptr = (Object*)(&(*i));
+			Ptr->MarkObjectForDeletion();
+		}
+	}
 	Renderables.clear(); //This is a collection of unique pointers simply calling clear is enough..
 }
 
@@ -61,8 +68,8 @@ void Ermine::LayerStackLayer::HelperCopyConstructor(const LayerStackLayer& rhs)
 {
 	LayerName = rhs.LayerName;
 
-	for (Renderable2D* i : rhs.Renderables)
-		HelperEmplaceRenderableInRenderablesContainer(i);
+	for (std::shared_ptr<Ermine::Renderable2D> i : rhs.Renderables)
+		HelperEmplaceRenderableInRenderablesContainer(&(*i));
 }
 
 void Ermine::LayerStackLayer::HelperMoveConstructor(LayerStackLayer&& rhs)
