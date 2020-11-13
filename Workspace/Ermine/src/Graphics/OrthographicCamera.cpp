@@ -7,18 +7,20 @@ Ermine::OrthographicCamera* Ermine::OrthographicCamera::Camera = nullptr;
 ///Ended Area To Declare Static Variables..
 
 Ermine::OrthographicCamera::OrthographicCamera()
+    :
+    Object(*Object::GenerateObject(""))
 {
     auto Mutex = GetCameraUniqueLock();
 
     this->ProjectionMatrix = glm::ortho<float>(0.0f, (float)Ermine::GetScreenWidth(), (float)Ermine::GetScreenHeight(), 0.0f,-5.0f,5.0f);
     
-    CameraPosition = { 0.0f,0.0f,0.0f };
+    CameraPosition = { 0.0f,0.0f,0.0f }; 
     RotationInDegrees = 0.0f;
 
-    OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&OrthographicCamera::OnTickFunctionMessageReciever), CameraReadyToRecieveEvents, Ermine::EventType::OnTickEvent)));
+    //OnTickEventTicket = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&OrthographicCamera::OnTickFunctionMessageReciever), CameraReadyToRecieveEvents, Ermine::EventType::OnTickEvent)));
 
     //Must Also Initilize The View Matrix Right :>
-    HelperRecalculateViewMatrix();
+    HelperRecalculateViewMatrix(); 
 }
 
 Ermine::OrthographicCamera::~OrthographicCamera()

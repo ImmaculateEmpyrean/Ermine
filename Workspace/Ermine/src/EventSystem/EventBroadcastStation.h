@@ -23,6 +23,9 @@
 
 namespace Ermine
 {
+	//Forward Declaration Of The Class Object So That Station Can Accept Subscriptions From It..
+	class Object;
+
 	// Note - This is a Singleton Class Residing On a Seperate Thread Please See That You Take Care Of All Design Considerations...
 	class EventBroadcastStation
 	{
@@ -43,9 +46,9 @@ namespace Ermine
 		static EventBroadcastStation* GetStation(); //This is a static method and will allow the user to get a line with the station in question
 		static void DestroyStation(); //This is a static method and will allow the user to Destroy the station in question
 
-		void DispatchMessages(); //This Will Trigger Delievery of Messages //Note Lock Mutexes Appropriately...
+		void DispatchMessagesSuperior(); //This Will Trigger Delievery of Messages //Note Lock Mutexes Appropriately...
 		
-		void CheckObjectsHealthAndDeleteLowHealth(); //Delete Objects Whose Health Is Low
+		//void CheckObjectsHealthAndDeleteLowHealth(); //Delete Objects Whose Health Is Low
 
 		void QueueBroadcast(std::unique_ptr<Event> BroadcastPackage); //This Message Is Used To Send in a package for Broadcast
 		
@@ -56,14 +59,32 @@ namespace Ermine
 
 		//All Different Events Are Stored In Different Containers So As To Parallilize Submitions.. Two Objects Wanting To Queue Two Different Types Of Events Need not wait ..   
 		std::vector<ConcreteEvent> ConcreteEventsQueue; //These Are submitted events..
+		std::recursive_mutex ConcreteEventsBufferMutex; 
+
 		std::vector<KeyCallbackEvent> KeyCallbackEventsQueue;
+		std::recursive_mutex KeyCallBackEventsBufferMutex;
+
 		std::vector<CharacterCallbackEvent>CharacterCallbackEventsQueue;
+		std::recursive_mutex CharacterCallBackEventsBufferMutex;
+
 		std::vector<CursorPositionCallbackEvent>CursorPositionCallbackEventsQueue;
+		std::recursive_mutex CursorPositionCallbackEventsBufferMutex;
+
 		std::vector<MouseButtonCallbackEvent>MouseButtonCallbackEventsQueue;
+		std::recursive_mutex MouseButtonCallbackEventsBufferMutex;
+
 		std::vector<ScrollCallbackEvent>ScrollCallbackEventsQueue;
+		std::recursive_mutex ScrollCallbackEventsBufferMutex;
+
 		std::vector<TileSelectedEvent> TileSelectedCallbackEventsQueue;
+		std::recursive_mutex TileSelectedCallbackEventsBufferMutex;
+
 		std::vector<OnTickEvent> OnTickCallbackEventsQueue;
+		std::recursive_mutex OnTickCallbackEventsBufferMutex;
 		//Donot Forget to add destructors for these containers inside the destructor..
+
+		/*std::vector<Ermine::Event*> EventsBuffer;
+		std::recursive_mutex EventBufferMutex;*/
 
 	private:
 		//We Will Store The Subscriptions Here...
@@ -89,15 +110,48 @@ namespace Ermine
 		//Donot Forget to add destructors for these containers inside the destructor..
 
 	private:
-		//Helper Functions For Dispatching Stuff To Right Destinations---
-		void DispatchConcreteMessages();
-		void DispatchKeyCallbackMessages();
-		void DispatchCharacterCallbackMessages();
-		void DispatchCursorPositionCallbackMessages();
-		void DispatchMouseButtonCallbackMessages();
-		void DispatchScrollCallbackMessages();
-		void DispatchTileSelectedCallbackMessages();
-		void DispatchOnTickCallbackMessages();
+#pragma region TemplateFuncToDispatchMessages
+		template<typename MutexToAcquire,typename EventsQueue,typename SubscriberQueue>
+		void DispatchMessages(MutexToAcquire& MA,EventsQueue& EQ,SubscriberQueue& SQ)
+		{
+			std::unique_lock Lock = std::unique_lock(MA);
+
+			for (int i = 0; i < EQ.size(); i++)
+			{
+				int c = 0;
+				for (auto j = SQ.begin(); j != SQ.end(); j++) //for (auto& j : ConcreteEventSubscriptions)
+				{
+					//Start Delete Objects Which Are Marked For Deletion Right..//
+					std::shared_ptr<Ermine::Object> Subs = j->second.GetSubscribedObject();
+					auto Health = Subs->GetObjectHealth();
+					if (Subs == nullptr)
+					{
+						STDOUTDefaultLog_Critical("Error Object Not Initialized And Requesting A Broadcast To Be Sent");
+						j = SQ.erase(j);
+						break;
+					}
+					if (Health == Ermine::ObjectStatus::StatusMarkedForDeletion)
+					{
+						j = SQ.erase(j);
+						break;
+					}
+					//Ended Delete Objects Which Are Marked For Deletion Right..//
+
+					if (j->second.CanIRecieveEventFlag == true)
+					{
+						j->second.CallableObject(&EQ[i]);
+					}
+					c++;
+
+					//If The Event Is Already handled No Point In Handling it Further Right..
+					if (EQ[i].IsEventHandled() == true)
+						break;
+				}
+				EQ.erase(EQ.begin() + i);
+			}
+		}
+#pragma endregion
+
 
 		//This Method Gets A Subscription Ticket If A Slot Is Available.. The Bool is also Set True Remember.. 
 		int GetOpenSubscriptionTicket();

@@ -41,14 +41,6 @@ namespace Ermine
 #pragma endregion
 
 	public:
-
-#pragma region IMutexOverrides
-		//Start IMutex Overrides//
-		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::ImageBase; }
-		virtual Ermine::MutexGaurd GetErmineMutexGaurd() { return std::move(MutexGaurd(this, Ermine::MutexLevel::ImageBase)); };
-		//Ended IMutex Overrides//
-#pragma endregion
-
 		//This Function Has To Be Overriden In all Children Do Not Forget Otherwise One Child May Be Thought Of As The Other..
 		virtual Ermine::ActorFamilyIdentifier GetActorFamilyIdentifier() { return ActorFamilyIdentifier::ImageBase; }
 
@@ -61,6 +53,27 @@ namespace Ermine
 
 		//We Now Know That This Is A Quad.. Hence Return The Vertexes That Make Drawing This Actor Possible..
 		virtual std::vector<float> CalculateModelSpaceVertexes() override;
+
+#pragma region RenderableTextureModuleExposition
+		//The Texture Path Is Submitted To The GlobalTextureCache From which a Texture Is Recieved For The Buffer
+		virtual void SubmitTexture(std::filesystem::path TexturePath) override;
+
+		//Submit A Texture To Be Held By The Renderable Texture Module..
+		virtual void SubmitTexture(std::shared_ptr<Texture> Texture) override;
+		
+		//Unable To Implemnt This In Current Archietecture
+		//A Handle To the Textures Buffer To Modify It In Some Sense.. Note Renderable Texture Module Does Not Have A Delete Function..
+		//virtual std::vector<std::shared_ptr<Texture>>& GetBuffer() override;
+
+		//Binds Textures Contained Inside The Renderable Texture Module And Returns An Array Containing In which Slot Each Texture Is Bound..
+		//virtual std::vector<int> BindTexturesContained() override; This Is Already Overriden In ImageBase.h
+
+		//Clears Out The Contents Of The RenderableTextureModuleBuffer And Its PARENTS TOO...
+		virtual void Clear() override;
+
+		//Clear Out Only The Texture Buffer Of The RenderableTextureModule..
+		virtual void ClearTextureBuffer() override;
+#pragma endregion
 
 	public:
 

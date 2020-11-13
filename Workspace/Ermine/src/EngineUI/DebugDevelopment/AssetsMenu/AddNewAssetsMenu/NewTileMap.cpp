@@ -32,8 +32,8 @@ Ermine::NewTileMap::NewTileMap(std::function<void(std::filesystem::path)> Create
 	memcpy(LoadTilesetsPath, TileMapsPath.value_or("Tilemap\\").c_str(), TileMapsPath.value_or("Tilemap\\").length());
 	//Ended Initializing Default Folder For Searching Tilemaps To Load..
 
-	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&NewTileMap::RecieveTileSelectedEvents), RecieveTileSetSelectedEventsFlag,
-		Ermine::EventType::TileSelectedEvent);
+	/*Ermine::RecieverComponent::Bind(GenCallableFromMethod(&NewTileMap::RecieveTileSelectedEvents), RecieveTileSetSelectedEventsFlag,
+		Ermine::EventType::TileSelectedEvent);*/
 }
 
 Ermine::NewTileMap::~NewTileMap()
@@ -909,8 +909,8 @@ void Ermine::NewTileMap::HelperMoveTileMapWindow(NewTileMap&& rhs)
 	LoadTilesetsPath = rhs.LoadTilesetsPath;
 	rhs.LoadTilesetsPath = nullptr;
 
-	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&NewTileMap::RecieveTileSelectedEvents), RecieveTileSetSelectedEventsFlag,
-		Ermine::EventType::TileSelectedEvent);
+	/*Ermine::RecieverComponent::Bind(GenCallableFromMethod(&NewTileMap::RecieveTileSelectedEvents), RecieveTileSetSelectedEventsFlag,
+		Ermine::EventType::TileSelectedEvent);*/
 }
 
 void Ermine::NewTileMap::SetButtonColor(ImVec4 Color)

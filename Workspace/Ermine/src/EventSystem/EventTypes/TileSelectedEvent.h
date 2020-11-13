@@ -46,8 +46,7 @@ namespace Ermine
 	{
 	public:
 		TileSelectedEventSubscription() = delete;
-		TileSelectedEventSubscription(std::function<void(TileSelectedEvent*)> CallableObject);
-		TileSelectedEventSubscription(std::function<void(TileSelectedEvent*)> CallableObject, std::atomic<bool>& Flag);
+		TileSelectedEventSubscription(std::function<void(TileSelectedEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::Object> Obj);
 
 	private:
 		std::function<void(TileSelectedEvent*)> CallableObject;

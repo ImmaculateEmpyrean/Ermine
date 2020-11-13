@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "EventBroadcastStation.h"
 
+#include<Object.h>
+
 Ermine::EventBroadcastStation* Ermine::EventBroadcastStation::EventBroadcastStationPointer = nullptr; //Note The Broadcast Station is not initialized
 std::once_flag Ermine::EventBroadcastStation::LazyInitializationFlag;
 std::atomic<bool> Ermine::EventBroadcastStation::StationDestructionOrdered = false;
@@ -15,8 +17,7 @@ void EventBroadcastStationMainRoutine()
 	{
 		_sleep(100);
 		auto Station = Ermine::EventBroadcastStation::GetStation();
-		Station->
-		Station->DispatchMessages();
+		Station->DispatchMessagesSuperior();
 	}
 }
 
@@ -60,26 +61,49 @@ void Ermine::EventBroadcastStation::QueueBroadcast(std::unique_ptr<Event> Broadc
 	Ermine::EventType BroadcastType = BroadcastPackage->GetEventType();
 	Event* EvePtr = BroadcastPackage.release();
 
-	switch(BroadcastType)
+	//Grab The Associated Mutex And Then Access The Required Buffer..
+
+	if (BroadcastType == EventType::ConcreteEvent)
 	{
-	case EventType::ConcreteEvent:ConcreteEventsQueue.push_back(*((ConcreteEvent*)(EvePtr)));
-		break;
-	case EventType::KeyCallbackEvent:KeyCallbackEventsQueue.push_back(*((KeyCallbackEvent*)(EvePtr)));
-		break;
-	case EventType::CharacterCallbackEvent:CharacterCallbackEventsQueue.push_back(*((CharacterCallbackEvent*)(EvePtr)));
-		break;
-	case EventType::CursorPositionCallbackEvent:CursorPositionCallbackEventsQueue.push_back(*((CursorPositionCallbackEvent*)(EvePtr)));
-		break;
-	case EventType::MouseButtonCallbackEvent:MouseButtonCallbackEventsQueue.push_back(*((MouseButtonCallbackEvent*)(EvePtr)));
-		break;
-	case EventType::ScrollCallbackEvent:ScrollCallbackEventsQueue.push_back(*((ScrollCallbackEvent*)(EvePtr)));
-		break;
-	case EventType::TileSelectedEvent: TileSelectedCallbackEventsQueue.push_back(*((TileSelectedEvent*)(EvePtr)));
-		break;
-	case EventType::OnTickEvent: OnTickCallbackEventsQueue.push_back(*((OnTickEvent*)(EvePtr)));
-		break; 
-	default: STDOUTDefaultLog_Critical("Unknown Event Type Recieved For QUeing Check Api Maybe... Dunno I should never trigger");
+		std::unique_lock<std::recursive_mutex> Lock(ConcreteEventsBufferMutex);
+		ConcreteEventsQueue.push_back(std::move(*((ConcreteEvent*)(EvePtr))));
 	}
+	else if (BroadcastType == EventType::KeyCallbackEvent)
+	{
+		std::unique_lock<std::recursive_mutex> Lock(KeyCallBackEventsBufferMutex);
+		KeyCallbackEventsQueue.push_back(std::move(*((KeyCallbackEvent*)(EvePtr))));
+	}
+	else if (BroadcastType == EventType::CharacterCallbackEvent)
+	{
+		std::unique_lock<std::recursive_mutex> Lock(CharacterCallBackEventsBufferMutex);
+		CharacterCallbackEventsQueue.push_back(std::move(*((CharacterCallbackEvent*)(EvePtr))));
+	}
+	else if (BroadcastType == EventType::CursorPositionCallbackEvent)
+	{
+		std::unique_lock<std::recursive_mutex> Lock(CursorPositionCallbackEventsBufferMutex);
+		CursorPositionCallbackEventsQueue.push_back(std::move(*((CursorPositionCallbackEvent*)(EvePtr))));
+	}
+	else if (BroadcastType == EventType::MouseButtonCallbackEvent)
+	{
+		std::unique_lock<std::recursive_mutex> Lock(MouseButtonCallbackEventsBufferMutex);
+		MouseButtonCallbackEventsQueue.push_back(std::move(*((MouseButtonCallbackEvent*)(EvePtr))));
+	}
+	else if (BroadcastType == EventType::ScrollCallbackEvent)
+	{
+		std::unique_lock<std::recursive_mutex> Lock(ScrollCallbackEventsBufferMutex);
+		ScrollCallbackEventsQueue.push_back(std::move(*((ScrollCallbackEvent*)(EvePtr))));
+	}
+	else if (BroadcastType == EventType::TileSelectedEvent)
+	{
+		std::unique_lock<std::recursive_mutex> Lock(TileSelectedCallbackEventsBufferMutex);
+		TileSelectedCallbackEventsQueue.push_back(std::move(*((TileSelectedEvent*)(EvePtr))));
+	}
+	else if (BroadcastType == EventType::OnTickEvent)
+	{
+		std::unique_lock<std::recursive_mutex> Lock(OnTickCallbackEventsBufferMutex);
+		OnTickCallbackEventsQueue.push_back(std::move(*((OnTickEvent*)(EvePtr))));
+	}
+
 	delete EvePtr;
 }
 
@@ -152,171 +176,59 @@ void Ermine::EventBroadcastStation::DestroySubscription(Ermine::SubscriptionTick
 	//Also I Think The Mutex Is Way Too Coarse Grained.. Maybe Fix It A Bit In The Future
 }
 
-void Ermine::EventBroadcastStation::DispatchMessages()
+void Ermine::EventBroadcastStation::DispatchMessagesSuperior()
 {
 	std::unique_lock<std::mutex> Loc(MainMutex);//std::lock_guard<std::mutex> Loc(MainMutex, std::adopt_lock);
 
-	//Just Iterate Over All Buffers And Try To Dispatch The Messages...
-	DispatchConcreteMessages();
-	DispatchKeyCallbackMessages();
-	DispatchCharacterCallbackMessages();
-	DispatchCursorPositionCallbackMessages();
-	DispatchMouseButtonCallbackMessages();
-	DispatchScrollCallbackMessages();
-	DispatchTileSelectedCallbackMessages();
-	DispatchOnTickCallbackMessages();
-}
-
-void Ermine::EventBroadcastStation::CheckObjectsHealthAndDeleteLowHealth()
-{
-
-}
-
-void Ermine::EventBroadcastStation::DispatchConcreteMessages()
-{
-	for (int i = 0; i < ConcreteEventsQueue.size(); i++)
+	/*//Just Iterate Over All Buffers And Try To Dispatch The Messages...
 	{
-		int c = 0;
-		for (auto j : ConcreteEventSubscriptions)
-		{
-			if (j.second.CanIRecieveEventFlag == true)
-			{
-				j.second.CallableObject(&ConcreteEventsQueue[i]);
-			}
-			c++;
-
-			//If The Event Is Already handled No Point In Handling it Further Right..
-			if (ConcreteEventsQueue[i].IsEventHandled() == true)
-				break;
-		}
-		ConcreteEventsQueue.erase(ConcreteEventsQueue.begin() + i);
+		std::unique_lock Lock(ConcreteEventsBufferMutex);
+		DispatchConcreteMessages();
 	}
-}
 
-void Ermine::EventBroadcastStation::DispatchKeyCallbackMessages()
-{
-	for (int i = 0; i < KeyCallbackEventsQueue.size(); i++)
 	{
-		for (auto j : KeyCallbackEventsSubscriptions)
-		{
-			if (j.second.CanIRecieveEventFlag == true)
-			{
-				j.second.CallableObject(&KeyCallbackEventsQueue[i]);
-			}
-			//If The Event Is Already handled No Point In Handling it Further Right..
-			if (KeyCallbackEventsQueue[i].IsEventHandled() == true)
-				break;
-		}
-		KeyCallbackEventsQueue.erase(KeyCallbackEventsQueue.begin() + i);
+		std::unique_lock Lock(KeyCallBackEventsBufferMutex);
+		DispatchKeyCallbackMessages();
 	}
-}
 
-void Ermine::EventBroadcastStation::DispatchCharacterCallbackMessages()
-{
-	for (int i = 0; i < CharacterCallbackEventsQueue.size(); i++)
 	{
-		for (auto j : CharacterCallbackEventSubscriptions)
-		{
-			if (j.second.CanIRecieveEventFlag == true)
-			{
-				j.second.CallableObject(&CharacterCallbackEventsQueue[i]);
-			}
-			//If The Event Is Already handled No Point In Handling it Further Right..
-			if (CharacterCallbackEventsQueue[i].IsEventHandled() == true)
-				break;
-		}
-		CharacterCallbackEventsQueue.erase(CharacterCallbackEventsQueue.begin() + i);
+		std::unique_lock Lock(CharacterCallBackEventsBufferMutex);
+		DispatchCharacterCallbackMessages();
 	}
-}
 
-void Ermine::EventBroadcastStation::DispatchCursorPositionCallbackMessages()
-{
-	for (int i = 0; i < CursorPositionCallbackEventsQueue.size(); i++)
 	{
-		for (auto j : CursorPositionCallbackEventSubscriptions)
-		{
-			if (j.second.CanIRecieveEventFlag == true)
-			{
-				j.second.CallableObject(&CursorPositionCallbackEventsQueue[i]);
-			}
-			//If The Event Is Already handled No Point In Handling it Further Right..
-			if (CursorPositionCallbackEventsQueue[i].IsEventHandled() == true)
-				break;
-		}
-		CursorPositionCallbackEventsQueue.erase(CursorPositionCallbackEventsQueue.begin() + i);
+		std::unique_lock Lock(CursorPositionCallbackEventsBufferMutex);
+		DispatchCursorPositionCallbackMessages();
 	}
-}
 
-void Ermine::EventBroadcastStation::DispatchMouseButtonCallbackMessages()
-{
-	for (int i = 0; i < MouseButtonCallbackEventsQueue.size(); i++)
 	{
-		for (auto j : MouseButtonCallbackEventSubscriptions)
-		{
-			if (j.second.CanIRecieveEventFlag == true)
-			{
-				j.second.CallableObject(&MouseButtonCallbackEventsQueue[i]);
-			}
-			//If The Event Is Already handled No Point In Handling it Further Right..
-			if (MouseButtonCallbackEventsQueue[i].IsEventHandled() == true)
-				break;
-		}
-		MouseButtonCallbackEventsQueue.erase(MouseButtonCallbackEventsQueue.begin() + i);
+		std::unique_lock Lock(MouseButtonCallbackEventsBufferMutex);
+		DispatchMouseButtonCallbackMessages();
 	}
-}
 
-void Ermine::EventBroadcastStation::DispatchScrollCallbackMessages()
-{
-	for (int i = 0; i < ScrollCallbackEventsQueue.size(); i++)
 	{
-		for (auto j : ScrollCallbackEventSubscriptions)
-		{
-			if (j.second.CanIRecieveEventFlag == true)
-			{
-				j.second.CallableObject(&ScrollCallbackEventsQueue[i]);
-			}
-			//If The Event Is Already handled No Point In Handling it Further Right..
-			if (ScrollCallbackEventsQueue[i].IsEventHandled() == true)
-				break;
-		}
-		ScrollCallbackEventsQueue.erase(ScrollCallbackEventsQueue.begin() + i);
+		std::unique_lock Lock(ScrollCallbackEventsBufferMutex);
+		DispatchScrollCallbackMessages();
 	}
-}
 
-void Ermine::EventBroadcastStation::DispatchTileSelectedCallbackMessages()
-{
-	for (int i = 0; i < TileSelectedCallbackEventsQueue.size(); i++)
 	{
-		for (auto j : TileSelectedCallbackEventSubscriptions)
-		{
-			if (j.second.CanIRecieveEventFlag == true)
-			{
-				j.second.CallableObject(&TileSelectedCallbackEventsQueue[i]);
-			}
-			//If The Event Is Already handled No Point In Handling it Further Right..
-			if (TileSelectedCallbackEventsQueue[i].IsEventHandled() == true)
-				break;
-		}
-		TileSelectedCallbackEventsQueue.erase(TileSelectedCallbackEventsQueue.begin() + i);
+		std::unique_lock Lock(TileSelectedCallbackEventsBufferMutex);
+		DispatchTileSelectedCallbackMessages();
 	}
-}
 
-void Ermine::EventBroadcastStation::DispatchOnTickCallbackMessages()
-{
-	for (int i = 0; i < OnTickCallbackEventsQueue.size(); i++)
 	{
-		for (auto j : OnTickCallbackEventSubscriptions)
-		{
-			if (j.second.CanIRecieveEventFlag == true)
-			{
-				j.second.CallableObject(&OnTickCallbackEventsQueue[i]);
-			}
-			//If The Event Is Already handled No Point In Handling it Further Right..
-			if (OnTickCallbackEventsQueue[i].IsEventHandled() == true)
-				break;
-		}
-		OnTickCallbackEventsQueue.erase(OnTickCallbackEventsQueue.begin() + i);
-	}
+		std::unique_lock Lock(OnTickCallbackEventsBufferMutex);
+		DispatchOnTickCallbackMessages();
+	}*/
+
+	DispatchMessages(ConcreteEventsBufferMutex              ,ConcreteEventsQueue              ,ConcreteEventSubscriptions);
+	DispatchMessages(KeyCallBackEventsBufferMutex           ,KeyCallbackEventsQueue           ,KeyCallbackEventsSubscriptions);
+	DispatchMessages(CharacterCallBackEventsBufferMutex     ,CharacterCallbackEventsQueue     ,CharacterCallbackEventSubscriptions);
+	DispatchMessages(CursorPositionCallbackEventsBufferMutex,CursorPositionCallbackEventsQueue,CursorPositionCallbackEventSubscriptions);
+	DispatchMessages(MouseButtonCallbackEventsBufferMutex   ,MouseButtonCallbackEventsQueue   ,MouseButtonCallbackEventSubscriptions);
+	DispatchMessages(ScrollCallbackEventsBufferMutex        ,ScrollCallbackEventsQueue        ,ScrollCallbackEventSubscriptions);
+	DispatchMessages(TileSelectedCallbackEventsBufferMutex  ,TileSelectedCallbackEventsQueue  ,TileSelectedCallbackEventSubscriptions);
+	DispatchMessages(OnTickCallbackEventsBufferMutex        ,OnTickCallbackEventsQueue        ,OnTickCallbackEventSubscriptions);
 }
 
 static std::mutex SubscriptionTicketVectorMutex;

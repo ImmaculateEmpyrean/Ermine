@@ -23,14 +23,9 @@ namespace Ermine
 	//Concrete Event Subscription Class/////////////////////
 	////////////////////////////////////////////////////////
 
-	CursorPositionCallbackEventSubscription::CursorPositionCallbackEventSubscription(std::function<void(CursorPositionCallbackEvent*)> CallableObject)
+	CursorPositionCallbackEventSubscription::CursorPositionCallbackEventSubscription(std::function<void(CursorPositionCallbackEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::Object> Obj)
 		:
-		CallableObject(CallableObject)
-	{}
-
-	CursorPositionCallbackEventSubscription::CursorPositionCallbackEventSubscription(std::function<void(CursorPositionCallbackEvent*)> CallableObject, std::atomic<bool>& Flag)
-		:
-		EventSubscription(Flag),
+		EventSubscription(Flag,Obj),
 		CallableObject(CallableObject)
 	{}
 

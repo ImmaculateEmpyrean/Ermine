@@ -24,14 +24,9 @@ namespace Ermine
 	//Concrete Event Subscription Class/////////////////////
 	////////////////////////////////////////////////////////
 
-	ConcreteEventSubscription::ConcreteEventSubscription(std::function<void(ConcreteEvent*)> CallableObject)
+	ConcreteEventSubscription::ConcreteEventSubscription(std::function<void(ConcreteEvent*)> CallableObject, std::atomic<bool> & Flag,std::shared_ptr<Ermine::Object> Obj)
 		:
-		CallableObject(CallableObject)
-	{}
-
-	ConcreteEventSubscription::ConcreteEventSubscription(std::function<void(ConcreteEvent*)> CallableObject, std::atomic<bool> & Flag)
-		:
-		EventSubscription(Flag),
+		EventSubscription(Flag,Obj),
 		CallableObject(CallableObject)
 	{}
 

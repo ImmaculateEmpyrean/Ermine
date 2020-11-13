@@ -51,8 +51,7 @@ namespace Ermine
 	{
 	public:
 		KeyCallbackEventSubscription() = delete;
-		KeyCallbackEventSubscription(std::function<void(KeyCallbackEvent*)> CallableObject);
-		KeyCallbackEventSubscription(std::function<void(KeyCallbackEvent*)> CallableObject, std::atomic<bool>& Flag);
+		KeyCallbackEventSubscription(std::function<void(KeyCallbackEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::Object> Obj);
 
 	private:
 		std::function<void(KeyCallbackEvent*)> CallableObject;

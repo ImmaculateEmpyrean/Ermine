@@ -26,14 +26,9 @@ namespace Ermine
 	//OnTickCallback Event Subscription Class///////////////
 	////////////////////////////////////////////////////////
 
-	OnTickEventSubscription::OnTickEventSubscription(std::function<void(OnTickEvent*)> CallableObject)
+	OnTickEventSubscription::OnTickEventSubscription(std::function<void(OnTickEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::Object> Obj)
 		:
-		CallableObject(CallableObject)
-	{}
-
-	OnTickEventSubscription::OnTickEventSubscription(std::function<void(OnTickEvent*)> CallableObject, std::atomic<bool>& Flag)
-		:
-		EventSubscription(Flag),
+		EventSubscription(Flag,Obj),
 		CallableObject(CallableObject)
 	{}
 

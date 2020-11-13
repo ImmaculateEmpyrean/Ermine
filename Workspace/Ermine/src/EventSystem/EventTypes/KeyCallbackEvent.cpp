@@ -25,16 +25,10 @@ namespace Ermine
 	//KeyCallback Event Subscription Class//////////////////
 	////////////////////////////////////////////////////////
 
-
-	KeyCallbackEventSubscription::KeyCallbackEventSubscription(std::function<void(KeyCallbackEvent*)> CallableObject)
-		:
-		CallableObject(CallableObject)
-	{}
-
 	KeyCallbackEventSubscription::KeyCallbackEventSubscription(std::function<void(KeyCallbackEvent*)> CallableObject, 
-															   std::atomic<bool> & Flag)
+															   std::atomic<bool> & Flag,std::shared_ptr<Ermine::Object> Obj)
 		:
-		EventSubscription(Flag),
+		EventSubscription(Flag,Obj),
 		CallableObject(CallableObject)
 	{}
 

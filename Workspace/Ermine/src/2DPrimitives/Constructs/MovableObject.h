@@ -65,46 +65,46 @@ namespace Ermine
 
 		//This Is The Most Important Method Of The Class If You Ask Me.. 
 		virtual glm::mat4 GetModelMatrix();
-		glm::mat4 GetTranslationMatrix();
-		glm::mat4 GetRotationMatrix();
-		glm::mat4 GetScaleMatrix();
+		virtual glm::mat4 GetTranslationMatrix();
+		virtual glm::mat4 GetRotationMatrix();
+		virtual glm::mat4 GetScaleMatrix();
 
 		//The Location Returned Is In Screen Coordinates..
-		glm::vec2 GetScreenLocation();
-		glm::vec2 GetVelocity();
+		virtual glm::vec2 GetScreenLocation();
+		virtual glm::vec2 GetVelocity();
 
 		//The Rotation Returned Is In Degrees..
-		float GetRotation();
-		float GetAngularVelocity(bool Degrees);
+		virtual float GetRotation();
+		virtual float GetAngularVelocity(bool Degrees);
 
 		//The Scale Returned Is In Times The Original Size :> 
-		glm::vec2 GetScale();
+		virtual glm::vec2 GetScale();
 
 		//Ended Getter Methods..
 
-		void SetPosition(float x, float y);
-		void SetPosition(glm::vec2 NewPos);
-		void Translate(float x, float y);
-		void Translate(glm::vec2 TranslateByHowMuch);
-		void ClearTranslations();
+		virtual void SetPosition(float x, float y);
+		virtual void SetPosition(glm::vec2 NewPos);
+		virtual void Translate(float x, float y);
+		virtual void Translate(glm::vec2 TranslateByHowMuch);
+		virtual void ClearTranslations();
 
-		void SetVelocity(float x, float y);
-		void SetVelocity(glm::vec2 Velocity);
-		void ClearVelocity();
+		virtual void SetVelocity(float x, float y);
+		virtual void SetVelocity(glm::vec2 Velocity);
+		virtual void ClearVelocity();
 
 		//Just Pass In True If The Angle Is Actually Pi Most Probably It Is In Degrees...(if false is passed then i assume DEGREES).
-		void Rotate(float Angle, bool Degrees = true);
-		void SetRotation(float Angle, bool Degrees = true);
-		void ClearRotations();
+		virtual void Rotate(float Angle, bool Degrees = true);
+		virtual void SetRotation(float Angle, bool Degrees = true);
+		virtual void ClearRotations();
 
-		void SetAngularVelocity(float Angle,bool Degrees = true);
-		void ClearAngularVelocity();
+		virtual void SetAngularVelocity(float Angle,bool Degrees = true);
+		virtual void ClearAngularVelocity();
 
-		void SetScale(float x, float y);
-		void SetScale(glm::vec2 Scale);
-		void Scale(float x, float y);
-		void Scale(glm::vec2 ScaleByHowMuch);
-		void ClearScale();
+		virtual void SetScale(float x, float y);
+		virtual void SetScale(glm::vec2 Scale);
+		virtual void Scale(float x, float y);
+		virtual void Scale(glm::vec2 ScaleByHowMuch);
+		virtual void ClearScale();
 
 	public:
 
@@ -120,7 +120,7 @@ namespace Ermine
 		void HelperRecalculateModelMatrix();
 
 		//This Function Is Not At All Exposed To The Outside World.. Used By The Movable Object To Update Itself
-		void Update();
+		void Update(float DeltaTime);
 
 		void HelperCopy(const MovableObject& rhs);
 		void HelperMove(MovableObject&& rhs);

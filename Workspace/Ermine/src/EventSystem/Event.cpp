@@ -1,12 +1,8 @@
 #include "stdafx.h"
 #include "Event.h"
 
-Ermine::EventSubscription::EventSubscription()
+Ermine::EventSubscription::EventSubscription(std::atomic<bool>& CanIRecieveEventNowFlag,std::shared_ptr<Ermine::Object> Obj)
 	:
-	CanIRecieveEventFlag(std::atomic<bool>(true)) //Not Recommended To Use This .. Intended For Legacy Purposes...
-{}
-
-Ermine::EventSubscription::EventSubscription(std::atomic<bool>& CanIRecieveEventNowFlag)
-	:
-	CanIRecieveEventFlag(CanIRecieveEventNowFlag) //If Possible Use This Constructor It Surely Is Recommended
+	CanIRecieveEventFlag(CanIRecieveEventNowFlag),
+	SubscribedObject(SubscribedObject)
 {}

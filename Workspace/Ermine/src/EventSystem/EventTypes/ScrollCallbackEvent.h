@@ -45,8 +45,7 @@ namespace Ermine
 	{
 	public:
 		ScrollCallbackEventSubscription() = delete;
-		ScrollCallbackEventSubscription(std::function<void(ScrollCallbackEvent*)> CallableObject);
-		ScrollCallbackEventSubscription(std::function<void(ScrollCallbackEvent*)> CallableObject, std::atomic<bool>& Flag);
+		ScrollCallbackEventSubscription(std::function<void(ScrollCallbackEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::Object> Obj);
 
 	private:
 		std::function<void(ScrollCallbackEvent*)> CallableObject;

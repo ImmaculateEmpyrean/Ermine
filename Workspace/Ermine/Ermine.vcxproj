@@ -270,6 +270,7 @@
     <ClCompile Include="src\EngineUI\WindowHandler.cpp" />
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp" />
     <ClCompile Include="src\EventSystem\Components\RecieverComponent.cpp" />
+    <ClCompile Include="src\EventSystem\EnumEventType.cpp" />
     <ClCompile Include="src\EventSystem\Event.cpp" />
     <ClCompile Include="src\EventSystem\EventBroadcastStation.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\CharacterCallbackEvent.cpp" />

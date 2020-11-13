@@ -498,5 +498,6 @@
     <ClCompile Include="src\MutexSystem\MutexManager.cpp" />
     <ClCompile Include="src\MutexSystem\MutexCasket.cpp" />
     <ClCompile Include="src\MutexSystem\MutexGaurd.cpp" />
+    <ClCompile Include="src\EventSystem\EnumEventType.cpp" />
   </ItemGroup>
 </Project>

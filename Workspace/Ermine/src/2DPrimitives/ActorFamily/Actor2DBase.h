@@ -22,7 +22,7 @@ namespace Ermine {
 
 	//The Class Actor2DBase As Of Now Is expected To do Nothing And Hence It Is Left Open.. In Thhe Future It May Be Populated..
 
-	class Actor2DBase : public Ermine::Object, public Ermine::IMutex
+	class Actor2DBase : public Ermine::Object
 	{
 	public:
 		//A Class which Holds Nothing Exposed To The Outside Readily Need Not Be Constructed In a Specialized Way Unless Absolutely Required..
@@ -41,14 +41,6 @@ namespace Ermine {
 		Actor2DBase& operator=(Actor2DBase&& rhs);
 
 	public:
-#pragma region IMutexOverrides
-		//Start IMutex Overrides//
-		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::ActorBase; }
-		virtual Ermine::MutexGaurd GetErmineMutexGaurd() { return std::move(MutexGaurd(this, Ermine::MutexLevel::ActorBase)); };
-		//Ended IMutex Overrides//
-#pragma endregion
-		
-
 		//This Function Has To Be Overriden In all Children Do Not Forget Otherwise One Child May Be Thought Of As The Other..
 		virtual Ermine::ActorFamilyIdentifier GetActorFamilyIdentifier() { return ActorFamilyIdentifier::Actor2DBase; }
 
@@ -69,37 +61,15 @@ namespace Ermine {
 		//This Function Is Used To Get The Centre Of Any Actor On Screen.. 
 		virtual glm::vec2 GetScreenLocation() = 0;
 #pragma endregion
-				
-
-		//This Tick Can Be Overriden By Any Child.. And Maybe Used To Set Something In Relation To The Entire Class On A Tick.. i.e This Function Will Most Definitely Be Called On All Instances Of Actor and its virtual so it will u know be dispatched to the proper class 
-		virtual void ClassOnTick(float DeltaTime) { return; }
-
-		//This Is An Event.. Assign Some Function Here If You Wanna Tick..
-		void OnTick(std::function<void(float)> OnTickFunction);
-
 
 	protected:
 
 	protected:
 
 	private:
-		//This Function Always Recieves The Broadcast From The Station
-		void OnTickActorBase(Event* Message);
-
-
-#pragma region Helpers
-		void HelperConstructActorBase();
-		void HelperCopyConstructor(Actor2DBase& rhs);
-		void HelperMoveConstructor(Actor2DBase&& rhs);
-#pragma endregion
-
 
 	private:
-		std::atomic_bool ActorReadyToRecieveEvents = true;
-		Ermine::SubscriptionTicket* OnTickEventTicket = nullptr;
 
-		//This Is The Function Which Will Be Run By The Actor As The Event OnTick.. Assign A Function Of Your Choice To Be Run
-		std::function<void(float)> OnTickFunction = nullptr;
 	};
 
 }

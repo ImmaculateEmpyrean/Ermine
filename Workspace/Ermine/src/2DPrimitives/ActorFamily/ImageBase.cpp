@@ -12,7 +12,7 @@ namespace Ermine
 		Actor2DBase(), //Invoking The Default Constructor I Guess..
 		Actorsprite(Spr)
 	{
-		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+		auto Lock = Object::GetObjectMutex();
 
 		//Setup The Renderable to Be Working..
 		RefreshRenderable2D(); 
@@ -21,10 +21,10 @@ namespace Ermine
 		:
 		Actor2DBase() //Invoking The Default Constructor I Guess..
 	{
-		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+		auto Lock = Object::GetObjectMutex();
 		
 		//A SpriteBuffer Properly Translates To A SpriteBook..
-		//A SpriteBook Has The Same Interfaace As The Sprite So I dont See Much Of A Problem..
+		//A SpriteBook Has The Same Interface As The Sprite So I dont See Much Of A Problem..
 		Actorsprite = std::make_shared<SpriteBook>("SpriteBuffer", SpriteBuffer);
 
 		//Setup The Renderable To be Working..
@@ -32,25 +32,22 @@ namespace Ermine
 	}
 
 	ImageBase::~ImageBase()
-	{
-		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
-	}
-
+	{}
 
 	ImageBase::ImageBase(ImageBase& rhs)
 		:
 		Actor2DBase(rhs),
 		RenderableTextureModule(rhs)
 	{
-		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
-		auto gaurd2 = rhs.GetErmineMutexGaurd();
+		auto ForeignLock = rhs.GetObjectMutex();
+		auto Lock = Object::GetObjectMutex();
 
 		Actorsprite = rhs.Actorsprite;
 	}
 	ImageBase& ImageBase::operator=(ImageBase& rhs)
 	{
-		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
-		auto gaurd2 = rhs.GetErmineMutexGaurd();
+		auto ForeignLock = rhs.GetObjectMutex();
+		auto Lock = Object::GetObjectMutex();
 
 		Actor2DBase::operator=(rhs);
 		RenderableTextureModule::operator=(rhs);
@@ -64,16 +61,16 @@ namespace Ermine
 		Actor2DBase(std::move(rhs)),
 		RenderableTextureModule(std::move(rhs))
 	{
-		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
-		auto gaurd2 = rhs.GetErmineMutexGaurd();
+		auto ForeignLock = rhs.GetObjectMutex();
+		auto Lock = Object::GetObjectMutex();
 
 		Actorsprite = std::move(rhs.Actorsprite);
 		rhs.Actorsprite = nullptr;
 	}
 	ImageBase& ImageBase::operator=(ImageBase&& rhs)
 	{
-		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
-		auto gaurd2 = rhs.GetErmineMutexGaurd();
+		auto ForeignLOck = rhs.GetObjectMutex();
+		auto Lock = Object::GetObjectMutex();
 
 		Actor2DBase::operator=(std::move(rhs));
 		RenderableTextureModule::operator=(std::move(rhs));
@@ -87,13 +84,13 @@ namespace Ermine
 	//Start Setter And Getter For The ActorSprite..// 
 	std::shared_ptr<Sprite> ImageBase::GetSprite()
 	{
-		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
-
+		//Get The Lock To Access The Resources..
+		auto Lock = Object::GetObjectMutex();
 		return Actorsprite;
 	}
 	void ImageBase::SetSprite(std::shared_ptr<Sprite> Sprite)
 	{
-		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+		auto Lock = Object::GetObjectMutex();
 
 		Actorsprite = Sprite;
 		RenderableTextureModule::Clear();
@@ -105,14 +102,10 @@ namespace Ermine
 	//The Quad Class Already Contains A Nice Static Function.. Just Gotta Make Use Of It..
 	std::vector<uint32_t> ImageBase::GetIndices()
 	{
-		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
-
 		return Ermine::Quad::GetModelIndices();
 	}
 	std::vector<float> ImageBase::CalculateModelSpaceVertexes()
 	{
-		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
-
 		Ermine::VertexTextured TopRight(Quad::GetModelCoordinatesTopRight());
 		Ermine::VertexTextured BottomRight(Quad::GetModelCoordinatesBottomRight());
 		Ermine::VertexTextured BottomLeft(Quad::GetModelCoordinatesBottomLeft());
@@ -135,10 +128,16 @@ namespace Ermine
 		BottomLeft.SetPositonCoordinates(BottomLeftPos4);
 		TopLeft.SetPositonCoordinates(TopLeftPos4);
 
+		//Get The Mutex As We Are Starting To Use Shared Memory
+		auto Lock = Object::GetObjectMutex();
+
 		TopRight.SetVertexUV(glm::vec2(Actorsprite->GetTopRightUV().x, Actorsprite->GetBottomLeftUV().y));
 		BottomRight.SetVertexUV(glm::vec2(Actorsprite->GetTopRightUV().x, Actorsprite->GetTopRightUV().y));
 		BottomLeft.SetVertexUV(glm::vec2(Actorsprite->GetBottomLeftUV().x, Actorsprite->GetTopRightUV().y));
 		TopLeft.SetVertexUV(glm::vec2(Actorsprite->GetBottomLeftUV().x, Actorsprite->GetBottomLeftUV().y));
+
+		//We Are Done Using Shared Resources..
+		Lock.unlock();
 
 		std::vector<float> ModelCoordinates;
 		ModelCoordinates = TopRight;
@@ -149,11 +148,12 @@ namespace Ermine
 
 		return ModelCoordinates;
 	}
+	
 
 	//Calculate Model Vertexes And Update The Renderable U Know The One thing That Actually Mattres When Drawing
 	void ImageBase::RefreshRenderable2D()
 	{
-		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
+		auto Lock = Object::GetObjectMutex();
 
 		auto Vao = Ermine::VertexArray(VertexBuffer(CalculateModelSpaceVertexes()), 
 									   IndexBuffer(GetIndices()));
@@ -170,8 +170,6 @@ namespace Ermine
 
 	std::vector<VertexAttribPointerSpecification> ImageBase::GetVertexAttribSpecificationForTheActor()
 	{
-		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
-
 		static std::vector<VertexAttribPointerSpecification> Spec = {
 				{3,GL_FLOAT,false},
 				{3,GL_FLOAT,false},
@@ -183,12 +181,13 @@ namespace Ermine
 
 	std::vector<int> ImageBase::BindTexturesContained()
 	{
-		MUTEXGAURD(Ermine::MutexLevel::ImageBase);
-
 		std::vector<int> BoundVector;
 		BoundVector.resize(16, 0);
 
 		auto TextureCacheGlobal = Ermine::GlobalTextureCache::Get();
+
+		//Acquire The Lock Here As We Are Trying To Use Shared Resources..
+		auto Lock = Object::GetObjectMutex();
 
 		int BoundSlot = TextureCacheGlobal->Bind(Actorsprite->GetTexture());
 		BoundVector[0] = BoundSlot;
@@ -199,4 +198,44 @@ namespace Ermine
 
 		return BoundVector;
 	}
+
+
+#pragma region RenderableTextureModuleExposition
+	void ImageBase::SubmitTexture(std::filesystem::path TexturePath)
+	{
+		//Accquire The Lock As We Are About To Use Shared Memory
+		auto Lock = GetObjectMutex();
+
+		RenderableTextureModule::SubmitTexture(TexturePath);
+	}
+	void Ermine::ImageBase::SubmitTexture(std::shared_ptr<Texture> Texture)
+	{
+		//Accquire The Lock As We Are About To Use Shared Memory
+		auto Lock = GetObjectMutex();
+
+		RenderableTextureModule::SubmitTexture(Texture);
+	}
+
+	/*std::vector<std::shared_ptr<Texture>>& Ermine::ImageBase::GetBuffer()
+	{
+	//This Function Cannot Be Implemented In Current Archietecture	
+	}*/
+
+
+	void Ermine::ImageBase::Clear()
+	{
+		//Accquire The Lock As We Are About To Use Shared Memory
+		auto Lock = GetObjectMutex();
+
+		RenderableTextureModule::Clear();
+	}
+	void Ermine::ImageBase::ClearTextureBuffer()
+	{
+		//Accquire The Lock As We Are About To Use Shared Memory
+		auto Lock = GetObjectMutex();
+
+		RenderableTextureModule::ClearTextureBuffer();
+	}
+#pragma endregion
+
 }

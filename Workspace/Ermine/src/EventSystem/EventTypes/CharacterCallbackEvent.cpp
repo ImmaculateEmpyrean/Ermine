@@ -22,14 +22,9 @@ namespace Ermine
 	//CharacterCallbackEvent Event Subscription Class///////
 	////////////////////////////////////////////////////////
 
-	CharacterCallbackEventSubscription::CharacterCallbackEventSubscription(std::function<void(CharacterCallbackEvent*)> CallableObject)
+	CharacterCallbackEventSubscription::CharacterCallbackEventSubscription(std::function<void(CharacterCallbackEvent*)> CallableObject, std::atomic<bool>& Flag, std::shared_ptr<Ermine::Object> Obj)
 		:
-		CallableObject(CallableObject)
-	{}
-
-	CharacterCallbackEventSubscription::CharacterCallbackEventSubscription(std::function<void(CharacterCallbackEvent*)> CallableObject, std::atomic<bool>& Flag)
-		:
-		EventSubscription(Flag),
+		EventSubscription(Flag,Obj),
 		CallableObject(CallableObject)
 	{}
 

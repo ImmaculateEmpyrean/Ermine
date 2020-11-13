@@ -6,12 +6,12 @@
 Test::InputChecker::InputChecker()
 {
 	std::cout << "Ysdfjkf";
-	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&InputChecker::CallBackFunc), Flag, Ermine::EventType::ConcreteEvent);
+	/*Ermine::RecieverComponent::Bind(GenCallableFromMethod(&InputChecker::CallBackFunc), Flag, Ermine::EventType::ConcreteEvent);
 	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&InputChecker::CallBackFunc), Flag, Ermine::EventType::KeyCallbackEvent);
 	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&InputChecker::CallBackFunc), Flag, Ermine::EventType::CharacterCallbackEvent);
 	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&InputChecker::CallBackFunc), Flag, Ermine::EventType::CursorPositionCallbackEvent);
 	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&InputChecker::CallBackFunc), Flag, Ermine::EventType::MouseButtonCallbackEvent);
-	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&InputChecker::CallBackFunc), Flag, Ermine::EventType::ScrollCallbackEvent);
+	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&InputChecker::CallBackFunc), Flag, Ermine::EventType::ScrollCallbackEvent);*/
 }
 
 void Test::InputChecker::CallBackFunc(Ermine::Event* eveobj)

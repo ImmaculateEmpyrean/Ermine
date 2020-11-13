@@ -11,8 +11,8 @@ Ermine::LayerStack::LayerStack(std::string Name)
 	LayerStackName(Name)
 {
 	//Subscribed To Concrete Event Default..
-	Ermine::RecieverComponent::Bind(GenCallableFromMethod(&Ermine::LayerStack::RecievedEvent), RecieveConcreteEvents,
-									EventType::ConcreteEvent);
+	/*Ermine::RecieverComponent::Bind(GenCallableFromMethod(&Ermine::LayerStack::RecievedEvent), RecieveConcreteEvents,
+									EventType::ConcreteEvent);*/
 }
 
 Ermine::LayerStack::~LayerStack()

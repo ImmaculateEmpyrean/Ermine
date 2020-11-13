@@ -4,14 +4,17 @@ namespace Ermine
 {
 	enum class EventType : unsigned int
 	{
-		ConcreteEvent = 1,
-		KeyCallbackEvent = 2,
-		CharacterCallbackEvent = 3,
-		CursorPositionCallbackEvent = 4,
-		MouseButtonCallbackEvent = 5,
-		ScrollCallbackEvent = 6,
-		TileSelectedEvent = 7,
+		ConcreteEvent = 0,
+		KeyCallbackEvent = 1,
+		CharacterCallbackEvent = 2,
+		CursorPositionCallbackEvent = 3,
+		MouseButtonCallbackEvent = 4,
+		ScrollCallbackEvent = 5,
+		TileSelectedEvent = 6,
 
-		OnTickEvent = 8
+		OnTickEvent = 7
 	};
+
+	//Do Not Forget To Update This Function.. When Messing With This File..
+	int GetNumberOfEventTypesInExistence(); //This Returns 8 For Now..
 }

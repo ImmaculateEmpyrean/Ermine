@@ -14,7 +14,7 @@ namespace Ermine
 	class CharacterCallbackEvent :public Event
 	{
 	public:
-		CharacterCallbackEvent() = default;//=delete;
+		CharacterCallbackEvent() = default;
 		CharacterCallbackEvent(unsigned int CodePoint);
 
 	private:
@@ -42,8 +42,7 @@ namespace Ermine
 	{
 	public:
 		CharacterCallbackEventSubscription() = delete;
-		CharacterCallbackEventSubscription(std::function<void(CharacterCallbackEvent*)> CallableObject);
-		CharacterCallbackEventSubscription(std::function<void(CharacterCallbackEvent*)> CallableObject, std::atomic<bool>& Flag);
+		CharacterCallbackEventSubscription(std::function<void(CharacterCallbackEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Object> Obj);
 
 	private:
 		std::function<void(CharacterCallbackEvent*)> CallableObject;

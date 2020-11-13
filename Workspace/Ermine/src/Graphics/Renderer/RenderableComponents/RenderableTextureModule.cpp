@@ -50,10 +50,10 @@ namespace Ermine
         TexturesBuffer.emplace_back(Texture);
     }
 
-    std::vector<std::shared_ptr<Texture>>& RenderableTextureModule::GetBuffer()
+    /*std::vector<std::shared_ptr<Texture>>& RenderableTextureModule::GetBuffer()
     {
         return TexturesBuffer;
-    }
+    }*/
 
 
     std::vector<int> RenderableTextureModule::BindTexturesContained()
