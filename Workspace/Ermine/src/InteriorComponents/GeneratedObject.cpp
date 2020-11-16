@@ -182,12 +182,16 @@ void Ermine::GeneratedObject::RecieveEvents(bool Recieve, Ermine::EventType Type
 
 void Ermine::GeneratedObject::BindObject(Ermine::Object* Handle)
 {
+	GetObjectMutex();
+
 	HObject = Handle;
 	HandleValid = true; //There IS No Way To Truly Know If An Object Is Valid.. Just Because This Flag Is Set Does Not Mean Everything Is Hunky Dory..
 }
 
 void Ermine::GeneratedObject::UnBindObject()
 {
+	GetObjectMutex();
+
 	HObject = nullptr;
 	HandleValid = false;
 }

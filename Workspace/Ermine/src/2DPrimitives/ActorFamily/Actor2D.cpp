@@ -66,9 +66,6 @@ namespace Ermine
 	//Copy Operator
 	Actor2D& Actor2D::operator=(Actor2D& rhs)
 	{
-		auto ForeignLock = rhs.GetObjectMutex();
-		auto lock = Object::GetObjectMutex();
-
 		ImageBase::operator=(rhs);
 		MovableObject::operator=(rhs);
 
@@ -94,9 +91,6 @@ namespace Ermine
 	//Sorely Missed Move Operator 
 	Actor2D& Actor2D::operator=(Actor2D&& rhs)
 	{
-		auto ForeignLock = rhs.GetObjectMutex();
-		auto lock = Object::GetObjectMutex();
-
 		ImageBase::operator=(std::move(rhs));
 		MovableObject::operator=(std::move(rhs));
 

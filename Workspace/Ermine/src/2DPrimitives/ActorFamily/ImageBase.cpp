@@ -46,9 +46,6 @@ namespace Ermine
 	}
 	ImageBase& ImageBase::operator=(ImageBase& rhs)
 	{
-		auto ForeignLock = rhs.GetObjectMutex();
-		auto Lock = Object::GetObjectMutex();
-
 		Actor2DBase::operator=(rhs);
 		RenderableTextureModule::operator=(rhs);
 
@@ -69,9 +66,6 @@ namespace Ermine
 	}
 	ImageBase& ImageBase::operator=(ImageBase&& rhs)
 	{
-		auto ForeignLOck = rhs.GetObjectMutex();
-		auto Lock = Object::GetObjectMutex();
-
 		Actor2DBase::operator=(std::move(rhs));
 		RenderableTextureModule::operator=(std::move(rhs));
 

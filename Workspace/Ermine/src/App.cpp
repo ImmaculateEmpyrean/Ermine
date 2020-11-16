@@ -158,7 +158,8 @@ void Ermine::App::OnTick()
 	//static Ermine::Actor2D* Act = new Ermine::Actor2D(ShSpr);
 	//Act->Translate({ 0.5f,0.5f });
 
-	/*LayerStackLayer Layer("Han");
+#if 1
+	LayerStackLayer Layer("Han");
 	Layer.SubmitRenderable(&*Act);
 
 	static int ind = 10;
@@ -183,8 +184,8 @@ void Ermine::App::OnTick()
 	{
 		Act->Translate({ 10.0f,10.0f });
 		//Act->Scale({ 1.02f,1.02f });
-	}*/
-	
+	}
+#endif
 }
 
 void Ermine::App::OnDetach()

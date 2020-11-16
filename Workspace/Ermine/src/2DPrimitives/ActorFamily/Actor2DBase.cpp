@@ -23,9 +23,6 @@ namespace Ermine
 	{}
 	Actor2DBase& Actor2DBase::operator=(Actor2DBase& rhs)
 	{
-		auto ForeignLock = rhs.GetObjectMutex();
-		auto Lock = GetObjectMutex();
-
 		Object::operator=(rhs);
 		return *this;
 	}
@@ -36,9 +33,6 @@ namespace Ermine
 	{}
 	Actor2DBase& Actor2DBase::operator=(Actor2DBase&& rhs)
 	{
-		auto ForeignLock = rhs.GetObjectMutex();
-		auto Lock = GetObjectMutex();
-
 		Object::operator=(std::move(rhs));
 		return *this;
 	}

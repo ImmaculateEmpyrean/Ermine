@@ -16,9 +16,10 @@ namespace Ermine
 		
 		//Generate And Bind Said Generated Object
 		GeneratedObjPtr = std::shared_ptr<Ermine::GeneratedObject>(new GeneratedObject());
-		GeneratedObjPtr->BindObject(this);
 
-		//auto Lock = GetObjectMutex();
+		auto Lock = GetObjectMutex();
+
+		GeneratedObjPtr->BindObject(this);
 
 		auto Flags = rhs.GeneratedObjPtr->AllFlagsOfRecievingEvents();
 
@@ -32,9 +33,10 @@ namespace Ermine
 		auto ForeignLock = rhs.GeneratedObjPtr->GetObjectMutex();
 
 		GeneratedObjPtr = std::shared_ptr<Ermine::GeneratedObject>(new GeneratedObject());
+
+		auto Lock = GetObjectMutex();
+
 		GeneratedObjPtr->BindObject(this);
-		
-		//auto Lock = GetObjectMutex();
 
 		auto Flags = rhs.GeneratedObjPtr->AllFlagsOfRecievingEvents();
 
@@ -65,7 +67,7 @@ namespace Ermine
 
 	Object::~Object()
 	{
-		//auto Lock = GetObjectMutex();
+		auto Lock = GetObjectMutex();
 
 		GeneratedObjPtr->SetObjectHealth(Ermine::ObjectStatus::StatusMarkedForDeletion);
 		GeneratedObjPtr->UnBindObject();
