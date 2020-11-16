@@ -42,7 +42,7 @@ namespace Ermine
 	{
 	public:
 		ConcreteEventSubscription() = delete;
-		ConcreteEventSubscription(std::function<void(ConcreteEvent*)> CallableObject,std::atomic<bool>& Flag,std::shared_ptr<Ermine::Object> Obj);
+		ConcreteEventSubscription(std::function<void(ConcreteEvent*)> CallableObject,std::atomic<bool>& Flag,std::shared_ptr<Ermine::GeneratedObject> Obj);
 
 	private:
 		std::function<void(ConcreteEvent*)> CallableObject;

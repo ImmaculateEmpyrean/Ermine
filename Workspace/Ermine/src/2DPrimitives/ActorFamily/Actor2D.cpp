@@ -13,6 +13,8 @@ namespace Ermine
 	{
 		auto lock = Object::GetObjectMutex();
 		RefreshRenderable2D();
+
+		Actor2DConstructionAssciate();
 	}
 	Actor2D::Actor2D(std::vector<std::shared_ptr<Sprite>> SpriteBuffer)
 		:
@@ -20,6 +22,8 @@ namespace Ermine
 	{
 		auto lock = Object::GetObjectMutex();
 		RefreshRenderable2D();
+
+		Actor2DConstructionAssciate();
 	}
 
 	Actor2D::Actor2D(std::shared_ptr<Sprite> Spr, glm::mat4 ModelMatrix)
@@ -29,6 +33,8 @@ namespace Ermine
 	{
 		auto lock = Object::GetObjectMutex();
 		RefreshRenderable2D();
+
+		Actor2DConstructionAssciate();
 	}
 
 	Actor2D::Actor2D(std::vector<std::shared_ptr<Sprite>> SpriteBuffer, glm::mat4 ModelMatrix)
@@ -38,6 +44,8 @@ namespace Ermine
 	{
 		auto lock = Object::GetObjectMutex();
 		RefreshRenderable2D();
+
+		Actor2DConstructionAssciate();
 	}
 
 	Actor2D::~Actor2D()
@@ -48,13 +56,23 @@ namespace Ermine
 		:
 		ImageBase(rhs.GetSprite()),
 		MovableObject(rhs)
-	{}
+	{
+		auto ForeignLock = rhs.GetObjectMutex();
+		auto lock = Object::GetObjectMutex();
+
+		Actor2DConstructionAssciate();
+	}
 
 	//Copy Operator
 	Actor2D& Actor2D::operator=(Actor2D& rhs)
 	{
+		auto ForeignLock = rhs.GetObjectMutex();
+		auto lock = Object::GetObjectMutex();
+
 		ImageBase::operator=(rhs);
 		MovableObject::operator=(rhs);
+
+		Actor2DConstructionAssciate();
 
 		return *this;
 	}
@@ -69,6 +87,8 @@ namespace Ermine
 		auto lock = Object::GetObjectMutex();
 
 		rhs.SetSprite(nullptr);
+
+		Actor2DConstructionAssciate();
 	}
 
 	//Sorely Missed Move Operator 
@@ -79,6 +99,8 @@ namespace Ermine
 
 		ImageBase::operator=(std::move(rhs));
 		MovableObject::operator=(std::move(rhs));
+
+		Actor2DConstructionAssciate();
 
 		return *this;
 	}
@@ -112,6 +134,7 @@ namespace Ermine
 		std::shared_ptr<Ermine::Actor2D> Act = std::make_shared<Ermine::Actor2D>(Spr,ModelMatrix);
 		return Act;
 	}
+
 #pragma endregion
 
 	std::vector<float> Actor2D::CalculateModelSpaceVertexes()
@@ -214,8 +237,12 @@ namespace Ermine
 #pragma region EventProcessing
 	void Actor2D::OnTickEventRecieved(float DeltaTime)
 	{
+		auto Lock = Object::GetObjectMutex();
+
 		//Update The Movable Object Every Frame Of The Engine
 		MovableObject::Update(DeltaTime);
+
+		STDOUTDefaultLog_Info("Actor Tick Working..");
 	}
 #pragma endregion
 

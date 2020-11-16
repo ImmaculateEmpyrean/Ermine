@@ -42,7 +42,7 @@ namespace Ermine
 	{
 	public:
 		CharacterCallbackEventSubscription() = delete;
-		CharacterCallbackEventSubscription(std::function<void(CharacterCallbackEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Object> Obj);
+		CharacterCallbackEventSubscription(std::function<void(CharacterCallbackEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<GeneratedObject> Obj);
 
 	private:
 		std::function<void(CharacterCallbackEvent*)> CallableObject;

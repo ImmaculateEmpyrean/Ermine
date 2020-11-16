@@ -45,14 +45,6 @@ void Ermine::LayerStackLayer::AddLabel(std::string Text, glm::vec3 Color, glm::v
 
 void Ermine::LayerStackLayer::Clear()
 {
-	for (std::shared_ptr<Ermine::Renderable2D> i : Renderables)
-	{
-		if(dynamic_cast<Object*>(&(*i)))
-		{
-			Object* Ptr = (Object*)(&(*i));
-			Ptr->MarkObjectForDeletion();
-		}
-	}
 	Renderables.clear(); //This is a collection of unique pointers simply calling clear is enough..
 }
 
@@ -82,6 +74,11 @@ void Ermine::LayerStackLayer::HelperMoveConstructor(LayerStackLayer&& rhs)
 		i = nullptr;
 	}
 }
+
+/*void Ermine::LayerStackLayer::HelperEmplaceRenderableInRenderablesContainer(std::shared_ptr<Renderable2D> RenderableObj)
+{
+	
+}*/
 
 void Ermine::LayerStackLayer::HelperEmplaceRenderableInRenderablesContainer(Renderable2D* RenderableObj)
 {

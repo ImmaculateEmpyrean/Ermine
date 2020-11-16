@@ -13,13 +13,13 @@ namespace Ermine
 #pragma region Constructors
 	Actor2DBase::Actor2DBase()
 		:
-		Object(std::move(*Object::GenerateObject("")))
+		Object()
 	{}
 
 
 	Actor2DBase::Actor2DBase(Actor2DBase& rhs)
 		:
-		Object(std::move(*Object::GenerateObject("")))
+		Object()
 	{}
 	Actor2DBase& Actor2DBase::operator=(Actor2DBase& rhs)
 	{
@@ -32,7 +32,7 @@ namespace Ermine
 
 	Actor2DBase::Actor2DBase(Actor2DBase&& rhs) 
 		:
-		Object(std::move(*Object::GenerateObject("")))
+		Object()
 	{}
 	Actor2DBase& Actor2DBase::operator=(Actor2DBase&& rhs)
 	{

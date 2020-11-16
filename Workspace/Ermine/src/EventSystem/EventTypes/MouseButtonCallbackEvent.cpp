@@ -23,7 +23,7 @@ namespace Ermine
 	//MouseButtonCallback Event Subscription Class//////////
 	////////////////////////////////////////////////////////
 
-	MouseButtonCallbackEventSubscription::MouseButtonCallbackEventSubscription(std::function<void(MouseButtonCallbackEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::Object> Obj)
+	MouseButtonCallbackEventSubscription::MouseButtonCallbackEventSubscription(std::function<void(MouseButtonCallbackEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::GeneratedObject> Obj)
 		:
 		EventSubscription(Flag,Obj),
 		CallableObject(CallableObject)

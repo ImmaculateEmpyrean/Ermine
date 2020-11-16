@@ -150,11 +150,16 @@ void Ermine::App::OnTick()
 		l = false;
 	}
 
-	static Ermine::Actor2D* Act = new Ermine::Actor2D(ShSpr);
+	static std::shared_ptr<Ermine::Actor2D> Act = Ermine::Actor2D::GenerateActor2D("AnoHiMitaHana.png");
+	
+	//std::cout << std::boolalpha;
+	//std::cout<<Act->IsRecievingKeyCallbackEvents()<<std::endl;
+
+	//static Ermine::Actor2D* Act = new Ermine::Actor2D(ShSpr);
 	//Act->Translate({ 0.5f,0.5f });
 
-	LayerStackLayer Layer("Han");
-	Layer.SubmitRenderable(Act);
+	/*LayerStackLayer Layer("Han");
+	Layer.SubmitRenderable(&*Act);
 
 	static int ind = 10;
 	static bool Coke = false;
@@ -178,7 +183,7 @@ void Ermine::App::OnTick()
 	{
 		Act->Translate({ 10.0f,10.0f });
 		//Act->Scale({ 1.02f,1.02f });
-	}
+	}*/
 	
 }
 

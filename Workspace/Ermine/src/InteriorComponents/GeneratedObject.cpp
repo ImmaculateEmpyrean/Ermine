@@ -1,0 +1,194 @@
+#include "stdafx.h"
+#include "GeneratedObject.h"
+
+#include "EventSystem/EnumEventType.h"
+#include "EventSystem/EventBroadcastStation.h"
+#include "EventSystem/Event.h"
+
+#include "EventSystem/Components/RecieverComponent.h"
+#include "EventSystem/Components/BroadcastComponent.h"
+
+#include "Object.h"
+
+#pragma region StaticDeclarations
+//Start Static Declarations//
+std::atomic<long> Ermine::GeneratedObject::Counter = 0;
+std::recursive_mutex Ermine::GeneratedObject::FactoryHashTableMutex;
+//Ended Static Declarations//
+#pragma endregion
+
+#pragma region Constructors
+Ermine::GeneratedObject::GeneratedObject()
+{
+	std::unique_lock<std::recursive_mutex> Gaurd1(ObjectMutex);
+	long LC = Counter.fetch_add(1); //I am not entirely sure that the add is completed before mutex i released.. sure enough but not absolutely sure..
+	UniqueIdentifier = std::to_string(LC);
+
+	FlagsOfRecievingEvents.resize(Ermine::GetNumberOfEventTypesInExistence(), false);
+	TicketsHeldByTheObject.resize(Ermine::GetNumberOfEventTypesInExistence(), nullptr);
+}
+#pragma endregion
+
+void Ermine::GeneratedObject::EventReciever(Ermine::Event* Eve)
+{
+	auto Lock = GetObjectMutex();
+
+	auto EventType = Eve->GetEventType();
+
+	if (EventType == Ermine::EventType::ConcreteEvent)
+	{
+		std::string Resource = ((ConcreteEvent*)Eve)->GetMessageBuffer();
+
+		if(HandleValid)
+			HObject->ConcreteEventRecieved(Resource);
+
+		if (ConcreteEventFunctionPointer != nullptr)
+			ConcreteEventFunctionPointer(Resource); //Control Is Given To The User.. Be Very Careful..
+	}
+
+	if (EventType == Ermine::EventType::KeyCallbackEvent)
+	{
+		KeyCallbackEvent* KeyCallbackEve = ((KeyCallbackEvent*)Eve);
+
+		int key = KeyCallbackEve->GetKey();
+		int scancode = KeyCallbackEve->GetScancode();
+		int action = KeyCallbackEve->GetAction();
+		int mods = KeyCallbackEve->GetMods();
+
+		if (HandleValid)
+			HObject->KeyCallbackEventRecieved(key, scancode, action, mods);
+
+		if (KeyCallBackEventFunctionPointer != nullptr)
+			KeyCallBackEventFunctionPointer(key, scancode, action, mods); //Control Is Given To The User.. Be Very Careful..
+	}
+
+	if (EventType == Ermine::EventType::CharacterCallbackEvent)
+	{
+		int CodePoint = ((CharacterCallbackEvent*)Eve)->GetCodePoint();
+
+		if (HandleValid)
+			HObject->CharacterkeyCallbackEventRecieved(CodePoint);
+
+		if (CharacterCallbackEventFunctionPointer != nullptr)
+			CharacterCallbackEventFunctionPointer(CodePoint);
+	}
+
+	if (EventType == Ermine::EventType::CursorPositionCallbackEvent)
+	{
+		CursorPositionCallbackEvent* CursorCallbackEve = ((CursorPositionCallbackEvent*)Eve);
+
+		int xpos = ((CursorPositionCallbackEvent*)Eve)->GetXPos();
+		int ypos = ((CursorPositionCallbackEvent*)Eve)->GetYPos();
+
+		if (HandleValid)
+			HObject->CursorPositionUpdateEventRecieved(xpos, ypos);
+
+		if (CursorPositionUpdateEventFunctionPointer != nullptr)
+			CursorPositionUpdateEventFunctionPointer(xpos, ypos);
+	}
+
+	if (EventType == Ermine::EventType::MouseButtonCallbackEvent)
+	{
+		MouseButtonCallbackEvent* MEve = (MouseButtonCallbackEvent*)Eve;
+
+		int Button = MEve->GetButton();
+		int action = MEve->GetAction();
+		int mods = MEve->GetMods();
+
+		if (HandleValid)
+			HObject->MouseButtonCallbackEventRecieved(Button, action, mods);
+
+		if (MouseButtonCallbackFunctionPointer != nullptr)
+			MouseButtonCallbackFunctionPointer(Button, action, mods);
+	}
+
+	if (EventType == Ermine::EventType::ScrollCallbackEvent)
+	{
+		ScrollCallbackEvent* SEve = (ScrollCallbackEvent*)Eve;
+
+		double OffsetX = SEve->GetXoffset();
+		double OffsetY = SEve->GetYoffset();
+
+		if (HandleValid)
+			HObject->ScrollPositionUpdateEventRecieved(OffsetX, OffsetY);
+
+		if (ScrollPositionUpdateFunctionPointer != nullptr)
+			ScrollPositionUpdateFunctionPointer(OffsetX, OffsetY);
+	}
+
+	if (EventType == Ermine::EventType::OnTickEvent)
+	{
+		float DeltaTime = ((Ermine::OnTickEvent*)Eve)->GetDeltaTime();
+
+		if (HandleValid)
+			HObject->OnTickEventRecieved(DeltaTime);
+
+		if (OnTickEventFunctionPointer != nullptr)
+			OnTickEventFunctionPointer(DeltaTime);
+	}
+
+	if (EventType == Ermine::EventType::TileSelectedEvent)
+	{
+		Ermine::TileSelectedEvent* TEve = (Ermine::TileSelectedEvent*)Eve;
+
+		std::filesystem::path TilesetPath = TEve->GetTilesetPath();
+		int Index = TEve->GetIndex();
+
+		if (HandleValid)
+			HObject->TileSelectedUpdateEventRecieved(TilesetPath, Index);
+
+		if (TileSelectedUpdateFunctionPointer != nullptr)
+			TileSelectedUpdateFunctionPointer(TilesetPath, Index);
+	}
+}
+
+void Ermine::GeneratedObject::RecieveEvents(bool Recieve, Ermine::EventType Type)
+{
+	auto Lock = GetObjectMutex();
+
+	if (Recieve == true)
+	{
+		if (FlagsOfRecievingEvents[(unsigned int)Type] == true)
+			return;
+		if (FlagsOfRecievingEvents[(unsigned int)Type] == false)
+		{
+			if (HandleValid)
+			{
+				//Now Subscribe To Station Here
+				TicketsHeldByTheObject[(unsigned int)Type] = new Ermine::SubscriptionTicket(std::move(Ermine::RecieverComponent::Bind(GenCallableFromMethod(&GeneratedObject::EventReciever),
+					ObjectReadyToRecieveEvents, Type, HObject->GetSharedPtrToObject())));
+				FlagsOfRecievingEvents[(unsigned int)Type] = true;
+			}
+		}
+	}
+	else
+	{
+		if (FlagsOfRecievingEvents[(unsigned int)Type] == true)
+		{
+			//Desubscribe To Station Here..
+			auto Station = Ermine::EventBroadcastStation::GetStation();
+			Station->DestroySubscription(std::move(*TicketsHeldByTheObject[(unsigned int)Type]));
+
+			//Delete The Allocated Space Even If The Variable Is Moved As Per The Norm..
+			delete TicketsHeldByTheObject[(unsigned int)Type];
+
+			FlagsOfRecievingEvents[(unsigned int)Type] = false;
+		}
+		if (FlagsOfRecievingEvents[(unsigned int)Type] == false)
+			return;
+	}
+}
+
+
+void Ermine::GeneratedObject::BindObject(Ermine::Object* Handle)
+{
+	HObject = Handle;
+	HandleValid = true; //There IS No Way To Truly Know If An Object Is Valid.. Just Because This Flag Is Set Does Not Mean Everything Is Hunky Dory..
+}
+
+void Ermine::GeneratedObject::UnBindObject()
+{
+	HObject = nullptr;
+	HandleValid = false;
+}
+

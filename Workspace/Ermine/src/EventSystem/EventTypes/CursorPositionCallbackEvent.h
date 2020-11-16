@@ -45,7 +45,7 @@ namespace Ermine
 	{
 	public:
 		CursorPositionCallbackEventSubscription() = delete;
-		CursorPositionCallbackEventSubscription(std::function<void(CursorPositionCallbackEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::Object> Obj);
+		CursorPositionCallbackEventSubscription(std::function<void(CursorPositionCallbackEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::GeneratedObject> Obj);
 
 	private:
 		std::function<void(CursorPositionCallbackEvent*)> CallableObject;

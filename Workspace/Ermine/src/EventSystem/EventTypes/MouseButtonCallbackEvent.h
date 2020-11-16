@@ -46,7 +46,7 @@ namespace Ermine
 	{
 	public:
 		MouseButtonCallbackEventSubscription() = delete;
-		MouseButtonCallbackEventSubscription(std::function<void(MouseButtonCallbackEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::Object> Obj);
+		MouseButtonCallbackEventSubscription(std::function<void(MouseButtonCallbackEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::GeneratedObject> Obj);
 
 	private:
 		std::function<void(MouseButtonCallbackEvent*)> CallableObject;

@@ -54,6 +54,9 @@ namespace Ermine {
 		static std::shared_ptr<Actor2D> GenerateActor2D(std::filesystem::path TexturePath, glm::vec2 ActorScreenLocation, float Rotation = 0.0f, glm::vec2 Scale = {1.0f,1.0f});
 		static std::shared_ptr<Actor2D> GenerateActor2D(std::shared_ptr<Sprite> Spr);
 		static std::shared_ptr<Actor2D> GenerateActor2D(std::shared_ptr<Sprite> Spr, glm::vec2 ActorScreenLocation, float Rotation = 0.0f, glm::vec2 Scale = { 1.0f,1.0f });
+
+		//Generating Renderable2D is Quite Expensive.. See That You Dont Waste Calling It..
+		//std::unique_ptr<Renderable2D> GenerateRenderable2D();
 #pragma endregion
 		
 	public:

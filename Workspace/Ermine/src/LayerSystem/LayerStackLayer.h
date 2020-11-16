@@ -55,6 +55,7 @@ namespace Ermine
 		void HelperCopyConstructor(const LayerStackLayer& rhs);
 		void HelperMoveConstructor(LayerStackLayer&& rhs);
 
+		//void HelperEmplaceRenderableInRenderablesContainer(std::shared_ptr<Renderable2D> RenderableObj);
 		void HelperEmplaceRenderableInRenderablesContainer(Renderable2D* RenderableObj);
 
 		bool HandleEventInLayerAndPassForward(Ermine::Event* EventPointer);

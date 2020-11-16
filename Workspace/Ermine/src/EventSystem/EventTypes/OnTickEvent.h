@@ -42,7 +42,7 @@ namespace Ermine
 	{
 	public:
 		OnTickEventSubscription() = delete;
-		OnTickEventSubscription(std::function<void(OnTickEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::Object> Obj);
+		OnTickEventSubscription(std::function<void(OnTickEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::GeneratedObject> Obj);
 
 	private:
 		std::function<void(OnTickEvent*)> CallableObject;

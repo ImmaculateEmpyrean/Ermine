@@ -307,6 +307,8 @@
     <ClInclude Include="src\2DPrimitives\ActorFamily\Interfaces\IMovableActor.h" />
     <ClInclude Include="src\MutexSystem\MutexGaurd.h" />
     <ClInclude Include="src\MutexSystem\MutexState.h" />
+    <ClInclude Include="src\InteriorComponents\GeneratedObject.h" />
+    <ClInclude Include="src\ObjectStatus.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
@@ -499,5 +501,6 @@
     <ClCompile Include="src\MutexSystem\MutexCasket.cpp" />
     <ClCompile Include="src\MutexSystem\MutexGaurd.cpp" />
     <ClCompile Include="src\EventSystem\EnumEventType.cpp" />
+    <ClCompile Include="src\InteriorComponents\GeneratedObject.cpp" />
   </ItemGroup>
 </Project>

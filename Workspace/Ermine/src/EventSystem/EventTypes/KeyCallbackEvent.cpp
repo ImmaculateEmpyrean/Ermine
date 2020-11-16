@@ -26,7 +26,7 @@ namespace Ermine
 	////////////////////////////////////////////////////////
 
 	KeyCallbackEventSubscription::KeyCallbackEventSubscription(std::function<void(KeyCallbackEvent*)> CallableObject, 
-															   std::atomic<bool> & Flag,std::shared_ptr<Ermine::Object> Obj)
+															   std::atomic<bool> & Flag,std::shared_ptr<Ermine::GeneratedObject> Obj)
 		:
 		EventSubscription(Flag,Obj),
 		CallableObject(CallableObject)

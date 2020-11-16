@@ -9,7 +9,7 @@
 #include "../EventTypes/ScrollCallbackEvent.h"
 #include "../EventTypes/TileSelectedEvent.h"
 
-Ermine::SubscriptionTicket Ermine::RecieverComponent::Bind(std::function<void(Event*)> Callable, std::atomic<bool>& SwitchTOControlIfAnEventCanBeExecuted, EventType SubscriptionType,std::shared_ptr<Ermine::Object> ErmineObj)
+Ermine::SubscriptionTicket Ermine::RecieverComponent::Bind(std::function<void(Event*)> Callable, std::atomic<bool>& SwitchTOControlIfAnEventCanBeExecuted, EventType SubscriptionType,std::shared_ptr<Ermine::GeneratedObject> ErmineObj)
 {
 	auto station = Ermine::EventBroadcastStation::GetStation(); //Gets a Line To The Station
 

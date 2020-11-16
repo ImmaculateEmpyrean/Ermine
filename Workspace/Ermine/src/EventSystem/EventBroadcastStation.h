@@ -118,34 +118,29 @@ namespace Ermine
 
 			for (int i = 0; i < EQ.size(); i++)
 			{
-				int c = 0;
 				for (auto j = SQ.begin(); j != SQ.end(); j++) //for (auto& j : ConcreteEventSubscriptions)
 				{
 					//Start Delete Objects Which Are Marked For Deletion Right..//
-					std::shared_ptr<Ermine::Object> Subs = j->second.GetSubscribedObject();
-					auto Health = Subs->GetObjectHealth();
-					if (Subs == nullptr)
+					std::shared_ptr<Ermine::GeneratedObject> Subs = j->second.GetSubscribedObject();
+					if (Subs != nullptr)
 					{
-						STDOUTDefaultLog_Critical("Error Object Not Initialized And Requesting A Broadcast To Be Sent");
-						j = SQ.erase(j);
-						break;
-					}
-					if (Health == Ermine::ObjectStatus::StatusMarkedForDeletion)
-					{
-						j = SQ.erase(j);
-						break;
-					}
-					//Ended Delete Objects Which Are Marked For Deletion Right..//
+						auto Health = Subs->GetObjectHealth();
+						if (Health == Ermine::ObjectStatus::StatusMarkedForDeletion)
+						{
+							j = SQ.erase(j);
+							if (j == SQ.end())
+								break;
+						}
+						//Ended Delete Objects Which Are Marked For Deletion Right..//
+						if (j->second.CanIRecieveEventFlag == true)
+						{
+							j->second.CallableObject(&EQ[i]);
+						}
 
-					if (j->second.CanIRecieveEventFlag == true)
-					{
-						j->second.CallableObject(&EQ[i]);
+						//If The Event Is Already handled No Point In Handling it Further Right..
+						if (EQ[i].IsEventHandled() == true)
+							break;
 					}
-					c++;
-
-					//If The Event Is Already handled No Point In Handling it Further Right..
-					if (EQ[i].IsEventHandled() == true)
-						break;
 				}
 				EQ.erase(EQ.begin() + i);
 			}

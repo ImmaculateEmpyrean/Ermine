@@ -31,6 +31,6 @@ namespace Ermine
 	public:
 		//Use This New Function More
 		static Ermine::SubscriptionTicket Bind(std::function<void(Event*)> Callable, std::atomic<bool>& SwitchTOControlIfAnEventCanBeExecuted,
-											   EventType SubscriptionType,std::shared_ptr<Ermine::Object> Obj); //Consider Wrapping The Return Type In std::optional in the future..
+											   EventType SubscriptionType,std::shared_ptr<Ermine::GeneratedObject> Obj); //Consider Wrapping The Return Type In std::optional in the future..
 	};
 }

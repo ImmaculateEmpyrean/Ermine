@@ -24,7 +24,7 @@ namespace Ermine
 //ScrollCallback Event Subscription Class///////////////
 ////////////////////////////////////////////////////////
 
-	ScrollCallbackEventSubscription::ScrollCallbackEventSubscription(std::function<void(ScrollCallbackEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::Object> Obj)
+	ScrollCallbackEventSubscription::ScrollCallbackEventSubscription(std::function<void(ScrollCallbackEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::GeneratedObject> Obj)
 		:
 		EventSubscription(Flag,Obj),
 		CallableObject(CallableObject)

@@ -23,7 +23,7 @@ namespace Ermine
 	//TileSelected Event Subscription Class/////////////////
 	////////////////////////////////////////////////////////
 
-	TileSelectedEventSubscription::TileSelectedEventSubscription(std::function<void(TileSelectedEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::Object> Obj)
+	TileSelectedEventSubscription::TileSelectedEventSubscription(std::function<void(TileSelectedEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::GeneratedObject> Obj)
 		:
 		EventSubscription(Flag,Obj),
 		CallableObject(CallableObject)

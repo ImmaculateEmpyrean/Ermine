@@ -8,7 +8,7 @@ Ermine::OrthographicCamera* Ermine::OrthographicCamera::Camera = nullptr;
 
 Ermine::OrthographicCamera::OrthographicCamera()
     :
-    Object(*Object::GenerateObject(""))
+    Object()
 {
     auto Mutex = GetCameraUniqueLock();
 
