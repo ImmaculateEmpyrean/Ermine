@@ -3,13 +3,13 @@
 
 #include<Object.h>
 
+#pragma region StaticDeclarations
 Ermine::EventBroadcastStation* Ermine::EventBroadcastStation::EventBroadcastStationPointer = nullptr; //Note The Broadcast Station is not initialized
 std::once_flag Ermine::EventBroadcastStation::LazyInitializationFlag;
 std::atomic<bool> Ermine::EventBroadcastStation::StationDestructionOrdered = false;
 std::thread* Ermine::EventBroadcastStation::StationThreadObject;
-std::mutex Ermine::EventBroadcastStation::MainMutex;
-
 std::vector<bool> Ermine::EventBroadcastStation::SubscriptionTicketsInUse;
+#pragma endregion
 
 void EventBroadcastStationMainRoutine()
 {
@@ -27,8 +27,6 @@ Ermine::EventBroadcastStation::~EventBroadcastStation()
 
 Ermine::EventBroadcastStation* Ermine::EventBroadcastStation::GetStation()
 {
-	//std::lock_guard<std::mutex> GetStationLockGaurd(GetStationLock); //This Ensures Only One Thread Can Access The Retuen At a Given Time
-	
 	std::call_once(LazyInitializationFlag, []() {
 		EventBroadcastStationPointer = new EventBroadcastStation(); //Create A New event Broadcast Station..
 		StationThreadObject = new std::thread(EventBroadcastStationMainRoutine);
@@ -36,7 +34,6 @@ Ermine::EventBroadcastStation* Ermine::EventBroadcastStation::GetStation()
 		SubscriptionTicketsInUse.resize(1000, false);
 	});
 
-	std::unique_lock<std::mutex> Loc(MainMutex);//,std::adopt_lock);
 	return EventBroadcastStationPointer;
 }
 
@@ -56,8 +53,6 @@ void Ermine::EventBroadcastStation::DestroyStation()
 
 void Ermine::EventBroadcastStation::QueueBroadcast(std::unique_ptr<Event> BroadcastPackage)
 {
-	std::unique_lock<std::mutex> Loc(MainMutex);//, std::adopt_lock);//std::lock_guard<std::mutex> Loc(MainMutex,std::adopt_lock);
-	
 	Ermine::EventType BroadcastType = BroadcastPackage->GetEventType();
 	Event* EvePtr = BroadcastPackage.release();
 
@@ -101,7 +96,10 @@ void Ermine::EventBroadcastStation::QueueBroadcast(std::unique_ptr<Event> Broadc
 	else if (BroadcastType == EventType::OnTickEvent)
 	{
 		std::unique_lock<std::recursive_mutex> Lock(OnTickCallbackEventsBufferMutex);
-		OnTickCallbackEventsQueue.push_back(std::move(*((OnTickEvent*)(EvePtr))));
+
+		//There Is No Point In Having More Than One Event Tick Queued.. If The Renderer Thread Is Running At A Faster Rate Than The Message Broadcaster.. All I Can Say Is WOW.. THIS MAY CHANGE IN THE FUTURE..
+		if(OnTickCallbackEventsQueue.size() == 0)
+			OnTickCallbackEventsQueue.push_back(std::move(*((OnTickEvent*)(EvePtr))));
 	}
 
 	delete EvePtr;
@@ -109,8 +107,6 @@ void Ermine::EventBroadcastStation::QueueBroadcast(std::unique_ptr<Event> Broadc
 
 Ermine::SubscriptionTicket Ermine::EventBroadcastStation::QueueSubscription(std::unique_ptr<EventSubscription> Subscription)
 {
-	std::unique_lock<std::mutex> Loc(MainMutex);
-	
 	auto SubscriptionType = Subscription->GetEventSubscriptionType();
 	EventSubscription* EvePtr = Subscription.release();
 	
@@ -145,9 +141,6 @@ Ermine::SubscriptionTicket Ermine::EventBroadcastStation::QueueSubscription(std:
 
 void Ermine::EventBroadcastStation::DestroySubscription(Ermine::SubscriptionTicket SubscriptionTicket)
 {
-	
-	std::unique_lock<std::mutex> Loc(MainMutex);
-
 	auto SubscriptionType = SubscriptionTicket.GetEventSubscriptionType();
 	switch (SubscriptionType)
 	{
@@ -172,14 +165,11 @@ void Ermine::EventBroadcastStation::DestroySubscription(Ermine::SubscriptionTick
 
 	CloseSubscriptionTicket(SubscriptionTicket);
 
-	return; //This Must Return To The User Right..
-	//Also I Think The Mutex Is Way Too Coarse Grained.. Maybe Fix It A Bit In The Future
+	return;
 }
 
 void Ermine::EventBroadcastStation::DispatchMessagesSuperior()
 {
-	//std::unique_lock<std::mutex> Loc(MainMutex);//std::lock_guard<std::mutex> Loc(MainMutex, std::adopt_lock);
-
 	DispatchMessages(ConcreteEventsBufferMutex              ,ConcreteEventsQueue              ,ConcreteEventSubscriptions);
 	DispatchMessages(KeyCallBackEventsBufferMutex           ,KeyCallbackEventsQueue           ,KeyCallbackEventsSubscriptions);
 	DispatchMessages(CharacterCallBackEventsBufferMutex     ,CharacterCallbackEventsQueue     ,CharacterCallbackEventSubscriptions);

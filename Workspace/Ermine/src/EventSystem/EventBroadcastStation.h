@@ -40,16 +40,14 @@ namespace Ermine
 		static std::atomic<bool> StationDestructionOrdered; //This Flag Is Set Public Because There are some people who would like to know if god has been destroyed
 
 	public:
-		static std::mutex MainMutex;
+		
 
 	public:
 		static EventBroadcastStation* GetStation(); //This is a static method and will allow the user to get a line with the station in question
 		static void DestroyStation(); //This is a static method and will allow the user to Destroy the station in question
 
 		void DispatchMessagesSuperior(); //This Will Trigger Delievery of Messages //Note Lock Mutexes Appropriately...
-		
-		//void CheckObjectsHealthAndDeleteLowHealth(); //Delete Objects Whose Health Is Low
-
+				
 		void QueueBroadcast(std::unique_ptr<Event> BroadcastPackage); //This Message Is Used To Send in a package for Broadcast
 		
 		Ermine::SubscriptionTicket  QueueSubscription(std::unique_ptr<EventSubscription> Subscription);
@@ -83,21 +81,8 @@ namespace Ermine
 		std::recursive_mutex OnTickCallbackEventsBufferMutex;
 		//Donot Forget to add destructors for these containers inside the destructor..
 
-		/*std::vector<Ermine::Event*> EventsBuffer;
-		std::recursive_mutex EventBufferMutex;*/
-
 	private:
-		//We Will Store The Subscriptions Here...
-		/*std::vector<ConcreteEventSubscription> ConcreteEventSubscriptions;
-		std::vector<KeyCallbackEventSubscription> KeyCallbackEventsSubscriptions;
-		std::vector<CharacterCallbackEventSubscription> CharacterCallbackEventSubscriptions; 
-		std::vector<CursorPositionCallbackEventSubscription> CursorPositionCallbackEventSubscriptions;
-		std::vector<MouseButtonCallbackEventSubscription> MouseButtonCallbackEventSubscriptions;
-		std::vector<ScrollCallbackEventSubscription> ScrollCallbackEventSubscriptions;
-		std::vector<TileSelectedEventSubscription> TileSelectedCallbackEventSubscriptions;
-		std::vector<OnTickEventSubscription> OnTickCallbackEventSubscriptions;*/
-
-		//More Modern Approach X>
+		//Start Store Subscriptions..//
 		std::unordered_map<int,ConcreteEventSubscription> ConcreteEventSubscriptions;
 		std::unordered_map<int,KeyCallbackEventSubscription> KeyCallbackEventsSubscriptions;
 		std::unordered_map<int,CharacterCallbackEventSubscription> CharacterCallbackEventSubscriptions;
@@ -106,8 +91,7 @@ namespace Ermine
 		std::unordered_map<int,ScrollCallbackEventSubscription> ScrollCallbackEventSubscriptions;
 		std::unordered_map<int,TileSelectedEventSubscription> TileSelectedCallbackEventSubscriptions;
 		std::unordered_map<int,OnTickEventSubscription> OnTickCallbackEventSubscriptions;
-
-		//Donot Forget to add destructors for these containers inside the destructor..
+		//Ended Store Subscription..//
 
 	private:
 #pragma region TemplateFuncToDispatchMessages
@@ -147,14 +131,12 @@ namespace Ermine
 		}
 #pragma endregion
 
-
 		//This Method Gets A Subscription Ticket If A Slot Is Available.. The Bool is also Set True Remember.. 
 		int GetOpenSubscriptionTicket();
 		void CloseSubscriptionTicket(int SubscriptionTicket);
 
 	private:
-
-		//This Container
+		//This Container Hopefully Keeps The Subscription Tickets Given Out In Track..
 		static std::vector<bool> SubscriptionTicketsInUse;
 
 	};
