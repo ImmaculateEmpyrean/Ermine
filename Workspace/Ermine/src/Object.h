@@ -71,7 +71,9 @@ namespace Ermine
 		virtual void CursorPositionUpdateEventRecieved(int xpos, int ypos) { DefaultEventHandler(); };
 		virtual void MouseButtonCallbackEventRecieved(int button, int action, int mods) { DefaultEventHandler(); };
 		virtual void ScrollPositionUpdateEventRecieved(double xoffset, double yoffset) { DefaultEventHandler(); };
+		
 		virtual void OnTickEventRecieved(float DeltaTime) { DefaultEventHandler(); };
+		virtual void OnBeginEvent(std::shared_ptr<void> Packet) { DefaultEventHandler(); };
 
 		virtual void TileSelectedUpdateEventRecieved(std::filesystem::path TilesetPath, int index) { DefaultEventHandler(); };
 

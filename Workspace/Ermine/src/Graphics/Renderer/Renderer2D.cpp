@@ -18,6 +18,7 @@
 #include "2DPrimitives/Constructs/MovableObject.h"
 #include "Graphics/Renderer/RenderableComponents/Renderable2D.h"
 #include "Graphics/Renderer/RenderableComponents/RenderableTextureModule.h"
+#include "Graphics/Renderer/RenderableComponents/RenderableShapeComponent.h"
 
 #include "Physics/Physics.h"
 #include "Physics/PhysicsComponent2D.h"
@@ -178,6 +179,9 @@ namespace Ermine
 		{
 			for (std::shared_ptr<Ermine::Renderable2D> i : layer->Renderables)
 			{
+				auto Lock = i->GetObjectMutex();
+
+				bool DrawTriangles = true;
 				i->Bind();
 
 				//Start If A Movable Object Is Detected Inside The Rendererable Do The Following Steps//
@@ -213,9 +217,21 @@ namespace Ermine
 				}
 				//Ended If A Renderable Texture module Is detected Inside the renderable do the following steps//
 
+				//Start If A Renderable Shape module Is detected Inside the renderable do the following steps//
+				if (dynamic_cast <Ermine::RenderableShapeComponent*>(&(*i)))
+				{
+					//For Noe No Need To Do Anything Than Switch The Renderer To Draw Something Other Than Triangles..
+					DrawTriangles = false;
+				}
+				//Ended If A Renderable Shape module Is detected Inside the renderable do the following steps//
+
 				//Start These Steps Are To Be Done on All Kinds Of Renderables..//
 				i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ProjectionViewMatrix"), Camera->GetProjectionViewMatrix());
-				glDrawElements(GL_TRIANGLES, i->GetVertexArray()->GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+
+				if(DrawTriangles == true)
+					glDrawElements(GL_TRIANGLES, i->GetVertexArray()->GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+				else
+					glDrawElements(GL_LINES, i->GetVertexArray()->GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				//Ended These Steps Are To Be Done on All Kinds Of Renderables..//
 			}
 		}

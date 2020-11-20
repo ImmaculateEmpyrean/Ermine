@@ -17,7 +17,9 @@
 #include "EventTypes/MouseButtonCallbackEvent.h"
 #include "EventTypes/ScrollCallbackEvent.h"
 #include "EventTypes/TileSelectedEvent.h"
+
 #include "EventTypes/OnTickEvent.h"
+#include "EventTypes/OnBeginEvent.h"
 
 //TODO Write a Macro Instead Of all those obnoxious helper functions...
 
@@ -79,22 +81,59 @@ namespace Ermine
 
 		std::vector<OnTickEvent> OnTickCallbackEventsQueue;
 		std::recursive_mutex OnTickCallbackEventsBufferMutex;
+
+		std::vector<OnBeginEvent> OnBeginEventsQueue;
+		std::recursive_mutex OnBeginEventsBufferMutex;
 		//Donot Forget to add destructors for these containers inside the destructor..
 
 	private:
 		//Start Store Subscriptions..//
 		std::unordered_map<int,ConcreteEventSubscription> ConcreteEventSubscriptions;
+		std::recursive_mutex ConcreteEventsSubscriptionsMutex;
+
 		std::unordered_map<int,KeyCallbackEventSubscription> KeyCallbackEventsSubscriptions;
+		std::recursive_mutex KeyCallbackEventsSubscriptionsMutex;
+
 		std::unordered_map<int,CharacterCallbackEventSubscription> CharacterCallbackEventSubscriptions;
+		std::recursive_mutex CharacterCallbackEventsSubscriptionsMutex;
+
 		std::unordered_map<int,CursorPositionCallbackEventSubscription> CursorPositionCallbackEventSubscriptions;
+		std::recursive_mutex CursorPositionCallbackEventsSubscriptionsMutex;
+
 		std::unordered_map<int,MouseButtonCallbackEventSubscription> MouseButtonCallbackEventSubscriptions;
+		std::recursive_mutex MouseButtonCallbackEventsSubscriptionsMutex;
+
 		std::unordered_map<int,ScrollCallbackEventSubscription> ScrollCallbackEventSubscriptions;
+		std::recursive_mutex ScrollCallbackEventsSubscriptionsMutex;
+
 		std::unordered_map<int,TileSelectedEventSubscription> TileSelectedCallbackEventSubscriptions;
+		std::recursive_mutex TileSelectedCallbackEventsSubscriptionsMutex;
+
 		std::unordered_map<int,OnTickEventSubscription> OnTickCallbackEventSubscriptions;
+		std::recursive_mutex OnTickCallbackEventSubscriptionsMutex;
+
+		std::unordered_map<int, OnBeginEventSubscription> OnBeginEventSubscriptions;
+		std::recursive_mutex OnBeginEventSubscriptionsMutex;
 		//Ended Store Subscription..//
 
 	private:
-#pragma region TemplateFuncToDispatchMessages
+#pragma region TemplateFunctions
+		template<typename SubscriptionDataTypeName>
+		void QueueSubscriptionTemplate(std::recursive_mutex& Mut,std::unordered_map<int, SubscriptionDataTypeName>& SubsQ, Ermine::EventSubscription* EvePtr,SubscriptionTicket& Ticket)
+		{
+			std::unique_lock<std::recursive_mutex> Lock(Mut);
+			SubsQ.emplace(Ticket, *((SubscriptionDataTypeName*)(EvePtr)));
+		}
+
+		template<typename SubscriptionsQueue>
+		void DestorySubscriptionTemplate(std::recursive_mutex& Mut, SubscriptionsQueue& SubQ, Ermine::SubscriptionTicket SubscriptionTicket)
+		{
+			std::unique_lock<std::recursive_mutex> Lock(Mut);
+			if(SubQ.erase(SubscriptionTicket) == 0)
+				STDOUTLog_Warn("Invalid Ticket Submitted For Erasing.. Could Not Erase A Subscription");
+			CloseSubscriptionTicket(SubscriptionTicket);
+		}
+
 		template<typename MutexToAcquire,typename EventsQueue,typename SubscriberQueue>
 		void DispatchMessages(MutexToAcquire& MA,EventsQueue& EQ,SubscriberQueue& SQ)
 		{

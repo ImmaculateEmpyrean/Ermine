@@ -9,6 +9,9 @@
 #include "../EventTypes/ScrollCallbackEvent.h"
 #include "../EventTypes/TileSelectedEvent.h"
 
+#include "../EventTypes/OnBeginEvent.h"
+#include "../EventTypes/OnTickEvent.h"
+
 Ermine::SubscriptionTicket Ermine::RecieverComponent::Bind(std::function<void(Event*)> Callable, std::atomic<bool>& SwitchTOControlIfAnEventCanBeExecuted, EventType SubscriptionType,std::shared_ptr<Ermine::GeneratedObject> ErmineObj)
 {
 	auto station = Ermine::EventBroadcastStation::GetStation(); //Gets a Line To The Station
@@ -51,6 +54,11 @@ Ermine::SubscriptionTicket Ermine::RecieverComponent::Bind(std::function<void(Ev
 	else if (SubscriptionType == EventType::OnTickEvent)
 	{
 		std::unique_ptr<Ermine::OnTickEventSubscription> Obj				 =	std::make_unique < Ermine::OnTickEventSubscription>(Callable, SwitchTOControlIfAnEventCanBeExecuted,ErmineObj);
+		return std::move(station->QueueSubscription(std::move(Obj)));
+	}
+	else if (SubscriptionType == EventType::OnBeginEvent)
+	{
+		std::unique_ptr<Ermine::OnBeginEventSubscription> Obj = std::make_unique < Ermine::OnBeginEventSubscription>(Callable, SwitchTOControlIfAnEventCanBeExecuted, ErmineObj);
 		return std::move(station->QueueSubscription(std::move(Obj)));
 	}
 	else

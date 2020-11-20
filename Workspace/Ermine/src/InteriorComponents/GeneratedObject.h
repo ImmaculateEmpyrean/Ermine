@@ -63,7 +63,9 @@ namespace Ermine
 		bool IsRecievingCursorPositionUpdateEvents() { return FlagsOfRecievingEvents[(unsigned int)Ermine::EventType::CursorPositionCallbackEvent]; };
 		bool IsRecievingMouseButtonCallbackEvents() { return FlagsOfRecievingEvents[(unsigned int)Ermine::EventType::MouseButtonCallbackEvent]; };
 		bool IsRecievingScrollUpdateEvents() { return FlagsOfRecievingEvents[(unsigned int)Ermine::EventType::ScrollCallbackEvent]; }
+		
 		bool IsRecievingTileSelectedCallbackEvents() { return FlagsOfRecievingEvents[(unsigned int)Ermine::EventType::TileSelectedEvent]; };
+		
 		bool IsRecievingOnTickEvents() { return FlagsOfRecievingEvents[(unsigned int)Ermine::EventType::OnTickEvent]; };
 		
 		//Recieve All Flags As A Vector Of Bool Instead Of Specified Singular Bool

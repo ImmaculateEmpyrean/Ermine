@@ -19,8 +19,8 @@ namespace Ermine
 	public:
 
 #pragma region Constructors
-		//No Point In Having An Empty ImageBase 
-		ImageBase() = delete;
+		//No Point In Having An Empty ImageBase But You Could Still Choose To Have One..
+		ImageBase();
 
 		//Atleast a sprite is required to construct an actor 
 		ImageBase(std::shared_ptr<Sprite> Spr);
@@ -61,13 +61,6 @@ namespace Ermine
 		//Submit A Texture To Be Held By The Renderable Texture Module..
 		virtual void SubmitTexture(std::shared_ptr<Texture> Texture) override;
 		
-		//Unable To Implemnt This In Current Archietecture
-		//A Handle To the Textures Buffer To Modify It In Some Sense.. Note Renderable Texture Module Does Not Have A Delete Function..
-		//virtual std::vector<std::shared_ptr<Texture>>& GetBuffer() override;
-
-		//Binds Textures Contained Inside The Renderable Texture Module And Returns An Array Containing In which Slot Each Texture Is Bound..
-		//virtual std::vector<int> BindTexturesContained() override; This Is Already Overriden In ImageBase.h
-
 		//Clears Out The Contents Of The RenderableTextureModuleBuffer And Its PARENTS TOO...
 		virtual void Clear() override;
 
@@ -93,6 +86,8 @@ namespace Ermine
 		//As Of Now The this Is The Function The Renderer Calls to Bind The Textures If A TextureModule Is Found..vThink Of It As A Callback.. 
 		virtual std::vector<int> BindTexturesContained() override;
 
+		//The Refresh Is Important As It Is Required To Generate The Renderable To Be Drawn On The Screen..
+		virtual void Refresh() override;
 	private: 
 		
 

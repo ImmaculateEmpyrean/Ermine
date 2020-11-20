@@ -115,7 +115,8 @@ void Ermine::LayerStackLayer::HelperEmplaceRenderableInRenderablesContainer(Rend
 			//The Renderable2D is Already Moved Into The Renderables Buffer So Just Go Ahead And Delete This Husk..
 			delete RenderableCopy;
 		}
-		
+		else if (dynamic_cast<Actor2DShape*>(RenderableObj))
+			Renderables.emplace_back(new Actor2DShape(*((Actor2DShape*)RenderableObj))); //Call The Copy Constructor Essentially..
 		else
 		{
 			Renderables.emplace_back(new Renderable2D(*RenderableObj)); //Dunno What This Is So Just Creating a Renderable Object.. (Note- Renderable Object Does Not Contain Texture Data Keep That In Mind..)

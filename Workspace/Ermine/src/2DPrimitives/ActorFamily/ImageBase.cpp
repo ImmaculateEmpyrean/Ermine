@@ -7,6 +7,17 @@
 namespace Ermine
 {
 #pragma region Constructors
+	ImageBase::ImageBase()
+		:
+		Actor2DBase()
+	{
+		//Lock Engaged As I Am Interacting With The Internal Memory Of This Class..
+		auto Lock = Object::GetObjectMutex();
+
+		Actorsprite = Ermine::Sprite::GenerateSprite("ErmineNullTexture.png");
+		RefreshRenderable2D();
+	}
+
 	ImageBase::ImageBase(std::shared_ptr<Sprite> Spr)
 		:
 		Actor2DBase(), //Invoking The Default Constructor I Guess..
@@ -186,11 +197,13 @@ namespace Ermine
 		int BoundSlot = TextureCacheGlobal->Bind(Actorsprite->GetTexture());
 		BoundVector[0] = BoundSlot;
 
-		//This Totally Must Not Be Here.. And Also Consider Creating a New COmponent Which Allows U to Set Uv's At Will..
-		//It Is Not expected we Literally Refresh The Renderable(aka generate a new one) inside the bind function.. it will end up too expensive than common perception 
-		RefreshRenderable2D();
-
 		return BoundVector;
+	}
+
+	void ImageBase::Refresh()
+	{
+		auto Lock = Object::GetObjectMutex();
+		RefreshRenderable2D();
 	}
 
 

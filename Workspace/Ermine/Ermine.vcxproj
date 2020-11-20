@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2D.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DBase.h" />
+    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DShape.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\ActorFamilyEnnumerations.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\ImageBase.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\Interfaces\IMovableActor.h" />
@@ -181,6 +182,7 @@
     <ClInclude Include="src\EventSystem\EventTypes\CursorPositionCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\KeyCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\OnBeginEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\OnTickEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h" />
     <ClInclude Include="src\EventSystem\SubscriptionTicket.h" />
@@ -194,6 +196,7 @@
     <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h" />
     <ClInclude Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.h" />
     <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderablePhysicsComponent2D.h" />
+    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableShapeComponent.h" />
     <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.h" />
     <ClInclude Include="src\Graphics\Renderer\Renderer.h" />
     <ClInclude Include="src\Graphics\Renderer\Renderer2D.h" />
@@ -243,6 +246,7 @@
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp" />
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DBase.cpp" />
+    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DShape.cpp" />
     <ClCompile Include="src\2DPrimitives\ActorFamily\ImageBase.cpp" />
     <ClCompile Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp" />
@@ -279,6 +283,7 @@
     <ClCompile Include="src\EventSystem\EventTypes\CursorPositionCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\KeyCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\OnBeginEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\OnTickEvent.cpp" />
     <ClCompile Include="src\EventSystem\EventTypes\ScrollCallbackEvent.cpp" />
     <ClCompile Include="src\EventSystem\SubscriptionTicket.cpp" />

@@ -309,6 +309,9 @@
     <ClInclude Include="src\MutexSystem\MutexState.h" />
     <ClInclude Include="src\InteriorComponents\GeneratedObject.h" />
     <ClInclude Include="src\ObjectStatus.h" />
+    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DShape.h" />
+    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableShapeComponent.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\OnBeginEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
@@ -502,5 +505,7 @@
     <ClCompile Include="src\MutexSystem\MutexGaurd.cpp" />
     <ClCompile Include="src\EventSystem\EnumEventType.cpp" />
     <ClCompile Include="src\InteriorComponents\GeneratedObject.cpp" />
+    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DShape.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\OnBeginEvent.cpp" />
   </ItemGroup>
 </Project>

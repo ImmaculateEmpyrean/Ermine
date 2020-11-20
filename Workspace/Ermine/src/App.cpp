@@ -152,12 +152,6 @@ void Ermine::App::OnTick()
 
 	static std::shared_ptr<Ermine::Actor2D> Act = Ermine::Actor2D::GenerateActor2D("AnoHiMitaHana.png");
 	
-	//std::cout << std::boolalpha;
-	//std::cout<<Act->IsRecievingKeyCallbackEvents()<<std::endl;
-
-	//static Ermine::Actor2D* Act = new Ermine::Actor2D(ShSpr);
-	//Act->Translate({ 0.5f,0.5f });
-
 #if 1
 	LayerStackLayer Layer("Han");
 	Layer.SubmitRenderable(&*Act);
