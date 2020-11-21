@@ -130,7 +130,7 @@ namespace Ermine
 		{
 			std::unique_lock<std::recursive_mutex> Lock(Mut);
 			if(SubQ.erase(SubscriptionTicket) == 0)
-				STDOUTLog_Warn("Invalid Ticket Submitted For Erasing.. Could Not Erase A Subscription");
+				STDOUTDefaultLog_Warn("Invalid Ticket Submitted For Erasing.. Could Not Erase A Subscription");
 			CloseSubscriptionTicket(SubscriptionTicket);
 		}
 

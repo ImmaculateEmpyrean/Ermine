@@ -29,7 +29,7 @@ namespace Ermine
 		//An Empty Label Makes No Sense Though It Could Exist I Suppose
 		Label() = default;
 
-		//This Is The Most Basic Of Constructors.. And Realistically It Is Better If U Dont Use It I Think..
+		/*//This Is The Most Basic Of Constructors.. And Realistically It Is Better If U Dont Use It I Think..
 		Label(std::string Text, glm::vec3 Color = glm::vec3(1.0f,1.0f,1.0f));
 
 		//For Special Cases
@@ -38,7 +38,7 @@ namespace Ermine
 		//This Is One Of The Set Of Constructors Ur Likely To Use
 		Label(std::string Text, glm::vec3 Color, std::shared_ptr<Font> fnt						 , glm::mat4 ModelMatrix = glm::mat4(1.0f));
 		Label(std::string Text, glm::vec3 Color, std::filesystem::path FontFilePath, int FontSize, glm::mat4 ModelMatrix = glm::mat4(1.0f));
-		Label(std::string Text, glm::vec3 Color, std::string FontName			   , int FontSize, glm::mat4 ModelMatrix = glm::mat4(1.0f));
+		Label(std::string Text, glm::vec3 Color, std::string FontName			   , int FontSize, glm::mat4 ModelMatrix = glm::mat4(1.0f));*/
 
 
 	public:

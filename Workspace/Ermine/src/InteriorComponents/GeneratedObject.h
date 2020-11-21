@@ -43,11 +43,11 @@ namespace Ermine
 	public:
 		std::string GetUniqueIdentifier() { return UniqueIdentifier; }
 
-		Ermine::ObjectStatus GetObjectHealth() { return HObject->GetObjectHealth(); }
+		Ermine::ObjectStatus GetObjectHealth();
 
-		void SetObjectHealth(Ermine::ObjectStatus Status) { HObject->SetObjectHealth(Status); }
-		void MarkObjectForDeletion() { HObject->SetObjectHealth(Ermine::ObjectStatus::StatusMarkedForDeletion); }
-		void RestoreObjectHealth()   { HObject->SetObjectHealth(Ermine::ObjectStatus::StatusOk); } //This Is A Dangerous Function.. Use With CAUTION 
+		void SetObjectHealth(Ermine::ObjectStatus Status);
+		void MarkObjectForDeletion();
+		void RestoreObjectHealth();//This Is A Dangerous Function.. Use With CAUTION 
 
 		std::unique_lock<std::recursive_mutex> GetObjectMutex() { return std::move(std::unique_lock<std::recursive_mutex>(ObjectMutex)); };
 
@@ -120,9 +120,6 @@ namespace Ermine
 		std::atomic<bool> ObjectReadyToRecieveEvents = true;
 
 		std::recursive_mutex ObjectMutex;
-
-		//static std::unordered_map<std::string, std::shared_ptr<Ermine::GeneratedObject>> FactoryHashTable;
-		static std::recursive_mutex FactoryHashTableMutex;
 
 		//Handle To The Object.. 
 		Ermine::Object* HObject = nullptr;

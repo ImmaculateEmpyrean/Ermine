@@ -6,95 +6,168 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
+#pragma region Constructors
 Ermine::LayerStack::LayerStack(std::string Name)
 	:
+	Object(),
 	LayerStackName(Name)
 {
-	//Subscribed To Concrete Event Default..
-	/*Ermine::RecieverComponent::Bind(GenCallableFromMethod(&Ermine::LayerStack::RecievedEvent), RecieveConcreteEvents,
-									EventType::ConcreteEvent);*/
+	auto Lock = Ermine::Object::GetObjectMutex();
+
+	//Create A Function Pointer To The Push To Function.. And Use It To Get Our Events To That Function
+	std::function<void(Ermine::Event*)> Func = std::bind(&Ermine::LayerStack::RecieveEvents, this,std::placeholders::_1);
+	Object::AssignPushEventsToFunction(Func);
+
+	//Start What All Events Must This Object Recieve..//
+	Object::RecieveEvents(true, Ermine::EventType::ConcreteEvent);
+
+	Object::RecieveEvents(true, Ermine::EventType::KeyCallbackEvent);
+	Object::RecieveEvents(true, Ermine::EventType::CharacterCallbackEvent);
+	Object::RecieveEvents(true, Ermine::EventType::CursorPositionCallbackEvent);
+	Object::RecieveEvents(true, Ermine::EventType::MouseButtonCallbackEvent);
+	Object::RecieveEvents(true, Ermine::EventType::ScrollCallbackEvent);
+	//Ended What All Events Must This Object Recieve..//
 }
 
 Ermine::LayerStack::~LayerStack()
-{
-	for (auto i : AllLayersAssociated)
-		delete i;
-}
-
-Ermine::LayerStack::LayerStack(const LayerStack& rhs)
-{
-	HelperCopyConstructor(rhs);
-}
-Ermine::LayerStack Ermine::LayerStack::operator=(const LayerStack& rhs)
-{
-	HelperCopyConstructor(rhs);
-	return *this;
-}
+{}
 
 Ermine::LayerStack::LayerStack(LayerStack&& rhs)
 {
-	HelperMoveConstructor(std::move(rhs));
+	auto ForeignLock = rhs.GetObjectMutex();
+	auto Lock = rhs.GetObjectMutex();
+
+	LayerStackName = std::move(rhs.LayerStackName);
+	LayersBuffer = std::move(rhs.LayersBuffer);
+
+	std::function<void(Ermine::Event*)> Func = std::bind(&Ermine::LayerStack::RecieveEvents, this, std::placeholders::_1);
+	Object::AssignPushEventsToFunction(Func);
+
+	//Start What All Events Must This Object Recieve..//
+	Object::RecieveEvents(true, Ermine::EventType::ConcreteEvent);
+
+	Object::RecieveEvents(true, Ermine::EventType::KeyCallbackEvent);
+	Object::RecieveEvents(true, Ermine::EventType::CharacterCallbackEvent);
+	Object::RecieveEvents(true, Ermine::EventType::CursorPositionCallbackEvent);
+	Object::RecieveEvents(true, Ermine::EventType::MouseButtonCallbackEvent);
+	Object::RecieveEvents(true, Ermine::EventType::ScrollCallbackEvent);
 }
-Ermine::LayerStack Ermine::LayerStack::operator=(LayerStack&& rhs)
+Ermine::LayerStack& Ermine::LayerStack::operator=(LayerStack&& rhs)
 {
-	HelperMoveConstructor(std::move(rhs));
+	auto ForeignLock = rhs.GetObjectMutex();
+	auto Lock = rhs.GetObjectMutex();
+
+	LayerStackName = std::move(rhs.LayerStackName);
+	LayersBuffer = std::move(rhs.LayersBuffer);
+
+	std::function<void(Ermine::Event*)> Func = std::bind(&Ermine::LayerStack::RecieveEvents, this, std::placeholders::_1);
+	Object::AssignPushEventsToFunction(Func);
+
+	//Start What All Events Must This Object Recieve..//
+	Object::RecieveEvents(true, Ermine::EventType::ConcreteEvent);
+
+	Object::RecieveEvents(true, Ermine::EventType::KeyCallbackEvent);
+	Object::RecieveEvents(true, Ermine::EventType::CharacterCallbackEvent);
+	Object::RecieveEvents(true, Ermine::EventType::CursorPositionCallbackEvent);
+	Object::RecieveEvents(true, Ermine::EventType::MouseButtonCallbackEvent);
+	Object::RecieveEvents(true, Ermine::EventType::ScrollCallbackEvent);
+
 	return *this;
 }
+#pragma endregion
 
+
+#pragma region PushLayerOntoStack
 void Ermine::LayerStack::PushLayerOntoStackFront(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush)
 {
-	LayerStackLayer* freepointer = LayerToPush.release();
-	AllLayersAssociated.emplace_back(freepointer); //Added On The Top,Top Being the highest index..
+	auto Lock = GetObjectMutex();
+	LayersBuffer.insert(LayersBuffer.begin(), std::move(LayerToPush));
 }
-
-void Ermine::LayerStack::PushLayerOntoStackAtPosition(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush, int index)
-{
-	if (index < AllLayersAssociated.size())
-	{
-		LayerStackLayer* freepointer = LayerToPush.release();
-		AllLayersAssociated.insert(AllLayersAssociated.begin() + index, freepointer); //Added On The Index See That Index Is Valid
-	}
-	else
-	{
-		PushLayerOntoStackFront(std::move(LayerToPush));
-	}
-}
-
 void Ermine::LayerStack::PushLayerOnTheBackOfTheStack(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush)
 {
-	LayerStackLayer* freepointer = LayerToPush.release();
-	AllLayersAssociated.insert(AllLayersAssociated.begin(), freepointer); //Added On The Bottom,Bottom Being the lowest index..
+	auto LOck = GetObjectMutex();
+	LayersBuffer.emplace_back(std::move(LayerToPush));
 }
-
-#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
-std::optional<Ermine::LayerStackLayer*> Ermine::LayerStack::GetIndexFromName(std::string LayerStackLayerName)
+void Ermine::LayerStack::PushLayerOntoStackAtPosition(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush, int index)
 {
-	//Note Beaware If Two Layers Have The Same Name The First Which Is Near The Bottom Is Returned..
-	//Will Not Bother Improving the function as it is only intended for debug purposes..
-
-	for (auto i : AllLayersAssociated)
-	{
-		if (LayerStackLayerName == i->LayerName)
-			return i;
-	}
-
-	//Returns Nothing As This is an optional and we can return nothing "could have returned nullptr to right.."
-	return {};
+	auto Lock = GetObjectMutex();
+	LayersBuffer.insert(LayersBuffer.begin() + index,std::move(LayerToPush));
 }
-#endif
+
+void Ermine::LayerStack::PushLayerOntoStackFront(std::string LayerName)
+{
+	auto Lock = GetObjectMutex();
+	LayersBuffer.insert(LayersBuffer.begin(), std::make_unique<Ermine::LayerStackLayer>(LayerName));
+}
+void Ermine::LayerStack::PushLayerOnTheBackOfTheStack(std::string LayerName)
+{
+	auto Lock = GetObjectMutex();
+	LayersBuffer.emplace_back(std::make_unique<Ermine::LayerStackLayer>(LayerName));
+}
+void Ermine::LayerStack::PushLayerOntoStackAtPosition(std::string LayerName, int index)
+{
+	auto Lock = GetObjectMutex();
+	LayersBuffer.insert(LayersBuffer.begin() + index, std::make_unique<Ermine::LayerStackLayer>(LayerName));
+}
+
+
+int Ermine::LayerStack::GetLayerStackSize()
+{
+	auto Lock = GetObjectMutex();
+	return LayersBuffer.size();
+}
+#pragma endregion
+
+
+std::unique_ptr<Ermine::LayerStackLayer> Ermine::LayerStack::GetLayer(std::string LayerName)
+{
+	auto Lock = GetObjectMutex();
+
+	int Counter = 0;
+	for (auto& i : LayersBuffer)
+	{
+		if (i->GetName() == LayerName)
+		{
+			std::unique_ptr<Ermine::LayerStackLayer> Ptr = std::move(LayersBuffer[Counter]);
+			LayersBuffer.erase(LayersBuffer.begin() + Counter);
+
+			return std::move(Ptr);
+		}
+		++Counter;
+	}
+	return nullptr;
+}
+std::unique_ptr<Ermine::LayerStackLayer> Ermine::LayerStack::GetLayer(int IndexInTheStack)
+{
+	auto Lock = GetObjectMutex();
+
+	std::unique_ptr<Ermine::LayerStackLayer> Ptr = std::move(LayersBuffer[IndexInTheStack]);
+	LayersBuffer.erase(LayersBuffer.begin() + IndexInTheStack);
+
+	return std::move(Ptr);
+}
+
 
 void Ermine::LayerStack::Clear()
 {
-	for (auto& i : AllLayersAssociated)
-	{
-		delete i;
-		i = nullptr;
-	}
-
-	AllLayersAssociated.clear();
+	auto Lock = GetObjectMutex();
+	LayersBuffer.clear();
 }
 
-void Ermine::LayerStack::SubmitTileMapForDrawing(Ermine::TileMap const* Tm)
+
+void Ermine::LayerStack::RecieveEvents(Ermine::Event* Eve)
+{
+	auto Lock = GetObjectMutex();
+
+	for (std::unique_ptr<Ermine::LayerStackLayer>& i : LayersBuffer)
+	{
+		//Decided Not To Propogate Further If Event is Handled.. i.e return value is true..
+		if (i->HandleEvents(Eve))
+			return;
+	}
+}
+
+/*void Ermine::LayerStack::SubmitTileMapForDrawing(Ermine::TileMap const* Tm)
 {
 	auto TextureCacheGlobal = Ermine::GlobalTextureCache::Get();
 
@@ -117,54 +190,4 @@ void Ermine::LayerStack::SubmitTileMapForDrawing(Ermine::TileMap const* Tm)
 		
 		delete Obj;
 	}
-}
-
-
-
-void Ermine::LayerStack::RecievedEvent(Ermine::Event* EventPointer)
-{
-	STDOUTDefaultLog_Error("Recieved Event To LAyer Stack : {}", EventPointer->GetEventType());
-	auto Var = EventPointer->GetEventType();
-	switch (Var)
-	{
-		case Ermine::EventType::ConcreteEvent: RecievedEventConcreteEvent(EventPointer);
-											   break;
-		default: STDOUTDefaultLog_Error("Unknown Event Type See That Its Rectified Line :{} File: {} ", __LINE__, __FILE__);
-	}
-}
-
-void Ermine::LayerStack::RecievedEventConcreteEvent(Ermine::Event* EventPointer)
-{
-	for (int i = AllLayersAssociated.size()-1;i>=0;i--)
-	{
-		bool ShouldIContinue = AllLayersAssociated[i]->HandleEventInLayerAndPassForward(EventPointer);
-
-		//If The Function Has Returned False It Means It Does Not Want it To Be Propogated Further..
-		if (ShouldIContinue == false)
-			break;
-	}
-}
-
-
-void Ermine::LayerStack::HelperCopyConstructor(const LayerStack& rhs)
-{
-	LayerStackName = rhs.LayerStackName;
-
-	for (auto i : rhs.AllLayersAssociated)
-		AllLayersAssociated.emplace_back(new LayerStackLayer(*i));
-	
-	RecieveConcreteEvents = rhs.RecieveConcreteEvents.load();
-}
-
-void Ermine::LayerStack::HelperMoveConstructor(LayerStack&& rhs)
-{
-	LayerStackName = rhs.LayerStackName;
-
-	for (auto& i : rhs.AllLayersAssociated)
-	{
-		AllLayersAssociated.emplace_back(i);
-		i = nullptr;
-	}
-
-	RecieveConcreteEvents = rhs.RecieveConcreteEvents.load();
-}
+}*/

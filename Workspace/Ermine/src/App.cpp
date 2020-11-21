@@ -154,7 +154,8 @@ void Ermine::App::OnTick()
 	
 #if 1
 	LayerStackLayer Layer("Han");
-	Layer.SubmitRenderable(&*Act);
+	Layer.SubmitActor(Act);
+	//Layer.SubmitRenderable(&*Act);
 
 	static int ind = 10;
 	static bool Coke = false;
@@ -169,7 +170,7 @@ void Ermine::App::OnTick()
 
 	Renderer2D::BeginScene();
 
-	Renderer2D::SubmitLayer(Layer, ind);
+	Renderer2D::SubmitLayer(std::move(Layer));
 
 
 	Renderer2D::EndScene();

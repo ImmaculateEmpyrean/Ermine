@@ -3,7 +3,7 @@
 
 Ermine::TileMapLayerRenderable::TileMapLayerRenderable(VertexArray Vao, Material Mat, std::unordered_map<std::filesystem::path, float> TextureAndNumberPaths)
 	:
-	RenderableTextureModule(std::move(Vao), std::move(Mat)),
+	//RenderableTextureModule(std::move(Vao), std::move(Mat)),
 	TexturesAndNumbers(std::move(TextureAndNumberPaths))
 {
 
@@ -12,7 +12,7 @@ Ermine::TileMapLayerRenderable::TileMapLayerRenderable(VertexArray Vao, Material
 Ermine::TileMapLayerRenderable::~TileMapLayerRenderable()
 {}
 
-std::vector<int> Ermine::TileMapLayerRenderable::BindTexturesContained()
+/*std::vector<int> Ermine::TileMapLayerRenderable::BindTexturesContained()
 {
 	auto TextureCacheGlobal = Ermine::GlobalTextureCache::Get();
 
@@ -31,9 +31,9 @@ std::vector<int> Ermine::TileMapLayerRenderable::BindTexturesContained()
 	}
 	
 	return TextureMappingUnits;
-}
+}*/
 
-void Ermine::TileMapLayerRenderable::HelperSetupRenderableTextureModule()
+/*void Ermine::TileMapLayerRenderable::HelperSetupRenderableTextureModule()
 {
 	auto TextureCache = Ermine::GlobalTextureCache::Get();
 	for (auto i : TexturesAndNumbers)
@@ -41,4 +41,4 @@ void Ermine::TileMapLayerRenderable::HelperSetupRenderableTextureModule()
 		std::shared_ptr<Ermine::Texture> Tex = TextureCache->GetTextureFromFile(i.first);
 		RenderableTextureModule::SubmitTexture(Tex);
 	}
-}
+}*/

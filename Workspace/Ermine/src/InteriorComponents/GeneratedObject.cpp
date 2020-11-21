@@ -13,7 +13,6 @@
 #pragma region StaticDeclarations
 //Start Static Declarations//
 std::atomic<long> Ermine::GeneratedObject::Counter = 0;
-std::recursive_mutex Ermine::GeneratedObject::FactoryHashTableMutex;
 //Ended Static Declarations//
 #pragma endregion
 
@@ -27,11 +26,42 @@ Ermine::GeneratedObject::GeneratedObject()
 	FlagsOfRecievingEvents.resize(Ermine::GetNumberOfEventTypesInExistence(), false);
 	TicketsHeldByTheObject.resize(Ermine::GetNumberOfEventTypesInExistence(), nullptr);
 }
+
+
+#pragma endregion
+
+#pragma region QueryObjectHealth
+Ermine::ObjectStatus Ermine::GeneratedObject::GetObjectHealth()
+{
+	return HObject->GetObjectHealth();
+}
+void Ermine::GeneratedObject::SetObjectHealth(Ermine::ObjectStatus Status)
+{
+	HObject->SetObjectHealth(Status);
+}
+
+void Ermine::GeneratedObject::MarkObjectForDeletion()
+{
+	HObject->SetObjectHealth(Ermine::ObjectStatus::StatusMarkedForDeletion);
+}
+//This Is A Dangerous Function.. Use With CAUTION 
+void Ermine::GeneratedObject::RestoreObjectHealth()
+{
+	HObject->SetObjectHealth(Ermine::ObjectStatus::StatusOk);
+}
 #pragma endregion
 
 void Ermine::GeneratedObject::EventReciever(Ermine::Event* Eve)
 {
-	auto Lock = GetObjectMutex();
+	std::unique_lock<std::recursive_mutex> Lock = std::unique_lock<std::recursive_mutex>(ObjectMutex);
+
+	if (HObject->QueryPushEventsToFunctionFlag())
+	{
+		auto Func = HObject->GetPushToFunction();
+		Func(Eve);
+
+		return;
+	}
 
 	auto EventType = Eve->GetEventType();
 

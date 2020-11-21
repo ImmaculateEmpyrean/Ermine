@@ -71,7 +71,7 @@ namespace Ermine
 		void SetVelocity(glm::vec2 Velocity);
 		void SetAngularVelocity(float Velocity);
 
-		virtual std::vector<float> CalculateModelSpaceVertexes() override;
+		virtual std::vector<float> CalculateModelSpaceVertexes(); //This Used To Be An Override.. Instead Remove This Function In Refactor.. Rendering Is No Longer Handled By The Actor Or Its Thread..
 
 		//This Function Has To Be Overriden In all Children Do Not Forget Otherwise One Child May Be Thought Of As The Other..
 		virtual Ermine::ActorFamilyIdentifier GetActorFamilyIdentifier() override { return ActorFamilyIdentifier::PhysicsActor2D; }

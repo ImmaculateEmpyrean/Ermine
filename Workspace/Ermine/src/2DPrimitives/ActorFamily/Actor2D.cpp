@@ -9,31 +9,27 @@ namespace Ermine
 #pragma region Constructors
 	Actor2D::Actor2D(std::shared_ptr<Sprite> Spr)
 		:
-		ImageBase(Spr)
+		ImageBase(Spr),
+		MovableObject()
 	{
 		auto lock = Object::GetObjectMutex();
-		RefreshRenderable2D();
-
 		Actor2DConstructionAssciate();
 	}
 	Actor2D::Actor2D(std::vector<std::shared_ptr<Sprite>> SpriteBuffer)
 		:
-		ImageBase(std::make_shared<SpriteBook>("SpriteBuffer", SpriteBuffer))
+		ImageBase(std::make_shared<SpriteBook>("SpriteBuffer", SpriteBuffer)),
+		MovableObject()
 	{
 		auto lock = Object::GetObjectMutex();
-		RefreshRenderable2D();
-
 		Actor2DConstructionAssciate();
 	}
 
 	Actor2D::Actor2D(std::shared_ptr<Sprite> Spr, glm::mat4 ModelMatrix)
 		:
-		MovableObject(ModelMatrix),
-		ImageBase(Spr)
+		ImageBase(Spr),
+		MovableObject(ModelMatrix)
 	{
 		auto lock = Object::GetObjectMutex();
-		RefreshRenderable2D();
-
 		Actor2DConstructionAssciate();
 	}
 
@@ -43,8 +39,6 @@ namespace Ermine
 		ImageBase(std::make_shared<SpriteBook>("SpriteBuffer", SpriteBuffer))
 	{
 		auto lock = Object::GetObjectMutex();
-		RefreshRenderable2D();
-
 		Actor2DConstructionAssciate();
 	}
 
@@ -54,7 +48,7 @@ namespace Ermine
 	//Sorely Missed Copy Constructor
 	Actor2D::Actor2D(Actor2D & rhs)
 		:
-		ImageBase(rhs.GetSprite()),
+		ImageBase(rhs),
 		MovableObject(rhs)
 	{
 		auto ForeignLock = rhs.GetObjectMutex();
@@ -77,7 +71,7 @@ namespace Ermine
 	//Sorely Missed Move Constructor
 	Actor2D::Actor2D(Actor2D&& rhs)
 		:
-		ImageBase(std::move(rhs.GetSprite())),
+		ImageBase(std::move(rhs)),
 		MovableObject(std::move(rhs))
 	{
 		auto ForeignLock = rhs.GetObjectMutex();
@@ -131,7 +125,7 @@ namespace Ermine
 
 #pragma endregion
 
-	std::vector<float> Actor2D::CalculateModelSpaceVertexes()
+	/*std::vector<float> Actor2D::CalculateModelSpaceVertexes()
 	{
 		Ermine::VertexTextured TopRight(Quad::GetModelCoordinatesTopRight());
 		Ermine::VertexTextured BottomRight(Quad::GetModelCoordinatesBottomRight());
@@ -174,7 +168,7 @@ namespace Ermine
 		ModelCoordinates = ModelCoordinates + TopLeft;
 
 		return ModelCoordinates;
-	}
+	}*/
 
 #pragma region MovableActorImplementation
 	glm::vec2 Actor2D::GetActorPosition()

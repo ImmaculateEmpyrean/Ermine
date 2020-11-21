@@ -37,7 +37,7 @@ namespace Ermine
 		virtual void Refresh()	  override;
 #pragma endregion
 
-
+	public:
 #pragma region Generator
 		static std::unique_ptr<Ermine::RenderableTextureModule> Generate(std::shared_ptr<Actor2DBase> Act);
 #pragma endregion

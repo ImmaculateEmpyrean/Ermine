@@ -130,7 +130,7 @@ std::unique_ptr<Ermine::Renderable2D> Ermine::Renderable2D::Generate(std::shared
         std::shared_ptr<void> st = std::make_shared<void*>();
         Ermine::BroadcastComponent::BroadcastEvent(std::make_unique<Ermine::OnBeginEvent>(st));
 
-        return;
+        return Module;
     }
 }
 std::shared_ptr<Ermine::VertexArray> Ermine::Renderable2D::GetVertexArray()

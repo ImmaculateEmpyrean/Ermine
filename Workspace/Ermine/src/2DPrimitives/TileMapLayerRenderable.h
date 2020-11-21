@@ -12,7 +12,7 @@ namespace Ermine
 {
 	class Renderer2D;
 
-	class TileMapLayerRenderable : public Ermine::RenderableTextureModule//Ermine::Renderable2D
+	class TileMapLayerRenderable //: public Ermine::RenderableTextureModule//Ermine::Renderable2D
 	{
 	public:
 		//There is No Reason For This Constructor Exist And Yet it Does..
@@ -33,9 +33,9 @@ namespace Ermine
 	protected:
 
 	private:
-		virtual std::vector<int> BindTexturesContained() override;
+		//virtual std::vector<int> BindTexturesContained() override;
 
-		void HelperSetupRenderableTextureModule();
+		//void HelperSetupRenderableTextureModule();
 
 	private:
 		std::unordered_map<std::filesystem::path, float> TexturesAndNumbers;

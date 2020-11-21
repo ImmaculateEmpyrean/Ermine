@@ -73,8 +73,41 @@ namespace Ermine
 		GeneratedObjPtr->UnBindObject();
 	}
 
+	void Object::AssignPushEventsToFunction(std::function<void(Ermine::Event*)> PushToFunction)
+	{
+		auto Lock = GetObjectMutex();
+
+		if (PushToFunction != nullptr)
+		{
+			this->PushToFunction = PushToFunction;
+			this->PushToFunc = true;
+		}
+	}
+
+	void Object::DestroyPushEventsToFunction()
+	{
+		auto Lock = GetObjectMutex();
+
+		this->PushToFunc = false;
+		this->PushToFunction = nullptr;
+	}
+
+	bool Object::QueryPushEventsToFunctionFlag()
+	{
+		auto Lock = GetObjectMutex();
+		return PushToFunc;
+	}
+
+	std::function<void(Ermine::Event*)> Object::GetPushToFunction()
+	{
+		auto Lock = GetObjectMutex();
+		
+		assert(PushToFunction != nullptr);
+		return PushToFunction;
+	}
+
 	void Object::DefaultEventHandler()
 	{
-		STDOUTDefaultLog_Info("Default Handler Of Event Invoked.. Guess You ARe Unnecessarily Wasting Some Calls..");
+		STDOUTDefaultLog_Info("Default Handler Of Event Invoked In Object.. Guess You ARe Unnecessarily Wasting Some Calls..");
 	}
 }

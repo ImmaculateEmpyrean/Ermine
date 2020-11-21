@@ -198,6 +198,7 @@
     <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderablePhysicsComponent2D.h" />
     <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableShapeComponent.h" />
     <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.h" />
+    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTypes.h" />
     <ClInclude Include="src\Graphics\Renderer\Renderer.h" />
     <ClInclude Include="src\Graphics\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h" />

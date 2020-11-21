@@ -25,6 +25,7 @@ namespace Ermine
 	protected:
 		Renderable2D(std::shared_ptr<Ermine::Actor2D> Ptr);
 		
+	public:
 		//A Virtual Destructor Ensures Smooth Function Calling From The Com Pointer If Ata All Necessary..
 		virtual ~Renderable2D();
 

@@ -3,7 +3,7 @@
 
 #include "EngineResourceHandlers/GlobalTextureCache.h"
 
-Ermine::Label::Label(std::string Text, glm::vec3 Color)
+/*Ermine::Label::Label(std::string Text, glm::vec3 Color)
 	:
 	Text(Text),
 	TextColor(Color),
@@ -69,7 +69,7 @@ Ermine::Label::Label(std::string Text, glm::vec3 Color, std::string FontName,int
 	this->fnt = (*FontManager)[FontName];
 
 	HelperConstructLabel();
-}
+}*/
 
 void Ermine::Label::ClearText()
 {

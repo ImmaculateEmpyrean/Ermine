@@ -172,7 +172,7 @@ namespace Ermine
 
 	void Actor2DShape::RefreshRenderable()
 	{
-		Renderable2D::SetVertexArray();
+		//Renderable2D::SetVertexArray();
 	}
 
 }

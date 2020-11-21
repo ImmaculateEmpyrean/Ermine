@@ -53,7 +53,7 @@ namespace Ermine {
 		virtual std::vector<uint32_t> GetIndices() = 0;
 
 		//This Function Is Also Vital And Also One That Cannot Be Implemented Here As I Donot Know What Shape The Actor Is In..
-		virtual std::vector<float> CalculateModelSpaceVertexes() = 0;
+		//virtual std::vector<float> CalculateModelSpaceVertexes() = 0;
 
 		//This Function Is Used To Know What Specification The Vertex Array Has To Be Set In.. However This Cannot Be known Now As We Know Nothing About The Vertexes That Make Up Our Actor..
 		virtual std::vector<VertexAttribPointerSpecification> GetVertexAttribSpecificationForTheActor() = 0;

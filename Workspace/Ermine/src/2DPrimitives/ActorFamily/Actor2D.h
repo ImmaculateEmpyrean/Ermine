@@ -63,8 +63,10 @@ namespace Ermine {
 		//This Function Has To Be Overriden In all Children Do Not Forget Otherwise One Child May Be Thought Of As The Other..
 		virtual Ermine::ActorFamilyIdentifier GetActorFamilyIdentifier()	  override { return ActorFamilyIdentifier::Actor2D; }
 
-		virtual std::vector<float> CalculateModelSpaceVertexes()			  override;
-
+		virtual std::vector<VertexAttribPointerSpecification> GetVertexAttribSpecificationForTheActor() { return ImageBase::GetVertexAttribSpecificationForTheActor(); } //Delete This..
+		//virtual std::vector<float> CalculateModelSpaceVertexes()			  override;
+		virtual std::vector<uint32_t> GetIndices() { return std::vector<uint32_t>(); }; //Must Delete This Function In Earnest
+		//virtual glm::vec2 GetActorPosition();
 #pragma region IMovableActorOverrides 
 		//Start Implementation Of Movable Actor//
 		virtual glm::vec2 GetActorPosition()								  override;
@@ -73,8 +75,8 @@ namespace Ermine {
 		virtual glm::vec2 GetActorVelocity()								  override;
 		virtual void SetActorVelocity(glm::vec2 ActorVelocity)				  override;
 
-		//virtual float GetAngularVelocity(bool Degrees)						  override;
-		//virtual void  SetAngularVelocity(float AngularVelocity, bool Degrees) override;
+		//virtual float GetAngularVelocity(bool Degrees)						  override; //This Is Already Overloaded..
+		//virtual void  SetAngularVelocity(float AngularVelocity, bool Degrees) override; //This Already Overloaded..
 		//Ended Implementation Of Movable Actor//
 #pragma endregion
 
@@ -121,7 +123,7 @@ namespace Ermine {
 		virtual void Scale(glm::vec2 ScaleByHowMuch)					  override;
 		virtual void ClearScale()										  override;
 #pragma endregion
-
+		
 	public:
 
 	protected:

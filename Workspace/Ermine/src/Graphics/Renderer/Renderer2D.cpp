@@ -68,13 +68,13 @@ namespace Ermine
 	void Renderer2D::SubmitLayer(LayerStackLayer layer)
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
-		Renderer->RendererLayerStack.PushLayerOnTheBackOfTheStack(std::make_unique<LayerStackLayer>(layer));
+		Renderer->RendererLayerStack.PushLayerOnTheBackOfTheStack(std::make_unique<LayerStackLayer>(std::move(layer)));
 	}
 
 	void Renderer2D::SubmitLayer(LayerStackLayer layer, int index)
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
-		Renderer->RendererLayerStack.PushLayerOntoStackAtPosition(std::make_unique<LayerStackLayer>(layer),index);
+		Renderer->RendererLayerStack.PushLayerOntoStackAtPosition(std::make_unique<LayerStackLayer>(std::move(layer)),index);
 	}
 
 	void Renderer2D::ReplaceLayerStackWithStack(LayerStack layerstack)
@@ -82,7 +82,7 @@ namespace Ermine
 		auto Renderer = Renderer2D::Get();
 
 		Renderer->RendererLayerStack.Clear();
-		Renderer->RendererLayerStack = layerstack;
+		Renderer->RendererLayerStack = std::move(layerstack);
 	}
 
 	void Renderer2D::EndScene()
@@ -175,11 +175,13 @@ namespace Ermine
 		auto Renderer = Ermine::Renderer2D::Get();
 		auto Camera = Ermine::OrthographicCamera::Get();
 
-		for (auto layer : RendererLayerStack.AllLayersAssociated)
+		for (auto& layer : RendererLayerStack.LayersBuffer)
 		{
-			for (std::shared_ptr<Ermine::Renderable2D> i : layer->Renderables)
+			for (std::unique_ptr<Ermine::Renderable2D>& i : layer->Renderables)
 			{
 				auto Lock = i->GetObjectMutex();
+				if (i->GetObjectInitialized() == false)
+					continue;
 
 				bool DrawTriangles = true;
 				i->Bind();
@@ -190,7 +192,7 @@ namespace Ermine
 					i->Bind();
 					
 					MovableObject* MovObj = dynamic_cast<MovableObject*>(&(*i));
-					i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ModelMatrix"), (MovObj)->GetModelMatrix());
+					i->GetMaterial()->GetShader()->UniformMat4(std::string("ModelMatrix"), (MovObj)->GetModelMatrix());
 				}
 				//Ended If A Movable Object Is Detected Inside The Rendererable Do The Following Steps//
 
@@ -200,7 +202,7 @@ namespace Ermine
 					i->Bind();
 
 					RenderablePhysicsComponent2D* PhysicsObject = dynamic_cast<RenderablePhysicsComponent2D*>(&(*i));
-					i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ModelMatrix"), (PhysicsObject)->GetTranslationMatrix());
+					i->GetMaterial()->GetShader()->UniformMat4(std::string("ModelMatrix"), (PhysicsObject)->GetTranslationMatrix());
 				}
 				//Ended If A PhysicsComponent2D is detected inside the rendererable do the following steps//
 
@@ -213,7 +215,7 @@ namespace Ermine
 					std::vector<int> TextureArray = Ptr->BindTexturesContained();
 					TextureArray.resize(16, 0);
 
-					i->GetMaterialBeingUsed()->GetShader()->UniformNi(std::string("Sampler2DArray"),TextureArray);
+					i->GetMaterial()->GetShader()->UniformNi(std::string("Sampler2DArray"),TextureArray);
 				}
 				//Ended If A Renderable Texture module Is detected Inside the renderable do the following steps//
 
@@ -226,7 +228,7 @@ namespace Ermine
 				//Ended If A Renderable Shape module Is detected Inside the renderable do the following steps//
 
 				//Start These Steps Are To Be Done on All Kinds Of Renderables..//
-				i->GetMaterialBeingUsed()->GetShader()->UniformMat4(std::string("ProjectionViewMatrix"), Camera->GetProjectionViewMatrix());
+				i->GetMaterial()->GetShader()->UniformMat4(std::string("ProjectionViewMatrix"), Camera->GetProjectionViewMatrix());
 
 				if(DrawTriangles == true)
 					glDrawElements(GL_TRIANGLES, i->GetVertexArray()->GetIndexBufferLength(), GL_UNSIGNED_INT, 0);

@@ -9,35 +9,31 @@ Ermine::LayerStackLayer::LayerStackLayer(std::string Name)
 {}
 
 Ermine::LayerStackLayer::~LayerStackLayer()
-{
-	//The Renderables Buffer Holds SharedPointers Hence No Need To Manually Delete Anyrhing..
-}
-
-Ermine::LayerStackLayer::LayerStackLayer(const LayerStackLayer& rhs)
-{
-	HelperCopyConstructor(rhs);
-}
-Ermine::LayerStackLayer Ermine::LayerStackLayer::operator=(const LayerStackLayer& rhs)
-{
-	HelperCopyConstructor(rhs);
-	return *this;
-}
+{}
 
 Ermine::LayerStackLayer::LayerStackLayer(LayerStackLayer&& rhs)
 {
-	HelperMoveConstructor(std::move(rhs));
+	LayerName = std::move(rhs.LayerName);
+	Renderables = std::move(rhs.Renderables);
 }
-Ermine::LayerStackLayer Ermine::LayerStackLayer::operator=(LayerStackLayer&& rhs)
+Ermine::LayerStackLayer& Ermine::LayerStackLayer::operator=(LayerStackLayer&& rhs)
 {
-	HelperMoveConstructor(std::move(rhs));
+	LayerName = std::move(rhs.LayerName);
+	Renderables = std::move(rhs.Renderables);
+
 	return *this;
 }
 
-void Ermine::LayerStackLayer::SubmitRenderable(std::shared_ptr<Actor2DBase> Ptr)
+void Ermine::LayerStackLayer::SubmitActor(std::shared_ptr<Actor2DBase> Ptr)
 {
-	//Calculate What Is Needed And Generate Appropriate Renderable Here..
+	//Identify Which Object Was Recieved..
+	Ermine::ActorFamilyIdentifier Identifier = Ptr->GetActorFamilyIdentifier();
 
-	//HelperEmplaceRenderableInRenderablesContainer(RenderableObj);
+	if (Identifier == Ermine::ActorFamilyIdentifier::Actor2D)
+	{
+		auto RenderableTextureModule = RenderableTextureModule::Generate(std::dynamic_pointer_cast<Ermine::Actor2D>(Ptr));
+		Renderables.emplace_back(std::move(RenderableTextureModule));
+	}
 }
 
 void Ermine::LayerStackLayer::AddLabel(std::string Text, glm::vec3 Color, glm::vec3 PositionInScreenCoordinates, std::string FontName)
@@ -50,97 +46,51 @@ void Ermine::LayerStackLayer::Clear()
 	Renderables.clear();
 }
 
-bool Ermine::LayerStackLayer::HandleConcreteEventInLayerAndPassForward(Ermine::Event* EventPointer)
+std::string Ermine::LayerStackLayer::GetName()
 {
-	//This Is The Default Behaviour It Says Pass Forward I Have Nothing To With it
-	//Return False If The Layer Has To Stop Propogation..
-	return true;
+	return LayerName;
 }
 
-
-void Ermine::LayerStackLayer::HelperCopyConstructor(const LayerStackLayer& rhs)
+bool Ermine::LayerStackLayer::HandleEvents(Ermine::Event* EventPointer)
 {
-	LayerName = rhs.LayerName;
+	Ermine::EventType EveType = EventPointer->GetEventType();
+	bool EventHandled = false;
 
-	for (std::shared_ptr<Ermine::Renderable2D> i : rhs.Renderables)
-		HelperEmplaceRenderableInRenderablesContainer(&(*i));
-}
-
-void Ermine::LayerStackLayer::HelperMoveConstructor(LayerStackLayer&& rhs)
-{
-	LayerName = std::move(rhs.LayerName);
-
-	for (auto& i : rhs.Renderables)
+	if (EveType == Ermine::EventType::ConcreteEvent)
 	{
-		Renderables.emplace_back(i);
-		i = nullptr;
+		Ermine::ConcreteEvent* CEve = (Ermine::ConcreteEvent*)EventPointer;
+		EventHandled = ConcreteEventRecieved(CEve->GetMessageBuffer());
 	}
+	if (EveType == Ermine::EventType::KeyCallbackEvent)
+	{
+		Ermine::KeyCallbackEvent* KEve = (Ermine::KeyCallbackEvent*)EventPointer;
+		EventHandled = KeyCallbackEventRecieved(KEve->GetKey(),KEve->GetScancode(),KEve->GetAction(),KEve->GetMods());
+	}
+	if (EveType == Ermine::EventType::CharacterCallbackEvent)
+	{
+		Ermine::CharacterCallbackEvent* CEve = (Ermine::CharacterCallbackEvent*)EventPointer;
+		EventHandled = CharacterkeyCallbackEventRecieved(CEve->GetCodePoint());
+	}
+	if (EveType == Ermine::EventType::CursorPositionCallbackEvent)
+	{
+		Ermine::CursorPositionCallbackEvent* CurEve = (Ermine::CursorPositionCallbackEvent*)EventPointer;
+		EventHandled = CursorPositionUpdateEventRecieved(CurEve->GetXPos(),CurEve->GetYPos());
+	}
+	if (EveType == Ermine::EventType::MouseButtonCallbackEvent)
+	{
+		Ermine::MouseButtonCallbackEvent* MEve = (Ermine::MouseButtonCallbackEvent*)EventPointer;
+		EventHandled = MouseButtonCallbackEventRecieved(MEve->GetButton(), MEve->GetAction(), MEve->GetMods());
+	}
+	if (EveType == Ermine::EventType::ScrollCallbackEvent)
+	{
+		Ermine::ScrollCallbackEvent* SEve = (Ermine::ScrollCallbackEvent*)EventPointer;
+		EventHandled = ScrollPositionUpdateEventRecieved(SEve->GetXoffset(), SEve->GetYoffset());
+	}
+
+	return EventHandled;
 }
 
-/*void Ermine::LayerStackLayer::HelperEmplaceRenderableInRenderablesContainer(std::shared_ptr<Renderable2D> RenderableObj)
+void Ermine::LayerStackLayer::DefaultEventHandler()
 {
-	
-}*/
-
-void Ermine::LayerStackLayer::HelperEmplaceRenderableInRenderablesContainer(Renderable2D* RenderableObj)
-{
-	if (RenderableObj != nullptr)
-	{
-		if (dynamic_cast<Actor2D*>(RenderableObj))
-			Renderables.emplace_back(new Actor2D(*((Actor2D*)RenderableObj))); //Call The Copy Constructor Essentially..
-		else if (dynamic_cast<TileMapLayerRenderable*>(RenderableObj))
-			Renderables.emplace_back(new TileMapLayerRenderable(*((TileMapLayerRenderable*)RenderableObj))); //Call The Copy Constructor Essentially..
-		else if (dynamic_cast<Label*>(RenderableObj))
-			Renderables.emplace_back(new Label(*((Label*)RenderableObj))); //Call The Copy Constructor Essentially..
-		else if (dynamic_cast<RenderablePhysicsComponent2D*>(RenderableObj))
-			Renderables.emplace_back(new RenderablePhysicsComponent2D(*((RenderablePhysicsComponent2D*)RenderableObj))); //Call The Copy Constructor Essentially..
-		else if (dynamic_cast<PhysicsActor*>(RenderableObj))
-		{
-			//Get It Into A Physics Actor So That We Can Know Its Diamensions..
-			PhysicsActor* PhyAct = dynamic_cast<PhysicsActor*>(RenderableObj);
-
-			//Actually Get It Into A PhysicsComponent2D Pointer Now..
-			PhysicsComponent2D* Comp = dynamic_cast<PhysicsComponent2D*>(RenderableObj);
-
-			//Get The Translation Matrix which Is To be Sent Into The Gpu For Translating The Object With Respect To The World..
-			glm::mat4 TranslationMatrix = Comp->GetTranslationMatrix();
-
-			//Get A Copy Of The RenderableTextureModule To Be Sent So As To Create A Physics Renderable..
-			RenderableTextureModule* RenderableCopy = new RenderableTextureModule(*(RenderableTextureModule*)RenderableObj);
-
-			//Set The Vertex Array To Be The One Generated By The Physics Actor Taking Into Account The Diamension Of The Physics Object In The Physics World..
-			RenderableCopy->GetVertexArray()->SetVertexBufferData(PhyAct->CalculateModelSpaceVertexes());
-
-			//CReate A RenderablePhysicsComponent Which Can Cleanly Be deleted By The Renderer Once Its Usuage Is Done
-			Renderables.emplace_back(new RenderablePhysicsComponent2D(std::move(*RenderableCopy), TranslationMatrix));
-
-			//The Renderable2D is Already Moved Into The Renderables Buffer So Just Go Ahead And Delete This Husk..
-			delete RenderableCopy;
-		}
-		else if (dynamic_cast<Actor2DShape*>(RenderableObj))
-			Renderables.emplace_back(new Actor2DShape(*((Actor2DShape*)RenderableObj))); //Call The Copy Constructor Essentially..
-		else
-		{
-			Renderables.emplace_back(new Renderable2D(*RenderableObj)); //Dunno What This Is So Just Creating a Renderable Object.. (Note- Renderable Object Does Not Contain Texture Data Keep That In Mind..)
-			STDOUTDefaultLog_Trace("This Most Probably Shouldnt Be Reached Inside Layer Stack Layer :>");
-		}
-	}
-	else
-	{
-		STDOUTDefaultLog_Error("Donot Submit NullPointers To Layer Stack Layer");
-	}
-}
-
-
-bool Ermine::LayerStackLayer::HandleEventInLayerAndPassForward(Ermine::Event * EventPointer)
-{
-	//This Is The Default Implementation It is Expected We create our own If We actually Want To Handle Events
-	int ConcreteFlag = 1;
-
-	ConcreteFlag = HandleConcreteEventInLayerAndPassForward(EventPointer);
-
-	//And All Recieved Flags to recieve the final flag then return the final flag
-	int FinalFlag = ConcreteFlag;
-
-	return FinalFlag;
+	STDOUTDefaultLog_Info("Default Handler Of Event Invoked In LayerStackLayer.. Guess You ARe Unnecessarily Wasting Some Calls..");
 }

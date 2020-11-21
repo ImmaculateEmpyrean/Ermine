@@ -55,6 +55,15 @@ namespace Ermine
 		void RestoreObjectHealth() { { ObjectHealth = Ermine::ObjectStatus::StatusOk; }; }
 #pragma endregion 
 
+#pragma region PushToFunction
+		//The Assigned Function Is Stored In The Object.. Is Not Copied.. And The Events Recieved By The Object Is Directly Pushed Into The Said Function Without Any Processing..
+		void AssignPushEventsToFunction(std::function<void(Ermine::Event*)> PushToFunction);
+		void DestroyPushEventsToFunction();
+
+		bool QueryPushEventsToFunctionFlag();
+		std::function<void(Ermine::Event*)> GetPushToFunction();
+#pragma endregion PushToFunction
+
 #pragma region InterfaceToInteractWithGeneratedObject
 		bool IsRecievingConcreteEvents()			 { return GeneratedObjPtr->IsRecievingConcreteEvents(); }
 		bool IsRecievingKeyCallbackEvents()			 { return GeneratedObjPtr->IsRecievingKeyCallbackEvents(); }
@@ -99,6 +108,10 @@ namespace Ermine
 
 		//Hold A Pointer To A Generated Object
 		std::shared_ptr<Ermine::GeneratedObject> GeneratedObjPtr;
+
+		//A Special Function Pointer Can Be Assigned To Get The Event Without Usual Processing..
+		std::function<void(Ermine::Event*)> PushToFunction = nullptr;
+		bool PushToFunc = false;
 	};
 
 	
