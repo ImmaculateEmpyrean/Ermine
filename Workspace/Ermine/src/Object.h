@@ -48,11 +48,11 @@ namespace Ermine
 		std::shared_ptr<Ermine::GeneratedObject> GetSharedPtrToObject() { return GeneratedObjPtr; };
 
 #pragma region ObjectHealthQuery
-		Ermine::ObjectStatus GetObjectHealth() { return ObjectHealth; }
+		Ermine::ObjectStatus GetObjectHealth();
 
-		void SetObjectHealth(Ermine::ObjectStatus Status) { ObjectHealth = Status; }
-		void MarkObjectForDeletion() { ObjectHealth = Ermine::ObjectStatus::StatusMarkedForDeletion; };
-		void RestoreObjectHealth() { { ObjectHealth = Ermine::ObjectStatus::StatusOk; }; }
+		void SetObjectHealth(Ermine::ObjectStatus Status);
+		void MarkObjectForDeletion(); 
+		void RestoreObjectHealth(); 
 #pragma endregion 
 
 #pragma region PushToFunction
@@ -65,24 +65,24 @@ namespace Ermine
 #pragma endregion PushToFunction
 
 #pragma region InterfaceToInteractWithGeneratedObject
-		bool IsRecievingConcreteEvents()			 { return GeneratedObjPtr->IsRecievingConcreteEvents(); }
-		bool IsRecievingKeyCallbackEvents()			 { return GeneratedObjPtr->IsRecievingKeyCallbackEvents(); }
-		bool IsRecievingCharacterKeyCallbackEvents() { return GeneratedObjPtr->IsRecievingCharacterKeyCallbackEvents(); }
-		bool IsRecievingCursorPositionUpdateEvents() { return GeneratedObjPtr->IsRecievingCursorPositionUpdateEvents(); };
-		bool IsRecievingMouseButtonCallbackEvents () { return GeneratedObjPtr->IsRecievingMouseButtonCallbackEvents(); };
-		bool IsRecievingScrollUpdateEvents()		 { return GeneratedObjPtr->IsRecievingScrollUpdateEvents(); }
-		bool IsRecievingTileSelectedCallbackEvents() { return GeneratedObjPtr->IsRecievingTileSelectedCallbackEvents(); };
-		bool IsRecievingOnTickEvents()				 { return GeneratedObjPtr->IsRecievingOnTickEvents(); };
-		bool IsRecievingOnBeginEvents() { return GeneratedObjPtr->IsRecievingOnBeginEvents(); };
+		bool IsRecievingConcreteEvents();			 
+		bool IsRecievingKeyCallbackEvents();		 
+		bool IsRecievingCharacterKeyCallbackEvents();
+		bool IsRecievingCursorPositionUpdateEvents();
+		bool IsRecievingMouseButtonCallbackEvents ();
+		bool IsRecievingScrollUpdateEvents();		 
+		bool IsRecievingTileSelectedCallbackEvents();
+		bool IsRecievingOnTickEvents();				 
+		bool IsRecievingOnBeginEvents();			 
 
 		//Recieve All Flags As A Vector Of Bool Instead Of Specified Singular Bool
-		std::vector<bool> AllFlagsOfRecievingEvents() { return GeneratedObjPtr->AllFlagsOfRecievingEvents(); }
+		std::vector<bool> AllFlagsOfRecievingEvents();
 
 		std::unique_lock<std::recursive_mutex> GetObjectMutex() { return std::move(GeneratedObjPtr->GetObjectMutex()); }
 
-		std::string GetUniqueIdentifier() { return GeneratedObjPtr->GetUniqueIdentifier(); }
+		std::string GetUniqueIdentifier();
 
-		void RecieveEvents(bool Flag, Ermine::EventType TypeOfEventToRecieve) { GeneratedObjPtr->RecieveEvents(Flag, TypeOfEventToRecieve); }
+		void RecieveEvents(bool Flag, Ermine::EventType TypeOfEventToRecieve);// {  }
 #pragma endregion
 
 #pragma region EventReciever

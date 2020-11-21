@@ -147,13 +147,25 @@ namespace Ermine
 					std::shared_ptr<Ermine::GeneratedObject> Subs = j->second.GetSubscribedObject();
 					if (Subs != nullptr)
 					{
-						auto Health = Subs->GetObjectHealth();
-						if (Health == Ermine::ObjectStatus::StatusMarkedForDeletion)
+						while (Subs->IsHandleValid() == false)
 						{
 							j = SQ.erase(j);
 							if (j == SQ.end())
 								break;
 						}
+						if (j == SQ.end())
+							break;
+						
+						auto Health = Subs->GetObjectHealth();
+						while (Health == Ermine::ObjectStatus::StatusMarkedForDeletion)
+						{
+							j = SQ.erase(j);
+							if (j == SQ.end())
+								break;
+						}
+						if (j == SQ.end())
+							break;
+						
 						//Ended Delete Objects Which Are Marked For Deletion Right..//
 						if (j->second.CanIRecieveEventFlag == true)
 						{

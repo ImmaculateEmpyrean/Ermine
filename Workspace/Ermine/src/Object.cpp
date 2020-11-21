@@ -73,6 +73,32 @@ namespace Ermine
 		GeneratedObjPtr->UnBindObject();
 	}
 
+#pragma region ObjectHealth
+	Ermine::ObjectStatus Object::GetObjectHealth()
+	{
+		auto Lock = GetObjectMutex();
+		return ObjectHealth;
+	}
+
+	void Object::SetObjectHealth(Ermine::ObjectStatus Status)
+	{
+		auto Lock = GetObjectMutex();
+		ObjectHealth = Status;
+	}
+
+	void Object::MarkObjectForDeletion()
+	{
+		auto Lock = GetObjectMutex();
+		ObjectHealth = Ermine::ObjectStatus::StatusMarkedForDeletion;
+	}
+
+	void Object::RestoreObjectHealth()
+	{
+		auto Lock = GetObjectMutex();
+		ObjectHealth = Ermine::ObjectStatus::StatusOk;
+	}
+#pragma endregion
+
 	void Object::AssignPushEventsToFunction(std::function<void(Ermine::Event*)> PushToFunction)
 	{
 		auto Lock = GetObjectMutex();
@@ -105,6 +131,80 @@ namespace Ermine
 		assert(PushToFunction != nullptr);
 		return PushToFunction;
 	}
+
+#pragma region InterfaceToInteractWithGeneratedObject
+	bool Object::IsRecievingConcreteEvents()
+	{
+		auto Lock = GetObjectMutex();
+		return GeneratedObjPtr->IsRecievingConcreteEvents();
+	}
+
+	bool Object::IsRecievingKeyCallbackEvents()
+	{
+		auto Lock = GetObjectMutex();
+		return GeneratedObjPtr->IsRecievingKeyCallbackEvents();
+	}
+
+	bool Object::IsRecievingCharacterKeyCallbackEvents()
+	{
+		auto Lock = GetObjectMutex();
+		return GeneratedObjPtr->IsRecievingCharacterKeyCallbackEvents();
+	}
+
+	bool Object::IsRecievingCursorPositionUpdateEvents()
+	{
+		auto Lock = GetObjectMutex();
+		return GeneratedObjPtr->IsRecievingCursorPositionUpdateEvents();
+	}
+
+	bool Object::IsRecievingMouseButtonCallbackEvents()
+	{
+		auto Lock = GetObjectMutex();
+		return GeneratedObjPtr->IsRecievingMouseButtonCallbackEvents();
+	}
+
+	bool Object::IsRecievingScrollUpdateEvents()
+	{
+		auto Lock = GetObjectMutex();
+		return GeneratedObjPtr->IsRecievingScrollUpdateEvents();
+	}
+
+	bool Object::IsRecievingTileSelectedCallbackEvents()
+	{
+		auto Lock = GetObjectMutex();
+		return GeneratedObjPtr->IsRecievingTileSelectedCallbackEvents();
+	}
+
+	bool Object::IsRecievingOnTickEvents()
+	{
+		auto Lock = GetObjectMutex();
+		return GeneratedObjPtr->IsRecievingOnTickEvents();
+	}
+
+	bool Object::IsRecievingOnBeginEvents()
+	{
+		auto Lock = GetObjectMutex();
+		return GeneratedObjPtr->IsRecievingOnBeginEvents();
+	}
+
+	std::vector<bool> Object::AllFlagsOfRecievingEvents()
+	{
+		auto Lock = GetObjectMutex();
+		return GeneratedObjPtr->AllFlagsOfRecievingEvents();
+	}
+
+	std::string Object::GetUniqueIdentifier()
+	{
+		auto Lock = GetObjectMutex();
+		return GeneratedObjPtr->GetUniqueIdentifier();
+	}
+
+	void Object::RecieveEvents(bool Flag, Ermine::EventType TypeOfEventToRecieve)
+	{
+		auto Lock = GetObjectMutex();
+		GeneratedObjPtr->RecieveEvents(Flag, TypeOfEventToRecieve);
+	}
+#pragma endregion
 
 	void Object::DefaultEventHandler()
 	{

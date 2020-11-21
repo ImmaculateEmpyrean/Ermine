@@ -82,7 +82,6 @@ namespace Ermine
 
 		//Is Handle Valid Returns A Flag To U Telling If The Generated Object Thinks The Object Is Valid.
 		bool IsHandleValid() { return HandleValid; };
-
 		//DONOT USE THIS Function NOT AT ALL RECOMMENDED May Lead To Calling Whatever Is Being Pointed By Handle Even If It Is Not A Function. May Lead To Disaster Of An Inprecedented Scale..
 		void SetHandleValidForce() { HandleValid = true; }; 
 
