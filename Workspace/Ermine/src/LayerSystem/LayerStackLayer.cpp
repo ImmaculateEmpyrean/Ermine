@@ -33,19 +33,21 @@ Ermine::LayerStackLayer Ermine::LayerStackLayer::operator=(LayerStackLayer&& rhs
 	return *this;
 }
 
-void Ermine::LayerStackLayer::SubmitRenderable(Renderable2D* RenderableObj)
+void Ermine::LayerStackLayer::SubmitRenderable(std::shared_ptr<Actor2DBase> Ptr)
 {
-	HelperEmplaceRenderableInRenderablesContainer(RenderableObj);
+	//Calculate What Is Needed And Generate Appropriate Renderable Here..
+
+	//HelperEmplaceRenderableInRenderablesContainer(RenderableObj);
 }
 
 void Ermine::LayerStackLayer::AddLabel(std::string Text, glm::vec3 Color, glm::vec3 PositionInScreenCoordinates, std::string FontName)
 {
-	//This Still Not Function Please Refrain From Using This..
+	//This Still Does Not Function Please Refrain From Using This..
 }
 
 void Ermine::LayerStackLayer::Clear()
 {
-	Renderables.clear(); //This is a collection of unique pointers simply calling clear is enough..
+	Renderables.clear();
 }
 
 bool Ermine::LayerStackLayer::HandleConcreteEventInLayerAndPassForward(Ermine::Event* EventPointer)

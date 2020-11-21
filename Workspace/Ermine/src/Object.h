@@ -47,6 +47,14 @@ namespace Ermine
 		//Use This Function To Get A Handle To The Generated Object.. DONOT USE THIS IF NOT ABSOLUTELY NECESSARY
 		std::shared_ptr<Ermine::GeneratedObject> GetSharedPtrToObject() { return GeneratedObjPtr; };
 
+#pragma region ObjectHealthQuery
+		Ermine::ObjectStatus GetObjectHealth() { return ObjectHealth; }
+
+		void SetObjectHealth(Ermine::ObjectStatus Status) { ObjectHealth = Status; }
+		void MarkObjectForDeletion() { ObjectHealth = Ermine::ObjectStatus::StatusMarkedForDeletion; };
+		void RestoreObjectHealth() { { ObjectHealth = Ermine::ObjectStatus::StatusOk; }; }
+#pragma endregion 
+
 #pragma region InterfaceToInteractWithGeneratedObject
 		bool IsRecievingConcreteEvents()			 { return GeneratedObjPtr->IsRecievingConcreteEvents(); }
 		bool IsRecievingKeyCallbackEvents()			 { return GeneratedObjPtr->IsRecievingKeyCallbackEvents(); }
@@ -56,6 +64,10 @@ namespace Ermine
 		bool IsRecievingScrollUpdateEvents()		 { return GeneratedObjPtr->IsRecievingScrollUpdateEvents(); }
 		bool IsRecievingTileSelectedCallbackEvents() { return GeneratedObjPtr->IsRecievingTileSelectedCallbackEvents(); };
 		bool IsRecievingOnTickEvents()				 { return GeneratedObjPtr->IsRecievingOnTickEvents(); };
+		bool IsRecievingOnBeginEvents() { return GeneratedObjPtr->IsRecievingOnBeginEvents(); };
+
+		//Recieve All Flags As A Vector Of Bool Instead Of Specified Singular Bool
+		std::vector<bool> AllFlagsOfRecievingEvents() { return GeneratedObjPtr->AllFlagsOfRecievingEvents(); }
 
 		std::unique_lock<std::recursive_mutex> GetObjectMutex() { return std::move(GeneratedObjPtr->GetObjectMutex()); }
 
@@ -82,6 +94,8 @@ namespace Ermine
 #pragma endregion
 
 	private:
+		//This Is The Object Health.. SInce Nobody Can Explicitly Delete An Object.. Anybody Can Request Its Initiation Of Deletion
+		ObjectStatus ObjectHealth = Ermine::ObjectStatus::StatusOk;
 
 		//Hold A Pointer To A Generated Object
 		std::shared_ptr<Ermine::GeneratedObject> GeneratedObjPtr;

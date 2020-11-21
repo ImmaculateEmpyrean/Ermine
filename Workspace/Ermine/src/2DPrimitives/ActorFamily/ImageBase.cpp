@@ -13,21 +13,14 @@ namespace Ermine
 	{
 		//Lock Engaged As I Am Interacting With The Internal Memory Of This Class..
 		auto Lock = Object::GetObjectMutex();
-
 		Actorsprite = Ermine::Sprite::GenerateSprite("ErmineNullTexture.png");
-		RefreshRenderable2D();
 	}
 
 	ImageBase::ImageBase(std::shared_ptr<Sprite> Spr)
 		:
 		Actor2DBase(), //Invoking The Default Constructor I Guess..
 		Actorsprite(Spr)
-	{
-		auto Lock = Object::GetObjectMutex();
-
-		//Setup The Renderable to Be Working..
-		RefreshRenderable2D(); 
-	}
+	{}
 	ImageBase::ImageBase(std::vector<std::shared_ptr<Sprite>> SpriteBuffer)
 		:
 		Actor2DBase() //Invoking The Default Constructor I Guess..
@@ -37,9 +30,6 @@ namespace Ermine
 		//A SpriteBuffer Properly Translates To A SpriteBook..
 		//A SpriteBook Has The Same Interface As The Sprite So I dont See Much Of A Problem..
 		Actorsprite = std::make_shared<SpriteBook>("SpriteBuffer", SpriteBuffer);
-
-		//Setup The Renderable To be Working..
-		RefreshRenderable2D();
 	}
 
 	ImageBase::~ImageBase()
@@ -47,8 +37,7 @@ namespace Ermine
 
 	ImageBase::ImageBase(ImageBase& rhs)
 		:
-		Actor2DBase(rhs),
-		RenderableTextureModule(rhs)
+		Actor2DBase(rhs)
 	{
 		auto ForeignLock = rhs.GetObjectMutex();
 		auto Lock = Object::GetObjectMutex();
@@ -57,8 +46,10 @@ namespace Ermine
 	}
 	ImageBase& ImageBase::operator=(ImageBase& rhs)
 	{
+		auto ForeignLock = rhs.GetObjectMutex();
+		auto Lock = GetObjectMutex();
+
 		Actor2DBase::operator=(rhs);
-		RenderableTextureModule::operator=(rhs);
 
 		Actorsprite = rhs.Actorsprite;
 		return *this;
@@ -66,8 +57,7 @@ namespace Ermine
 
 	ImageBase::ImageBase(ImageBase&& rhs)
 		:
-		Actor2DBase(std::move(rhs)),
-		RenderableTextureModule(std::move(rhs))
+		Actor2DBase(std::move(rhs))
 	{
 		auto ForeignLock = rhs.GetObjectMutex();
 		auto Lock = Object::GetObjectMutex();
@@ -77,8 +67,10 @@ namespace Ermine
 	}
 	ImageBase& ImageBase::operator=(ImageBase&& rhs)
 	{
+		auto ForeignLock = rhs.GetObjectMutex();
+		auto Lock = Object::GetObjectMutex();
+
 		Actor2DBase::operator=(std::move(rhs));
-		RenderableTextureModule::operator=(std::move(rhs));
 
 		Actorsprite = std::move(rhs.Actorsprite);
 		return *this;
@@ -95,17 +87,15 @@ namespace Ermine
 	}
 	void ImageBase::SetSprite(std::shared_ptr<Sprite> Sprite)
 	{
+		//Acquire Lock..
 		auto Lock = Object::GetObjectMutex();
-
 		Actorsprite = Sprite;
-		RenderableTextureModule::Clear();
-		RenderableTextureModule::SubmitTexture(Actorsprite->GetTexture());
 	}
 	//Ended Setter And Getter For The ActorSprite..//
 
 
 	//The Quad Class Already Contains A Nice Static Function.. Just Gotta Make Use Of It..
-	std::vector<uint32_t> ImageBase::GetIndices()
+	/*std::vector<uint32_t> ImageBase::GetIndices()
 	{
 		return Ermine::Quad::GetModelIndices();
 	}
@@ -152,11 +142,11 @@ namespace Ermine
 
 
 		return ModelCoordinates;
-	}
+	}*/
 	
 
 	//Calculate Model Vertexes And Update The Renderable U Know The One thing That Actually Mattres When Drawing
-	void ImageBase::RefreshRenderable2D()
+	/*void ImageBase::RefreshRenderable2D()
 	{
 		auto Lock = Object::GetObjectMutex();
 
@@ -170,7 +160,7 @@ namespace Ermine
 		Renderable2D::SetMaterial(Ermine::Material(std::filesystem::path("Shader/Vertex/Actor2DUpdatedWithRenderableTextureModuleVertexShader.vert"),
 			std::filesystem::path("Shader/Fragment/Actor2DUpdatedWithRenderableTextureModuleFragmentShader.frag")));
 		RenderableTextureModule::SubmitTexture(Actorsprite->GetTexture());
-	}
+	}*/
 
 
 	std::vector<VertexAttribPointerSpecification> ImageBase::GetVertexAttribSpecificationForTheActor()
@@ -184,7 +174,7 @@ namespace Ermine
 		return Spec;
 	}
 
-	std::vector<int> ImageBase::BindTexturesContained()
+	/*std::vector<int> ImageBase::BindTexturesContained()
 	{
 		std::vector<int> BoundVector;
 		BoundVector.resize(16, 0);
@@ -198,16 +188,16 @@ namespace Ermine
 		BoundVector[0] = BoundSlot;
 
 		return BoundVector;
-	}
+	}*/
 
-	void ImageBase::Refresh()
+	/*void ImageBase::Refresh()
 	{
 		auto Lock = Object::GetObjectMutex();
 		RefreshRenderable2D();
-	}
+	}*/
 
 
-#pragma region RenderableTextureModuleExposition
+/*#pragma region RenderableTextureModuleExposition
 	void ImageBase::SubmitTexture(std::filesystem::path TexturePath)
 	{
 		//Accquire The Lock As We Are About To Use Shared Memory
@@ -226,7 +216,7 @@ namespace Ermine
 	/*std::vector<std::shared_ptr<Texture>>& Ermine::ImageBase::GetBuffer()
 	{
 	//This Function Cannot Be Implemented In Current Archietecture	
-	}*/
+	}
 
 
 	void Ermine::ImageBase::Clear()
@@ -243,6 +233,6 @@ namespace Ermine
 
 		RenderableTextureModule::ClearTextureBuffer();
 	}
-#pragma endregion
+#pragma endregion*/
 
 }

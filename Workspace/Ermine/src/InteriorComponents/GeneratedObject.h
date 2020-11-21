@@ -43,11 +43,11 @@ namespace Ermine
 	public:
 		std::string GetUniqueIdentifier() { return UniqueIdentifier; }
 
-		Ermine::ObjectStatus GetObjectHealth() { return ObjectHealth; }
+		Ermine::ObjectStatus GetObjectHealth() { return HObject->GetObjectHealth(); }
 
-		void SetObjectHealth(Ermine::ObjectStatus Status) { ObjectHealth = Status; }
-		void MarkObjectForDeletion() { ObjectHealth = Ermine::ObjectStatus::StatusMarkedForDeletion; };
-		void RestoreObjectHealth() { { ObjectHealth = Ermine::ObjectStatus::StatusOk; }; }
+		void SetObjectHealth(Ermine::ObjectStatus Status) { HObject->SetObjectHealth(Status); }
+		void MarkObjectForDeletion() { HObject->SetObjectHealth(Ermine::ObjectStatus::StatusMarkedForDeletion); }
+		void RestoreObjectHealth()   { HObject->SetObjectHealth(Ermine::ObjectStatus::StatusOk); } //This Is A Dangerous Function.. Use With CAUTION 
 
 		std::unique_lock<std::recursive_mutex> GetObjectMutex() { return std::move(std::unique_lock<std::recursive_mutex>(ObjectMutex)); };
 
@@ -67,6 +67,7 @@ namespace Ermine
 		bool IsRecievingTileSelectedCallbackEvents() { return FlagsOfRecievingEvents[(unsigned int)Ermine::EventType::TileSelectedEvent]; };
 		
 		bool IsRecievingOnTickEvents() { return FlagsOfRecievingEvents[(unsigned int)Ermine::EventType::OnTickEvent]; };
+		bool IsRecievingOnBeginEvents() { return FlagsOfRecievingEvents[(unsigned int)Ermine::EventType::OnBeginEvent]; };
 		
 		//Recieve All Flags As A Vector Of Bool Instead Of Specified Singular Bool
 		std::vector<bool> AllFlagsOfRecievingEvents() { return FlagsOfRecievingEvents; }
@@ -101,7 +102,7 @@ namespace Ermine
 		static std::atomic<long> Counter;
 		std::string UniqueIdentifier;
 
-		ObjectStatus ObjectHealth = Ermine::ObjectStatus::StatusOk;
+		//ObjectStatus ObjectHealth = Ermine::ObjectStatus::StatusOk;
 
 		//Flags To Check And Tickets To Store If A Certain Event Is Executing..
 		std::function<void(std::string)> ConcreteEventFunctionPointer = nullptr;

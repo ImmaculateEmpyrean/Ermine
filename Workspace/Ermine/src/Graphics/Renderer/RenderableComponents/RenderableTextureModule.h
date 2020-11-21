@@ -22,46 +22,37 @@ namespace Ermine
 {
 	class RenderableTextureModule: public Ermine::Renderable2D
 	{
-	public:
-		//An Empty Renderable Texture Module Can Exist Though It is Suboptimal In Nature And Should Be Avoided..
-		RenderableTextureModule();
+	protected:
+		//This Is The Only Constructor As Of Now And Is Used By The Generator Exclusively..
+		RenderableTextureModule(std::shared_ptr<Ermine::Actor2D> Ptr, std::vector<std::shared_ptr<Ermine::Texture>> Textures);
 
-		//There Is No Point In This Module Existing Without A Texture Existing Please See That As Much As Possible This Constructor Is Called..
-		RenderableTextureModule(std::vector<std::shared_ptr<Texture>> Tex);
+		RenderableTextureModule(RenderableTextureModule& rhs);
+		RenderableTextureModule& operator=(RenderableTextureModule& rhs);
 
-		//This Constructor Aims To Setup Renderable2D Without Touching The TextureModule..
-		RenderableTextureModule(VertexArray Vao);
+		RenderableTextureModule(RenderableTextureModule&& rhs);
+		RenderableTextureModule& operator=(RenderableTextureModule&& rhs);
 
-		//This Constructor Aims To Setup Renderable2D Without Touching The TextureModule..
-		RenderableTextureModule(VertexArray Vao,Material Mat);
+#pragma region Renderable2DOverrides
+		virtual void Initialize() override;
+		virtual void Refresh()	  override;
+#pragma endregion
 
-		//This Constructor Aims To Setup Renderable2D Partially While Setting Up The TextureModule..
-		RenderableTextureModule(VertexArray Vao, std::vector<std::shared_ptr<Texture>> Tex);
 
-		//This Constructor Aims To Setup Renderable2D Partially While Setting Up The TextureModule..
-		RenderableTextureModule(Material Mat, std::vector<std::shared_ptr<Texture>> Tex);
+#pragma region Generator
+		static std::unique_ptr<Ermine::RenderableTextureModule> Generate(std::shared_ptr<Actor2DBase> Act);
+#pragma endregion
 
-		//This Constructor Is All Inclusive Setup Both Rendererable2D and TextureModule.. 
-		RenderableTextureModule(VertexArray Vao, Material Mat, std::vector<std::shared_ptr<Texture>> Tex);
 
-		//Consider Making This Virtual.. Access For All These Functions Will Be Given BY Image Base.. Which Can Lock The Mutex Properly..
 	public:
 		//The Texture Path Is Submitted To The GlobalTextureCache From which a Texture Is Recieved For The Buffer
 		virtual void SubmitTexture(std::filesystem::path TexturePath);
-
-		//Submit A Texture To Be Held By The Renderable Texture Module..
 		virtual void SubmitTexture(std::shared_ptr<Texture> Texture);
-
-		//A Handle To the Textures Buffer To Modify It In Some Sense.. Note Renderable Texture Module Does Not Have A Delete Function..
-		//virtual std::vector<std::shared_ptr<Texture>>& GetBuffer();
 
 		//Binds Textures Contained Inside The Renderable Texture Module And Returns An Array Containing In which Slot Each Texture Is Bound..
 		virtual std::vector<int> BindTexturesContained();
 
 		//Clears Out The Contents Of The RenderableTextureModuleBuffer And Its PARENTS TOO...
-		virtual void Clear();
-
-		//Clear Out Only The Texture Buffer Of The RenderableTextureModule..
+		virtual void Clear() override;
 		virtual void ClearTextureBuffer();
 
 	public:
@@ -75,6 +66,8 @@ namespace Ermine
 	private:
 
 	private:
+		//Hold All The Textures.. The Primary Job Of this module..
 		std::vector<std::shared_ptr<Texture>> TexturesBuffer;
+
 	};
 }

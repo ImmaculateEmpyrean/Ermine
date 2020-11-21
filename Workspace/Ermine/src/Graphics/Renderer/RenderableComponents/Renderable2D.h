@@ -12,37 +12,54 @@
 
 #include "Object.h"
 
+#include "2DPrimitives/ActorFamily/Actor2DBase.h"
+#include "2DPrimitives/ActorFamily/Actor2D.h"
+
 //Maybe We Need a Material System Instead on a standrad shader system   //#include "Graphics/Renderer/MaterialSystem/Shader.h"
 
 namespace Ermine
 {
 	class Renderable2D : public Ermine::Object
 	{
-	public:
-		Renderable2D(); //An Empty Renderable Can Exist Please See That Something Default Exists For Debugging Purposes..
-		Renderable2D(VertexArray Vao);
-		Renderable2D(Material Mat);
-		Renderable2D(VertexArray Vao, Material Mat);
-
+		//Made This Protected As We Expect Child Generate Calls To Call It..
+	protected:
+		Renderable2D(std::shared_ptr<Ermine::Actor2D> Ptr);
+		
+		//A Virtual Destructor Ensures Smooth Function Calling From The Com Pointer If Ata All Necessary..
 		virtual ~Renderable2D();
 
+#pragma region CopyAndMove
+		Renderable2D(Renderable2D& rhs);
+		Renderable2D& operator=(Renderable2D& rhs);
+
+		Renderable2D(Renderable2D&& rhs);
+		Renderable2D& operator=(Renderable2D&& rhs);
+#pragma endregion
+
 	public:
+		static std::unique_ptr<Renderable2D> Generate(std::shared_ptr<Actor2DBase> Act);
+
 		std::shared_ptr<VertexArray>  GetVertexArray();
 		void SetVertexArray(VertexArray& Vao);
 
 		std::shared_ptr<Material> GetMaterial();
 		void SetMaterial(Material& Shd);
-		std::shared_ptr<Material> GetMaterialBeingUsed();
-		
+			
 		void Bind(); //Check If bind HAs To Be Virtual..
 
 		//Clear The Vertex Array And The Material As Of This Class.. In Children This Must Behave Differently..
 		virtual void Clear();
 
 		//This Function Will Be Called At The First Time A Tick Is Called On It.. And Thats It.. It Is Never Called Again.
-		virtual void Initialize() {};
+		virtual void Initialize(); //Donot Forget To Call This When Overriden In The Future
+
 		//This Function Will Be Called By The Renderer Every Frame.. Override This If Some Function Is To Be Performed EveryFrame..
-		virtual void Refresh() {};
+		virtual void Refresh(); //Donot Forget To Call This When Overriden In The Future
+
+		std::shared_ptr<Ermine::Actor2DBase> GetBoundActor();
+
+		void SetObjectInitialized() { ObjectInitialized = true; }
+		bool GetObjectInitialized() { return ObjectInitialized; }
 
 	public:
 
@@ -51,18 +68,42 @@ namespace Ermine
 	protected:
 
 	private:
-		void RecieveEvents(Ermine::Event* Eve);
+		//These Functions Try To Recieves The Tick Event And OnBeginEvent From The Object..
+		virtual void OnTickEventRecieved(float DeltaTime) override;
+		virtual void OnBeginEvent(std::shared_ptr<void> Packet)override;
 
+#pragma region SubGenerateFunctions
+		//Let Us Generate A Renderable For The Bound Actor2D Type Actor..
+		void GenerateActor2DRenderable(std::shared_ptr<Ermine::Actor2D> Ptr);
+
+#pragma endregion
+
+#pragma region Helpers
+		//Useful For Refreshing Actor2D Type Bounded Actors
+		std::vector<float> CalculateModelSpaceVertexesActor2D(std::shared_ptr<Ermine::Actor2D> Act);
+
+#pragma endregion
 	private:
-		//The Vao Which Must Be Bound While Drawing...
+		//The Vao And Shader Bound While Drawing..
 		std::shared_ptr<VertexArray> Vao;
-
-		//The Shader Which Is Bound While Drawing...
 		std::shared_ptr<Material> Mat; 
+		//The Vertex Specification Is Given In This VertexAttribPointer Specification..
+		std::vector<Ermine::VertexAttribPointerSpecification> Specification;
 
-		//This Flag Will BE Used To Call The Initilize Function Once The Object Is Constructed Completely..
+		//This Is The Actor Which Is To Be Used To Generate Said Renderable..
+		std::shared_ptr<Ermine::Actor2DBase> Actor_Bound;
+
+		//This Is A Custom Initializer Function.. Give it A Function If You Wanna Call It Instead Of Standrad Initialize..
+		std::function<void()> InitializeFunctionPtr = nullptr;
+		bool CallDefaultInitializer = true;
+
+		//This Is A Custom Refresh Function..
+		std::function<void()> RefreshFunction = nullptr; //currently not in use.. dummy
+		bool CallDefaultRefresh = true; //currently not in use.. dummy
+
+		//This Flag Will Be Used To Call The Initilize Function Once The Object Is Constructed Completely..
 		std::once_flag CallInitializeFlag;
-		//This Flag Will BE Set To True Once The Entire Object Initialization Is Complete..
+		//This Flag Will Be Set To True Once The Entire Object Initialization Is Complete..
 		bool ObjectInitialized = false;
 	};
 

@@ -38,7 +38,7 @@ namespace Ermine
 		LayerStackLayer operator=(LayerStackLayer&& rhs);
 
 		//Note This Function Will Cause The Layer To Copy Said Object Into Memory.. 
-		void SubmitRenderable(Renderable2D* RenderableObj);
+		void SubmitRenderable(std::shared_ptr<Actor2DBase> Ptr);
 
 		void AddLabel(std::string Text, glm::vec3 Color,glm::vec3 PositionInScreenCoordinates,std::string FontName);
 
@@ -63,7 +63,7 @@ namespace Ermine
 		
 	private:
 		std::string LayerName;
-		std::vector<std::shared_ptr<Ermine::Renderable2D>> Renderables;
+		std::vector<std::unique_ptr<Ermine::Renderable2D>> Renderables; //Made Them Unique Pointers As I Dont Expect Them To Have References Anywhere..
 
 		friend class Ermine::Renderer2D;
 		friend class Ermine::LayerStack;
