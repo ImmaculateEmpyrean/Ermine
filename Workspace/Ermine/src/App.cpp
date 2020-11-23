@@ -152,9 +152,12 @@ void Ermine::App::OnTick()
 
 	static std::shared_ptr<Ermine::Actor2D> Act = Ermine::Actor2D::GenerateActor2D("AnoHiMitaHana.png");
 	
+	static bool Initialize = false;
+
+	
+
 #if 1
-	LayerStackLayer Layer("Han");
-	Layer.SubmitActor(Act);
+	
 	//Layer.SubmitRenderable(&*Act);
 
 	static int ind = 10;
@@ -170,7 +173,13 @@ void Ermine::App::OnTick()
 
 	Renderer2D::BeginScene();
 
-	Renderer2D::SubmitLayer(std::move(Layer));
+	if (Initialize == false)
+	{
+		LayerStackLayer Layer("Han");
+		Layer.SubmitActor(Act);
+		Renderer2D::SubmitLayer(std::move(Layer));
+		Initialize = true;
+	}
 
 
 	Renderer2D::EndScene();

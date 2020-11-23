@@ -9,7 +9,8 @@ namespace Ermine
 #pragma region Constructors
 	ImageBase::ImageBase()
 		:
-		Actor2DBase()
+		Actor2DBase(std::make_shared<Ermine::Material>(std::filesystem::path("Shader/Vertex/Actor2DUpdatedWithRenderableTextureModuleVertexShader.vert"),
+					std::filesystem::path("Shader/Fragment/Actor2DUpdatedWithRenderableTextureModuleFragmentShader.frag")))
 	{
 		//Lock Engaged As I Am Interacting With The Internal Memory Of This Class..
 		auto Lock = Object::GetObjectMutex();
@@ -18,18 +19,21 @@ namespace Ermine
 
 	ImageBase::ImageBase(std::shared_ptr<Sprite> Spr)
 		:
-		Actor2DBase(), //Invoking The Default Constructor I Guess..
+		Actor2DBase(std::make_shared<Ermine::Material>(std::filesystem::path("Shader/Vertex/Actor2DUpdatedWithRenderableTextureModuleVertexShader.vert"),
+					std::filesystem::path("Shader/Fragment/Actor2DUpdatedWithRenderableTextureModuleFragmentShader.frag"))),
 		Actorsprite(Spr)
 	{}
 	ImageBase::ImageBase(std::vector<std::shared_ptr<Sprite>> SpriteBuffer)
 		:
-		Actor2DBase() //Invoking The Default Constructor I Guess..
+		Actor2DBase(std::make_shared<Ermine::Material>(std::filesystem::path("Shader/Vertex/Actor2DUpdatedWithRenderableTextureModuleVertexShader.vert"),
+					std::filesystem::path("Shader/Fragment/Actor2DUpdatedWithRenderableTextureModuleFragmentShader.frag")))
 	{
 		auto Lock = Object::GetObjectMutex();
 		
 		//A SpriteBuffer Properly Translates To A SpriteBook..
 		//A SpriteBook Has The Same Interface As The Sprite So I dont See Much Of A Problem..
 		Actorsprite = std::make_shared<SpriteBook>("SpriteBuffer", SpriteBuffer);
+		
 	}
 
 	ImageBase::~ImageBase()
@@ -63,7 +67,7 @@ namespace Ermine
 		auto Lock = Object::GetObjectMutex();
 
 		Actorsprite = std::move(rhs.Actorsprite);
-		rhs.Actorsprite = nullptr;
+		
 	}
 	ImageBase& ImageBase::operator=(ImageBase&& rhs)
 	{
@@ -73,6 +77,7 @@ namespace Ermine
 		Actor2DBase::operator=(std::move(rhs));
 
 		Actorsprite = std::move(rhs.Actorsprite);
+
 		return *this;
 	}
 
@@ -91,6 +96,17 @@ namespace Ermine
 		auto Lock = Object::GetObjectMutex();
 		Actorsprite = Sprite;
 	}
+	glm::vec2 ImageBase::GetTopRightUV()
+	{
+		auto Lock = Object::GetObjectMutex();
+		return Actorsprite->GetTopRightUV();
+	}
+	glm::vec2 ImageBase::GetBottomLeftUV()
+	{
+		auto Lock = Object::GetObjectMutex();
+		return Actorsprite->GetBottomLeftUV();
+	}
+
 	//Ended Setter And Getter For The ActorSprite..//
 
 
@@ -163,7 +179,7 @@ namespace Ermine
 	}*/
 
 
-	std::vector<VertexAttribPointerSpecification> ImageBase::GetVertexAttribSpecificationForTheActor()
+	/*std::vector<VertexAttribPointerSpecification> ImageBase::GetVertexAttribSpecificationForTheActor()
 	{
 		static std::vector<VertexAttribPointerSpecification> Spec = {
 				{3,GL_FLOAT,false},
@@ -172,7 +188,7 @@ namespace Ermine
 				{1,GL_FLOAT,false}
 		};
 		return Spec;
-	}
+	}*/
 
 	/*std::vector<int> ImageBase::BindTexturesContained()
 	{

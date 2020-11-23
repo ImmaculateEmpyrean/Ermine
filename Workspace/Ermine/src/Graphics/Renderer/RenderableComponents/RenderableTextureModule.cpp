@@ -6,7 +6,7 @@
 namespace Ermine
 {
 #pragma region Constructors
-    RenderableTextureModule::RenderableTextureModule(std::shared_ptr<Ermine::Actor2D> Ptr, std::vector<std::shared_ptr<Ermine::Texture>> Textures)
+    RenderableTextureModule::RenderableTextureModule(std::shared_ptr<Ermine::Actor2DBase> Ptr, std::vector<std::shared_ptr<Ermine::Texture>> Textures)
         :
         Renderable2D(Ptr),
         TexturesBuffer(Textures)
@@ -64,8 +64,9 @@ namespace Ermine
         //Initialize The Renderable2D..
         Renderable2D::Initialize();
 
-        //Submit The Required Texture To Initialize Renderable Texture Module..
-        SubmitTexture(std::dynamic_pointer_cast<Ermine::Actor2D>(Renderable2D::GetBoundActor())->GetSprite()->GetTexture());
+        //Submit The Texture If The Actor In Question Implements Image Base Atleast..
+        if(std::dynamic_pointer_cast<Ermine::ImageBase>(Renderable2D::GetBoundActor()))
+            SubmitTexture(std::dynamic_pointer_cast<Ermine::ImageBase>(Renderable2D::GetBoundActor())->GetSprite()->GetTexture());
     }
 
     void RenderableTextureModule::Refresh()
@@ -85,24 +86,25 @@ namespace Ermine
 
     std::unique_ptr<Ermine::RenderableTextureModule> RenderableTextureModule::Generate(std::shared_ptr<Actor2DBase> Act)
     {
-        auto ActorIdentifier = Act->GetActorFamilyIdentifier();
-
-        if (ActorIdentifier == ActorFamilyIdentifier::Actor2D)
+        if (std::dynamic_pointer_cast<Ermine::ImageBase, Ermine::Actor2DBase>(Act))
         {
-            //Since We Know This Is An Actor2D Cast Into One..
-            std::shared_ptr<Ermine::Actor2D> PActor2D = std::dynamic_pointer_cast<Ermine::Actor2D>(Act);
-            
-            //Get The Textures Array Ready.. I Mean We Know There IS Only One Texture In Actor2D.. So Get That Ready.. 
-            std::vector<std::shared_ptr<Ermine::Texture>> Textures;
-            Textures.emplace_back(PActor2D->GetSprite()->GetTexture());
+            auto ImgActor = std::dynamic_pointer_cast<Ermine::ImageBase, Ermine::Actor2DBase>(Act);
 
-            //Create And Return A std::unique_ptr Of The Renderable Texture Module..
-            std::unique_ptr<RenderableTextureModule> Module(new RenderableTextureModule(PActor2D,Textures));
+            std::vector <std::shared_ptr<Ermine::Texture>> Textures;
+            Textures.emplace_back(ImgActor->GetSprite()->GetTexture());
 
-            std::shared_ptr<void> st = std::make_shared<void*>();
+            //new is used here since constructor is most probably protected.. not optimal but easy workaround
+            std::unique_ptr<RenderableTextureModule> Module(new RenderableTextureModule(Act,Textures));
+
+            std::shared_ptr<void*> st = std::make_shared<void*>();
             Ermine::BroadcastComponent::BroadcastEvent(std::make_unique<Ermine::OnBeginEvent>(st));
 
             return Module;
+        }
+        else
+        {
+            //Why Should I Return A Renderable Texture Module When There Is No Image Base Implemnted..
+            return nullptr;
         }
     }
 
@@ -143,5 +145,4 @@ namespace Ermine
     {
         TexturesBuffer.clear();
     }
-
 }

@@ -185,6 +185,7 @@
     <ClInclude Include="src\EventSystem\EventTypes\OnBeginEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\OnTickEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h" />
+    <ClInclude Include="src\EventSystem\SubscriptionHealth.h" />
     <ClInclude Include="src\EventSystem\SubscriptionTicket.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TestConcreteEvent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\TileSelectedEvent.h" />

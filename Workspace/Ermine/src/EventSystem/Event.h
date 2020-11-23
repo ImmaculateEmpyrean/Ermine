@@ -1,6 +1,7 @@
 #pragma once
 #include<atomic>
 #include "EnumEventType.h"
+#include "SubscriptionHealth.h"
 
 namespace Ermine
 {
@@ -36,7 +37,12 @@ namespace Ermine
 
 		std::atomic<bool>& CanIRecieveEventFlag;
 
+		Ermine::SubscriptionHealth GetSubscriptionHealth() { return Health; }
+		void SetSubscriptionHealth(Ermine::SubscriptionHealth SubsHealth) { Health = SubsHealth; }
+		void SetSubscriptionTermination() { Health = SubscriptionHealth::WantToTerminate; }
+
 	private:
 		std::shared_ptr<Ermine::GeneratedObject> SubscribedObject = nullptr;
+		Ermine::SubscriptionHealth Health = Ermine::SubscriptionHealth::Subscribed;
 	};
 }

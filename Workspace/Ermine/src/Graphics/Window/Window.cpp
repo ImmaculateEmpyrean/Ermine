@@ -54,12 +54,6 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
         glfwTerminate();
         exit(-1);
     }
-    /*if(!gladLoadGL())//if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) //This Seems To Be Working
-    {
-        STDOUTDefaultLog_Error("Failed To Initialize GLAD Hence Quitting Program..")
-        glfwTerminate();
-        exit(-1); //Exit The Program If we Fail Something So Vital
-    }*/
         
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();

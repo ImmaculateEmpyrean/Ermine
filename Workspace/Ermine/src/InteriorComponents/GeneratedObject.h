@@ -110,7 +110,10 @@ namespace Ermine
 		std::function<void(int, int)> CursorPositionUpdateEventFunctionPointer = nullptr;
 		std::function<void(int, int, int)> MouseButtonCallbackFunctionPointer = nullptr;
 		std::function<void(double, double)>ScrollPositionUpdateFunctionPointer = nullptr;
+		
 		std::function<void(float)> OnTickEventFunctionPointer = nullptr;
+		std::function<void(std::shared_ptr<void*>)>OnBeginEventFunctionPointer = nullptr;
+
 		std::function<void(std::filesystem::path, int)> TileSelectedUpdateFunctionPointer = nullptr;
 
 		std::vector<bool> FlagsOfRecievingEvents;

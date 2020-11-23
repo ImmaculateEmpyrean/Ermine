@@ -97,7 +97,7 @@ namespace Ermine
 		if(Renderer->UsePhysicsDebugger == true)
 			Renderer->PhysicsDebuggerDrawingRoutine(); //Also The Physics Debugger Must Be Turned On 
 #endif
-		Renderer->RendererLayerStack.Clear();
+		//Renderer->RendererLayerStack.Clear(); //Do Garbade Collection Here Instead Of Outright Clear..
 	}
 
 	void Renderer2D::TurnOnPhysicsDebugger()
@@ -184,33 +184,12 @@ namespace Ermine
 					continue;
 
 				bool DrawTriangles = true;
-				i->Bind();
-
-				//Start If A Movable Object Is Detected Inside The Rendererable Do The Following Steps//
-				if(dynamic_cast <Ermine::MovableObject*>(&(*i)))
-				{
-					i->Bind();
-					
-					MovableObject* MovObj = dynamic_cast<MovableObject*>(&(*i));
-					i->GetMaterial()->GetShader()->UniformMat4(std::string("ModelMatrix"), (MovObj)->GetModelMatrix());
-				}
-				//Ended If A Movable Object Is Detected Inside The Rendererable Do The Following Steps//
-
-				//Start If A PhysicsComponent2D is detected inside the rendererable do the following steps//
-				if (dynamic_cast <Ermine::RenderablePhysicsComponent2D*>(&(*i)))
-				{
-					i->Bind();
-
-					RenderablePhysicsComponent2D* PhysicsObject = dynamic_cast<RenderablePhysicsComponent2D*>(&(*i));
-					i->GetMaterial()->GetShader()->UniformMat4(std::string("ModelMatrix"), (PhysicsObject)->GetTranslationMatrix());
-				}
-				//Ended If A PhysicsComponent2D is detected inside the rendererable do the following steps//
+				i->BindRenderable();
+				i->GetMaterial()->GetShader()->UniformMat4(std::string("ModelMatrix"), i->GetModelMatrix());
 
 				//Start If A Renderable Texture module Is detected Inside the renderable do the following steps//
 				if (dynamic_cast <Ermine::RenderableTextureModule*>(&(*i)))
 				{
-					i->Bind();
-
 					Ermine::RenderableTextureModule* Ptr = (RenderableTextureModule*)&(*i);
 					std::vector<int> TextureArray = Ptr->BindTexturesContained();
 					TextureArray.resize(16, 0);
@@ -218,15 +197,10 @@ namespace Ermine
 					i->GetMaterial()->GetShader()->UniformNi(std::string("Sampler2DArray"),TextureArray);
 				}
 				//Ended If A Renderable Texture module Is detected Inside the renderable do the following steps//
-
-				//Start If A Renderable Shape module Is detected Inside the renderable do the following steps//
+							
 				if (dynamic_cast <Ermine::RenderableShapeComponent*>(&(*i)))
-				{
-					//For Noe No Need To Do Anything Than Switch The Renderer To Draw Something Other Than Triangles..
 					DrawTriangles = false;
-				}
-				//Ended If A Renderable Shape module Is detected Inside the renderable do the following steps//
-
+				
 				//Start These Steps Are To Be Done on All Kinds Of Renderables..//
 				i->GetMaterial()->GetShader()->UniformMat4(std::string("ProjectionViewMatrix"), Camera->GetProjectionViewMatrix());
 

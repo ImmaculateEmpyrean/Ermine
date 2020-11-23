@@ -24,7 +24,7 @@ namespace Ermine
 	{
 	protected:
 		//This Is The Only Constructor As Of Now And Is Used By The Generator Exclusively..
-		RenderableTextureModule(std::shared_ptr<Ermine::Actor2D> Ptr, std::vector<std::shared_ptr<Ermine::Texture>> Textures);
+		RenderableTextureModule(std::shared_ptr<Ermine::Actor2DBase> Ptr, std::vector<std::shared_ptr<Ermine::Texture>> Textures);
 
 		RenderableTextureModule(RenderableTextureModule& rhs);
 		RenderableTextureModule& operator=(RenderableTextureModule& rhs);

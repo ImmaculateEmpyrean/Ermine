@@ -32,6 +32,7 @@ void Ermine::LayerStackLayer::SubmitActor(std::shared_ptr<Actor2DBase> Ptr)
 	if (Identifier == Ermine::ActorFamilyIdentifier::Actor2D)
 	{
 		auto RenderableTextureModule = RenderableTextureModule::Generate(std::dynamic_pointer_cast<Ermine::Actor2D>(Ptr));
+		//RenderableTextureModule->SetObjectInitialized();
 		Renderables.emplace_back(std::move(RenderableTextureModule));
 	}
 }

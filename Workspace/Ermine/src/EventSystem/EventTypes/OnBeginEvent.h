@@ -17,23 +17,23 @@ namespace Ermine
 	{
 	public:
 		OnBeginEvent() = default;
-		OnBeginEvent(std::shared_ptr<void> SendPackage);
+		OnBeginEvent(std::shared_ptr<void*> SendPackage);
 
 	private:
-		std::shared_ptr<void> Packet = nullptr;
+		std::shared_ptr<void*> Packet = nullptr;
 		bool EventHandled = false;
 
 	public:
 		virtual EventType GetEventType() override { return EventType::OnBeginEvent; }
 
-		static std::unique_ptr<OnBeginEvent> GenerateEvent(std::shared_ptr<void> Package);
+		static std::unique_ptr<OnBeginEvent> GenerateEvent(std::shared_ptr<void*> Package);
 
 	public:
 		virtual bool IsEventHandled() override { return EventHandled; }
 		virtual void SetEventHandled() override { EventHandled = true; }
 
 		//Event Specific Implementation
-		std::shared_ptr<void> GetHeldPacket();
+		std::shared_ptr<void*> GetHeldPacket();
 	};
 
 	////////////////////////////////////////////////////////

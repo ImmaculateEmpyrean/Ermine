@@ -49,18 +49,30 @@ namespace Ermine
 	Object::Object(Object&& rhs)
 	{
 		auto ForeignLock = rhs.GeneratedObjPtr->GetObjectMutex();
-		
-		rhs.GeneratedObjPtr->UnBindObject();
-		rhs.GeneratedObjPtr->BindObject(this);
+		auto Lock = GetObjectMutex();
 
+		ObjectHealth = rhs.ObjectHealth;
+		GeneratedObjPtr = rhs.GeneratedObjPtr;
 
+		PushToFunction = nullptr;
+		PushToFunc = false;
+
+		rhs.GeneratedObjPtr = nullptr;
+		rhs.ObjectHealth = Ermine::ObjectStatus::StatusMarkedForDeletion;
 	}
 	Object& Object::operator=(Object&& rhs)
 	{
 		auto ForeignLock = rhs.GeneratedObjPtr->GetObjectMutex();
+		auto Lock = GetObjectMutex();
 
-		rhs.GeneratedObjPtr->UnBindObject();
-		rhs.GeneratedObjPtr->BindObject(this);
+		ObjectHealth = rhs.ObjectHealth;
+		GeneratedObjPtr = rhs.GeneratedObjPtr;
+
+		PushToFunction = nullptr;
+		PushToFunc = false;
+
+		rhs.GeneratedObjPtr = nullptr;
+		rhs.ObjectHealth = Ermine::ObjectStatus::StatusMarkedForDeletion;
 
 		return *this;
 	}

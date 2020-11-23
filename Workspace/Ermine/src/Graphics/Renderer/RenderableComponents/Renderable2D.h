@@ -23,7 +23,7 @@ namespace Ermine
 	{
 		//Made This Protected As We Expect Child Generate Calls To Call It..
 	protected:
-		Renderable2D(std::shared_ptr<Ermine::Actor2D> Ptr);
+		Renderable2D(std::shared_ptr<Ermine::Actor2DBase> Ptr);
 		
 	public:
 		//A Virtual Destructor Ensures Smooth Function Calling From The Com Pointer If Ata All Necessary..
@@ -45,9 +45,7 @@ namespace Ermine
 
 		std::shared_ptr<Material> GetMaterial();
 		void SetMaterial(Material& Shd);
-			
-		void Bind(); //Check If bind HAs To Be Virtual..
-
+		
 		//Clear The Vertex Array And The Material As Of This Class.. In Children This Must Behave Differently..
 		virtual void Clear();
 
@@ -59,9 +57,15 @@ namespace Ermine
 
 		std::shared_ptr<Ermine::Actor2DBase> GetBoundActor();
 
+		//Get Or Set The Object Is Initialized State
 		void SetObjectInitialized() { ObjectInitialized = true; }
 		bool GetObjectInitialized() { return ObjectInitialized; }
 
+		//Get The Model Matrix To be Uploaded To The Gpu..
+		glm::mat4 GetModelMatrix();
+		//The Binding Maybe Done Differently Depending On The Renderable.. For Example TextureModule May Want To Bind Texture Too.
+		virtual void BindRenderable();
+		
 	public:
 
 	protected:
@@ -75,16 +79,24 @@ namespace Ermine
 
 #pragma region SubGenerateFunctions
 		//Let Us Generate A Renderable For The Bound Actor2D Type Actor..
-		void GenerateActor2DRenderable(std::shared_ptr<Ermine::Actor2D> Ptr);
+		//void GenerateActor2DRenderable(std::shared_ptr<Ermine::Actor2D> Ptr);
 
 #pragma endregion
 
 #pragma region Helpers
 		//Useful For Refreshing Actor2D Type Bounded Actors
-		std::vector<float> CalculateModelSpaceVertexesActor2D(std::shared_ptr<Ermine::Actor2D> Act);
+		void CopyHelper(Ermine::Renderable2D& rhs);
+		void MoveHelper(Ermine::Renderable2D&& rhs);
 
 #pragma endregion
 	private:
+		//The Vertex Buffer And The Index Buffer Are Initialized Possibly In The Initialize Function..
+		std::vector<float> VertexBufferBuffer;
+		std::vector<uint32_t> IndexBufferBuffer;
+
+		//This Is The Most Important Part Of The Renderable As Of Now..
+		glm::mat4 ModelMatrix = glm::mat4(1.0f);
+
 		//The Vao And Shader Bound While Drawing..
 		std::shared_ptr<VertexArray> Vao;
 		std::shared_ptr<Material> Mat; 

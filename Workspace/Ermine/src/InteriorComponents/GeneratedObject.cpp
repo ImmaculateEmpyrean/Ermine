@@ -161,6 +161,17 @@ void Ermine::GeneratedObject::EventReciever(Ermine::Event* Eve)
 			OnTickEventFunctionPointer(DeltaTime);
 	}
 
+	if (EventType == Ermine::EventType::OnBeginEvent)
+	{
+		std::shared_ptr<void*> Package = ((Ermine::OnBeginEvent*)Eve)->GetHeldPacket();
+
+		if (HandleValid)
+			HObject->OnBeginEvent(Package);
+
+		if (OnTickEventFunctionPointer != nullptr)
+			OnBeginEventFunctionPointer(Package);
+	}
+
 	if (EventType == Ermine::EventType::TileSelectedEvent)
 	{
 		Ermine::TileSelectedEvent* TEve = (Ermine::TileSelectedEvent*)Eve;

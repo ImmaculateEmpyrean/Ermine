@@ -8,10 +8,13 @@
 
 #include "EventSystem/Components/BroadcastComponent.h"
 
-Ermine::Renderable2D::Renderable2D(std::shared_ptr<Ermine::Actor2D> Ptr)
+Ermine::Renderable2D::Renderable2D(std::shared_ptr<Ermine::Actor2DBase> Ptr)
+    :
+    Actor_Bound(Ptr)
 {
     //Well We Would Love To Recieve Event Tick Right..
     Object::RecieveEvents(true, Ermine::EventType::OnTickEvent);
+    Object::RecieveEvents(true, Ermine::EventType::OnBeginEvent);
 }
 
 Ermine::Renderable2D::~Renderable2D()
@@ -26,20 +29,7 @@ Ermine::Renderable2D::Renderable2D(Renderable2D & rhs)
     auto ForeignLock = rhs.GetObjectMutex();
     auto Lock = Object::GetObjectMutex();
 
-    Vao = rhs.Vao;
-    Mat = rhs.Mat;
-    Specification = rhs.Specification;
-
-    Actor_Bound = rhs.Actor_Bound;
-
-    //The Initialize Function Will Not Be Called As The Renderable Form Which We Are Initializing Was Already Initialized Hopefullty Before This Function Was Called..
-    InitializeFunctionPtr = rhs.InitializeFunctionPtr;
-    CallDefaultInitializer = rhs.CallDefaultInitializer;
-
-    RefreshFunction = rhs.RefreshFunction;
-    CallDefaultRefresh = rhs.CallDefaultRefresh;
-
-    ObjectInitialized = rhs.ObjectInitialized;
+    CopyHelper(rhs);
 }
 
 Ermine::Renderable2D& Ermine::Renderable2D::operator=(Renderable2D& rhs)
@@ -48,22 +38,7 @@ Ermine::Renderable2D& Ermine::Renderable2D::operator=(Renderable2D& rhs)
     auto Lock = Object::GetObjectMutex();
     
     Object::operator=(rhs);
-
-    Vao = rhs.Vao;
-    Mat = rhs.Mat;
-    Specification = rhs.Specification;
-
-    Actor_Bound = rhs.Actor_Bound;
-
-    //The Initialize Function Will Not Be Called As The Renderable Form Which We Are Initializing Was Already Initialized Hopefullty Before This Function Was Called..
-    InitializeFunctionPtr = rhs.InitializeFunctionPtr;
-    CallDefaultInitializer = rhs.CallDefaultInitializer;
-
-    RefreshFunction = rhs.RefreshFunction;
-    CallDefaultRefresh = rhs.CallDefaultRefresh;
-
-    ObjectInitialized = rhs.ObjectInitialized;
-
+    CopyHelper(rhs);
     return *this;
 }
 
@@ -74,20 +49,7 @@ Ermine::Renderable2D::Renderable2D(Renderable2D&& rhs)
     auto ForeignLock = rhs.GetObjectMutex();
     auto Lock = Object::GetObjectMutex();
 
-    Vao = std::move(rhs.Vao);
-    Mat = std::move(rhs.Mat);
-    Specification = std::move(rhs.Specification);
-
-    Actor_Bound = std::move(rhs.Actor_Bound);
-
-    //The Initialize Function Will Not Be Called As The Renderable Form Which We Are Initializing Was Already Initialized Hopefullty Before This Function Was Called..
-    InitializeFunctionPtr  = std::move(rhs.InitializeFunctionPtr);
-    CallDefaultInitializer = std::move(rhs.CallDefaultInitializer);
-
-    RefreshFunction    = std::move(rhs.RefreshFunction);
-    CallDefaultRefresh = std::move(rhs.CallDefaultRefresh);
-
-    ObjectInitialized = std::move(rhs.ObjectInitialized);
+    MoveHelper(std::move(rhs));
 }
 
 Ermine::Renderable2D& Ermine::Renderable2D::operator=(Renderable2D&& rhs)
@@ -96,22 +58,7 @@ Ermine::Renderable2D& Ermine::Renderable2D::operator=(Renderable2D&& rhs)
     auto Lock = Object::GetObjectMutex();
 
     Object::operator=(std::move(rhs));
-
-    Vao = std::move(rhs.Vao);
-    Mat = std::move(rhs.Mat);
-    Specification = std::move(rhs.Specification);
-
-    Actor_Bound = std::move(rhs.Actor_Bound);
-
-    //The Initialize Function Will Not Be Called As The Renderable Form Which We Are Initializing Was Already Initialized Hopefullty Before This Function Was Called..
-    InitializeFunctionPtr  = std::move(rhs.InitializeFunctionPtr);
-    CallDefaultInitializer = std::move(rhs.CallDefaultInitializer);
-
-    RefreshFunction    = std::move(rhs.RefreshFunction);
-    CallDefaultRefresh = std::move(rhs.CallDefaultRefresh);
-
-    ObjectInitialized = std::move(rhs.ObjectInitialized);
-
+    MoveHelper(std::move(rhs));
     return *this;
 }
 
@@ -122,16 +69,12 @@ void Ermine::Renderable2D::SetVertexArray(VertexArray& Vao)
 }
 std::unique_ptr<Ermine::Renderable2D> Ermine::Renderable2D::Generate(std::shared_ptr<Actor2DBase> Act)
 {
-    if (Act->GetActorFamilyIdentifier() == Ermine::ActorFamilyIdentifier::Actor2D)
-    {
-        std::shared_ptr<Ermine::Actor2D> Act2D = std::dynamic_pointer_cast<Ermine::Actor2D>(Act);
-        std::unique_ptr<Renderable2D> Module(new Renderable2D(Act2D));
+    std::unique_ptr<Renderable2D> Module(new Renderable2D(Act));
 
-        std::shared_ptr<void> st = std::make_shared<void*>();
-        Ermine::BroadcastComponent::BroadcastEvent(std::make_unique<Ermine::OnBeginEvent>(st));
+    std::shared_ptr<void*> st = std::make_shared<void*>();
+    Ermine::BroadcastComponent::BroadcastEvent(std::make_unique<Ermine::OnBeginEvent>(st));
 
-        return Module;
-    }
+    return Module;
 }
 std::shared_ptr<Ermine::VertexArray> Ermine::Renderable2D::GetVertexArray()
 {
@@ -151,12 +94,6 @@ void Ermine::Renderable2D::SetMaterial(Material& Mat)
     this->Mat = std::make_shared<Ermine::Material>(Mat);
 }
 
-void Ermine::Renderable2D::Bind()
-{
-    Vao->Bind();
-    Mat->Bind();
-}
-
 void Ermine::Renderable2D::Clear()
 {
     Vao.reset();
@@ -165,18 +102,29 @@ void Ermine::Renderable2D::Clear()
 
 void Ermine::Renderable2D::Initialize()
 {
+    auto ForeignLock = Actor_Bound->GetObjectMutex();
     auto Lock = Object::GetObjectMutex();
 
     if (ObjectInitialized == false)
     {
-        //Initializes The Renderable..
-        if (Actor_Bound->GetActorFamilyIdentifier() == Ermine::ActorFamilyIdentifier::Actor2D)
-            GenerateActor2DRenderable(std::dynamic_pointer_cast<Ermine::Actor2D>(Actor_Bound));
+        //Get The Model Matrix Associated With The Actor
+        ModelMatrix = Actor_Bound->GetModelMatrix();
+        
+        //Get The Tools To Create And Bind Opengl Vertex Arrays In The Future
+        VertexBufferBuffer = Actor_Bound->GenerateModelSpaceVertexBuffer();
+        Specification = Actor_Bound->GetVertexArraySpecification();
+
+        //Get The Tools To Create And Bind Opengl Index Buffer In The Future..
+        IndexBufferBuffer = Actor_Bound->GenerateModelSpaceIndices();
+
+        //Get The Material For The Actor And Initialize It inside The renderable..
+        Mat = Actor_Bound->GetAssociatedMaterial();
     }
 }
 
 void Ermine::Renderable2D::Refresh()
 {
+    auto ForeignLock = Actor_Bound->GetObjectMutex();
     auto Lock = GetObjectMutex();
 
     if (ObjectInitialized == true)
@@ -186,15 +134,29 @@ void Ermine::Renderable2D::Refresh()
             Object::SetObjectHealth(Ermine::ObjectStatus::StatusMarkedForDeletion);
             return;
         }
-
-        if (Actor_Bound->GetActorFamilyIdentifier() == Ermine::ActorFamilyIdentifier::Actor2D)
-            Vao = std::make_shared<VertexArray>(CalculateModelSpaceVertexesActor2D(std::dynamic_pointer_cast<Ermine::Actor2D>(Actor_Bound)), Quad::GetModelIndices());
+        //The Renderable Is Only Responsible For Updating Model Matrix Nothing Else.. All Other Properties Are Not Changed In The Midst of Execution..
+        ModelMatrix = Actor_Bound->GetModelMatrix();
     }
 }
 
 std::shared_ptr<Ermine::Actor2DBase> Ermine::Renderable2D::GetBoundActor()
 {
+    auto Lock = GetObjectMutex();
     return Actor_Bound;
+}
+
+glm::mat4 Ermine::Renderable2D::GetModelMatrix()
+{
+    auto Lock = GetObjectMutex();
+    return ModelMatrix;
+}
+
+void Ermine::Renderable2D::BindRenderable()
+{
+    Vao = std::make_shared<VertexArray>(VertexBufferBuffer, IndexBufferBuffer);
+    Vao->SetVertexAttribArray(Specification); //Set The Array Specifications Right..
+    Vao->Bind();
+    Mat->Bind();
 }
 
 void Ermine::Renderable2D::OnTickEventRecieved(float DeltaTime)
@@ -203,8 +165,9 @@ void Ermine::Renderable2D::OnTickEventRecieved(float DeltaTime)
     
     if (ObjectInitialized == true)
     {
-        std::thread Obj(&Ermine::Renderable2D::Refresh, this);
-        Obj.detach();
+        Refresh();
+        //std::thread Obj(&Ermine::Renderable2D::Refresh, this);
+        //Obj.detach();
     }
 }
 
@@ -224,68 +187,55 @@ void Ermine::Renderable2D::OnBeginEvent(std::shared_ptr<void> Packet)
     }
 }
 
-#pragma region Meat
-void Ermine::Renderable2D::GenerateActor2DRenderable(std::shared_ptr<Ermine::Actor2D> Ptr)
+#pragma region Helpers
+void Ermine::Renderable2D::CopyHelper(Ermine::Renderable2D& rhs)
 {
-    //Get The Lock Of The Object Since We Are Accessing The Variable..
+    auto ForeignLock = rhs.GetObjectMutex();
     auto Lock = GetObjectMutex();
 
-    static std::vector<VertexAttribPointerSpecification> Spec = {
-                {3,GL_FLOAT,false},
-                {3,GL_FLOAT,false},
-                {2,GL_FLOAT,false},
-                {1,GL_FLOAT,false}
-    };
+    VertexBufferBuffer = rhs.VertexBufferBuffer;
+    IndexBufferBuffer = rhs.IndexBufferBuffer;
 
-    Vao = std::make_shared<VertexArray>(CalculateModelSpaceVertexesActor2D(Ptr), Quad::GetModelIndices());
-    Mat = std::make_shared<Ermine::Material>(std::filesystem::path("Shader/Vertex/Actor2DUpdatedWithRenderableTextureModuleVertexShader.vert"),
-                                             std::filesystem::path("Shader/Fragment/Actor2DUpdatedWithRenderableTextureModuleFragmentShader.frag"));
-    Specification = Spec;
+    ModelMatrix = rhs.ModelMatrix;
 
-    Actor_Bound = Ptr;
+    Vao = rhs.Vao;
+    Mat = rhs.Mat;
+    Specification = rhs.Specification;
+
+    Actor_Bound = rhs.Actor_Bound;
+
+    //The Initialize Function Will Not Be Called As The Renderable Form Which We Are Initializing Was Already Initialized Hopefullty Before This Function Was Called..
+    InitializeFunctionPtr = rhs.InitializeFunctionPtr;
+    CallDefaultInitializer = rhs.CallDefaultInitializer;
+
+    RefreshFunction = rhs.RefreshFunction;
+    CallDefaultRefresh = rhs.CallDefaultRefresh;
+
+    ObjectInitialized = rhs.ObjectInitialized;
 }
-
-std::vector<float> Ermine::Renderable2D::CalculateModelSpaceVertexesActor2D(std::shared_ptr<Ermine::Actor2D> Act)
+void Ermine::Renderable2D::MoveHelper(Ermine::Renderable2D&& rhs)
 {
-    Ermine::VertexTextured TopRight(Quad::GetModelCoordinatesTopRight());
-    Ermine::VertexTextured BottomRight(Quad::GetModelCoordinatesBottomRight());
-    Ermine::VertexTextured BottomLeft(Quad::GetModelCoordinatesBottomLeft());
-    Ermine::VertexTextured TopLeft(Quad::GetModelCoordinatesTopLeft());
+    auto ForeignLock = rhs.GetObjectMutex();
+    auto Lock = GetObjectMutex();
 
-    glm::vec3 TopRightPos = TopRight.GetPositionCoordinates();
-    glm::vec4 TopRightPos4 = glm::vec4(TopRightPos, 0.0f);
+    VertexBufferBuffer = std::move(rhs.VertexBufferBuffer);
+    IndexBufferBuffer = std::move(rhs.IndexBufferBuffer);
 
-    glm::vec3 BottomRightPos = BottomRight.GetPositionCoordinates();
-    glm::vec4 BottomRightPos4 = glm::vec4(BottomRightPos, 0.0f);
+    ModelMatrix = std::move(rhs.ModelMatrix);
 
-    glm::vec3 BottomLeftPos = BottomLeft.GetPositionCoordinates();
-    glm::vec4 BottomLeftPos4 = glm::vec4(BottomLeftPos, 0.0f);
+    Vao = std::move(rhs.Vao);
+    Mat = std::move(rhs.Mat);
+    Specification = std::move(rhs.Specification);
 
-    glm::vec3 TopLeftPos = TopLeft.GetPositionCoordinates();
-    glm::vec4 TopLeftPos4 = glm::vec4(TopLeftPos, 0.0f);
+    Actor_Bound = std::move(rhs.Actor_Bound);
 
-    TopRight.SetPositonCoordinates(TopRightPos4);
-    BottomRight.SetPositonCoordinates(BottomRightPos4);
-    BottomLeft.SetPositonCoordinates(BottomLeftPos4);
-    TopLeft.SetPositonCoordinates(TopLeftPos4);
+    //The Initialize Function Will Not Be Called As The Renderable Form Which We Are Initializing Was Already Initialized Hopefullty Before This Function Was Called..
+    InitializeFunctionPtr = std::move(rhs.InitializeFunctionPtr);
+    CallDefaultInitializer = std::move(rhs.CallDefaultInitializer);
 
-    //Get The Mutex As We Are Starting To Use Shared Memory
-    auto Lock = Object::GetObjectMutex();
+    RefreshFunction = std::move(rhs.RefreshFunction);
+    CallDefaultRefresh = std::move(rhs.CallDefaultRefresh);
 
-    TopRight.SetVertexUV(   glm::vec2(Act->Actorsprite->GetTopRightUV().x  , Act->Actorsprite->GetBottomLeftUV().y));
-    BottomRight.SetVertexUV(glm::vec2(Act->Actorsprite->GetTopRightUV().x  , Act->Actorsprite->GetTopRightUV().y)  );
-    BottomLeft.SetVertexUV( glm::vec2(Act->Actorsprite->GetBottomLeftUV().x, Act->Actorsprite->GetTopRightUV().y)  );
-    TopLeft.SetVertexUV(    glm::vec2(Act->Actorsprite->GetBottomLeftUV().x, Act->Actorsprite->GetBottomLeftUV().y));
-
-    //We Are Done Using Shared Resources..
-    Lock.unlock();
-
-    std::vector<float> ModelCoordinates;
-    ModelCoordinates = TopRight;
-    ModelCoordinates = ModelCoordinates + BottomRight;
-    ModelCoordinates = ModelCoordinates + BottomLeft;
-    ModelCoordinates = ModelCoordinates + TopLeft;
-
-    return ModelCoordinates;
+    ObjectInitialized = std::move(rhs.ObjectInitialized);
 }
 #pragma endregion

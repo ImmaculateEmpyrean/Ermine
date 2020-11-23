@@ -313,6 +313,7 @@
     <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableShapeComponent.h" />
     <ClInclude Include="src\EventSystem\EventTypes\OnBeginEvent.h" />
     <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTypes.h" />
+    <ClInclude Include="src\EventSystem\SubscriptionHealth.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">

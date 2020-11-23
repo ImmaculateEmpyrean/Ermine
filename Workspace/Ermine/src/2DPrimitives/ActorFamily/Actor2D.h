@@ -62,11 +62,7 @@ namespace Ermine {
 	public:
 		//This Function Has To Be Overriden In all Children Do Not Forget Otherwise One Child May Be Thought Of As The Other..
 		virtual Ermine::ActorFamilyIdentifier GetActorFamilyIdentifier()	  override { return ActorFamilyIdentifier::Actor2D; }
-
-		virtual std::vector<VertexAttribPointerSpecification> GetVertexAttribSpecificationForTheActor() { return ImageBase::GetVertexAttribSpecificationForTheActor(); } //Delete This..
-		//virtual std::vector<float> CalculateModelSpaceVertexes()			  override;
-		virtual std::vector<uint32_t> GetIndices() { return std::vector<uint32_t>(); }; //Must Delete This Function In Earnest
-		//virtual glm::vec2 GetActorPosition();
+		
 #pragma region IMovableActorOverrides 
 		//Start Implementation Of Movable Actor//
 		virtual glm::vec2 GetActorPosition()								  override;
@@ -124,6 +120,14 @@ namespace Ermine {
 		virtual void ClearScale()										  override;
 #pragma endregion
 		
+#pragma region RenderableGenerationImperatives
+		//This Function Is Essential For Interaction With Renderable And Its Implemntation Is Necessary For The Concretization Of Any Class..
+		//virtual glm::mat4 GetModelMatrix() override; //This Is Already Implemented Above..
+		virtual std::vector<float> GenerateModelSpaceVertexBuffer() override;
+		virtual std::vector<Ermine::VertexAttribPointerSpecification> GetVertexArraySpecification() override;
+		virtual std::vector<uint32_t> GenerateModelSpaceIndices() override;
+		virtual std::shared_ptr<Ermine::Material> GetAssociatedMaterial() override;
+#pragma endregion
 	public:
 
 	protected:
@@ -135,6 +139,10 @@ namespace Ermine {
 		static glm::mat4 GenModelMatrix(glm::vec2 ActorScreenLocation, float Rotation, glm::vec2 Scale);
 
 		void Actor2DConstructionAssciate();
+
+#pragma region Helpers
+
+#pragma endregion
 
 #pragma region EventProcessing
 		//This Function Is Called Every Frame For All Objects Of This Class

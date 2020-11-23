@@ -129,8 +129,17 @@ namespace Ermine
 		void DestorySubscriptionTemplate(std::recursive_mutex& Mut, SubscriptionsQueue& SubQ, Ermine::SubscriptionTicket SubscriptionTicket)
 		{
 			std::unique_lock<std::recursive_mutex> Lock(Mut);
-			if(SubQ.erase(SubscriptionTicket) == 0)
+			//if(SubQ.erase(SubscriptionTicket) == 0)
+			auto iter = SubQ.find(SubscriptionTicket);
+
+			if (iter != SubQ.end())
+			{
+				iter->second.SetSubscriptionTermination();
+			}
+			else
+			{
 				STDOUTDefaultLog_Warn("Invalid Ticket Submitted For Erasing.. Could Not Erase A Subscription");
+			}	
 			CloseSubscriptionTicket(SubscriptionTicket);
 		}
 
@@ -155,9 +164,18 @@ namespace Ermine
 						}
 						if (j == SQ.end())
 							break;
-						
+
 						auto Health = Subs->GetObjectHealth();
 						while (Health == Ermine::ObjectStatus::StatusMarkedForDeletion)
+						{
+							j = SQ.erase(j);
+							if (j == SQ.end())
+								break;
+						}
+						if (j == SQ.end())
+							break;
+
+						while (j->second.GetSubscriptionHealth() == Ermine::SubscriptionHealth::WantToTerminate)
 						{
 							j = SQ.erase(j);
 							if (j == SQ.end())

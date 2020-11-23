@@ -6,18 +6,18 @@ namespace Ermine
 	////////////////////////////////////////////////////////
 	//OnTickCallback Event Class////////////////////////////
 	////////////////////////////////////////////////////////
-	OnBeginEvent::OnBeginEvent(std::shared_ptr<void> Pack)
+	OnBeginEvent::OnBeginEvent(std::shared_ptr<void*> Pack)
 		:
 		Packet(Pack)
 	{}
 
-	std::unique_ptr<OnBeginEvent> OnBeginEvent::GenerateEvent(std::shared_ptr<void> Pack)
+	std::unique_ptr<OnBeginEvent> OnBeginEvent::GenerateEvent(std::shared_ptr<void*> Pack)
 	{
 		std::unique_ptr<OnBeginEvent> ptr = std::make_unique<OnBeginEvent>(Pack);
 		return std::move(ptr);
 	}
 
-	std::shared_ptr<void> OnBeginEvent::GetHeldPacket()
+	std::shared_ptr<void*> OnBeginEvent::GetHeldPacket()
 	{
 		return Packet;
 	}

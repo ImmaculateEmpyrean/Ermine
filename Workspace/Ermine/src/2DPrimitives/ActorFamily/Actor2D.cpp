@@ -125,51 +125,6 @@ namespace Ermine
 
 #pragma endregion
 
-	/*std::vector<float> Actor2D::CalculateModelSpaceVertexes()
-	{
-		Ermine::VertexTextured TopRight(Quad::GetModelCoordinatesTopRight());
-		Ermine::VertexTextured BottomRight(Quad::GetModelCoordinatesBottomRight());
-		Ermine::VertexTextured BottomLeft(Quad::GetModelCoordinatesBottomLeft());
-		Ermine::VertexTextured TopLeft(Quad::GetModelCoordinatesTopLeft());
-
-		glm::vec3 TopRightPos = TopRight.GetPositionCoordinates();
-		glm::vec4 TopRightPos4 = glm::vec4(TopRightPos, 0.0f);
-
-		glm::vec3 BottomRightPos = BottomRight.GetPositionCoordinates();
-		glm::vec4 BottomRightPos4 = glm::vec4(BottomRightPos, 0.0f);
-
-		glm::vec3 BottomLeftPos = BottomLeft.GetPositionCoordinates();
-		glm::vec4 BottomLeftPos4 = glm::vec4(BottomLeftPos, 0.0f);
-
-		glm::vec3 TopLeftPos = TopLeft.GetPositionCoordinates();
-		glm::vec4 TopLeftPos4 = glm::vec4(TopLeftPos, 0.0f);
-
-		TopRight.SetPositonCoordinates(TopRightPos4);
-		BottomRight.SetPositonCoordinates(BottomRightPos4);
-		BottomLeft.SetPositonCoordinates(BottomLeftPos4);
-		TopLeft.SetPositonCoordinates(TopLeftPos4);
-
-		//Aquire The Lock As You Are Gonna Use Shared Memory
-		auto lock = Object::GetObjectMutex();
-
-		std::shared_ptr<Ermine::Sprite> Actorsprite = GetSprite();
-		TopRight.   SetVertexUV(glm::vec2(Actorsprite->GetTopRightUV().x  , Actorsprite->GetBottomLeftUV().y));
-		BottomRight.SetVertexUV(glm::vec2(Actorsprite->GetTopRightUV().x  , Actorsprite->GetTopRightUV().  y));
-		BottomLeft. SetVertexUV(glm::vec2(Actorsprite->GetBottomLeftUV().x, Actorsprite->GetTopRightUV().  y));
-		TopLeft.    SetVertexUV(glm::vec2(Actorsprite->GetBottomLeftUV().x, Actorsprite->GetBottomLeftUV().y));
-
-		//Using Shared Memory Is Done.. Release The Lock..
-		lock.unlock();
-
-		std::vector<float> ModelCoordinates;
-		ModelCoordinates = TopRight;
-		ModelCoordinates = ModelCoordinates + BottomRight;
-		ModelCoordinates = ModelCoordinates + BottomLeft;
-		ModelCoordinates = ModelCoordinates + TopLeft;
-
-		return ModelCoordinates;
-	}*/
-
 #pragma region MovableActorImplementation
 	glm::vec2 Actor2D::GetActorPosition()
 	{
@@ -369,6 +324,73 @@ namespace Ermine
 	{
 		auto Lock = Object::GetObjectMutex();
 		return MovableObject::GetVelocity();
+	}
+#pragma endregion
+
+#pragma region RenderavleGenerationImperatives
+	std::vector<float> Actor2D::GenerateModelSpaceVertexBuffer()
+	{
+		Ermine::VertexTextured TopRight(Quad::GetModelCoordinatesTopRight());
+		Ermine::VertexTextured BottomRight(Quad::GetModelCoordinatesBottomRight());
+		Ermine::VertexTextured BottomLeft(Quad::GetModelCoordinatesBottomLeft());
+		Ermine::VertexTextured TopLeft(Quad::GetModelCoordinatesTopLeft());
+
+		glm::vec3 TopRightPos = TopRight.GetPositionCoordinates();
+		glm::vec4 TopRightPos4 = glm::vec4(TopRightPos, 0.0f);
+
+		glm::vec3 BottomRightPos = BottomRight.GetPositionCoordinates();
+		glm::vec4 BottomRightPos4 = glm::vec4(BottomRightPos, 0.0f);
+
+		glm::vec3 BottomLeftPos = BottomLeft.GetPositionCoordinates();
+		glm::vec4 BottomLeftPos4 = glm::vec4(BottomLeftPos, 0.0f);
+
+		glm::vec3 TopLeftPos = TopLeft.GetPositionCoordinates();
+		glm::vec4 TopLeftPos4 = glm::vec4(TopLeftPos, 0.0f);
+
+		TopRight.SetPositonCoordinates(TopRightPos4);
+		BottomRight.SetPositonCoordinates(BottomRightPos4);
+		BottomLeft.SetPositonCoordinates(BottomLeftPos4);
+		TopLeft.SetPositonCoordinates(TopLeftPos4);
+
+		//Get The Mutex As We Are Starting To Use Shared Memory
+		auto Lock = GetObjectMutex();
+
+		TopRight.SetVertexUV(   glm::vec2(GetTopRightUV().x  ,GetBottomLeftUV().y));
+		BottomRight.SetVertexUV(glm::vec2(GetTopRightUV().x  ,GetTopRightUV().y  ));
+		BottomLeft.SetVertexUV( glm::vec2(GetBottomLeftUV().x,GetTopRightUV().y  ));
+		TopLeft.SetVertexUV(    glm::vec2(GetBottomLeftUV().x,GetBottomLeftUV().y));
+
+		//We Are Done Using Shared Resources..
+		Lock.unlock();
+
+		std::vector<float> ModelCoordinates;
+		ModelCoordinates = TopRight;
+		ModelCoordinates = ModelCoordinates + BottomRight;
+		ModelCoordinates = ModelCoordinates + BottomLeft;
+		ModelCoordinates = ModelCoordinates + TopLeft;
+
+		return ModelCoordinates;
+	}
+	std::vector<Ermine::VertexAttribPointerSpecification> Actor2D::GetVertexArraySpecification()
+	{
+		return {
+					{3,GL_FLOAT,false},
+					{3,GL_FLOAT,false},
+					{2,GL_FLOAT,false},
+					{1,GL_FLOAT,false}
+			   };
+	}
+
+	std::vector<uint32_t> Actor2D::GenerateModelSpaceIndices()
+	{
+		return Quad::GetModelIndices();
+	}
+
+
+	std::shared_ptr<Ermine::Material> Actor2D::GetAssociatedMaterial()
+	{
+		//The Image Base Must Have Default Setted Required Material.. :>
+		return Actor2DBase::GetMaterial();
 	}
 #pragma endregion
 }

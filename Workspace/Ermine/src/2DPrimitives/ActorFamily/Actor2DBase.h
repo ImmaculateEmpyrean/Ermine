@@ -15,6 +15,8 @@
 #include "EventSystem/SubscriptionTicket.h"
 #include "EventSystem/EventBroadcastStation.h"
 
+#include "Graphics/Renderer/MaterialSystem/Material.h"
+
 namespace Ermine {
 
 	//An Actor Is Something That Is Displayed And Movable Nothing Else.. Do Not Asume It Contains Only one Sprite Or Any Such Nonesense..
@@ -27,6 +29,8 @@ namespace Ermine {
 	public:
 		//A Class which Holds Nothing Exposed To The Outside Readily Need Not Be Constructed In a Specialized Way Unless Absolutely Required..
 		Actor2DBase();
+
+		Actor2DBase(std::shared_ptr<Ermine::Material> Mat);
 
 		//A Virtual Destructor For The Children Which May Actually Manage Data Members..
 		virtual ~Actor2DBase();
@@ -49,17 +53,19 @@ namespace Ermine {
 
 
 #pragma region VirtualInterfaceFunctions
-		//This Function Is Used To Get The ModelSpace Indices.. This Is Different If The Actor is a Quad As Opposed To a PolyLine Hence It Cannot Be Implemnted Here.. 
-		virtual std::vector<uint32_t> GetIndices() = 0;
-
-		//This Function Is Also Vital And Also One That Cannot Be Implemented Here As I Donot Know What Shape The Actor Is In..
-		//virtual std::vector<float> CalculateModelSpaceVertexes() = 0;
-
-		//This Function Is Used To Know What Specification The Vertex Array Has To Be Set In.. However This Cannot Be known Now As We Know Nothing About The Vertexes That Make Up Our Actor..
-		virtual std::vector<VertexAttribPointerSpecification> GetVertexAttribSpecificationForTheActor() = 0;
-
 		//This Function Is Used To Get The Centre Of Any Actor On Screen.. 
 		virtual glm::vec2 GetScreenLocation() = 0;
+
+#pragma region RenderableGenerationImperatives
+		//This Function Is Essential For Interaction With Renderable And Its Implemntation Is Necessary For The Concretization Of Any Class..
+		virtual glm::mat4 GetModelMatrix() = 0;
+		virtual std::vector<float> GenerateModelSpaceVertexBuffer() = 0;
+		virtual std::vector<Ermine::VertexAttribPointerSpecification> GetVertexArraySpecification() = 0;
+		virtual std::vector<uint32_t> GenerateModelSpaceIndices() = 0;
+		virtual std::shared_ptr<Ermine::Material> GetAssociatedMaterial() = 0;
+
+		std::shared_ptr<Ermine::Material> GetMaterial();
+		void SetMaterial(std::shared_ptr<Ermine::Material> Mat);
 #pragma endregion
 
 	protected:
@@ -69,7 +75,7 @@ namespace Ermine {
 	private:
 
 	private:
-
+		std::shared_ptr<Ermine::Material> ActorMaterial = nullptr;
 	};
 
 }
