@@ -46,10 +46,12 @@ namespace Ermine
 		void OnTick(); //This is an event which must be handled by the game..
 		void OnDetach(); //This is an event which must be handled by the game..
 
+		//void Init();
+
 		static App* Get();
 
 	public:
-
+		std::string Name = "Am The App";
 	protected:
 
 	protected:
@@ -67,7 +69,7 @@ namespace Ermine
 		std::string AppTitle;
 		std::pair<int, int> Diamensions;
 
-		ExchangeAppEvents Obj;
+		//ExchangeAppEvents Obj;
 		static App* PointerToApp;
 
 		InputInterrogator InpInterrogator;

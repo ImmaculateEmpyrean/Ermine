@@ -60,7 +60,7 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsW
 {
 	ManagedWindow = new Window(AppTitle, Diamensions);
 
-	Obj = GetAppEventsStruct();
+	//Obj = GetAppEventsStruct();
 
 	//Start Create Window Handler..//
 	WindowHandler::GlobalWindowHandler = new WindowHandler();
@@ -84,6 +84,9 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsW
 	auto Renderer = Renderer2D::Get();
 
 	OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
+	//Init();
+	StoreAppHandle(this);
+	OnStart();
 }
 
 Ermine::App::~App()
@@ -123,7 +126,24 @@ void Ermine::App::NextFrame()
 
 void Ermine::App::OnAttach()
 {
-	Obj.OnAttach(); //Maybe Take This Off If Some Prob
+	//Obj.OnAttach(); //Maybe Take This Off If Some Prob
+}
+
+
+static void CalculateFrameRate()
+{
+	static float framesPerSecond = 0.0f;
+	static int fps;
+	static float lastTime = 0.0f;
+	float currentTime = GetTickCount() * 0.001f;
+	++framesPerSecond;
+	std::cout << "Current Frames Per Second:"<< fps<<std::endl;
+	if (currentTime - lastTime > 1.0f)
+	{
+		lastTime = currentTime;
+		fps = (int)framesPerSecond;
+		framesPerSecond = 0;
+	}
 }
 
 void Ermine::App::OnTick()
@@ -161,13 +181,37 @@ void Ermine::App::OnTick()
 	//Layer.SubmitRenderable(&*Act);
 
 	static int ind = 10;
-	static bool Coke = false;
+	static bool Move = false;
+	static bool Scale = false;
+	static int Loc[2] = { 0.0f,0.0f };
 
 	ImGui::Begin("Control Panel");
-	ImGui::SliderInt("Get Ind", &ind, 0, 10);
-	ImGui::Checkbox("Get Coke", &Coke);
+	
+	ImGui::InputInt2("##GetPosition", Loc); 
+	ImGui::SameLine(); 
+	if (ImGui::Button("Move To Loc"))
+	{
+		Act->SetActorPosition(glm::vec2(Loc[0], Loc[1]));
+	}
+
+	if (ImGui::Button("<"))
+	{
+		Act->Translate(-1.0f,0.0f);
+	}
+	ImGui::SameLine();
+	if (ImGui::Button(">"))
+	{
+		Act->Translate(1.0f, 0.0f);
+	}
+
+
+	ImGui::Checkbox("Get Coke", &Move);
+	ImGui::Checkbox("Get Coke And Scale", &Scale);
 
 	ImGui::Image((ImTextureID)Manager->GetTextureFromFile("AnoHiMitaHana.png")->GetTextureID(), { 50,50 });
+
+	ImGui::Text("%d", ImGui::GetFrameCount());
+	//CalculateFrameRate();
 	ImGui::End();
 
 
@@ -184,17 +228,23 @@ void Ermine::App::OnTick()
 
 	Renderer2D::EndScene();
 
-	if (Coke == true)
+	if (Move == true)
 	{
-		Act->Translate({ 10.0f,10.0f });
+		Act->Translate({ 1.0f,1.0f });
 		//Act->Scale({ 1.02f,1.02f });
 	}
+
+	if (Scale == true)
+	{
+		Act->Scale(1.1f, 1.1f);
+	}
+
 #endif
 }
 
 void Ermine::App::OnDetach()
 {
-	Obj.OnDetach();
+	//Obj.OnDetach();
 }
 
 Ermine::App* Ermine::App::Get()
