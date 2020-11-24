@@ -1,15 +1,14 @@
 #include "stdafx.h"
+
 #include "ExchangeStructs/ExchangeAppEvents.h"
+#include "ExchangeStructs/LevelInitialization.h"
+#include "ExchangeStructs/ExePointerDeclarations.h"
 
-#include "../../Ermine/src/App.h"
+#include "App.h"
+#include "Actors/DiagnolMovingActor.h"
+#include "Graphics/Renderer/Renderer2D.h"
 
-Ermine::App* HApp = nullptr;
-
-void DLL _cdecl StoreAppHandle(Ermine::App* Handle)
-{
-	HApp = Handle;
-}
-
+static Ermine::App* HApp = nullptr;
 
 BOOL WINAPI DllMain(_In_ HINSTANCE hinstDLL,_In_ DWORD fdwReason,_In_ LPVOID lpvReserved)
 {
@@ -20,31 +19,31 @@ BOOL WINAPI DllMain(_In_ HINSTANCE hinstDLL,_In_ DWORD fdwReason,_In_ LPVOID lpv
 		Configuration.emplace_back(std::make_pair<std::string, CreateLogFile>("Game", CreateLogFile::CreateLogFile));
 		Log::Init(Configuration);
 
-		Log_Trace("Game", "Game DLL Attach Invoked Simply Tracing It.. :>");
+		Log_Trace("Game", "Default Level Loaded  Simply Tracing It.. :>");
 	}
 	
 	return TRUE;
 }
 
-void DLL __cdecl GetAppFromGame()
+void DLL _cdecl InitializeDLL(InitializaDLLStruct Struct)
 {
-
+	HApp = Struct.App;
 }
 
-
-void DLL __cdecl TestFunc()
+extern void DLL _cdecl Checker()
 {
+	STDOUTDefaultLog_Info("Checker Has Run In DLL");
+}
+
+extern void DLL _cdecl InitializeScene()
+{
+	/*auto Spr = Ermine::Sprite::GenerateSprite(std::filesystem::path("AnoHiMitaHana.png"));
 	
-	FileDefaultLog_Error("Han");
+	std::shared_ptr<Game::DiagnolActor> Act = std::make_shared<Game::DiagnolActor>(Spr);
 
-	std::cout << "Hello World" << std::endl;
-}
+	Ermine::LayerStackLayer Layer("Hannna");
+	Layer.SubmitActor(Act);
 
-void DLL _cdecl OnStart()
-{
-	STDOUTDefaultLog_Info("Started On Start Function From DLL");
-
-	//auto app = Ermine::App::Get();
-
-	STDOUTDefaultLog_Info(HApp->Name);
+	auto Renderer = Ermine::Renderer2D::Get();
+	Renderer->SubmitLayer(std::move(Layer));*/
 }

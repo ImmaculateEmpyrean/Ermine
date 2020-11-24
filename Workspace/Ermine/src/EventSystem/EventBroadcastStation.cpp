@@ -99,13 +99,21 @@ void Ermine::EventBroadcastStation::QueueBroadcast(std::unique_ptr<Event> Broadc
 		std::unique_lock<std::recursive_mutex> Lock(TileSelectedCallbackEventsBufferMutex);
 		TileSelectedCallbackEventsQueue.push_back(std::move(*((TileSelectedEvent*)(EvePtr))));
 	}
-	else if (BroadcastType == EventType::OnTickEvent)
+	else if (BroadcastType == EventType::OnRenderTickEvent)
 	{
-		std::unique_lock<std::recursive_mutex> Lock(OnTickCallbackEventsBufferMutex);
+		std::unique_lock<std::recursive_mutex> Lock(OnRenderTickCallbackEventsBufferMutex);
 
 		//There Is No Point In Having More Than One Event Tick Queued.. If The Renderer Thread Is Running At A Faster Rate Than The Message Broadcaster.. All I Can Say Is WOW.. THIS MAY CHANGE IN THE FUTURE..
-		if(OnTickCallbackEventsQueue.size() == 0)
-			OnTickCallbackEventsQueue.push_back(std::move(*((OnTickEvent*)(EvePtr))));
+		if(OnRenderTickCallbackEventsQueue.size() == 0)
+			OnRenderTickCallbackEventsQueue.push_back(std::move(*((OnRenderTickEvent*)(EvePtr))));
+	}
+	else if (BroadcastType == EventType::OnUpdateTickEvent)
+	{
+		std::unique_lock<std::recursive_mutex> Lock(OnUpdateTickCallbackEventsBufferMutex);
+
+		//There Is No Point In Having More Than One Event Tick Queued.. If The Renderer Thread Is Running At A Faster Rate Than The Message Broadcaster.. All I Can Say Is WOW.. THIS MAY CHANGE IN THE FUTURE..
+		if (OnUpdateTickCallbackEventsQueue.size() == 0)
+			OnUpdateTickCallbackEventsQueue.push_back(std::move(*((OnUpdateTickEvent*)(EvePtr))));
 	}
 	else if (BroadcastType == EventType::OnBeginEvent)
 	{
@@ -139,7 +147,9 @@ Ermine::SubscriptionTicket Ermine::EventBroadcastStation::QueueSubscription(std:
 		break;
 	case EventType::TileSelectedEvent:			 QueueSubscriptionTemplate<TileSelectedEventSubscription>(TileSelectedCallbackEventsSubscriptionsMutex, TileSelectedCallbackEventSubscriptions, EvePtr, Ticket);
 		break;
-	case EventType::OnTickEvent:				 QueueSubscriptionTemplate<OnTickEventSubscription>(OnTickCallbackEventSubscriptionsMutex, OnTickCallbackEventSubscriptions, EvePtr, Ticket);
+	case EventType::OnRenderTickEvent:				 QueueSubscriptionTemplate<OnRenderTickEventSubscription>(OnRenderTickCallbackEventSubscriptionsMutex, OnRenderTickCallbackEventSubscriptions, EvePtr, Ticket);
+		break;
+	case EventType::OnUpdateTickEvent:				 QueueSubscriptionTemplate<OnUpdateTickEventSubscription>(OnUpdateTickCallbackEventSubscriptionsMutex, OnUpdateTickCallbackEventSubscriptions, EvePtr, Ticket);
 		break;
 	case EventType::OnBeginEvent:				 QueueSubscriptionTemplate<OnBeginEventSubscription>(OnBeginEventSubscriptionsMutex, OnBeginEventSubscriptions, EvePtr, Ticket);
 		break;
@@ -213,7 +223,9 @@ void Ermine::EventBroadcastStation::DestroySubscription(Ermine::SubscriptionTick
 		break;
 	case EventType::TileSelectedEvent:			 DestorySubscriptionTemplate(TileSelectedCallbackEventsSubscriptionsMutex, TileSelectedCallbackEventSubscriptions, std::move(SubscriptionTicket));
 		break;
-	case EventType::OnTickEvent:				 DestorySubscriptionTemplate(OnTickCallbackEventSubscriptionsMutex, OnTickCallbackEventSubscriptions, std::move(SubscriptionTicket));
+	case EventType::OnRenderTickEvent:				 DestorySubscriptionTemplate(OnRenderTickCallbackEventSubscriptionsMutex, OnRenderTickCallbackEventSubscriptions, std::move(SubscriptionTicket));
+		break;
+	case EventType::OnUpdateTickEvent:				 DestorySubscriptionTemplate(OnUpdateTickCallbackEventSubscriptionsMutex, OnUpdateTickCallbackEventSubscriptions, std::move(SubscriptionTicket));
 		break;
 	case EventType::OnBeginEvent:				 DestorySubscriptionTemplate(OnBeginEventSubscriptionsMutex, OnBeginEventSubscriptions, std::move(SubscriptionTicket));
 		break;
@@ -319,7 +331,9 @@ void Ermine::EventBroadcastStation::DispatchMessagesSuperior()
 	DispatchMessages(ScrollCallbackEventsBufferMutex        ,ScrollCallbackEventsQueue        ,ScrollCallbackEventSubscriptions);
 	DispatchMessages(TileSelectedCallbackEventsBufferMutex  ,TileSelectedCallbackEventsQueue  ,TileSelectedCallbackEventSubscriptions);
 	
-	DispatchMessages(OnTickCallbackEventsBufferMutex        ,OnTickCallbackEventsQueue        ,OnTickCallbackEventSubscriptions);
+	DispatchMessages(OnRenderTickCallbackEventsBufferMutex        ,OnRenderTickCallbackEventsQueue        ,OnRenderTickCallbackEventSubscriptions);
+	DispatchMessages(OnUpdateTickCallbackEventsBufferMutex, OnUpdateTickCallbackEventsQueue, OnUpdateTickCallbackEventSubscriptions);
+
 	DispatchMessages(OnBeginEventsBufferMutex               ,OnBeginEventsQueue               ,OnBeginEventSubscriptions);
 }
 

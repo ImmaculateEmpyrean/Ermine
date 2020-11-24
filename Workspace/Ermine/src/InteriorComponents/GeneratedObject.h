@@ -66,7 +66,9 @@ namespace Ermine
 		
 		bool IsRecievingTileSelectedCallbackEvents() { return FlagsOfRecievingEvents[(unsigned int)Ermine::EventType::TileSelectedEvent]; };
 		
-		bool IsRecievingOnTickEvents() { return FlagsOfRecievingEvents[(unsigned int)Ermine::EventType::OnTickEvent]; };
+		bool IsRecievingOnRenderTickEvents() { return FlagsOfRecievingEvents[(unsigned int)Ermine::EventType::OnRenderTickEvent]; };
+		bool IsRecievingOnUpdateTickEvents() { return FlagsOfRecievingEvents[(unsigned int)Ermine::EventType::OnUpdateTickEvent]; }
+
 		bool IsRecievingOnBeginEvents() { return FlagsOfRecievingEvents[(unsigned int)Ermine::EventType::OnBeginEvent]; };
 		
 		//Recieve All Flags As A Vector Of Bool Instead Of Specified Singular Bool
@@ -111,7 +113,9 @@ namespace Ermine
 		std::function<void(int, int, int)> MouseButtonCallbackFunctionPointer = nullptr;
 		std::function<void(double, double)>ScrollPositionUpdateFunctionPointer = nullptr;
 		
-		std::function<void(float)> OnTickEventFunctionPointer = nullptr;
+		std::function<void(float)> OnRenderTickEventFunctionPointer = nullptr;
+		std::function<void(void)>  OnUpdateTickEventFunctionPointer = nullptr;
+
 		std::function<void(std::shared_ptr<void*>)>OnBeginEventFunctionPointer = nullptr;
 
 		std::function<void(std::filesystem::path, int)> TileSelectedUpdateFunctionPointer = nullptr;

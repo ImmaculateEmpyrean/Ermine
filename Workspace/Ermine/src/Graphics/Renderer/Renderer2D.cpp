@@ -61,25 +61,40 @@ namespace Ermine
 	void Renderer2D::BeginScene()
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
-		
+		auto Lock = Renderer->GetObjectMutex();
+
 		Renderer->SceneBegin = true;
+	}
+
+	void Renderer2D::Draw()
+	{
+		auto Renderer = Renderer2D::Get();
+		auto Lock = Renderer->GetObjectMutex();
+
+		Renderer2D::BeginScene();
+		Renderer2D::EndScene();
 	}
 
 	void Renderer2D::SubmitLayer(LayerStackLayer layer)
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
+		auto Lock = Renderer->GetObjectMutex();
+
 		Renderer->RendererLayerStack.PushLayerOnTheBackOfTheStack(std::make_unique<LayerStackLayer>(std::move(layer)));
 	}
 
 	void Renderer2D::SubmitLayer(LayerStackLayer layer, int index)
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
+		auto Lock = Renderer->GetObjectMutex();
+
 		Renderer->RendererLayerStack.PushLayerOntoStackAtPosition(std::make_unique<LayerStackLayer>(std::move(layer)),index);
 	}
 
 	void Renderer2D::ReplaceLayerStackWithStack(LayerStack layerstack)
 	{
 		auto Renderer = Renderer2D::Get();
+		auto Lock = Renderer2D::Get();
 
 		Renderer->RendererLayerStack.Clear();
 		Renderer->RendererLayerStack = std::move(layerstack);
@@ -88,6 +103,8 @@ namespace Ermine
 	void Renderer2D::EndScene()
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
+		auto Lock = Renderer2D::Get();
+
 		assert(Renderer->SceneBegin); //Note Scene Must Have Begun To End Otherwise It cannot Be Ended..
 		Renderer->SceneBegin = false;
 
@@ -103,11 +120,15 @@ namespace Ermine
 	void Renderer2D::TurnOnPhysicsDebugger()
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
+		auto Lock = Renderer->GetObjectMutex();
+
 		Renderer->UsePhysicsDebugger = true;
 	}
 	void Renderer2D::TurnOffPhysicsDebugger()
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
+		auto Lock = Renderer->GetObjectMutex();
+
 		Renderer->UsePhysicsDebugger = false;
 	}
 
@@ -115,12 +136,15 @@ namespace Ermine
 	void Renderer2D::SubmitPhysicsComponent2D(PhysicsComponent2D* PhyComp)
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
+		auto Lock = Renderer->GetObjectMutex();
+
 		Renderer->PhysicsComponentsBuffer.emplace_back(PhyComp);
 	}
 
 	void Ermine::Renderer2D::RemovePhysicsComponent2D(PhysicsComponent2D* PhyComp)
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
+		auto Lock = Renderer->GetObjectMutex();
 
 		bool Flag = false;
 		int i;
@@ -143,6 +167,8 @@ namespace Ermine
 	void Renderer2D::ClearPhysicsTrackingBuffer()
 	{
 		auto Renderer = Ermine::Renderer2D::Get();
+		auto Lock = Renderer->GetObjectMutex();
+
 		Renderer->PhysicsComponentsBuffer.clear();
 	}
 
@@ -150,6 +176,7 @@ namespace Ermine
 	void Renderer2D::SetCircleColor(glm::vec4 CircleShapeColor, glm::vec4 RadialLineColor)
 	{
 		auto Renderer = Renderer2D::Get();
+		auto Lock = Renderer->GetObjectMutex();
 		
 		Renderer->CircleColor = CircleShapeColor;
 		Renderer->CircleRadialLineColor = RadialLineColor;
@@ -157,12 +184,14 @@ namespace Ermine
 	void Renderer2D::SetPolygonColor(glm::vec4 PolygonColor)
 	{
 		auto Renderer = Renderer2D::Get();
+		auto Lock = Renderer->GetObjectMutex();
 
 		Renderer->PolygonColor = PolygonColor;
 	}
 	void Renderer2D::SetLineColor(glm::vec4 LineColor)
 	{
 		auto Renderer = Renderer2D::Get();
+		auto Lock = Renderer->GetObjectMutex();
 
 		Renderer->LineColor = LineColor;
 	}
@@ -170,6 +199,8 @@ namespace Ermine
 
 	void Renderer2D::DrawingRoutine()
 	{
+		auto Lock = GetObjectMutex();
+
 		//Getting The Texture Cache As It May Prove Helpful..
 		auto TextureCacheGlobal = Ermine::GlobalTextureCache::Get();
 		auto Renderer = Ermine::Renderer2D::Get();
@@ -217,6 +248,9 @@ namespace Ermine
 	{
 		auto Camera = Ermine::OrthographicCamera::Get();
 		auto Renderer = Ermine::Renderer2D::Get();
+
+		auto ForeignLock = Camera->GetObjectMutex();
+		auto Lock = Renderer->GetObjectMutex();
 
 		//Start Function Defaults Declarations..//
 		static Ermine::Shader BasicDebuggerShader(std::filesystem::path("Shader/Vertex/PhysicsDebuggerVertexShader.vert"),

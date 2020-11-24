@@ -8,6 +8,8 @@
 #endif 
 
 #include "ExchangeStructs/ExchangeAppEvents.h"
+#include "ExchangeStructs/LevelInitialization.h"
+#include "ExchangeStructs/ExePointerDeclarations.h"
 
 #include "vec2.hpp"
 #include "vec4.hpp"
@@ -83,53 +85,25 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsW
 	//Called The Renderer Get In Hopes That It Will Initialize The Renderer2D..
 	auto Renderer = Renderer2D::Get();
 
-	OnAttach(); //This Event Is Called Signifying That The App Is Now Attached...
-	//Init();
-	StoreAppHandle(this);
-	OnStart();
+	//Start Create Initialization Structure And Call The Level Initializer So That Dll Can Have Relevant Pointers In Exe
+	InitializaDLLStruct Struct;
+	Struct.App = this;
+
+	InitializeDLL(Struct);
+	Checker();
+	//Ended Create Initialization Structure And Call The Level Initializer So That Dll Can Have Relevant Pointers In Exe
+
+	//Now Use The DLL To Initialize The Renderer
+	InitializeScene();
 }
 
 Ermine::App::~App()
 {
 	delete ManagedWindow; //This Should Not Be Called When The Engine Is Still In Running State
 	delete WindowHandler::GlobalWindowHandler;
-
-	OnDetach(); //The Event Is Called...
 }
 
-void Ermine::App::NextFrame()
-{
-	ManagedWindow->PreNewFrameProcess();
-	WindowHandler::GlobalWindowHandler->UpdateDraw();
-
-	//Start Calculate Delta Time..//
-	static float DeltaTimeVar = 0.0f;
-	float TimeS = glfwGetTime();// -Ermine::TimeStep;
-	DeltaTimeVar = TimeS - DeltaTimeVar;
-	Ermine::TimeStep = Ermine::DeltaTime(DeltaTimeVar);
-	DeltaTimeVar = TimeS;
-	//Ended Calculate Delta Time..//
-	
-	Ermine::BroadcastComponent::BroadcastEvent(std::make_unique<Ermine::OnTickEvent>(DeltaTimeVar));
-	OnTick();
-	
-	//The Physics World Has To Step So That It Is Ready For The Next Iteration..
-	Universum->Step(PhysicsWorldTimestep, PhysicsVelocityIterations, PhysicsPositionIterations);
-
-	//Update The Camera 
-	auto Camera = Ermine::OrthographicCamera::Get();
-	Camera->OnUpdate();
-
-	ManagedWindow->PostNewFrameProcess();
-	Quit = ManagedWindow->ShouldIQuit();
-}
-
-void Ermine::App::OnAttach()
-{
-	//Obj.OnAttach(); //Maybe Take This Off If Some Prob
-}
-
-
+#pragma region HelperFunctions
 static void CalculateFrameRate()
 {
 	static float framesPerSecond = 0.0f;
@@ -145,107 +119,8 @@ static void CalculateFrameRate()
 		framesPerSecond = 0;
 	}
 }
+#pragma endregion
 
-void Ermine::App::OnTick()
-{
-	static bool Once = true;
-
-	if (Once)
-	{
-		Once = false;
-	}
-
-	static bool l = true;
-	//Ermine::Material mat(std::filesystem::path("Shader/Actor2DBaseMaterial.json"));
-
-	auto Manager = Ermine::GlobalTextureCache::Get();
-	static auto Tex = Manager->GetTextureFromFile("AnoHiMitaHana.png");
-
-	static Sprite* spr = new Sprite(Tex, { 0.0f,0.0f }, { 1.0f,1.0f });
-	static std::shared_ptr<Sprite> ShSpr;
-
-	if (l == true)
-	{
-		ShSpr.reset(spr);
-		l = false;
-	}
-
-	static std::shared_ptr<Ermine::Actor2D> Act = Ermine::Actor2D::GenerateActor2D("AnoHiMitaHana.png");
-	
-	static bool Initialize = false;
-
-	
-
-#if 1
-	
-	//Layer.SubmitRenderable(&*Act);
-
-	static int ind = 10;
-	static bool Move = false;
-	static bool Scale = false;
-	static int Loc[2] = { 0.0f,0.0f };
-
-	ImGui::Begin("Control Panel");
-	
-	ImGui::InputInt2("##GetPosition", Loc); 
-	ImGui::SameLine(); 
-	if (ImGui::Button("Move To Loc"))
-	{
-		Act->SetActorPosition(glm::vec2(Loc[0], Loc[1]));
-	}
-
-	if (ImGui::Button("<"))
-	{
-		Act->Translate(-1.0f,0.0f);
-	}
-	ImGui::SameLine();
-	if (ImGui::Button(">"))
-	{
-		Act->Translate(1.0f, 0.0f);
-	}
-
-
-	ImGui::Checkbox("Get Coke", &Move);
-	ImGui::Checkbox("Get Coke And Scale", &Scale);
-
-	ImGui::Image((ImTextureID)Manager->GetTextureFromFile("AnoHiMitaHana.png")->GetTextureID(), { 50,50 });
-
-	ImGui::Text("%d", ImGui::GetFrameCount());
-	//CalculateFrameRate();
-	ImGui::End();
-
-
-	Renderer2D::BeginScene();
-
-	if (Initialize == false)
-	{
-		LayerStackLayer Layer("Han");
-		Layer.SubmitActor(Act);
-		Renderer2D::SubmitLayer(std::move(Layer));
-		Initialize = true;
-	}
-
-
-	Renderer2D::EndScene();
-
-	if (Move == true)
-	{
-		Act->Translate({ 1.0f,1.0f });
-		//Act->Scale({ 1.02f,1.02f });
-	}
-
-	if (Scale == true)
-	{
-		Act->Scale(1.1f, 1.1f);
-	}
-
-#endif
-}
-
-void Ermine::App::OnDetach()
-{
-	//Obj.OnDetach();
-}
 
 Ermine::App* Ermine::App::Get()
 {
@@ -270,6 +145,53 @@ Ermine::App* Ermine::App::Get()
 	});
 
 	return PointerToApp;
+}
+
+void Ermine::App::AppRoutine()
+{
+	//Start Calculate Delta Time..//
+	static float DeltaTimeVar = 0.0f;
+	float TimeS = glfwGetTime();// -Ermine::TimeStep;
+	DeltaTimeVar = TimeS - DeltaTimeVar;
+	Ermine::TimeStep = Ermine::DeltaTime(DeltaTimeVar);
+	DeltaTimeVar = TimeS;
+	//Ended Calculate Delta Time..//
+
+	static double UpdateCounter = 0.0;
+	UpdateCounter = UpdateCounter + TimeStep.GetSeconds();
+	
+	if (UpdateCounter >= 0.04) //  1.0f/25.0f = 0.0f Update Cycle Is Locked To 25 fps..
+	{
+		UpdateCounter = 0.0;
+		UpdateLoop();
+		Ermine::BroadcastComponent::BroadcastEvent(std::make_unique<Ermine::OnUpdateTickEvent>());
+	}
+
+	Ermine::BroadcastComponent::BroadcastEvent(std::make_unique<Ermine::OnRenderTickEvent>(UpdateCounter));
+	RenderLoop(UpdateCounter);
+}
+
+void Ermine::App::UpdateLoop()
+{
+	//Update Loop Is Called A 
+
+	Universum->Step(1.0f/25.0f , PhysicsVelocityIterations, PhysicsPositionIterations); //Since Update Cycle Is Locked To 25 fps I Have Decided To Hard Code 25 Value..
+
+	//Update The Camera 
+	auto Camera = Ermine::OrthographicCamera::Get();
+	Camera->OnUpdate();
+
+	Quit = ManagedWindow->ShouldIQuit();
+}
+
+void Ermine::App::RenderLoop(float DeltaTime)
+{
+	ManagedWindow->PreNewFrameProcess();
+	WindowHandler::GlobalWindowHandler->UpdateDraw();
+
+	Renderer2D::Draw();
+
+	ManagedWindow->PostNewFrameProcess();
 }
 
 

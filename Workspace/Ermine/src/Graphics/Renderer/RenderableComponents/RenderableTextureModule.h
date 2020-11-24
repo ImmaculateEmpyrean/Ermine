@@ -34,7 +34,7 @@ namespace Ermine
 
 #pragma region Renderable2DOverrides
 		virtual void Initialize() override;
-		virtual void Refresh()	  override;
+		virtual void Refresh(float DeltaTime)override;
 #pragma endregion
 
 	public:

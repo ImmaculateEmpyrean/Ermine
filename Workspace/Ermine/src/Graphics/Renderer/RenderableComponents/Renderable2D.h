@@ -53,7 +53,7 @@ namespace Ermine
 		virtual void Initialize(); //Donot Forget To Call This When Overriden In The Future
 
 		//This Function Will Be Called By The Renderer Every Frame.. Override This If Some Function Is To Be Performed EveryFrame..
-		virtual void Refresh(); //Donot Forget To Call This When Overriden In The Future
+		virtual void Refresh(float DeltaTime); //Donot Forget To Call This When Overriden In The Future
 
 		std::shared_ptr<Ermine::Actor2DBase> GetBoundActor();
 
@@ -74,7 +74,7 @@ namespace Ermine
 
 	private:
 		//These Functions Try To Recieves The Tick Event And OnBeginEvent From The Object..
-		virtual void OnTickEventRecieved(float DeltaTime) override;
+		virtual void OnRenderTickEventRecieved(float DeltaTime) override;
 		virtual void OnBeginEvent(std::shared_ptr<void> Packet)override;
 
 #pragma region SubGenerateFunctions

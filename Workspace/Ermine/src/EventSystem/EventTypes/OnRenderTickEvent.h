@@ -8,23 +8,23 @@
 namespace Ermine
 {
 	////////////////////////////////////////////////////////
-	//OnTick Event Class////////////////////////////////////
+	//OnRenderTick Event Class//////////////////////////////
 	////////////////////////////////////////////////////////
 
-	class OnTickEvent :public Event
+	class OnRenderTickEvent :public Event
 	{
 	public:
-		OnTickEvent() = default;//=delete;
-		OnTickEvent(float DeltaTime);
+		OnRenderTickEvent() = default;//=delete;
+		OnRenderTickEvent(float DeltaTime);
 
 	private:
 		float DeltaTime = 0.0f;
 		bool EventHandled = false;
 
 	public:
-		virtual EventType GetEventType() override { return EventType::OnTickEvent; }
+		virtual EventType GetEventType() override { return EventType::OnRenderTickEvent; }
 
-		static std::unique_ptr<OnTickEvent> GenerateEvent(float DeltaTime);
+		static std::unique_ptr<OnRenderTickEvent> GenerateEvent(float DeltaTime);
 
 	public:
 		virtual bool IsEventHandled() override { return EventHandled; }
@@ -35,17 +35,17 @@ namespace Ermine
 	};
 
 	////////////////////////////////////////////////////////
-	//OnTick Event Subscription Class///////////////////////
+	//OnRenderTick Event Subscription Class/////////////////
 	////////////////////////////////////////////////////////
 
-	class OnTickEventSubscription :public EventSubscription
+	class OnRenderTickEventSubscription :public EventSubscription
 	{
 	public:
-		OnTickEventSubscription() = delete;
-		OnTickEventSubscription(std::function<void(OnTickEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::GeneratedObject> Obj);
+		OnRenderTickEventSubscription() = delete;
+		OnRenderTickEventSubscription(std::function<void(OnRenderTickEvent*)> CallableObject, std::atomic<bool>& Flag,std::shared_ptr<Ermine::GeneratedObject> Obj);
 
 	private:
-		std::function<void(OnTickEvent*)> CallableObject;
+		std::function<void(OnRenderTickEvent*)> CallableObject;
 
 	public:
 		virtual EventType GetEventSubscriptionType() override;

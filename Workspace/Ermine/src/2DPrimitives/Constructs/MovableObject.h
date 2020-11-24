@@ -120,7 +120,7 @@ namespace Ermine
 		void HelperRecalculateModelMatrix();
 
 		//This Function Is Not At All Exposed To The Outside World.. Used By The Movable Object To Update Itself
-		void Update(float DeltaTime);
+		void Update();
 
 		void HelperCopy(const MovableObject& rhs);
 		void HelperMove(MovableObject&& rhs);

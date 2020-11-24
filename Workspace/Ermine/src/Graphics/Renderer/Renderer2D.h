@@ -6,6 +6,9 @@
 
 #include "Core.h"
 #include "glm.hpp"
+
+#include "Object.h"
+
 #include "LayerSystem/LayerStack.h"
 #include "EngineResourceHandlers/GlobalTextureCache.h"
 
@@ -15,7 +18,7 @@
 
 namespace Ermine
 {
-	class Renderer2D
+	class Renderer2D: public Object
 	{
 	public:
 		Renderer2D();
@@ -24,7 +27,8 @@ namespace Ermine
 	public:
 		static Renderer2D* Get();
 
-		static void BeginScene();
+		//Calls The Begin Scene And Then End Scene Simultaneously For Now..
+		static void Draw();
 
 		//This Is THe Submition Method, It Appends The LAyer To The front Of The Screen
 		static void SubmitLayer(LayerStackLayer layer);
@@ -38,7 +42,7 @@ namespace Ermine
 		//This is a smooth function clears layer stack in the renderer and places this stack in its place..
 		static void ReplaceLayerStackWithStack(LayerStack layerstack);
 
-		static void EndScene();
+		//
 
 		//Start Functions To Interact With The Flag Start Physics Debugger//
 		static void TurnOnPhysicsDebugger();
@@ -73,6 +77,8 @@ namespace Ermine
 		void DrawingRoutine();
 		void PhysicsDebuggerDrawingRoutine();
 
+		static void BeginScene();
+		static void EndScene();
 	private:
 		//Tools To Make This Class a Singleton..
 		static std::once_flag InitializationFlag;

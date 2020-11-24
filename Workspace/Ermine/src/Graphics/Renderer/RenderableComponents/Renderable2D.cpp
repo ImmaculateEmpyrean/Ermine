@@ -13,7 +13,7 @@ Ermine::Renderable2D::Renderable2D(std::shared_ptr<Ermine::Actor2DBase> Ptr)
     Actor_Bound(Ptr)
 {
     //Well We Would Love To Recieve Event Tick Right..
-    Object::RecieveEvents(true, Ermine::EventType::OnTickEvent);
+    Object::RecieveEvents(true, Ermine::EventType::OnRenderTickEvent);
     Object::RecieveEvents(true, Ermine::EventType::OnBeginEvent);
 }
 
@@ -122,7 +122,7 @@ void Ermine::Renderable2D::Initialize()
     }
 }
 
-void Ermine::Renderable2D::Refresh()
+void Ermine::Renderable2D::Refresh(float DeltaTime)
 {
     auto ForeignLock = Actor_Bound->GetObjectMutex();
     auto Lock = GetObjectMutex();
@@ -135,7 +135,7 @@ void Ermine::Renderable2D::Refresh()
             return;
         }
         //The Renderable Is Only Responsible For Updating Model Matrix Nothing Else.. All Other Properties Are Not Changed In The Midst of Execution..
-        ModelMatrix = Actor_Bound->GetModelMatrix();
+        ModelMatrix = Actor_Bound->GetModelMatrix() * DeltaTime;
     }
 }
 
@@ -159,13 +159,13 @@ void Ermine::Renderable2D::BindRenderable()
     Mat->Bind();
 }
 
-void Ermine::Renderable2D::OnTickEventRecieved(float DeltaTime)
+void Ermine::Renderable2D::OnRenderTickEventRecieved(float DeltaTime)
 {
     auto Lock = GetObjectMutex();
     
     if (ObjectInitialized == true)
     {
-        Refresh();
+        Refresh(DeltaTime);
         //std::thread Obj(&Ermine::Renderable2D::Refresh, this);
         //Obj.detach();
     }

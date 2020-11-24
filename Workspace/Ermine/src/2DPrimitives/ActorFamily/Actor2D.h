@@ -146,7 +146,7 @@ namespace Ermine {
 
 #pragma region EventProcessing
 		//This Function Is Called Every Frame For All Objects Of This Class
-		virtual void OnTickEventRecieved(float DeltaTime)				  override;
+		virtual void OnUpdateTickEventRecieved()				  override;
 #pragma endregion
 	private:
 

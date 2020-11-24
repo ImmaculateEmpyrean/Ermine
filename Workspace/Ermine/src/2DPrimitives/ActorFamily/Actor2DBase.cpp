@@ -2,7 +2,7 @@
 #include "Actor2DBase.h"
 
 #include "EventSystem/EventBroadcastStation.h"
-#include "EventSystem/EventTypes/OnTickEvent.h"
+#include "EventSystem/EventTypes/OnUpdateTickEvent.h"
 #include "EventSystem/Components/RecieverComponent.h"
 
 #include "MutexSystem/MutexManager.h"

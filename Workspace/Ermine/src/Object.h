@@ -72,7 +72,8 @@ namespace Ermine
 		bool IsRecievingMouseButtonCallbackEvents ();
 		bool IsRecievingScrollUpdateEvents();		 
 		bool IsRecievingTileSelectedCallbackEvents();
-		bool IsRecievingOnTickEvents();				 
+		bool IsRecievingOnRenderTickEvents();
+		bool IsRecievingOnUpdateTickEvents();
 		bool IsRecievingOnBeginEvents();			 
 
 		//Recieve All Flags As A Vector Of Bool Instead Of Specified Singular Bool
@@ -93,7 +94,9 @@ namespace Ermine
 		virtual void MouseButtonCallbackEventRecieved(int button, int action, int mods) { DefaultEventHandler(); };
 		virtual void ScrollPositionUpdateEventRecieved(double xoffset, double yoffset) { DefaultEventHandler(); };
 		
-		virtual void OnTickEventRecieved(float DeltaTime) { DefaultEventHandler(); };
+		virtual void OnRenderTickEventRecieved(float DeltaTime) { DefaultEventHandler(); };
+		virtual void OnUpdateTickEventRecieved() { DefaultEventHandler(); };
+
 		virtual void OnBeginEvent(std::shared_ptr<void> Packet) { DefaultEventHandler(); };
 
 		virtual void TileSelectedUpdateEventRecieved(std::filesystem::path TilesetPath, int index) { DefaultEventHandler(); };

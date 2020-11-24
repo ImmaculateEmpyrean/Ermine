@@ -42,24 +42,26 @@ namespace Ermine
 		App operator=(const App&& rhs) = delete; //There is absolutely no reason to move the app
 
 	public:
-		void OnAttach(); //This is an event which must be handled by the game..
-		void OnTick(); //This is an event which must be handled by the game..
-		void OnDetach(); //This is an event which must be handled by the game..
-
-		//void Init();
-
 		static App* Get();
 
+		//Main Stuff Inside App
+
+#pragma region Routines
+		//The App Routine Calls Update Loop And Render Loop On Seperate Threads..
+		void AppRoutine();
+
+		void UpdateLoop();
+		void RenderLoop(float DeltaTime);
+#pragma endregion
+
 	public:
-		std::string Name = "Am The App";
+		
+
 	protected:
 
 	protected:
 
 	private:
-		//This Is A Most Important Function Which Advances The App To The Next Frame To Be Called By Main
-		//OnTick Is Presumably called Here..
-		void NextFrame(); 
 
 	private:
 		static std::once_flag InitializationFlag;

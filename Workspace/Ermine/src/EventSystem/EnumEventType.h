@@ -12,8 +12,10 @@ namespace Ermine
 		ScrollCallbackEvent = 5,
 		TileSelectedEvent = 6,
 
-		OnTickEvent = 7,
-		OnBeginEvent = 8
+		OnRenderTickEvent = 7,
+		OnUpdateTickEvent = 8,
+
+		OnBeginEvent = 9
 	};
 
 	//Do Not Forget To Update This Function.. When Messing With This File..

@@ -150,15 +150,24 @@ void Ermine::GeneratedObject::EventReciever(Ermine::Event* Eve)
 			ScrollPositionUpdateFunctionPointer(OffsetX, OffsetY);
 	}
 
-	if (EventType == Ermine::EventType::OnTickEvent)
+	if (EventType == Ermine::EventType::OnRenderTickEvent)
 	{
-		float DeltaTime = ((Ermine::OnTickEvent*)Eve)->GetDeltaTime();
+		float DeltaTime = ((Ermine::OnRenderTickEvent*)Eve)->GetDeltaTime();
 
 		if (HandleValid)
-			HObject->OnTickEventRecieved(DeltaTime);
+			HObject->OnRenderTickEventRecieved(DeltaTime);
 
-		if (OnTickEventFunctionPointer != nullptr)
-			OnTickEventFunctionPointer(DeltaTime);
+		if (OnRenderTickEventFunctionPointer != nullptr)
+			OnRenderTickEventFunctionPointer(DeltaTime);
+	}
+
+	if (EventType == Ermine::EventType::OnUpdateTickEvent)
+	{
+		if (HandleValid)
+			HObject->OnUpdateTickEventRecieved();
+
+		if (OnUpdateTickEventFunctionPointer != nullptr)
+			OnUpdateTickEventFunctionPointer();
 	}
 
 	if (EventType == Ermine::EventType::OnBeginEvent)
@@ -168,7 +177,7 @@ void Ermine::GeneratedObject::EventReciever(Ermine::Event* Eve)
 		if (HandleValid)
 			HObject->OnBeginEvent(Package);
 
-		if (OnTickEventFunctionPointer != nullptr)
+		if (OnBeginEventFunctionPointer != nullptr)
 			OnBeginEventFunctionPointer(Package);
 	}
 

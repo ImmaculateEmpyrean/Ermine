@@ -4,6 +4,12 @@
     <Filter Include="2DPrimitives">
       <UniqueIdentifier>{A75D6B22-93C0-FAC6-3C46-337D2888C649}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2DPrimitives\ActorFamily">
+      <UniqueIdentifier>{71E16BFC-5D06-BB7C-8651-A00C72D5B99A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2DPrimitives\ActorFamily\Interfaces">
+      <UniqueIdentifier>{24DD7132-9096-DCDC-19F6-F6B685AE924C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="2DPrimitives\Constructs">
       <UniqueIdentifier>{EE5B917D-5A93-D914-639D-3D38CF53000E}</UniqueIdentifier>
     </Filter>
@@ -37,6 +43,9 @@
     <Filter Include="FontRenderingSystem">
       <UniqueIdentifier>{BF8B6ACC-2BED-47DA-B45A-8E8C20BB7E99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameMode">
+      <UniqueIdentifier>{A46F5832-903C-B33D-B955-A1E5A581E8CB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Graphics">
       <UniqueIdentifier>{1653CE33-0220-293F-2B39-17E717655ECD}</UniqueIdentifier>
     </Filter>
@@ -61,11 +70,29 @@
     <Filter Include="InputSystem">
       <UniqueIdentifier>{FAE1B94B-6697-3241-EF8B-2C185B402945}</UniqueIdentifier>
     </Filter>
+    <Filter Include="InteriorComponents">
+      <UniqueIdentifier>{F70464BE-E3E8-2414-4C49-1F67384C0F96}</UniqueIdentifier>
+    </Filter>
     <Filter Include="LayerSystem">
       <UniqueIdentifier>{87D49461-F389-0D57-7C7E-072EE832045B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MutexSystem">
+      <UniqueIdentifier>{DD1734BF-49CD-ACB4-D2C1-A68B3E76A3B8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MutexSystem\Interfaces">
+      <UniqueIdentifier>{10B897A4-FCB1-C0F6-E51E-5707D1B72663}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NoiseGeneration">
+      <UniqueIdentifier>{6F0BB63A-DB96-23FF-E4A7-A6F350B27FFF}</UniqueIdentifier>
+    </Filter>
     <Filter Include="PCH">
       <UniqueIdentifier>{2010880B-8C19-887C-1595-9E7C819D937C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{888B590D-F46A-D8A8-FD82-637F69E13E0A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Joints">
+      <UniqueIdentifier>{8E3F6B87-7A0D-5F8D-63A1-CFB34F0E3BF2}</UniqueIdentifier>
     </Filter>
     <Filter Include="TestFolder">
       <UniqueIdentifier>{C1E7922C-AD9F-D479-16A7-ADD5027E6F6A}</UniqueIdentifier>
@@ -78,6 +105,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2D.h">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DBase.h">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DShape.h">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\ActorFamily\ActorFamilyEnnumerations.h">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\ActorFamily\ImageBase.h">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\ActorFamily\Interfaces\IMovableActor.h">
+      <Filter>2DPrimitives\ActorFamily\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.h">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClInclude>
     <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h">
       <Filter>2DPrimitives\Constructs</Filter>
     </ClInclude>
@@ -183,6 +231,9 @@
     <ClInclude Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.h">
       <Filter>EventSystem\EventTypes</Filter>
     </ClInclude>
+    <ClInclude Include="src\EventSystem\EventTypes\OnBeginEvent.h">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClInclude>
     <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h">
       <Filter>EventSystem\EventTypes</Filter>
     </ClInclude>
@@ -192,8 +243,20 @@
     <ClInclude Include="src\EventSystem\EventTypes\TileSelectedEvent.h">
       <Filter>EventSystem\EventTypes</Filter>
     </ClInclude>
+    <ClInclude Include="src\EventSystem\SubscriptionHealth.h">
+      <Filter>EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventSystem\SubscriptionTicket.h">
+      <Filter>EventSystem</Filter>
+    </ClInclude>
     <ClInclude Include="src\FontRenderingSystem\Font.h">
       <Filter>FontRenderingSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameMode\GameModeBase.h">
+      <Filter>GameMode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\OrthographicCamera.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Material.h">
       <Filter>Graphics\Renderer\MaterialSystem</Filter>
@@ -210,7 +273,16 @@
     <ClInclude Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.h">
       <Filter>Graphics\Renderer\RenderableComponents</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderablePhysicsComponent2D.h">
+      <Filter>Graphics\Renderer\RenderableComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableShapeComponent.h">
+      <Filter>Graphics\Renderer\RenderableComponents</Filter>
+    </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.h">
+      <Filter>Graphics\Renderer\RenderableComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTypes.h">
       <Filter>Graphics\Renderer\RenderableComponents</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\Renderer.h">
@@ -252,15 +324,84 @@
     <ClInclude Include="src\InputSystem\imgui_impl_opengl3.h">
       <Filter>InputSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\InteriorComponents\GeneratedObject.h">
+      <Filter>InteriorComponents</Filter>
+    </ClInclude>
     <ClInclude Include="src\LayerSystem\LayerStack.h">
       <Filter>LayerSystem</Filter>
     </ClInclude>
     <ClInclude Include="src\LayerSystem\LayerStackLayer.h">
       <Filter>LayerSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\MutexSystem\Interfaces\IMutex.h">
+      <Filter>MutexSystem\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MutexSystem\LockChamber.h">
+      <Filter>MutexSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MutexSystem\MutexCasket.h">
+      <Filter>MutexSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MutexSystem\MutexGaurd.h">
+      <Filter>MutexSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MutexSystem\MutexManager.h">
+      <Filter>MutexSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MutexSystem\MutexManagerLevelConfiguration.h">
+      <Filter>MutexSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MutexSystem\MutexState.h">
+      <Filter>MutexSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NoiseGeneration\FastNoiseLite.h">
+      <Filter>NoiseGeneration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object.h" />
+    <ClInclude Include="src\ObjectStatus.h" />
     <ClInclude Include="src\PCH\stdafx.h">
       <Filter>PCH</Filter>
     </ClInclude>
+    <ClInclude Include="src\Physics\BodyPart.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\FixtureColorStruct.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\FixtureUserDataStruct.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Joints\DistanceJoint.h">
+      <Filter>Physics\Joints</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Joints\JointBase.h">
+      <Filter>Physics\Joints</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Joints\PrismaticJoint.h">
+      <Filter>Physics\Joints</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Joints\RevoluteJoint.h">
+      <Filter>Physics\Joints</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Joints\RopeJoint.h">
+      <Filter>Physics\Joints</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Joints\WeldJoint.h">
+      <Filter>Physics\Joints</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Joints\WheelJoint.h">
+      <Filter>Physics\Joints</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Physics.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\PhysicsComponent2D.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\PhysicsWorldInitializationStruct.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RandomNumberGenerator.h" />
     <ClInclude Include="src\TestFolder\EventSystemChecker\RecieveAndSendBroadcastObject.h">
       <Filter>TestFolder\EventSystemChecker</Filter>
     </ClInclude>
@@ -273,49 +414,28 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\Physics\PhysicsComponent2D.h" />
-    <ClInclude Include="src\Physics\PhysicsWorldInitializationStruct.h" />
-    <ClInclude Include="src\Physics\Physics.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2D.h">
-      <Filter>2DPrimitives</Filter>
+    <ClInclude Include="src\EventSystem\EventTypes\OnRenderTickEvent.h">
+      <Filter>EventSystem\EventTypes</Filter>
     </ClInclude>
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DBase.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\ActorFamilyEnnumerations.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\ImageBase.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.h" />
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderablePhysicsComponent2D.h" />
-    <ClInclude Include="src\Physics\BodyPart.h" />
-    <ClInclude Include="src\Physics\Joints\RevoluteJoint.h" />
-    <ClInclude Include="src\Physics\Joints\JointBase.h" />
-    <ClInclude Include="src\RandomNumberGenerator.h" />
-    <ClInclude Include="src\Physics\Joints\DistanceJoint.h" />
-    <ClInclude Include="src\Physics\Joints\PrismaticJoint.h" />
-    <ClInclude Include="src\Physics\Joints\WheelJoint.h" />
-    <ClInclude Include="src\Physics\Joints\RopeJoint.h" />
-    <ClInclude Include="src\Physics\Joints\WeldJoint.h" />
-    <ClInclude Include="src\Physics\FixtureColorStruct.h" />
-    <ClInclude Include="src\Physics\FixtureUserDataStruct.h" />
-    <ClInclude Include="src\Graphics\OrthographicCamera.h" />
-    <ClInclude Include="src\EventSystem\EventTypes\OnTickEvent.h" />
-    <ClInclude Include="src\EventSystem\SubscriptionTicket.h" />
-    <ClInclude Include="src\NoiseGeneration\FastNoiseLite.h" />
-    <ClInclude Include="src\MutexSystem\MutexManager.h" />
-    <ClInclude Include="src\MutexSystem\MutexManagerLevelConfiguration.h" />
-    <ClInclude Include="src\Object.h" />
-    <ClInclude Include="src\MutexSystem\Interfaces\IMutex.h" />
-    <ClInclude Include="src\MutexSystem\MutexCasket.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Interfaces\IMovableActor.h" />
-    <ClInclude Include="src\MutexSystem\MutexGaurd.h" />
-    <ClInclude Include="src\MutexSystem\MutexState.h" />
-    <ClInclude Include="src\InteriorComponents\GeneratedObject.h" />
-    <ClInclude Include="src\ObjectStatus.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DShape.h" />
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableShapeComponent.h" />
-    <ClInclude Include="src\EventSystem\EventTypes\OnBeginEvent.h" />
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTypes.h" />
-    <ClInclude Include="src\EventSystem\SubscriptionHealth.h" />
+    <ClInclude Include="src\EventSystem\EventTypes\OnUpdateTickEvent.h" />
+    <ClInclude Include="src\Level\Level.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DBase.cpp">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DShape.cpp">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\ActorFamily\ImageBase.cpp">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.cpp">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClCompile>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
       <Filter>2DPrimitives\Constructs</Filter>
     </ClCompile>
@@ -391,6 +511,9 @@
     <ClCompile Include="src\EventSystem\Components\RecieverComponent.cpp">
       <Filter>EventSystem\Components</Filter>
     </ClCompile>
+    <ClCompile Include="src\EventSystem\EnumEventType.cpp">
+      <Filter>EventSystem</Filter>
+    </ClCompile>
     <ClCompile Include="src\EventSystem\Event.cpp">
       <Filter>EventSystem</Filter>
     </ClCompile>
@@ -409,6 +532,9 @@
     <ClCompile Include="src\EventSystem\EventTypes\MouseButtonCallbackEvent.cpp">
       <Filter>EventSystem\EventTypes</Filter>
     </ClCompile>
+    <ClCompile Include="src\EventSystem\EventTypes\OnBeginEvent.cpp">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClCompile>
     <ClCompile Include="src\EventSystem\EventTypes\ScrollCallbackEvent.cpp">
       <Filter>EventSystem\EventTypes</Filter>
     </ClCompile>
@@ -418,8 +544,14 @@
     <ClCompile Include="src\EventSystem\EventTypes\TileSelectedEvent.cpp">
       <Filter>EventSystem\EventTypes</Filter>
     </ClCompile>
+    <ClCompile Include="src\EventSystem\SubscriptionTicket.cpp">
+      <Filter>EventSystem</Filter>
+    </ClCompile>
     <ClCompile Include="src\FontRenderingSystem\Font.cpp">
       <Filter>FontRenderingSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\OrthographicCamera.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Material.cpp">
       <Filter>Graphics\Renderer\MaterialSystem</Filter>
@@ -434,6 +566,9 @@
       <Filter>Graphics\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.cpp">
+      <Filter>Graphics\Renderer\RenderableComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderablePhysicsComponent2D.cpp">
       <Filter>Graphics\Renderer\RenderableComponents</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.cpp">
@@ -469,45 +604,66 @@
     <ClCompile Include="src\InputSystem\imgui_impl_opengl3.cpp">
       <Filter>InputSystem</Filter>
     </ClCompile>
+    <ClCompile Include="src\InteriorComponents\GeneratedObject.cpp">
+      <Filter>InteriorComponents</Filter>
+    </ClCompile>
     <ClCompile Include="src\LayerSystem\LayerStack.cpp">
       <Filter>LayerSystem</Filter>
     </ClCompile>
     <ClCompile Include="src\LayerSystem\LayerStackLayer.cpp">
       <Filter>LayerSystem</Filter>
     </ClCompile>
+    <ClCompile Include="src\MutexSystem\MutexCasket.cpp">
+      <Filter>MutexSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MutexSystem\MutexGaurd.cpp">
+      <Filter>MutexSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MutexSystem\MutexManager.cpp">
+      <Filter>MutexSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\PCH\stdafx.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
+    <ClCompile Include="src\Physics\BodyPart.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\Joints\DistanceJoint.cpp">
+      <Filter>Physics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\Joints\JointBase.cpp">
+      <Filter>Physics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\Joints\PrismaticJoint.cpp">
+      <Filter>Physics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\Joints\RevoluteJoint.cpp">
+      <Filter>Physics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\Joints\RopeJoint.cpp">
+      <Filter>Physics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\Joints\WeldJoint.cpp">
+      <Filter>Physics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\Joints\WheelJoint.cpp">
+      <Filter>Physics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\Physics.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\PhysicsComponent2D.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RandomNumberGenerator.cpp" />
     <ClCompile Include="src\Test.cpp" />
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\Physics\Physics.cpp" />
-    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DBase.cpp" />
-    <ClCompile Include="src\2DPrimitives\ActorFamily\ImageBase.cpp" />
-    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp" />
-    <ClCompile Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.cpp" />
-    <ClCompile Include="src\Physics\PhysicsComponent2D.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderablePhysicsComponent2D.cpp" />
-    <ClCompile Include="src\Physics\BodyPart.cpp" />
-    <ClCompile Include="src\RandomNumberGenerator.cpp" />
-    <ClCompile Include="src\Physics\Joints\DistanceJoint.cpp" />
-    <ClCompile Include="src\Physics\Joints\JointBase.cpp" />
-    <ClCompile Include="src\Physics\Joints\RevoluteJoint.cpp" />
-    <ClCompile Include="src\Physics\Joints\PrismaticJoint.cpp" />
-    <ClCompile Include="src\Physics\Joints\WheelJoint.cpp" />
-    <ClCompile Include="src\Physics\Joints\RopeJoint.cpp" />
-    <ClCompile Include="src\Physics\Joints\WeldJoint.cpp" />
-    <ClCompile Include="src\Graphics\OrthographicCamera.cpp" />
-    <ClCompile Include="src\EventSystem\EventTypes\OnTickEvent.cpp" />
-    <ClCompile Include="src\EventSystem\SubscriptionTicket.cpp" />
-    <ClCompile Include="src\Object.cpp" />
-    <ClCompile Include="src\MutexSystem\MutexManager.cpp" />
-    <ClCompile Include="src\MutexSystem\MutexCasket.cpp" />
-    <ClCompile Include="src\MutexSystem\MutexGaurd.cpp" />
-    <ClCompile Include="src\EventSystem\EnumEventType.cpp" />
-    <ClCompile Include="src\InteriorComponents\GeneratedObject.cpp" />
-    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DShape.cpp" />
-    <ClCompile Include="src\EventSystem\EventTypes\OnBeginEvent.cpp" />
+    <ClCompile Include="src\EventSystem\EventTypes\OnRenderTickEvent.cpp">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventSystem\EventTypes\OnUpdateTickEvent.cpp" />
   </ItemGroup>
 </Project>

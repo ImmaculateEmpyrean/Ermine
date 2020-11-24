@@ -37,7 +37,8 @@ int main(int argc, char* argv[])
 	
 	while (!App->Quit)
 	{
-		App->NextFrame();
+		App->AppRoutine();
+		//App->NextFrame();
 	}
   
 	Ermine::EventBroadcastStation::DestroyStation();

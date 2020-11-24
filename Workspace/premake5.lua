@@ -222,7 +222,8 @@ project "Game"
          "%{IncludeDir.JSON_ERMINE}",
          "%{IncludeDir.freetype}",
          "%{IncludeDir.freetypegl}",
-		 "%{IncludeDir.Box2D}"
+		 "%{IncludeDir.Box2D}",
+		 "Ermine/src"
     }
 
     links {

@@ -10,7 +10,9 @@
 #include "../EventTypes/TileSelectedEvent.h"
 
 #include "../EventTypes/OnBeginEvent.h"
-#include "../EventTypes/OnTickEvent.h"
+
+#include "../EventTypes/OnRenderTickEvent.h"
+#include "../EventTypes/OnUpdateTickEvent.h"
 
 Ermine::SubscriptionTicket Ermine::RecieverComponent::Bind(std::function<void(Event*)> Callable, std::atomic<bool>& SwitchTOControlIfAnEventCanBeExecuted, EventType SubscriptionType,std::shared_ptr<Ermine::GeneratedObject> ErmineObj)
 {
@@ -51,9 +53,14 @@ Ermine::SubscriptionTicket Ermine::RecieverComponent::Bind(std::function<void(Ev
 		std::unique_ptr<Ermine::TileSelectedEventSubscription> Obj			 =	std::make_unique < Ermine::TileSelectedEventSubscription>(Callable, SwitchTOControlIfAnEventCanBeExecuted,ErmineObj);
 		return std::move(station->QueueSubscription(std::move(Obj)));
 	}
-	else if (SubscriptionType == EventType::OnTickEvent)
+	else if (SubscriptionType == EventType::OnRenderTickEvent)
 	{
-		std::unique_ptr<Ermine::OnTickEventSubscription> Obj				 =	std::make_unique < Ermine::OnTickEventSubscription>(Callable, SwitchTOControlIfAnEventCanBeExecuted,ErmineObj);
+		std::unique_ptr<Ermine::OnRenderTickEventSubscription> Obj				 =	std::make_unique < Ermine::OnRenderTickEventSubscription>(Callable, SwitchTOControlIfAnEventCanBeExecuted,ErmineObj);
+		return std::move(station->QueueSubscription(std::move(Obj)));
+	}
+	else if (SubscriptionType == EventType::OnUpdateTickEvent)
+	{
+		std::unique_ptr<Ermine::OnUpdateTickEventSubscription> Obj = std::make_unique < Ermine::OnUpdateTickEventSubscription>(Callable, SwitchTOControlIfAnEventCanBeExecuted, ErmineObj);
 		return std::move(station->QueueSubscription(std::move(Obj)));
 	}
 	else if (SubscriptionType == EventType::OnBeginEvent)

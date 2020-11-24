@@ -426,23 +426,21 @@ void Ermine::OrthographicCamera::HelperRecalculateViewMatrix()
 
 void Ermine::OrthographicCamera::OnTickFunctionMessageReciever(Event* Eve)
 {
-    if (Eve->GetEventType() != Ermine::EventType::OnTickEvent)
+    if (Eve->GetEventType() != Ermine::EventType::OnUpdateTickEvent)
     {
         STDOUTDefaultLog_Critical("Orthographic Camera Recieved An Event Which Is Not The Event Tick Into The Event Tick Reciever.. Please See That Such A Thing Is Not Repeated..");
         //Exitting As This IS An Unrecoverable Catestrophic Error..
         exit(-1);
     }
 
-    Ermine::OnTickEvent* TickEvent = (Ermine::OnTickEvent*)Eve;
-    float DeltaTime = TickEvent->GetDeltaTime();
+    Ermine::OnUpdateTickEvent* TickEvent = (Ermine::OnUpdateTickEvent*)Eve;
+    OnTickCameraDefaultProcessing();
 
-    OnTickCameraDefaultProcessing(DeltaTime);
-
-    if (OnTickFunction != nullptr)
-        OnTickFunction(DeltaTime);
+    if (OnUpdateTickFunction != nullptr)
+        OnUpdateTickFunction();
 }
 
-void Ermine::OrthographicCamera::OnTickCameraDefaultProcessing(float DeltaTime)
+void Ermine::OrthographicCamera::OnTickCameraDefaultProcessing()
 {
     //This Function IS Not Really Needed In Most Cases As OnUpdate Serves The Same Purpose I Guess..
 }

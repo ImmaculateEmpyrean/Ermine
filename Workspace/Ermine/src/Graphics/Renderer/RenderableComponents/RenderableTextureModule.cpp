@@ -69,13 +69,13 @@ namespace Ermine
             SubmitTexture(std::dynamic_pointer_cast<Ermine::ImageBase>(Renderable2D::GetBoundActor())->GetSprite()->GetTexture());
     }
 
-    void RenderableTextureModule::Refresh()
+    void RenderableTextureModule::Refresh(float DeltaTime)
     {
         auto Lock = GetObjectMutex();
 
         if (GetObjectInitialized() == true)
         {
-            Renderable2D::Refresh();
+            Renderable2D::Refresh(DeltaTime);
 
             if (GetObjectHealth() == ObjectStatus::StatusOk)
             {

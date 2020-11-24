@@ -18,7 +18,8 @@
 #include "EventTypes/ScrollCallbackEvent.h"
 #include "EventTypes/TileSelectedEvent.h"
 
-#include "EventTypes/OnTickEvent.h"
+#include "EventTypes/OnRenderTickEvent.h"
+#include "EventTypes/OnUpdateTickEvent.h"
 #include "EventTypes/OnBeginEvent.h"
 
 //TODO Write a Macro Instead Of all those obnoxious helper functions...
@@ -79,8 +80,11 @@ namespace Ermine
 		std::vector<TileSelectedEvent> TileSelectedCallbackEventsQueue;
 		std::recursive_mutex TileSelectedCallbackEventsBufferMutex;
 
-		std::vector<OnTickEvent> OnTickCallbackEventsQueue;
-		std::recursive_mutex OnTickCallbackEventsBufferMutex;
+		std::vector<OnRenderTickEvent> OnRenderTickCallbackEventsQueue;
+		std::recursive_mutex OnRenderTickCallbackEventsBufferMutex;
+
+		std::vector<OnUpdateTickEvent> OnUpdateTickCallbackEventsQueue;
+		std::recursive_mutex OnUpdateTickCallbackEventsBufferMutex;
 
 		std::vector<OnBeginEvent> OnBeginEventsQueue;
 		std::recursive_mutex OnBeginEventsBufferMutex;
@@ -109,8 +113,11 @@ namespace Ermine
 		std::unordered_map<int,TileSelectedEventSubscription> TileSelectedCallbackEventSubscriptions;
 		std::recursive_mutex TileSelectedCallbackEventsSubscriptionsMutex;
 
-		std::unordered_map<int,OnTickEventSubscription> OnTickCallbackEventSubscriptions;
-		std::recursive_mutex OnTickCallbackEventSubscriptionsMutex;
+		std::unordered_map<int,OnRenderTickEventSubscription> OnRenderTickCallbackEventSubscriptions;
+		std::recursive_mutex OnRenderTickCallbackEventSubscriptionsMutex;
+
+		std::unordered_map<int, OnUpdateTickEventSubscription> OnUpdateTickCallbackEventSubscriptions;
+		std::recursive_mutex OnUpdateTickCallbackEventSubscriptionsMutex;
 
 		std::unordered_map<int, OnBeginEventSubscription> OnBeginEventSubscriptions;
 		std::recursive_mutex OnBeginEventSubscriptionsMutex;
@@ -204,10 +211,11 @@ namespace Ermine
 		int GetOpenSubscriptionTicket();
 		void CloseSubscriptionTicket(int SubscriptionTicket);
 
+		void RendererUpdateDaemonThreadFunction();
 	private:
 		//This Container Hopefully Keeps The Subscription Tickets Given Out In Track..
 		static std::vector<bool> SubscriptionTicketsInUse;
 
+		std::thread RendererUpdateDaemon;
 	};
-
 }

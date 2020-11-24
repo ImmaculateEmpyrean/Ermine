@@ -11,7 +11,7 @@
 
 #include "EventSystem/EventBroadcastStation.h"
 #include "EventSystem/Components/RecieverComponent.h"
-#include "EventSystem/EventTypes/OnTickEvent.h"
+#include "EventSystem/EventTypes/OnUpdateTickEvent.h"
 
 #include "2DPrimitives/ActorFamily/Actor2D.h"
 
@@ -88,10 +88,10 @@ namespace Ermine
 		void HelperRecalculateViewMatrix();
 
 		//Use This Function To Set The Function To Be Called By The Camera Every Frame..
-		void OnTick(std::function<void(float)> OnTickFunction) { this->OnTickFunction = OnTickFunction; }
+		void OnUpdateTick(std::function<void(void)> OnTickFunction) { this->OnUpdateTickFunction = OnTickFunction; }
 		
 		void OnTickFunctionMessageReciever(Event* Eve);
-		void OnTickCameraDefaultProcessing(float DeltaTime);
+		void OnTickCameraDefaultProcessing();
 
 		std::unique_lock<std::recursive_mutex> GetCameraUniqueLock() { return std::move(std::unique_lock<std::recursive_mutex>(OrthigraphicCameraMutex)); }
 
@@ -100,7 +100,7 @@ namespace Ermine
 		Ermine::SubscriptionTicket* OnTickEventTicket = nullptr;
 
 		//This Is The Function Which Will Be Run By The Camera As The Event OnTick.. Assign A Function Of Your Choice To Be Run
-		std::function<void(float)> OnTickFunction = nullptr;
+		std::function<void(void)> OnUpdateTickFunction = nullptr;
 
 		static std::once_flag InitializedFlag;
 		static OrthographicCamera* Camera;

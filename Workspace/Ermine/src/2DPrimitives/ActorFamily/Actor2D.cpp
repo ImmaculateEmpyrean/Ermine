@@ -174,16 +174,16 @@ namespace Ermine
 	void Actor2D::Actor2DConstructionAssciate()
 	{
 		auto Lock = Object::GetObjectMutex();
-		RecieveEvents(true, Ermine::EventType::OnTickEvent);
+		RecieveEvents(true, Ermine::EventType::OnUpdateTickEvent);
 	}
 
 #pragma region EventProcessing
-	void Actor2D::OnTickEventRecieved(float DeltaTime)
+	void Actor2D::OnUpdateTickEventRecieved()
 	{
 		auto Lock = Object::GetObjectMutex();
 
 		//Update The Movable Object Every Frame Of The Engine
-		MovableObject::Update(DeltaTime);
+		MovableObject::Update();
 
 		STDOUTDefaultLog_Info("Actor Tick Working..");
 	}

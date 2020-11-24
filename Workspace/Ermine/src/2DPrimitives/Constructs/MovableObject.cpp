@@ -384,7 +384,7 @@ namespace Ermine
 		ModelMatrixCacheValid = true;
 	}
 
-	void MovableObject::Update(float DeltaTime)
+	void MovableObject::Update()
 	{
 		STDOUTDefaultLog_Trace("Update Called in Movable Object");
 	}

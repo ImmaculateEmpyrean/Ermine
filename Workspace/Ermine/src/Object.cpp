@@ -187,10 +187,16 @@ namespace Ermine
 		return GeneratedObjPtr->IsRecievingTileSelectedCallbackEvents();
 	}
 
-	bool Object::IsRecievingOnTickEvents()
+	bool Object::IsRecievingOnRenderTickEvents()
 	{
 		auto Lock = GetObjectMutex();
-		return GeneratedObjPtr->IsRecievingOnTickEvents();
+		return GeneratedObjPtr->IsRecievingOnRenderTickEvents();
+	}
+
+	bool Object::IsRecievingOnUpdateTickEvents()
+	{
+		auto Lock = GetObjectMutex();
+		return GeneratedObjPtr->IsRecievingOnUpdateTickEvents();
 	}
 
 	bool Object::IsRecievingOnBeginEvents()
