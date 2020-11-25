@@ -9,8 +9,6 @@
 
 #include<memory>
 
-#include "ExchangeStructs/ExchangeAppEvents.h"
-
 #include "EngineUI/WindowHandler.h"
 
 #include "InputSystem/InputInterrogator.h"

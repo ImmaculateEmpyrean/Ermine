@@ -7,10 +7,6 @@
 #include "EngineUI/DebugDevelopment/MainWindow.h"
 #endif 
 
-#include "ExchangeStructs/ExchangeAppEvents.h"
-#include "ExchangeStructs/LevelInitialization.h"
-#include "ExchangeStructs/ExePointerDeclarations.h"
-
 #include "vec2.hpp"
 #include "vec4.hpp"
 #include "glm.hpp"
@@ -84,17 +80,6 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsW
 
 	//Called The Renderer Get In Hopes That It Will Initialize The Renderer2D..
 	auto Renderer = Renderer2D::Get();
-
-	//Start Create Initialization Structure And Call The Level Initializer So That Dll Can Have Relevant Pointers In Exe
-	InitializaDLLStruct Struct;
-	Struct.App = this;
-
-	InitializeDLL(Struct);
-	Checker();
-	//Ended Create Initialization Structure And Call The Level Initializer So That Dll Can Have Relevant Pointers In Exe
-
-	//Now Use The DLL To Initialize The Renderer
-	InitializeScene();
 }
 
 Ermine::App::~App()
@@ -135,11 +120,11 @@ Ermine::App* Ermine::App::Get()
 #endif
 
 #if defined(ER_DEBUG_SHIP) || defined(ER_RELEASE_SHIP)
-		PointerToApp = new App(GetGameNameString(), GetGameWindowDiamensions(), GetPhysicsWorldInitializationStruct());
+		PointerToApp = new App("Shipping Build", {1000.0f,1000.0f}, GetPhysicsWorldInitializationStruct());
 #elif defined(ER_DEBUG_DEVELOP)
 		PhysicsWorldInitializationStruct Phy;
 		Phy.Gravity = glm::vec2(0.0f, -1.0f);		
-		PointerToApp = new App("Ermine Development Environment", GetGameWindowDiamensions(),Phy);
+		PointerToApp = new App("Ermine Development Environment", {1000.0f,1000.0f}, Phy);
 #endif
 
 	});

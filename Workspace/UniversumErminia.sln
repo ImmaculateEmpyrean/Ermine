@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ermine", "Ermine\Ermine.vcxproj", "{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{7FA9857C-6BE0-860D-14CD-6C1000E3020F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{53E47842-3FC8-3998-A828-34EB942B241A}"
 EndProject
@@ -25,9 +25,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json", "vendor\JSON\json.vc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stb", "vendor\stb\stb.vcxproj", "{6EAB880B-DAB4-887C-6330-9F7CCF38947C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{7FA9857C-6BE0-860D-14CD-6C1000E3020F}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameErmineCommonExchangeHeaders", "GameErmineCommonExchangeHeaders\GameErmineCommonExchangeHeaders.vcxproj", "{473471B8-B317-80F8-BC1A-AE34287D4649}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ermine", "Ermine\Ermine.vcxproj", "{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,12 +34,12 @@ Global
 		Release_Distribution|Windows = Release_Distribution|Windows
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}.Debug_Development|Windows.ActiveCfg = Debug_Development Windows|x64
-		{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}.Debug_Development|Windows.Build.0 = Debug_Development Windows|x64
-		{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}.Debug_Distribution|Windows.ActiveCfg = Debug_Distribution Windows|x64
-		{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}.Debug_Distribution|Windows.Build.0 = Debug_Distribution Windows|x64
-		{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}.Release_Distribution|Windows.ActiveCfg = Release_Distribution Windows|x64
-		{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}.Release_Distribution|Windows.Build.0 = Release_Distribution Windows|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug_Development|Windows.ActiveCfg = Debug_Development Windows|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug_Development|Windows.Build.0 = Debug_Development Windows|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug_Distribution|Windows.ActiveCfg = Debug_Distribution Windows|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug_Distribution|Windows.Build.0 = Debug_Distribution Windows|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Release_Distribution|Windows.ActiveCfg = Release_Distribution Windows|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Release_Distribution|Windows.Build.0 = Release_Distribution Windows|x64
 		{A434E80C-1049-10BE-D9CA-B31D459E0CEF}.Debug_Development|Windows.ActiveCfg = Debug_Development Windows|x64
 		{A434E80C-1049-10BE-D9CA-B31D459E0CEF}.Debug_Development|Windows.Build.0 = Debug_Development Windows|x64
 		{A434E80C-1049-10BE-D9CA-B31D459E0CEF}.Debug_Distribution|Windows.ActiveCfg = Debug_Distribution Windows|x64
@@ -102,18 +100,12 @@ Global
 		{6EAB880B-DAB4-887C-6330-9F7CCF38947C}.Debug_Distribution|Windows.Build.0 = Debug_Distribution Windows|x64
 		{6EAB880B-DAB4-887C-6330-9F7CCF38947C}.Release_Distribution|Windows.ActiveCfg = Release_Distribution Windows|x64
 		{6EAB880B-DAB4-887C-6330-9F7CCF38947C}.Release_Distribution|Windows.Build.0 = Release_Distribution Windows|x64
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug_Development|Windows.ActiveCfg = Debug_Development Windows|x64
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug_Development|Windows.Build.0 = Debug_Development Windows|x64
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug_Distribution|Windows.ActiveCfg = Debug_Distribution Windows|x64
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug_Distribution|Windows.Build.0 = Debug_Distribution Windows|x64
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Release_Distribution|Windows.ActiveCfg = Release_Distribution Windows|x64
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Release_Distribution|Windows.Build.0 = Release_Distribution Windows|x64
-		{473471B8-B317-80F8-BC1A-AE34287D4649}.Debug_Development|Windows.ActiveCfg = Debug_Development Windows|x64
-		{473471B8-B317-80F8-BC1A-AE34287D4649}.Debug_Development|Windows.Build.0 = Debug_Development Windows|x64
-		{473471B8-B317-80F8-BC1A-AE34287D4649}.Debug_Distribution|Windows.ActiveCfg = Debug_Distribution Windows|x64
-		{473471B8-B317-80F8-BC1A-AE34287D4649}.Debug_Distribution|Windows.Build.0 = Debug_Distribution Windows|x64
-		{473471B8-B317-80F8-BC1A-AE34287D4649}.Release_Distribution|Windows.ActiveCfg = Release_Distribution Windows|x64
-		{473471B8-B317-80F8-BC1A-AE34287D4649}.Release_Distribution|Windows.Build.0 = Release_Distribution Windows|x64
+		{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}.Debug_Development|Windows.ActiveCfg = Debug_Development Windows|x64
+		{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}.Debug_Development|Windows.Build.0 = Debug_Development Windows|x64
+		{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}.Debug_Distribution|Windows.ActiveCfg = Debug_Distribution Windows|x64
+		{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}.Debug_Distribution|Windows.Build.0 = Debug_Distribution Windows|x64
+		{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}.Release_Distribution|Windows.ActiveCfg = Release_Distribution Windows|x64
+		{25741FB1-1116-4A87-FAD0-5DDBE611D1D7}.Release_Distribution|Windows.Build.0 = Release_Distribution Windows|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

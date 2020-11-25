@@ -6,6 +6,8 @@
 #include "2DPrimitives/Sprite.h"
 #include "2DPrimitives/ActorFamily/Actor2D.h"
 
+#include "glm.hpp"
+
 namespace Game
 {
 	class DiagnolActor:public Ermine::Actor2D

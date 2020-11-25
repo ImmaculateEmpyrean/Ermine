@@ -21,8 +21,6 @@
 
 #include "EngineResourceHandlers/EditorDefaultStrings.h"
 
-void DLL __cdecl TestFunc();
-
 int main(int argc, char* argv[])
 {
 #ifdef ER_DEBUG_DEVELOP

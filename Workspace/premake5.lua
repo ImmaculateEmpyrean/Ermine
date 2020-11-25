@@ -1,6 +1,6 @@
 workspace "UniversumErminia"
     architecture "x86_64"
-    startproject "Ermine"
+    startproject "Game"
 
     configurations{
         "Debug_Development", --This is supposed to have things like tilemap editor and such imgui tools
@@ -100,7 +100,7 @@ group ""
 
 project "Ermine"
     location "Ermine"
-    kind "ConsoleApp"
+    kind "StaticLib"
     language "C++"
     cppdialect "C++17"
     staticruntime "off"
@@ -133,21 +133,6 @@ project "Ermine"
          "%{IncludeDir.freetype}",
          "%{IncludeDir.freetypegl}",
 		 "%{IncludeDir.Box2D}"
-    }
-
-    links {
-        "Glad",
-        "GLFW",
-        "opengl32.lib",
-        "Game",
-        "LogSystem",
-        "ImGui",
-        "GLM",
-        "stb",
-        "JSON",
-        "Freetype",
-        "freetype-gl",
-		"Box2D"
     }
 
     defines{
@@ -191,7 +176,7 @@ project "Ermine"
 
 project "Game"
     location "Game"
-    kind "SharedLib"
+    kind "ConsoleApp"
     language "C++"
     cppdialect "C++17"
     staticruntime "off"
@@ -226,7 +211,7 @@ project "Game"
 		 "Ermine/src"
     }
 
-    links {
+   links {
         "Glad",
         "GLFW",
         "opengl32.lib",
@@ -235,13 +220,12 @@ project "Game"
         "GLM",
         "stb",
         "JSON",
-        "FreeType",
+        "Freetype",
         "freetype-gl",
-		"Box2D"
+		"Box2D",
+		"Ermine"
     }
-    defines{
-        "DLL=__declspec(dllexport)"
-    }
+
     postbuildcommands {
        ("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Ermine/\"")
       }
@@ -280,20 +264,3 @@ project "Game"
         }
 
                 --Game Project Description End --
-
-                --GameErmineCommonExchangeHeaders--
-    
-        project "GameErmineCommonExchangeHeaders"
-            location "GameErmineCommonExchangeHeaders"
-            kind "ConsoleAPP"
-            language "C++"
-            cppdialect "C++17"
-            staticruntime "off"
-            
-            targetdir ("bin/"..outputdir.."/%{prj.name}")
-            objdir ("bin-int/"..outputdir.."/%{prj.name}")
-            
-            files{
-                  "%{prj.name}/src/**.h",
-                  "%{prj.name}/src/**.cpp"
-                 }     

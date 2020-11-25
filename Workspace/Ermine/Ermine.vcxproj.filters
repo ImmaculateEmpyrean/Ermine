@@ -76,6 +76,9 @@
     <Filter Include="LayerSystem">
       <UniqueIdentifier>{87D49461-F389-0D57-7C7E-072EE832045B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{1DAC970D-89C0-BFBE-5242-631EBE15BCEF}</UniqueIdentifier>
+    </Filter>
     <Filter Include="MutexSystem">
       <UniqueIdentifier>{DD1734BF-49CD-ACB4-D2C1-A68B3E76A3B8}</UniqueIdentifier>
     </Filter>
@@ -234,6 +237,12 @@
     <ClInclude Include="src\EventSystem\EventTypes\OnBeginEvent.h">
       <Filter>EventSystem\EventTypes</Filter>
     </ClInclude>
+    <ClInclude Include="src\EventSystem\EventTypes\OnRenderTickEvent.h">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventSystem\EventTypes\OnUpdateTickEvent.h">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClInclude>
     <ClInclude Include="src\EventSystem\EventTypes\ScrollCallbackEvent.h">
       <Filter>EventSystem\EventTypes</Filter>
     </ClInclude>
@@ -333,6 +342,9 @@
     <ClInclude Include="src\LayerSystem\LayerStackLayer.h">
       <Filter>LayerSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\Level\Level.h">
+      <Filter>Level</Filter>
+    </ClInclude>
     <ClInclude Include="src\MutexSystem\Interfaces\IMutex.h">
       <Filter>MutexSystem\Interfaces</Filter>
     </ClInclude>
@@ -414,11 +426,6 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\EventSystem\EventTypes\OnRenderTickEvent.h">
-      <Filter>EventSystem\EventTypes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EventSystem\EventTypes\OnUpdateTickEvent.h" />
-    <ClInclude Include="src\Level\Level.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
@@ -533,6 +540,12 @@
       <Filter>EventSystem\EventTypes</Filter>
     </ClCompile>
     <ClCompile Include="src\EventSystem\EventTypes\OnBeginEvent.cpp">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventSystem\EventTypes\OnRenderTickEvent.cpp">
+      <Filter>EventSystem\EventTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventSystem\EventTypes\OnUpdateTickEvent.cpp">
       <Filter>EventSystem\EventTypes</Filter>
     </ClCompile>
     <ClCompile Include="src\EventSystem\EventTypes\ScrollCallbackEvent.cpp">
@@ -657,13 +670,8 @@
       <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="src\RandomNumberGenerator.cpp" />
-    <ClCompile Include="src\Test.cpp" />
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\EventSystem\EventTypes\OnRenderTickEvent.cpp">
-      <Filter>EventSystem\EventTypes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EventSystem\EventTypes\OnUpdateTickEvent.cpp" />
   </ItemGroup>
 </Project>
