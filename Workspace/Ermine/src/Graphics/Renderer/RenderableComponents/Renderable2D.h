@@ -118,6 +118,9 @@ namespace Ermine
 		std::once_flag CallInitializeFlag;
 		//This Flag Will Be Set To True Once The Entire Object Initialization Is Complete..
 		bool ObjectInitialized = false;
+
+		//This Flag Will Be Set To True Once The Vao Is Created..
+		bool RenderableInitialized = false;
 	};
 
 }

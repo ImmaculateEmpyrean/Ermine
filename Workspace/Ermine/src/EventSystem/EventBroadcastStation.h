@@ -211,7 +211,7 @@ namespace Ermine
 		int GetOpenSubscriptionTicket();
 		void CloseSubscriptionTicket(int SubscriptionTicket);
 
-		void RendererUpdateDaemonThreadFunction();
+		//void RendererUpdateDaemonThreadFunction();
 	private:
 		//This Container Hopefully Keeps The Subscription Tickets Given Out In Track..
 		static std::vector<bool> SubscriptionTicketsInUse;

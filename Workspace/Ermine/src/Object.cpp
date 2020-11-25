@@ -10,10 +10,23 @@ namespace Ermine
 		GeneratedObjPtr->BindObject(this);
 	}
 
+	Object::Object(std::string Name)
+	{
+		//Set The Object Name Properly
+		Object_Name = Name;
+
+		//Generate And Bind Said Generated Object
+		GeneratedObjPtr = std::shared_ptr<Ermine::GeneratedObject>(new GeneratedObject());
+		GeneratedObjPtr->BindObject(this);
+	}
+
 	Object::Object(const Object& rhs)
 	{
 		auto ForeignLock = rhs.GeneratedObjPtr->GetObjectMutex();
 		
+		//Set The Name Taking It From The rhs Object..
+		Object_Name = rhs.Object_Name;
+
 		//Generate And Bind Said Generated Object
 		GeneratedObjPtr = std::shared_ptr<Ermine::GeneratedObject>(new GeneratedObject());
 
@@ -31,6 +44,9 @@ namespace Ermine
 	Object& Object::operator=(const Object& rhs)
 	{
 		auto ForeignLock = rhs.GeneratedObjPtr->GetObjectMutex();
+
+		//Set The Name Taking It From The rhs Object..
+		Object_Name = rhs.Object_Name;
 
 		GeneratedObjPtr = std::shared_ptr<Ermine::GeneratedObject>(new GeneratedObject());
 
@@ -51,6 +67,9 @@ namespace Ermine
 		auto ForeignLock = rhs.GeneratedObjPtr->GetObjectMutex();
 		auto Lock = GetObjectMutex();
 
+		//Set The Name Taking It From The rhs Object..
+		Object_Name = std::move(rhs.Object_Name);
+
 		ObjectHealth = rhs.ObjectHealth;
 		GeneratedObjPtr = rhs.GeneratedObjPtr;
 
@@ -64,6 +83,9 @@ namespace Ermine
 	{
 		auto ForeignLock = rhs.GeneratedObjPtr->GetObjectMutex();
 		auto Lock = GetObjectMutex();
+
+		//Set The Name Taking It From The rhs Object..
+		Object_Name = std::move(rhs.Object_Name);
 
 		ObjectHealth = rhs.ObjectHealth;
 		GeneratedObjPtr = rhs.GeneratedObjPtr;

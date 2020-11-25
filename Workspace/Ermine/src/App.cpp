@@ -40,51 +40,62 @@
 
 #include "Physics/PhysicsComponent2D.h"
 
+#include "LayerSystem/LayerStackLayer.h"
+
 //#include "NoiseGeneration/FastNoiseLite.h"
 #include "NoiseGeneration/PerlinNoise.hpp"
 
-#pragma region StaticDefines
-
-std::once_flag Ermine::App::InitializationFlag;
-Ermine::App* Ermine::App::PointerToApp = nullptr;
-
-#pragma endregion StaticDefines
-
-Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, PhysicsWorldInitializationStruct PhysicsConfig)
+Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, std::filesystem::path LevelPath)
 	:
 	AppTitle(AppTitle),
 	Diamensions(Diamensions),
-	InpInterrogator()
+	BeginLevel(LevelPath)
 {
+#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
+	//Start Initializing Log Library                  Donot Initialize Logs On Release Builds..
+	std::vector<std::pair<std::string, CreateLogFile>> Configuration;
+	Configuration.emplace_back(std::make_pair<std::string, CreateLogFile>("Augustus", CreateLogFile::CreateLogFile));
+	Log::Init(Configuration);
+	//Ended Initializing Log Library
+#endif
+
 	ManagedWindow = new Window(AppTitle, Diamensions);
 
-	//Obj = GetAppEventsStruct();
-
-	//Start Create Window Handler..//
+	//Ermine Only Supports Gui From UI From ImGui For The Forseeble Future.. Hence Game Windows Are Also Probably Gonna Be Drawn Using Imgui..
 	WindowHandler::GlobalWindowHandler = new WindowHandler();
-
 #ifdef ER_DEBUG_DEVELOP
+	//Only In Debug Develop Mode Do We Need To Draw The Development Tools Interface.. Maybe QT Editor Is Coming Soon..
 	WindowHandler::GlobalWindowHandler->SubmitWindowFront(std::make_unique<DebugMainWindow>());
 #endif
 	
-	//Ended Create Window Handler..//
-	
-	//Start Setup Physics Of the engine..//
-	
-	//Create A Box2d Universe
-	Universum = new b2World(b2Vec2(PhysicsConfig.Gravity.x, PhysicsConfig.Gravity.y));
-	//Compute Box2d Physics World Bounds..
-	Ermine::RecalculatePhysicsWorldBounds();
+	//Start Setup Physics Of the engine.. With Default Earthlike Gravity..//
+	Universum = new b2World(b2Vec2({BeginLevel.GetGravityVector().x,BeginLevel.GetGravityVector().y}));
+	Ermine::RecalculatePhysicsWorldBounds(); //What This Func Does IS Suspect For Now..
 
-	//Ended Setup Physics of The Engine..//
-
-	//Called The Renderer Get In Hopes That It Will Initialize The Renderer2D..
+	//Initialize The Only Renderer In Ermine For Now..
 	auto Renderer = Renderer2D::Get();
+
+	BeginLevel.LoadLevel();
+
+	Ermine::LayerStackLayer Layer("DefaultLayer");
+	auto Buf = BeginLevel.GetActors();
+	for(auto& i : Buf)
+		Layer.SubmitActor(i);
+
+	Renderer->SubmitLayer(std::move(Layer));
 }
 
 Ermine::App::~App()
 {
-	delete ManagedWindow; //This Should Not Be Called When The Engine Is Still In Running State
+	//App Must Close All The Things it Handles..
+
+	//Deallocate Box2D
+	delete Universum;
+
+	//Destroy Managed Window..
+	delete ManagedWindow; 
+
+	//Finally Remove All Gui Being Drawn..
 	delete WindowHandler::GlobalWindowHandler;
 }
 
@@ -107,31 +118,6 @@ static void CalculateFrameRate()
 #pragma endregion
 
 
-Ermine::App* Ermine::App::Get()
-{
-	std::call_once(InitializationFlag, []() {
-
-#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
-		//Start Initializing Log Library                  Donot Initialize Logs On Release Builds..
-		std::vector<std::pair<std::string, CreateLogFile>> Configuration;
-		Configuration.emplace_back(std::make_pair<std::string, CreateLogFile>("Augustus", CreateLogFile::CreateLogFile));
-		Log::Init(Configuration);
-		//Ended Initializing Log Library
-#endif
-
-#if defined(ER_DEBUG_SHIP) || defined(ER_RELEASE_SHIP)
-		PointerToApp = new App("Shipping Build", {1000.0f,1000.0f}, GetPhysicsWorldInitializationStruct());
-#elif defined(ER_DEBUG_DEVELOP)
-		PhysicsWorldInitializationStruct Phy;
-		Phy.Gravity = glm::vec2(0.0f, -1.0f);		
-		PointerToApp = new App("Ermine Development Environment", {1000.0f,1000.0f}, Phy);
-#endif
-
-	});
-
-	return PointerToApp;
-}
-
 void Ermine::App::AppRoutine()
 {
 	//Start Calculate Delta Time..//
@@ -150,10 +136,14 @@ void Ermine::App::AppRoutine()
 		UpdateCounter = 0.0;
 		UpdateLoop();
 		Ermine::BroadcastComponent::BroadcastEvent(std::make_unique<Ermine::OnUpdateTickEvent>());
+		STDOUTDefaultLog_Critical("Update Tick Broadcasted");
 	}
-
-	Ermine::BroadcastComponent::BroadcastEvent(std::make_unique<Ermine::OnRenderTickEvent>(UpdateCounter));
-	RenderLoop(UpdateCounter);
+	else
+	{
+		Ermine::BroadcastComponent::BroadcastEvent(std::make_unique<Ermine::OnRenderTickEvent>(UpdateCounter));
+		STDOUTDefaultLog_Critical("Render Tick Broadcasted");
+		RenderLoop(UpdateCounter);
+	}
 }
 
 void Ermine::App::UpdateLoop()
@@ -178,11 +168,3 @@ void Ermine::App::RenderLoop(float DeltaTime)
 
 	ManagedWindow->PostNewFrameProcess();
 }
-
-//Temp Delete After USe
-void Ermine::App::CallFromDll()
-{
-	STDOUTDefaultLog_Info("Called Method Call From DLL");
-}
-
-

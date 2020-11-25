@@ -15,6 +15,10 @@ namespace Game
 	public:
 		DiagnolActor(std::shared_ptr<Ermine::Sprite> Sprite);
 
+		DiagnolActor(std::shared_ptr<Ermine::Actor2D> Act);
+
 		virtual void OnUpdateTickEventRecieved() override;
+
+		static std::shared_ptr<Ermine::Actor2DBase> Generate(std::shared_ptr<Ermine::Actor2DBase> Act);
 	};
 }

@@ -1,0 +1,17 @@
+{
+    "Gravity":[0.0,-10.0],
+    "Actor2D":{
+         "Object1" : {
+             "Name" : "Michael",
+             "Texture" : "Texture/St.MichaelHeraldry.png",
+             "Location" : [0,0],
+             "RecievingEvents" : [0,0,0,0,0,0,0,0,0]
+         },
+         "Object2" : {
+            "Name" : "DragonSlayer",
+            "Texture" : "Texture/St.MichaelTheDragonSlayer.png",
+            "Location" : [500,500],
+            "RecievingEvents" : [0,0,0,0,0,0,0,0,0]
+        }
+    }
+}

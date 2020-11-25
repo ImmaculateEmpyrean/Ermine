@@ -1,25 +1,12 @@
 #include "stdafx.h"
+#include "EntryPoint.h"
 
 #include "EventSystem/EventBroadcastStation.h"
 
-#include "TestFolder/RecieverWithBroadcastComponent.h"
-#include "TestFolder/SenderWithSendComponent.h"
+#include "EngineResourceHandlers/GlobalTextureCache.h"
+#include "EngineResourceHandlers/EditorDefaultStrings.h"
 
 #include "Log.h"
-
-//#include "LayerSystem/LayerStack.h"
-//#include "LayerSystem/LayerStackLayer.h"
-
-#include "App.h"
-
-#include "TestFolder/TestInputSystem/InputChecker.h"
-
-#include "EngineResourceHandlers/GlobalTextureCache.h"
-
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
-
-#include "EngineResourceHandlers/EditorDefaultStrings.h"
 
 int main(int argc, char* argv[])
 {
@@ -31,12 +18,13 @@ int main(int argc, char* argv[])
 	//Ended Initialize Memory Leak Checking Module..
 #endif
 
-	auto App = Ermine::App::Get();
+	//The App Which The User Sends Over Is The One Which The Engine Executes..
+	auto App = Ermine::ExecuteApp();
 	
 	while (!App->Quit)
 	{
+		//The Routine Is What Is Executed Evry Frame..
 		App->AppRoutine();
-		//App->NextFrame();
 	}
   
 	Ermine::EventBroadcastStation::DestroyStation();

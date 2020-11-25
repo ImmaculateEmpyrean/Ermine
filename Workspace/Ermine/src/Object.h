@@ -32,7 +32,10 @@ namespace Ermine
 	{
 	public:
 #pragma region Constructors
+		//Try Not To Use This Constructor As It Leads To The Object Being Name DefaultObject..
 		Object();
+
+		Object(std::string Name);
 
 		Object(const Object& rhs);
 		Object& operator=(const Object& rhs);
@@ -106,6 +109,9 @@ namespace Ermine
 #pragma endregion
 
 	private:
+		//The Object Name Is Not Required To Be Unique.. Although Try To Keep Ut Unique..
+		std::string Object_Name = "DefaultObject";
+
 		//This Is The Object Health.. SInce Nobody Can Explicitly Delete An Object.. Anybody Can Request Its Initiation Of Deletion
 		ObjectStatus ObjectHealth = Ermine::ObjectStatus::StatusOk;
 

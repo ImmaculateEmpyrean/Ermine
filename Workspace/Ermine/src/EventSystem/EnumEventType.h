@@ -19,5 +19,5 @@ namespace Ermine
 	};
 
 	//Do Not Forget To Update This Function.. When Messing With This File..
-	int GetNumberOfEventTypesInExistence(); //This Returns 9 For Now..
+	int GetNumberOfEventTypesInExistence(); //This Returns 10 For Now..
 }

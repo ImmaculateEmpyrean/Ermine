@@ -153,10 +153,20 @@ glm::mat4 Ermine::Renderable2D::GetModelMatrix()
 
 void Ermine::Renderable2D::BindRenderable()
 {
-    Vao = std::make_shared<VertexArray>(VertexBufferBuffer, IndexBufferBuffer);
-    Vao->SetVertexAttribArray(Specification); //Set The Array Specifications Right..
-    Vao->Bind();
-    Mat->Bind();
+    if (RenderableInitialized == false)
+    {
+        Vao = std::make_shared<VertexArray>(VertexBufferBuffer, IndexBufferBuffer);
+        Vao->SetVertexAttribArray(Specification); //Set The Array Specifications Right..
+        Vao->Bind();
+        Mat->Bind();
+
+        RenderableInitialized = true;
+    }
+    else
+    {
+        Vao->Bind();
+        Mat->Bind();
+    }
 }
 
 void Ermine::Renderable2D::OnRenderTickEventRecieved(float DeltaTime)
@@ -212,6 +222,7 @@ void Ermine::Renderable2D::CopyHelper(Ermine::Renderable2D& rhs)
     CallDefaultRefresh = rhs.CallDefaultRefresh;
 
     ObjectInitialized = rhs.ObjectInitialized;
+    RenderableInitialized = rhs.RenderableInitialized;
 }
 void Ermine::Renderable2D::MoveHelper(Ermine::Renderable2D&& rhs)
 {
@@ -237,5 +248,6 @@ void Ermine::Renderable2D::MoveHelper(Ermine::Renderable2D&& rhs)
     CallDefaultRefresh = std::move(rhs.CallDefaultRefresh);
 
     ObjectInitialized = std::move(rhs.ObjectInitialized);
+    RenderableInitialized = std::move(rhs.RenderableInitialized);
 }
 #pragma endregion

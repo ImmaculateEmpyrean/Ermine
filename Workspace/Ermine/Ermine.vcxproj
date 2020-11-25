@@ -167,6 +167,7 @@
     <ClInclude Include="src\EngineUI\DebugDevelopment\MainWindow.h" />
     <ClInclude Include="src\EngineUI\PrecursorWindow.h" />
     <ClInclude Include="src\EngineUI\WindowHandler.h" />
+    <ClInclude Include="src\EntryPoint.h" />
     <ClInclude Include="src\EventSystem\Components\BroadcastComponent.h" />
     <ClInclude Include="src\EventSystem\Components\RecieverComponent.h" />
     <ClInclude Include="src\EventSystem\EnumEventType.h" />
@@ -312,6 +313,7 @@
     <ClCompile Include="src\InteriorComponents\GeneratedObject.cpp" />
     <ClCompile Include="src\LayerSystem\LayerStack.cpp" />
     <ClCompile Include="src\LayerSystem\LayerStackLayer.cpp" />
+    <ClCompile Include="src\Level\Level.cpp" />
     <ClCompile Include="src\MutexSystem\MutexCasket.cpp" />
     <ClCompile Include="src\MutexSystem\MutexGaurd.cpp" />
     <ClCompile Include="src\MutexSystem\MutexManager.cpp" />
@@ -330,6 +332,7 @@
     <ClCompile Include="src\Physics\Physics.cpp" />
     <ClCompile Include="src\Physics\PhysicsComponent2D.cpp" />
     <ClCompile Include="src\RandomNumberGenerator.cpp" />
+    <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

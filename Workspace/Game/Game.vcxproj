@@ -152,10 +152,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Actors\DiagnolMovingActor.cpp" />
+    <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\PCH\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\vendor\Glad\Glad.vcxproj">

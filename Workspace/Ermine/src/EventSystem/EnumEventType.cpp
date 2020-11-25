@@ -3,5 +3,5 @@
 
 int Ermine::GetNumberOfEventTypesInExistence()
 {
-    return 9;
+    return 10;
 }

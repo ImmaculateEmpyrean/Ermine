@@ -23,6 +23,6 @@
     <ClCompile Include="src\PCH\stdafx.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
-    <ClCompile Include="src\Test.cpp" />
+    <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
 </Project>
