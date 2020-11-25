@@ -7,7 +7,7 @@
 
 #include<mutex>
 
-#ifdef ER_DEBUG_DEVELOP
+#ifdef ER_DEBUG_DEVELOP 
 
 namespace Ermine
 {

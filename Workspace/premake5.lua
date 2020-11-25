@@ -232,6 +232,7 @@ project "Game"
 
     filter "configurations:Debug_Development"
         defines{
+          "ER_DEBUG_DEVELOP",
           "GAME_DEBUG_DEVELOP"
         }
         runtime "Debug"
@@ -239,6 +240,7 @@ project "Game"
     
     filter "configurations:Debug_Distribution"
         defines{
+        	"ER_DEBUG_SHIP",
             "GAME_DEBUG_SHIP"
         }
         runtime "Debug"
@@ -246,6 +248,7 @@ project "Game"
     
     filter "configurations:Release_Distribution"
         defines{
+        	"ER_RELEASE_SHIP",
             "GAME_RELEASE_SHIP"
         }
         runtime "Release"
@@ -253,6 +256,7 @@ project "Game"
     
     filter "platforms:Windows"
         defines{
+        	"ER_BUILDING_FOR_WINDOWS",
             "GAME_BUILDING_FOR_WINDOWS"
         }
         
@@ -260,6 +264,7 @@ project "Game"
         systemversion "latest"
 
         defines{
+        	"ER_BUILDING_ON_WINDOWS",
             "GAME_BUILDING_ON_WINDOWS"
         }
 
