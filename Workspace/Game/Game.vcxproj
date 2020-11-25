@@ -150,11 +150,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Actors\DiagnolMovingActor.h" />
     <ClInclude Include="src\PCH\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Actors\DiagnolMovingActor.cpp" />
     <ClCompile Include="src\AppEventsImplementation.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\PCH\stdafx.cpp">

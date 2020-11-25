@@ -9,7 +9,6 @@
     <ClInclude Include="src\PCH\stdafx.h">
       <Filter>PCH</Filter>
     </ClInclude>
-    <ClInclude Include="src\Actors\DiagnolMovingActor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\AppEventsImplementation.cpp" />
@@ -17,6 +16,5 @@
     <ClCompile Include="src\PCH\stdafx.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
-    <ClCompile Include="src\Actors\DiagnolMovingActor.cpp" />
   </ItemGroup>
 </Project>

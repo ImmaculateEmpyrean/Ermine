@@ -55,8 +55,8 @@ namespace Ermine
 #pragma endregion
 
 	public:
-		
-
+		std::string Message;
+		void CallFromDll();
 	protected:
 
 	protected:

@@ -28,11 +28,14 @@ BOOL WINAPI DllMain(_In_ HINSTANCE hinstDLL,_In_ DWORD fdwReason,_In_ LPVOID lpv
 void DLL _cdecl InitializeDLL(InitializaDLLStruct Struct)
 {
 	HApp = Struct.App;
+	HApp->Message = "Set in DLL Duh";
 }
 
 extern void DLL _cdecl Checker()
 {
 	STDOUTDefaultLog_Info("Checker Has Run In DLL");
+	STDOUTDefaultLog_Info(HApp->Message);
+	HApp->CallFromDll();
 }
 
 extern void DLL _cdecl InitializeScene()

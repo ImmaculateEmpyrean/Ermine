@@ -194,4 +194,10 @@ void Ermine::App::RenderLoop(float DeltaTime)
 	ManagedWindow->PostNewFrameProcess();
 }
 
+//Temp Delete After USe
+void Ermine::App::CallFromDll()
+{
+	STDOUTDefaultLog_Info("Called Method Call From DLL");
+}
+
 
