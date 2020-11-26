@@ -8,7 +8,10 @@
 
 #include "EntryPoint.h"
 
+#include "EventSystem/EventBroadcastStation.h"
+
 #include "Actors/DiagnolMovingActor.h"
+
 
 class GameApp : public Ermine::App
 {
@@ -26,6 +29,9 @@ Ermine::App* Ermine::ExecuteApp()
 
 std::shared_ptr<Ermine::Actor2DBase> Ermine::Actor2DConstructionCallback(std::shared_ptr<Ermine::Actor2DBase> Act)
 {
-	auto Dact = Game::DiagnolActor::Generate(Act);
-	return Dact;
+	auto Station = Ermine::EventBroadcastStation::GetStation();
+
+	std::shared_ptr<Ermine::Actor2D> Act2 = Ermine::Actor2D::GenerateActor2D("Texture/ErmineNullTexture.png", { 500.0f,500.0f });
+	//std::shared_ptr<Game::DiagnolActor> Dact = Game::DiagnolActor::Generate(Act);
+	return Act2;//Dact;
 }

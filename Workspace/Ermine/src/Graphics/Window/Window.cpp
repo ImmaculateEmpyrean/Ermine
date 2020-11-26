@@ -46,7 +46,7 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
 
     glfwMakeContextCurrent(WinPtr); //Made The Created Window Current Context..
     glfwSetFramebufferSizeCallback(WinPtr, framebuffer_size_callback);
-    glfwSwapInterval(1);
+    //glfwSwapInterval(1);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {

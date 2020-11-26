@@ -75,12 +75,20 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, std::fil
 	//Initialize The Only Renderer In Ermine For Now..
 	auto Renderer = Renderer2D::Get();
 
+	//Initialize Event Station
+	auto Station = Ermine::EventBroadcastStation::GetStation();
+
 	BeginLevel.LoadLevel();
 
 	Ermine::LayerStackLayer Layer("DefaultLayer");
-	auto Buf = BeginLevel.GetActors();
-	for(auto& i : Buf)
+	std::vector<std::shared_ptr<Ermine::Actor2DBase>> Buf = BeginLevel.GetActors();
+	for(std::shared_ptr<Ermine::Actor2DBase> i : Buf)
 		Layer.SubmitActor(i);
+
+	//This Works..
+	//For Some Reason I Cant Construct In the Callback Function..
+	std::shared_ptr<Ermine::Actor2D> Act2 = Ermine::Actor2D::GenerateActor2D("Texture/ErmineNullTexture.png", { 500.0f,500.0f });
+	Layer.SubmitActor(Act2);
 
 	Renderer->SubmitLayer(std::move(Layer));
 }

@@ -72,7 +72,7 @@ namespace Ermine
 		bool IsRecievingOnBeginEvents() { return FlagsOfRecievingEvents[(unsigned int)Ermine::EventType::OnBeginEvent]; };
 		
 		//Recieve All Flags As A Vector Of Bool Instead Of Specified Singular Bool
-		std::vector<bool> AllFlagsOfRecievingEvents() { return FlagsOfRecievingEvents; }
+		std::vector<int> AllFlagsOfRecievingEvents() { return FlagsOfRecievingEvents; }
 
 #pragma region BindAndUnbindOBjects
 	public:
@@ -120,7 +120,7 @@ namespace Ermine
 
 		std::function<void(std::filesystem::path, int)> TileSelectedUpdateFunctionPointer = nullptr;
 
-		std::vector<bool> FlagsOfRecievingEvents;
+		std::vector<int> FlagsOfRecievingEvents;
 		std::vector<Ermine::SubscriptionTicket*> TicketsHeldByTheObject;
 
 		std::atomic<bool> ObjectReadyToRecieveEvents = true;

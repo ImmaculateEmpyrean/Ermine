@@ -68,6 +68,10 @@ namespace Ermine {
 		void SetMaterial(std::shared_ptr<Ermine::Material> Mat);
 #pragma endregion
 
+		//Test
+		virtual void OnUpdateTickEventRecieved() override;
+	
+
 	protected:
 
 	protected:

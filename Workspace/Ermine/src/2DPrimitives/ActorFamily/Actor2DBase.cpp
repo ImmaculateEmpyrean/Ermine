@@ -81,4 +81,11 @@ namespace Ermine
 		auto Lock = Object::GetObjectMutex();
 		ActorMaterial = Mat;
 	}
+
+
+
+	void Actor2DBase::OnUpdateTickEventRecieved()
+	{
+		STDOUTDefaultLog_Critical("Actor2D Base Has Got It Why ?");
+	}
 }

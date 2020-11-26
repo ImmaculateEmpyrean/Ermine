@@ -247,7 +247,7 @@ namespace Ermine
 		return GeneratedObjPtr->IsRecievingOnBeginEvents();
 	}
 
-	std::vector<bool> Object::AllFlagsOfRecievingEvents()
+	std::vector<int> Object::AllFlagsOfRecievingEvents()
 	{
 		auto Lock = GetObjectMutex();
 		return GeneratedObjPtr->AllFlagsOfRecievingEvents();

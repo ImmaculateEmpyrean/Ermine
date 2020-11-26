@@ -80,7 +80,7 @@ namespace Ermine
 		bool IsRecievingOnBeginEvents();			 
 
 		//Recieve All Flags As A Vector Of Bool Instead Of Specified Singular Bool
-		std::vector<bool> AllFlagsOfRecievingEvents();
+		std::vector<int> AllFlagsOfRecievingEvents();
 
 		std::unique_lock<std::recursive_mutex> GetObjectMutex() { return std::move(GeneratedObjPtr->GetObjectMutex()); }
 

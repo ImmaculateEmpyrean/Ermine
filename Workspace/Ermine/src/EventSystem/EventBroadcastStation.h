@@ -168,6 +168,8 @@ namespace Ermine
 							j = SQ.erase(j);
 							if (j == SQ.end())
 								break;
+
+							Subs = j->second.GetSubscribedObject();
 						}
 						if (j == SQ.end())
 							break;
@@ -178,6 +180,9 @@ namespace Ermine
 							j = SQ.erase(j);
 							if (j == SQ.end())
 								break;
+
+							Subs = j->second.GetSubscribedObject();
+							Health = Subs->GetObjectHealth();
 						}
 						if (j == SQ.end())
 							break;
