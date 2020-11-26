@@ -23,7 +23,7 @@ void Game::DiagnolActor::OnUpdateTickEventRecieved()
 
 std::shared_ptr<Game::DiagnolActor> Game::DiagnolActor::Generate(std::shared_ptr<Ermine::Actor2DBase> Act)
 {
-	std::shared_ptr<DiagnolActor> DAct(new DiagnolActor(std::dynamic_pointer_cast<Ermine::Actor2D,Ermine::Actor2DBase>(Act)->GetSprite()));
+	std::shared_ptr<DiagnolActor> DAct(new DiagnolActor(std::dynamic_pointer_cast<Ermine::Actor2D,Ermine::Actor2DBase>(Act)));
 	return DAct;
 }
 

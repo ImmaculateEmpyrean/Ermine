@@ -68,7 +68,7 @@ namespace Ermine
 		//The Helper Function Hopefully Functions Properly..
 		HelperCopy(rhs);
 	}
-	MovableObject& MovableObject::operator=(const MovableObject& rhs)
+	Ermine::MovableObject& MovableObject::operator=(const MovableObject& rhs)
 	{
 		//The Helper Function Hopefully Functions Properly..
 		HelperCopy(rhs);
@@ -90,19 +90,17 @@ namespace Ermine
 
 	void MovableObject::HelperCopy(const MovableObject& rhs)
 	{
-		CacheValid = rhs.CacheValid;
-		ModelMatrixCacheValid = rhs.ModelMatrixCacheValid;
+		CacheValid = false;
+		ModelMatrixCacheValid = false;
 
-		ModelMatrix = rhs.ModelMatrix;
+		ModelMatrix = glm::mat4(1.0f);
 
-		TranslationMatrix = rhs.TranslationMatrix;
-		RotationMatrix    = rhs.RotationMatrix;
-		ScaleMatrix = rhs.ScaleMatrix;
+		TranslationMatrix = glm::mat4(1.0f);
+		RotationMatrix    = glm::mat4(1.0f);
+		ScaleMatrix		  = glm::mat4(1.0f);
 
 		Position = rhs.Position;
-
 		Rotation = rhs.Rotation;
-
 		scale = rhs.scale;
 
 		Velocity = rhs.Velocity;
@@ -129,7 +127,6 @@ namespace Ermine
 
 		Velocity = std::move(rhs.Velocity);
 		AngularVelocityInDegrees = std::move(rhs.AngularVelocityInDegrees);
-
 	}
 
 #pragma endregion Constructors

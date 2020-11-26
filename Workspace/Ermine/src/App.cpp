@@ -85,11 +85,6 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, std::fil
 	for(std::shared_ptr<Ermine::Actor2DBase> i : Buf)
 		Layer.SubmitActor(i);
 
-	//This Works..
-	//For Some Reason I Cant Construct In the Callback Function..
-	std::shared_ptr<Ermine::Actor2D> Act2 = Ermine::Actor2D::GenerateActor2D("Texture/ErmineNullTexture.png", { 500.0f,500.0f });
-	Layer.SubmitActor(Act2);
-
 	Renderer->SubmitLayer(std::move(Layer));
 }
 
