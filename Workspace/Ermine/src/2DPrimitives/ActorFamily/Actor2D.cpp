@@ -43,7 +43,9 @@ namespace Ermine
 	}
 
 	Actor2D::~Actor2D()
-	{}
+	{
+		RecieveEvents(false, Ermine::EventType::OnUpdateTickEvent);
+	}
 
 	//Sorely Missed Copy Constructor
 	Actor2D::Actor2D(Actor2D & rhs)
@@ -185,6 +187,8 @@ namespace Ermine
 		//Update The Movable Object Every Frame Of The Engine
 		MovableObject::Update();
 
+		//MovableObject::Scale(1.01f, 1.01f);
+		MovableObject::Translate(1.0f, 0.0f);
 		STDOUTDefaultLog_Info("Actor Tick Working..");
 	}
 #pragma endregion

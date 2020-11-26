@@ -135,7 +135,7 @@ void Ermine::Renderable2D::Refresh(float DeltaTime)
             return;
         }
         //The Renderable Is Only Responsible For Updating Model Matrix Nothing Else.. All Other Properties Are Not Changed In The Midst of Execution..
-        ModelMatrix = Actor_Bound->GetModelMatrix() * DeltaTime;
+        ModelMatrix = Actor_Bound->GetModelMatrix() + (Actor_Bound->GetModelMatrix() * DeltaTime);
     }
 }
 

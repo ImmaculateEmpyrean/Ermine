@@ -107,7 +107,9 @@ static void CalculateFrameRate()
 	static float lastTime = 0.0f;
 	float currentTime = GetTickCount() * 0.001f;
 	++framesPerSecond;
-	std::cout << "Current Frames Per Second:"<< fps<<std::endl;
+
+	STDOUTDefaultLog_Info(std::to_string(fps));
+
 	if (currentTime - lastTime > 1.0f)
 	{
 		lastTime = currentTime;
@@ -120,6 +122,8 @@ static void CalculateFrameRate()
 
 void Ermine::App::AppRoutine()
 {
+	CalculateFrameRate();
+
 	//Start Calculate Delta Time..//
 	static float DeltaTimeVar = 0.0f;
 	float TimeS = glfwGetTime();// -Ermine::TimeStep;

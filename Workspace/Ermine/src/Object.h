@@ -37,8 +37,8 @@ namespace Ermine
 
 		Object(std::string Name);
 
-		Object(const Object& rhs);
-		Object& operator=(const Object& rhs);
+		Object(Object& rhs);
+		Object& operator=(Object& rhs);
 
 		Object(Object&& rhs);
 		Object& operator=(Object&& rhs);

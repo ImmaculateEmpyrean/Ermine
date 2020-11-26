@@ -20,5 +20,11 @@ namespace Game
 		virtual void OnUpdateTickEventRecieved() override;
 
 		static std::shared_ptr<Ermine::Actor2DBase> Generate(std::shared_ptr<Ermine::Actor2DBase> Act);
+
+		DiagnolActor(DiagnolActor& rhs);
+		DiagnolActor operator=(DiagnolActor& rhs);
+
+		DiagnolActor(DiagnolActor&& rhs);
+		DiagnolActor operator=(DiagnolActor&& rhs);
 	};
 }

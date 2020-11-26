@@ -20,7 +20,7 @@ namespace Ermine
 		GeneratedObjPtr->BindObject(this);
 	}
 
-	Object::Object(const Object& rhs)
+	Object::Object(Object& rhs)
 	{
 		auto ForeignLock = rhs.GeneratedObjPtr->GetObjectMutex();
 		
@@ -41,10 +41,10 @@ namespace Ermine
 			GeneratedObjPtr->RecieveEvents(i, Ermine::EventType(FlagCounter++));
 
 	}
-	Object& Object::operator=(const Object& rhs)
+	Object& Object::operator=(Object& rhs)
 	{
 		auto ForeignLock = rhs.GeneratedObjPtr->GetObjectMutex();
-
+		
 		//Set The Name Taking It From The rhs Object..
 		Object_Name = rhs.Object_Name;
 
@@ -71,13 +71,23 @@ namespace Ermine
 		Object_Name = std::move(rhs.Object_Name);
 
 		ObjectHealth = rhs.ObjectHealth;
-		GeneratedObjPtr = rhs.GeneratedObjPtr;
+
+		GeneratedObjPtr = std::shared_ptr<Ermine::GeneratedObject>(new GeneratedObject());
+		GeneratedObjPtr->BindObject(this);
+
+		auto Flags = rhs.GeneratedObjPtr->AllFlagsOfRecievingEvents();
+
+		unsigned int FlagCounter = 0;
+		for (auto i : Flags)
+			GeneratedObjPtr->RecieveEvents(i, Ermine::EventType(FlagCounter++));
+
+		rhs.ObjectHealth = Ermine::ObjectStatus::StatusMarkedForDeletion;
+		rhs.GeneratedObjPtr->SetObjectHealth(Ermine::ObjectStatus::StatusMarkedForDeletion);
+		rhs.GeneratedObjPtr->UnBindObject();
+		rhs.GeneratedObjPtr = nullptr;
 
 		PushToFunction = nullptr;
 		PushToFunc = false;
-
-		rhs.GeneratedObjPtr = nullptr;
-		rhs.ObjectHealth = Ermine::ObjectStatus::StatusMarkedForDeletion;
 	}
 	Object& Object::operator=(Object&& rhs)
 	{
@@ -88,13 +98,23 @@ namespace Ermine
 		Object_Name = std::move(rhs.Object_Name);
 
 		ObjectHealth = rhs.ObjectHealth;
-		GeneratedObjPtr = rhs.GeneratedObjPtr;
+
+		GeneratedObjPtr = std::shared_ptr<Ermine::GeneratedObject>(new GeneratedObject());
+		GeneratedObjPtr->BindObject(this);
+
+		auto Flags = rhs.GeneratedObjPtr->AllFlagsOfRecievingEvents();
+
+		unsigned int FlagCounter = 0;
+		for (auto i : Flags)
+			GeneratedObjPtr->RecieveEvents(i, Ermine::EventType(FlagCounter++));
+
+		rhs.ObjectHealth = Ermine::ObjectStatus::StatusMarkedForDeletion;
+		rhs.GeneratedObjPtr->SetObjectHealth(Ermine::ObjectStatus::StatusMarkedForDeletion);
+		rhs.GeneratedObjPtr->UnBindObject();
+		rhs.GeneratedObjPtr = nullptr;
 
 		PushToFunction = nullptr;
 		PushToFunc = false;
-
-		rhs.GeneratedObjPtr = nullptr;
-		rhs.ObjectHealth = Ermine::ObjectStatus::StatusMarkedForDeletion;
 
 		return *this;
 	}
