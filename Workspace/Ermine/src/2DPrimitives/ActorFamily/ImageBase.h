@@ -57,8 +57,7 @@ namespace Ermine
 	public:
 
 	protected:
-
-	protected:
+		static std::shared_ptr<Ermine::Sprite> GenSprite(std::filesystem::path TexturePath, glm::vec2 BottomLeft, glm::vec2 TopRight);
 
 	protected:
 		

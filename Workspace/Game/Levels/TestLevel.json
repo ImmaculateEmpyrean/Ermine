@@ -13,5 +13,33 @@
             "Location" : [500,500],
             "RecievingEvents" : [0,0,0,0,0,0,0,0,0]
         }
+    },
+    "PhysicsActor2D":{
+        "Object1" : {
+            "Name" : "CarBody",
+            "B2BodyDef" : {
+                "Type" : "Dynamic",
+                "Position" : [1.0,0.0],
+                "FixedRotation":false
+            },
+            "Fixtures" :{
+                "Fixture1" : {
+                    "Shape" :{
+                        "ShapeType" : "PolyShape",
+                        "Points" : {
+                            "P1" : [-0.5,-0.5],
+                            "P2" : [0.5 ,-0.5],
+                            "P3" : [0.5 , 0.5],
+                            "P4" : [-0.5, 0.5]
+                        }
+                    },
+                    "Density" : "1.0",
+                    "Friction" : "0.0",
+                    "Restitution" : "0.5"
+                }
+            },
+            "Texture" : "Texture/St.MichaelHeraldry.png",
+            "RecievingEvents" : [0,0,0,0,0,0,0,0,0]
+        }
     }
 }

@@ -135,7 +135,7 @@ namespace Ermine {
 	protected:
 
 	private:
-		static std::shared_ptr<Ermine::Sprite> GenSprite(std::filesystem::path TexturePath,glm::vec2 BottomLeft,glm::vec2 TopRight);
+		
 		static glm::mat4 GenModelMatrix(glm::vec2 ActorScreenLocation, float Rotation, glm::vec2 Scale);
 
 		void Actor2DConstructionAssciate();

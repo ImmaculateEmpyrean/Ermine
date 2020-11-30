@@ -10,31 +10,29 @@ namespace Ermine
 {
 	class WeldJoint : public JointBase
 	{
-	public:
+	protected:
 		//There Is Absolutely No Reason To Have An Empty Weld Joint..
 		WeldJoint() = delete;
 
-		//Use This As The Default Constructor For Testing Purposes..
-		WeldJoint(b2Body* BodyA, b2Body* BodyB, bool CollideConnected = false);
-
 		//This Constructor Is To Be Used To Set Up Anchor Points All Coordinates In Pixel Space
-		WeldJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
-
-		//This Constructor Is To Be Used To Set Up Anchor Points All Coordinates In Pixel Space
-		WeldJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
-
-		virtual ~WeldJoint() override;
+		WeldJoint(std::string JointName,b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
 
 	public:
-		virtual b2Joint* GetJoint() override { return WeldJointHandle; }
-		virtual operator b2Joint*() override { return WeldJointHandle; }
+		virtual ~WeldJoint() override;
 
+		Ermine::EJointType GetType() override { return Ermine::EJointType::WeldJoint; }
+
+		WeldJoint(const WeldJoint& rhs) = delete;
+		WeldJoint operator=(const WeldJoint& rhs) = delete;
+
+		WeldJoint(WeldJoint&& rhs);
+		WeldJoint& operator=(WeldJoint&& rhs);
+
+		static std::shared_ptr<Ermine::WeldJoint> Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
+	public:
 		virtual glm::vec2 GetBodyALocalAnchorLocation() override;
 		virtual glm::vec2 GetBodyBLocalAnchorLocation() override;
 
-		virtual glm::vec2 GetBodyAWorldAnchorLocationPixels() override;
-		virtual glm::vec2 GetBodyBWorldAnchorLocationPixels() override;
-
 	public:
 
 	protected:
@@ -42,9 +40,9 @@ namespace Ermine
 	protected:
 
 	private:
-		void HelperConstructWeldJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool CollideConnected);
+		
 	private:
-		b2WeldJoint* WeldJointHandle = nullptr;
+
 
 	};
 }

@@ -3,82 +3,13 @@
 
 namespace Ermine
 {
-	Ermine::DistanceJoint::DistanceJoint(b2Body* BodyA, b2Body* BodyB, bool ShouldBodiesAttachedByTheJointCollide)
+	DistanceJoint::DistanceJoint(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide)
 		:
-		JointBase(BodyA, BodyB)
+		JointBase(JointName,BodyA,BodyB)
 	{
-		ConstructDistanceJointHelper(BodyA, BodyB, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), ShouldBodiesAttachedByTheJointCollide);
-	}
-	DistanceJoint::DistanceJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide)
-		:
-		JointBase(BodyA, BodyB)
-	{
-		ConstructDistanceJointHelper(BodyA, BodyB, AnchorAWithRespectToBoxCentre, glm::vec2(0.0f, 0.0f), ShouldBodiesAttachedByTheJointCollide);
-	}
-	DistanceJoint::DistanceJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide)
-		:
-		JointBase(BodyA, BodyB)
-	{
-		ConstructDistanceJointHelper(BodyA, BodyB, AnchorAWithRespectToBoxCentre ,AnchorBWithRespectToBoxCentre, ShouldBodiesAttachedByTheJointCollide);
-	}
-
-	DistanceJoint::~DistanceJoint()
-	{
-		if (ValidFlag == true)
-		{
-			Universum->DestroyJoint(DistanceJointHandle);
-			DistanceJointHandle = nullptr;
-		}
-	}
-
-
-	glm::vec2 DistanceJoint::GetBodyALocalAnchorLocation()
-	{
-		if (ValidFlag == true)
-		{
-			b2Vec2 LocalAnchorLocation = DistanceJointHandle->GetLocalAnchorA();
-			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
-			return LocalAnchorLocPixel;
-		}
-		else return glm::vec2(-9999.0f, -9999.0f);
-	}
-	glm::vec2 DistanceJoint::GetBodyBLocalAnchorLocation()
-	{
-		if (ValidFlag == true)
-		{
-			b2Vec2 LocalAnchorLocation = DistanceJointHandle->GetLocalAnchorB();
-			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
-			return LocalAnchorLocPixel;
-		}
-		else return glm::vec2(-9999.0f, -9999.0f);
-	}
-
-	glm::vec2 DistanceJoint::GetBodyAWorldAnchorLocationPixels()
-	{
-		if (ValidFlag == true)
-		{
-			b2Vec2 LocalAnchorLocation = DistanceJointHandle->GetAnchorA();
-			glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
-			return LocalAnchorLocPixel;
-		}
-		else return glm::vec2(-9999.0f, -9999.0f);
-	}
-	glm::vec2 DistanceJoint::GetBodyBWorldAnchorLocationPixels()
-	{
-		if (ValidFlag == true)
-		{
-			b2Vec2 LocalAnchorLocation = DistanceJointHandle->GetAnchorB();
-			glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
-			return LocalAnchorLocPixel;
-		}
-		else return glm::vec2(-9999.0f, -9999.0f);
-	}
-
-
-	void DistanceJoint::ConstructDistanceJointHelper(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide)
-	{
-		glm::vec2 LocalAnchorAWorldSpace = Ermine::vertexPixelsToWorld(AnchorAWithRespectToBoxCentre);
-		glm::vec2 LocalAnchorBWorldSpace = Ermine::vertexPixelsToWorld(AnchorBWithRespectToBoxCentre);
+		
+		b2Vec2 AnchorA = Ermine::GLMToB2Vec2(Ermine::vertexPixelsToWorld(AnchorAWithRespectToBoxCentre));
+		b2Vec2 AnchorB = Ermine::GLMToB2Vec2(Ermine::vertexPixelsToWorld(AnchorBWithRespectToBoxCentre));
 
 		b2DistanceJointDef DisDef;
 
@@ -86,11 +17,114 @@ namespace Ermine
 		DisDef.bodyB = BodyB;
 		DisDef.collideConnected = ShouldBodiesAttachedByTheJointCollide;
 
-		DisDef.localAnchorA = b2Vec2(LocalAnchorAWorldSpace.x,LocalAnchorAWorldSpace.y);
-		DisDef.localAnchorB = b2Vec2(LocalAnchorBWorldSpace.x,LocalAnchorBWorldSpace.y);
+		DisDef.localAnchorA = AnchorA;
+		DisDef.localAnchorB = AnchorB;
 
-		DistanceJointHandle = (b2DistanceJoint*)Ermine::Universum->CreateJoint(&DisDef);
+		JointHandle = (b2DistanceJoint*)Ermine::Universum->CreateJoint(&DisDef);
+	}
 
-		JointBase::JointHandle = DistanceJointHandle;
+	DistanceJoint::~DistanceJoint()
+	{}
+
+	DistanceJoint::DistanceJoint(DistanceJoint&& rhs)
+		:
+		JointBase(std::move(rhs))
+	{}
+
+	DistanceJoint& DistanceJoint::operator=(DistanceJoint&& rhs)
+	{
+		JointBase::operator=(std::move(rhs));
+		return *this;
+	}
+
+	std::shared_ptr<Ermine::DistanceJoint> DistanceJoint::Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false)
+	{
+		std::shared_ptr<Ermine::DistanceJoint> Joint(new Ermine::DistanceJoint(JointName, BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre,ShouldBodiesAttachedByTheJointCollide),Ermine::JointDeleter<Ermine::DistanceJoint>());
+		return Joint;
+	}
+
+
+	glm::vec2 DistanceJoint::GetBodyALocalAnchorLocation()
+	{
+		if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		{
+			b2Vec2 LocalAnchorLocation = ((b2DistanceJoint*)JointHandle)->GetLocalAnchorA();
+			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+			return LocalAnchorLocPixel;
+		}
+		else
+		{
+			STDOUTDefaultLog_Error("Cannot Get BodyA LocalAnchor Location Of The Distance Joint IN Question As The Object Health Is Not Okay");
+			return glm::vec2(-9999.0f, -9999.0f);
+		}
+	}
+	glm::vec2 DistanceJoint::GetBodyBLocalAnchorLocation()
+	{
+		if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		{
+			b2Vec2 LocalAnchorLocation = ((b2DistanceJoint*)JointHandle)->GetLocalAnchorB();
+			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+			return LocalAnchorLocPixel;
+		}
+		else
+		{
+			STDOUTDefaultLog_Error("Cannot Get BodyB LocalAnchor Location Of The Distance Joint IN Question As The Object Health Is Not Okay");
+			return glm::vec2(-9999.0f, -9999.0f);
+		}
+	}
+
+
+	float DistanceJoint::GetLength()
+	{
+		if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		{
+			return Ermine::scalarWorldToPixels(((b2DistanceJoint*)JointHandle)->GetLength());
+		}
+		else
+		{
+			STDOUTDefaultLog_Error("Cannot Get Length Of The Distance Joint In Question As The Object Health Is Not Okay");
+			return -9999.0f;
+		}
+	}
+	void DistanceJoint::SetLength(float Length)
+	{
+		if(GetHealth() == Ermine::JointHealthEnum::StatusOk)
+			((b2DistanceJoint*)JointHandle)->SetLength(Ermine::scalarPixelsToWorld(Length));
+		else STDOUTDefaultLog_Error("Cannot Set Length Of The Distance Joint In Question As The Object Health Is Not Okay");
+	}
+
+
+	float DistanceJoint::GetFrequency()
+	{
+		if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+			return ((b2DistanceJoint*)JointHandle)->GetFrequency(); //Dunno What Exactly This Means.. So Passing It On As Is
+		else
+		{
+			STDOUTDefaultLog_Error("Cannot Get Frequency Of The Distance Joint In Question As The Object Health Is Not Okay");
+			return -9999.0f;
+		}
+	}
+	void DistanceJoint::SetFrequency(float Frequency)
+	{
+		if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+			((b2DistanceJoint*)JointHandle)->SetFrequency(Frequency); //Dunno What Exactly This Means.. So Passing It On As Is
+		else STDOUTDefaultLog_Error("Cannot Set Frequency Of The Distance Joint In Question As The Object Health Is Not Okay");
+	}
+
+	float DistanceJoint::GetDampingRatio()
+	{
+		if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+			return ((b2DistanceJoint*)JointHandle)->GetDampingRatio();
+		else
+		{
+			STDOUTDefaultLog_Error("Cannot Get Damping Ratio Of The Distance Joint In Question As The Object Health Is Not Okay");
+			return -9999.0f;
+		}
+	}
+	void DistanceJoint::SetDampingRatio(float Ratio)
+	{
+		if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+			((b2DistanceJoint*)JointHandle)->SetDampingRatio(Ratio);
+		else STDOUTDefaultLog_Error("Cannot Set Damping Ratio Of The Distance Joint In Question As The Object Health Is Not Okay");
 	}
 }

@@ -1,173 +1,12 @@
 #include "stdafx.h"
 #include "RevoluteJoint.h"
 
-Ermine::RevoluteJoint::RevoluteJoint(b2Body* BodyA, b2Body* BodyB, bool ShouldBodiesAttachedByTheJointCollide)
+Ermine::RevoluteJoint::RevoluteJoint(std::string JointName,b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, float ReferenceAngleDegrees, bool ShouldBodiesAttachedByTheJointCollide)
 	:
-	JointBase(BodyA,BodyB)
+	JointBase(JointName,BodyA, BodyB)
 {
-	HelperConstructRevoluteJoint(BodyA, BodyB, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), 0.0f, ShouldBodiesAttachedByTheJointCollide);
-}
-
-Ermine::RevoluteJoint::RevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide)
-	:
-	JointBase(BodyA, BodyB)
-{
-	HelperConstructRevoluteJoint(BodyA, BodyB, AnchorAWithRespectToBoxCentre, glm::vec2(0.0f, 0.0f), 0.0f, ShouldBodiesAttachedByTheJointCollide);
-}
-
-Ermine::RevoluteJoint::RevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide)
-	:
-	JointBase(BodyA, BodyB)
-{
-	HelperConstructRevoluteJoint(BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre, 0.0f, ShouldBodiesAttachedByTheJointCollide);
-}
-
-Ermine::RevoluteJoint::RevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, float ReferenceAngleDegrees, bool ShouldBodiesAttachedByTheJointCollide)
-	:
-	JointBase(BodyA, BodyB)
-{
-	float ReferenceAngle = glm::radians<float>(ReferenceAngleDegrees);
-	HelperConstructRevoluteJoint(BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre, ReferenceAngle, ShouldBodiesAttachedByTheJointCollide);
-}
-
-Ermine::RevoluteJoint::~RevoluteJoint()
-{
-	if (ValidFlag == true)
-	{
-		Ermine::Universum->DestroyJoint(RevoluteJointHandle);
-		RevoluteJointHandle = nullptr;
-	}
-}
-
-
-void Ermine::RevoluteJoint::SetRotationLimits(float LowerLimitDegrees, float UpperLimitDegrees)
-{
-	float LowerLimitRadians = glm::radians<float>(LowerLimitDegrees);
-	float UpperLimitRadians = glm::radians<float>(UpperLimitDegrees);
-
-	RevoluteJointHandle->EnableLimit(true);
-	RevoluteJointHandle->SetLimits(LowerLimitRadians, UpperLimitRadians);
-}
-void Ermine::RevoluteJoint::SetRotationLimits(float LimitDegrees, bool IsUpperLimit)
-{
-	float LimitRadians = glm::radians<float>(LimitDegrees);
-	
-	RevoluteJointHandle->EnableLimit(true);
-
-	if(IsUpperLimit == true)
-		RevoluteJointHandle->SetLimits(-99999.0f, LimitRadians);
-	else 
-		RevoluteJointHandle->SetLimits(LimitRadians, 99999.0f);
-}
-
-void Ermine::RevoluteJoint::ClearLimits()
-{
-	RevoluteJointHandle->EnableLimit(false);
-}
-
-glm::vec2 Ermine::RevoluteJoint::GetBodyALocalAnchorLocation()
-{
-	if (ValidFlag == true)
-	{
-		b2Vec2 LocalAnchorLocation = RevoluteJointHandle->GetLocalAnchorA();
-		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
-		return LocalAnchorLocPixel;
-	}
-	else return glm::vec2(-9999.0f, -9999.0f);
-}
-
-glm::vec2 Ermine::RevoluteJoint::GetBodyBLocalAnchorLocation()
-{
-	if (ValidFlag == true)
-	{
-		b2Vec2 LocalAnchorLocation = RevoluteJointHandle->GetLocalAnchorB();
-		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
-		return LocalAnchorLocPixel;
-	}
-	else return glm::vec2(-9999.0f, -9999.0f);
-}
-
-glm::vec2 Ermine::RevoluteJoint::GetBodyAWorldAnchorLocationPixels()
-{
-	if (ValidFlag == true)
-	{
-		b2Vec2 LocalAnchorLocation = RevoluteJointHandle->GetAnchorA();
-		glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
-		return LocalAnchorLocPixel;
-	}
-	else return glm::vec2(-9999.0f, -9999.0f);
-}
-
-glm::vec2 Ermine::RevoluteJoint::GetBodyBWorldAnchorLocationPixels()
-{
-	if (ValidFlag == true)
-	{
-		b2Vec2 LocalAnchorLocation = RevoluteJointHandle->GetAnchorB();
-		glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
-		return LocalAnchorLocPixel;
-	}
-	else return glm::vec2(-9999.0f, -9999.0f);
-}
-
-
-#pragma region MotorFunctions
-
-void Ermine::RevoluteJoint::EnableMotor(bool enabled)
-{
-	if(ValidFlag == true)
-		RevoluteJointHandle->EnableMotor(enabled);
-}
-void Ermine::RevoluteJoint::SetMotorSpeed(float speed)
-{
-	if (ValidFlag == true)
-		RevoluteJointHandle->SetMotorSpeed(speed);
-}
-void Ermine::RevoluteJoint::SetMaxMotorTorque(float torque)
-{
-	if (ValidFlag == true)
-		RevoluteJointHandle->SetMaxMotorTorque(torque);
-}
-
-bool Ermine::RevoluteJoint::IsMotorEnabled()
-{
-	if (ValidFlag == true)
-		return RevoluteJointHandle->IsMotorEnabled();
-	else return false;
-}
-float Ermine::RevoluteJoint::GetMotorSpeed()
-{
-	if (ValidFlag == true)
-		return RevoluteJointHandle->GetMotorSpeed();
-	else return -9999.0f;
-}
-float Ermine::RevoluteJoint::GetMotorTorque()
-{
-	if (ValidFlag == true)
-		return RevoluteJointHandle->GetMotorTorque(1.0f / PhysicsWorldTimestep);
-	else return -9999.0f;
-}
-
-#pragma endregion MotorFunctions
-
-
-float Ermine::RevoluteJoint::GetReferenceAngleInDegrees()
-{
-	if (ValidFlag == true)
-		return glm::degrees<float>(GetReferenceAngleInRadians());
-	else return -9999.0f;
-}
-float Ermine::RevoluteJoint::GetReferenceAngleInRadians()
-{
-	if (ValidFlag == true)
-		return RevoluteJointHandle->GetReferenceAngle();
-	else return -9999.0f;
-}
-
-
-void Ermine::RevoluteJoint::HelperConstructRevoluteJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, float ReferenceAngle, bool ShouldBodiesAttachedByTheJointCollide)
-{
-	glm::vec2 LocalAnchorAWorldSpace = Ermine::vertexPixelsToWorld(AnchorAWithRespectToBoxCentre);
-	glm::vec2 LocalAnchorBWorldSpace = Ermine::vertexPixelsToWorld(AnchorBWithRespectToBoxCentre);
+	b2Vec2 AnchorA = Ermine::GLMToB2Vec2(Ermine::vertexPixelsToWorld(AnchorAWithRespectToBoxCentre));
+	b2Vec2 AnchorB = Ermine::GLMToB2Vec2(Ermine::vertexPixelsToWorld(AnchorBWithRespectToBoxCentre));
 
 	b2RevoluteJointDef RevDef;
 
@@ -175,12 +14,351 @@ void Ermine::RevoluteJoint::HelperConstructRevoluteJoint(b2Body* BodyA, b2Body* 
 	RevDef.bodyB = BodyB;
 	RevDef.collideConnected = ShouldBodiesAttachedByTheJointCollide;
 
-	RevDef.localAnchorA = b2Vec2(LocalAnchorAWorldSpace.x, LocalAnchorAWorldSpace.y);
-	RevDef.localAnchorB = b2Vec2(LocalAnchorBWorldSpace.x, LocalAnchorBWorldSpace.y);
+	RevDef.localAnchorA = AnchorA;
+	RevDef.localAnchorB = AnchorB;
 
-	RevDef.referenceAngle = ReferenceAngle;
+	RevDef.referenceAngle = glm::radians<float>(ReferenceAngleDegrees);
 
-	RevoluteJointHandle = (b2RevoluteJoint*)Ermine::Universum->CreateJoint(&RevDef);
+	JointHandle = (b2RevoluteJoint*)Ermine::Universum->CreateJoint(&RevDef);
+}
 
-	JointBase::JointHandle = RevoluteJointHandle;
+Ermine::RevoluteJoint::~RevoluteJoint()
+{}
+
+Ermine::RevoluteJoint::RevoluteJoint(RevoluteJoint && rhs)
+	:
+	JointBase(std::move(rhs))
+{}
+
+Ermine::RevoluteJoint& Ermine::RevoluteJoint::operator=(RevoluteJoint&& rhs)
+{
+	JointBase::operator=(std::move(rhs));
+	return *this;
+}
+
+std::shared_ptr<Ermine::RevoluteJoint> Ermine::RevoluteJoint::Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, float ReferenceAngleDegrees, bool ShouldBodiesAttachedByTheJointCollide)
+{
+	std::shared_ptr<Ermine::RevoluteJoint> Joint(new Ermine::RevoluteJoint(JointName, BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre, ReferenceAngleDegrees, ShouldBodiesAttachedByTheJointCollide),Ermine::JointDeleter<Ermine::RevoluteJoint>());
+	return Joint;
+}
+
+
+bool Ermine::RevoluteJoint::LimitEnabled()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return ((b2RevoluteJoint*)JointHandle)->IsLimitEnabled();
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Check If Limits Are Enabled On Revolute Joint As Joint Health Is Not Okay..");
+		return false;
+	}
+}
+
+void Ermine::RevoluteJoint::EnableLimit()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		((b2RevoluteJoint*)JointHandle)->EnableLimit(true);
+	else STDOUTDefaultLog_Error("Cannot EnableLimits On Revolute Joint As Joint Health Is Not Okay..");
+}
+
+void Ermine::RevoluteJoint::DisableLimit()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		((b2RevoluteJoint*)JointHandle)->EnableLimit(false);
+	else STDOUTDefaultLog_Error("Cannot DisableLimits On Revolute Joint As Joint Health Is Not Okay..");
+}
+
+void Ermine::RevoluteJoint::ToggleJointLimits()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		bool Limit = LimitEnabled();
+		((b2RevoluteJoint*)JointHandle)->EnableLimit(!LimitEnabled);
+	}
+	else STDOUTDefaultLog_Error("Cannot Toggle JointLimits On Revolute Joint As Joint Health Is Not Okay..");
+}
+
+glm::vec2 Ermine::RevoluteJoint::GetRotationLimitsDegrees()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		auto Limits = GetRotationLimitsRadians();
+		float LowerLimit = glm::degrees<float>(Limits.x);
+		float UpperLimit = glm::degrees<float>(Limits.y);
+		return glm::vec2(LowerLimit, UpperLimit);
+	}
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get Rotation JointLimits On Revolute Joint As Joint Health Is Not Okay..");
+		return glm::vec2(-9999.0f, -9999.0f);
+	}
+	
+}
+
+glm::vec2 Ermine::RevoluteJoint::GetRotationLimitsRadians()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		float UpperLimit = ((b2RevoluteJoint*)JointHandle)->GetUpperLimit();
+		float LowerLimit = ((b2RevoluteJoint*)JointHandle)->GetLowerLimit();
+		return glm::vec2(LowerLimit, UpperLimit);
+	}
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get Rotation JointLimits On Revolute Joint As Joint Health Is Not Okay..");
+		return glm::vec2(-9999.0f, -9999.0f);
+	}
+}
+
+void Ermine::RevoluteJoint::SetRotationLimits(float LowerLimit, float UpperLimit,bool Degrees)
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		if (Degrees == true)
+		{
+			LowerLimit = glm::radians<float>(LowerLimit);
+			UpperLimit = glm::radians<float>(UpperLimit);
+		}
+		((b2RevoluteJoint*)JointHandle)->SetLimits(LowerLimit, UpperLimit);
+	}
+	else STDOUTDefaultLog_Error("Cannot Set Rotation Limits On Revolute Joint As Joint Health Is Not Okay..");
+}
+
+float Ermine::RevoluteJoint::GetRotationLimitsUpperDegrees()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		auto Limits = GetRotationLimitsDegrees();
+		return Limits.y;
+	}
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get Rotation Limits Upper On Revolute Joint As Joint Health Is Not Okay..");
+		return -9999.0f;
+	}
+}
+
+float Ermine::RevoluteJoint::GetRotationLimitsUpperRadians()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		auto Limits = GetRotationLimitsRadians();
+		return Limits.y;
+	}
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get Rotation Limits Upper On Revolute Joint As Joint Health Is Not Okay..");
+		return -9999.0f;
+	}
+}
+
+void Ermine::RevoluteJoint::SetRotationLimitsUpper(float Angle, bool Degrees)
+{
+	if(Degrees == true)
+		Angle = glm::radians<float>(Angle);
+	
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		float LowerLimit = ((b2RevoluteJoint*)JointHandle)->GetLowerLimit();
+		if (LowerLimit < -99999.0f)
+			LowerLimit = -99999.0f;
+
+		((b2RevoluteJoint*)JointHandle)->SetLimits(LowerLimit, Angle);
+	}
+	else STDOUTDefaultLog_Error("Cannot Set Rotation Limit Upper On Revolute Joint As Joint Health Is Not Okay..");
+
+	((b2RevoluteJoint*)JointHandle)->GetLowerLimit();
+}
+float Ermine::RevoluteJoint::GetRotationLimitsLowerDegrees()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		auto Limits = GetRotationLimitsDegrees();
+		return Limits.x;
+	}
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get Rotation Limits Lower On Revolute Joint As Joint Health Is Not Okay..");
+		return -9999.0f;
+	}
+}
+float Ermine::RevoluteJoint::GetRotationLimitsLowerRadians()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		auto Limits = GetRotationLimitsRadians();
+		return Limits.x;
+	}
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get Rotation Limits Lower On Revolute Joint As Joint Health Is Not Okay..");
+		return -9999.0f;
+	}
+}
+void Ermine::RevoluteJoint::SetRotationLimitsLower(float Angle, bool Degrees)
+{
+	if (Degrees == true)
+		Angle = glm::radians<float>(Angle);
+
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		float UpperLimit = ((b2RevoluteJoint*)JointHandle)->GetLowerLimit();
+		if (UpperLimit > 99999.0f)
+			UpperLimit = 99999.0f;
+
+		((b2RevoluteJoint*)JointHandle)->SetLimits(Angle, UpperLimit);
+	}
+	else STDOUTDefaultLog_Error("Cannot Set Rotation Limit Lower On Revolute Joint As Joint Health Is Not Okay..");
+}
+
+
+glm::vec2 Ermine::RevoluteJoint::GetBodyALocalAnchorLocation()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		b2Vec2 LocalAnchorLocation = ((b2RevoluteJoint*)JointHandle)->GetLocalAnchorA();
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get BodyALocalAnchorLocation On Revolute Joint As Joint Health Is Not Okay..");
+		return glm::vec2(-9999.0f, -9999.0f);
+	}
+}
+
+glm::vec2 Ermine::RevoluteJoint::GetBodyBLocalAnchorLocation()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		b2Vec2 LocalAnchorLocation = ((b2RevoluteJoint*)JointHandle)->GetLocalAnchorB();
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get BodyBLocalAnchorLocation On Revolute Joint As Joint Health Is Not Okay..");
+		return glm::vec2(-9999.0f, -9999.0f);
+	}
+}
+
+#pragma region MotorFunctions
+
+void Ermine::RevoluteJoint::EnableMotor(bool enabled)
+{
+	if(JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		((b2RevoluteJoint*)JointHandle)->EnableMotor(enabled);
+	else STDOUTDefaultLog_Error("Cannot Enable Motor On Revolute Joint As Joint Health Is Not Okay..");
+}
+void Ermine::RevoluteJoint::SetMotorSpeed(float speed)
+{
+	if(JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		((b2RevoluteJoint*)JointHandle)->SetMotorSpeed(speed);
+	else STDOUTDefaultLog_Error("Cannot Set Motor Speed On Revolute Joint As Joint Health Is Not Okay..");
+}
+void Ermine::RevoluteJoint::SetMaxMotorTorque(float torque)
+{
+	if(JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		((b2RevoluteJoint*)JointHandle)->SetMaxMotorTorque(torque);
+	else STDOUTDefaultLog_Error("Cannot Set Max Motor Torque On Revolute Joint As Joint Health Is Not Okay..");
+}
+
+bool Ermine::RevoluteJoint::IsMotorEnabled()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return ((b2RevoluteJoint*)JointHandle)->IsMotorEnabled();
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Query Motor Enabled On Revolute Joint As Joint Health Is Not Okay..");
+		return false;
+	}
+}
+float Ermine::RevoluteJoint::GetMotorSpeed()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return ((b2RevoluteJoint*)JointHandle)->GetMotorSpeed();
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Query Motor Speed On Revolute Joint As Joint Health Is Not Okay..");
+		return -9999.0f;
+	}
+}
+float Ermine::RevoluteJoint::GetMotorTorque()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return ((b2RevoluteJoint*)JointHandle)->GetMotorTorque(1.0f / 0.04f);
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Query Motor Torque On Revolute Joint As Joint Health Is Not Okay..");
+		return -9999.0f;
+	}
+}
+
+#pragma endregion MotorFunctions
+
+
+float Ermine::RevoluteJoint::GetJointSpeedDegreesPerSecond()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return glm::degrees<float>(GetJointSpeedRadiansPerSecond());
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Query JointSpeed On Revolute Joint As Joint Health Is Not Okay..");
+		return 9999.0f;
+	}
+}
+
+float Ermine::RevoluteJoint::GetJointSpeedRadiansPerSecond()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return ((b2RevoluteJoint*)JointHandle)->GetJointSpeed();
+	else 
+	{
+		STDOUTDefaultLog_Error("Cannot Query JointSpeed On Revolute Joint As Joint Health Is Not Okay..");
+		return 9999.0f;
+	}
+	
+}
+
+float Ermine::RevoluteJoint::GetReferenceAngleInDegrees()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return glm::degrees<float>(GetReferenceAngleInRadians());
+	else 
+	{
+		STDOUTDefaultLog_Error("Cannot Query ReferenceAngle On Revolute Joint As Joint Health Is Not Okay..");
+		return -9999.0f;
+	}
+}
+float Ermine::RevoluteJoint::GetReferenceAngleInRadians()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return ((b2RevoluteJoint*)JointHandle)->GetReferenceAngle();
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Query ReferenceAngle On Revolute Joint As Joint Health Is Not Okay..");
+		return -9999.0f;
+	}
+}
+
+float Ermine::RevoluteJoint::GetJointAngleInDegrees()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return glm::degrees<float>(GetJointAngleInRadians());
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Query JointAngle On Revolute Joint As Joint Health Is Not Okay..");
+		return 9999.0f;
+	}
+}
+
+float Ermine::RevoluteJoint::GetJointAngleInRadians()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return ((b2RevoluteJoint*)JointHandle)->GetJointAngle();
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Query JointAngle On Revolute Joint As Joint Health Is Not Okay..");
+		return 9999.0f;
+	}
 }

@@ -10,32 +10,42 @@ namespace Ermine
 {
 	class DistanceJoint :public JointBase
 	{
-	public:
+	protected:
 		//There Is Absolutely No Point in An Empty Joint Existing..
 		DistanceJoint() = delete;
 
-		//This Is More Or Less The Default Constructor You Are To Use.. 
-		DistanceJoint(b2Body* BodyA, b2Body* BodyB, bool ShouldBodiesAttachedByTheJointCollide = false);
-
 		//This Constructor Is To Be Used To Set Up Anchor Points All Coordinates In Pixel Space
-		DistanceJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
+		DistanceJoint(std::string JointName,b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre,glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
 
-		//This Constructor Is To Be Used To Set Up Anchor Points All Coordinates In Pixel Space
-		DistanceJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre,glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
-
+	public:
 		//This Destructor Is An Override From JointBAse
 		virtual ~DistanceJoint() override;
 
-	public:
-		virtual b2Joint* GetJoint() override { return DistanceJointHandle; }
-		virtual operator b2Joint* () override { return DistanceJointHandle;}
+		//Get The Concrete Type Of The Joint In Question..
+		virtual Ermine::EJointType GetType() override { return Ermine::EJointType::DistenceJoint; };
 
+		//How Do You Even Copy A Joint ?
+		DistanceJoint(const DistanceJoint& rhs) = delete;
+		DistanceJoint& operator=(const DistanceJoint& rhs) = delete;
+
+		//Well You Could Move A Joint
+		DistanceJoint(DistanceJoint&& rhs);
+		DistanceJoint& operator=(DistanceJoint&& rhs);
+
+		static std::shared_ptr<Ermine::DistanceJoint> Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
+
+	public:
 		virtual glm::vec2 GetBodyALocalAnchorLocation() override;
 		virtual glm::vec2 GetBodyBLocalAnchorLocation() override;
 
-		virtual glm::vec2 GetBodyAWorldAnchorLocationPixels() override;
-		virtual glm::vec2 GetBodyBWorldAnchorLocationPixels() override;
+		float GetLength();
+		void SetLength(float Length);
 
+		float GetFrequency();
+		void SetFrequency(float Frequency);
+
+		float GetDampingRatio();
+		void  SetDampingRatio(float Ratio);
 	public:
 
 	protected:
@@ -43,10 +53,9 @@ namespace Ermine
 	protected:
 
 	private:
-		void ConstructDistanceJointHelper(b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
 
 	private:
-		b2DistanceJoint* DistanceJointHandle = nullptr;
+	
 
 	};
 }

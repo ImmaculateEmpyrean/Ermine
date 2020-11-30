@@ -8,17 +8,13 @@ Game::DiagnolActor::DiagnolActor(std::shared_ptr<Ermine::Sprite> Sprite)
 
 Game::DiagnolActor::DiagnolActor(std::shared_ptr<Ermine::Actor2D> Act)
 	:
-	Actor2D(*Act)
+	Actor2D(std::move(*Act))
 {}
 
 void Game::DiagnolActor::OnUpdateTickEventRecieved()
 {
 	auto Lock = GetObjectMutex();
-	
-	//Actor2D::OnUpdateTickEventRecieved();
-	
 	MovableObject::Translate(1.0f, 1.0f);
-	STDOUTDefaultLog_Critical("Hoi");
 }
 
 std::shared_ptr<Game::DiagnolActor> Game::DiagnolActor::Generate(std::shared_ptr<Ermine::Actor2DBase> Act)

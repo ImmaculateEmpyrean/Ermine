@@ -107,6 +107,15 @@ namespace Ermine
 		return Actorsprite->GetBottomLeftUV();
 	}
 
+	std::shared_ptr<Ermine::Sprite> ImageBase::GenSprite(std::filesystem::path TexturePath, glm::vec2 BottomLeft, glm::vec2 TopRight)
+	{
+		auto Cache = Ermine::GlobalTextureCache::Get();
+		std::shared_ptr<Ermine::Texture> Tex = Cache->GetTextureFromFile(TexturePath);
+
+		std::shared_ptr<Ermine::Sprite> Sprite = Ermine::Sprite::GenerateSprite(Tex, BottomLeft, TopRight);
+
+		return Sprite;
+	}
 	//Ended Setter And Getter For The ActorSprite..//
 
 

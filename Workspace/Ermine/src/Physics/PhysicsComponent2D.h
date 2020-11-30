@@ -28,31 +28,9 @@ namespace Ermine
 
 	class PhysicsComponent2D
 	{
-	public:
-		//A Default Physics component Can Be Constructed However It Cannot Be Default..
-		PhysicsComponent2D();
+#pragma region Constructors
 
-		//Use This Constructor To Quickly Construct A Box At The Specified Location No Other Nonsense For Now..
-		PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, glm::vec2 BodySizeInPixelSpace ,bool StaticBody = true);
-
-		//Use This Constructor To Quickly Construct A Box At The Specified Location No Other Nonsense For Now Except The Ability To Specify The Color..
-		PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, glm::vec2 BodySizeInPixelSpace, bool StaticBody,glm::vec4 DebugTraceColor);
-
-		//Use This Constructor To Quickly Construct A Circle At The Specified Location No Other Nonesense For Now..
-		PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, float BodyRadiusInPixelSpace, bool StaticBody = true);
-
-		//Use This Constructor To Quickly Construct A Circle At The Specified Location No Other Nonesense For Now Except The Ability To Specify The Color Of The Body.. 
-		PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, float BodyRadiusInPixelSpace, bool StaticBody,glm::vec4 DebugTraceColor);
-
-		//Use This Constructor To Explicitly Fix The Size Of The Box And Also Say That The Shape Is a Box..
-		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,glm::vec2 BodySizeInPixelSpace);
-
-		//Use This Constructor To Explicitly Fix The Size Of The Box And Also Say That The Shape Is a Box U Get To Specify The Color Of This Body If This Constructor Is USed..
-		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition, glm::vec2 BodySizeInPixelSpace,glm::vec4 DebugTraceColor);
-
-		//Use This Constructor If U Wanna Set a Custom Shape..
-		PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition);
-
+	protected:
 		//Use This Constructor If U Wanna Set A Lot Of Fixtures And Shapes..
 		PhysicsComponent2D(b2BodyDef Definition,std::vector<b2FixtureDef> FixtureDefinitions);
 
@@ -66,49 +44,33 @@ namespace Ermine
 		PhysicsComponent2D(PhysicsComponent2D&& rhs);
 
 		//Copy Assignment Operator is disabled BEWARE because two objects cannot share the position..
-		PhysicsComponent2D operator=(const PhysicsComponent2D& rhs) = delete;
+		PhysicsComponent2D& operator=(const PhysicsComponent2D& rhs) = delete;
 		//Move Assignemnt Operator is the staple Goto As Copy Version Is Deleted..
 		PhysicsComponent2D& operator=(PhysicsComponent2D&& rhs);
+#pragma endregion
+
+#pragma region Generators
+
+	public:
+		static std::shared_ptr<Ermine::PhysicsComponent2D> Generate(b2BodyDef BodyDefinition, std::vector<b2FixtureDef> FixturesAssociatedWithBody);
+#pragma endregion
 
 		//Use This Operator To Implicitly Convert This Physics Component To a B2Body.. Might Come in Handy..
 		operator b2Body* () { return BodyManagedByTheComponent; }
 
 		//Start Get Position And angle Of The Component In Space..//
-		//Returns Location of The Body In Box2D World..
 		glm::vec2 GetBodyLocationBox2DSpace();
-		//Returns Location Of The Body In Ermine World..
 		glm::vec2 GetBodyLocationPixelSpace();
 
-		//Returns In Radians.... this is the radians rotated taking body centre into account..
-		float GetAngleOfTheBody();
+		float GetAngleOfTheBodyRadians();
+		float GetAnfleOfTheBodyDegrees();
 		//Ended Get Position And Angle Of The Component In Space..//
 
 		//Start Get Various Matrices Related With Transformation//
-		//Gives The Translation Matrix.. 
+		glm::mat4 GetModelMatrix();
 		glm::mat4 GetTranslationMatrix();
-		
-		//Gives The Rotation Matrix..
 		glm::mat4 GetRotationMatrix();
 		//Ended Get Various Matrices Related With Transformation//
-
-		//Start Get Size Of The Body//
-
-		//Get Size Of The Body Box2D Space
-		glm::vec2 GetBodySizeBox2DSpace() { return BodySize; }
-		//Get Size Of The Body Pixel Space
-		glm::vec2 GetBodySizePixelSpace() { return Ermine::vectorWorldToPixels(BodySize); }
-		
-		//Get Width Of The Body In Box2D Space
-		float GetBodyWidthBox2DSpace() { return BodySize.x; }
-		//Get Width Of The Body In Pixel Space
-		float GetBodyWidthPixelSpace() { return Ermine::scalarWorldToPixels(BodySize.x); }
-
-		//Get Height of The Body In Box2D Space
-		float GetBodyHeightBox2DSpace() { return BodySize.y; }
-		//Get Height of The Body in Pixel Space
-		float GetBodyHeightPixelSpace() { return Ermine::scalarWorldToPixels(BodySize.y);}
-		
-		//Ended Get Size Of The Body//
 
 		//Start Get Some Value From The Body
 		glm::vec2 GetVelocityOfTheBody();
@@ -121,69 +83,54 @@ namespace Ermine
 		//Ended Section Add Something To The Body..//
 
 		//Start Section Set Something To The Body..//
-		void SetPosition(glm::vec2 Position); //DONOT USE THIS FUNCTION.. WHAT IS EVENN THE POINT OF USING A PHYSICS ENGINE?
-
+		void SetPosition(glm::vec2 Position);
+		
 		void SetVelocity(glm::vec2 Velocity);
 		void SetAngularVelocity(float AngularVelocity);
 		//Ended Section Set Something To The Body..//
 
-		//Start Section Utility Functions..//
-
-		//Attaches This Component To The Debugger Which Traces All Its Shapes In Realtime So That Debugging Physics Is Made Easier..
-		void StartDebugTrace();
+#pragma region Joints
 		
-		//Detaches This Component From The Debugger Which Traces All Its Shapes In Realtime.
-		void StopDebugTrace();
-
-		//Ended Section Utility Functions..//
-
-		//Start Creating Joint Functions..//
-
-		//This Is The Best Way To Delete A Joint Just Give It The Identifier You Wanna Delete..
-		JointBase* GetJoint(unsigned int Identifier);
-		void DeleteJoint(unsigned int Identifier);
+		std::shared_ptr<JointBase> GetJoint	 (std::string JointIdentificationName);
+		void					 DestroyJoint(std::string JointIdentificationName);
 
 		//Start Creating Distance Joint..// 
-		JointBase* CreateDistanceJoint(PhysicsComponent2D* BodyB,bool CollideCollision=false);
-		JointBase* CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision = false);
-		JointBase* CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision = false);
+		std::shared_ptr<Ermine::JointBase> CreateDistanceJoint(std::string JointName,PhysicsComponent2D* BodyB,bool CollideCollision = false);
+		std::shared_ptr<Ermine::JointBase> CreateDistanceJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision = false);
+		std::shared_ptr<Ermine::JointBase> CreateDistanceJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision = false);
 		//Ended Creating Distance Joint..//
 
 		//Start Creating Revolute Joint..//
-		JointBase* CreateRevoluteJoint(PhysicsComponent2D* BodyB, bool CollideCollision = false);
-		JointBase* CreateRevoluteJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision = false);
-		JointBase* CreateRevoluteJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision = false);
-		JointBase* CreateRevoluteJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB,float ReferenceAngleInRadians, bool CollideCollision = false);
+		std::shared_ptr<Ermine::JointBase> CreateRevoluteJoint(std::string JointName,PhysicsComponent2D* BodyB, bool CollideCollision = false);
+		std::shared_ptr<Ermine::JointBase> CreateRevoluteJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision = false);
+		std::shared_ptr<Ermine::JointBase> CreateRevoluteJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision = false);
+		std::shared_ptr<Ermine::JointBase> CreateRevoluteJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB,float ReferenceAngleInDegrees, bool CollideCollision = false);
 		//Ended Creating Revolute Joint..//
 
 		//Start Creating Prismatic Joint..//
-		JointBase* CreatePrismaticJoint(PhysicsComponent2D* BodyB, bool CollideConnected = false);
-		JointBase* CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision = false);
-		JointBase* CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision = false);
-		JointBase* CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInRadians, bool CollideCollision = false);
-		JointBase* CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInRadians,glm::vec2 SlidingAxis, bool CollideCollision = false);
+		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,PhysicsComponent2D* BodyB, bool CollideConnected = false);
+		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision = false);
+		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision = false);
+		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInRadians, bool CollideCollision = false);
+		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInRadians,glm::vec2 SlidingAxis, bool CollideCollision = false);
 		//Ended Creating Prismatic Joint..//
 
 		//Start Creating Wheel Joint..//
-		JointBase* CreateWheelJoint(PhysicsComponent2D* BodyB, bool CollideConnected = false);
+		std::shared_ptr<Ermine::JointBase> CreateWheelJoint(std::string JointName ,PhysicsComponent2D* BodyB, bool CollideConnected = false);
 		//Ended Creating Wheel Joint..//
 
 		//Start Creating Rope Joint..//
-		JointBase* CreateRopeJoint(PhysicsComponent2D* BodyB, bool CollideConnected = false);
-		JointBase* CreateRopeJoint(PhysicsComponent2D* BodyB, float RopeLength, bool CollideConnected = false);
-		JointBase* CreateRopeJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates,float RopeLength, bool CollideConnected = false);
+		std::shared_ptr<Ermine::JointBase> CreateRopeJoint(std::string JointName,PhysicsComponent2D* BodyB, bool CollideConnected = false);
+		std::shared_ptr<Ermine::JointBase> CreateRopeJoint(std::string JointName,PhysicsComponent2D* BodyB, float RopeLength, bool CollideConnected = false);
+		std::shared_ptr<Ermine::JointBase> CreateRopeJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates,float RopeLength, bool CollideConnected = false);
 		//Ended Creating Rope Joint..//
 
 		//Start Creating Weld Joint..//
-		JointBase* CreateWeldJoint(PhysicsComponent2D* BodyB, bool CollideConnected = false);
-		JointBase* CreateWeldJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, bool CollideConnected = false);
-		JointBase* CreateWeldJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, bool CollideConnected = false);
+		std::shared_ptr<Ermine::JointBase> CreateWeldJoint(std::string JointName,PhysicsComponent2D* BodyB, bool CollideConnected = false);
+		std::shared_ptr<Ermine::JointBase> CreateWeldJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, bool CollideConnected = false);
+		std::shared_ptr<Ermine::JointBase> CreateWeldJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, bool CollideConnected = false);
 		//Ended Creating Joint Functions..//
-
-		//Start Area For Preparation Of Debug Colors..//
-		void SetDebugColorToBody(glm::vec4 Color);
-		void SetDebugColorToFixture(b2Fixture* Fixture, glm::vec4 Color);
-
+#pragma endregion
 	public:
 
 	protected:
@@ -194,33 +141,17 @@ namespace Ermine
 		void HelperConstructorConstructBody();
 		void HelperMoveFunction(PhysicsComponent2D&& rhs);
 
-		void HelperConstructCircle(glm::vec2 BodyLocationInPixelSpace, float BodyRadiusInPixelSpace, bool StaticBody);
-
-		void HelperConstructBox(b2BodyDef Definition, b2FixtureDef FixtureDefinition, glm::vec2 BodySizeInPixelSpace);
-		void HelperConstructBox(glm::vec2 BodyLocationInPixelSpace, glm::vec2 BodySizeInPixelSpace, bool StaticBody);
-
 		//Return The Width And Height Of The Bounding Box Of The Entire Box2D Object In Box2D Space.. REMEMBER THE BODY MUST EXIST FOR THIS TO WORK..
 		glm::vec2 HelperGetWidthAndHeightOfTheBoundingBox();
 
 	private:
-		//This Handle Is Stored Inside The Physics Component Class So That We Can Submit The Body To The Renderer Easily..
-		static std::function<void(PhysicsComponent2D*)> FuncSubmitBodyToRenderer2D;
-
-		//This Handle Is Stored Inside The Physics Component Class So That We Can Detach The Body From The Renderer Easily..
-		static std::function<void(PhysicsComponent2D*)> FuncDetachBodyFromRenderer2D;
-
-		bool IsDebugTraceEnabled = false;
-		bool UseCustomColorsOnDebugTrace = false;
-		glm::vec4 CustomDebugTraceColor = glm::vec4(1.0f); //This Enables All The Shapes Inside The Body To Use This Color..
-
 		b2Body* BodyManagedByTheComponent;
+
 		b2BodyDef BodyDefinitionOfTheComponent;
-		
 		std::vector<b2FixtureDef> FixturesAssociatedWithTheBody;
 
-		std::unordered_map<unsigned int, Ermine::JointBase*> JointsBuffer;
-
-		glm::vec2 BodySize = glm::vec2(10.0f,5.0f);
+		//The Shared Pointer Will Hopefully Delete The Joint Properly Once The Two Bodies In Question Are Destroyed.. No Need To Manually Handle Joints In This Approach
+		std::vector<std::shared_ptr<JointBase>> JointsBuffer;
 
 		friend class Ermine::Renderer2D;
 		friend class Ermine::PhysicsActor2D;

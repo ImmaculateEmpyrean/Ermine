@@ -1,117 +1,14 @@
 #include "stdafx.h"
 #include "RopeJoint.h"
 
-Ermine::RopeJoint::RopeJoint(b2Body* BodyA, b2Body* BodyB, bool CollideConnected)
+Ermine::RopeJoint::RopeJoint(std::string JointName,b2Body* BodyA, b2Body* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, float RopeLength, bool CollideConnected)
 	:
-	JointBase(BodyA,BodyB)
-{
-	HelperCreateRopeJointHandle(BodyA, BodyB, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), 0.0f, CollideConnected);
-}
-
-Ermine::RopeJoint::RopeJoint(b2Body* BodyA, b2Body* BodyB, float RopeLength, bool CollideConnected)
-	:
-	JointBase(BodyA, BodyB)
-{
-	HelperCreateRopeJointHandle(BodyA, BodyB, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), RopeLength, CollideConnected);
-}
-
-Ermine::RopeJoint::RopeJoint(b2Body* BodyA, b2Body* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, float RopeLength, bool CollideConnected)
-	:
-	JointBase(BodyA, BodyB)
-{
-	HelperCreateRopeJointHandle(BodyA, BodyB,LocalAnchorAPixelCoordinates, LocalAnchorBPixelCoordinates, RopeLength, CollideConnected);
-}
-
-
-float Ermine::RopeJoint::GetLength()
-{
-	if (ValidFlag == true)
-		return RopeJointHandle->GetLength();
-	else return -9999.0f;
-}
-void Ermine::RopeJoint::SetMaxLength(float MaxLength)
-{
-	if (ValidFlag == true)
-	{
-		float MaxLengthWorld = Ermine::scalarPixelsToWorld(MaxLength);
-		RopeJointHandle->SetMaxLength(MaxLengthWorld);
-	}
-}
-
-float Ermine::RopeJoint::GetMaxLength()
-{
-	if (ValidFlag == true)
-	{
-		float MaxLengthWorld = Ermine::scalarWorldToPixels(RopeJointHandle->GetMaxLength());
-		return MaxLengthWorld;
-	}
-	else return -9999.0f;
-}
-
-
-glm::vec2 Ermine::RopeJoint::GetBodyALocalAnchorLocation()
-{
-	if (ValidFlag == true)
-	{
-		b2Vec2 LocalAnchorLocation = RopeJointHandle->GetLocalAnchorA();
-		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
-		return LocalAnchorLocPixel;
-	}
-	else return glm::vec2(-9999.0f, -9999.0f);
-}
-glm::vec2 Ermine::RopeJoint::GetBodyBLocalAnchorLocation()
-{
-	if (ValidFlag == true)
-	{
-		b2Vec2 LocalAnchorLocation = RopeJointHandle->GetLocalAnchorB();
-		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
-		return LocalAnchorLocPixel;
-	}
-	else return glm::vec2(-9999.0f, -9999.0f);
-}
-
-glm::vec2 Ermine::RopeJoint::GetBodyAWorldAnchorLocationPixels()
-{
-	if (ValidFlag == true)
-	{
-		b2Vec2 LocalAnchorLocation = RopeJointHandle->GetAnchorA();
-		glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
-		return LocalAnchorLocPixel;
-	}
-	else return glm::vec2(-9999.0f, -9999.0f);
-}
-glm::vec2 Ermine::RopeJoint::GetBodyBWorldAnchorLocationPixels()
-{
-	if (ValidFlag == true)
-	{
-		b2Vec2 LocalAnchorLocation = RopeJointHandle->GetAnchorB();
-		glm::vec2 LocalAnchorLocPixel = Ermine::coordWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
-		return LocalAnchorLocPixel;
-	}
-	else return glm::vec2(-9999.0f, -9999.0f);
-}
-
-
-glm::vec2 Ermine::RopeJoint::GetReactionForce()
-{
-	if (ValidFlag == true)
-		return Ermine::B2Vec2ToGLM(RopeJointHandle->GetReactionForce(Ermine::PhysicsWorldTimestep));
-	else return glm::vec2(-9999.0f, -9999.0f);
-}
-float Ermine::RopeJoint::GetReactionTorque()
-{
-	if (ValidFlag == true)
-		return RopeJointHandle->GetReactionTorque(Ermine::PhysicsWorldTimestep);
-	else return -9999.0f;
-}
-
-
-void Ermine::RopeJoint::HelperCreateRopeJointHandle(b2Body* BodyA, b2Body* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, float RopeLength, bool CollideConnected)
+	JointBase(JointName,BodyA, BodyB)
 {
 	float RopeLengthWorld = Ermine::scalarPixelsToWorld(RopeLength);
 
-	glm::vec2 LocalAnchorAWorldCoordinates = Ermine::vertexPixelsToWorld(LocalAnchorAPixelCoordinates);
-	glm::vec2 LocalAnchorBWorldCoordinates = Ermine::vertexPixelsToWorld(LocalAnchorBPixelCoordinates);
+	b2Vec2 LocalAnchorA = Ermine::GLMToB2Vec2(Ermine::vertexPixelsToWorld(LocalAnchorAPixelCoordinates));
+	b2Vec2 LocalAnchorB = Ermine::GLMToB2Vec2(Ermine::vertexPixelsToWorld(LocalAnchorBPixelCoordinates);
 
 	b2RopeJointDef RDef;
 
@@ -119,12 +16,113 @@ void Ermine::RopeJoint::HelperCreateRopeJointHandle(b2Body* BodyA, b2Body* BodyB
 	RDef.bodyB = BodyB;
 	RDef.collideConnected = CollideConnected;
 
-	RDef.localAnchorA = b2Vec2(LocalAnchorAWorldCoordinates.x, LocalAnchorAWorldCoordinates.y);
-	RDef.localAnchorB = b2Vec2(LocalAnchorBWorldCoordinates.x, LocalAnchorBWorldCoordinates.y);
+	RDef.localAnchorA = LocalAnchorA;
+	RDef.localAnchorB = LocalAnchorB;
 
 	RDef.maxLength = RopeLengthWorld;
 
-	RopeJointHandle = (b2RopeJoint*)Universum->CreateJoint(&RDef);
+	JointHandle = (b2RopeJoint*)Universum->CreateJoint(&RDef);
+}
 
-	JointBase::JointHandle = RopeJointHandle;
+Ermine::RopeJoint::RopeJoint(RopeJoint&& rhs)
+	:
+	JointBase(std::move(rhs))
+{}
+
+Ermine::RopeJoint& Ermine::RopeJoint::operator=(RopeJoint&& rhs)
+{
+	JointBase::operator=(std::move(rhs));
+	return *this;
+}
+
+std::shared_ptr<Ermine::RopeJoint> Ermine::RopeJoint::Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, float RopeLengthInPixels, bool CollideConnected)
+{
+	std::shared_ptr<Ermine::RopeJoint> RJ(new Ermine::RopeJoint(JointName, BodyA, BodyB, LocalAnchorAPixelCoordinates, LocalAnchorBPixelCoordinates, RopeLengthInPixels, CollideConnected), Ermine::JointDeleter<Ermine::RopeJoint>());
+	return RJ;
+}
+
+float Ermine::RopeJoint::GetLength()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return scalarWorldToPixels(((b2RopeJoint*)JointHandle)->GetLength());
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get Length Of The Revolute Joint As The Health Is Not Okay");
+		return -9999.0f;
+	}
+}
+void Ermine::RopeJoint::SetMaxLength(float MaxLength)
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		float MaxLengthWorld = Ermine::scalarPixelsToWorld(MaxLength);
+		((b2RopeJoint*)JointHandle)->SetMaxLength(MaxLengthWorld);
+	}
+	else STDOUTDefaultLog_Error("Cannot Set MaxLength Of The Revolute Joint As The Health Is Not Okay");
+}
+
+float Ermine::RopeJoint::GetMaxLength()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		float MaxLengthWorld = Ermine::scalarWorldToPixels(((b2RopeJoint*)JointHandle)->GetMaxLength());
+		return MaxLengthWorld;
+	}
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get MaxLength Of The Revolute Joint As The Health Is Not Okay");
+		return -9999.0f;
+	}
+}
+
+
+glm::vec2 Ermine::RopeJoint::GetBodyALocalAnchorLocation()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		b2Vec2 LocalAnchorLocation = ((b2RopeJoint*)JointHandle)->GetLocalAnchorA();
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get BodyALocalAnchor Location Of The Revolute Joint As The Health Is Not Okay");
+		return glm::vec2(-9999.0f, -9999.0f);
+	}
+}
+glm::vec2 Ermine::RopeJoint::GetBodyBLocalAnchorLocation()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		b2Vec2 LocalAnchorLocation = ((b2RopeJoint*)JointHandle)->GetLocalAnchorB();
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		return LocalAnchorLocPixel;
+	}
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get BodyBLocalAnchor Location Of The Revolute Joint As The Health Is Not Okay");
+		return glm::vec2(-9999.0f, -9999.0f);
+	}
+}
+
+
+glm::vec2 Ermine::RopeJoint::GetReactionForce()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return Ermine::B2Vec2ToGLM(((b2RopeJoint*)JointHandle)->GetReactionForce(Ermine::PhysicsWorldTimestep));
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get ReactionForce Of The Revolute Joint As The Health Is Not Okay");
+		return glm::vec2(-9999.0f, -9999.0f);
+	}
+}
+float Ermine::RopeJoint::GetReactionTorque()
+{
+	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return ((b2RopeJoint*)JointHandle)->GetReactionTorque(Ermine::PhysicsWorldTimestep);
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get ReactionTorque Of The Revolute Joint As The Health Is Not Okay");
+		return -9999.0f;
+	}
 }

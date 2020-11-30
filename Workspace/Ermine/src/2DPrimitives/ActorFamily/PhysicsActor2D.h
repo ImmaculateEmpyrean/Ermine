@@ -3,6 +3,8 @@
 #include<vector>
 #include<string>
 
+#include<filesystem>
+
 #include<mutex>
 #include "MutexSystem/Interfaces/IMutex.h"
 
@@ -18,15 +20,12 @@
 
 namespace Ermine
 {
-	class PhysicsActor:public Ermine::ImageBase, public PhysicsComponent2D,public Ermine::IMovableActor,public  Ermine::IMutex
+	class PhysicsActor:public Ermine::ImageBase,public Ermine::IMovableActor
 	{
 	public:
 #pragma region Constructors  
-		//Physics Actor Cannot Be Constructed Defaultly As imageBase Cant Be Constructed Defaultly..
+		//Physics Actor Cannot Be Constructed Defaultly As We Need A Physics Component And Also Image Base Cannot Be Constructed Defaultly For Now..
 		PhysicsActor() = delete;
-
-		//This is The Most Basic Of The Constructor.. It Does Not hold Any data to assist us in the construction Of The Physics Object.. Instead It Is Going To use The Engine Defaults
-		PhysicsActor(std::shared_ptr<Ermine::Sprite> Spr);
 
 		//This Constructor Is To Be Used Most of The Time Must Give The Actor With A Physics COmponent..
 		PhysicsActor(std::shared_ptr<Ermine::Sprite> Spr, PhysicsComponent2D Phys);
@@ -44,6 +43,16 @@ namespace Ermine
 		PhysicsActor& operator=(PhysicsActor&& rhs);
 #pragma endregion
 
+#pragma region Generators
+
+		//Try Generating The PhysicsActor2D Using One Of These 
+	public:
+		static std::shared_ptr<Ermine::PhysicsActor2D> Generate(std::filesystem::path TexturePath, std::shared_ptr<PhysicsComponent2D> PhysicsComp);
+		static std::shared_ptr<Ermine::PhysicsActor2D> Generate(std::filesystem::path TexturePath, b2BodyDef BodyDef, std::vector<b2FixtureDef> Fixtures);
+		static std::shared_ptr<Ermine::PhysicsActor2D> Generate(std::shared_ptr<Ermine::Sprite>, std::shared_ptr<PhysicsComponent2D> PhysicsComp);
+		static std::shared_ptr<Ermine::PhysicsActor2D> Generate(std::shared_ptr<Ermine::Sprite>, b2BodyDef BodyDef, std::vector<b2FixtureDef> Fixtures);
+#pragma endregion
+
 
 #pragma region IMovableActorOverrides
 		/*Start Overriding Movable Actor Functions*/
@@ -57,11 +66,17 @@ namespace Ermine
 		virtual void  SetAngularVelocity(float AngularVelocity, bool Degrees) override;
 		/*Ended Overriding Movable Actor Functions*/
 #pragma endregion
-#pragma region IMutexOverrides
-		//Start IMutex Overrides//
-		virtual Ermine::MutexLevel GetMutexLevel() override { return Ermine::MutexLevel::PhysicsActor; }
-		virtual Ermine::MutexGaurd GetErmineMutexGaurd() { return std::move(MutexGaurd(this, Ermine::MutexLevel::PhysicsActor)); };
-		//Ended IMutex Overrides//
+
+#pragma region RenderableGenerationImperatives
+//This Function Is Essential For Interaction With Renderable And Its Implemntation Is Necessary For The Concretization Of Any Class..
+		virtual glm::mat4 GetModelMatrix();
+		virtual std::vector<float> GenerateModelSpaceVertexBuffer();
+		virtual std::vector<Ermine::VertexAttribPointerSpecification> GetVertexArraySpecification();
+		virtual std::vector<uint32_t> GenerateModelSpaceIndices();
+		virtual std::shared_ptr<Ermine::Material> GetAssociatedMaterial();
+
+		std::shared_ptr<Ermine::Material> GetMaterial();
+		void SetMaterial(std::shared_ptr<Ermine::Material> Mat);
 #pragma endregion
 
 	public:
@@ -88,7 +103,7 @@ namespace Ermine
 #pragma endregion
 
 	private:
-
+		std::shared_ptr<Ermine::PhysicsComponent2D> PhysicsComponent = nullptr;
 
 	};
 }

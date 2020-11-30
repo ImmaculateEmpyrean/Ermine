@@ -99,7 +99,7 @@ namespace Ermine
 #pragma region GeneratorFunctions
 	std::shared_ptr<Actor2D> Actor2D::GenerateActor2D(std::filesystem::path TexturePath)
 	{
-		auto Sprite = GenSprite(TexturePath, glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f));
+		auto Sprite = ImageBase::GenSprite(TexturePath, glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f));
 		std::shared_ptr<Ermine::Actor2D> Act = std::make_shared<Ermine::Actor2D>(Sprite);
 		return Act;
 	}
@@ -107,7 +107,7 @@ namespace Ermine
 	std::shared_ptr<Actor2D> Actor2D::GenerateActor2D(std::filesystem::path TexturePath, glm::vec2 ActorScreenLocation, float Rotation, glm::vec2 Scale)
 	{
 		glm::mat4 ModelMatrix = GenModelMatrix(ActorScreenLocation, Rotation, Scale);
-		auto Spr = GenSprite(TexturePath, glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f));
+		auto Spr = ImageBase::GenSprite(TexturePath, glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f));
 		std::shared_ptr<Ermine::Actor2D> Act = std::make_shared<Ermine::Actor2D>(Spr,ModelMatrix);
 		return Act;
 	}
@@ -151,15 +151,7 @@ namespace Ermine
 #pragma endregion MovableActorImplementation
 
 #pragma region HelperGen
-	std::shared_ptr<Ermine::Sprite> Actor2D::GenSprite(std::filesystem::path TexturePath, glm::vec2 BottomLeft, glm::vec2 TopRight)
-	{
-		auto Cache = Ermine::GlobalTextureCache::Get();
-		std::shared_ptr<Ermine::Texture> Tex = Cache->GetTextureFromFile(TexturePath);
-
-		std::shared_ptr<Ermine::Sprite> Sprite = Ermine::Sprite::GenerateSprite(Tex,BottomLeft,TopRight);
-
-		return Sprite;
-	}
+	
 
 	glm::mat4 Actor2D::GenModelMatrix(glm::vec2 ActorScreenLocation, float Rotation, glm::vec2 Scale)
 	{

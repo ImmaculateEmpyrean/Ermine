@@ -82,17 +82,13 @@ void Ermine::Level::LoadLevel()
 		auto SpawnLocationInt = Ermine::ExtractIntDataFromJsonArray(SpawnLocation);
 		glm::vec2 SpawnLoc = glm::vec2(SpawnLocationInt[0], SpawnLocationInt[1]);
 
+		//This Is Not Being USed Right Now..
 		std::string RecieveEvents = j["RecievingEvents"].dump();
 		RecieveEvents.erase(std::remove(RecieveEvents.begin(), RecieveEvents.end(), '"'), RecieveEvents.end());
 		std::vector<int> RecieveEventsInt = Ermine::ExtractIntDataFromJsonArray(RecieveEvents);
 
 		//Start Generate An Add An Actor2D Inside Ermine Level//
 		std::shared_ptr<Ermine::Actor2D> Act = Ermine::Actor2D::GenerateActor2D(std::filesystem::path(TexturePath), SpawnLoc);
-
-		int Counter = 0;
-		/*for (auto i : RecieveEventsInt)
-			Act->RecieveEvents(i, Ermine::EventType(Counter++));*/
-		//Ended Generate An Add An Actor2D Inside Ermine Level//
 
 		//Add The Generated Actor After It Was Processed By The Callback Into The Buffer.
 		ActorBuffer.emplace_back(Actor2DConstructionCallback(std::move(Act)));

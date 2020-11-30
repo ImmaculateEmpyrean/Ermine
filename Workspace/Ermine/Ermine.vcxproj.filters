@@ -427,6 +427,9 @@
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
     <ClInclude Include="src\EntryPoint.h" />
+    <ClInclude Include="src\Physics\Joints\JointHealthEnum.h" />
+    <ClInclude Include="src\Physics\Joints\JointDeleter.h" />
+    <ClInclude Include="src\Physics\Joints\EJointType.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
@@ -676,5 +679,6 @@
     </ClCompile>
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\Level\Level.cpp" />
+    <ClCompile Include="src\Physics\FixtureColorStruct.cpp" />
   </ItemGroup>
 </Project>

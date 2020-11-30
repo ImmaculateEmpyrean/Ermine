@@ -29,7 +29,7 @@ void Ermine::LayerStackLayer::SubmitActor(std::shared_ptr<Actor2DBase> Ptr)
 	//Identify Which Object Was Recieved..
 	Ermine::ActorFamilyIdentifier Identifier = Ptr->GetActorFamilyIdentifier();
 
-	if (Identifier == Ermine::ActorFamilyIdentifier::Actor2D)
+	if (Identifier == Ermine::ActorFamilyIdentifier::Actor2D || Identifier == Ermine::ActorFamilyIdentifier::PhysicsActor2D)
 	{
 		auto RenderableTextureModule = RenderableTextureModule::Generate(Ptr);
 		Renderables.emplace_back(std::move(RenderableTextureModule));

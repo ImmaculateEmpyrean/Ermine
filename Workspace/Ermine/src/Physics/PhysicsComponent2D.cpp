@@ -3,132 +3,22 @@
 
 namespace Ermine
 {
-	//Start Definition Of Static Variables..//
-	std::function<void(PhysicsComponent2D*)> Ermine::PhysicsComponent2D::FuncSubmitBodyToRenderer2D;
-	std::function<void(PhysicsComponent2D*)> Ermine::PhysicsComponent2D::FuncDetachBodyFromRenderer2D;
-	//Ended Definition Of Static Variables..//
-
 #pragma region Constructors
-	//The Default Constructor.. Not The Best Constructor In The World But it May be Useful For Debugging
-	PhysicsComponent2D::PhysicsComponent2D()
-	{
-		BodyDefinitionOfTheComponent.position.Set(0.0f,0.0f);
-		BodyDefinitionOfTheComponent.type = b2_dynamicBody;
-
-		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
-
-		//Create A Physics Component Shape DataStructure Inside The Buffer Array
-		FixturesAssociatedWithTheBody.emplace_back(b2FixtureDef());
-
-		//Create A Shape To Be associated With The Fixture..
-		b2PolygonShape Shape = b2PolygonShape();
-		Shape.SetAsBox(BodySize.x,BodySize.y);
-
-		//For The Created DataStructure Set The Default Values..
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].density = 1.0f;
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].friction = 0.3f;
-
-#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct();
-#endif 
-		
-		//Attact the Fixture To The Body..
-		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
-
-	}
-
-	PhysicsComponent2D::PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace,glm::vec2 BodySizeInPixelSpace ,bool StaticBody)
-	{
-		HelperConstructBox(BodyLocationInPixelSpace, BodySizeInPixelSpace, StaticBody);
-	}
-
-	PhysicsComponent2D::PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, glm::vec2 BodySizeInPixelSpace, bool StaticBody, glm::vec4 Color)
-	{
-		HelperConstructBox(BodyLocationInPixelSpace, BodySizeInPixelSpace, StaticBody);
-		UseCustomColorsOnDebugTrace = true;
-		CustomDebugTraceColor = Color;
-	}
-
-	PhysicsComponent2D::PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, float BodyRadiusInPixelSpace, bool StaticBody)
-	{
-		HelperConstructCircle(BodyLocationInPixelSpace, BodyRadiusInPixelSpace, StaticBody);
-	}
-
-	PhysicsComponent2D::PhysicsComponent2D(glm::vec2 BodyLocationInPixelSpace, float BodyRadiusInPixelSpace, bool StaticBody, glm::vec4 Color)
-	{
-		HelperConstructCircle(BodyLocationInPixelSpace, BodyRadiusInPixelSpace, StaticBody);
-		UseCustomColorsOnDebugTrace = true;
-		CustomDebugTraceColor = Color;
-	}
-
-	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition,
-										   glm::vec2 BoxSizeInPixels)
-		
-	{
-		HelperConstructBox(Definition, FixtureDefinition, BoxSizeInPixels);
-	}
-
-	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition, 
-										   glm::vec2 BodySizeInPixelSpace, glm::vec4 Color)
-	{
-		HelperConstructBox(Definition, FixtureDefinition, BodySizeInPixelSpace); //The Helper Is Trusted To Properly Construct The Object..
-		UseCustomColorsOnDebugTrace = true;
-		CustomDebugTraceColor = Color;
-	}
-
-	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, b2FixtureDef FixtureDefinition)
-		:
-		BodyDefinitionOfTheComponent(Definition)
-	{
-		//Get The Fixture Associated With The Body And Place It inside The Buffer 
-		FixturesAssociatedWithTheBody.emplace_back(FixtureDefinition);
-
-		//Construct The Body Using The Fixtures AlreadySetup
-		HelperConstructorConstructBody();
-
-		//Calculate Size Of The Body In Box2D Space..
-		BodySize = HelperGetWidthAndHeightOfTheBoundingBox();
-	}
-
+	
 	PhysicsComponent2D::PhysicsComponent2D(b2BodyDef Definition, std::vector<b2FixtureDef> FixtureDefinitions)
 		:
 		BodyDefinitionOfTheComponent(Definition),
 		FixturesAssociatedWithTheBody(FixtureDefinitions)
 	{
-		//Construct The Body Using The Fixtures AlreadySetup
-		HelperConstructorConstructBody();
+		//First Create The Body In The Box2D World As Intended..
+		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
 
-		//Calculate Size Of The Body In Box2D Space..
-		BodySize = HelperGetWidthAndHeightOfTheBoundingBox();
+		for (auto FixtureDefinition : FixturesAssociatedWithTheBody)
+			BodyManagedByTheComponent->CreateFixture(&FixtureDefinition);
 	}
 
 	PhysicsComponent2D::~PhysicsComponent2D()
 	{
-		//First Try Deleting Invalid Caskets
-		for (auto& casket : JointsBuffer)
-		{
-			if (casket.second != nullptr)
-			{
-				if (casket.second->ValidFlag == false)
-				{
-					delete casket.second;
-					casket.second = nullptr;
-				}
-			}
-		} 
-
-		//Set Caskets As Invalid Which Are In Infact Invalid..
-		for (auto& casket : JointsBuffer)
-		{
-			if (casket.second != nullptr)
-			{
-				casket.second->ValidFlag = false;
-			}
-		}
-
-		JointsBuffer.clear();
-
 		//Donot Bother Deleting a Nullptr Right..
 		if (BodyManagedByTheComponent != nullptr)
 		{
@@ -137,11 +27,13 @@ namespace Ermine
 				if(i->GetUserData() != nullptr)
 					delete i->GetUserData();
 			}
+			for (auto& i : JointsBuffer)
+				i->DestroyJoint();
 
 			Universum->DestroyBody(BodyManagedByTheComponent);
 		}
 	}
-#pragma endregion Constructors
+#pragma endregion
 
 #pragma region CopyAndMoveConstruction
 	PhysicsComponent2D& PhysicsComponent2D::operator=(PhysicsComponent2D&& rhs)
@@ -157,31 +49,8 @@ namespace Ermine
 #pragma endregion CopyAndMoveConstruction
 
 #pragma region HelperFunctions
-	
-	void PhysicsComponent2D::HelperConstructorConstructBody()
-	{
-		//First Create The Body In The Box2D World As Intended..
-		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
-
-		for (auto FixtureDefinition : FixturesAssociatedWithTheBody)
-		{
-#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
-			if (FixtureDefinition.userData == nullptr)
-			{
-				FixtureDefinition.userData = new FixtureUserDataStruct();
-			}
-#endif
-			BodyManagedByTheComponent->CreateFixture(&FixtureDefinition);
-		}
-		
-	}
-	
-	
 	void PhysicsComponent2D::HelperMoveFunction(PhysicsComponent2D&& rhs)
 	{
-		if (rhs.IsDebugTraceEnabled)
-			rhs.FuncDetachBodyFromRenderer2D(&rhs);
-
 		//Try Moving The Body Definition Into The New Object
 		BodyDefinitionOfTheComponent = std::move(rhs.BodyDefinitionOfTheComponent);
 
@@ -192,117 +61,6 @@ namespace Ermine
 		//the rhs must loose ownership over its body for its destructor not to delete it
 		BodyManagedByTheComponent = rhs.BodyManagedByTheComponent;
 		rhs.BodyManagedByTheComponent = nullptr;
-
-		//Get The Size Of The Body from the Right Side
-		BodySize = rhs.BodySize;
-
-		//This Handle Is Stored Inside The Physics Component Class So That We Can Submit The Body To The Renderer Easily..
-		FuncSubmitBodyToRenderer2D = rhs.FuncSubmitBodyToRenderer2D;
-
-		//This Handle Is Stored Inside The Physics Component Class So That We Can Detach The Body From The Renderer Easily..
-		FuncDetachBodyFromRenderer2D = rhs.FuncDetachBodyFromRenderer2D;
-
-		IsDebugTraceEnabled = rhs.IsDebugTraceEnabled;
-
-		if (IsDebugTraceEnabled)
-			FuncSubmitBodyToRenderer2D(this); //Submit Yourself To DebugDraw..
-
-		UseCustomColorsOnDebugTrace = rhs.UseCustomColorsOnDebugTrace;
-		CustomDebugTraceColor = rhs.CustomDebugTraceColor;
-	}
-
-	void PhysicsComponent2D::HelperConstructBox(b2BodyDef Definition, b2FixtureDef FixtureDefinition, glm::vec2 BodySizeInPixelSpace)
-	{
-		BodyDefinitionOfTheComponent = Definition;
-		//Calculate Size Of The Body In Box2D Space..
-		BodySize = Ermine::vectorPixelsToWorld(BodySizeInPixelSpace);
-
-		//Create A Shape To Be associated With The Fixture..
-		b2PolygonShape Shape = b2PolygonShape();
-		Shape.SetAsBox(BodySize.x / 2.0f, BodySize.y / 2.0f);
-
-		FixturesAssociatedWithTheBody.emplace_back(FixtureDefinition);
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
-
-#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct(); //Made A Shared Pointer In Hopes That It Will Delete Itself When The Time Comes.. 
-#endif
-
-		HelperConstructorConstructBody();
-	}
-
-	void PhysicsComponent2D::HelperConstructBox(glm::vec2 BodyLocationInPixelSpace, glm::vec2 BodySizeInPixelSpace, bool StaticBody)
-	{
-		glm::vec2 LocationInWorldSpace = Ermine::coordPixelsToWorld(BodyLocationInPixelSpace);
-		BodyDefinitionOfTheComponent.position.Set(LocationInWorldSpace.x, LocationInWorldSpace.y);
-
-		glm::vec2 BodySizeInWorldSpace = Ermine::vectorPixelsToWorld(BodySizeInPixelSpace);
-		BodySize.x = BodySizeInWorldSpace.x;
-		BodySize.y = BodySizeInWorldSpace.y;
-
-		if (StaticBody)
-			BodyDefinitionOfTheComponent.type = b2_staticBody;
-		else
-			BodyDefinitionOfTheComponent.type = b2_dynamicBody;
-
-		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
-
-		//Create A Physics Component Shape DataStructure Inside The Buffer Array
-		FixturesAssociatedWithTheBody.emplace_back(b2FixtureDef());
-
-		//Create A Shape To Be associated With The Fixture..
-		b2PolygonShape Shape = b2PolygonShape();
-		Shape.SetAsBox(BodySize.x / 2.0f, BodySize.y / 2.0f);
-
-		//For The Created DataStructure Set The Default Values..
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].density = 1.0f;
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].friction = 0.3f;
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].restitution = 0.5f;
-
-#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct();
-#endif 
-
-		//Attach the Fixture To The Body..
-		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
-	}
-
-	void PhysicsComponent2D::HelperConstructCircle(glm::vec2 BodyLocationInPixelSpace, float BodyRadiusInPixelSpace, bool StaticBody)
-	{
-		glm::vec2 LocationInWorldSpace = Ermine::coordPixelsToWorld(BodyLocationInPixelSpace);
-		BodyDefinitionOfTheComponent.position.Set(LocationInWorldSpace.x, LocationInWorldSpace.y);
-
-		float BodyRadiusInWorldSpace = Ermine::scalarPixelsToWorld(BodyRadiusInPixelSpace);
-		BodySize.x = BodyRadiusInWorldSpace * 2.0f;
-		BodySize.y = BodyRadiusInWorldSpace * 2.0f;
-
-		if (StaticBody)
-			BodyDefinitionOfTheComponent.type = b2_staticBody;
-		else
-			BodyDefinitionOfTheComponent.type = b2_dynamicBody;
-
-		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
-
-		//Create A Physics Component Shape DataStructure Inside The Buffer Array
-		FixturesAssociatedWithTheBody.emplace_back(b2FixtureDef());
-
-		//Create A Shape To Be associated With The Fixture..
-		b2CircleShape Shape = b2CircleShape();
-		Shape.m_radius = BodyRadiusInWorldSpace;
-
-		//For The Created DataStructure Set The Default Values..
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].shape = &Shape;
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].density = 1.0f;
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].friction = 0.3f;
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].restitution = 0.5f;
-
-#if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
-		FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1].userData = new FixtureUserDataStruct(); //Made A Shared Pointer In Hopes That It Will Delete Itself When The Time Comes.. 
-#endif 
-
-		//Attach the Fixture To The Body..
-		BodyManagedByTheComponent->CreateFixture(&FixturesAssociatedWithTheBody[FixturesAssociatedWithTheBody.size() - 1]);
 	}
 
 	glm::vec2 PhysicsComponent2D::HelperGetWidthAndHeightOfTheBoundingBox()
@@ -338,9 +96,6 @@ namespace Ermine
 
 	void PhysicsComponent2D::AddForce(glm::vec2 Force, glm::vec2 WorldPositionInPixelCoordinatesWhereTheForceWasApplied)
 	{
-		//In Pixel Space Y Points Down While In Box2D It Points Up..
-		//Force.y = -1.0f * Force.y;
-
 		//Convert The Coordinates Of Body Point At Which Force Is Applied From Poxel Space To Box2D Space..
 		WorldPositionInPixelCoordinatesWhereTheForceWasApplied = Ermine::coordPixelsToWorld(WorldPositionInPixelCoordinatesWhereTheForceWasApplied);
 
@@ -387,127 +142,74 @@ namespace Ermine
 		BodyManagedByTheComponent->ApplyForceToCenter(b2Vec2(Force.x,Force.y), true);
 	}
 
-
-	void PhysicsComponent2D::StartDebugTrace()
+	std::shared_ptr<JointBase> PhysicsComponent2D::GetJoint(std::string JointIdentificationName)
 	{
-		if (IsDebugTraceEnabled == false)
+		for (auto& i : JointsBuffer)
 		{
-			//Submit Yourself To The Renderer..
-			FuncSubmitBodyToRenderer2D(this);
-
-			//Dont Submit More Than One Copy Of The Body..
-			IsDebugTraceEnabled = true;
-		}
-		
-	}
-
-	void Ermine::PhysicsComponent2D::StopDebugTrace()
-	{
-		if (IsDebugTraceEnabled == true)
-		{
-			//Detach Yourself From The Renderer..
-			FuncDetachBodyFromRenderer2D(this);
-
-			//Dont Try To Remove The Body Which Was Not Even Submitted Right?
-			IsDebugTraceEnabled = false;
+			if (i->GetName() == JointIdentificationName)
+				return i;
 		}
 	}
-
-
-	JointBase* PhysicsComponent2D::GetJoint(unsigned int Identifier)
+	void PhysicsComponent2D::DestroyJoint(std::string Identifier)
 	{
-		auto& casket = JointsBuffer.find(Identifier);
-
-		if (casket != JointsBuffer.end())
+		for (auto& i : JointsBuffer)
 		{
-			if (casket->second != nullptr)
+			if (i->GetName() == Identifier)
 			{
-				return casket->second;
+				i->DestroyJoint();
+				break;
 			}
 		}
 	}
-	void PhysicsComponent2D::DeleteJoint(unsigned int Identifier)
-	{
-		auto& casket = JointsBuffer.find(Identifier);
 
-		if (casket != JointsBuffer.end())
-		{
-			if (casket->second != nullptr)
-			{
-				delete casket->second;
-				casket->second = nullptr;
-			}
-			JointsBuffer.erase(casket->first);
-		}
-	}
 
 	//Create Distance Joint Functions
-	JointBase* PhysicsComponent2D::CreateDistanceJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateDistanceJoint(std::string JointName, PhysicsComponent2D* BodyB, bool CollideCollision)
 	{
-		Ermine::DistanceJoint* Joint = new Ermine::DistanceJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(),Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
-	}
-	JointBase* PhysicsComponent2D::CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision)
-	{
-		Ermine::DistanceJoint* Joint = new Ermine::DistanceJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA, CollideCollision);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
-	}
-	JointBase* PhysicsComponent2D::CreateDistanceJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision)
-	{
-		Ermine::DistanceJoint* Joint = new Ermine::DistanceJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA, LocalAnchorPointB, CollideCollision);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
+		return CreateDistanceJoint(JointName, BodyB, glm::vec2(0.0f,0.0f), glm::vec2(0.0f, 0.0f), CollideCollision);
 	}
 
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateDistanceJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision)
+	{
+		return CreateDistanceJoint(JointName, BodyB, LocalAnchorPointA, glm::vec2(0.0f, 0.0f), CollideCollision);
+	}
+
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateDistanceJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision)
+	{
+		std::shared_ptr<Ermine::DistanceJoint> DisJoint = DistanceJoint::Generate(JointName, BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA,LocalAnchorPointB, CollideCollision);
+
+		JointsBuffer.emplace_back(DisJoint);
+		BodyB->JointsBuffer.emplace_back(DisJoint);
+
+		return DisJoint;
+	}
+	
 	//Create Revolute Joint Functions
-	JointBase* PhysicsComponent2D::CreateRevoluteJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateRevoluteJoint(std::string JointName, PhysicsComponent2D* BodyB, bool CollideCollision)
 	{
-		Ermine::RevoluteJoint* Joint = new Ermine::RevoluteJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent,CollideCollision);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
-	}
-	JointBase* PhysicsComponent2D::CreateRevoluteJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision)
-	{
-		Ermine::RevoluteJoint* Joint = new Ermine::RevoluteJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA, CollideCollision);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
-	}
-	JointBase* PhysicsComponent2D::CreateRevoluteJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision)
-	{
-		Ermine::RevoluteJoint* Joint = new Ermine::RevoluteJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA,LocalAnchorPointB, CollideCollision);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
-	}
-	JointBase* PhysicsComponent2D::CreateRevoluteJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInRadians, bool CollideCollision)
-	{
-		Ermine::RevoluteJoint* Joint = new Ermine::RevoluteJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA, LocalAnchorPointB,ReferenceAngleInRadians, CollideCollision);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
+		return CreateRevoluteJoint(JointName, BodyB, glm::vec2(0.0f,0.0f), glm::vec2(0.0f, 0.0f), 0.0f, CollideCollision);
 	}
 
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateRevoluteJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision)
+	{
+		return CreateRevoluteJoint(JointName, BodyB, LocalAnchorPointA, glm::vec2(0.0f,0.0f), 0.0f, CollideCollision);
+	}
+
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateRevoluteJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision)
+	{
+		return CreateRevoluteJoint(JointName, BodyB, LocalAnchorPointA, LocalAnchorPointB, 0.0f,CollideCollision);
+	}
+
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateRevoluteJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInDegrees, bool CollideCollision)
+	{
+		std::shared_ptr<Ermine::RevoluteJoint> RevJoint = Ermine::RevoluteJoint::Generate(JointName, BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA, LocalAnchorPointB, ReferenceAngleInDegrees, CollideCollision);
+
+		JointsBuffer.emplace_back(RevJoint);
+		BodyB->JointsBuffer.emplace_back(RevJoint);
+
+		return RevJoint;
+	}
+	
 	JointBase* PhysicsComponent2D::CreatePrismaticJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
 	{
 		Ermine::PrismaticJoint* Joint = new Ermine::PrismaticJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
@@ -676,14 +378,28 @@ namespace Ermine
 		return Location;
 	}
 
-
-	float PhysicsComponent2D::GetAngleOfTheBody()
+	float PhysicsComponent2D::GetAngleOfTheBodyRadians()
 	{
-		//Directly Ask Box2D For The Angle to Send Back to the User..
-		//This May Have To Be Inverted to Take Y Axis Flip Into Account Just Check Abt It In The Future.. //Done The Inversion.. Not Tested Though.. :<
-		return BodyManagedByTheComponent->GetAngle(); //*-1.0f;;
+		return BodyManagedByTheComponent->GetAngle() * -1.0f;
 	}
 
+	float PhysicsComponent2D::GetAnfleOfTheBodyDegrees()
+	{
+		return glm::degrees<float>((BodyManagedByTheComponent->GetAngle() * -1.0f));
+	}
+	
+
+
+	glm::mat4 PhysicsComponent2D::GetModelMatrix()
+	{
+		glm::mat4 ModelMatrix = glm::mat4(1.0f);
+
+		ModelMatrix = glm::translate(ModelMatrix, glm::vec3(GetBodyLocationPixelSpace(), 0.0f));
+		ModelMatrix = glm::rotate(ModelMatrix, GetAngleOfTheBody(), glm::vec3(0.0f, 0.0f, 1.0f));
+		ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f,1.0f, 1.0f)); //Since Box2D Only Works With Rigid Bodies.. Elasticity Cannot Be Calculated Using Ermine Ever..
+
+		return ModelMatrix;
+	}
 
 	glm::mat4 PhysicsComponent2D::GetTranslationMatrix()
 	{
@@ -711,7 +427,8 @@ namespace Ermine
 		//Ask Box2D For The Rotation Data..
 		float RotationAngle = GetAngleOfTheBody();
 
-		RotationAngle = RotationAngle * -1.0f;
+		//The Negative Is Already Done In The GetAngleOfTheBody..
+		//RotationAngle = RotationAngle * -1.0f;
 
 		//Ask GLm To rotate using glm::rotate function..
 		RotationMatrix = glm::rotate(RotationMatrix, RotationAngle, glm::vec3(0.0, 0.0, 1.0));

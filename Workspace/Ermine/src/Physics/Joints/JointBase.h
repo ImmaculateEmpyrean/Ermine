@@ -4,35 +4,54 @@
 #include<string>
 
 #include "Physics/Physics.h"
+#include "JointHealthEnum.h"
+#include "EJointType.h"
+
+#include "JointDeleter.h"
 
 namespace Ermine
 {
 	class JointBase
 	{
 	public:
-		//No Point In Having A Default Revolute Joint.. The Joint Must Hold Bodies..
+		//All Joints Must Atleast Posess A Name Otherwise Destruction And Getting Will Become Complicated..
 		JointBase() = delete;
 
 		//This Is Something Like The Default Constructor In This Case Use It Most Of The Time
-		JointBase(b2Body* BodyA, b2Body* BodyB);
+		JointBase(std::string JointName, b2Body* BodyA, b2Body* BodyB);
 
 		//The Destructor Is Very Vital As It Must Inform Universum To Delete A Jointy At The Appropriate Time.. Its Made Virtual Because Why NOT..
 		virtual ~JointBase();
 
 	public:
 		//Donot Make Duplicates In The Physics World
-		JointBase(const JointBase& rhs) = delete;  
+		JointBase(const JointBase& rhs) = delete;
 		JointBase operator=(const JointBase& rhs) = delete;
 
 		//Use Move Primarily In The Place Of Copy.. This Might Not Be Too Much Of A Problem Since PhysicsComponent2D Also Does Not Like To Copy..
 		JointBase(JointBase&& rhs);
 		JointBase& operator=(JointBase&& rhs);
 
-		//This Class HAs The Ability To Be Implicitly Converted To A b2Joint* Try Not To Misuse This Too Much..
-		virtual operator b2Joint*() = 0;
+		//On The Fly Check If The JointIs Enabled..
+		bool IsJointEnbaled() { return JointHandle->IsEnabled(); };
 
-		//This Class HAs The Ability To Be Implicitly Converted To A Bool Which Is None Other Than The Valid Flag
-		operator bool() { return ValidFlag; }
+		//Anyone Can Request For The Underlying Handle
+		b2Joint* GetHandle() { return JointHandle; }
+
+		//Get The Concrete Type Of The Joint In Question..
+		virtual Ermine::EJointType GetType() = 0;
+
+		//Get Collide Connected Flag From The Joint..
+		bool GetCollideConnected() { return JointHandle->GetCollideConnected(); }
+
+		//Shift Origin..
+		void ShiftOrigin(glm::vec2 NewOrigin);
+
+		//You Are Only Allowed To See The Health Of Any Said Joint.. Handling Is Done Implicitly..
+		Ermine::JointHealthEnum GetHealth() { return Health; }
+		
+		//Use This To Destroy Said Joint..
+		void DestroyJoint();
 
 		//This Identifier Is Unique To This JointBase Instance It Is Generated On Instantiation And As JointBase Is Uncopiable It Hopefully Is Accessible As An Identifier Of Sorts..
 		unsigned int GetUniqueIdentifier();
@@ -41,16 +60,13 @@ namespace Ermine
 		b2Body* GetBodyA() { return BodyA; }
 		b2Body* GetBodyB() { return BodyB; }
 
-		//Get The Joint In Question.. It Is Delegated To The Actual Implemntation To Provide The Joint To The User Though..
-		virtual b2Joint* GetJoint() = 0;
-
 		//Start Functions To Get The Anchor Locations
 
 		virtual glm::vec2 GetBodyALocalAnchorLocation() = 0;
 		virtual glm::vec2 GetBodyBLocalAnchorLocation() = 0;
 
-		virtual glm::vec2 GetBodyAWorldAnchorLocationPixels() = 0;
-		virtual glm::vec2 GetBodyBWorldAnchorLocationPixels() = 0;
+		glm::vec2 GetBodyAWorldAnchorLocation();
+		glm::vec2 GetBodyBWorldAnchorLocation();
 
 		//Ended Functions To Get The Anchor Locations
 
@@ -60,28 +76,33 @@ namespace Ermine
 		//Get The User Data Assigned To The Joint If Needed..
 		void* GetUserData();
 
+		std::string GetName() { return Name; };
+		void SetName(std::string Name) { this->Name = Name; };
+
 	public:
-		//The Valid Flag Says Wether The Object Is Valid Or Not.. Not Valid Means The Joint Probably Got Deleted..
-		bool ValidFlag = true;
+		
 
 	protected:
 
 	protected:
-		b2Joint* JointHandle;
+		b2Joint* JointHandle = nullptr;
 
 	private:
-		void HelperMoveConstructor(Ermine::JointBase&& rhs);
 
 	private:
 		//This Variable Is Used To Assign The Identifier To Each Instance Of The Class.. 
-		static unsigned int InstanceCounter;
+		static std::atomic<unsigned int> InstanceCounter;
+
+		//This Is The Name With Which This Joint Is Referred To..
+		std::string Name = "Error";
+
+		//This Is The State In Which The JointBase Is.. If Its Marked For Deletion.. You Probably Shouldnt Use This
+		Ermine::JointHealthEnum Health = Ermine::JointHealthEnum::StatusOk;
 
 		//0 Means Nothing.. The GetUniqueIdentifier() Must Never Return 0..
 		unsigned int UniqueIdentifier = 0;
 		
-		b2Body* BodyA;
-		b2Body* BodyB;
-
-		
+		b2Body* BodyA = nullptr;
+		b2Body* BodyB = nullptr;
 	};
 }
