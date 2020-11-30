@@ -39,11 +39,35 @@ namespace Ermine
 		//Ended Generate Functions..//
 	public:
 		
-
+		//Start Get Anchor Locations..//
 		virtual glm::vec2 GetBodyALocalAnchorLocation() override;
 		virtual glm::vec2 GetBodyBLocalAnchorLocation() override;
+		//Ended Get Anchor Locations..//
 
+		//Start Motor Functions..//
+		bool IsMotorEnabled();
 		
+		void EnableMotor();
+		void DisableMotor();
+		void ToggleMotor();
+		//Ended Motor Functions..//
+		
+		//Start Limit Functions..//
+		bool IsLimitEnabled();
+
+		void EnableLimit();
+		void DisableLimit();
+		void ToggleLimit();
+
+		void SetLimit(float Lower, float Upper);
+		void SetUpperLimit(float Upper);
+		void SetLowerLimit(float Lower);
+
+		glm::vec2 GetLimits();
+		float GetUpperLimit();
+		float GetLowerLimit();
+		//Ended Limit Functions..//
+
 	protected:
 
 	protected:

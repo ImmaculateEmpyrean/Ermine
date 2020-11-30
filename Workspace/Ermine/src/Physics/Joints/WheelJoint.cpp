@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "WheelJoint.h"
 
-Ermine::WheelJoint::WheelJoint(b2Body* BodyA, b2Body* BodyB, bool collideConnected)
+/*Ermine::WheelJoint::WheelJoint(b2Body* BodyA, b2Body* BodyB, bool collideConnected)
 	:
 	JointBase(BodyA,BodyB)
 {
@@ -25,7 +25,7 @@ Ermine::WheelJoint::WheelJoint(b2Body* BodyA, b2Body* BodyB, bool collideConnect
 	jd.enableLimit = true;
 
 	JointHandle = (b2WheelJoint*)Universum->CreateJoint(&jd);
-}
+}*/
 
 
 Ermine::WheelJoint::WheelJoint(std::string Name, b2Body* BodyA, b2Body* BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB, glm::vec2 LocalTranslationalAxisInBodyA, bool CollideConnected)
@@ -119,5 +119,162 @@ glm::vec2 Ermine::WheelJoint::GetBodyBLocalAnchorLocation()
 		return glm::vec2(-9999.0f, -9999.0f);
 	}
 
-	((b2WheelJoint*)JointHandle)->
+	((b2WheelJoint*)JointHandle)->li
+}
+
+bool Ermine::WheelJoint::IsMotorEnabled()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return ((b2WheelJoint*)JointHandle)->IsMotorEnabled();
+	else {
+		STDOUTDefaultLog_Error("Cannot Query IsMotorEnabled As Wheel Joint Health Is Not OK");
+		return false;
+	}
+}
+
+void Ermine::WheelJoint::EnableMotor()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		((b2WheelJoint*)JointHandle)->EnableMotor(true);
+	else STDOUTDefaultLog_Error("Cannot Enable Motor As Wheel Joint Health Is Not OK");
+}
+
+void Ermine::WheelJoint::DisableMotor()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		((b2WheelJoint*)JointHandle)->EnableMotor(false);
+	else STDOUTDefaultLog_Error("Cannot Enable Motor As Wheel Joint Health Is Not OK");
+}
+
+void Ermine::WheelJoint::ToggleMotor()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		auto Flag = IsMotorEnabled();
+		if (Flag == true)
+			DisableMotor();
+		else
+			EnableMotor();
+	}
+	else STDOUTDefaultLog_Error("Cannot Toggle Motor As Wheel Joint Health Is Not OK");
+}
+
+bool Ermine::WheelJoint::IsLimitEnabled()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return ((b2WheelJoint*)JointHandle)->IsLimitEnabled();
+	else {
+		STDOUTDefaultLog_Error("Cannot Query IsLimitEnabled As Wheel Joint Health Is Not OK");
+		return false;
+	}
+}
+
+void Ermine::WheelJoint::EnableLimit()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		((b2WheelJoint*)JointHandle)->EnableLimit(true);
+	else STDOUTDefaultLog_Error("Cannot Enable Limit As Wheel Joint Health Is Not OK");
+}
+
+void Ermine::WheelJoint::DisableLimit()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		((b2WheelJoint*)JointHandle)->EnableLimit(false);
+	else STDOUTDefaultLog_Error("Cannot Disable Motor As Wheel Joint Health Is Not OK");
+}
+
+void Ermine::WheelJoint::ToggleLimit()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		auto Flag = IsLimitEnabled();
+		if (Flag == true)
+			DisableLimit();
+		else
+			EnableLimit();
+	}
+	else STDOUTDefaultLog_Error("Cannot Toggle Limit As Wheel Joint Health Is Not OK");
+}
+
+void Ermine::WheelJoint::SetLimit(float Lower, float Upper)
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		float WorldLower = Ermine::scalarPixelsToWorld(Lower);
+		float WorldUpper = Ermine::scalarPixelsToWorld(Upper);
+
+		((b2WheelJoint*)JointHandle)->SetLimits(WorldLower, WorldUpper);
+	}
+	else STDOUTDefaultLog_Error("Cannot Set Limits As Wheel Joint Health Is Not OK");
+}
+
+void Ermine::WheelJoint::SetUpperLimit(float Upper)
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		float WorldLower = Ermine::scalarPixelsToWorld(GetLowerLimit());
+		float WorldUpper = Ermine::scalarPixelsToWorld(Upper);
+
+		((b2WheelJoint*)JointHandle)->SetLimits(WorldLower, WorldUpper);
+	}
+	else STDOUTDefaultLog_Error("Cannot Set Upper Limit As Wheel Joint Health Is Not OK");
+}
+
+void Ermine::WheelJoint::SetLowerLimit(float Lower)
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		float WorldLower = Ermine::scalarPixelsToWorld(Lower);
+		float WorldUpper = Ermine::scalarPixelsToWorld(GetUpperLimit());
+
+		((b2WheelJoint*)JointHandle)->SetLimits(WorldLower, WorldUpper);
+	}
+	else STDOUTDefaultLog_Error("Cannot Set Lower Limit As Wheel Joint Health Is Not OK");
+}
+
+glm::vec2 Ermine::WheelJoint::GetLimits()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return glm::vec2(GetLowerLimit(), GetUpperLimit());
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get Limits As Wheel Joint Health Is Not OK")
+		return glm::vec2(9999.0f, -9999.0f);
+	}
+}
+
+float Ermine::WheelJoint::GetUpperLimit()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		if (((b2WheelJoint*)JointHandle)->GetUpperLimit() > 9999.0f)
+		{
+			STDOUTDefaultLog_Warn("Attempting To Get Upper Limit Of A Wheel joint Where None Was Previously Set.. This May LEad To Undefined Behaviour");
+			return Ermine::scalarWorldToPixels(((b2WheelJoint*)JointHandle)->GetUpperLimit());
+		}
+		else return Ermine::scalarWorldToPixels(((b2WheelJoint*)JointHandle)->GetUpperLimit());
+	}
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get UpperLimit Of The Wheel Joint As Its Health Is Not Okay");
+		return 9999.0f;
+	}
+}
+
+float Ermine::WheelJoint::GetLowerLimit()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+	{
+		if (((b2WheelJoint*)JointHandle)->GetLowerLimit() < -9999.0f)
+		{
+			STDOUTDefaultLog_Warn("Attempting To Get LowerLimit Of A Wheel joint Where None Was Previously Set.. This May LEad To Undefined Behaviour");
+			return Ermine::scalarWorldToPixels(((b2WheelJoint*)JointHandle)->GetLowerLimit());
+		}
+		else return Ermine::scalarWorldToPixels(((b2WheelJoint*)JointHandle)->GetLowerLimit());
+	}
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get LowerLimit Of The Wheel Joint As Its Health Is Not Okay");
+		return 9999.0f;
+	}
 }
