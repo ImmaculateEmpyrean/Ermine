@@ -12,8 +12,12 @@ Ermine::OrthographicCamera::OrthographicCamera()
 {
     auto Mutex = GetCameraUniqueLock();
 
-    this->ProjectionMatrix = glm::ortho<float>(0.0f, (float)Ermine::GetScreenWidth(), (float)Ermine::GetScreenHeight(), 0.0f,-5.0f,5.0f);
+    //This Is The Old Projection Matrix Which Had No Ermine Space
+    //this->ProjectionMatrix = glm::ortho<float>(0.0f, (float)Ermine::GetScreenWidth(), (float)Ermine::GetScreenHeight(), 0.0f,-5.0f,5.0f);
     
+    //The Ermine Space Runs From 0 - 1920 In X and  0 To 1080 In Y..
+    this->ProjectionMatrix = glm::ortho<float>(0.0f, 1920.0f, 1080.0f, 0.0f, -5.0f, 5.0f);
+
     CameraPosition = { 0.0f,0.0f,0.0f }; 
     RotationInDegrees = 0.0f;
 

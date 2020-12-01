@@ -5,8 +5,8 @@ Ermine::RevoluteJoint::RevoluteJoint(std::string JointName,b2Body* BodyA, b2Body
 	:
 	JointBase(JointName,BodyA, BodyB)
 {
-	b2Vec2 AnchorA = Ermine::GLMToB2Vec2(Ermine::vertexPixelsToWorld(AnchorAWithRespectToBoxCentre));
-	b2Vec2 AnchorB = Ermine::GLMToB2Vec2(Ermine::vertexPixelsToWorld(AnchorBWithRespectToBoxCentre));
+	b2Vec2 AnchorA = Ermine::GLMToB2Vec2(Ermine::vertexErmineToWorld(AnchorAWithRespectToBoxCentre));
+	b2Vec2 AnchorB = Ermine::GLMToB2Vec2(Ermine::vertexErmineToWorld(AnchorBWithRespectToBoxCentre));
 
 	b2RevoluteJointDef RevDef;
 
@@ -217,7 +217,7 @@ glm::vec2 Ermine::RevoluteJoint::GetBodyALocalAnchorLocation()
 	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
 		b2Vec2 LocalAnchorLocation = ((b2RevoluteJoint*)JointHandle)->GetLocalAnchorA();
-		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToErmine(B2Vec2ToGLM(LocalAnchorLocation));
 		return LocalAnchorLocPixel;
 	}
 	else
@@ -232,7 +232,7 @@ glm::vec2 Ermine::RevoluteJoint::GetBodyBLocalAnchorLocation()
 	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
 		b2Vec2 LocalAnchorLocation = ((b2RevoluteJoint*)JointHandle)->GetLocalAnchorB();
-		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToErmine(B2Vec2ToGLM(LocalAnchorLocation));
 		return LocalAnchorLocPixel;
 	}
 	else

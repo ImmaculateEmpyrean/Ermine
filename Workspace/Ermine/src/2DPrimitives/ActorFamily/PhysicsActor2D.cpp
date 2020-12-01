@@ -143,21 +143,21 @@ namespace Ermine
 		Ermine::VertexTextured BottomLeft(Quad::GetModelCoordinatesBottomLeft());
 		Ermine::VertexTextured TopLeft(Quad::GetModelCoordinatesTopLeft());
 
-		//NOTE- The VectorWorldToPixels() PArtly Works Because We Never Pass In A Negative Value.. This Function Is Not To Translate The Points On The Graph 
+		//NOTE- The vectorWorldToErmine() PArtly Works Because We Never Pass In A Negative Value.. This Function Is Not To Translate The Points On The Graph 
 
-		glm::vec2 TopRightPixelCalculate = Ermine::vectorWorldToPixels(glm::vec2(GetBodyWidthBox2DSpace() / 2.0f, GetBodyHeightBox2DSpace() / 2));//glm::vec2 TopRightPixelCalculate = Ermine::coordWorldToPixels(glm::vec2(GetBodyWidth() / 2.0f, GetBodyHeight() / 2));
+		glm::vec2 TopRightPixelCalculate = Ermine::vectorWorldToErmine(glm::vec2(GetBodyWidthBox2DSpace() / 2.0f, GetBodyHeightBox2DSpace() / 2));//glm::vec2 TopRightPixelCalculate = Ermine::coordWorldToErmine(glm::vec2(GetBodyWidth() / 2.0f, GetBodyHeight() / 2));
 		glm::vec3 TopRightPos = glm::vec3(TopRightPixelCalculate.x, TopRightPixelCalculate.y, 0.0f);
 		glm::vec4 TopRightPos4 = glm::vec4(TopRightPos, 0.0f);
 
-		glm::vec2 BottomRightPixelCalculate = Ermine::vectorWorldToPixels(glm::vec2(GetBodyWidthBox2DSpace() / 2.0f, -1.0f * (GetBodyHeightBox2DSpace() / 2)));
+		glm::vec2 BottomRightPixelCalculate = Ermine::vectorWorldToErmine(glm::vec2(GetBodyWidthBox2DSpace() / 2.0f, -1.0f * (GetBodyHeightBox2DSpace() / 2)));
 		glm::vec3 BottomRightPos = glm::vec3(BottomRightPixelCalculate.x, BottomRightPixelCalculate.y, 0.0f);
 		glm::vec4 BottomRightPos4 = glm::vec4(BottomRightPos, 0.0f);
 
-		glm::vec2 BottomLeftPixelCalculate = Ermine::vectorWorldToPixels(glm::vec2(-1.0f * (GetBodyWidthBox2DSpace() / 2.0f), -1.0f * (GetBodyHeightBox2DSpace() / 2)));
+		glm::vec2 BottomLeftPixelCalculate = Ermine::vectorWorldToErmine(glm::vec2(-1.0f * (GetBodyWidthBox2DSpace() / 2.0f), -1.0f * (GetBodyHeightBox2DSpace() / 2)));
 		glm::vec3 BottomLeftPos = glm::vec3(BottomLeftPixelCalculate.x, BottomLeftPixelCalculate.y, 0.0f);
 		glm::vec4 BottomLeftPos4 = glm::vec4(BottomLeftPos, 0.0f);
 
-		glm::vec2 TopLeftPixelCalculate = Ermine::vectorWorldToPixels(glm::vec2(-1.0f * (GetBodyWidthBox2DSpace() / 2.0f), (GetBodyHeightBox2DSpace() / 2)));
+		glm::vec2 TopLeftPixelCalculate = Ermine::vectorWorldToErmine(glm::vec2(-1.0f * (GetBodyWidthBox2DSpace() / 2.0f), (GetBodyHeightBox2DSpace() / 2)));
 		glm::vec3 TopLeftPos = glm::vec3(TopLeftPixelCalculate.x, TopLeftPixelCalculate.y, 0.0f);//TopLeft.GetPositionCoordinates();
 		glm::vec4 TopLeftPos4 = glm::vec4(TopLeftPos, 0.0f);
 

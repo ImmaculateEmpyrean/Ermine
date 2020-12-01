@@ -5,10 +5,10 @@ Ermine::PrismaticJoint::PrismaticJoint(std::string JointName,b2Body* BodyA, b2Bo
 	:
 	JointBase(JointName,BodyA,BodyB)
 {
-	b2Vec2 AnchorA = Ermine::GLMToB2Vec2(Ermine::vertexPixelsToWorld(AnchorAWithRespectToBoxCentre));
-	b2Vec2 AnchorB = Ermine::GLMToB2Vec2(Ermine::vertexPixelsToWorld(AnchorBWithRespectToBoxCentre));
+	b2Vec2 AnchorA = Ermine::GLMToB2Vec2(Ermine::vertexErmineToWorld(AnchorAWithRespectToBoxCentre));
+	b2Vec2 AnchorB = Ermine::GLMToB2Vec2(Ermine::vertexErmineToWorld(AnchorBWithRespectToBoxCentre));
 
-	glm::vec2 LocalAxisAWorldSpace = Ermine::vertexPixelsToWorld(SlidingAxis);
+	glm::vec2 LocalAxisAWorldSpace = Ermine::vertexErmineToWorld(SlidingAxis);
 	glm::vec2 NormalizedLocalAxisAWorldSpace = glm::normalize(LocalAxisAWorldSpace);
 
 	b2PrismaticJointDef PrDef;
@@ -75,8 +75,8 @@ glm::vec2 Ermine::PrismaticJoint::GetMovementLimits()
 	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
 		glm::vec2 Limits = glm::vec2(0.0f);
-		Limits.x = Ermine::scalarWorldToPixels(((b2PrismaticJoint*)JointHandle)->GetLowerLimit());
-		Limits.y = Ermine::scalarWorldToPixels(((b2PrismaticJoint*)JointHandle)->GetLowerLimit());
+		Limits.x = Ermine::scalarWorldToErmine(((b2PrismaticJoint*)JointHandle)->GetLowerLimit());
+		Limits.y = Ermine::scalarWorldToErmine(((b2PrismaticJoint*)JointHandle)->GetLowerLimit());
 		return Limits;
 	}
 	else
@@ -123,8 +123,8 @@ void Ermine::PrismaticJoint::SetMovementLimits(float LowerLimitMovement, float U
 {
 	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
-		float WorldMovementConstraintLower = Ermine::scalarPixelsToWorld(LowerLimitMovement);
-		float WorldMovementConstraintUpper = Ermine::scalarPixelsToWorld(UpperLimitMovement);
+		float WorldMovementConstraintLower = Ermine::scalarErmineToWorld(LowerLimitMovement);
+		float WorldMovementConstraintUpper = Ermine::scalarErmineToWorld(UpperLimitMovement);
 		((b2PrismaticJoint*)JointHandle)->SetLimits(WorldMovementConstraintLower, WorldMovementConstraintUpper);
 	}
 	else
@@ -136,7 +136,7 @@ void Ermine::PrismaticJoint::SetMovementLimitsUpper(float UpperLimit)
 {
 	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
-		float WorldMovementConstraint = Ermine::scalarPixelsToWorld(UpperLimit);
+		float WorldMovementConstraint = Ermine::scalarErmineToWorld(UpperLimit);
 
 		float LowerLimit = ((b2PrismaticJoint*)JointHandle)->GetLowerLimit();
 		if (LowerLimit < -9999.0f)
@@ -153,7 +153,7 @@ void Ermine::PrismaticJoint::SetMovementLimitsLower(float LowerLimit)
 {
 	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
-		float WorldMovementConstraint = Ermine::scalarPixelsToWorld(LowerLimit);
+		float WorldMovementConstraint = Ermine::scalarErmineToWorld(LowerLimit);
 
 		float UpperLimit = ((b2PrismaticJoint*)JointHandle)->GetUpperLimit();
 		if (UpperLimit > 9999.0f)
@@ -172,7 +172,7 @@ glm::vec2 Ermine::PrismaticJoint::GetBodyALocalAnchorLocation()
 	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
 		b2Vec2 LocalAnchorLocation = ((b2PrismaticJoint*)JointHandle)->GetLocalAnchorA();
-		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToErmine(B2Vec2ToGLM(LocalAnchorLocation));
 		return LocalAnchorLocPixel;
 	}
 	else
@@ -186,7 +186,7 @@ glm::vec2 Ermine::PrismaticJoint::GetBodyBLocalAnchorLocation()
 	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
 		b2Vec2 LocalAnchorLocation = ((b2PrismaticJoint*)JointHandle)->GetLocalAnchorB();
-		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToErmine(B2Vec2ToGLM(LocalAnchorLocation));
 		return LocalAnchorLocPixel;
 	}
 	else
@@ -208,7 +208,7 @@ void Ermine::PrismaticJoint::SetMotorSpeed(float speed)
 	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
 		((b2PrismaticJoint*)JointHandle)->EnableMotor(true);
-		((b2PrismaticJoint*)JointHandle)->SetMotorSpeed(speed);
+		((b2PrismaticJoint*)JointHandle)->SetMotorSpeed(Ermine::vertexErmineToWorld(speed,0.0f).x);
 	}
 	else STDOUTDefaultLog_Error("Could Not Set Motor Speed Of The Prismatic Joint As Joint Health Is Not Okay..");
 }

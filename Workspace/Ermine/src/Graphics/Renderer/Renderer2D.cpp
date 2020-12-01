@@ -330,7 +330,7 @@ namespace Ermine
 
 						Vertex = Vertex; //+ BodyPosition;
 
-						glm::vec2 VertexInPixelSpace = Ermine::vectorWorldToPixels(Vertex);
+						glm::vec2 VertexInPixelSpace = Ermine::vectorWorldToErmine(Vertex);
 						glm::vec4 VertexInPixelSpace4 = glm::vec4(VertexInPixelSpace, 0.0f, 0.0f);
 
 						VertexInPixelSpace4 = Component->GetRotationMatrix() * VertexInPixelSpace4;
@@ -388,8 +388,8 @@ namespace Ermine
 					b2Vec2 P1 = EdgeShape->m_vertex1;
 					b2Vec2 P2 = EdgeShape->m_vertex2;
 
-					glm::vec2 PixelPoint1 = Ermine::vertexWorldToPixels(P1.x, P1.y);
-					glm::vec2 PixelPoint2 = Ermine::vertexWorldToPixels(P2.x, P2.y);
+					glm::vec2 PixelPoint1 = Ermine::vertexWorldToErmine(P1.x, P1.y);
+					glm::vec2 PixelPoint2 = Ermine::vertexWorldToErmine(P2.x, P2.y);
 
 					//Vertex 0
 					//Vertex Coordinates In Pixel Space
@@ -452,7 +452,7 @@ namespace Ermine
 					{
 						b2Vec2 Vertex = ChainShape->m_vertices[i];
 
-						glm::vec2 VertexInPixelSpace = Ermine::vertexWorldToPixels(glm::vec2(Vertex.x, Vertex.y));
+						glm::vec2 VertexInPixelSpace = Ermine::vertexWorldToErmine(glm::vec2(Vertex.x, Vertex.y));
 						//VertexInPixelSpace.y = -1.0f * VertexInPixelSpace.y;
 
 						LineVertexBuffer.emplace_back(VertexInPixelSpace.x);
@@ -502,7 +502,7 @@ namespace Ermine
 
 					b2CircleShape* CircleShape = (b2CircleShape*)f->GetShape();
 
-					float radius = Ermine::scalarWorldToPixels(CircleShape->m_radius);
+					float radius = Ermine::scalarWorldToErmine(CircleShape->m_radius);
 					//float radius = CircleShape->m_radius;
 
 					b2Vec2 OffsetFromCentre = CircleShape->m_p;
@@ -510,7 +510,7 @@ namespace Ermine
 
 					BodyPos = BodyPos + OffsetFromCentre;
 
-					glm::vec2 PositionInPixelSpace= Ermine::coordWorldToPixels(glm::vec2(BodyPos.x, BodyPos.y));
+					glm::vec2 PositionInPixelSpace= Ermine::coordWorldToErmine(glm::vec2(BodyPos.x, BodyPos.y));
 					
 					//Vertex 0
 					CircleVertexBuffer.emplace_back(radius);
@@ -606,7 +606,7 @@ namespace Ermine
 					
 					Vertex0 = RotationMatrix * Vertex0;
 
-					glm::vec2 Vertex0PixelSpace = Ermine::vertexWorldToPixels(glm::vec2(Vertex0.x , Vertex0.y));
+					glm::vec2 Vertex0PixelSpace = Ermine::vertexWorldToErmine(glm::vec2(Vertex0.x , Vertex0.y));
 
 					CircleLineVertexBuffer.emplace_back(Vertex0PixelSpace.x);
 					CircleLineVertexBuffer.emplace_back(Vertex0PixelSpace.y);
@@ -629,7 +629,7 @@ namespace Ermine
 
 					Vertex1 = RotationMatrix * Vertex1;
 
-					glm::vec2 Vertex1PixelSpace = Ermine::vertexWorldToPixels(glm::vec2(Vertex1.x, Vertex1.y));
+					glm::vec2 Vertex1PixelSpace = Ermine::vertexWorldToErmine(glm::vec2(Vertex1.x, Vertex1.y));
 
 					CircleLineVertexBuffer.emplace_back(Vertex1PixelSpace.x);
 					CircleLineVertexBuffer.emplace_back(Vertex1PixelSpace.y);

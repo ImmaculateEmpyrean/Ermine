@@ -22,10 +22,10 @@ void Ermine::BodyPart::ConvertOffsetFromCentreAndPartSizeToBox2DSpace()
 	if (InBox2DSpace == false)
 	{
 		//Convert Offset From Centre Into Box2D Space
-		OffsetFromTheCentre = Ermine::coordPixelsToWorld(OffsetFromTheCentre);
+		OffsetFromTheCentre = Ermine::coordErmineToWorld(OffsetFromTheCentre);
 
 		//Convert Part Size Into Box2D Space.. Part Size Is Not A POINT On The Coordinate Space..
-		PartSize = Ermine::vectorPixelsToWorld(PartSize);
+		PartSize = Ermine::vectorErmineToWorld(PartSize);
 		
 		//Set The Flag To True If It Was False In The First Place..
 		InBox2DSpace = true;

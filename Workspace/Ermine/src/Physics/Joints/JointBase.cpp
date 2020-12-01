@@ -64,8 +64,8 @@ void Ermine::JointBase::ShiftOrigin(glm::vec2 NewOrigin)
 {
     if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
     {
-        //This Hopefully Is Ermine::coordPixelsToWorld.. I Am Writing This Almost Offhanded.. Do Check It At A Future Date..
-        b2Vec2 Origin = Ermine::GLMToB2Vec2(Ermine::coordPixelsToWorld(NewOrigin));
+        //This Hopefully Is Ermine::coordErmineToWorld.. I Am Writing This Almost Offhanded.. Do Check It At A Future Date..
+        b2Vec2 Origin = Ermine::GLMToB2Vec2(Ermine::coordErmineToWorld(NewOrigin));
         JointHandle->ShiftOrigin(Origin);
     }
     else STDOUTDefaultLog_Error("Could Not Shift Origin Of The Body As The Health Of The Joint Is Not Okay");
@@ -89,7 +89,7 @@ unsigned int Ermine::JointBase::GetUniqueIdentifier()
 glm::vec2 Ermine::JointBase::GetBodyAWorldAnchorLocation()
 {
     if(GetHealth() == Ermine::JointHealthEnum::StatusOk)
-        return  Ermine::coordWorldToPixels(Ermine::B2Vec2ToGLM(JointHandle->GetAnchorA()));
+        return  Ermine::coordWorldToErmine(Ermine::B2Vec2ToGLM(JointHandle->GetAnchorA()));
     else
     {
         STDOUTDefaultLog_Error("Could Not Query Body A World Anchor Location As The Health Of The Joint Is Not Okay");
@@ -100,7 +100,7 @@ glm::vec2 Ermine::JointBase::GetBodyAWorldAnchorLocation()
 glm::vec2 Ermine::JointBase::GetBodyBWorldAnchorLocation()
 {
     if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
-        return  Ermine::coordWorldToPixels(Ermine::B2Vec2ToGLM(JointHandle->GetAnchorB()));
+        return  Ermine::coordWorldToErmine(Ermine::B2Vec2ToGLM(JointHandle->GetAnchorB()));
     else
     {
         STDOUTDefaultLog_Error("Could Not Query Body A World Anchor Location As The Health Of The Joint Is Not Okay");

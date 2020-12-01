@@ -52,7 +52,7 @@ namespace Ermine
 		void ToggleMotor();
 
 
-		void  SetMaxMotorTorque();
+		void  SetMaxMotorTorque(float Torque);
 		float GetMotorTorque(); //This Wont Work Properly As I Am Hardcoding the timestep
 
 		void  SetMotorSpeedRadians(float Angle);

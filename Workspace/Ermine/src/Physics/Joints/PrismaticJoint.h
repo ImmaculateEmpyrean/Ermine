@@ -34,7 +34,6 @@ namespace Ermine
 
 	public:
 		
-
 		//Start Set And Manipulate Movement Limits Of The Joint In Question..//
 		void EnableLimits	();
 		void DisableLimits  ();

@@ -8,8 +8,8 @@ namespace Ermine
 		JointBase(JointName,BodyA,BodyB)
 	{
 		
-		b2Vec2 AnchorA = Ermine::GLMToB2Vec2(Ermine::vertexPixelsToWorld(AnchorAWithRespectToBoxCentre));
-		b2Vec2 AnchorB = Ermine::GLMToB2Vec2(Ermine::vertexPixelsToWorld(AnchorBWithRespectToBoxCentre));
+		b2Vec2 AnchorA = Ermine::GLMToB2Vec2(Ermine::vertexErmineToWorld(AnchorAWithRespectToBoxCentre));
+		b2Vec2 AnchorB = Ermine::GLMToB2Vec2(Ermine::vertexErmineToWorld(AnchorBWithRespectToBoxCentre));
 
 		b2DistanceJointDef DisDef;
 
@@ -49,7 +49,7 @@ namespace Ermine
 		if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 		{
 			b2Vec2 LocalAnchorLocation = ((b2DistanceJoint*)JointHandle)->GetLocalAnchorA();
-			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToErmine(B2Vec2ToGLM(LocalAnchorLocation));
 			return LocalAnchorLocPixel;
 		}
 		else
@@ -63,7 +63,7 @@ namespace Ermine
 		if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 		{
 			b2Vec2 LocalAnchorLocation = ((b2DistanceJoint*)JointHandle)->GetLocalAnchorB();
-			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToErmine(B2Vec2ToGLM(LocalAnchorLocation));
 			return LocalAnchorLocPixel;
 		}
 		else
@@ -78,7 +78,7 @@ namespace Ermine
 	{
 		if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 		{
-			return Ermine::scalarWorldToPixels(((b2DistanceJoint*)JointHandle)->GetLength());
+			return Ermine::scalarWorldToErmine(((b2DistanceJoint*)JointHandle)->GetLength());
 		}
 		else
 		{
@@ -89,7 +89,7 @@ namespace Ermine
 	void DistanceJoint::SetLength(float Length)
 	{
 		if(GetHealth() == Ermine::JointHealthEnum::StatusOk)
-			((b2DistanceJoint*)JointHandle)->SetLength(Ermine::scalarPixelsToWorld(Length));
+			((b2DistanceJoint*)JointHandle)->SetLength(Ermine::scalarErmineToWorld(Length));
 		else STDOUTDefaultLog_Error("Cannot Set Length Of The Distance Joint In Question As The Object Health Is Not Okay");
 	}
 

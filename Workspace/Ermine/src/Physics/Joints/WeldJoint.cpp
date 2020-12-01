@@ -7,8 +7,8 @@ namespace Ermine
 		:
 		JointBase(JointName,BodyA,BodyB)
 	{
-		b2Vec2 AnchorA = Ermine::GLMToB2Vec2(vertexPixelsToWorld(AnchorAWithRespectToBoxCentre));
-		b2Vec2 AnchorB = Ermine::GLMToB2Vec2(vertexPixelsToWorld(AnchorBWithRespectToBoxCentre));
+		b2Vec2 AnchorA = Ermine::GLMToB2Vec2(vertexErmineToWorld(AnchorAWithRespectToBoxCentre));
+		b2Vec2 AnchorB = Ermine::GLMToB2Vec2(vertexErmineToWorld(AnchorBWithRespectToBoxCentre));
 
 		b2WeldJointDef WeldDef;
 
@@ -47,7 +47,7 @@ namespace Ermine
 		if(GetHealth() == Ermine::JointHealthEnum::StatusOk)
 		{
 			b2Vec2 LocalAnchorLocation = ((b2WeldJoint*)(JointHandle))->GetLocalAnchorA();
-			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToErmine(B2Vec2ToGLM(LocalAnchorLocation));
 			return LocalAnchorLocPixel;
 		}
 		else
@@ -61,7 +61,7 @@ namespace Ermine
 		if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 		{
 			b2Vec2 LocalAnchorLocation = ((b2WeldJoint*)(JointHandle))->GetLocalAnchorB();
-			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+			glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToErmine(B2Vec2ToGLM(LocalAnchorLocation));
 			return LocalAnchorLocPixel;
 		}
 		else

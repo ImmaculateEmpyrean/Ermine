@@ -111,24 +111,27 @@ namespace Ermine
 		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,PhysicsComponent2D* BodyB, bool CollideConnected = false);
 		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision = false);
 		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision = false);
-		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInRadians, bool CollideCollision = false);
-		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInRadians,glm::vec2 SlidingAxis, bool CollideCollision = false);
+		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInDegrees, bool CollideCollision = false);
+		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInDegrees,glm::vec2 SlidingAxis, bool CollideCollision = false);
 		//Ended Creating Prismatic Joint..//
 
 		//Start Creating Wheel Joint..//
+		std::shared_ptr<Ermine::JointBase> CreateWheelJoint(std::string JointName, PhysicsComponent2D* BodyB, b2WheelJointDef Def);
 		std::shared_ptr<Ermine::JointBase> CreateWheelJoint(std::string JointName ,PhysicsComponent2D* BodyB, bool CollideConnected = false);
+		std::shared_ptr<Ermine::JointBase> CreateWheelJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB,bool CollideConnected = false);
+		std::shared_ptr<Ermine::JointBase> CreateWheelJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB, glm::vec2 LocalTranslationalAxisInBodyA, bool CollideConnected = false);
 		//Ended Creating Wheel Joint..//
 
 		//Start Creating Rope Joint..//
 		std::shared_ptr<Ermine::JointBase> CreateRopeJoint(std::string JointName,PhysicsComponent2D* BodyB, bool CollideConnected = false);
 		std::shared_ptr<Ermine::JointBase> CreateRopeJoint(std::string JointName,PhysicsComponent2D* BodyB, float RopeLength, bool CollideConnected = false);
-		std::shared_ptr<Ermine::JointBase> CreateRopeJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates,float RopeLength, bool CollideConnected = false);
+		std::shared_ptr<Ermine::JointBase> CreateRopeJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB,float RopeLength, bool CollideConnected = false);
 		//Ended Creating Rope Joint..//
 
 		//Start Creating Weld Joint..//
 		std::shared_ptr<Ermine::JointBase> CreateWeldJoint(std::string JointName,PhysicsComponent2D* BodyB, bool CollideConnected = false);
-		std::shared_ptr<Ermine::JointBase> CreateWeldJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, bool CollideConnected = false);
-		std::shared_ptr<Ermine::JointBase> CreateWeldJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, bool CollideConnected = false);
+		std::shared_ptr<Ermine::JointBase> CreateWeldJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorA, bool CollideConnected = false);
+		std::shared_ptr<Ermine::JointBase> CreateWeldJoint(std::string JointName,PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB, bool CollideConnected = false);
 		//Ended Creating Joint Functions..//
 #pragma endregion
 	public:

@@ -52,10 +52,10 @@ Ermine::WheelJoint::WheelJoint(std::string Name, b2Body* BodyA, b2Body* BodyB, g
 	jd.upperTranslation = 0.25f;
 	jd.enableLimit = true;
 
-	jd.localAnchorA = Ermine::GLMToB2Vec2(Ermine::coordPixelsToWorld(LocalAnchorA));
-	jd.localAnchorB = Ermine::GLMToB2Vec2(Ermine::coordPixelsToWorld(LocalAnchorB));
+	jd.localAnchorA = Ermine::GLMToB2Vec2(Ermine::coordErmineToWorld(LocalAnchorA));
+	jd.localAnchorB = Ermine::GLMToB2Vec2(Ermine::coordErmineToWorld(LocalAnchorB));
 
-	jd.localAxisA = Ermine::GLMToB2Vec2(Ermine::vectorPixelsToWorld(LocalTranslationalAxisInBodyA));
+	jd.localAxisA = Ermine::GLMToB2Vec2(Ermine::vectorErmineToWorld(LocalTranslationalAxisInBodyA));
 
 	JointHandle = (b2WheelJoint*)Universum->CreateJoint(&jd);
 }
@@ -64,6 +64,10 @@ Ermine::WheelJoint::WheelJoint(std::string Name, b2Body* BodyA, b2Body* BodyB, b
 	:
 	JointBase(Name,BodyA,BodyB)
 {
+	//Convert The Ermine Coordinates Into Physics World Coordinates Before Using.. THE AXIS NEED NOT BE CONVERTED RIGHT..
+	Def.localAnchorA = Ermine::GLMToB2Vec2(Ermine::coordErmineToWorld(Ermine::B2Vec2ToGLM(Def.localAnchorA)));
+	Def.localAnchorB = Ermine::GLMToB2Vec2(Ermine::coordErmineToWorld(Ermine::B2Vec2ToGLM(Def.localAnchorB)));
+
 	JointHandle = (b2WheelJoint*)Universum->CreateJoint(&Def);
 }
 
@@ -96,7 +100,7 @@ glm::vec2 Ermine::WheelJoint::GetBodyALocalAnchorLocation()
 	if(GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
 		b2Vec2 LocalAnchorLocation = ((b2WheelJoint*)JointHandle)->GetLocalAnchorA();
-		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToErmine(B2Vec2ToGLM(LocalAnchorLocation));
 		return LocalAnchorLocPixel;
 	}
 	else
@@ -110,7 +114,7 @@ glm::vec2 Ermine::WheelJoint::GetBodyBLocalAnchorLocation()
 	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
 		b2Vec2 LocalAnchorLocation = ((b2WheelJoint*)JointHandle)->GetLocalAnchorB();
-		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToPixels(B2Vec2ToGLM(LocalAnchorLocation));
+		glm::vec2 LocalAnchorLocPixel = Ermine::vertexWorldToErmine(B2Vec2ToGLM(LocalAnchorLocation));
 		return LocalAnchorLocPixel;
 	}
 	else
@@ -118,8 +122,6 @@ glm::vec2 Ermine::WheelJoint::GetBodyBLocalAnchorLocation()
 		STDOUTDefaultLog_Error("Cannot Get BodyBAnchor Location Of The Wheel Joint As The Health Is Not Okay");
 		return glm::vec2(-9999.0f, -9999.0f);
 	}
-
-	((b2WheelJoint*)JointHandle)->li
 }
 
 bool Ermine::WheelJoint::IsMotorEnabled()
@@ -157,6 +159,51 @@ void Ermine::WheelJoint::ToggleMotor()
 			EnableMotor();
 	}
 	else STDOUTDefaultLog_Error("Cannot Toggle Motor As Wheel Joint Health Is Not OK");
+}
+
+void Ermine::WheelJoint::SetMaxMotorTorque(float Torque)
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		((b2WheelJoint*)JointHandle)->SetMaxMotorTorque(Torque);
+	else STDOUTDefaultLog_Error("Cannot Set Max Motor Torque As Wheel Joint Health Is Not OK");
+}
+
+float Ermine::WheelJoint::GetMotorTorque()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return Ermine::scalarWorldToErmine(((b2WheelJoint*)JointHandle)->GetMotorTorque(0.04f));
+	else {
+		STDOUTDefaultLog_Error("Cannot Query Motor Torque As Wheel Joint Health Is Not OK");
+		return false;
+	}
+}
+
+void Ermine::WheelJoint::SetMotorSpeedRadians(float Angle)
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		((b2WheelJoint*)JointHandle)->SetMotorSpeed(Angle);
+	else STDOUTDefaultLog_Error("Cannot Set MotorSpeed As Wheel Joint Health Is Not OK");
+}
+
+float Ermine::WheelJoint::GetMotorSpeedRadians()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return ((b2WheelJoint*)JointHandle)->GetMotorSpeed();
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Query MotorSpeed As Wheel Joint Health Is Not OK");
+		return -9999.0f;
+	}
+}
+
+void Ermine::WheelJoint::SetMotorSpeedDegrees(float Angle)
+{
+	SetMotorSpeedRadians(glm::radians<float>(Angle));
+}
+
+float Ermine::WheelJoint::GetMotorSpeedDegrees()
+{
+	return glm::degrees<float>(GetMotorSpeedRadians());
 }
 
 bool Ermine::WheelJoint::IsLimitEnabled()
@@ -200,8 +247,8 @@ void Ermine::WheelJoint::SetLimit(float Lower, float Upper)
 {
 	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
-		float WorldLower = Ermine::scalarPixelsToWorld(Lower);
-		float WorldUpper = Ermine::scalarPixelsToWorld(Upper);
+		float WorldLower = Ermine::scalarErmineToWorld(Lower);
+		float WorldUpper = Ermine::scalarErmineToWorld(Upper);
 
 		((b2WheelJoint*)JointHandle)->SetLimits(WorldLower, WorldUpper);
 	}
@@ -212,8 +259,8 @@ void Ermine::WheelJoint::SetUpperLimit(float Upper)
 {
 	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
-		float WorldLower = Ermine::scalarPixelsToWorld(GetLowerLimit());
-		float WorldUpper = Ermine::scalarPixelsToWorld(Upper);
+		float WorldLower = Ermine::scalarErmineToWorld(GetLowerLimit());
+		float WorldUpper = Ermine::scalarErmineToWorld(Upper);
 
 		((b2WheelJoint*)JointHandle)->SetLimits(WorldLower, WorldUpper);
 	}
@@ -224,8 +271,8 @@ void Ermine::WheelJoint::SetLowerLimit(float Lower)
 {
 	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
-		float WorldLower = Ermine::scalarPixelsToWorld(Lower);
-		float WorldUpper = Ermine::scalarPixelsToWorld(GetUpperLimit());
+		float WorldLower = Ermine::scalarErmineToWorld(Lower);
+		float WorldUpper = Ermine::scalarErmineToWorld(GetUpperLimit());
 
 		((b2WheelJoint*)JointHandle)->SetLimits(WorldLower, WorldUpper);
 	}
@@ -250,9 +297,9 @@ float Ermine::WheelJoint::GetUpperLimit()
 		if (((b2WheelJoint*)JointHandle)->GetUpperLimit() > 9999.0f)
 		{
 			STDOUTDefaultLog_Warn("Attempting To Get Upper Limit Of A Wheel joint Where None Was Previously Set.. This May LEad To Undefined Behaviour");
-			return Ermine::scalarWorldToPixels(((b2WheelJoint*)JointHandle)->GetUpperLimit());
+			return Ermine::scalarWorldToErmine(((b2WheelJoint*)JointHandle)->GetUpperLimit());
 		}
-		else return Ermine::scalarWorldToPixels(((b2WheelJoint*)JointHandle)->GetUpperLimit());
+		else return Ermine::scalarWorldToErmine(((b2WheelJoint*)JointHandle)->GetUpperLimit());
 	}
 	else
 	{
@@ -268,13 +315,84 @@ float Ermine::WheelJoint::GetLowerLimit()
 		if (((b2WheelJoint*)JointHandle)->GetLowerLimit() < -9999.0f)
 		{
 			STDOUTDefaultLog_Warn("Attempting To Get LowerLimit Of A Wheel joint Where None Was Previously Set.. This May LEad To Undefined Behaviour");
-			return Ermine::scalarWorldToPixels(((b2WheelJoint*)JointHandle)->GetLowerLimit());
+			return Ermine::scalarWorldToErmine(((b2WheelJoint*)JointHandle)->GetLowerLimit());
 		}
-		else return Ermine::scalarWorldToPixels(((b2WheelJoint*)JointHandle)->GetLowerLimit());
+		else return Ermine::scalarWorldToErmine(((b2WheelJoint*)JointHandle)->GetLowerLimit());
 	}
 	else
 	{
 		STDOUTDefaultLog_Error("Cannot Get LowerLimit Of The Wheel Joint As Its Health Is Not Okay");
+		return 9999.0f;
+	}
+}
+
+
+float Ermine::WheelJoint::GetJointAngleDegrees()
+{
+	return glm::degrees<float>(GetJointAngleRadians());
+}
+float Ermine::WheelJoint::GetJointAngleRadians()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return ((b2WheelJoint*)JointHandle)->GetJointAngle();
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get JointAngle Of The Wheel Joint As Its Health Is Not Okay");
+		return 9999.0f;
+	}
+}
+
+float Ermine::WheelJoint::GetJointAngularSpeedDegrees()
+{
+	return glm::degrees<float>(GetJointAngularSpeedRadians());
+}
+float Ermine::WheelJoint::GetJointAngularSpeedRadians()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return ((b2WheelJoint*)JointHandle)->GetJointAngularSpeed();
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get JointAngularSpeed Of The Wheel Joint As Its Health Is Not Okay");
+		return 9999.0f;
+	}
+}
+
+float Ermine::WheelJoint::GetJointLinearSpeed()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return Ermine::scalarWorldToErmine(((b2WheelJoint*)JointHandle)->GetJointLinearSpeed());
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get JointLinearSpeed Of The Wheel Joint As Its Health Is Not Okay");
+		return 9999.0f;
+	}
+}
+
+float Ermine::WheelJoint::GetJointTranslation()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return Ermine::scalarWorldToErmine(((b2WheelJoint*)JointHandle)->GetJointTranslation());
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get JointTranslation Of The Wheel Joint As Its Health Is Not Okay");
+		return 9999.0f;
+	}
+}
+
+void Ermine::WheelJoint::SetJointStiffness(float Stiffness)
+{
+	if	 (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		 ((b2WheelJoint*)JointHandle)->SetStiffness(Stiffness);
+	else STDOUTDefaultLog_Error("Cannot Get JointStiffness Of The Wheel Joint As Its Health Is Not Okay");
+}
+
+float Ermine::WheelJoint::GetJointStiffness()
+{
+	if (GetHealth() == Ermine::JointHealthEnum::StatusOk)
+		return Ermine::scalarWorldToErmine(((b2WheelJoint*)JointHandle)->GetStiffness());
+	else
+	{
+		STDOUTDefaultLog_Error("Cannot Get JointStiffness Of The Wheel Joint As Its Health Is Not Okay");
 		return 9999.0f;
 	}
 }

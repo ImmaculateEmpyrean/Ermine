@@ -97,7 +97,7 @@ namespace Ermine
 	void PhysicsComponent2D::AddForce(glm::vec2 Force, glm::vec2 WorldPositionInPixelCoordinatesWhereTheForceWasApplied)
 	{
 		//Convert The Coordinates Of Body Point At Which Force Is Applied From Poxel Space To Box2D Space..
-		WorldPositionInPixelCoordinatesWhereTheForceWasApplied = Ermine::coordPixelsToWorld(WorldPositionInPixelCoordinatesWhereTheForceWasApplied);
+		WorldPositionInPixelCoordinatesWhereTheForceWasApplied = Ermine::coordErmineToWorld(WorldPositionInPixelCoordinatesWhereTheForceWasApplied);
 
 		//Ask Box2D To Apply The Force On The Object In Question..
 		BodyManagedByTheComponent->ApplyForce(b2Vec2(Force.x, Force.y), b2Vec2(WorldPositionInPixelCoordinatesWhereTheForceWasApplied.x, WorldPositionInPixelCoordinatesWhereTheForceWasApplied.y), true);
@@ -106,26 +106,26 @@ namespace Ermine
 
 	void PhysicsComponent2D::SetPosition(glm::vec2 Position)
 	{
-		glm::vec2 WorldCoordinates = Ermine::vectorPixelsToWorld(Position);
+		glm::vec2 WorldCoordinates = Ermine::vectorErmineToWorld(Position);
 		BodyManagedByTheComponent->SetTransform(Ermine::GLMToB2Vec2(WorldCoordinates), BodyManagedByTheComponent->GetAngle());
 	}
 
 	void PhysicsComponent2D::SetVelocity(glm::vec2 Velocity)
 	{
-		glm::vec2 VelocityInBox2DLand = Ermine::vectorPixelsToWorld(Velocity);
+		glm::vec2 VelocityInBox2DLand = Ermine::vectorErmineToWorld(Velocity);
 		BodyManagedByTheComponent->SetLinearVelocity(Ermine::GLMToB2Vec2(VelocityInBox2DLand));
 	}
 
 	void PhysicsComponent2D::SetAngularVelocity(float AngularVelocity)
 	{
-		float AngularVelocityInBox2DLand = Ermine::scalarPixelsToWorld(AngularVelocity);
+		float AngularVelocityInBox2DLand = Ermine::scalarErmineToWorld(AngularVelocity);
 		BodyManagedByTheComponent->SetAngularVelocity(AngularVelocityInBox2DLand);
 	}
 
 
 	glm::vec2 PhysicsComponent2D::GetVelocityOfTheBody()
 	{
-		return Ermine::vectorWorldToPixels(Ermine::B2Vec2ToGLM(BodyManagedByTheComponent->GetLinearVelocity()));
+		return Ermine::vectorWorldToErmine(Ermine::B2Vec2ToGLM(BodyManagedByTheComponent->GetLinearVelocity()));
 	}
 
 	float PhysicsComponent2D::GetAngularVelocityOfTheBody()
@@ -209,142 +209,95 @@ namespace Ermine
 
 		return RevJoint;
 	}
+
+	//Create Prismatic Joints
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreatePrismaticJoint(std::string JointName, PhysicsComponent2D* BodyB, bool CollideConnected)
+	{
+		return CreatePrismaticJoint(JointName, BodyB, glm::vec2(0.0f,0.0f), glm::vec2(0.0f, 0.0f), 0.0f, glm::vec2(1.0f, 0.0f), CollideConnected);
+	}
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreatePrismaticJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision)
+	{
+		return CreatePrismaticJoint(JointName, BodyB, LocalAnchorPointA, glm::vec2(0.0f,0.0f), 0.0f, glm::vec2(1.0f, 0.0f), CollideCollision);
+	}
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreatePrismaticJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision)
+	{
+		return CreatePrismaticJoint(JointName, BodyB, LocalAnchorPointA, LocalAnchorPointB, 0.0f, glm::vec2(1.0f, 0.0f), CollideCollision);
+	}
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreatePrismaticJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInDegrees, bool CollideCollision)
+	{
+		return CreatePrismaticJoint(JointName, BodyB, LocalAnchorPointA, LocalAnchorPointB, ReferenceAngleInDegrees, glm::vec2(1.0f, 0.0f), CollideCollision);
+	}
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreatePrismaticJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInDegrees, glm::vec2 SlidingAxis, bool CollideCollision)
+	{
+		std::shared_ptr<Ermine::PrismaticJoint> PJ = Ermine::PrismaticJoint::Generate(JointName, BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA, LocalAnchorPointB, ReferenceAngleInDegrees, SlidingAxis, CollideCollision);
+
+		JointsBuffer.emplace_back(PJ);
+		BodyB->JointsBuffer.emplace_back(PJ);
+
+		return PJ;
+	}
+
+	//Create Wheel Joint
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateWheelJoint(std::string JointName, PhysicsComponent2D* BodyB, b2WheelJointDef Def)
+	{
+		std::shared_ptr<Ermine::WheelJoint> WheelJoint = Ermine::WheelJoint::Generate(JointName, BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, Def);
+
+		JointsBuffer.emplace_back(WheelJoint);
+		BodyB->JointsBuffer.emplace_back(WheelJoint);
+
+		return WheelJoint;
+	}
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateWheelJoint(std::string JointName, PhysicsComponent2D* BodyB, bool CollideConnected)
+	{
+		return CreateWheelJoint(JointName, BodyB, glm::vec2(0.0f,0.0f), glm::vec2(0.0f,0.0f), glm::vec2(1.0f, 0.0f), CollideConnected);
+	}
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateWheelJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB, bool CollideConnected)
+	{
+		return CreateWheelJoint(JointName, BodyB, LocalAnchorA, LocalAnchorB, glm::vec2(1.0f, 0.0f), CollideConnected);
+	}
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateWheelJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB, glm::vec2 LocalTranslationalAxisInBodyA, bool CollideConnected)
+	{
+		std::shared_ptr<Ermine::WheelJoint> WheelJoint = Ermine::WheelJoint::Generate(JointName,BodyManagedByTheComponent,BodyB->BodyManagedByTheComponent,LocalAnchorA,LocalAnchorB,LocalTranslationalAxisInBodyA,CollideConnected);
+
+		JointsBuffer.emplace_back(WheelJoint);
+		BodyB->JointsBuffer.emplace_back(WheelJoint);
+
+		return WheelJoint;
+	}
+
+	//Create Rope Joint..
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateRopeJoint(std::string JointName, PhysicsComponent2D* BodyB, bool CollideConnected)
+	{
+		CreateRopeJoint(JointName, BodyB, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), 10.0f, CollideConnected);
+	}
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateRopeJoint(std::string JointName, PhysicsComponent2D* BodyB, float RopeLength, bool CollideConnected)
+	{
+		CreateRopeJoint(JointName, BodyB, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), RopeLength, CollideConnected);
+	}
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateRopeJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB, float RopeLength, bool CollideConnected)
+	{
+		return Ermine::RopeJoint::Generate(JointName, BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorA, LocalAnchorB, RopeLength, CollideConnected);
+	}
 	
-	JointBase* PhysicsComponent2D::CreatePrismaticJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
+	//Create Weld Joint..
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateWeldJoint(std::string JointName, PhysicsComponent2D* BodyB, bool CollideConnected)
 	{
-		Ermine::PrismaticJoint* Joint = new Ermine::PrismaticJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
-	}
-	JointBase* PhysicsComponent2D::CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision)
-	{
-		Ermine::PrismaticJoint* Joint = new Ermine::PrismaticJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent,LocalAnchorPointA, CollideCollision);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
-	}
-	JointBase* PhysicsComponent2D::CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision)
-	{
-		Ermine::PrismaticJoint* Joint = new Ermine::PrismaticJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA,LocalAnchorPointB, CollideCollision);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
-	}
-	JointBase* PhysicsComponent2D::CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInRadians, bool CollideCollision)
-	{
-		Ermine::PrismaticJoint* Joint = new Ermine::PrismaticJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA, LocalAnchorPointB,ReferenceAngleInRadians, CollideCollision);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
-	}
-	JointBase* PhysicsComponent2D::CreatePrismaticJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInRadians, glm::vec2 SlidingAxis, bool CollideCollision)
-	{
-		Ermine::PrismaticJoint* Joint = new Ermine::PrismaticJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorPointA, LocalAnchorPointB, ReferenceAngleInRadians,SlidingAxis, CollideCollision);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
+		return CreateWeldJoint(JointName, BodyB, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), CollideConnected);
 	}
 
-	JointBase* PhysicsComponent2D::CreateWheelJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateWeldJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorA, bool CollideConnected)
 	{
-		Ermine::WheelJoint* Joint = new Ermine::WheelJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
+		return CreateWeldJoint(JointName, BodyB, LocalAnchorA, glm::vec2(0.0f, 0.0f), CollideConnected);
 	}
 
-	JointBase* PhysicsComponent2D::CreateRopeJoint(PhysicsComponent2D* BodyB, bool CollideCollision)
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateWeldJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB, bool CollideConnected)
 	{
-		Ermine::RopeJoint* Joint = new Ermine::RopeJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideCollision);
+		std::shared_ptr<Ermine::WeldJoint> WeldJoint = Ermine::WeldJoint::Generate(JointName, BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorA, LocalAnchorB, CollideConnected);
 
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
+		JointsBuffer.emplace_back(WeldJoint);
+		BodyB->JointsBuffer.emplace_back(WeldJoint);
 
-		return Joint;
-	}
-	JointBase* PhysicsComponent2D::CreateRopeJoint(PhysicsComponent2D* BodyB, float RopeLength, bool CollideConnected)
-	{
-		Ermine::RopeJoint* Joint = new Ermine::RopeJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent,RopeLength, CollideConnected);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
-	}
-	JointBase* PhysicsComponent2D::CreateRopeJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, float RopeLength, bool CollideConnected)
-	{
-		Ermine::RopeJoint* Joint = new Ermine::RopeJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent,LocalAnchorAPixelCoordinates,LocalAnchorBPixelCoordinates, RopeLength, CollideConnected);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
-	}
-
-	JointBase* PhysicsComponent2D::CreateWeldJoint(PhysicsComponent2D* BodyB, bool CollideConnected)
-	{
-		Ermine::WeldJoint* Joint = new Ermine::WeldJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, CollideConnected);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
-	}
-	JointBase* PhysicsComponent2D::CreateWeldJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, bool CollideConnected)
-	{
-		Ermine::WeldJoint* Joint = new Ermine::WeldJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent,LocalAnchorAPixelCoordinates, CollideConnected);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
-	}
-	JointBase* PhysicsComponent2D::CreateWeldJoint(PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, bool CollideConnected)
-	{
-		Ermine::WeldJoint* Joint = new Ermine::WeldJoint(BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorAPixelCoordinates, LocalAnchorBPixelCoordinates ,CollideConnected);
-
-		BodyB->JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-		JointsBuffer.emplace(Joint->GetUniqueIdentifier(), Joint);
-
-		return Joint;
-
-	}
-
-	void PhysicsComponent2D::SetDebugColorToBody(glm::vec4 Color)
-	{
-		UseCustomColorsOnDebugTrace = true;
-		CustomDebugTraceColor = Color;
-	}
-
-	void PhysicsComponent2D::SetDebugColorToFixture(b2Fixture* Fixture, glm::vec4 Color)
-	{
-		if (Fixture->GetUserData() != nullptr)
-		{
-			FixtureUserDataStruct* Struct = (FixtureUserDataStruct*)Fixture->GetUserData();
-			Struct->DebugTraceColor.UseColor = true;
-			Struct->DebugTraceColor.Color = Color;
-		}
-		else
-		{
-			FixtureUserDataStruct *Struct = new FixtureUserDataStruct();
-			Struct->DebugTraceColor.UseColor = true;
-			Struct->DebugTraceColor.Color = Color;
-
-			Fixture->SetUserData(Struct);
-		}
+		return WeldJoint;
 	}
 
 
@@ -372,7 +325,7 @@ namespace Ermine
 		glm::vec2 LocationRudimentary = GetBodyLocationBox2DSpace();
 
 		//Now Convert From Box2DCoordinates Into Ermine Coordinates..
-		glm::vec2 Location = coordWorldToPixels(LocationRudimentary);
+		glm::vec2 Location = coordWorldToErmine(LocationRudimentary);
 		
 		//Send The Result Back To The User..
 		return Location;
