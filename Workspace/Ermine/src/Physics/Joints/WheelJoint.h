@@ -50,6 +50,16 @@ namespace Ermine
 		void EnableMotor();
 		void DisableMotor();
 		void ToggleMotor();
+
+
+		void  SetMaxMotorTorque();
+		float GetMotorTorque(); //This Wont Work Properly As I Am Hardcoding the timestep
+
+		void  SetMotorSpeedRadians(float Angle);
+		float GetMotorSpeedRadians();
+
+		void  SetMotorSpeedDegrees(float Angle);
+		float GetMotorSpeedDegrees();
 		//Ended Motor Functions..//
 		
 		//Start Limit Functions..//
@@ -63,10 +73,24 @@ namespace Ermine
 		void SetUpperLimit(float Upper);
 		void SetLowerLimit(float Lower);
 
-		glm::vec2 GetLimits();
+		glm::vec2 GetLimits(); 
 		float GetUpperLimit();
 		float GetLowerLimit();
 		//Ended Limit Functions..//
+
+		//Start Interaction With The Joint Functions..//
+		float GetJointAngleDegrees();
+		float GetJointAngleRadians();
+
+		float GetJointAngularSpeedDegrees();
+		float GetJointAngularSpeedRadians();
+
+		float GetJointLinearSpeed();
+		float GetJointTranslation();
+
+		void  SetJointStiffness(float Stiffness);
+		float GetJointStiffness();
+		//Ended Interaction With The Joint Function..//
 
 	protected:
 
