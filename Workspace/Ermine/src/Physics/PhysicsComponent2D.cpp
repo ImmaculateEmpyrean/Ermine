@@ -42,6 +42,12 @@ namespace Ermine
 		return *this;
 	}
 
+	std::shared_ptr<Ermine::PhysicsComponent2D> PhysicsComponent2D::Generate(b2BodyDef BodyDefinition, std::vector<b2FixtureDef> FixturesAssociatedWithBody)
+	{
+		std::shared_ptr<Ermine::PhysicsComponent2D> PhyComponent(new Ermine::PhysicsComponent2D(std::move(BodyDefinition), std::move(FixturesAssociatedWithBody)));
+		return PhyComponent;
+	}
+
 	PhysicsComponent2D::PhysicsComponent2D(PhysicsComponent2D&& rhs)
 	{
 		HelperMoveFunction(std::move(rhs));
@@ -89,7 +95,7 @@ namespace Ermine
 		float bodyWidth = heigherVertex.x - lowerVertex.x;
 		float bodyHeight = heigherVertex.y - lowerVertex.y;
 
-		return glm::vec2(bodyWidth, bodyHeight);
+		return Ermine::vectorWorldToErmine(bodyWidth, bodyHeight);
 	}
 
 #pragma endregion HelperFunctions
@@ -268,11 +274,11 @@ namespace Ermine
 	//Create Rope Joint..
 	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateRopeJoint(std::string JointName, PhysicsComponent2D* BodyB, bool CollideConnected)
 	{
-		CreateRopeJoint(JointName, BodyB, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), 10.0f, CollideConnected);
+		return CreateRopeJoint(JointName, BodyB, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), 10.0f, CollideConnected);
 	}
 	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateRopeJoint(std::string JointName, PhysicsComponent2D* BodyB, float RopeLength, bool CollideConnected)
 	{
-		CreateRopeJoint(JointName, BodyB, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), RopeLength, CollideConnected);
+		return CreateRopeJoint(JointName, BodyB, glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.0f), RopeLength, CollideConnected);
 	}
 	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateRopeJoint(std::string JointName, PhysicsComponent2D* BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB, float RopeLength, bool CollideConnected)
 	{
@@ -340,6 +346,21 @@ namespace Ermine
 	{
 		return glm::degrees<float>((BodyManagedByTheComponent->GetAngle() * -1.0f));
 	}
+
+	glm::vec2 PhysicsComponent2D::GetBoundingBoxDiamensions()
+	{
+		return HelperGetWidthAndHeightOfTheBoundingBox();
+	}
+
+	float PhysicsComponent2D::GetBoundingBoxWidth()
+	{
+		return HelperGetWidthAndHeightOfTheBoundingBox().x;
+	}
+
+	float PhysicsComponent2D::GetBoundingBoxHeight()
+	{
+		return HelperGetWidthAndHeightOfTheBoundingBox().y;
+	}
 	
 
 
@@ -348,7 +369,7 @@ namespace Ermine
 		glm::mat4 ModelMatrix = glm::mat4(1.0f);
 
 		ModelMatrix = glm::translate(ModelMatrix, glm::vec3(GetBodyLocationPixelSpace(), 0.0f));
-		ModelMatrix = glm::rotate(ModelMatrix, GetAngleOfTheBody(), glm::vec3(0.0f, 0.0f, 1.0f));
+		ModelMatrix = glm::rotate(ModelMatrix, GetAngleOfTheBodyRadians(), glm::vec3(0.0f, 0.0f, 1.0f));
 		ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f,1.0f, 1.0f)); //Since Box2D Only Works With Rigid Bodies.. Elasticity Cannot Be Calculated Using Ermine Ever..
 
 		return ModelMatrix;
@@ -378,7 +399,7 @@ namespace Ermine
 		glm::mat4 RotationMatrix = glm::mat4(1.0f);
 
 		//Ask Box2D For The Rotation Data..
-		float RotationAngle = GetAngleOfTheBody();
+		float RotationAngle = GetAngleOfTheBodyRadians();
 
 		//The Negative Is Already Done In The GetAngleOfTheBody..
 		//RotationAngle = RotationAngle * -1.0f;

@@ -37,7 +37,7 @@ namespace Ermine
 		return *this;
 	}
 
-	std::shared_ptr<Ermine::DistanceJoint> DistanceJoint::Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false)
+	std::shared_ptr<Ermine::DistanceJoint> DistanceJoint::Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide)
 	{
 		std::shared_ptr<Ermine::DistanceJoint> Joint(new Ermine::DistanceJoint(JointName, BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre,ShouldBodiesAttachedByTheJointCollide),Ermine::JointDeleter<Ermine::DistanceJoint>());
 		return Joint;

@@ -10,84 +10,110 @@ namespace Ermine
 {
 
 #pragma region Constructors
-	PhysicsActor::PhysicsActor(std::shared_ptr<Ermine::Sprite> Spr)
-		:
-		ImageBase(Spr)
-	{}
-
-	PhysicsActor::PhysicsActor(std::shared_ptr<Ermine::Sprite> Spr, PhysicsComponent2D Phys)
+	PhysicsActor2D::PhysicsActor2D(std::shared_ptr<Ermine::Sprite> Spr, std::shared_ptr<PhysicsComponent2D> PhysicsComponent)
 		:
 		ImageBase(Spr),
-		PhysicsComponent2D(std::move(Phys))
+		PhysicsComponent(PhysicsComponent)
+	{}
+	PhysicsActor2D::~PhysicsActor2D()
 	{}
 
-	PhysicsActor::~PhysicsActor()
-	{
-		//This Is Not Used As Of Now.. A Formality So That Virtual Dispatches Properly..
-	}
-
-	PhysicsActor::PhysicsActor(PhysicsActor&& rhs)
+	PhysicsActor2D::PhysicsActor2D(PhysicsActor2D&& rhs)
 		:
-		ImageBase(std::move(rhs)),
-		PhysicsComponent2D(std::move(rhs))
-	{}
-
-	PhysicsActor& PhysicsActor::operator=(PhysicsActor&& rhs)
+		ImageBase(std::move(rhs))
+	{
+		auto ForeignLock = rhs.GetObjectMutex();
+		auto Lock = GetObjectMutex();
+		
+		PhysicsComponent = std::move(rhs.PhysicsComponent);
+	}
+	PhysicsActor2D& PhysicsActor2D::operator=(PhysicsActor2D&& rhs)
 	{
 		auto ForeignLock = rhs.GetObjectMutex();
 		auto Lock = GetObjectMutex();
 
 		ImageBase::operator=(std::move(rhs));
-		PhysicsComponent2D::operator=(std::move(rhs));
+		PhysicsComponent = std::move(rhs.PhysicsComponent);
 
 		return *this;
 	}
+	
 #pragma endregion Constructors
 
+	std::shared_ptr<Ermine::PhysicsActor2D> PhysicsActor2D::Generate(std::filesystem::path TexturePath, std::shared_ptr<PhysicsComponent2D> PhysicsComp)
+	{
+		std::shared_ptr<Ermine::PhysicsActor2D> Actor(new Ermine::PhysicsActor2D(Ermine::Sprite::GenerateSprite(TexturePath), PhysicsComp));
+		return Actor;
+	}
+	std::shared_ptr<Ermine::PhysicsActor2D> PhysicsActor2D::Generate(std::filesystem::path TexturePath, b2BodyDef BodyDef, std::vector<b2FixtureDef> Fixtures)
+	{
+		auto Component = Ermine::PhysicsComponent2D::Generate(BodyDef, Fixtures);
+		auto Sprite = Ermine::Sprite::GenerateSprite(TexturePath);
+
+		std::shared_ptr<Ermine::PhysicsActor2D> Actor(new Ermine::PhysicsActor2D(Sprite, Component));
+		return Actor;
+	}
+	std::shared_ptr<Ermine::PhysicsActor2D> PhysicsActor2D::Generate(std::shared_ptr<Ermine::Sprite> sprite, std::shared_ptr<PhysicsComponent2D> PhysicsComp)
+	{
+		std::shared_ptr<Ermine::PhysicsActor2D> Actor(new Ermine::PhysicsActor2D(sprite, PhysicsComp));
+		return Actor;
+	}
+	std::shared_ptr<Ermine::PhysicsActor2D> PhysicsActor2D::Generate(std::shared_ptr<Ermine::Sprite> sprite, b2BodyDef BodyDef, std::vector<b2FixtureDef> Fixtures)
+	{
+		auto Component = Ermine::PhysicsComponent2D::Generate(BodyDef, Fixtures);
+
+		std::shared_ptr<Ermine::PhysicsActor2D> Actor(new Ermine::PhysicsActor2D(sprite, Component));
+		return Actor;
+	}
+
+#pragma region Generator
+
+#pragma endregion
+
 	//Movable Actor Overrides//
-	glm::vec2 PhysicsActor::GetActorPosition()
+	glm::vec2 PhysicsActor2D::GetActorPosition()
 	{
 		//The Physics Actor Also Derives From The Object Type..
 		auto Lock = GetObjectMutex();
 
-		return PhysicsComponent2D::GetBodyLocationPixelSpace();
+		return PhysicsComponent->GetBodyLocationPixelSpace();
 	}
 
-	void PhysicsActor::SetActorPosition(glm::vec2 ActorPosition)
+	void PhysicsActor2D::SetActorPosition(glm::vec2 ActorPosition)
 	{
 		//The Physics Actor Also Derives From The Object Type..
 		auto Lock = GetObjectMutex();
 
-		PhysicsComponent2D::SetPosition(ActorPosition);
+		PhysicsComponent->SetPosition(ActorPosition);
 	}
 
-	glm::vec2 PhysicsActor::GetActorVelocity()
+	glm::vec2 PhysicsActor2D::GetActorVelocity()
 	{
 		//The Physics Actor Also Derives From The Object Type..
 		auto Lock = GetObjectMutex();
 
-		return PhysicsComponent2D::GetVelocityOfTheBody();
+		return PhysicsComponent->GetVelocityOfTheBody();
 	}
 
-	void PhysicsActor::SetActorVelocity(glm::vec2 ActorVelocity)
+	void PhysicsActor2D::SetActorVelocity(glm::vec2 ActorVelocity)
 	{
 		//The Physics Actor Also Derives From The Object Type..
 		auto Lock = GetObjectMutex();
 
-		PhysicsComponent2D::SetVelocity(ActorVelocity);
+		PhysicsComponent->SetVelocity(ActorVelocity);
 	}
 
-	float PhysicsActor::GetAngularVelocity(bool Degrees)
+	float PhysicsActor2D::GetAngularVelocity(bool Degrees)
 	{
 		//The Physics Actor Also Derives From The Object Type..
 		auto Lock = GetObjectMutex();
 
 		if(Degrees == true)
-			return glm::degrees<float>(PhysicsComponent2D::GetAngularVelocityOfTheBody());
-		else return PhysicsComponent2D::GetAngularVelocityOfTheBody();
+			return glm::degrees<float>(PhysicsComponent->GetAngularVelocityOfTheBody());
+		else return PhysicsComponent->GetAngularVelocityOfTheBody();
 	}
 
-	void PhysicsActor::SetAngularVelocity(float AngularVelocity, bool Degrees)
+	void PhysicsActor2D::SetAngularVelocity(float AngularVelocity, bool Degrees)
 	{
 		//The Physics Actor Also Derives From The Object Type..
 		auto Lock = GetObjectMutex();
@@ -95,45 +121,45 @@ namespace Ermine
 		if (Degrees == true)
 			AngularVelocity = glm::radians<float>(AngularVelocity);
 
-		PhysicsComponent2D::SetAngularVelocity(AngularVelocity);
+		PhysicsComponent->SetAngularVelocity(AngularVelocity);
 	}
 
 	//Ended Movable Overrides//
 
 
-	glm::vec2 PhysicsActor::GetScreenLocation()
+	glm::vec2 PhysicsActor2D::GetScreenLocation()
 	{
 		//The Physics Actor Also Derives From The Object Type..
 		auto Lock = GetObjectMutex();
 
-		return PhysicsComponent2D::GetBodyLocationPixelSpace();
+		return PhysicsComponent->GetBodyLocationPixelSpace();
 	}
 
-	void PhysicsActor::SetVelocity(glm::vec2 Velocity)
+	void PhysicsActor2D::SetVelocity(glm::vec2 Velocity)
 	{
 		//The Physics Actor Also Derives From The Object Type..
 		auto Lock = GetObjectMutex();
 
-		PhysicsComponent2D::SetVelocity(Velocity);
+		PhysicsComponent->SetVelocity(Velocity);
 	}
-	void PhysicsActor::SetAngularVelocity(float Velocity)
+	void PhysicsActor2D::SetAngularVelocity(float Velocity)
 	{
 		//The Physics Actor Also Derives From The Object Type..
 		auto Lock = GetObjectMutex();
 
-		PhysicsComponent2D::SetAngularVelocity(Velocity);
+		PhysicsComponent->SetAngularVelocity(Velocity);
 	}
 
 #pragma region RenderableGenerationImperatives
 
-	glm::mat4 PhysicsActor::GetModelMatrix()
+	glm::mat4 PhysicsActor2D::GetModelMatrix()
 	{
 		//The Physics Actor Also Derives From The Object Type..
 		auto Lock = GetObjectMutex();
 
-		return PhysicsComponent2D::GetModelMatrix();
+		return PhysicsComponent->GetModelMatrix();
 	}
-	std::vector<float> PhysicsActor::GenerateModelSpaceVertexBuffer()
+	std::vector<float> PhysicsActor2D::GenerateModelSpaceVertexBuffer()
 	{
 		//The Physics Actor Also Derives From The Object Type..
 		auto Lock = GetObjectMutex();
@@ -145,24 +171,24 @@ namespace Ermine
 
 		//NOTE- The vectorWorldToErmine() PArtly Works Because We Never Pass In A Negative Value.. This Function Is Not To Translate The Points On The Graph 
 
-		glm::vec2 TopRightPixelCalculate = Ermine::vectorWorldToErmine(glm::vec2(GetBodyWidthBox2DSpace() / 2.0f, GetBodyHeightBox2DSpace() / 2));//glm::vec2 TopRightPixelCalculate = Ermine::coordWorldToErmine(glm::vec2(GetBodyWidth() / 2.0f, GetBodyHeight() / 2));
+		glm::vec2 TopRightPixelCalculate = glm::vec2(PhysicsComponent->GetBoundingBoxWidth(), PhysicsComponent->GetBoundingBoxHeight());		//Ermine::vectorWorldToErmine(glm::vec2(GetBodyWidthBox2DSpace() / 2.0f, GetBodyHeightBox2DSpace() / 2));										//glm::vec2 TopRightPixelCalculate = Ermine::coordWorldToErmine(glm::vec2(GetBodyWidth() / 2.0f, GetBodyHeight() / 2));
 		glm::vec3 TopRightPos = glm::vec3(TopRightPixelCalculate.x, TopRightPixelCalculate.y, 0.0f);
 		glm::vec4 TopRightPos4 = glm::vec4(TopRightPos, 0.0f);
 
-		glm::vec2 BottomRightPixelCalculate = Ermine::vectorWorldToErmine(glm::vec2(GetBodyWidthBox2DSpace() / 2.0f, -1.0f * (GetBodyHeightBox2DSpace() / 2)));
+		glm::vec2 BottomRightPixelCalculate = glm::vec2(PhysicsComponent->GetBoundingBoxWidth(), -1.0f * (PhysicsComponent->GetBoundingBoxHeight()));
 		glm::vec3 BottomRightPos = glm::vec3(BottomRightPixelCalculate.x, BottomRightPixelCalculate.y, 0.0f);
 		glm::vec4 BottomRightPos4 = glm::vec4(BottomRightPos, 0.0f);
 
-		glm::vec2 BottomLeftPixelCalculate = Ermine::vectorWorldToErmine(glm::vec2(-1.0f * (GetBodyWidthBox2DSpace() / 2.0f), -1.0f * (GetBodyHeightBox2DSpace() / 2)));
+		glm::vec2 BottomLeftPixelCalculate = glm::vec2(-1.0f * (PhysicsComponent->GetBoundingBoxWidth()), -1.0f * (PhysicsComponent->GetBoundingBoxHeight()));
 		glm::vec3 BottomLeftPos = glm::vec3(BottomLeftPixelCalculate.x, BottomLeftPixelCalculate.y, 0.0f);
 		glm::vec4 BottomLeftPos4 = glm::vec4(BottomLeftPos, 0.0f);
 
-		glm::vec2 TopLeftPixelCalculate = Ermine::vectorWorldToErmine(glm::vec2(-1.0f * (GetBodyWidthBox2DSpace() / 2.0f), (GetBodyHeightBox2DSpace() / 2)));
+		glm::vec2 TopLeftPixelCalculate = glm::vec2(-1.0f * (PhysicsComponent->GetBoundingBoxWidth()), (PhysicsComponent->GetBoundingBoxHeight()));
 		glm::vec3 TopLeftPos = glm::vec3(TopLeftPixelCalculate.x, TopLeftPixelCalculate.y, 0.0f);//TopLeft.GetPositionCoordinates();
 		glm::vec4 TopLeftPos4 = glm::vec4(TopLeftPos, 0.0f);
 
 		//Start Get Rotation Matrix For This Physics Actor..//
-		glm::mat4 RotationMatrix = PhysicsComponent2D::GetRotationMatrix();
+		glm::mat4 RotationMatrix = PhysicsComponent->GetRotationMatrix();
 		//Ended Get Rotation Matrix For This Physics Actor..//
 
 		/*Start This I Guess Is The Only Difference Between Movable And Non Movable Actor */
@@ -193,7 +219,7 @@ namespace Ermine
 
 		return ModelCoordinates;
 	}
-	std::vector<Ermine::VertexAttribPointerSpecification> PhysicsActor::GetVertexArraySpecification()
+	std::vector<Ermine::VertexAttribPointerSpecification> PhysicsActor2D::GetVertexArraySpecification()
 	{
 		return {
 					{3,GL_FLOAT,false},
@@ -202,30 +228,15 @@ namespace Ermine
 					{1,GL_FLOAT,false}
 		};
 	}
-	std::vector<uint32_t> PhysicsActor::GenerateModelSpaceIndices()
+	std::vector<uint32_t> PhysicsActor2D::GenerateModelSpaceIndices()
 	{
 		return Quad::GetModelIndices();
 	}
-	std::shared_ptr<Ermine::Material> PhysicsActor::GetAssociatedMaterial()
+	std::shared_ptr<Ermine::Material> PhysicsActor2D::GetAssociatedMaterial()
 	{
 		//The Physics Actor Also Derives From The Object Type..
 		auto Lock = GetObjectMutex();
-
 		return Actor2DBase::GetMaterial();
-	}
-	std::shared_ptr<Ermine::Material> PhysicsActor::GetMaterial()
-	{
-		//The Physics Actor Also Derives From The Object Type..
-		auto Lock = GetObjectMutex();
-
-		return std::shared_ptr<Ermine::Material>();
-	}
-	void PhysicsActor::SetMaterial(std::shared_ptr<Ermine::Material> Mat)
-	{
-		//The Physics Actor Also Derives From The Object Type..
-		auto Lock = GetObjectMutex();
-
-		Actor2DBase::SetMaterial(Mat);
 	}
 #pragma endregion
 }

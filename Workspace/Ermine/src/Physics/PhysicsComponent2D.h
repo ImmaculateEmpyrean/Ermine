@@ -34,6 +34,7 @@ namespace Ermine
 		//Use This Constructor If U Wanna Set A Lot Of Fixtures And Shapes..
 		PhysicsComponent2D(b2BodyDef Definition,std::vector<b2FixtureDef> FixtureDefinitions);
 
+	public:
 		//A Destructor Is Needed As This Class Is Managing Memory
 		~PhysicsComponent2D();
 
@@ -64,6 +65,10 @@ namespace Ermine
 
 		float GetAngleOfTheBodyRadians();
 		float GetAnfleOfTheBodyDegrees();
+
+		glm::vec2 GetBoundingBoxDiamensions();
+		float GetBoundingBoxWidth();
+		float GetBoundingBoxHeight();
 		//Ended Get Position And Angle Of The Component In Space..//
 
 		//Start Get Various Matrices Related With Transformation//
@@ -141,7 +146,6 @@ namespace Ermine
 	protected:
 
 	private:
-		void HelperConstructorConstructBody();
 		void HelperMoveFunction(PhysicsComponent2D&& rhs);
 
 		//Return The Width And Height Of The Bounding Box Of The Entire Box2D Object In Box2D Space.. REMEMBER THE BODY MUST EXIST FOR THIS TO WORK..

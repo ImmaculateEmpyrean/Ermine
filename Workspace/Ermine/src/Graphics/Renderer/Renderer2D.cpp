@@ -46,12 +46,6 @@ namespace Ermine
 	{
 		std::call_once(InitializationFlag, []() {
 			GlobalRenderer2DObj = new Renderer2D();
-
-			//Set The Function The PhysicsComponent2D Must Use To Submit Itself Into The Renderer..
-			PhysicsComponent2D::FuncSubmitBodyToRenderer2D = std::bind(&Ermine::Renderer2D::SubmitPhysicsComponent2D, std::placeholders::_1);
-
-			//Set The Function The PhysicsComponent2D Must Use To Submit Itself Into The Renderer..
-			PhysicsComponent2D::FuncDetachBodyFromRenderer2D = std::bind(&Ermine::Renderer2D::RemovePhysicsComponent2D, std::placeholders::_1);
 		});
 
 		return GlobalRenderer2DObj;
@@ -287,7 +281,7 @@ namespace Ermine
 				///Start Calculate Required Debug Color..//
 				float UseVertexColor = 0.0f;
 				glm::vec4 VertexColor = glm::vec4(1.0f);
-				FixtureUserDataStruct* Struct = (FixtureUserDataStruct*)f->GetUserData();
+				/*FixtureUserDataStruct* Struct = (FixtureUserDataStruct*)f->GetUserData();
 
 				if (Struct != nullptr)
 				{
@@ -301,7 +295,7 @@ namespace Ermine
 						VertexColor = Component->CustomDebugTraceColor;
 					}
 				}
-				///Ended Calculate Required Debug Color..//
+				///Ended Calculate Required Debug Color..//*/
 
 
 				//Get The Type Of The Shape So That We Can Start Getting The Vertices..
@@ -596,7 +590,7 @@ namespace Ermine
 					//Start Writing Into Circle Line Buffer
 
 					glm::mat4 RotationMatrix(1.0f);
-					RotationMatrix = glm::rotate<float>(RotationMatrix, Component->GetAngleOfTheBody(), glm::vec3(0.0, 0.0, 1.0));
+					RotationMatrix = glm::rotate<float>(RotationMatrix, Component->GetAngleOfTheBodyRadians(), glm::vec3(0.0, 0.0, 1.0));
 					
 					//Vertex 0
 					glm::vec4 Vertex0(1.0);

@@ -73,7 +73,7 @@ void Ermine::RevoluteJoint::ToggleJointLimits()
 	if (JointBase::GetHealth() == Ermine::JointHealthEnum::StatusOk)
 	{
 		bool Limit = LimitEnabled();
-		((b2RevoluteJoint*)JointHandle)->EnableLimit(!LimitEnabled);
+		((b2RevoluteJoint*)JointHandle)->EnableLimit(!Limit);
 	}
 	else STDOUTDefaultLog_Error("Cannot Toggle JointLimits On Revolute Joint As Joint Health Is Not Okay..");
 }

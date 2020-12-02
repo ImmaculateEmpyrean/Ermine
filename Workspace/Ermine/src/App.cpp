@@ -70,7 +70,7 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, std::fil
 	
 	//Start Setup Physics Of the engine.. With Default Earthlike Gravity..//
 	Universum = new b2World(b2Vec2({BeginLevel.GetGravityVector().x,BeginLevel.GetGravityVector().y}));
-	Ermine::RecalculatePhysicsWorldBounds(); //What This Func Does IS Suspect For Now..
+	//Ermine::RecalculatePhysicsWorldBounds(); //What This Func Does IS Suspect For Now..
 
 	//Initialize The Only Renderer In Ermine For Now..
 	auto Renderer = Renderer2D::Get();

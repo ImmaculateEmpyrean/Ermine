@@ -20,27 +20,28 @@
 
 namespace Ermine
 {
-	class PhysicsActor:public Ermine::ImageBase,public Ermine::IMovableActor
+	class PhysicsActor2D:public Ermine::ImageBase,public Ermine::IMovableActor
 	{
-	public:
+	protected:
 #pragma region Constructors  
 		//Physics Actor Cannot Be Constructed Defaultly As We Need A Physics Component And Also Image Base Cannot Be Constructed Defaultly For Now..
-		PhysicsActor() = delete;
+		PhysicsActor2D() = delete;
 
 		//This Constructor Is To Be Used Most of The Time Must Give The Actor With A Physics COmponent..
-		PhysicsActor(std::shared_ptr<Ermine::Sprite> Spr, PhysicsComponent2D Phys);
+		PhysicsActor2D(std::shared_ptr<Ermine::Sprite> Spr, std::shared_ptr<PhysicsComponent2D> PhysicsComponent);
 
+	public:
 		//Virtual Destructor For The Children Down The Line..
-		virtual ~PhysicsActor() override;
+		virtual ~PhysicsActor2D() override;
 
 		//Copy And Move Constructors As Well As Operators Are To Be Overrided So As To Account For The Mutex Inside This Class
 	public:
 		//Will Implement These In The Future When Copy For Physics Component2D Can Be Implemented..
-		PhysicsActor(const PhysicsActor& rhs) = delete;
-		PhysicsActor& operator=(const PhysicsActor& rhs) = delete;
+		PhysicsActor2D(const PhysicsActor2D& rhs) = delete;
+		PhysicsActor2D& operator=(const PhysicsActor2D& rhs) = delete;
 
-		PhysicsActor(PhysicsActor&& rhs);
-		PhysicsActor& operator=(PhysicsActor&& rhs);
+		PhysicsActor2D(PhysicsActor2D&& rhs);
+		PhysicsActor2D& operator=(PhysicsActor2D&& rhs);
 #pragma endregion
 
 #pragma region Generators
@@ -49,8 +50,8 @@ namespace Ermine
 	public:
 		static std::shared_ptr<Ermine::PhysicsActor2D> Generate(std::filesystem::path TexturePath, std::shared_ptr<PhysicsComponent2D> PhysicsComp);
 		static std::shared_ptr<Ermine::PhysicsActor2D> Generate(std::filesystem::path TexturePath, b2BodyDef BodyDef, std::vector<b2FixtureDef> Fixtures);
-		static std::shared_ptr<Ermine::PhysicsActor2D> Generate(std::shared_ptr<Ermine::Sprite>, std::shared_ptr<PhysicsComponent2D> PhysicsComp);
-		static std::shared_ptr<Ermine::PhysicsActor2D> Generate(std::shared_ptr<Ermine::Sprite>, b2BodyDef BodyDef, std::vector<b2FixtureDef> Fixtures);
+		static std::shared_ptr<Ermine::PhysicsActor2D> Generate(std::shared_ptr<Ermine::Sprite> sprite, std::shared_ptr<PhysicsComponent2D> PhysicsComp);
+		static std::shared_ptr<Ermine::PhysicsActor2D> Generate(std::shared_ptr<Ermine::Sprite> sprite, b2BodyDef BodyDef, std::vector<b2FixtureDef> Fixtures);
 #pragma endregion
 
 
@@ -68,28 +69,25 @@ namespace Ermine
 #pragma endregion
 
 #pragma region RenderableGenerationImperatives
-//This Function Is Essential For Interaction With Renderable And Its Implemntation Is Necessary For The Concretization Of Any Class..
-		virtual glm::mat4 GetModelMatrix();
-		virtual std::vector<float> GenerateModelSpaceVertexBuffer();
-		virtual std::vector<Ermine::VertexAttribPointerSpecification> GetVertexArraySpecification();
-		virtual std::vector<uint32_t> GenerateModelSpaceIndices();
-		virtual std::shared_ptr<Ermine::Material> GetAssociatedMaterial();
-
-		std::shared_ptr<Ermine::Material> GetMaterial();
-		void SetMaterial(std::shared_ptr<Ermine::Material> Mat);
+//These Functions Are Essential For Interaction With Renderable And Its Implemntation Is Necessary For The Concretization Of Any Class..
+		virtual glm::mat4 GetModelMatrix() override;
+		virtual std::vector<float> GenerateModelSpaceVertexBuffer() override;
+		virtual std::vector<Ermine::VertexAttribPointerSpecification> GetVertexArraySpecification() override;
+		virtual std::vector<uint32_t> GenerateModelSpaceIndices() override;
+		virtual std::shared_ptr<Ermine::Material> GetAssociatedMaterial() override;
 #pragma endregion
 
-	public:
+#pragma region Actor2DBaseOverrides
 		//This Function Returns The Screen Location Of The Object In Question
 		virtual glm::vec2 GetScreenLocation() override;
 
-		void SetVelocity(glm::vec2 Velocity);
-		void SetAngularVelocity(float Velocity);
-
-		virtual std::vector<float> CalculateModelSpaceVertexes(); //This Used To Be An Override.. Instead Remove This Function In Refactor.. Rendering Is No Longer Handled By The Actor Or Its Thread..
-
 		//This Function Has To Be Overriden In all Children Do Not Forget Otherwise One Child May Be Thought Of As The Other..
 		virtual Ermine::ActorFamilyIdentifier GetActorFamilyIdentifier() override { return ActorFamilyIdentifier::PhysicsActor2D; }
+#pragma endregion
+
+	public:
+		void SetVelocity(glm::vec2 Velocity);
+		void SetAngularVelocity(float Velocity);
 
 	public:
 
@@ -98,12 +96,8 @@ namespace Ermine
 	protected:
 
 	private:
-#pragma region Helpers
-		void HelperMove(PhysicsActor&& rhs);
-#pragma endregion
 
 	private:
 		std::shared_ptr<Ermine::PhysicsComponent2D> PhysicsComponent = nullptr;
-
 	};
 }

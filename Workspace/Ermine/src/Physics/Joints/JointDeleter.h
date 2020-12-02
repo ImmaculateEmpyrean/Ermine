@@ -8,7 +8,7 @@ namespace Ermine
     template< typename T >
     struct JointDeleter
     {
-        void operator ()(T const* p)
+        void operator ()(T* p)
         {
             if (p->GetHealth() == Ermine::JointHealthEnum::StatusOk)
             {

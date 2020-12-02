@@ -8,7 +8,7 @@ Ermine::RopeJoint::RopeJoint(std::string JointName,b2Body* BodyA, b2Body* BodyB,
 	float RopeLengthWorld = Ermine::scalarErmineToWorld(RopeLength);
 
 	b2Vec2 LocalAnchorA = Ermine::GLMToB2Vec2(Ermine::vertexErmineToWorld(LocalAnchorAPixelCoordinates));
-	b2Vec2 LocalAnchorB = Ermine::GLMToB2Vec2(Ermine::vertexErmineToWorld(LocalAnchorBPixelCoordinates);
+	b2Vec2 LocalAnchorB = Ermine::GLMToB2Vec2(Ermine::vertexErmineToWorld(LocalAnchorBPixelCoordinates));
 
 	b2RopeJointDef RDef;
 
