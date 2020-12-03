@@ -14,7 +14,7 @@ namespace Ermine
 	{
 		//Lock Engaged As I Am Interacting With The Internal Memory Of This Class..
 		auto Lock = Object::GetObjectMutex();
-		ActorSprites.emplace_back(Ermine::Sprite::GenerateSprite("ErmineNullTexture.png"));
+		ActorSprites.emplace_back(Ermine::Sprite::GenerateSprite("Texture/ErmineNullTexture.png"));
 	}
 
 	ImageBase::ImageBase(std::shared_ptr<Sprite> Spr)
