@@ -31,7 +31,7 @@ IncludeDir["freetype"]="vendor/freetype/freetype-2.10.2/include"
 IncludeDir["freetypegl"]="vendor/freetype-gl"
 IncludeDir["Box2D"] ="vendor/box2d/include"
 IncludeDir["tinyxml2"] = "vendor/tinyxml2"
-IncludeDir["libtmx-parser"] = "vendor/libtmx-parser/src"
+IncludeDir["libtmxParser"] = "vendor/libtmx-parser/src"
 
 group "Dependencies"
     include "vendor/Glad"
@@ -138,7 +138,7 @@ project "Ermine"
          "%{IncludeDir.freetypegl}",
 		 "%{IncludeDir.Box2D}",
 		 "%{IncludeDir.tinyxml2}",
-		 "%{IncludeDir.libtmx-parser"
+		 "%{IncludeDir.libtmxParser}"
     }
 
     defines{
@@ -216,7 +216,7 @@ project "Game"
 		 "%{IncludeDir.Box2D}",
 		 "Ermine/src",
 		 "%{IncludeDir.tinyxml2}",
-		 "%{IncludeDir.libtmx-parser"
+		 "%{IncludeDir.libtmxParser}"
     }
 
    links {

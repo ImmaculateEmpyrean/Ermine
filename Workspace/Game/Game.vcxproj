@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ER_DEBUG_DEVELOP;GAME_DEBUG_DEVELOP;ER_BUILDING_FOR_WINDOWS;GAME_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;GAME_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\Ermine\src;..\vendor\tinyxml2;..\%{IncludeDir.libtmx-parser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\Ermine\src;..\vendor\tinyxml2;..\vendor\libtmx-parser\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -103,7 +103,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ER_DEBUG_SHIP;GAME_DEBUG_SHIP;ER_BUILDING_FOR_WINDOWS;GAME_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;GAME_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\Ermine\src;..\vendor\tinyxml2;..\%{IncludeDir.libtmx-parser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\Ermine\src;..\vendor\tinyxml2;..\vendor\libtmx-parser\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -126,7 +126,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ER_RELEASE_SHIP;GAME_RELEASE_SHIP;ER_BUILDING_FOR_WINDOWS;GAME_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;GAME_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\Ermine\src;..\vendor\tinyxml2;..\%{IncludeDir.libtmx-parser;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\LogSystem\src;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\Ermine\src;..\vendor\tinyxml2;..\vendor\libtmx-parser\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>

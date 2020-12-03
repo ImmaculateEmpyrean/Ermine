@@ -132,6 +132,9 @@
     <ClInclude Include="src\2DPrimitives\ActorFamily\ShapeBase.h">
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClInclude>
+    <ClInclude Include="src\2DPrimitives\ActorFamily\TiledActor.h">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClInclude>
     <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h">
       <Filter>2DPrimitives\Constructs</Filter>
     </ClInclude>
