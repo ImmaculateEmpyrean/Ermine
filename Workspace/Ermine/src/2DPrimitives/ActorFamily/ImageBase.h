@@ -57,11 +57,14 @@ namespace Ermine
 		virtual Ermine::ActorFamilyIdentifier GetActorFamilyIdentifier() { return ActorFamilyIdentifier::ImageBase; }
 
 		//The ImageBase Provides Some Functions To Interact With The Sprite It Stores..
-		std::shared_ptr<Sprite> GetSprite();
-		void SetSprite(std::shared_ptr<Sprite> Sprite);
+		std::shared_ptr<Sprite> GetSprite(int index =0);
+		std::vector<std::shared_ptr<Ermine::Sprite>> GetSpriteBuffer(); //I Cannot Give A Reference.. Refer And Delete Manually..
 
-		glm::vec2 GetTopRightUV();
-		glm::vec2 GetBottomLeftUV();
+		void SetSprite(std::shared_ptr<Sprite> Sprite);
+		void RemoveSprite(int index);
+
+		glm::vec2 GetTopRightUV(int index = 0);
+		glm::vec2 GetBottomLeftUV(int index = 0);
 
 	public:
 
@@ -75,8 +78,7 @@ namespace Ermine
 
 	private:
 		//This Must Be Able to Be Set Manually By A Child Class.. edit -It Will Be Done USing Method Calls Not Exactly INteraction With The Object
-		std::shared_ptr<Sprite> Actorsprite = nullptr;
-		
+		std::vector<std::shared_ptr<Ermine::Sprite>> ActorSprites;
 
 		friend class Ermine::Renderable2D;
 		friend class Ermine::RenderableTextureModule;

@@ -91,7 +91,8 @@ namespace Ermine
             auto ImgActor = std::dynamic_pointer_cast<Ermine::ImageBase, Ermine::Actor2DBase>(Act);
 
             std::vector <std::shared_ptr<Ermine::Texture>> Textures;
-            Textures.emplace_back(ImgActor->GetSprite()->GetTexture());
+            for(auto i : ImgActor->GetSpriteBuffer())
+                Textures.emplace_back(i->GetTexture());
 
             //new is used here since constructor is most probably protected.. not optimal but easy workaround
             std::unique_ptr<RenderableTextureModule> Module(new RenderableTextureModule(Act,Textures));
