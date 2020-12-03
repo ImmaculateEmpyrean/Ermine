@@ -81,6 +81,16 @@ namespace Ermine
 		return *this;
 	}
 
+	std::vector<Ermine::VertexAttribPointerSpecification> ImageBase::GetVertexArraySpecification()
+	{
+		return {
+					{3,GL_FLOAT,false},
+					{3,GL_FLOAT,false},
+					{2,GL_FLOAT,false},
+					{1,GL_FLOAT,false}
+		};
+	}
+
 #pragma endregion Constructors
 
 	//Start Setter And Getter For The ActorSprite..// 

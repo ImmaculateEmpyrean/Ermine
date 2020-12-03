@@ -139,6 +139,7 @@
     <ClInclude Include="src\2DPrimitives\ActorFamily\ImageBase.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\Interfaces\IMovableActor.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.h" />
+    <ClInclude Include="src\2DPrimitives\ActorFamily\ShapeBase.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\Quad.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\VertexBase.h" />
@@ -253,6 +254,7 @@
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DShape.cpp" />
     <ClCompile Include="src\2DPrimitives\ActorFamily\ImageBase.cpp" />
     <ClCompile Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.cpp" />
+    <ClCompile Include="src\2DPrimitives\ActorFamily\ShapeBase.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\VertexBase.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\VertexTextured.cpp" />

@@ -124,9 +124,7 @@ namespace Ermine {
 		//This Function Is Essential For Interaction With Renderable And Its Implemntation Is Necessary For The Concretization Of Any Class..
 		//virtual glm::mat4 GetModelMatrix() override; //This Is Already Implemented Above..
 		virtual std::vector<float> GenerateModelSpaceVertexBuffer() override;
-		virtual std::vector<Ermine::VertexAttribPointerSpecification> GetVertexArraySpecification() override;
 		virtual std::vector<uint32_t> GenerateModelSpaceIndices() override;
-		virtual std::shared_ptr<Ermine::Material> GetAssociatedMaterial() override;
 #pragma endregion
 	public:
 

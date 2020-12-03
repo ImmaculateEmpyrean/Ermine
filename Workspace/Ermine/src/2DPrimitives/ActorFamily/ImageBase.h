@@ -44,6 +44,15 @@ namespace Ermine
 #pragma endregion
 
 	public:
+#pragma region RenderableGenerationImperatives
+		//This Function Is Essential For Interaction With Renderable And Its Implemntation Is Necessary For The Concretization Of Any Class..
+		virtual glm::mat4 GetModelMatrix() = 0;
+		virtual std::vector<float> GenerateModelSpaceVertexBuffer() = 0;
+		virtual std::vector<Ermine::VertexAttribPointerSpecification> GetVertexArraySpecification() override;
+		virtual std::vector<uint32_t> GenerateModelSpaceIndices() = 0;
+
+#pragma endregion
+
 		//This Function Has To Be Overriden In all Children Do Not Forget Otherwise One Child May Be Thought Of As The Other..
 		virtual Ermine::ActorFamilyIdentifier GetActorFamilyIdentifier() { return ActorFamilyIdentifier::ImageBase; }
 

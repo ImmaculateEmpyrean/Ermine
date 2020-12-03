@@ -367,26 +367,10 @@ namespace Ermine
 
 		return ModelCoordinates;
 	}
-	std::vector<Ermine::VertexAttribPointerSpecification> Actor2D::GetVertexArraySpecification()
-	{
-		return {
-					{3,GL_FLOAT,false},
-					{3,GL_FLOAT,false},
-					{2,GL_FLOAT,false},
-					{1,GL_FLOAT,false}
-			   };
-	}
-
+	
 	std::vector<uint32_t> Actor2D::GenerateModelSpaceIndices()
 	{
 		return Quad::GetModelIndices();
-	}
-
-
-	std::shared_ptr<Ermine::Material> Actor2D::GetAssociatedMaterial()
-	{
-		//The Image Base Must Have Default Setted Required Material.. :>
-		return Actor2DBase::GetMaterial();
 	}
 #pragma endregion
 }

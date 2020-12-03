@@ -430,6 +430,7 @@
     <ClInclude Include="src\Physics\Joints\JointHealthEnum.h" />
     <ClInclude Include="src\Physics\Joints\JointDeleter.h" />
     <ClInclude Include="src\Physics\Joints\EJointType.h" />
+    <ClInclude Include="src\2DPrimitives\ActorFamily\ShapeBase.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
@@ -680,5 +681,6 @@
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\Level\Level.cpp" />
     <ClCompile Include="src\Physics\FixtureColorStruct.cpp" />
+    <ClCompile Include="src\2DPrimitives\ActorFamily\ShapeBase.cpp" />
   </ItemGroup>
 </Project>

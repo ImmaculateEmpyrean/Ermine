@@ -73,9 +73,7 @@ namespace Ermine
 	protected:
 
 	private:
-		//Use This To Update The Renderable Inside You.. Maybe Communicate With The ImageBase If Necessary..
-		void InitializeRenderable();
-		void RefreshRenderable();
+		
 
 	private:
 		std::vector<Ermine::VertexTextured> Vertexes;

@@ -55,6 +55,7 @@ namespace Ermine {
 #pragma region VirtualInterfaceFunctions
 		//This Function Is Used To Get The Centre Of Any Actor On Screen.. 
 		virtual glm::vec2 GetScreenLocation() = 0;
+#pragma endregion
 
 #pragma region RenderableGenerationImperatives
 		//This Function Is Essential For Interaction With Renderable And Its Implemntation Is Necessary For The Concretization Of Any Class..
@@ -62,11 +63,13 @@ namespace Ermine {
 		virtual std::vector<float> GenerateModelSpaceVertexBuffer() = 0;
 		virtual std::vector<Ermine::VertexAttribPointerSpecification> GetVertexArraySpecification() = 0;
 		virtual std::vector<uint32_t> GenerateModelSpaceIndices() = 0;
-		virtual std::shared_ptr<Ermine::Material> GetAssociatedMaterial() = 0;
+		
+#pragma endregion
 
+		//Start Interact With The Material Of Actor2DBase
 		std::shared_ptr<Ermine::Material> GetMaterial();
 		void SetMaterial(std::shared_ptr<Ermine::Material> Mat);
-#pragma endregion
+		//Ended Interact With The Material Of Actor2DBase
 
 		//Test
 		virtual void OnUpdateTickEventRecieved() override;
