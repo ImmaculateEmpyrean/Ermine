@@ -129,6 +129,9 @@
     <ClInclude Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.h">
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClInclude>
+    <ClInclude Include="src\2DPrimitives\ActorFamily\ShapeBase.h">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClInclude>
     <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h">
       <Filter>2DPrimitives\Constructs</Filter>
     </ClInclude>
@@ -207,6 +210,7 @@
     <ClInclude Include="src\EngineUI\WindowHandler.h">
       <Filter>EngineUI</Filter>
     </ClInclude>
+    <ClInclude Include="src\EntryPoint.h" />
     <ClInclude Include="src\EventSystem\Components\BroadcastComponent.h">
       <Filter>EventSystem\Components</Filter>
     </ClInclude>
@@ -383,10 +387,25 @@
     <ClInclude Include="src\Physics\FixtureUserDataStruct.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="src\Physics\JointManager.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\JointTicket.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
     <ClInclude Include="src\Physics\Joints\DistanceJoint.h">
       <Filter>Physics\Joints</Filter>
     </ClInclude>
+    <ClInclude Include="src\Physics\Joints\EJointType.h">
+      <Filter>Physics\Joints</Filter>
+    </ClInclude>
     <ClInclude Include="src\Physics\Joints\JointBase.h">
+      <Filter>Physics\Joints</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Joints\JointDeleter.h">
+      <Filter>Physics\Joints</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Joints\JointHealthEnum.h">
       <Filter>Physics\Joints</Filter>
     </ClInclude>
     <ClInclude Include="src\Physics\Joints\PrismaticJoint.h">
@@ -426,11 +445,6 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\EntryPoint.h" />
-    <ClInclude Include="src\Physics\Joints\JointHealthEnum.h" />
-    <ClInclude Include="src\Physics\Joints\JointDeleter.h" />
-    <ClInclude Include="src\Physics\Joints\EJointType.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\ShapeBase.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
@@ -446,6 +460,9 @@
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.cpp">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\ActorFamily\ShapeBase.cpp">
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
@@ -517,6 +534,7 @@
     <ClCompile Include="src\EngineUI\WindowHandler.cpp">
       <Filter>EngineUI</Filter>
     </ClCompile>
+    <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp">
       <Filter>EventSystem\Components</Filter>
     </ClCompile>
@@ -631,6 +649,9 @@
     <ClCompile Include="src\LayerSystem\LayerStackLayer.cpp">
       <Filter>LayerSystem</Filter>
     </ClCompile>
+    <ClCompile Include="src\Level\Level.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
     <ClCompile Include="src\MutexSystem\MutexCasket.cpp">
       <Filter>MutexSystem</Filter>
     </ClCompile>
@@ -645,6 +666,12 @@
       <Filter>PCH</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics\BodyPart.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\FixtureColorStruct.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\JointTicket.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics\Joints\DistanceJoint.cpp">
@@ -678,9 +705,5 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\EntryPoint.cpp" />
-    <ClCompile Include="src\Level\Level.cpp" />
-    <ClCompile Include="src\Physics\FixtureColorStruct.cpp" />
-    <ClCompile Include="src\2DPrimitives\ActorFamily\ShapeBase.cpp" />
   </ItemGroup>
 </Project>

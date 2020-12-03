@@ -20,9 +20,9 @@
     <ClCompile Include="src\Actors\DiagnolMovingActor.cpp">
       <Filter>Actors</Filter>
     </ClCompile>
+    <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\PCH\stdafx.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
-    <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
 </Project>

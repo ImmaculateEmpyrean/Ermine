@@ -30,6 +30,8 @@ IncludeDir["JSON_ERMINE"]="vendor/JSON"
 IncludeDir["freetype"]="vendor/freetype/freetype-2.10.2/include"
 IncludeDir["freetypegl"]="vendor/freetype-gl"
 IncludeDir["Box2D"] ="vendor/box2d/include"
+IncludeDir["tinyxml2"] = "vendor/tinyxml2"
+IncludeDir["libtmx-parser"] = "vendor/libtmx-parser/src"
 
 group "Dependencies"
     include "vendor/Glad"
@@ -41,6 +43,8 @@ group "Dependencies"
     include "vendor/freetype"
     include "vendor/freetype-gl"
 	include "vendor/box2d"
+	include "vendor/tinyxml2"
+	include "vendor/libtmx-parser"
 --group ""
 project "LogSystem"
     location "LogSystem"
@@ -132,7 +136,9 @@ project "Ermine"
          "%{IncludeDir.JSON_ERMINE}",
          "%{IncludeDir.freetype}",
          "%{IncludeDir.freetypegl}",
-		 "%{IncludeDir.Box2D}"
+		 "%{IncludeDir.Box2D}",
+		 "%{IncludeDir.tinyxml2}",
+		 "%{IncludeDir.libtmx-parser"
     }
 
     defines{
@@ -195,8 +201,8 @@ project "Game"
     includedirs { 
          "%{prj.name}/src",
          "%{prj.name}/src/PCH",
-         ("LogSystem/vendor/spdlog-1.x/include/"),
-         ("LogSystem/src/"),
+         "LogSystem/vendor/spdlog-1.x/include/",
+         "LogSystem/src/",
          "%{IncludeDir.Glad}",
          "%{IncludeDir.GLFW}",
          "GameErmineCommonExchangeHeaders/",
@@ -208,7 +214,9 @@ project "Game"
          "%{IncludeDir.freetype}",
          "%{IncludeDir.freetypegl}",
 		 "%{IncludeDir.Box2D}",
-		 "Ermine/src"
+		 "Ermine/src",
+		 "%{IncludeDir.tinyxml2}",
+		 "%{IncludeDir.libtmx-parser"
     }
 
    links {
@@ -223,7 +231,9 @@ project "Game"
         "Freetype",
         "freetype-gl",
 		"Box2D",
-		"Ermine"
+		"Ermine",
+		"tinyxml2",
+		"libtmx-parser"
     }
 
     postbuildcommands {
