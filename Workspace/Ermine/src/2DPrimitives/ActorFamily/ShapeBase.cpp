@@ -66,7 +66,7 @@ namespace Ermine
 	}
 	std::vector<uint32_t> ShapeBase::GenerateModelSpaceIndices()
 	{
-		
+		return std::vector<uint32_t>();
 	}
 #pragma endregion
 

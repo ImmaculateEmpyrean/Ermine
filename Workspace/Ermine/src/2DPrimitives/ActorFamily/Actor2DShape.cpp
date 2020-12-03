@@ -169,10 +169,4 @@ namespace Ermine
 
 #pragma endregion
 
-
-	void Actor2DShape::RefreshRenderable()
-	{
-		//Renderable2D::SetVertexArray();
-	}
-
 }

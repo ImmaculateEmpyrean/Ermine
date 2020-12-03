@@ -118,7 +118,7 @@ void Ermine::Renderable2D::Initialize()
         IndexBufferBuffer = Actor_Bound->GenerateModelSpaceIndices();
 
         //Get The Material For The Actor And Initialize It inside The renderable..
-        Mat = Actor_Bound->GetAssociatedMaterial();
+        Mat = Actor_Bound->GetMaterial();
     }
 }
 

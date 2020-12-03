@@ -232,11 +232,6 @@ namespace Ermine
 	{
 		return Quad::GetModelIndices();
 	}
-	std::shared_ptr<Ermine::Material> PhysicsActor2D::GetAssociatedMaterial()
-	{
-		//The Physics Actor Also Derives From The Object Type..
-		auto Lock = GetObjectMutex();
-		return Actor2DBase::GetMaterial();
-	}
+	
 #pragma endregion
 }

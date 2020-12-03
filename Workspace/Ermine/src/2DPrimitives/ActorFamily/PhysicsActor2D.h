@@ -74,7 +74,7 @@ namespace Ermine
 		virtual std::vector<float> GenerateModelSpaceVertexBuffer() override;
 		virtual std::vector<Ermine::VertexAttribPointerSpecification> GetVertexArraySpecification() override;
 		virtual std::vector<uint32_t> GenerateModelSpaceIndices() override;
-		virtual std::shared_ptr<Ermine::Material> GetAssociatedMaterial() override;
+		
 #pragma endregion
 
 #pragma region Actor2DBaseOverrides
