@@ -25,6 +25,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json", "vendor\JSON\json.vc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtmx-parser", "vendor\libtmx-parser\libtmx-parser.vcxproj", "{2FE85DCB-9BA8-D901-64E3-227FD0621EDE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua", "vendor\lua\lua.vcxproj", "{C78D880B-3397-887C-BC12-9F7C281B947C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sol2", "vendor\sol2\sol2.vcxproj", "{65059E7C-513C-9F0D-FA28-8510E63E1B0F}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stb", "vendor\stb\stb.vcxproj", "{6EAB880B-DAB4-887C-6330-9F7CCF38947C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml2", "vendor\tinyxml2\tinyxml2.vcxproj", "{8C609325-782D-EE30-A146-DCD88D7223BF}"
@@ -106,6 +110,18 @@ Global
 		{2FE85DCB-9BA8-D901-64E3-227FD0621EDE}.Debug_Distribution|Windows.Build.0 = Debug_Distribution Windows|x64
 		{2FE85DCB-9BA8-D901-64E3-227FD0621EDE}.Release_Distribution|Windows.ActiveCfg = Release_Distribution Windows|x64
 		{2FE85DCB-9BA8-D901-64E3-227FD0621EDE}.Release_Distribution|Windows.Build.0 = Release_Distribution Windows|x64
+		{C78D880B-3397-887C-BC12-9F7C281B947C}.Debug_Development|Windows.ActiveCfg = Debug_Development Windows|x64
+		{C78D880B-3397-887C-BC12-9F7C281B947C}.Debug_Development|Windows.Build.0 = Debug_Development Windows|x64
+		{C78D880B-3397-887C-BC12-9F7C281B947C}.Debug_Distribution|Windows.ActiveCfg = Debug_Distribution Windows|x64
+		{C78D880B-3397-887C-BC12-9F7C281B947C}.Debug_Distribution|Windows.Build.0 = Debug_Distribution Windows|x64
+		{C78D880B-3397-887C-BC12-9F7C281B947C}.Release_Distribution|Windows.ActiveCfg = Release_Distribution Windows|x64
+		{C78D880B-3397-887C-BC12-9F7C281B947C}.Release_Distribution|Windows.Build.0 = Release_Distribution Windows|x64
+		{65059E7C-513C-9F0D-FA28-8510E63E1B0F}.Debug_Development|Windows.ActiveCfg = Debug_Development Windows|x64
+		{65059E7C-513C-9F0D-FA28-8510E63E1B0F}.Debug_Development|Windows.Build.0 = Debug_Development Windows|x64
+		{65059E7C-513C-9F0D-FA28-8510E63E1B0F}.Debug_Distribution|Windows.ActiveCfg = Debug_Distribution Windows|x64
+		{65059E7C-513C-9F0D-FA28-8510E63E1B0F}.Debug_Distribution|Windows.Build.0 = Debug_Distribution Windows|x64
+		{65059E7C-513C-9F0D-FA28-8510E63E1B0F}.Release_Distribution|Windows.ActiveCfg = Release_Distribution Windows|x64
+		{65059E7C-513C-9F0D-FA28-8510E63E1B0F}.Release_Distribution|Windows.Build.0 = Release_Distribution Windows|x64
 		{6EAB880B-DAB4-887C-6330-9F7CCF38947C}.Debug_Development|Windows.ActiveCfg = Debug_Development Windows|x64
 		{6EAB880B-DAB4-887C-6330-9F7CCF38947C}.Debug_Development|Windows.Build.0 = Debug_Development Windows|x64
 		{6EAB880B-DAB4-887C-6330-9F7CCF38947C}.Debug_Distribution|Windows.ActiveCfg = Debug_Distribution Windows|x64
@@ -145,6 +161,8 @@ Global
 		{09D6E609-758B-5FFF-FE7F-59D66A345603} = {53E47842-3FC8-3998-A828-34EB942B241A}
 		{9F27997C-8B5E-9A0D-344B-80102061160F} = {53E47842-3FC8-3998-A828-34EB942B241A}
 		{2FE85DCB-9BA8-D901-64E3-227FD0621EDE} = {53E47842-3FC8-3998-A828-34EB942B241A}
+		{C78D880B-3397-887C-BC12-9F7C281B947C} = {53E47842-3FC8-3998-A828-34EB942B241A}
+		{65059E7C-513C-9F0D-FA28-8510E63E1B0F} = {53E47842-3FC8-3998-A828-34EB942B241A}
 		{6EAB880B-DAB4-887C-6330-9F7CCF38947C} = {53E47842-3FC8-3998-A828-34EB942B241A}
 		{8C609325-782D-EE30-A146-DCD88D7223BF} = {53E47842-3FC8-3998-A828-34EB942B241A}
 		{CCF41DEC-38D4-9C87-41EC-275EAD4A03E9} = {53E47842-3FC8-3998-A828-34EB942B241A}

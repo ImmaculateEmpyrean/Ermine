@@ -33,6 +33,8 @@ IncludeDir["Box2D"] ="vendor/box2d/include"
 IncludeDir["tinyxml2"] = "vendor/tinyxml2"
 IncludeDir["libtmxParser"] = "vendor/libtmx-parser/src"
 IncludeDir["tmxlite"] = "vendor/tmxlite/tmxlite/include"
+IncludeDir["lua"] = "vendor/lua/lua-5.4.2/src"
+IncludeDir["sol2"] = "vendor/sol2/sol2-3.2.2/single/include"
 
 group "Dependencies"
     include "vendor/Glad"
@@ -47,6 +49,8 @@ group "Dependencies"
 	include "vendor/tinyxml2"
 	include "vendor/libtmx-parser"
 	include "vendor/tmxlite"
+	include "vendor/lua"
+	include "vendor/sol2"
 --group ""
 project "LogSystem"
     location "LogSystem"
@@ -141,7 +145,9 @@ project "Ermine"
 		 "%{IncludeDir.Box2D}",
 		 "%{IncludeDir.tinyxml2}",
 		 "%{IncludeDir.libtmxParser}",
-		 "%{IncludeDir.tmxlite}"
+		 "%{IncludeDir.tmxlite}",
+		 "%{IncludeDir.sol2}",
+		 "%{IncludeDir.lua}"
     }
 
     defines{
@@ -220,7 +226,9 @@ project "Game"
 		 "Ermine/src",
 		 "%{IncludeDir.tinyxml2}",
 		 "%{IncludeDir.libtmxParser}",
-		 "%{IncludeDir.tmxlite}"
+		 "%{IncludeDir.tmxlite}",
+		 "%{IncludeDir.sol2}",
+		 "%{IncludeDir.lua}"
     }
 
    links {
@@ -238,7 +246,9 @@ project "Game"
 		"Ermine",
 		"tinyxml2",
 		"libtmx-parser",
-		"tmxlite"
+		"tmxlite",
+		"lua",
+		"sol2"
     }
 
     postbuildcommands {
