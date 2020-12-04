@@ -15,6 +15,16 @@ namespace Ermine
 		tmx::Map map;
 		if (map.load("TileMaps/TestMap.tmx"))
 		{
+			//Initilaize
+			std::vector<std::vector<std::shared_ptr<Ermine::Sprite>>> Tilesets;
+			
+			const auto& tilesets = map.getTilesets();
+			for (const auto& tileset : tilesets)
+			{
+				//read out tile set properties, load textures etc...
+				
+			}
+
 			const auto& layers = map.getLayers();
 			for (const auto& layer : layers)
 			{
@@ -41,11 +51,7 @@ namespace Ermine
 				}
 			}
 
-			const auto& tilesets = map.getTilesets();
-			for (const auto& tileset : tilesets)
-			{
-				//read out tile set properties, load textures etc...
-			}
+			
 		}
 	}
 	glm::vec2 TiledActor2D::GetScreenLocation()
@@ -71,88 +77,3 @@ namespace Ermine
 }
 
 
-/*		LibTmxparser Code Written.. Might Or Might Not Be Correct
-		tmxparser::TmxMap map;
-		tmxparser::TmxReturn error = tmxparser::parseFromFile("TileMaps/TestMap.tmx", &map, "");// "TileMaps/ZeldaTileSets.tsx");
-
-		if (!error)
-		{
-			STDOUTDefaultLog_Trace(map.version);
-		}
-		else
-			STDOUTDefaultLog_Critical("Error Using tmxParser");
-
-		std::vector<std::vector<std::shared_ptr<Ermine::Sprite>>> Tilesets;
-		std::vector<unsigned int> TilesetStartGid;
-		for (auto Tileset : map.tilesetCollection)
-		{
-			int columns = Tileset.colCount;
-			int rows = Tileset.rowCount;
-
-			auto image = Tileset.image;
-			int Spacing = Tileset.tileSpacingInImage;
-
-			int width = image.width;
-			int height = image.height;
-
-			int TileWidth = Tileset.tileWidth;
-			int TileHeight = Tileset.tileHeight;
-
-			std::filesystem::path TilesetImagePath = image.source;
-
-			int WidthCounter   = Tileset.tileMarginInImage;
-			int HeightCounter  = Tileset.tileMarginInImage;
-
-			Tilesets.emplace_back();
-			TilesetStartGid.emplace_back(Tileset.firstgid);
-
-			for (int i = 0; i < columns; i++)
-			{
-				for (int j = 0; j < rows; j++)
-				{
-					glm::vec2 BottomLeft = glm::vec2({height - TileHeight - HeightCounter,WidthCounter});
-					glm::vec2 TopRight = glm::vec2({height - HeightCounter,WidthCounter + TileWidth});
-
-					WidthCounter = WidthCounter + TileWidth + Spacing;
-
-					std::shared_ptr<Ermine::Sprite> Tile = Ermine::Sprite::GenerateSprite(TilesetImagePath, BottomLeft, TopRight);
-					Tilesets[Tilesets.size() -1].emplace_back(Tile);
-				}
-				HeightCounter = HeightCounter + TileHeight + Spacing;
-				WidthCounter = Tileset.tileMarginInImage;
-			}
-		}
-
-		std::vector<std::vector<std::shared_ptr<Ermine::Sprite>>> Map;
-
-		for (auto layer : map.layerCollection)
-		{
-			std::vector<std::shared_ptr<Ermine::Sprite>> Layer;
-			for (auto tile : layer.tiles)
-			{
-				if (tile.gid == 0)
-					continue;
-
-				int TileSetIndex = 0;
-				bool Found = false;
-
-				for (int i = 0; i < TilesetStartGid.size(); i++)
-				{
-					if (TilesetStartGid[i] > tile.gid)
-					{
-						TileSetIndex = i-1;
-						Found = true;
-						break;
-					}
-				}
-
-				if (Found == false)
-					TileSetIndex = Tilesets.size() - 1;
-
-				int TileIndex = tile.gid - TilesetStartGid[TileSetIndex];
-				Layer.emplace_back(Tilesets[TileSetIndex][TileIndex]);
-			}
-			Map.emplace_back(Layer);
-		}
-
-		std::cout << "Atleast I Didnt Break :>" << std::endl;*/

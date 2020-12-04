@@ -33,5 +33,5 @@ std::shared_ptr<Ermine::Actor2DBase> Ermine::Actor2DConstructionCallback(std::sh
 	std::shared_ptr<Ermine::TiledActor2D> ActHan(new Ermine::TiledActor2D(std::filesystem::path("")));
 
 	std::shared_ptr<Game::DiagnolActor> Act2 = Game::DiagnolActor::Generate(Act);
-	return Act2;//Dact;
+	return Act2;
 }
