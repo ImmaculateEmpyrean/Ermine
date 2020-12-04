@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_Development Windows|x64">
+      <Configuration>Debug_Development Windows</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_Distribution Windows|x64">
+      <Configuration>Debug_Distribution Windows</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_Distribution Windows|x64">
+      <Configuration>Release_Distribution Windows</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CCF41DEC-38D4-9C87-41EC-275EAD4A03E9}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>tmxlite</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Development Windows|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Distribution Windows|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Distribution Windows|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug_Development Windows|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug_Distribution Windows|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release_Distribution Windows|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Development Windows|x64'">
+    <OutDir>..\..\bin\Debug_Development-Windows-windows-x86_64\tmxlite\</OutDir>
+    <IntDir>..\..\bin-int\Debug_Development-Windows-windows-x86_64\tmxlite\</IntDir>
+    <TargetName>tmxlite</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Distribution Windows|x64'">
+    <OutDir>..\..\bin\Debug_Distribution-Windows-windows-x86_64\tmxlite\</OutDir>
+    <IntDir>..\..\bin-int\Debug_Distribution-Windows-windows-x86_64\tmxlite\</IntDir>
+    <TargetName>tmxlite</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Distribution Windows|x64'">
+    <OutDir>..\..\bin\Release_Distribution-Windows-windows-x86_64\tmxlite\</OutDir>
+    <IntDir>..\..\bin-int\Release_Distribution-Windows-windows-x86_64\tmxlite\</IntDir>
+    <TargetName>tmxlite</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Development Windows|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>ER_DEBUG_DEVELOP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>tmxlite\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Distribution Windows|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>ER_DEBUG_SHIP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>tmxlite\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Distribution Windows|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>ER_RELEASE_SHIP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>tmxlite\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="tmxlite\include\tmxlite\Config.hpp" />
+    <ClInclude Include="tmxlite\include\tmxlite\FreeFuncs.hpp" />
+    <ClInclude Include="tmxlite\include\tmxlite\ImageLayer.hpp" />
+    <ClInclude Include="tmxlite\include\tmxlite\Layer.hpp" />
+    <ClInclude Include="tmxlite\include\tmxlite\LayerGroup.hpp" />
+    <ClInclude Include="tmxlite\include\tmxlite\Map.hpp" />
+    <ClInclude Include="tmxlite\include\tmxlite\Object.hpp" />
+    <ClInclude Include="tmxlite\include\tmxlite\ObjectGroup.hpp" />
+    <ClInclude Include="tmxlite\include\tmxlite\Property.hpp" />
+    <ClInclude Include="tmxlite\include\tmxlite\TileLayer.hpp" />
+    <ClInclude Include="tmxlite\include\tmxlite\Tileset.hpp" />
+    <ClInclude Include="tmxlite\include\tmxlite\Types.hpp" />
+    <ClInclude Include="tmxlite\include\tmxlite\Types.inl" />
+    <ClInclude Include="tmxlite\include\tmxlite\detail\Android.hpp" />
+    <ClInclude Include="tmxlite\include\tmxlite\detail\Log.hpp" />
+    <ClInclude Include="tmxlite\src\detail\pugiconfig.hpp" />
+    <ClInclude Include="tmxlite\src\detail\pugixml.hpp" />
+    <ClInclude Include="tmxlite\src\miniz.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tmxlite\src\FreeFuncs.cpp" />
+    <ClCompile Include="tmxlite\src\ImageLayer.cpp" />
+    <ClCompile Include="tmxlite\src\LayerGroup.cpp" />
+    <ClCompile Include="tmxlite\src\Map.cpp" />
+    <ClCompile Include="tmxlite\src\Object.cpp" />
+    <ClCompile Include="tmxlite\src\ObjectGroup.cpp" />
+    <ClCompile Include="tmxlite\src\Property.cpp" />
+    <ClCompile Include="tmxlite\src\TileLayer.cpp" />
+    <ClCompile Include="tmxlite\src\Tileset.cpp" />
+    <ClCompile Include="tmxlite\src\detail\pugixml.cpp" />
+    <ClCompile Include="tmxlite\src\miniz.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tmxlite\src\CMakeLists.txt" />
+    <None Include="tmxlite\src\detail\pugixml.LICENSE" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

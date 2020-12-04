@@ -132,6 +132,9 @@
     <ClInclude Include="src\2DPrimitives\ActorFamily\ShapeBase.h">
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClInclude>
+    <ClInclude Include="src\2DPrimitives\ActorFamily\TiledActor2D.h">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClInclude>
     <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h">
       <Filter>2DPrimitives\Constructs</Filter>
     </ClInclude>
@@ -445,9 +448,6 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\2DPrimitives\ActorFamily\TiledActor2D.h">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
@@ -466,6 +466,9 @@
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\ActorFamily\ShapeBase.cpp">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\ActorFamily\TiledActor2D.cpp">
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
@@ -708,6 +711,5 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\2DPrimitives\ActorFamily\TiledActor2D.cpp" />
   </ItemGroup>
 </Project>

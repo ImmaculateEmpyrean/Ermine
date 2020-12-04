@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{89AF369E-F58E-B539-FEA6-40106A051C9B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\tmxlite">
+      <UniqueIdentifier>{3F958224-AB20-F0E8-B431-73DD203C4CE9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\tmxlite\detail">
+      <UniqueIdentifier>{2150F645-0D4A-1F98-F6B6-B5A8E24F8504}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\detail">
+      <UniqueIdentifier>{4FAEE655-3B66-28A3-A46D-01FF9044C393}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tmxlite\include\tmxlite\Config.hpp">
+      <Filter>include\tmxlite</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\include\tmxlite\FreeFuncs.hpp">
+      <Filter>include\tmxlite</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\include\tmxlite\ImageLayer.hpp">
+      <Filter>include\tmxlite</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\include\tmxlite\Layer.hpp">
+      <Filter>include\tmxlite</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\include\tmxlite\LayerGroup.hpp">
+      <Filter>include\tmxlite</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\include\tmxlite\Map.hpp">
+      <Filter>include\tmxlite</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\include\tmxlite\Object.hpp">
+      <Filter>include\tmxlite</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\include\tmxlite\ObjectGroup.hpp">
+      <Filter>include\tmxlite</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\include\tmxlite\Property.hpp">
+      <Filter>include\tmxlite</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\include\tmxlite\TileLayer.hpp">
+      <Filter>include\tmxlite</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\include\tmxlite\Tileset.hpp">
+      <Filter>include\tmxlite</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\include\tmxlite\Types.hpp">
+      <Filter>include\tmxlite</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\include\tmxlite\Types.inl">
+      <Filter>include\tmxlite</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\include\tmxlite\detail\Android.hpp">
+      <Filter>include\tmxlite\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\include\tmxlite\detail\Log.hpp">
+      <Filter>include\tmxlite\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\src\detail\pugiconfig.hpp">
+      <Filter>src\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\src\detail\pugixml.hpp">
+      <Filter>src\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="tmxlite\src\miniz.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tmxlite\src\FreeFuncs.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="tmxlite\src\ImageLayer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="tmxlite\src\LayerGroup.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="tmxlite\src\Map.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="tmxlite\src\Object.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="tmxlite\src\ObjectGroup.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="tmxlite\src\Property.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="tmxlite\src\TileLayer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="tmxlite\src\Tileset.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="tmxlite\src\detail\pugixml.cpp">
+      <Filter>src\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="tmxlite\src\miniz.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="tmxlite\src\CMakeLists.txt">
+      <Filter>src</Filter>
+    </None>
+    <None Include="tmxlite\src\detail\pugixml.LICENSE">
+      <Filter>src\detail</Filter>
+    </None>
+  </ItemGroup>
+</Project>

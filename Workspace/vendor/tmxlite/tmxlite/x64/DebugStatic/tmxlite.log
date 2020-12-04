@@ -1,0 +1,13 @@
+﻿  pugixml.cpp
+  FreeFuncs.cpp
+  ImageLayer.cpp
+  LayerGroup.cpp
+  Map.cpp
+  Object.cpp
+  ObjectGroup.cpp
+  Property.cpp
+  TileLayer.cpp
+  Tileset.cpp
+  Generating Code...
+  miniz.c
+  tmxlite.vcxproj -> B:\Projects\OpenProjects\tmxlite\tmxlite\x64\bin\DebugStatic\libtmxlite-s-d.lib

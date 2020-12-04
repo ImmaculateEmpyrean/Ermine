@@ -32,6 +32,7 @@ IncludeDir["freetypegl"]="vendor/freetype-gl"
 IncludeDir["Box2D"] ="vendor/box2d/include"
 IncludeDir["tinyxml2"] = "vendor/tinyxml2"
 IncludeDir["libtmxParser"] = "vendor/libtmx-parser/src"
+IncludeDir["tmxlite"] = "vendor/tmxlite/tmxlite/include"
 
 group "Dependencies"
     include "vendor/Glad"
@@ -45,6 +46,7 @@ group "Dependencies"
 	include "vendor/box2d"
 	include "vendor/tinyxml2"
 	include "vendor/libtmx-parser"
+	include "vendor/tmxlite"
 --group ""
 project "LogSystem"
     location "LogSystem"
@@ -138,7 +140,8 @@ project "Ermine"
          "%{IncludeDir.freetypegl}",
 		 "%{IncludeDir.Box2D}",
 		 "%{IncludeDir.tinyxml2}",
-		 "%{IncludeDir.libtmxParser}"
+		 "%{IncludeDir.libtmxParser}",
+		 "%{IncludeDir.tmxlite}"
     }
 
     defines{
@@ -216,7 +219,8 @@ project "Game"
 		 "%{IncludeDir.Box2D}",
 		 "Ermine/src",
 		 "%{IncludeDir.tinyxml2}",
-		 "%{IncludeDir.libtmxParser}"
+		 "%{IncludeDir.libtmxParser}",
+		 "%{IncludeDir.tmxlite}"
     }
 
    links {
@@ -233,7 +237,8 @@ project "Game"
 		"Box2D",
 		"Ermine",
 		"tinyxml2",
-		"libtmx-parser"
+		"libtmx-parser",
+		"tmxlite"
     }
 
     postbuildcommands {
