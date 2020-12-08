@@ -28,6 +28,10 @@ namespace Ermine
 		Texture(Texture&& rhs);
 		Texture operator=(Texture&& rhs);
 
+		//Returns Ermine Null Texture.. Dunno Maybe Use It For Debugging..
+		static std::shared_ptr<Ermine::Texture> GetNullTexture();
+
+	public:
 		void Bind(int slot=0);
 		void Unbind();
 

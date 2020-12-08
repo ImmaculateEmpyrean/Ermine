@@ -54,6 +54,9 @@ namespace Ermine
 		static std::shared_ptr<Ermine::PhysicsActor2D> Generate(std::shared_ptr<Ermine::Sprite> sprite, b2BodyDef BodyDef, std::vector<b2FixtureDef> Fixtures);
 #pragma endregion
 
+	public:
+		void InitiateDebugRendering();
+		void DeInitiateDebugRendering();
 
 #pragma region IMovableActorOverrides
 		/*Start Overriding Movable Actor Functions*/

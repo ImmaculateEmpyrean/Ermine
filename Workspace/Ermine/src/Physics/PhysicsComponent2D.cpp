@@ -13,7 +13,7 @@ namespace Ermine
 		//First Create The Body In The Box2D World As Intended..
 		BodyManagedByTheComponent = Universum->CreateBody(&BodyDefinitionOfTheComponent);
 
-		for (auto FixtureDefinition : FixturesAssociatedWithTheBody)
+		for(b2FixtureDef& FixtureDefinition : FixturesAssociatedWithTheBody)
 			BodyManagedByTheComponent->CreateFixture(&FixtureDefinition);
 	}
 
@@ -24,6 +24,11 @@ namespace Ermine
 		{
 			for (auto i = BodyManagedByTheComponent->GetFixtureList(); i!= nullptr;i++)
 			{
+				//Start Destroy All Shapes..
+				if(i->GetShape() != nullptr)
+					delete i->GetShape();
+				//Ended Destroy All Shapes..
+
 				if(i->GetUserData() != nullptr)
 					delete i->GetUserData();
 			}
@@ -62,6 +67,9 @@ namespace Ermine
 
 		//The Entire Lot Of The Fixtures Is To be Tried And moved Into The New Object
 		FixturesAssociatedWithTheBody = std::move(rhs.FixturesAssociatedWithTheBody);
+
+		//Must Set All The Shapes To Null Right Or Else They Will Probably Be Wiped Out by The Destructor..
+		rhs.FixturesAssociatedWithTheBody.clear();
 
 		//Donot Create A New Body instead point to the body pointed by the rhs previously
 		//the rhs must loose ownership over its body for its destructor not to delete it
@@ -370,7 +378,7 @@ namespace Ermine
 
 		ModelMatrix = glm::translate(ModelMatrix, glm::vec3(GetBodyLocationPixelSpace(), 0.0f));
 		ModelMatrix = glm::rotate(ModelMatrix, GetAngleOfTheBodyRadians(), glm::vec3(0.0f, 0.0f, 1.0f));
-		ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f,1.0f, 1.0f)); //Since Box2D Only Works With Rigid Bodies.. Elasticity Cannot Be Calculated Using Ermine Ever..
+		//ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f,1.0f, 1.0f)); //Since Box2D Only Works With Rigid Bodies.. Elasticity Cannot Be Calculated Using Ermine Ever..
 
 		return ModelMatrix;
 	}

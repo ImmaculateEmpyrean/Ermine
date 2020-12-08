@@ -1,45 +1,29 @@
 {
-    "Gravity":[0.0,-10.0],
-    "Actor2D":{
-         "Object1" : {
+    "Actor2D":[{
              "Name" : "Michael",
              "Texture" : "Texture/St.MichaelHeraldry.png",
-             "Location" : [0,0],
-             "RecievingEvents" : [0,0,0,0,0,0,0,0,0]
+             "Location" : [0,0]
          },
-         "Object2" : {
+         {
             "Name" : "DragonSlayer",
             "Texture" : "Texture/St.MichaelTheDragonSlayer.png",
-            "Location" : [500,500],
-            "RecievingEvents" : [0,0,0,0,0,0,0,0,0]
+            "Location" : [500,500]
         }
-    },
-    "PhysicsActor2D":{
-        "Object1" : {
-            "Name" : "CarBody",
-            "B2BodyDef" : {
-                "Type" : "Dynamic",
-                "Position" : [1.0,0.0],
-                "FixedRotation":false
-            },
-            "Fixtures" :{
-                "Fixture1" : {
-                    "Shape" :{
-                        "ShapeType" : "PolyShape",
-                        "Points" : {
-                            "P1" : [-0.5,-0.5],
-                            "P2" : [0.5 ,-0.5],
-                            "P3" : [0.5 , 0.5],
-                            "P4" : [-0.5, 0.5]
-                        }
-                    },
-                    "Density" : "1.0",
-                    "Friction" : "0.0",
-                    "Restitution" : "0.5"
-                }
-            },
-            "Texture" : "Texture/St.MichaelHeraldry.png",
-            "RecievingEvents" : [0,0,0,0,0,0,0,0,0]
+    ],
+
+    "PhysicsActor2D":[{
+            "Name" : "TopMostBody"
+        },
+        {
+            "Name" : "RightMostBody"
+        },
+        {
+            "Name" : "BottomMostBody"
+        },
+        {
+            "Name" : "LeftMostBody"
         }
-    }
+    ],
+
+    "PhysicsScene" : "RubeJson/Simulation1.json"
 }

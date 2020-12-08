@@ -5,6 +5,9 @@
 #include "ErmineJsonFunctions.h"
 
 #include "2DPrimitives/ActorFamily/Actor2D.h"
+#include "2DPrimitives/ActorFamily/PhysicsActor2D.h"
+
+#include "Level/RubeLoader.h"
 
 Ermine::Level::Level(std::filesystem::path LevelPath)
 	:
@@ -43,6 +46,8 @@ Ermine::Level& Ermine::Level::operator=(Level&& rhs)
 
 std::vector<std::shared_ptr<Ermine::Actor2DBase>> Ermine::Level::GetActors()
 {
+	auto Lock = GetObjectMutex();
+
 	return ActorBuffer;
 }
 
@@ -58,15 +63,49 @@ void Ermine::Level::LoadLevel()
 	nlohmann::json LevelJson;
 	FileRaw >> LevelJson;
 
-	//std::cout << LevelJson.dump();
+	//Start Get And Add All Actors To The Scene//
+	for (auto Actor2DDef : LevelJson["Actor2D"].items())
+	{
+		std::filesystem::path TexturePath;
+		glm::vec2 SpawnLocation(0.0f);
 
-	/*std::string Gravity = LevelJson["Gravity"];
-	Gravity.erase(std::remove(Gravity.begin(), Gravity.end(), '"'), Gravity.end());
-	std::vector<int> GravityInt = Ermine::ExtractIntDataFromJsonArray(Gravity);
-	WorldGravity.x = GravityInt[0];
-	WorldGravity.y = GravityInt[1];*/
+		for (auto Actor2DParameters : Actor2DDef.value().items())
+		{
+			if (Actor2DParameters.key() == "Texture")
+			{
+				std::string TexturePathStr = Actor2DParameters.value().dump();
+				TexturePathStr.erase(std::remove(TexturePathStr.begin(), TexturePathStr.end(), '"'), TexturePathStr.end());
+				TexturePath = TexturePathStr;
+			}
 
-	//Start Get All Actor2D Declared In The Level//
+			if (Actor2DParameters.key() == "Location")
+			{
+				std::string SpawnLocationStr = Actor2DParameters.value().dump();
+				SpawnLocationStr.erase(std::remove(SpawnLocationStr.begin(), SpawnLocationStr.end(), '"'), SpawnLocationStr.end());
+				auto SpawnLocationInt = Ermine::ExtractIntDataFromJsonArray(SpawnLocationStr);
+				SpawnLocation = glm::vec2(SpawnLocationInt[0], SpawnLocationInt[1]);
+			}
+		}
+		//Start Generate An Add An Actor2D Inside Ermine Level//
+		std::shared_ptr<Ermine::Actor2D> Act = Ermine::Actor2D::GenerateActor2D(std::filesystem::path(TexturePath), SpawnLocation);
+
+		//Add The Generated Actor After It Was Processed By The Callback Into The Buffer.
+		ActorBuffer.emplace_back(Actor2DConstructionCallback(std::move(Act)));
+	}
+	//Ended Get And Add All Actors To The Scene// 
+
+	//Start Getting And Adding Physics Based Actors//
+	std::string PhysicsPath = LevelJson["PhysicsScene"].dump();
+	PhysicsPath.erase(std::remove(PhysicsPath.begin(), PhysicsPath.end(), '"'), PhysicsPath.end());
+
+	auto Package = Ermine::RubeLoader::ReadFile(PhysicsPath);
+
+	for (auto& i : Package.Components)
+		ActorBuffer.emplace_back(Ermine::PhysicsActor2D::Generate(Ermine::Sprite::GetNullSprite(), std::move(i)));
+	//Ended Getting And Adding Physics Based Actors//
+	
+
+	/*//Start Get All Actor2D Declared In The Level//
 	for (auto& i : LevelJson["Actor2D"].items())
 	{
 		auto j = i.value();
@@ -93,5 +132,5 @@ void Ermine::Level::LoadLevel()
 		//Add The Generated Actor After It Was Processed By The Callback Into The Buffer.
 		ActorBuffer.emplace_back(Actor2DConstructionCallback(std::move(Act)));
 	}
-	//Ended Get All Actor2D Declared In The Level//
+	//Ended Get All Actor2D Declared In The Level//*/
 }

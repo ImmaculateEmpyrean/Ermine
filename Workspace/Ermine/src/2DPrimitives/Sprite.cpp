@@ -29,6 +29,12 @@ namespace Ermine
 		return Spr;
 	}
 
+	std::shared_ptr<Ermine::Sprite> Sprite::GetNullSprite()
+	{
+		std::shared_ptr<Ermine::Sprite> Spr(new Ermine::Sprite(Ermine::Texture::GetNullTexture(), glm::vec2(0.0f, 0.0f),glm::vec2(1.0f,1.0f)));
+		return Spr;
+	}
+
 
 	std::shared_ptr<Texture> Sprite::GetTexture()
 	{

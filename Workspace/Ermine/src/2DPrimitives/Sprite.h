@@ -29,6 +29,8 @@ namespace Ermine
 #pragma region GeneratorFunctions
 		static std::shared_ptr<Ermine::Sprite> GenerateSprite(std::filesystem::path TexturePath, glm::vec2 BottomLeftUV = glm::vec2(0.0f,0.0f), glm::vec2 TopRightUV = glm::vec2(1.0f,1.0f));
 		static std::shared_ptr<Ermine::Sprite> GenerateSprite(std::shared_ptr<Texture> Tex, glm::vec2 BottomLeftUV = glm::vec2(0.0f, 0.0f), glm::vec2 TopRightUV = glm::vec2(1.0f, 1.0f));
+
+		static std::shared_ptr<Ermine::Sprite>GetNullSprite();
 #pragma endregion
 
 	public:

@@ -45,6 +45,8 @@
 //#include "NoiseGeneration/FastNoiseLite.h"
 #include "NoiseGeneration/PerlinNoise.hpp"
 
+#include "Level/RubeLoader.h"
+
 Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, std::filesystem::path LevelPath)
 	:
 	AppTitle(AppTitle),
@@ -86,6 +88,8 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, std::fil
 		Layer.SubmitActor(i);
 
 	Renderer->SubmitLayer(std::move(Layer));
+
+	//RubeLoader::ReadFile("RubeJson/Simulation1.json");
 }
 
 Ermine::App::~App()

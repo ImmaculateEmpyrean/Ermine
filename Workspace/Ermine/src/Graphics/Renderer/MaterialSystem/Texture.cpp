@@ -7,6 +7,8 @@
 #include "GLFW/glfw3.h"
 #include "Graphics/Renderer/OpenGLErrorChecker.h"
 
+#include "EngineResourceHandlers/GlobalTextureCache.h"
+
 namespace Ermine
 {
 	Texture::Texture()
@@ -93,6 +95,13 @@ namespace Ermine
 		rhs.Tex = 0;
 
 		return *this;
+	}
+
+	std::shared_ptr<Ermine::Texture> Texture::GetNullTexture()
+	{
+		auto TextureManager = Ermine::GlobalTextureCache::Get();
+		auto Tex = TextureManager->GetTextureFromFile("Texture/ErmineNullTexture.png");
+		return Tex;
 	}
 
 	void Texture::Bind(int slot)

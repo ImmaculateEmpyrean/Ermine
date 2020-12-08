@@ -450,6 +450,7 @@
     </ClInclude>
     <ClInclude Include="src\Level\TiledMapLoader.h" />
     <ClInclude Include="src\Level\Entity.h" />
+    <ClInclude Include="src\Level\RubeLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
@@ -713,5 +714,6 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
+    <ClCompile Include="src\Level\RubeLoader.cpp" />
   </ItemGroup>
 </Project>

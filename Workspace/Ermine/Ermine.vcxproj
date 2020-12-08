@@ -217,6 +217,7 @@
     <ClInclude Include="src\LayerSystem\LayerStackLayer.h" />
     <ClInclude Include="src\Level\Entity.h" />
     <ClInclude Include="src\Level\Level.h" />
+    <ClInclude Include="src\Level\RubeLoader.h" />
     <ClInclude Include="src\Level\TiledMapLoader.h" />
     <ClInclude Include="src\MutexSystem\Interfaces\IMutex.h" />
     <ClInclude Include="src\MutexSystem\LockChamber.h" />
@@ -326,6 +327,7 @@
     <ClCompile Include="src\LayerSystem\LayerStack.cpp" />
     <ClCompile Include="src\LayerSystem\LayerStackLayer.cpp" />
     <ClCompile Include="src\Level\Level.cpp" />
+    <ClCompile Include="src\Level\RubeLoader.cpp" />
     <ClCompile Include="src\MutexSystem\MutexCasket.cpp" />
     <ClCompile Include="src\MutexSystem\MutexGaurd.cpp" />
     <ClCompile Include="src\MutexSystem\MutexManager.cpp" />

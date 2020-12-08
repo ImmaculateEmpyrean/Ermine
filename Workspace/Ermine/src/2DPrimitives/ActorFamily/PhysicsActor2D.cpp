@@ -6,6 +6,8 @@
 
 #include "Physics/Physics.h"
 
+#include "Graphics/Renderer/Renderer2D.h"
+
 namespace Ermine
 {
 
@@ -64,6 +66,16 @@ namespace Ermine
 
 		std::shared_ptr<Ermine::PhysicsActor2D> Actor(new Ermine::PhysicsActor2D(sprite, Component));
 		return Actor;
+	}
+
+	void PhysicsActor2D::InitiateDebugRendering()
+	{
+		/*if(PhysicsComponent != nullptr)
+			Ermine::Renderer2D::SubmitPhysicsComponent2D(PhysicsComponent)*/
+	}
+
+	void PhysicsActor2D::DeInitiateDebugRendering()
+	{
 	}
 
 #pragma region Generator
@@ -186,19 +198,6 @@ namespace Ermine
 		glm::vec2 TopLeftPixelCalculate = glm::vec2(-1.0f * (PhysicsComponent->GetBoundingBoxWidth()), (PhysicsComponent->GetBoundingBoxHeight()));
 		glm::vec3 TopLeftPos = glm::vec3(TopLeftPixelCalculate.x, TopLeftPixelCalculate.y, 0.0f);//TopLeft.GetPositionCoordinates();
 		glm::vec4 TopLeftPos4 = glm::vec4(TopLeftPos, 0.0f);
-
-		//Start Get Rotation Matrix For This Physics Actor..//
-		glm::mat4 RotationMatrix = PhysicsComponent->GetRotationMatrix();
-		//Ended Get Rotation Matrix For This Physics Actor..//
-
-		/*Start This I Guess Is The Only Difference Between Movable And Non Movable Actor */
-
-		TopRightPos4 = RotationMatrix * TopRightPos4;
-		BottomRightPos4 = RotationMatrix * BottomRightPos4;
-		BottomLeftPos4 = RotationMatrix * BottomLeftPos4;
-		TopLeftPos4 = RotationMatrix * TopLeftPos4;
-
-		/*Ended This I Guess Is The Only Difference Between Movable And Non Movable Actor */
 
 		TopRight.SetPositonCoordinates(TopRightPos4);
 		BottomRight.SetPositonCoordinates(BottomRightPos4);
