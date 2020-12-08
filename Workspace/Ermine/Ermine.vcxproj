@@ -215,7 +215,9 @@
     <ClInclude Include="src\InteriorComponents\GeneratedObject.h" />
     <ClInclude Include="src\LayerSystem\LayerStack.h" />
     <ClInclude Include="src\LayerSystem\LayerStackLayer.h" />
+    <ClInclude Include="src\Level\Entity.h" />
     <ClInclude Include="src\Level\Level.h" />
+    <ClInclude Include="src\Level\TiledMapLoader.h" />
     <ClInclude Include="src\MutexSystem\Interfaces\IMutex.h" />
     <ClInclude Include="src\MutexSystem\LockChamber.h" />
     <ClInclude Include="src\MutexSystem\MutexCasket.h" />
