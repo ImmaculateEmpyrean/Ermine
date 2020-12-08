@@ -183,19 +183,19 @@ namespace Ermine
 
 		//NOTE- The vectorWorldToErmine() PArtly Works Because We Never Pass In A Negative Value.. This Function Is Not To Translate The Points On The Graph 
 
-		glm::vec2 TopRightPixelCalculate = glm::vec2(PhysicsComponent->GetBoundingBoxWidth(), PhysicsComponent->GetBoundingBoxHeight());		//Ermine::vectorWorldToErmine(glm::vec2(GetBodyWidthBox2DSpace() / 2.0f, GetBodyHeightBox2DSpace() / 2));										//glm::vec2 TopRightPixelCalculate = Ermine::coordWorldToErmine(glm::vec2(GetBodyWidth() / 2.0f, GetBodyHeight() / 2));
+		glm::vec2 TopRightPixelCalculate = glm::vec2(PhysicsComponent->GetBoundingBoxWidth()/2.0f, PhysicsComponent->GetBoundingBoxHeight()/2.0f);		//Ermine::vectorWorldToErmine(glm::vec2(GetBodyWidthBox2DSpace() / 2.0f, GetBodyHeightBox2DSpace() / 2));										//glm::vec2 TopRightPixelCalculate = Ermine::coordWorldToErmine(glm::vec2(GetBodyWidth() / 2.0f, GetBodyHeight() / 2));
 		glm::vec3 TopRightPos = glm::vec3(TopRightPixelCalculate.x, TopRightPixelCalculate.y, 0.0f);
 		glm::vec4 TopRightPos4 = glm::vec4(TopRightPos, 0.0f);
 
-		glm::vec2 BottomRightPixelCalculate = glm::vec2(PhysicsComponent->GetBoundingBoxWidth(), -1.0f * (PhysicsComponent->GetBoundingBoxHeight()));
+		glm::vec2 BottomRightPixelCalculate = glm::vec2(PhysicsComponent->GetBoundingBoxWidth()/2.0f, -1.0f * (PhysicsComponent->GetBoundingBoxHeight()/2.0f));
 		glm::vec3 BottomRightPos = glm::vec3(BottomRightPixelCalculate.x, BottomRightPixelCalculate.y, 0.0f);
 		glm::vec4 BottomRightPos4 = glm::vec4(BottomRightPos, 0.0f);
 
-		glm::vec2 BottomLeftPixelCalculate = glm::vec2(-1.0f * (PhysicsComponent->GetBoundingBoxWidth()), -1.0f * (PhysicsComponent->GetBoundingBoxHeight()));
+		glm::vec2 BottomLeftPixelCalculate = glm::vec2(-1.0f * (PhysicsComponent->GetBoundingBoxWidth()/2.0f), -1.0f * (PhysicsComponent->GetBoundingBoxHeight()/2.0f));
 		glm::vec3 BottomLeftPos = glm::vec3(BottomLeftPixelCalculate.x, BottomLeftPixelCalculate.y, 0.0f);
 		glm::vec4 BottomLeftPos4 = glm::vec4(BottomLeftPos, 0.0f);
 
-		glm::vec2 TopLeftPixelCalculate = glm::vec2(-1.0f * (PhysicsComponent->GetBoundingBoxWidth()), (PhysicsComponent->GetBoundingBoxHeight()));
+		glm::vec2 TopLeftPixelCalculate = glm::vec2(-1.0f * (PhysicsComponent->GetBoundingBoxWidth()/2.0f), (PhysicsComponent->GetBoundingBoxHeight()/2.0f));
 		glm::vec3 TopLeftPos = glm::vec3(TopLeftPixelCalculate.x, TopLeftPixelCalculate.y, 0.0f);//TopLeft.GetPositionCoordinates();
 		glm::vec4 TopLeftPos4 = glm::vec4(TopLeftPos, 0.0f);
 
