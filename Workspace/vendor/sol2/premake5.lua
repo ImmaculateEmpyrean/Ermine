@@ -7,7 +7,8 @@ project "sol2"
     objdir("../../".."bin-int/" .. outputdir .. "/%{prj.name}")
 
     files{
-       "sol2-3.2.2/single/include/**"
+       "sol2-3.2.2/single/include/**",
+       "dummy.cpp"
     }
 
     includedirs{
