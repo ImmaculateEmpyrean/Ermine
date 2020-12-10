@@ -142,7 +142,7 @@ void Ermine::App::AppRoutine()
 	static double UpdateCounter = 0.0;
 	UpdateCounter = UpdateCounter + TimeStep.GetSeconds();
 	
-	if (UpdateCounter >= 0.04) //  1.0f/25.0f = 0.0f Update Cycle Is Locked To 25 fps..
+	if (UpdateCounter >= 0.04f) //  1.0f/25.0f = 0.0f Update Cycle Is Locked To 25 fps..
 	{
 		UpdateCounter = 0.0;
 		UpdateLoop();
@@ -161,7 +161,7 @@ void Ermine::App::UpdateLoop()
 {
 	//Update Loop Is Called A 
 
-	Universum->Step(1.0f/25.0f , PhysicsVelocityIterations, PhysicsPositionIterations); //Since Update Cycle Is Locked To 25 fps I Have Decided To Hard Code 25 Value..
+	Universum->Step(PhysicsWorldTimestep , PhysicsVelocityIterations, PhysicsPositionIterations); //Since Update Cycle Is Locked To 25 fps I Have Decided To Hard Code 25 Value..
 
 	//Update The Camera 
 	auto Camera = Ermine::OrthographicCamera::Get();

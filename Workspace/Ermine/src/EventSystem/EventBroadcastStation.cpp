@@ -20,7 +20,7 @@ void EventBroadcastStationMainRoutine()
 	while (Ermine::EventBroadcastStation::StationDestructionOrdered == false)
 	{
 		//In Future Sleep Until Atleast There Is A Message In One Of The Event Buffers.. That Might Prove To Be A Wise Descision Instead Of An Arbitrary One Hundred
-		_sleep(100);
+		//_sleep(100);
 
 		auto Station = Ermine::EventBroadcastStation::GetStation();
 		Station->DispatchMessagesSuperior();

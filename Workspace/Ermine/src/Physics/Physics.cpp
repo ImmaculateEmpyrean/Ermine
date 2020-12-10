@@ -15,8 +15,8 @@ static float Ermine::ScaleFactor = 100.0f;
 float Ermine::PhysicsWorldTimestep = 0.04f;
 
 //Not Exactly Sure Looks Like Some Physics Stuff.. Found Out On The Internet That These Are Acceptable Default Values..
-int32 Ermine::PhysicsVelocityIterations = 6;
-int32 Ermine::PhysicsPositionIterations = 2;
+int32 Ermine::PhysicsVelocityIterations = 8;
+int32 Ermine::PhysicsPositionIterations = 3;
 
 namespace Ermine
 {

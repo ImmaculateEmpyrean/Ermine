@@ -255,7 +255,7 @@ float Ermine::PrismaticJoint::GetMotorForce()
 		{
 			STDOUTDefaultLog_Warn("Querying Force Of A Motor Not Enabled In Prismatic Joint");
 		}
-		return ((b2PrismaticJoint*)JointHandle)->GetMotorForce(1.0f / 0.04f); //Physics World Timestep Is Locked To 0.04.. 25fps
+		return ((b2PrismaticJoint*)JointHandle)->GetMotorForce(1.0f / PhysicsWorldTimestep); //Physics World Timestep Is Locked To 0.04.. 25fps
 	}
 	else 
 	{
