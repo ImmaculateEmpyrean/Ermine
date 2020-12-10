@@ -24,7 +24,8 @@ namespace Ermine
 
 		std::vector<std::shared_ptr<Ermine::PhysicsComponent2D>> Components;
 		std::vector<std::shared_ptr<Ermine::JointBase>> Joints;
-		std::vector<std::shared_ptr<Ermine::Sprite>> Sprites;
+		std::unordered_map<unsigned int, std::shared_ptr<Ermine::Sprite>> Sprites;
+
 	};
 
 	class RubeLoader

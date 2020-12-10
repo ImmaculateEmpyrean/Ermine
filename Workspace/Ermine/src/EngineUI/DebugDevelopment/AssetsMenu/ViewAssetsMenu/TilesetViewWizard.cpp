@@ -6,15 +6,15 @@
 #include "imgui.h"
 
 #include "EngineResourceHandlers/GlobalTextureCache.h"
-#include "EngineResourceHandlers/EditorDefaultStrings.h"
+#include "EngineResourceHandlers/Manifest.h"
 
 #ifdef ER_DEBUG_DEVELOP
 
 Ermine::TilesetViewWizard::TilesetViewWizard()
 {
 	HelperInitializeBuffers();
-	auto Context = EditorDefaultStrings::Get();
-	TilesetsPath = Context->GetValue("TilesetViewWizardTilesetsPath").value_or("Error Could Not Get A Default Path From Editor Default Strings");
+	auto Context = Manifest::Get();
+	TilesetsPath = Context->GetString("TilesetViewWizardTilesetsPath").value_or("Error Could Not Get A Default Path From Editor Default Strings");
 	//TilesetsPath = std::filesystem::path("TileSet");
 }
 
@@ -163,8 +163,8 @@ void Ermine::TilesetViewWizard::Draw()
 		{
 			if (MakeDefault == true)
 			{
-				auto Context = Ermine::EditorDefaultStrings::Get();
-				Context->SubmitChanges("TilesetViewWizardTilesetsPath", std::string(TilesetPathInputBuffer));
+				auto Context = Ermine::Manifest::Get();
+				Context->WriteString("TilesetViewWizardTilesetsPath", std::string(TilesetPathInputBuffer));
 			}
 			
 			TilesetsPath = std::filesystem::path(TilesetPathInputBuffer);

@@ -6,7 +6,7 @@
 #include "EventSystem/Components/RecieverComponent.h"
 
 #include "nlohmann/json.hpp" 
-#include "EngineResourceHandlers/EditorDefaultStrings.h"
+#include "EngineResourceHandlers/Manifest.h"
 #include "EngineResourceHandlers/GlobalTextureCache.h"
 
 #ifdef ER_DEBUG_DEVELOP
@@ -27,8 +27,8 @@ Ermine::NewTileMap::NewTileMap(std::function<void(std::filesystem::path)> Create
 	JsonFileIcon = TextureManager->GetTextureFromFile("Texture/JsonFileIcon.png");
 
 	//Start Initializing Default Folder For Searching Tilemaps To Load..
-	auto ContextStrings = Ermine::EditorDefaultStrings::Get();
-	auto TileMapsPath = ContextStrings->GetValue("TileMapsDefaultPath");
+	auto ContextStrings = Ermine::Manifest::Get();
+	auto TileMapsPath = ContextStrings->GetString("TileMapsDefaultPath");
 	memcpy(LoadTilesetsPath, TileMapsPath.value_or("Tilemap\\").c_str(), TileMapsPath.value_or("Tilemap\\").length());
 	//Ended Initializing Default Folder For Searching Tilemaps To Load..
 

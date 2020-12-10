@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "RubeLoader.h"
 
+#include "EngineResourceHandlers/Manifest.h"
+
 namespace Ermine
 {
     static bool CheckIfStringIsTrueLowerCase(std::string String)
@@ -53,6 +55,39 @@ namespace Ermine
             Vertices.emplace_back(b2Vec2(XValues[i], YValues[i]));
        
         return Vertices;
+    }
+
+    static void removeSubstrs(std::string& string,
+                              const std::string& SubstringToRemove) 
+    {
+        std::string::size_type n = SubstringToRemove.length();
+
+        for (std::string::size_type i = string.find(SubstringToRemove);
+            i != std::string::npos;
+            i = string.find(SubstringToRemove))
+            string.erase(i, n);
+    }
+
+    static std::filesystem::path GetImagePathRelativeToExecutable(std::filesystem::path PathToConsider)
+    {
+        std::string PathStr = PathToConsider.u8string();
+        
+        auto FilePath = Ermine::Manifest::GetString("Texture");
+
+        if (!FilePath.has_value())
+        {
+            STDOUTDefaultLog_Error("Manifest File May Probably Be Corrupted As We Cannot Query Key : Texture From It.. Falling Back To Default Location Hardcoded");
+        }
+
+        std::string TexturePath = FilePath.value_or("Texture");
+        std::size_t found = PathStr.find(TexturePath);
+
+        if (found != std::string::npos)
+            PathStr.erase(PathStr.begin(), PathStr.begin() + found);
+        else
+            STDOUTDefaultLog_Error("Image Set In Rube Editor Might Not Exist In A Subfolder From Exe.. Please Check All The Paths Of The Rube Json File.. Errored Path : %s",PathToConsider.u8string().c_str());
+
+        return std::filesystem::path(PathStr);
     }
 
     RubeLoaderPackage Ermine::RubeLoader::ReadFile(std::filesystem::path RubeJsonFilePath)
@@ -149,6 +184,31 @@ namespace Ermine
             {
                 Package.Gravity.x = std::stof(i.value()["x"].dump());
                 Package.Gravity.y = std::stof(i.value()["y"].dump());
+            }
+
+            if (i.key() == "image")
+            {
+                for (auto Image : i.value().items())
+                {
+                    std::string ImagePathStr;
+                    int BodyIndex = -1; //-1 is Most Definitely Wrong Maybe Useful For Debugging.. Maybe
+
+                    ImagePathStr = Image.value()["file"].dump();
+                    ImagePathStr.erase(std::remove(ImagePathStr.begin(), ImagePathStr.end(), '\"'), ImagePathStr.end());
+                    auto ImagePath = GetImagePathRelativeToExecutable(std::filesystem::path(ImagePathStr));
+
+                    for (auto ImageProperties : Image.value().items())
+                    {
+                        if (ImageProperties.key() == "body")
+                        {
+                            BodyIndex = std::stoi(ImageProperties.value().dump());
+                            break;
+                        }
+                    }
+
+                    if (BodyIndex != -1)
+                        Package.Sprites[BodyIndex] = Ermine::Sprite::GenerateSprite(ImagePath);
+                }
             }
         }
 

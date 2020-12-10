@@ -171,9 +171,6 @@
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\DeltaTime.h" />
-    <ClInclude Include="src\EngineResourceHandlers\EditorDefaultStrings.h">
-      <Filter>EngineResourceHandlers</Filter>
-    </ClInclude>
     <ClInclude Include="src\EngineResourceHandlers\GlobalFontCache.h">
       <Filter>EngineResourceHandlers</Filter>
     </ClInclude>
@@ -457,6 +454,9 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\EngineResourceHandlers\Manifest.h">
+      <Filter>EngineResourceHandlers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
@@ -510,9 +510,6 @@
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\Core.cpp" />
     <ClCompile Include="src\DeltaTime.cpp" />
-    <ClCompile Include="src\EngineResourceHandlers\EditorDefaultStrings.cpp">
-      <Filter>EngineResourceHandlers</Filter>
-    </ClCompile>
     <ClCompile Include="src\EngineResourceHandlers\GlobalFontCache.cpp">
       <Filter>EngineResourceHandlers</Filter>
     </ClCompile>
@@ -722,6 +719,9 @@
     <ClCompile Include="src\RandomNumberGenerator.cpp" />
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EngineResourceHandlers\Manifest.cpp">
+      <Filter>EngineResourceHandlers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

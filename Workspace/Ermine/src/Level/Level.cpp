@@ -100,8 +100,16 @@ void Ermine::Level::LoadLevel()
 
 	auto Package = Ermine::RubeLoader::ReadFile(PhysicsPath);
 
+	int count = 0;
 	for (auto& i : Package.Components)
-		ActorBuffer.emplace_back(Ermine::PhysicsActor2D::Generate(Ermine::Sprite::GetNullSprite(), std::move(i)));
+	{
+		if (Package.Sprites.find(count) != Package.Sprites.end())
+			ActorBuffer.emplace_back(Ermine::PhysicsActor2D::Generate(Package.Sprites[count], std::move(i)));
+		else ActorBuffer.emplace_back(Ermine::PhysicsActor2D::Generate(Ermine::Sprite::GetNullSprite(), std::move(i)));
+
+		count++;
+	}
+		//ActorBuffer.emplace_back(Ermine::PhysicsActor2D::Generate(Ermine::Sprite::GetNullSprite(), std::move(i)));
 	//Ended Getting And Adding Physics Based Actors//
 	
 

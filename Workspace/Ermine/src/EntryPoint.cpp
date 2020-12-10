@@ -4,7 +4,7 @@
 #include "EventSystem/EventBroadcastStation.h"
 
 #include "EngineResourceHandlers/GlobalTextureCache.h"
-#include "EngineResourceHandlers/EditorDefaultStrings.h"
+#include "EngineResourceHandlers/Manifest.h"
 
 #include "Log.h"
 
