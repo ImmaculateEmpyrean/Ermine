@@ -12,7 +12,7 @@ b2World* Ermine::Universum = nullptr;
 static float Ermine::ScaleFactor = 100.0f;
 
 //This Is Used To Set The Time Which The Physics World Advances Every Frame..
-float Ermine::PhysicsWorldTimestep = 1.0f / 60.0f;
+float Ermine::PhysicsWorldTimestep = 0.04f;
 
 //Not Exactly Sure Looks Like Some Physics Stuff.. Found Out On The Internet That These Are Acceptable Default Values..
 int32 Ermine::PhysicsVelocityIterations = 6;
@@ -37,7 +37,7 @@ namespace Ermine
 		world.y = world.y * ScaleFactor;
 
 		glm::vec2 PixelSpace;
-		PixelSpace.x = world.x; // +(Ermine::GetScreenWidth() / 2);
+		PixelSpace.x = world.x + 960.0f; // +(Ermine::GetScreenWidth() / 2);
 		PixelSpace.y = 540.0f - world.y; //Since Ermine Space Goes From 0 to 1080.. And We Have To Flip It Without Getting a Negative Value
 
 		return PixelSpace;
@@ -51,7 +51,7 @@ namespace Ermine
 	glm::vec2 coordErmineToWorld(glm::vec2 screen)
 	{
 		glm::vec2 WorldSpace;
-		WorldSpace.x = screen.x; // -(Ermine::GetScreenWidth() / 2);
+		WorldSpace.x = screen.x - 960.0f; // -(Ermine::GetScreenWidth() / 2);
 		WorldSpace.y = 540.0f - screen.y; // Since Ermine Space Goes From 0 To 1080 In Y.. And We Have To Flip It Without Getting a Negative Value
 
 		WorldSpace.x = WorldSpace.x / ScaleFactor;
