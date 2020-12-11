@@ -22,6 +22,14 @@ Ermine::RevoluteJoint::RevoluteJoint(std::string JointName,b2Body* BodyA, b2Body
 	JointHandle = (b2RevoluteJoint*)Ermine::Universum->CreateJoint(&RevDef);
 }
 
+Ermine::RevoluteJoint::RevoluteJoint(b2Joint* Pointer, std::string JointName, b2Body* BodyA, b2Body* BodyB)
+	:
+	JointBase(JointName, BodyA, BodyB)
+{
+	//The Pointer Is Constructed Externally.. That Makes Using This Constructor Dangerous.. Used For The Ruve Loader As Of This Reading..
+	JointHandle = Pointer;
+}
+
 Ermine::RevoluteJoint::~RevoluteJoint()
 {}
 
@@ -39,6 +47,12 @@ Ermine::RevoluteJoint& Ermine::RevoluteJoint::operator=(RevoluteJoint&& rhs)
 std::shared_ptr<Ermine::RevoluteJoint> Ermine::RevoluteJoint::Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, float ReferenceAngleDegrees, bool ShouldBodiesAttachedByTheJointCollide)
 {
 	std::shared_ptr<Ermine::RevoluteJoint> Joint(new Ermine::RevoluteJoint(JointName, BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre, ReferenceAngleDegrees, ShouldBodiesAttachedByTheJointCollide),Ermine::JointDeleter<Ermine::RevoluteJoint>());
+	return Joint;
+}
+
+std::shared_ptr<Ermine::RevoluteJoint> Ermine::RevoluteJoint::Generate(b2Joint* Pointer, std::string JointName, b2Body* BodyA, b2Body* BodyB)
+{
+	std::shared_ptr<Ermine::RevoluteJoint> Joint(new Ermine::RevoluteJoint(Pointer,JointName,BodyA,BodyB), Ermine::JointDeleter<Ermine::RevoluteJoint>());
 	return Joint;
 }
 
