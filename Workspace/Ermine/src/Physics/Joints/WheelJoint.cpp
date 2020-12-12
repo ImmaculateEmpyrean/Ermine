@@ -71,6 +71,14 @@ Ermine::WheelJoint::WheelJoint(std::string Name, b2Body* BodyA, b2Body* BodyB, b
 	JointHandle = (b2WheelJoint*)Universum->CreateJoint(&Def);
 }
 
+Ermine::WheelJoint::WheelJoint(b2Joint* Pointer,std::string Name, b2Body* BodyA, b2Body* BodyB)
+	:
+	JointBase(Name, BodyA, BodyB)
+{
+	//This Is The Reason Why This Constructor Is Dangerous.. The pointer Is  Essentially Constructed Somewhere else..
+	JointHandle = Pointer;
+}
+
 Ermine::WheelJoint::~WheelJoint()
 {}
 
@@ -93,6 +101,11 @@ std::shared_ptr<Ermine::WheelJoint> Ermine::WheelJoint::Generate(std::string Nam
 std::shared_ptr<Ermine::WheelJoint> Ermine::WheelJoint::Generate(std::string Name, b2Body* BodyA, b2Body* BodyB, b2WheelJointDef Def)
 {
 	return std::shared_ptr<Ermine::WheelJoint>(new Ermine::WheelJoint(Name, BodyA, BodyB, Def), Ermine::JointDeleter<Ermine::WheelJoint>());
+}
+
+std::shared_ptr<Ermine::WheelJoint> Ermine::WheelJoint::Generate(b2Joint* Joint, std::string Name, b2Body* BodyA, b2Body* BodyB)
+{
+	return std::shared_ptr<Ermine::WheelJoint>(new Ermine::WheelJoint(Joint,Name, BodyA, BodyB), Ermine::JointDeleter<Ermine::WheelJoint>());
 }
 
 glm::vec2 Ermine::WheelJoint::GetBodyALocalAnchorLocation()

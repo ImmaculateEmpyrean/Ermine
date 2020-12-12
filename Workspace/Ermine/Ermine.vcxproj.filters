@@ -352,9 +352,6 @@
     <ClInclude Include="src\Level\Level.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="src\Level\RubeLoader.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="src\Level\TiledMapLoader.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -457,6 +454,12 @@
     <ClInclude Include="src\EngineResourceHandlers\Manifest.h">
       <Filter>EngineResourceHandlers</Filter>
     </ClInclude>
+    <ClInclude Include="src\Level\RubeLoader\RubeLoader.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Level\RubeLoader\RubeLoaderPackage.h" />
+    <ClInclude Include="src\Level\RubeLoader\RubeJointDefinition.h" />
+    <ClInclude Include="src\Level\RubeLoader\RubeJsonHelpers.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
@@ -664,9 +667,6 @@
     <ClCompile Include="src\Level\Level.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="src\Level\RubeLoader.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
     <ClCompile Include="src\MutexSystem\MutexCasket.cpp">
       <Filter>MutexSystem</Filter>
     </ClCompile>
@@ -723,5 +723,10 @@
     <ClCompile Include="src\EngineResourceHandlers\Manifest.cpp">
       <Filter>EngineResourceHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="src\Level\RubeLoader\RubeLoader.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Level\RubeLoader\RubeJointDefinition.cpp" />
+    <ClCompile Include="src\Level\RubeLoader\RubeJsonHelpers.cpp" />
   </ItemGroup>
 </Project>

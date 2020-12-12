@@ -25,5 +25,5 @@
         }
     ],
 
-    "PhysicsScene" : "RubeJson/WeldJointTest.json"
+    "PhysicsScene" : "RubeJson/WheelJointExample2.json"
 }

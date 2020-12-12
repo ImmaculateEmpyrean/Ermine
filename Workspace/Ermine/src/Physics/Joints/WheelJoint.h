@@ -8,6 +8,9 @@
 
 namespace Ermine
 {
+	class PhysicsComponent2D;
+	class RubeLoader;
+
 	class WheelJoint:public JointBase
 	{
 	protected:
@@ -19,6 +22,9 @@ namespace Ermine
 
 		//Think Of This As The Most Default Constructor To test The Joint.. 
 		WheelJoint(std::string Name, b2Body* BodyA, b2Body* BodyB, b2WheelJointDef Def);
+
+	private:
+		WheelJoint(b2Joint* Pointer, std::string Name, b2Body* BodyA, b2Body* BodyB);
 
 	public:
 
@@ -36,6 +42,9 @@ namespace Ermine
 		//Start Generate Functions..//
 		static std::shared_ptr<Ermine::WheelJoint> Generate(std::string Name, b2Body* BodyA, b2Body* BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB, glm::vec2 LocalTranslationalAxisInBodyA, bool CollideConnected = false);
 		static std::shared_ptr<Ermine::WheelJoint> Generate(std::string Name, b2Body* BodyA, b2Body* BodyB, b2WheelJointDef Def);
+
+	private:
+		static std::shared_ptr<Ermine::WheelJoint> Generate(b2Joint* Joint, std::string Name, b2Body* BodyA, b2Body* BodyB);
 		//Ended Generate Functions..//
 	public:
 		
@@ -100,5 +109,7 @@ namespace Ermine
 
 	private:
 
+		friend class Ermine::PhysicsComponent2D;
+		friend class Ermine::RubeLoader;
 	};
 }

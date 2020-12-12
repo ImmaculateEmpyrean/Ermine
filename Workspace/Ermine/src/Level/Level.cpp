@@ -7,7 +7,7 @@
 #include "2DPrimitives/ActorFamily/Actor2D.h"
 #include "2DPrimitives/ActorFamily/PhysicsActor2D.h"
 
-#include "Level/RubeLoader.h"
+#include "RubeLoader/RubeLoader.h"
 
 Ermine::Level::Level(std::filesystem::path LevelPath)
 	:

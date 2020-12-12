@@ -300,6 +300,16 @@ namespace Ermine
 		return WheelJoint;
 	}
 
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateWheelJoint(b2Joint* Pointer, std::string JointName, std::shared_ptr<Ermine::PhysicsComponent2D> BodyB)
+	{
+		std::shared_ptr<Ermine::WheelJoint> WheelJoint = Ermine::WheelJoint::Generate(Pointer, JointName, BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent);
+
+		JointsBuffer.emplace_back(WheelJoint);
+		BodyB->JointsBuffer.emplace_back(WheelJoint);
+
+		return WheelJoint;
+	}
+
 	//Create Rope Joint..
 	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateRopeJoint(std::string JointName, std::shared_ptr<PhysicsComponent2D> BodyB, bool CollideConnected)
 	{

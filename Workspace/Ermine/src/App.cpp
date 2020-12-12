@@ -45,7 +45,7 @@
 //#include "NoiseGeneration/FastNoiseLite.h"
 #include "NoiseGeneration/PerlinNoise.hpp"
 
-#include "Level/RubeLoader.h"
+#include "Level/RubeLoader/RubeLoader.h"
 
 Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, std::filesystem::path LevelPath)
 	:

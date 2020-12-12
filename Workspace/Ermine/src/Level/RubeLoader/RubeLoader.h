@@ -16,25 +16,31 @@
 
 #include <nlohmann/json.hpp>
 
+#include "RubeJointDefinition.h"
+#include "RubeLoaderPackage.h"
+
 namespace Ermine
 {
-	struct RubeLoaderPackage
-	{
-		b2Vec2 Gravity;
-
-		std::vector<std::shared_ptr<Ermine::PhysicsComponent2D>> Components;
-		std::vector<std::shared_ptr<Ermine::JointBase>> Joints;
-		std::unordered_map<unsigned int, std::shared_ptr<Ermine::Sprite>> Sprites;
-
-	};
-
 	class RubeLoader
 	{
 	public:
-		//Well This Can Be Constructed Default Since Its Not Doing Much Management Work.
+		//Well This Can Be Constructed Default Since Its Not Doing Any Management Work.
 		RubeLoader() = default;
 
+	public:
 		//This Is The Function Which Is To Be Called If A Rube Json Is To Be Loaded Into Ermine.. Ot Gives Of Am Intermediate Structure Which Can Be Further Processed..
 		static RubeLoaderPackage ReadFile(std::filesystem::path RubeJsonFilePath);
+
+	public:
+
+	protected:
+
+	protected:
+
+	private:
+		
+	private:
+
+
 	};
 }

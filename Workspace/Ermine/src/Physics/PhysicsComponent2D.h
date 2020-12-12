@@ -131,10 +131,15 @@ namespace Ermine
 		//Ended Creating Prismatic Joint..//
 
 		//Start Creating Wheel Joint..//
+	public:
 		std::shared_ptr<Ermine::JointBase> CreateWheelJoint(std::string JointName, std::shared_ptr<PhysicsComponent2D> BodyB, b2WheelJointDef Def);
 		std::shared_ptr<Ermine::JointBase> CreateWheelJoint(std::string JointName, std::shared_ptr<PhysicsComponent2D> BodyB, bool CollideConnected = false);
 		std::shared_ptr<Ermine::JointBase> CreateWheelJoint(std::string JointName, std::shared_ptr<PhysicsComponent2D> BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB,bool CollideConnected = false);
 		std::shared_ptr<Ermine::JointBase> CreateWheelJoint(std::string JointName, std::shared_ptr<PhysicsComponent2D> BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB, glm::vec2 LocalTranslationalAxisInBodyA, bool CollideConnected = false);
+
+	private:
+		std::shared_ptr<Ermine::JointBase> CreateWheelJoint(b2Joint* Pointer, std::string JointName, std::shared_ptr<Ermine::PhysicsComponent2D> BodyB);
+
 		//Ended Creating Wheel Joint..//
 
 		//Start Creating Rope Joint..//
@@ -164,10 +169,11 @@ namespace Ermine
 
 	protected:
 
-	private:
+		public :
 		//Access The Underlying Box2D Body Using This Functions..
 		b2Body* GetBox2DBody() { return BodyManagedByTheComponent; }
 
+		private:
 		//Used By The Move Constructor And Move Operator
 		void HelperMoveFunction(PhysicsComponent2D&& rhs);
 
