@@ -33,7 +33,7 @@ namespace Ermine
 
 	private:
 
-	public:
+	private:
 		//Start Get Anchors//
 		b2Vec2 AnchorA   = { 0.0f,0.0f }; 
 		b2Vec2 AnchorB   = { 0.0f,0.0f }; 
