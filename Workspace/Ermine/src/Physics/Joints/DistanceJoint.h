@@ -8,6 +8,9 @@
 
 namespace Ermine
 {
+	class PhysicsComponent2D;
+	class RubeLoader;
+
 	class DistanceJoint :public JointBase
 	{
 	protected:
@@ -16,6 +19,10 @@ namespace Ermine
 
 		//This Constructor Is To Be Used To Set Up Anchor Points All Coordinates In Pixel Space
 		DistanceJoint(std::string JointName,b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre,glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
+
+	private:
+		//Constructor To Be Used Specially By Friends And No One Else..
+		DistanceJoint(b2Joint* Pointer, std::string JointName, b2Body* BodyA, b2Body* BodyB);
 
 	public:
 		//This Destructor Is An Override From JointBAse
@@ -33,6 +40,9 @@ namespace Ermine
 		DistanceJoint& operator=(DistanceJoint&& rhs);
 
 		static std::shared_ptr<Ermine::DistanceJoint> Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
+
+	private:
+		static std::shared_ptr<Ermine::DistanceJoint> Generate(b2Joint* Pointer, std::string JointName, b2Body* BodyA,b2Body* BodyB);
 
 	public:
 		virtual glm::vec2 GetBodyALocalAnchorLocation() override;
@@ -55,7 +65,7 @@ namespace Ermine
 	private:
 
 	private:
-	
-
+		friend class Ermine::PhysicsComponent2D;
+		friend class Ermine::RubeLoader;
 	};
 }

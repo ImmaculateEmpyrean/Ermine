@@ -273,6 +273,46 @@ namespace Ermine
                         BodyA->CreateRevoluteJoint(JointHandle, JointName, BodyB);
                         //Ended Emplace Joint Into The Physics Component..//
                     }
+
+                    if (Joint.value()["type"] == "distance")
+                    {
+                        //Start Getting All The Information About The joint In Question From Rube//
+                        //All Coordinates Are In Box2D Coordinates And All Angles Are In Radians When Extracted Out From The Json..
+                        b2Vec2 AnchorA = GetVec2FromJson(Joint.value()["anchorA"]);
+                        b2Vec2 AnchorB = GetVec2FromJson(Joint.value()["anchorB"]);
+
+                        std::shared_ptr<Ermine::PhysicsComponent2D> BodyA = Package.Components[std::stoi(Joint.value()["bodyA"].dump())];
+                        std::shared_ptr<Ermine::PhysicsComponent2D> BodyB = Package.Components[std::stoi(Joint.value()["bodyB"].dump())];
+
+                        float DampingRatio = std::stof(Joint.value()["dampingRatio"].dump());
+                        float frequency = std::stof(Joint.value()["frequency"].dump());
+                        
+                        float length = std::stof(Joint.value()["length"].dump());
+                        
+                        std::string JointName = Joint.value()["name"];
+                        JointName.erase(std::remove(JointName.begin(), JointName.end(), '\"'), JointName.end());
+                        //Ended Getting All The Information About The joint In Question From Rube//
+
+                        //Start Creating The Distance Joint Which Is To Be Constructed.. //
+                        b2DistanceJointDef DisDef;
+
+                        DisDef.localAnchorA = AnchorA;
+                        DisDef.localAnchorB = AnchorB;
+
+                        DisDef.bodyA = BodyA->GetBox2DBody();
+                        DisDef.bodyB = BodyB->GetBox2DBody();
+
+                        DisDef.dampingRatio = DampingRatio;
+                        DisDef.frequencyHz = frequency;
+
+                        DisDef.length = length;
+                        b2Joint* JointHandle = (b2DistanceJoint*)Ermine::Universum->CreateJoint(&DisDef);
+                        //Ended Creating The Distance Joint Which Is To Be Constructed.. //
+
+                        //Start Emplace Joint Into Physics Component..//
+                        BodyA->CreateDistanceJoint(JointHandle, JointName, BodyB);
+                        //Ended Emplace Joint INto Physics Component..//
+                    }
                 }
             }
 

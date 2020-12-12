@@ -23,6 +23,14 @@ namespace Ermine
 		JointHandle = (b2DistanceJoint*)Ermine::Universum->CreateJoint(&DisDef);
 	}
 
+	DistanceJoint::DistanceJoint(b2Joint* Pointer, std::string JointName, b2Body* BodyA, b2Body* BodyB)
+		:
+		JointBase(JointName,BodyA,BodyB)
+	{
+		//This Is The Danger With This Constructor.. The Outside Must Be Sure To Construct The Joint Properly..
+		JointHandle = (b2DistanceJoint*)Pointer;
+	}
+
 	DistanceJoint::~DistanceJoint()
 	{}
 
@@ -40,6 +48,12 @@ namespace Ermine
 	std::shared_ptr<Ermine::DistanceJoint> DistanceJoint::Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide)
 	{
 		std::shared_ptr<Ermine::DistanceJoint> Joint(new Ermine::DistanceJoint(JointName, BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre,ShouldBodiesAttachedByTheJointCollide),Ermine::JointDeleter<Ermine::DistanceJoint>());
+		return Joint;
+	}
+
+	std::shared_ptr<Ermine::DistanceJoint> DistanceJoint::Generate(b2Joint* Pointer, std::string JointName, b2Body* BodyA, b2Body* BodyB)
+	{
+		std::shared_ptr<Ermine::DistanceJoint> Joint(new Ermine::DistanceJoint(Pointer,JointName, BodyA, BodyB), Ermine::JointDeleter<Ermine::DistanceJoint>());
 		return Joint;
 	}
 

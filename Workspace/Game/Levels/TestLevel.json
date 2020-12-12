@@ -25,5 +25,5 @@
         }
     ],
 
-    "PhysicsScene" : "RubeJson/Simulation1.json"
+    "PhysicsScene" : "RubeJson/DistanceJointTest.json"
 }
