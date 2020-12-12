@@ -12,6 +12,9 @@
 
 namespace Ermine
 {
+	class PhysicsComponent2D;
+	class RubeLoader;
+
 	class RopeJoint : public JointBase
 	{
 	protected:
@@ -20,6 +23,10 @@ namespace Ermine
 
 		//This Constructor Allows You To Setup Anchor Points Along With Rope Length..
 		RopeJoint(std::string JointName,b2Body* BodyA, b2Body* BodyB,glm::vec2 LocalAnchorAPixelCoordinates ,glm::vec2 LocalAnchorBPixelCoordinates , float RopeLengthInPixels = 0.0f, bool CollideConnected = false);
+
+	private:
+		//The Reason Why This Is Dangerous Is Because The Outside World Is Responsible For Construction Of Said Joint..
+		RopeJoint(b2Joint* Joint,std::string JointName, b2Body* BodyA, b2Body* BodyB);
 
 	public:
 		//The Destructor Is Implemted To Dispatch Call To Parent Destructors
@@ -34,6 +41,9 @@ namespace Ermine
 		RopeJoint& operator=(RopeJoint&& rhs);
 
 		static std::shared_ptr<Ermine::RopeJoint> Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, float RopeLengthInPixels = 0.0f, bool CollideConnected = false);
+
+	private:
+		static std::shared_ptr<Ermine::RopeJoint> Generate(b2Joint* Joint, std::string JointName, b2Body* BodyA, b2Body* BodyB);
 
 	public:
 		float GetLength();
@@ -58,7 +68,7 @@ namespace Ermine
 	private:
 
 	private:
-
-
+		friend class PhysicsComponent2D;
+		friend class RubeLoader;
 	};
 }

@@ -311,7 +311,20 @@ namespace Ermine
 	}
 	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateRopeJoint(std::string JointName, std::shared_ptr<PhysicsComponent2D> BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB, float RopeLength, bool CollideConnected)
 	{
-		return Ermine::RopeJoint::Generate(JointName, BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorA, LocalAnchorB, RopeLength, CollideConnected);
+		std::shared_ptr<Ermine::RopeJoint> RJ = Ermine::RopeJoint::Generate(JointName, BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent, LocalAnchorA, LocalAnchorB, RopeLength, CollideConnected);
+		JointsBuffer.emplace_back(RJ);
+		BodyB->JointsBuffer.emplace_back(RJ);
+
+		return RJ;
+	}
+
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateRopeJoint(b2Joint* Pointer, std::string JointName, std::shared_ptr<Ermine::PhysicsComponent2D> BodyB)
+	{
+		std::shared_ptr<Ermine::RopeJoint> RJ = Ermine::RopeJoint::Generate(Pointer,JointName, BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent);
+		JointsBuffer.emplace_back(RJ);
+		BodyB->JointsBuffer.emplace_back(RJ);
+
+		return RJ;
 	}
 	
 	//Create Weld Joint..
