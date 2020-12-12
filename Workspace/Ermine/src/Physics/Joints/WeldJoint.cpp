@@ -22,6 +22,14 @@ namespace Ermine
 		JointHandle = (b2WeldJoint*)Ermine::Universum->CreateJoint(&WeldDef);
 	}
 
+	WeldJoint::WeldJoint(b2Joint* Pointer, std::string JointName, b2Body* BodyA, b2Body* BodyB)
+		:
+		JointBase(JointName,BodyA,BodyB)
+	{
+		//The Pointer Being Constructed Outside Makes This Method Dangerous..
+		JointHandle = Pointer;
+	}
+
 	WeldJoint::~WeldJoint()
 	{}
 
@@ -41,6 +49,11 @@ namespace Ermine
 		return std::shared_ptr<Ermine::WeldJoint>(new Ermine::WeldJoint(JointName, BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre, ShouldBodiesAttachedByTheJointCollide), Ermine::JointDeleter<Ermine::WeldJoint>());
 	}
 
+
+	std::shared_ptr<Ermine::WeldJoint> WeldJoint::Generate(b2Joint* Joint, std::string JointName, b2Body* BodyA, b2Body* BodyB)
+	{
+		return std::shared_ptr<Ermine::WeldJoint>(new Ermine::WeldJoint(Joint,JointName, BodyA, BodyB), Ermine::JointDeleter<Ermine::WeldJoint>());
+	}
 
 	glm::vec2 WeldJoint::GetBodyALocalAnchorLocation()
 	{

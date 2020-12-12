@@ -348,6 +348,16 @@ namespace Ermine
 		return WeldJoint;
 	}
 
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateWeldJoint(b2Joint* Pointer, std::string JointName, std::shared_ptr<Ermine::PhysicsComponent2D> BodyB)
+	{
+		std::shared_ptr<Ermine::WeldJoint> WeldJoint = Ermine::WeldJoint::Generate(Pointer,JointName, BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent);
+
+		JointsBuffer.emplace_back(WeldJoint);
+		BodyB->JointsBuffer.emplace_back(WeldJoint);
+
+		return WeldJoint;
+	}
+
 
 #pragma region GetBodyTransform
 

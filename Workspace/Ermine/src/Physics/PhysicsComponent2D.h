@@ -148,9 +148,14 @@ namespace Ermine
 		//Ended Creating Rope Joint..//
 
 		//Start Creating Weld Joint..//
+	public:
 		std::shared_ptr<Ermine::JointBase> CreateWeldJoint(std::string JointName,std::shared_ptr<PhysicsComponent2D> BodyB, bool CollideConnected = false);
 		std::shared_ptr<Ermine::JointBase> CreateWeldJoint(std::string JointName,std::shared_ptr<PhysicsComponent2D> BodyB, glm::vec2 LocalAnchorA, bool CollideConnected = false);
 		std::shared_ptr<Ermine::JointBase> CreateWeldJoint(std::string JointName,std::shared_ptr<PhysicsComponent2D> BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB, bool CollideConnected = false);
+
+	private:
+		std::shared_ptr<Ermine::JointBase> CreateWeldJoint(b2Joint* Pointer, std::string JointName, std::shared_ptr<Ermine::PhysicsComponent2D> BodyB);
+
 		//Ended Creating Joint Functions..//
 #pragma endregion
 	public:

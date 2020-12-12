@@ -8,6 +8,9 @@
 
 namespace Ermine
 {
+	class PhysicsComponent2D;
+	class RubeLoader;
+
 	class WeldJoint : public JointBase
 	{
 	protected:
@@ -16,6 +19,9 @@ namespace Ermine
 
 		//This Constructor Is To Be Used To Set Up Anchor Points All Coordinates In Pixel Space
 		WeldJoint(std::string JointName,b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
+
+	private:
+		WeldJoint(b2Joint* Pointer ,std::string JointName, b2Body* BodyA, b2Body* BodyB);
 
 	public:
 		virtual ~WeldJoint() override;
@@ -29,6 +35,11 @@ namespace Ermine
 		WeldJoint& operator=(WeldJoint&& rhs);
 
 		static std::shared_ptr<Ermine::WeldJoint> Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide = false);
+
+	private:
+		//Beware While Constructing The Joint..
+		static std::shared_ptr<Ermine::WeldJoint> Generate(b2Joint* Joint,std::string JointName, b2Body* BodyA, b2Body* BodyB);
+
 	public:
 		virtual glm::vec2 GetBodyALocalAnchorLocation() override;
 		virtual glm::vec2 GetBodyBLocalAnchorLocation() override;
@@ -43,6 +54,7 @@ namespace Ermine
 		
 	private:
 
-
+		friend class PhysicsComponent2D;
+		friend class RubeLoader;
 	};
 }
