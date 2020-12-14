@@ -241,7 +241,6 @@
     <ClInclude Include="src\Physics\Joints\DistanceJoint.h" />
     <ClInclude Include="src\Physics\Joints\EJointType.h" />
     <ClInclude Include="src\Physics\Joints\JointBase.h" />
-    <ClInclude Include="src\Physics\Joints\JointDeleter.h" />
     <ClInclude Include="src\Physics\Joints\JointHealthEnum.h" />
     <ClInclude Include="src\Physics\Joints\PrismaticJoint.h" />
     <ClInclude Include="src\Physics\Joints\RevoluteJoint.h" />

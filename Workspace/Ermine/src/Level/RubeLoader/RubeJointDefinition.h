@@ -22,7 +22,6 @@ namespace Ermine
 
 		//Construct A RubeJointDefinition Using A Joint json an query its members later
 		RubeJointDefinition(nlohmann::json Joint,RubeLoaderPackage& Package);
-
 	public:
 		
 	public:
@@ -73,7 +72,6 @@ namespace Ermine
 		float Frequency = 0.0f;
 		b2Vec2 LocalAxis = { 0.0f,0.0f };
 		//Ended Get Misc//
-		
 
 		friend class Ermine::RubeLoader;
 	};

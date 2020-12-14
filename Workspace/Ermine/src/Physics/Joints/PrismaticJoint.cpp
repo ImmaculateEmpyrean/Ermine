@@ -43,7 +43,7 @@ Ermine::PrismaticJoint& Ermine::PrismaticJoint::operator=(PrismaticJoint&& rhs)
 
 std::shared_ptr<Ermine::PrismaticJoint> Ermine::PrismaticJoint::Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, float ReferenceAngleDegrees, glm::vec2 SlidingAxis, bool ShouldBodiesAttachedByTheJointCollide)
 {
-	std::shared_ptr<Ermine::PrismaticJoint> Ptr(new Ermine::PrismaticJoint(JointName, BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre, ReferenceAngleDegrees, SlidingAxis, ShouldBodiesAttachedByTheJointCollide),Ermine::JointDeleter<Ermine::PrismaticJoint>());
+	std::shared_ptr<Ermine::PrismaticJoint> Ptr(new Ermine::PrismaticJoint(JointName, BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre, ReferenceAngleDegrees, SlidingAxis, ShouldBodiesAttachedByTheJointCollide));
 	return Ptr;
 }
 

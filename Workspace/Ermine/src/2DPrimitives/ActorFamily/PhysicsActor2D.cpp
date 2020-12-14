@@ -15,7 +15,7 @@ namespace Ermine
 	PhysicsActor2D::PhysicsActor2D(std::shared_ptr<Ermine::Sprite> Spr, std::shared_ptr<PhysicsComponent2D> PhysicsComponent)
 		:
 		ImageBase(Spr),
-		PhysicsComponent(PhysicsComponent)
+		PhysicsComponent(std::move(PhysicsComponent))
 	{}
 	PhysicsActor2D::~PhysicsActor2D()
 	{}
@@ -49,10 +49,10 @@ namespace Ermine
 	}
 	std::shared_ptr<Ermine::PhysicsActor2D> PhysicsActor2D::Generate(std::filesystem::path TexturePath, b2BodyDef BodyDef, std::vector<b2FixtureDef> Fixtures)
 	{
-		auto Component = Ermine::PhysicsComponent2D::Generate(BodyDef, Fixtures);
+		std::shared_ptr<Ermine::PhysicsComponent2D> Component = Ermine::PhysicsComponent2D::Generate(BodyDef, Fixtures);
 		auto Sprite = Ermine::Sprite::GenerateSprite(TexturePath);
 
-		std::shared_ptr<Ermine::PhysicsActor2D> Actor(new Ermine::PhysicsActor2D(Sprite, Component));
+		std::shared_ptr<Ermine::PhysicsActor2D> Actor(new Ermine::PhysicsActor2D(Sprite, std::move(Component)));
 		return Actor;
 	}
 	std::shared_ptr<Ermine::PhysicsActor2D> PhysicsActor2D::Generate(std::shared_ptr<Ermine::Sprite> sprite, std::shared_ptr<PhysicsComponent2D> PhysicsComp)
@@ -64,12 +64,14 @@ namespace Ermine
 	{
 		auto Component = Ermine::PhysicsComponent2D::Generate(BodyDef, Fixtures);
 
-		std::shared_ptr<Ermine::PhysicsActor2D> Actor(new Ermine::PhysicsActor2D(sprite, Component));
+		std::shared_ptr<Ermine::PhysicsActor2D> Actor(new Ermine::PhysicsActor2D(sprite, std::move(Component)));
 		return Actor;
 	}
 
 	void PhysicsActor2D::InitiateDebugRendering()
 	{
+		//This Method Is Hopelessly Broken As Of Now..
+
 		/*if(PhysicsComponent != nullptr)
 			Ermine::Renderer2D::SubmitPhysicsComponent2D(PhysicsComponent)*/
 	}

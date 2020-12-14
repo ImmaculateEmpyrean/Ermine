@@ -100,45 +100,12 @@ void Ermine::Level::LoadLevel()
 
 	auto Package = Ermine::RubeLoader::ReadFile(PhysicsPath);
 
-	int count = 0;
-	for (auto& i : Package.Components)
+	//int count = 0;
+	for (auto& i : Package.RenderOrder)
 	{
-		if (Package.Sprites.find(count) != Package.Sprites.end())
-			ActorBuffer.emplace_back(Ermine::PhysicsActor2D::Generate(Package.Sprites[count], std::move(i)));
-		else ActorBuffer.emplace_back(Ermine::PhysicsActor2D::Generate(Ermine::Sprite::GetNullSprite(), std::move(i)));
-
-		count++;
+		if (Package.Sprites.find(i.second) != Package.Sprites.end())
+			ActorBuffer.emplace_back(Ermine::PhysicsActor2D::Generate(Package.Sprites[i.second], Package.Components[i.second]));
+		else 
+			ActorBuffer.emplace_back(Ermine::PhysicsActor2D::Generate(Ermine::Sprite::GetNullSprite(), Package.Components[i.second])); //This Wont At All Work.. Because No Texture Is Not An Image.. It Wont Be Recorded In The Images In Json
 	}
-		//ActorBuffer.emplace_back(Ermine::PhysicsActor2D::Generate(Ermine::Sprite::GetNullSprite(), std::move(i)));
-	//Ended Getting And Adding Physics Based Actors//
-	
-
-	/*//Start Get All Actor2D Declared In The Level//
-	for (auto& i : LevelJson["Actor2D"].items())
-	{
-		auto j = i.value();
-
-		std::string Name = j["Name"].dump();
-		Name.erase(std::remove(Name.begin(), Name.end(), '"'), Name.end());
-
-		std::string TexturePath = j["Texture"].dump();
-		TexturePath.erase(std::remove(TexturePath.begin(), TexturePath.end(), '"'), TexturePath.end());
-
-		std::string SpawnLocation = j["Location"].dump();
-		SpawnLocation.erase(std::remove(SpawnLocation.begin(), SpawnLocation.end(), '"'), SpawnLocation.end());
-		auto SpawnLocationInt = Ermine::ExtractIntDataFromJsonArray(SpawnLocation);
-		glm::vec2 SpawnLoc = glm::vec2(SpawnLocationInt[0], SpawnLocationInt[1]);
-
-		//This Is Not Being USed Right Now..
-		std::string RecieveEvents = j["RecievingEvents"].dump();
-		RecieveEvents.erase(std::remove(RecieveEvents.begin(), RecieveEvents.end(), '"'), RecieveEvents.end());
-		std::vector<int> RecieveEventsInt = Ermine::ExtractIntDataFromJsonArray(RecieveEvents);
-
-		//Start Generate An Add An Actor2D Inside Ermine Level//
-		std::shared_ptr<Ermine::Actor2D> Act = Ermine::Actor2D::GenerateActor2D(std::filesystem::path(TexturePath), SpawnLoc);
-
-		//Add The Generated Actor After It Was Processed By The Callback Into The Buffer.
-		ActorBuffer.emplace_back(Actor2DConstructionCallback(std::move(Act)));
-	}
-	//Ended Get All Actor2D Declared In The Level//*/
 }

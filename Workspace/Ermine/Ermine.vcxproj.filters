@@ -408,9 +408,6 @@
     <ClInclude Include="src\Physics\Joints\JointBase.h">
       <Filter>Physics\Joints</Filter>
     </ClInclude>
-    <ClInclude Include="src\Physics\Joints\JointDeleter.h">
-      <Filter>Physics\Joints</Filter>
-    </ClInclude>
     <ClInclude Include="src\Physics\Joints\JointHealthEnum.h">
       <Filter>Physics\Joints</Filter>
     </ClInclude>

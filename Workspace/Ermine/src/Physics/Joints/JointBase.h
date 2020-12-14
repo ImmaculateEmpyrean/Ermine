@@ -7,8 +7,6 @@
 #include "JointHealthEnum.h"
 #include "EJointType.h"
 
-#include "JointDeleter.h"
-
 namespace Ermine
 {
 	class JointBase

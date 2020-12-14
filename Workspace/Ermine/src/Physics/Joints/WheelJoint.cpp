@@ -95,17 +95,17 @@ Ermine::WheelJoint& Ermine::WheelJoint::operator=(WheelJoint&& rhs)
 
 std::shared_ptr<Ermine::WheelJoint> Ermine::WheelJoint::Generate(std::string Name, b2Body* BodyA, b2Body* BodyB, glm::vec2 LocalAnchorA, glm::vec2 LocalAnchorB, glm::vec2 LocalTranslationalAxisInBodyA, bool CollideConnected)
 {
-	return std::shared_ptr<Ermine::WheelJoint>(new Ermine::WheelJoint(Name, BodyA, BodyB, LocalAnchorA, LocalAnchorB, LocalTranslationalAxisInBodyA, CollideConnected), Ermine::JointDeleter<Ermine::WheelJoint>());
+	return std::shared_ptr<Ermine::WheelJoint>(new Ermine::WheelJoint(Name, BodyA, BodyB, LocalAnchorA, LocalAnchorB, LocalTranslationalAxisInBodyA, CollideConnected));
 }
 
 std::shared_ptr<Ermine::WheelJoint> Ermine::WheelJoint::Generate(std::string Name, b2Body* BodyA, b2Body* BodyB, b2WheelJointDef Def)
 {
-	return std::shared_ptr<Ermine::WheelJoint>(new Ermine::WheelJoint(Name, BodyA, BodyB, Def), Ermine::JointDeleter<Ermine::WheelJoint>());
+	return std::shared_ptr<Ermine::WheelJoint>(new Ermine::WheelJoint(Name, BodyA, BodyB, Def));
 }
 
 std::shared_ptr<Ermine::WheelJoint> Ermine::WheelJoint::Generate(b2Joint* Joint, std::string Name, b2Body* BodyA, b2Body* BodyB)
 {
-	return std::shared_ptr<Ermine::WheelJoint>(new Ermine::WheelJoint(Joint,Name, BodyA, BodyB), Ermine::JointDeleter<Ermine::WheelJoint>());
+	return std::shared_ptr<Ermine::WheelJoint>(new Ermine::WheelJoint(Joint,Name, BodyA, BodyB));
 }
 
 glm::vec2 Ermine::WheelJoint::GetBodyALocalAnchorLocation()

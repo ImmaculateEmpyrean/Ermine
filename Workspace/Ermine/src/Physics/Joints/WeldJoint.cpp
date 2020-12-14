@@ -46,13 +46,13 @@ namespace Ermine
 
 	std::shared_ptr<Ermine::WeldJoint> WeldJoint::Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, bool ShouldBodiesAttachedByTheJointCollide)
 	{
-		return std::shared_ptr<Ermine::WeldJoint>(new Ermine::WeldJoint(JointName, BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre, ShouldBodiesAttachedByTheJointCollide), Ermine::JointDeleter<Ermine::WeldJoint>());
+		return std::shared_ptr<Ermine::WeldJoint>(new Ermine::WeldJoint(JointName, BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre, ShouldBodiesAttachedByTheJointCollide));
 	}
 
 
 	std::shared_ptr<Ermine::WeldJoint> WeldJoint::Generate(b2Joint* Joint, std::string JointName, b2Body* BodyA, b2Body* BodyB)
 	{
-		return std::shared_ptr<Ermine::WeldJoint>(new Ermine::WeldJoint(Joint,JointName, BodyA, BodyB), Ermine::JointDeleter<Ermine::WeldJoint>());
+		return std::shared_ptr<Ermine::WeldJoint>(new Ermine::WeldJoint(Joint,JointName, BodyA, BodyB));
 	}
 
 	glm::vec2 WeldJoint::GetBodyALocalAnchorLocation()

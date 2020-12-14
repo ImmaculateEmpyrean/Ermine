@@ -22,16 +22,22 @@ namespace Ermine
 		//Donot Bother Deleting a Nullptr Right..
 		if (BodyManagedByTheComponent != nullptr)
 		{
-			for (auto i = BodyManagedByTheComponent->GetFixtureList(); i!= nullptr;i++)
+			//Start Deleting The Fixtures..//
+			/*for (auto i = BodyManagedByTheComponent->GetFixtureList(); i!= nullptr;i++)
 			{
-				//Start Destroy All Shapes..
+				//Maybe Not Delete The Shapes Manually And Allow Box2D To Do Its Thing
+				/Start Destroy All Shapes..//
 				if(i->GetShape() != nullptr)
-					delete i->GetShape();
-				//Ended Destroy All Shapes..
+					delete i->GetShape(); 
+				//Ended Destroy All Shapes..//
 
-				if(i->GetUserData() != nullptr)
-					delete i->GetUserData();
-			}
+				//Start Delete User Data..//
+				//if(i->GetUserData() != nullptr)
+					//delete i->GetUserData();
+				//Ended Delete User Data..//
+			}*/
+			//Ended Deleting The Fixtures..//
+
 			for (auto& i : JointsBuffer)
 				i->DestroyJoint();
 
@@ -49,7 +55,7 @@ namespace Ermine
 
 	std::shared_ptr<Ermine::PhysicsComponent2D> PhysicsComponent2D::Generate(b2BodyDef BodyDefinition, std::vector<b2FixtureDef> FixturesAssociatedWithBody)
 	{
-		std::shared_ptr<Ermine::PhysicsComponent2D> PhyComponent(new Ermine::PhysicsComponent2D(std::move(BodyDefinition), std::move(FixturesAssociatedWithBody)));
+		std::unique_ptr<Ermine::PhysicsComponent2D> PhyComponent(new Ermine::PhysicsComponent2D(std::move(BodyDefinition), std::move(FixturesAssociatedWithBody)));
 		return PhyComponent;
 	}
 
@@ -72,7 +78,6 @@ namespace Ermine
 		rhs.FixturesAssociatedWithTheBody.clear();
 
 		//Donot Create A New Body instead point to the body pointed by the rhs previously
-		//the rhs must loose ownership over its body for its destructor not to delete it
 		BodyManagedByTheComponent = rhs.BodyManagedByTheComponent;
 		rhs.BodyManagedByTheComponent = nullptr;
 	}

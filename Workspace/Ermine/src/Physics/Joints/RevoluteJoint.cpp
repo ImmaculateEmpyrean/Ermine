@@ -46,13 +46,13 @@ Ermine::RevoluteJoint& Ermine::RevoluteJoint::operator=(RevoluteJoint&& rhs)
 
 std::shared_ptr<Ermine::RevoluteJoint> Ermine::RevoluteJoint::Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, float ReferenceAngleDegrees, bool ShouldBodiesAttachedByTheJointCollide)
 {
-	std::shared_ptr<Ermine::RevoluteJoint> Joint(new Ermine::RevoluteJoint(JointName, BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre, ReferenceAngleDegrees, ShouldBodiesAttachedByTheJointCollide),Ermine::JointDeleter<Ermine::RevoluteJoint>());
+	std::shared_ptr<Ermine::RevoluteJoint> Joint(new Ermine::RevoluteJoint(JointName, BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre, ReferenceAngleDegrees, ShouldBodiesAttachedByTheJointCollide));
 	return Joint;
 }
 
 std::shared_ptr<Ermine::RevoluteJoint> Ermine::RevoluteJoint::Generate(b2Joint* Pointer, std::string JointName, b2Body* BodyA, b2Body* BodyB)
 {
-	std::shared_ptr<Ermine::RevoluteJoint> Joint(new Ermine::RevoluteJoint(Pointer,JointName,BodyA,BodyB), Ermine::JointDeleter<Ermine::RevoluteJoint>());
+	std::shared_ptr<Ermine::RevoluteJoint> Joint(new Ermine::RevoluteJoint(Pointer,JointName,BodyA,BodyB));
 	return Joint;
 }
 

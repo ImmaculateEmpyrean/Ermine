@@ -45,13 +45,13 @@ Ermine::RopeJoint& Ermine::RopeJoint::operator=(RopeJoint&& rhs)
 
 std::shared_ptr<Ermine::RopeJoint> Ermine::RopeJoint::Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 LocalAnchorAPixelCoordinates, glm::vec2 LocalAnchorBPixelCoordinates, float RopeLengthInPixels, bool CollideConnected)
 {
-	std::shared_ptr<Ermine::RopeJoint> RJ(new Ermine::RopeJoint(JointName, BodyA, BodyB, LocalAnchorAPixelCoordinates, LocalAnchorBPixelCoordinates, RopeLengthInPixels, CollideConnected), Ermine::JointDeleter<Ermine::RopeJoint>());
+	std::shared_ptr<Ermine::RopeJoint> RJ(new Ermine::RopeJoint(JointName, BodyA, BodyB, LocalAnchorAPixelCoordinates, LocalAnchorBPixelCoordinates, RopeLengthInPixels, CollideConnected));
 	return RJ;
 }
 
 std::shared_ptr<Ermine::RopeJoint> Ermine::RopeJoint::Generate(b2Joint* Joint, std::string JointName, b2Body* BodyA, b2Body* BodyB)
 {
-	std::shared_ptr<Ermine::RopeJoint> RJ(new Ermine::RopeJoint(Joint,JointName, BodyA, BodyB), Ermine::JointDeleter<Ermine::RopeJoint>());
+	std::shared_ptr<Ermine::RopeJoint> RJ(new Ermine::RopeJoint(Joint,JointName, BodyA, BodyB));
 	return RJ;
 }
 

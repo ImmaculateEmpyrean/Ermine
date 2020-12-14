@@ -110,24 +110,34 @@ namespace Ermine
                 for (auto Image : i.value().items())
                 {
                     std::string ImagePathStr;
+                    std::filesystem::path ImagePath;
+
                     int BodyIndex = -1; //-1 is Most Definitely Wrong Maybe Useful For Debugging.. Maybe
-
-                    ImagePathStr = Image.value()["file"].dump();
-                    ImagePathStr.erase(std::remove(ImagePathStr.begin(), ImagePathStr.end(), '\"'), ImagePathStr.end());
-                    auto ImagePath = GetImagePathRelativeToExecutable(std::filesystem::path(ImagePathStr));
-
-                    for (auto ImageProperties : Image.value().items())
+                    int RenderOrder = 0;
+                    
+                    for (auto ImageParameter : Image.value().items())
                     {
-                        if (ImageProperties.key() == "body")
+                        if (ImageParameter.key() == "file")
                         {
-                            BodyIndex = std::stoi(ImageProperties.value().dump());
-                            break;
+                            ImagePathStr = Image.value()["file"].dump();
+                            ImagePathStr.erase(std::remove(ImagePathStr.begin(), ImagePathStr.end(), '\"'), ImagePathStr.end());
+                            ImagePath = GetImagePathRelativeToExecutable(std::filesystem::path(ImagePathStr));
                         }
-                    }
 
+                        if(ImageParameter.key() == "body")
+                            BodyIndex = std::stoi(ImageParameter.value().dump());
+
+                        if (ImageParameter.key() == "renderOrder")
+                            RenderOrder = std::stoi(ImageParameter.value().dump());
+                    }
                     if (BodyIndex != -1)
+                    {
                         Package.Sprites[BodyIndex] = Ermine::Sprite::GenerateSprite(ImagePath);
+                        Package.RenderOrder.insert(std::pair<unsigned int, unsigned int>(RenderOrder, BodyIndex));
+                    }     
                 }
+
+              
             }
 
             if (i.key() == "joint")
