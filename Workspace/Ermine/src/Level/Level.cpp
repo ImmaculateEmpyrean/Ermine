@@ -100,12 +100,27 @@ void Ermine::Level::LoadLevel()
 
 	auto Package = Ermine::RubeLoader::ReadFile(PhysicsPath);
 
-	//int count = 0;
+	//Start Adding PhysicsActors To The ActorBuffer..//
+
+	//Three For Loops Were Used As The First Actors To Be Drawn Are The Ones Not In Said Container Package.RenderOrder
+	std::unordered_map<unsigned int, bool> TallyActorGeneration;
+	for (auto& i : Package.RenderOrder)
+	{
+		if (Package.Sprites.find(i.second) != Package.Sprites.end())
+			TallyActorGeneration[i.second] = true;
+	}
+
+	for (int i = 0; i < Package.Components.size(); i++)
+	{
+		if(TallyActorGeneration.find(i) == TallyActorGeneration.end())
+			ActorBuffer.emplace_back(Ermine::PhysicsActor2D::Generate(Ermine::Sprite::GetNullSprite(), Package.Components[i]));
+	}
+
 	for (auto& i : Package.RenderOrder)
 	{
 		if (Package.Sprites.find(i.second) != Package.Sprites.end())
 			ActorBuffer.emplace_back(Ermine::PhysicsActor2D::Generate(Package.Sprites[i.second], Package.Components[i.second]));
-		else 
-			ActorBuffer.emplace_back(Ermine::PhysicsActor2D::Generate(Ermine::Sprite::GetNullSprite(), Package.Components[i.second])); //This Wont At All Work.. Because No Texture Is Not An Image.. It Wont Be Recorded In The Images In Json
+		
 	}
+	//Ended Adding PhysicsActors To The ActorBuffer..//
 }
