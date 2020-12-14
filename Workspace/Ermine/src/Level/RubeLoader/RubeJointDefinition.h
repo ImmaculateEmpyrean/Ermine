@@ -73,6 +73,12 @@ namespace Ermine
 		b2Vec2 LocalAxis = { 0.0f,0.0f };
 		//Ended Get Misc//
 
+		//Start Motor Joint Exclusives..//
+		float CorrectionFactor = 0.0f;
+		float MaxForce = 0.0f;
+		b2Vec2 LinearOffset = { 0.0f,0.0f };
+		//Ended Motor Joint Exclusives..//
+
 		friend class Ermine::RubeLoader;
 	};
 }

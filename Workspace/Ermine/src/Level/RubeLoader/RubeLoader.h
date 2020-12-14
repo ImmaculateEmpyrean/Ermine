@@ -38,7 +38,14 @@ namespace Ermine
 	protected:
 
 	private:
-		
+		//Helper Construct Joint Functions
+		static void ConstructRevoluteJoint(RubeJointDefinition& JointDef);
+		static void ConstructDistanceJoint(RubeJointDefinition& JointDef);
+		static void ConstructRopeJoint	   (RubeJointDefinition& JointDef);
+		static void ConstructWeldJoint	   (RubeJointDefinition& JointDef);
+		static void ConstructWheelJoint   (RubeJointDefinition& JointDef);
+		static void ConstructMotorJoint   (RubeJointDefinition& JointDef);
+
 	private:
 
 

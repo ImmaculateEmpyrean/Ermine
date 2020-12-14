@@ -49,8 +49,10 @@ Ermine::RubeJointDefinition::RubeJointDefinition(nlohmann::json Joint,RubeLoader
         if (Parameter.key() == "motorSpeed")
             MotorSpeed = std::stof(Joint["motorSpeed"].dump());     ///Both Of These Write To Motor Speed Beware..
 
-        if (Parameter.key() == "maxMotorTorque")
+        if (Parameter.key() == "maxMotorTorque")                    ///Both Of These Write To Motor Torque Beware..
             MaxMotorTorque = std::stof(Joint["maxMotorTorque"].dump());
+        if (Parameter.key() == "maxTorque")
+            MaxMotorTorque = std::stof(Joint["maxTorque"].dump()); ///Both Of These Write To Motor Torque Beware..
         //Ended Motor Options// Tot -14
 
         //Start Get Name//
@@ -76,8 +78,16 @@ Ermine::RubeJointDefinition::RubeJointDefinition(nlohmann::json Joint,RubeLoader
             Frequency = std::stof(Joint["springFrequency"].dump());
         if (Parameter.key() == "localAxisA")
             LocalAxis = GetVec2FromJson(Joint["localAxisA"]);
-        
         //Ended Get Misc// Tot -20
+
+        //Start Motor Joint Specifics..//
+        if (Parameter.key() == "correctionFactor")
+            CorrectionFactor = std::stof(Joint["correctionFactor"].dump());
+        if (Parameter.key() == "maxForce")
+            MaxForce = std::stof(Joint["maxForce"].dump());
+        if (Parameter.key() == "linearOffset")
+            LinearOffset = GetVec2FromJson(Joint["linearOffset"]);
+        //Ended Motor Joint Specifics..//
     }
 }
 

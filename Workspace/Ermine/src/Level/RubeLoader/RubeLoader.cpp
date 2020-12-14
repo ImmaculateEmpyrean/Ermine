@@ -147,136 +147,22 @@ namespace Ermine
                     RubeJointDefinition JointDef = RubeJointDefinition(Joint.value(), Package);
 
                     if (JointDef.JointType == "revolute")
-                    {
-                        //Start Constructing The Revolute Joint..//
-                        b2RevoluteJointDef RevDef;
-
-                        RevDef.localAnchorA = JointDef.AnchorA;
-                        RevDef.localAnchorB = JointDef.AnchorB;
-
-                        RevDef.bodyA = JointDef.BodyA->GetBox2DBody();
-                        RevDef.bodyB = JointDef.BodyB->GetBox2DBody();
-
-                        RevDef.collideConnected = JointDef.CollideConnected;
-
-                        RevDef.enableLimit = JointDef.EnableLimit;
-                        RevDef.upperAngle  = JointDef.UpperLimit;
-                        RevDef.lowerAngle  = JointDef.LowerLimit;
-
-                        RevDef.enableMotor = JointDef.EnableMotor;
-                        RevDef.motorSpeed  = JointDef.MotorSpeed ;
-
-                        RevDef.referenceAngle = JointDef.ReferenceAngle;
-
-                        b2Joint* JointHandle = (b2RevoluteJoint*)Ermine::Universum->CreateJoint(&RevDef);
-                        //Ended Constructing The Revolute Joint..//
-
-                        //Start Emplace Joint Into The Physics Component..//
-                        JointDef.BodyA->CreateRevoluteJoint(JointHandle, JointDef.JointName, JointDef.BodyB);
-                        //Ended Emplace Joint Into The Physics Component..//
-                    }
+                        ConstructRevoluteJoint(JointDef);
                     
                     if (JointDef.JointType == "distance")
-                    {
-                        //Start Creating The Distance Joint Which Is To Be Constructed.. //
-                        b2DistanceJointDef DisDef;
-
-                        DisDef.localAnchorA = JointDef.AnchorA;
-                        DisDef.localAnchorB = JointDef.AnchorB;
-
-                        DisDef.bodyA = JointDef.BodyA->GetBox2DBody();
-                        DisDef.bodyB = JointDef.BodyB->GetBox2DBody();
-
-                        DisDef.collideConnected = JointDef.CollideConnected;
-
-                        DisDef.dampingRatio = JointDef.Damping;
-                        DisDef.frequencyHz = JointDef.Frequency;
-
-                        DisDef.length = JointDef.Length;
-                        b2Joint* JointHandle = (b2DistanceJoint*)Ermine::Universum->CreateJoint(&DisDef);
-                        //Ended Creating The Distance Joint Which Is To Be Constructed.. //
-
-                        //Start Emplace Joint Into Physics Component..//
-                        JointDef.BodyA->CreateDistanceJoint(JointHandle, JointDef.JointName, JointDef.BodyB);
-                        //Ended Emplace Joint INto Physics Component..//
-                    }
+                        ConstructDistanceJoint(JointDef);
 
                     if (JointDef.JointType == "rope")
-                    {
-                        //Start Creating The Rope Joint Which Is To Be Constructed.. //
-                        b2RopeJointDef RopeDef;
-                        
-                        RopeDef.localAnchorA = JointDef.AnchorA;
-                        RopeDef.localAnchorB = JointDef.AnchorB;
-
-                        RopeDef.bodyA = JointDef.BodyA->GetBox2DBody();
-                        RopeDef.bodyB = JointDef.BodyB->GetBox2DBody();
-
-                        RopeDef.collideConnected = JointDef.CollideConnected;
-
-                        RopeDef.maxLength = JointDef.MaxLength;
-                        b2Joint* JointHandle = (b2RopeJoint*)Ermine::Universum->CreateJoint(&RopeDef);
-                        //Ended Creating The Rope Joint Which Is To Be Constructed.. //
-
-                        //Start Emplace Joint Into Physics Component..//
-                        JointDef.BodyA->CreateRopeJoint(JointHandle, JointDef.JointName, JointDef.BodyB);
-                        //Ended Emplace Joint Into Physics Component..//
-                    }
+                        ConstructRopeJoint(JointDef);
 
                     if (JointDef.JointType == "weld")
-                    {
-                        //Start Creating The Weld Joint Which Is To Be Constructed.. //
-                        b2WeldJointDef WeldDef;
-
-                        WeldDef.localAnchorA = JointDef.AnchorA;
-                        WeldDef.localAnchorB = JointDef.AnchorB;
-
-                        WeldDef.bodyA = JointDef.BodyA->GetBox2DBody();
-                        WeldDef.bodyB = JointDef.BodyB->GetBox2DBody();
-
-                        WeldDef.collideConnected = JointDef.CollideConnected;
-
-                        WeldDef.dampingRatio   = JointDef.Damping;
-                        WeldDef.frequencyHz    = JointDef.Frequency;
-                        WeldDef.referenceAngle = JointDef.ReferenceAngle;
-                        b2Joint* JointHandle = (b2WeldJoint*)Ermine::Universum->CreateJoint(&WeldDef);
-                        //Ended Creating The Weld Joint Which Is To Be Constructed.. //
-
-                        //Start Emplace Joint Into Physics Component..//
-                        JointDef.BodyA->CreateWeldJoint(JointHandle, JointDef.JointName, JointDef.BodyB);
-                        //Ended Emplace Joint Into Physics Component..//
-                    }
+                        ConstructWeldJoint(JointDef);
 
                     if (JointDef.JointType == "wheel")
-                    {
-                        //Start Creating The Wheel Joint Which Is To Be Constructed.. //
-                        b2WheelJointDef WheelDef;
+                        ConstructWheelJoint(JointDef);
 
-                        WheelDef.localAnchorA = JointDef.AnchorA;
-                        WheelDef.localAnchorB = JointDef.AnchorB;
-                        WheelDef.localAxisA   = JointDef.LocalAxis;
-
-                        WheelDef.bodyA = JointDef.BodyA->GetBox2DBody();
-                        WheelDef.bodyB = JointDef.BodyB->GetBox2DBody();
-
-                        WheelDef.collideConnected = JointDef.CollideConnected;
-
-                        WheelDef.damping = JointDef.Damping;
-                        WheelDef.stiffness = JointDef.Frequency;
-                        //WheelDef.stiffness = JointDef.Frequency;
-
-                        WheelDef.enableLimit = JointDef.EnableLimit;
-                        WheelDef.enableMotor = JointDef.EnableMotor;
-                        
-                        WheelDef.motorSpeed = JointDef.MotorSpeed;
-
-                        b2Joint* JointHandle = (b2WheelJoint*)Ermine::Universum->CreateJoint(&WheelDef);
-                        //Ended Creating The Wheel Joint Which Is To Be Constructed.. //
-
-                        //Start Emplace Joint Into Physics Component..//
-                        JointDef.BodyA->CreateWheelJoint(JointHandle,JointDef.JointName, JointDef.BodyB);
-                        //Ended Emplace Joint Into Physics Component..//
-                    }
+                    if (JointDef.JointType == "motor")
+                        ConstructMotorJoint(JointDef);
                 }
             }
 
@@ -284,5 +170,140 @@ namespace Ermine
 
         return Package;
     }
+
+#pragma region ConstructJoints
+
+    void RubeLoader::ConstructRevoluteJoint(RubeJointDefinition& JointDef)
+    {
+        b2RevoluteJointDef RevDef;
+
+        RevDef.localAnchorA = JointDef.AnchorA;
+        RevDef.localAnchorB = JointDef.AnchorB;
+
+        RevDef.bodyA = JointDef.BodyA->GetBox2DBody();
+        RevDef.bodyB = JointDef.BodyB->GetBox2DBody();
+
+        RevDef.collideConnected = JointDef.CollideConnected;
+
+        RevDef.enableLimit = JointDef.EnableLimit;
+        RevDef.upperAngle = JointDef.UpperLimit;
+        RevDef.lowerAngle = JointDef.LowerLimit;
+
+        RevDef.enableMotor = JointDef.EnableMotor;
+        RevDef.motorSpeed = JointDef.MotorSpeed;
+
+        RevDef.referenceAngle = JointDef.ReferenceAngle;
+
+        b2Joint* JointHandle = (b2RevoluteJoint*)Ermine::Universum->CreateJoint(&RevDef);
+
+        JointDef.BodyA->CreateRevoluteJoint(JointHandle, JointDef.JointName, JointDef.BodyB);
+    }
+
+    void RubeLoader::ConstructDistanceJoint(RubeJointDefinition& JointDef)
+    {
+        //Start Creating The Distance Joint Which Is To Be Constructed.. //
+        b2DistanceJointDef DisDef;
+
+        DisDef.localAnchorA = JointDef.AnchorA;
+        DisDef.localAnchorB = JointDef.AnchorB;
+
+        DisDef.bodyA = JointDef.BodyA->GetBox2DBody();
+        DisDef.bodyB = JointDef.BodyB->GetBox2DBody();
+
+        DisDef.collideConnected = JointDef.CollideConnected;
+
+        DisDef.dampingRatio = JointDef.Damping;
+        DisDef.frequencyHz = JointDef.Frequency;
+
+        DisDef.length = JointDef.Length;
+        b2Joint* JointHandle = (b2DistanceJoint*)Ermine::Universum->CreateJoint(&DisDef);
+        //Ended Creating The Distance Joint Which Is To Be Constructed.. //
+
+        JointDef.BodyA->CreateDistanceJoint(JointHandle, JointDef.JointName, JointDef.BodyB);
+    }
+
+    void RubeLoader::ConstructRopeJoint(RubeJointDefinition& JointDef)
+    {
+        //Start Creating The Rope Joint Which Is To Be Constructed.. //
+        b2RopeJointDef RopeDef;
+
+        RopeDef.localAnchorA = JointDef.AnchorA;
+        RopeDef.localAnchorB = JointDef.AnchorB;
+
+        RopeDef.bodyA = JointDef.BodyA->GetBox2DBody();
+        RopeDef.bodyB = JointDef.BodyB->GetBox2DBody();
+
+        RopeDef.collideConnected = JointDef.CollideConnected;
+
+        RopeDef.maxLength = JointDef.MaxLength;
+        b2Joint* JointHandle = (b2RopeJoint*)Ermine::Universum->CreateJoint(&RopeDef);
+        //Ended Creating The Rope Joint Which Is To Be Constructed.. //
+
+        //Start Emplace Joint Into Physics Component..//
+        JointDef.BodyA->CreateRopeJoint(JointHandle, JointDef.JointName, JointDef.BodyB);
+        //Ended Emplace Joint Into Physics Component..//
+    }
+
+    void RubeLoader::ConstructWeldJoint(RubeJointDefinition& JointDef)
+    {
+        //Start Creating The Weld Joint Which Is To Be Constructed.. //
+        b2WeldJointDef WeldDef;
+
+        WeldDef.localAnchorA = JointDef.AnchorA;
+        WeldDef.localAnchorB = JointDef.AnchorB;
+
+        WeldDef.bodyA = JointDef.BodyA->GetBox2DBody();
+        WeldDef.bodyB = JointDef.BodyB->GetBox2DBody();
+
+        WeldDef.collideConnected = JointDef.CollideConnected;
+
+        WeldDef.dampingRatio = JointDef.Damping;
+        WeldDef.frequencyHz = JointDef.Frequency;
+        WeldDef.referenceAngle = JointDef.ReferenceAngle;
+        b2Joint* JointHandle = (b2WeldJoint*)Ermine::Universum->CreateJoint(&WeldDef);
+        //Ended Creating The Weld Joint Which Is To Be Constructed.. //
+
+        //Start Emplace Joint Into Physics Component..//
+        JointDef.BodyA->CreateWeldJoint(JointHandle, JointDef.JointName, JointDef.BodyB);
+        //Ended Emplace Joint Into Physics Component..//
+    }
+
+    void RubeLoader::ConstructWheelJoint(RubeJointDefinition& JointDef)
+    {
+        //Start Creating The Wheel Joint Which Is To Be Constructed.. //
+        b2WheelJointDef WheelDef;
+
+        WheelDef.localAnchorA = JointDef.AnchorA;
+        WheelDef.localAnchorB = JointDef.AnchorB;
+        WheelDef.localAxisA = JointDef.LocalAxis;
+
+        WheelDef.bodyA = JointDef.BodyA->GetBox2DBody();
+        WheelDef.bodyB = JointDef.BodyB->GetBox2DBody();
+
+        WheelDef.collideConnected = JointDef.CollideConnected;
+
+        WheelDef.damping = JointDef.Damping;
+        WheelDef.stiffness = JointDef.Frequency;
+        //WheelDef.stiffness = JointDef.Frequency;
+
+        WheelDef.enableLimit = JointDef.EnableLimit;
+        WheelDef.enableMotor = JointDef.EnableMotor;
+
+        WheelDef.motorSpeed = JointDef.MotorSpeed;
+
+        b2Joint* JointHandle = (b2WheelJoint*)Ermine::Universum->CreateJoint(&WheelDef);
+        //Ended Creating The Wheel Joint Which Is To Be Constructed.. //
+
+        //Start Emplace Joint Into Physics Component..//
+        JointDef.BodyA->CreateWheelJoint(JointHandle, JointDef.JointName, JointDef.BodyB);
+        //Ended Emplace Joint Into Physics Component..//
+    }
+
+    void RubeLoader::ConstructMotorJoint(RubeJointDefinition& JointDef)
+    {
+        return nullptr;
+    }
+#pragma endregion
+
 }
 
