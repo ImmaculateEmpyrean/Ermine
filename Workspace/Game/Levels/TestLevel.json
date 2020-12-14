@@ -25,5 +25,5 @@
         }
     ],
 
-    "PhysicsScene" : "RubeJson/CarComplexChasis.json"
+    "PhysicsScene" : "RubeJson/MotorJointExample.json"
 }

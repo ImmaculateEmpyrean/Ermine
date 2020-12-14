@@ -54,8 +54,8 @@ namespace Ermine
 		//Ended Set And Manipulate Movement Limit Of The Joints In Question..//
 
 		//Start Query Abt Anchor Points..
-		virtual glm::vec2 GetBodyALocalAnchorLocation() override;
-		virtual glm::vec2 GetBodyBLocalAnchorLocation() override;
+		glm::vec2 GetBodyALocalAnchorLocation();
+		glm::vec2 GetBodyBLocalAnchorLocation();
 		//Ended Query Abt Anchor Points..
 
 		//Start This Joint Incorporates A Motor So Basic Motor Functions Are Provided//

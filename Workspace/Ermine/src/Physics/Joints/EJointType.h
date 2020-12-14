@@ -14,6 +14,7 @@ namespace Ermine
 		RevoluteJoint = 3,
 		RopeJoint = 4,
 		WeldJoint = 5,
-		WheelJoint = 6
+		WheelJoint = 6,
+		MotorJoint = 7
 	};
 }

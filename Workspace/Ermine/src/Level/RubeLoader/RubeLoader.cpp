@@ -25,6 +25,8 @@ namespace Ermine
                 for (auto body : i.value().items())
                 {
                     b2BodyDef BodyDef;
+                    b2MassData BodyDefMassData;
+
                     std::vector<b2FixtureDef> Fixtures;
                     std::string Name;
                     
@@ -50,6 +52,15 @@ namespace Ermine
 
                         if (BodyParamenters.key() == "name")
                             Name = BodyParamenters.value();
+
+                        if (BodyParamenters.key() == "massData-I")
+                            BodyDefMassData.I = std::stof(BodyParamenters.value().dump());
+
+                        if (BodyParamenters.key() == "massData-center")
+                            BodyDefMassData.center = GetVec2FromJson(BodyParamenters.value());
+
+                        if (BodyParamenters.key() == "massData-mass")
+                            BodyDefMassData.mass = std::stof(BodyParamenters.value().dump());
 
                         if (BodyParamenters.key() == "fixture")
                         {
@@ -94,8 +105,11 @@ namespace Ermine
                             }
                         }
                     }
-                    //Create Body Here As All Parameters Are Accounted For By Now
-                    Package.Components.emplace_back(Ermine::PhysicsComponent2D::Generate(BodyDef, Fixtures));
+                    //Start Create Body Here As All Parameters Are Accounted For By Now
+                    auto Component = Ermine::PhysicsComponent2D::Generate(BodyDef, Fixtures);
+                    Component->GetBox2DBody()->SetMassData(&BodyDefMassData);
+                    Package.Components.emplace_back(Component);
+                    //Ended Create Body Here As All Parameters Are Accounted For By Now
                 }
             }
 
@@ -301,7 +315,29 @@ namespace Ermine
 
     void RubeLoader::ConstructMotorJoint(RubeJointDefinition& JointDef)
     {
-        return nullptr;
+        //Start Constructing The Motor Joint To Be Constrycted..
+        b2MotorJointDef MotorDef;
+
+        MotorDef.bodyA = JointDef.BodyA->GetBox2DBody();
+        MotorDef.bodyB = JointDef.BodyB->GetBox2DBody();
+
+        MotorDef.collideConnected = JointDef.CollideConnected;
+
+        MotorDef.linearOffset = JointDef.LinearOffset;
+
+        MotorDef.angularOffset = JointDef.ReferenceAngle;
+
+        MotorDef.maxForce = JointDef.MaxForce;
+        MotorDef.maxTorque = JointDef.MaxMotorTorque; //This Might Not Be Wrong So Not Criticize At First Shot.. :X
+
+        MotorDef.correctionFactor = JointDef.CorrectionFactor;
+
+        b2Joint* JointHandle = (b2MotorJoint*)Ermine::Universum->CreateJoint(&MotorDef);
+        //Ended Creating The Wheel Joint Which Is To Be Constructed.. //
+
+        //Start Emplace Joint Into Physics Component..//
+        JointDef.BodyA->CreateMotorJoint(JointHandle, JointDef.JointName, JointDef.BodyB);
+        //Ended Emplace Joint Into Physics Component..//
     }
 #pragma endregion
 

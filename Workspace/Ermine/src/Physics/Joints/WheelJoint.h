@@ -49,8 +49,8 @@ namespace Ermine
 	public:
 		
 		//Start Get Anchor Locations..//
-		virtual glm::vec2 GetBodyALocalAnchorLocation() override;
-		virtual glm::vec2 GetBodyBLocalAnchorLocation() override;
+		glm::vec2 GetBodyALocalAnchorLocation();
+		glm::vec2 GetBodyBLocalAnchorLocation();
 		//Ended Get Anchor Locations..//
 
 		//Start Motor Functions..//

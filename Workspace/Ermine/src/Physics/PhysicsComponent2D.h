@@ -15,6 +15,7 @@
 #include "Joints/WheelJoint.h"
 #include "Joints/RopeJoint.h"
 #include "Joints/WeldJoint.h"
+#include "Joints/MotorJoint.h"
 
 /*
 	This Component Must Be Inherited By Any Class In Ermine If It Wants Physics Implemented..	
@@ -160,6 +161,10 @@ namespace Ermine
 
 	private:
 		std::shared_ptr<Ermine::JointBase> CreateWeldJoint(b2Joint* Pointer, std::string JointName, std::shared_ptr<Ermine::PhysicsComponent2D> BodyB);
+
+		//Start Creating Motor Joint..//
+	private:
+		std::shared_ptr<Ermine::JointBase> CreateMotorJoint(b2Joint* Pointer, std::string JointName, std::shared_ptr<Ermine::PhysicsComponent2D> BodyB);
 
 		//Ended Creating Joint Functions..//
 #pragma endregion

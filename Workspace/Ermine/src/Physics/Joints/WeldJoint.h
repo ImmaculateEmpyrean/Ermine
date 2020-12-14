@@ -41,8 +41,8 @@ namespace Ermine
 		static std::shared_ptr<Ermine::WeldJoint> Generate(b2Joint* Joint,std::string JointName, b2Body* BodyA, b2Body* BodyB);
 
 	public:
-		virtual glm::vec2 GetBodyALocalAnchorLocation() override;
-		virtual glm::vec2 GetBodyBLocalAnchorLocation() override;
+		glm::vec2 GetBodyALocalAnchorLocation();
+		glm::vec2 GetBodyBLocalAnchorLocation();
 
 	public:
 

@@ -70,8 +70,8 @@ namespace Ermine
 		//Start Query Abt Anchor Points..
 
 		//You Will Get It Still In Pixel Coordinates 50 or something Maybe not 0.5.. 
-		virtual glm::vec2 GetBodyALocalAnchorLocation() override;
-		virtual glm::vec2 GetBodyBLocalAnchorLocation() override;
+		glm::vec2 GetBodyALocalAnchorLocation();
+		glm::vec2 GetBodyBLocalAnchorLocation();
 		//Ended Query Abt Anchor Points..
 
 		//Start Query Abt Motor State//

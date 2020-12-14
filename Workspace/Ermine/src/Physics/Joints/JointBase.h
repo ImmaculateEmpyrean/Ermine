@@ -59,10 +59,6 @@ namespace Ermine
 		b2Body* GetBodyB() { return BodyB; }
 
 		//Start Functions To Get The Anchor Locations
-
-		virtual glm::vec2 GetBodyALocalAnchorLocation() = 0;
-		virtual glm::vec2 GetBodyBLocalAnchorLocation() = 0;
-
 		glm::vec2 GetBodyAWorldAnchorLocation();
 		glm::vec2 GetBodyBWorldAnchorLocation();
 

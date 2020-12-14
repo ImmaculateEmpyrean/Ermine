@@ -52,8 +52,8 @@ namespace Ermine
 
 		//Start Getting Anchor position..//
 
-		virtual glm::vec2 GetBodyALocalAnchorLocation() override;
-		virtual glm::vec2 GetBodyBLocalAnchorLocation() override;
+		glm::vec2 GetBodyALocalAnchorLocation();
+		glm::vec2 GetBodyBLocalAnchorLocation();
 		//Ended Getting Anchor Position..//
 
 		glm::vec2 GetReactionForce();
