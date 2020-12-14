@@ -124,11 +124,15 @@ namespace Ermine
 		//Ended Creating Revolute Joint..//
 
 		//Start Creating Prismatic Joint..//
+	public:
 		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,std::shared_ptr<PhysicsComponent2D> BodyB, bool CollideConnected = false);
 		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,std::shared_ptr<PhysicsComponent2D> BodyB, glm::vec2 LocalAnchorPointA, bool CollideCollision = false);
 		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,std::shared_ptr<PhysicsComponent2D> BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, bool CollideCollision = false);
 		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,std::shared_ptr<PhysicsComponent2D> BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInDegrees, bool CollideCollision = false);
 		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(std::string JointName,std::shared_ptr<PhysicsComponent2D> BodyB, glm::vec2 LocalAnchorPointA, glm::vec2 LocalAnchorPointB, float ReferenceAngleInDegrees,glm::vec2 SlidingAxis, bool CollideCollision = false);
+
+	private:
+		std::shared_ptr<Ermine::JointBase> CreatePrismaticJoint(b2Joint* Pointer, std::string JointName, std::shared_ptr<Ermine::PhysicsComponent2D> BodyB);
 		//Ended Creating Prismatic Joint..//
 
 		//Start Creating Wheel Joint..//

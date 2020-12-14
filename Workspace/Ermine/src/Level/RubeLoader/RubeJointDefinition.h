@@ -75,7 +75,7 @@ namespace Ermine
 
 		//Start Motor Joint Exclusives..//
 		float CorrectionFactor = 0.0f;
-		float MaxForce = 0.0f;
+		float MaxMotorForce = 0.0f;
 		b2Vec2 LinearOffset = { 0.0f,0.0f };
 		//Ended Motor Joint Exclusives..//
 

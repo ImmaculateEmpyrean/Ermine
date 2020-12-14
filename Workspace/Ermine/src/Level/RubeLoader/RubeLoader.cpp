@@ -177,6 +177,9 @@ namespace Ermine
 
                     if (JointDef.JointType == "motor")
                         ConstructMotorJoint(JointDef);
+
+                    if (JointDef.JointType == "prismatic")
+                        ConstructPrismaticJoint(JointDef);
                 }
             }
 
@@ -327,7 +330,7 @@ namespace Ermine
 
         MotorDef.angularOffset = JointDef.ReferenceAngle;
 
-        MotorDef.maxForce = JointDef.MaxForce;
+        MotorDef.maxForce = JointDef.MaxMotorForce;
         MotorDef.maxTorque = JointDef.MaxMotorTorque; //This Might Not Be Wrong So Not Criticize At First Shot.. :X
 
         MotorDef.correctionFactor = JointDef.CorrectionFactor;
@@ -337,6 +340,39 @@ namespace Ermine
 
         //Start Emplace Joint Into Physics Component..//
         JointDef.BodyA->CreateMotorJoint(JointHandle, JointDef.JointName, JointDef.BodyB);
+        //Ended Emplace Joint Into Physics Component..//
+    }
+
+    void RubeLoader::ConstructPrismaticJoint(RubeJointDefinition& JointDef)
+    {
+        //Start Constructing The Prismatic Joint
+        b2PrismaticJointDef PrismaticDef;
+
+        PrismaticDef.localAnchorA = JointDef.AnchorA;
+        PrismaticDef.localAnchorB = JointDef.AnchorB;
+
+        PrismaticDef.bodyA = JointDef.BodyA->GetBox2DBody();
+        PrismaticDef.bodyB = JointDef.BodyB->GetBox2DBody();
+
+        PrismaticDef.collideConnected = JointDef.CollideConnected;
+
+        PrismaticDef.referenceAngle = JointDef.ReferenceAngle;
+        
+        PrismaticDef.enableLimit = JointDef.EnableLimit;
+        PrismaticDef.lowerTranslation = JointDef.LowerLimit;
+        PrismaticDef.upperTranslation = JointDef.UpperLimit;
+
+        PrismaticDef.localAxisA = JointDef.LocalAxis;
+
+        PrismaticDef.enableMotor = JointDef.EnableMotor;
+        PrismaticDef.maxMotorForce = JointDef.MaxMotorForce;
+        PrismaticDef.motorSpeed = JointDef.MotorSpeed;
+
+        b2Joint* JointHandle = (b2MotorJoint*)Ermine::Universum->CreateJoint(&PrismaticDef);
+        //Ended Creating The Wheel Joint Which Is To Be Constructed.. //
+
+        //Start Emplace Joint Into Physics Component..//
+        JointDef.BodyA->CreatePrismaticJoint(JointHandle, JointDef.JointName, JointDef.BodyB);
         //Ended Emplace Joint Into Physics Component..//
     }
 #pragma endregion

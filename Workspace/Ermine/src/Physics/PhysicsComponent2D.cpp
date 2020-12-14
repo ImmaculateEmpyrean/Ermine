@@ -277,6 +277,16 @@ namespace Ermine
 		return PJ;
 	}
 
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreatePrismaticJoint(b2Joint* Pointer, std::string JointName, std::shared_ptr<Ermine::PhysicsComponent2D> BodyB)
+	{
+		std::shared_ptr<Ermine::PrismaticJoint> PJ = Ermine::PrismaticJoint::Generate(Pointer,JointName,BodyManagedByTheComponent,BodyB->BodyManagedByTheComponent);
+
+		JointsBuffer.emplace_back(PJ);
+		BodyB->JointsBuffer.emplace_back(PJ);
+
+		return PJ;
+	}
+
 	//Create Wheel Joint
 	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateWheelJoint(std::string JointName, std::shared_ptr<PhysicsComponent2D> BodyB, b2WheelJointDef Def)
 	{

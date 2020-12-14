@@ -49,6 +49,9 @@ Ermine::RubeJointDefinition::RubeJointDefinition(nlohmann::json Joint,RubeLoader
         if (Parameter.key() == "motorSpeed")
             MotorSpeed = std::stof(Joint["motorSpeed"].dump());     ///Both Of These Write To Motor Speed Beware..
 
+        if (Parameter.key() == "maxMotorForce")
+            MaxMotorForce = std::stof(Joint["maxMotorForce"].dump());     ///This Writes To MaxMotorForce Beware Just Like Atleast One Other Query..
+
         if (Parameter.key() == "maxMotorTorque")                    ///Both Of These Write To Motor Torque Beware..
             MaxMotorTorque = std::stof(Joint["maxMotorTorque"].dump());
         if (Parameter.key() == "maxTorque")
@@ -83,8 +86,10 @@ Ermine::RubeJointDefinition::RubeJointDefinition(nlohmann::json Joint,RubeLoader
         //Start Motor Joint Specifics..//
         if (Parameter.key() == "correctionFactor")
             CorrectionFactor = std::stof(Joint["correctionFactor"].dump());
+
         if (Parameter.key() == "maxForce")
-            MaxForce = std::stof(Joint["maxForce"].dump());
+            MaxMotorForce = std::stof(Joint["maxForce"].dump()); ///This Writes To MaxMotorForce Beware Just Like Atleast One Other Query..
+
         if (Parameter.key() == "linearOffset")
             LinearOffset = GetVec2FromJson(Joint["linearOffset"]);
         //Ended Motor Joint Specifics..//

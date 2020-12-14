@@ -27,6 +27,14 @@ Ermine::PrismaticJoint::PrismaticJoint(std::string JointName,b2Body* BodyA, b2Bo
 	JointHandle = (b2PrismaticJoint*)Universum->CreateJoint(&PrDef);
 }
 
+Ermine::PrismaticJoint::PrismaticJoint(b2Joint* Pointer, std::string JointName, b2Body* BodyA, b2Body* BodyB)
+	:
+	JointBase(JointName,BodyA,BodyB)
+{
+	//This Is Why This Constructor Is Dangerous.. It Assumes That This Pointer Is Constructed Properly..
+	JointHandle = Pointer;
+}
+
 Ermine::PrismaticJoint::~PrismaticJoint()
 {}
 
@@ -45,6 +53,11 @@ std::shared_ptr<Ermine::PrismaticJoint> Ermine::PrismaticJoint::Generate(std::st
 {
 	std::shared_ptr<Ermine::PrismaticJoint> Ptr(new Ermine::PrismaticJoint(JointName, BodyA, BodyB, AnchorAWithRespectToBoxCentre, AnchorBWithRespectToBoxCentre, ReferenceAngleDegrees, SlidingAxis, ShouldBodiesAttachedByTheJointCollide));
 	return Ptr;
+}
+
+std::shared_ptr<Ermine::PrismaticJoint> Ermine::PrismaticJoint::Generate(b2Joint* Pointer, std::string JointName, b2Body* BodyA, b2Body* BodyB)
+{
+	return std::shared_ptr<Ermine::PrismaticJoint>(new Ermine::PrismaticJoint(Pointer, JointName, BodyA, BodyB));
 }
 
 void Ermine::PrismaticJoint::EnableLimits()

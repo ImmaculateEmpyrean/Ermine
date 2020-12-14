@@ -8,6 +8,10 @@
 
 namespace Ermine
 {
+	//Forward Declaration So That They Can be Made Friends As We Implicitly Trust Them..
+	class PhysicsComponent2D;
+	class RubeLoader;
+
 	class PrismaticJoint :public JointBase
 	{
 	protected:
@@ -16,6 +20,10 @@ namespace Ermine
 
 		//This Constructor Is To Be Used To Set Up Sliding Axis Along With Reference Angle And Reference Points All Coordinates In Pixel Space
 		PrismaticJoint(std::string JointName,b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, float ReferenceAngleDegrees,glm::vec2 SlidingAxis, bool ShouldBodiesAttachedByTheJointCollide = false);
+
+	private:
+		//This Constructor Is Very Dangerous As It Assumes That The Pointer IS Constructed Properly..
+		PrismaticJoint(b2Joint* Pointer,std::string JointName,b2Body* BodyA,b2Body* BodyB);
 
 	public:
 		//A Destructor Is Necessary As This Class Manages Memory..
@@ -31,6 +39,9 @@ namespace Ermine
 		PrismaticJoint& operator=(PrismaticJoint&& rhs);
 
 		static std::shared_ptr<Ermine::PrismaticJoint> Generate(std::string JointName, b2Body* BodyA, b2Body* BodyB, glm::vec2 AnchorAWithRespectToBoxCentre, glm::vec2 AnchorBWithRespectToBoxCentre, float ReferenceAngleDegrees, glm::vec2 SlidingAxis, bool ShouldBodiesAttachedByTheJointCollide = false);
+
+	private:
+		static std::shared_ptr<Ermine::PrismaticJoint> Generate(b2Joint* Pointer,std::string JointName, b2Body* BodyA, b2Body* BodyB);
 
 	public:
 		
@@ -88,6 +99,7 @@ namespace Ermine
 	private:
 		
 	private:
-		
+		friend class Ermine::RubeLoader;
+		friend class Ermine::PhysicsComponent2D;
 	};
 }
