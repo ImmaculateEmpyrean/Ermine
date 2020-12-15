@@ -65,6 +65,8 @@ namespace Ermine
 		glm::mat4 GetModelMatrix();
 		//The Binding Maybe Done Differently Depending On The Renderable.. For Example TextureModule May Want To Bind Texture Too.
 		virtual void BindRenderable();
+
+		virtual int32_t GetDrawMode();
 		
 	public:
 

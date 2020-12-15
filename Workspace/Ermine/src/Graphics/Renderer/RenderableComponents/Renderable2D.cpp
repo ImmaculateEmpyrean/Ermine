@@ -119,6 +119,9 @@ void Ermine::Renderable2D::Initialize()
 
         //Get The Material For The Actor And Initialize It inside The renderable..
         Mat = Actor_Bound->GetMaterial();
+
+        //Get The Draw Mode
+        DrawMode = Actor_Bound->GetRendererDrawMode();
     }
 }
 
@@ -167,6 +170,11 @@ void Ermine::Renderable2D::BindRenderable()
         Vao->Bind();
         Mat->Bind();
     }
+}
+
+int32_t Ermine::Renderable2D::GetDrawMode()
+{
+    return DrawMode;
 }
 
 void Ermine::Renderable2D::OnRenderTickEventRecieved(float DeltaTime)

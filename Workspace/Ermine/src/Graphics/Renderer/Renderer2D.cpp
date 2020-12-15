@@ -205,10 +205,10 @@ namespace Ermine
 			for (std::unique_ptr<Ermine::Renderable2D>& i : layer->Renderables)
 			{
 				auto Lock = i->GetObjectMutex();
+				
 				if (i->GetObjectInitialized() == false)
 					continue;
 
-				bool DrawTriangles = true;
 				i->BindRenderable();
 				i->GetMaterial()->GetShader()->UniformMat4(std::string("ModelMatrix"), i->GetModelMatrix());
 
@@ -222,17 +222,10 @@ namespace Ermine
 					i->GetMaterial()->GetShader()->UniformNi(std::string("Sampler2DArray"),TextureArray);
 				}
 				//Ended If A Renderable Texture module Is detected Inside the renderable do the following steps//
-							
-				if (dynamic_cast <Ermine::RenderableShapeComponent*>(&(*i)))
-					DrawTriangles = false;
-				
+	
 				//Start These Steps Are To Be Done on All Kinds Of Renderables..//
 				i->GetMaterial()->GetShader()->UniformMat4(std::string("ProjectionViewMatrix"), Camera->GetProjectionViewMatrix());
-
-				if(DrawTriangles == true)
-					glDrawElements(GL_TRIANGLES, i->GetVertexArray()->GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
-				else
-					glDrawElements(GL_LINES, i->GetVertexArray()->GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
+				glDrawElements(i->GetDrawMode(), i->GetVertexArray()->GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				//Ended These Steps Are To Be Done on All Kinds Of Renderables..//
 			}
 		}
