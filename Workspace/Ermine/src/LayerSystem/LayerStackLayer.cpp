@@ -3,6 +3,8 @@
 
 #include "2DPrimitives/Constructs/VertexTextured.h"
 
+#include "Graphics/Renderer/RenderableComponents/Renderable2D.h"
+
 Ermine::LayerStackLayer::LayerStackLayer(std::string Name)
 	:
 	LayerName(Name)
@@ -26,13 +28,15 @@ Ermine::LayerStackLayer& Ermine::LayerStackLayer::operator=(LayerStackLayer&& rh
 
 void Ermine::LayerStackLayer::SubmitActor(std::shared_ptr<Actor2DBase> Ptr)
 {
-	//Identify Which Object Was Recieved..
-	Ermine::ActorFamilyIdentifier Identifier = Ptr->GetActorFamilyIdentifier();
-
-	if (Identifier == Ermine::ActorFamilyIdentifier::Actor2D || Identifier == Ermine::ActorFamilyIdentifier::PhysicsActor2D)
+	if (std::dynamic_pointer_cast<Ermine::ImageBase, Ermine::Actor2DBase>(Ptr))
 	{
 		auto RenderableTextureModule = RenderableTextureModule::Generate(Ptr);
 		Renderables.emplace_back(std::move(RenderableTextureModule));
+	}
+	else
+	{
+		auto Renderable = Ermine::Renderable2D::Generate(Ptr);
+		Renderables.emplace_back(std::move(Renderable));
 	}
 }
 

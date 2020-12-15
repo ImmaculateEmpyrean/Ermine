@@ -63,7 +63,7 @@ namespace Ermine {
 		virtual std::vector<float> GenerateModelSpaceVertexBuffer() = 0;
 		virtual std::vector<Ermine::VertexAttribPointerSpecification> GetVertexArraySpecification() = 0;
 		virtual std::vector<uint32_t> GenerateModelSpaceIndices() = 0;
-		
+		virtual int32_t GetRendererDrawMode() = 0; //This Is The Mode In Which The Renderer Draws Ex- Triangle..
 #pragma endregion
 
 		//Start Interact With The Material Of Actor2DBase

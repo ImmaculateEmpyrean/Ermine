@@ -103,6 +103,9 @@ namespace Ermine
 		//The Vertex Specification Is Given In This VertexAttribPointer Specification..
 		std::vector<Ermine::VertexAttribPointerSpecification> Specification;
 
+		//The DrawMode IS The Drawable Shape By The Renderer..
+		int32_t DrawMode = -9999;
+
 		//This Is The Actor Which Is To Be Used To Generate Said Renderable..
 		std::shared_ptr<Ermine::Actor2DBase> Actor_Bound;
 

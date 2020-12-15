@@ -212,6 +212,8 @@ void Ermine::Renderable2D::CopyHelper(Ermine::Renderable2D& rhs)
     Mat = rhs.Mat;
     Specification = rhs.Specification;
 
+    DrawMode = rhs.DrawMode;
+
     Actor_Bound = rhs.Actor_Bound;
 
     //The Initialize Function Will Not Be Called As The Renderable Form Which We Are Initializing Was Already Initialized Hopefullty Before This Function Was Called..
@@ -237,6 +239,8 @@ void Ermine::Renderable2D::MoveHelper(Ermine::Renderable2D&& rhs)
     Vao = std::move(rhs.Vao);
     Mat = std::move(rhs.Mat);
     Specification = std::move(rhs.Specification);
+
+    DrawMode = std::move(rhs.DrawMode);
 
     Actor_Bound = std::move(rhs.Actor_Bound);
 

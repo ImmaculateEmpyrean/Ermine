@@ -7,128 +7,77 @@ namespace Ermine
 	Actor2DShape::Actor2DShape()
 		:
 		MovableObject(glm::vec2(0.0f,0.0f)),
-		ImageBase(),
-		RenderableShapeComponent()
+		ShapeBase()
 	{}
 
 	Actor2DShape::Actor2DShape(glm::vec2 SpawnLocation)
 		:
 		MovableObject(SpawnLocation),
-		ImageBase(),
-		RenderableShapeComponent()
+		ShapeBase()
 	{}
 
 	Actor2DShape::Actor2DShape(std::vector<Ermine::VertexTextured> Points)
 		:
 		MovableObject(glm::vec2(0.0f,0.0f)),
-		ImageBase(),
-		RenderableShapeComponent()
-	{
-		auto Lock = Actor2DBase::GetObjectMutex();
-		Vertexes = Points;
-	}
+		ShapeBase(Points)
+	{}
 
 	Actor2DShape::Actor2DShape(glm::vec2 SpawnLocation, std::vector<Ermine::VertexTextured> Points)
 		:
 		MovableObject(SpawnLocation),
-		ImageBase(),
-		RenderableShapeComponent()
-	{
-		auto Lock = Actor2DBase::GetObjectMutex();
-		Vertexes = Points;
-	}
+		ShapeBase(Points)
+	{}
+
+	Actor2DShape::Actor2DShape(glm::vec2 SpawnPosition, std::vector<Ermine::VertexTextured> Points, std::shared_ptr<Ermine::Sprite> ActorSprite)
+		:
+		MovableObject(SpawnPosition),
+		ShapeBase(ActorSprite,Points)
+	{}
 
 
 	Actor2DShape::Actor2DShape(Actor2DShape& rhs)
-	{
-		auto ForeignLock = rhs.GetObjectMutex();
-		auto Lock = GetObjectMutex();
-
-		MovableObject::operator=(rhs);
-		ImageBase::operator=(rhs);
-		RenderableShapeComponent::operator=(rhs);
-
-		Vertexes = rhs.Vertexes;
-	}
+		:
+		MovableObject(rhs),
+		ShapeBase(rhs)
+	{}
 	Actor2DShape& Actor2DShape::operator=(Actor2DShape& rhs)
 	{
 		auto ForeignLock = rhs.GetObjectMutex();
 		auto Lock = GetObjectMutex();
 
 		MovableObject::operator=(rhs);
-		ImageBase::operator=(rhs);
-		RenderableShapeComponent::operator=(rhs);
-
-		Vertexes = rhs.Vertexes;
+		ShapeBase::operator=(rhs);
 
 		return *this;
 	}
 	Actor2DShape::Actor2DShape(Actor2DShape&& rhs)
-	{
-		auto ForeignLock = rhs.GetObjectMutex();
-		auto Lock = GetObjectMutex();
-
-		MovableObject::operator=(std::move(rhs));
-		ImageBase::operator=(std::move(rhs));
-		RenderableShapeComponent::operator=(std::move(rhs));
-
-		Vertexes = std::move(rhs.Vertexes);
-	}
+		:
+		MovableObject(std::move(rhs)),
+		ShapeBase(std::move(rhs))
+	{}
 	Actor2DShape& Actor2DShape::operator=(Actor2DShape&& rhs)
 	{
 		auto ForeignLock = rhs.GetObjectMutex();
-		auto Lock = GetObjectMutex();
+		auto Lock		 = GetObjectMutex();
 
 		MovableObject::operator=(std::move(rhs));
-		ImageBase::operator=(std::move(rhs));
-		RenderableShapeComponent::operator=(std::move(rhs));
-
-		Vertexes = std::move(rhs.Vertexes);
+		ShapeBase::operator=(std::move(rhs));
 
 		return *this;
 	}
 
 	Actor2DShape::~Actor2DShape()
-	{
-		//The Destructor Is Empty For Now.. USed For Virtual Calling Probably..
-	}
+	{}
 #pragma endregion
 
-#pragma region Exposure
-
-	unsigned int Actor2DShape::GetNumberOfPointsHeld()
+	std::shared_ptr<Ermine::Actor2DShape> Actor2DShape::Generate(glm::vec2 SpawnLocation, std::vector<VertexTextured> Vertices, std::shared_ptr<Ermine::Sprite> Spr)
 	{
-		//Get Lock Since We Are Dealing With Memory
-		auto Lock = GetObjectMutex();
-
-		return Vertexes.size();
+		return std::shared_ptr<Ermine::Actor2DShape>(new Ermine::Actor2DShape(SpawnLocation, Vertices, Spr));
 	}
-	VertexTextured& Actor2DShape::GetPoint(unsigned int Index)
+	glm::mat4 Actor2DShape::GetModelMatrix()
 	{
-		//Get Lock Since We Are Dealing With Memory
-		auto Lock = GetObjectMutex();
-
-		return Vertexes[Index];
+		return MovableObject::GetModelMatrix();
 	}
-
-	void Actor2DShape::AddPoint(Ermine::VertexTextured Point)
-	{
-		//Get Lock Since We Are Dealing With Memory
-		auto Lock = GetObjectMutex();
-
-		Vertexes.emplace_back(Point);
-	}
-
-	void Actor2DShape::DeletePoint(unsigned int Index)
-	{
-		//Get Lock Since We Are Dealing With Memory
-		auto Lock = GetObjectMutex();
-
-		// Erase Using The Iterator Of Said Array..
-		Vertexes.erase(Vertexes.begin() + Index);
-	}
-
-#pragma endregion
 
 #pragma region ImovableActorImplementation
 	glm::vec2 Actor2DShape::GetActorPosition()
@@ -169,4 +118,12 @@ namespace Ermine
 
 #pragma endregion
 
+	void Ermine::Actor2DShape::OnUpdateTickEventRecieved()
+	{
+		//Start For Testing..//
+		MovableObject::Translate({ 1.0f,0.0f });
+		//Ended For Testing..//
+
+		//We Will Call The Movable Objects Update Here If In The Future Movable Object Supports Things Like Say velocity.. :>
+	}
 }

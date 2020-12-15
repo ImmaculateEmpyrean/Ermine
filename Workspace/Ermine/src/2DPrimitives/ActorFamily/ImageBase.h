@@ -50,7 +50,7 @@ namespace Ermine
 		virtual std::vector<float> GenerateModelSpaceVertexBuffer() = 0;
 		virtual std::vector<Ermine::VertexAttribPointerSpecification> GetVertexArraySpecification() override;
 		virtual std::vector<uint32_t> GenerateModelSpaceIndices() = 0;
-
+		virtual int32_t GetRendererDrawMode() override;
 #pragma endregion
 
 		//This Function Has To Be Overriden In all Children Do Not Forget Otherwise One Child May Be Thought Of As The Other..
@@ -77,7 +77,7 @@ namespace Ermine
 		
 
 	private:
-		//This Must Be Able to Be Set Manually By A Child Class.. edit -It Will Be Done USing Method Calls Not Exactly INteraction With The Object
+		//This Must Be Able to Be Set Manually By A Child Class.. edit -It Will Be Done Using Method Calls Not Exactly Interaction With The Object
 		std::vector<std::shared_ptr<Ermine::Sprite>> ActorSprites;
 
 		friend class Ermine::Renderable2D;

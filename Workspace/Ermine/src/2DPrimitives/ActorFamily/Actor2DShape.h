@@ -5,22 +5,18 @@
 
 #include "glm.hpp"
 
-#include "ImageBase.h"
-#include "Interfaces/IMovableActor.h"
-
 #include "2DPrimitives/Constructs/MovableObject.h"
-#include "2DPrimitives/Constructs/VertexTextured.h"
 
-#include "Graphics/Renderer/MaterialSystem/Texture.h"
-
-#include "Graphics/Renderer/RenderableComponents/RenderableShapeComponent.h"
+#include "Interfaces/IMovableActor.h"
+#include "ShapeBase.h"
 
 namespace Ermine
 {
-	class Actor2DShape: public MovableObject, public ImageBase,public RenderableShapeComponent, public IMovableActor
+	class Actor2DShape: public MovableObject, public ShapeBase , public IMovableActor
 	{
 	public:
 #pragma region Constructors
+
 		//Well You Can Totally Have An Empty Shape.. Just Not An Default One..
 		Actor2DShape();
 
@@ -33,6 +29,9 @@ namespace Ermine
 		//Guess This Is The Best For Now..
 		Actor2DShape(glm::vec2 SpawnPosition,std::vector<Ermine::VertexTextured> Points);
 
+		//This Is The All Inclusive Constructor..
+		Actor2DShape(glm::vec2 SpawnPosition, std::vector<Ermine::VertexTextured> Points, std::shared_ptr<Ermine::Sprite> ActorSprite);
+
 		//Start Copy And Move Constructor Are Custom Implemented.. For Now Just Because..
 		Actor2DShape(Actor2DShape& rhs);
 		Actor2DShape& operator=(Actor2DShape& rhs);
@@ -43,15 +42,18 @@ namespace Ermine
 
 		//The Destructor Has To Be Implemented Probably
 		virtual ~Actor2DShape();
+
+	public:
+		//Generate Function..
+		std::shared_ptr<Ermine::Actor2DShape> Generate(glm::vec2 SpawnLocation, std::vector<VertexTextured> Vertices, std::shared_ptr<Ermine::Sprite> Spr);
+#pragma endregion
+
+#pragma region Actor2DBaseOverrides
+	public:
+		virtual glm::mat4 GetModelMatrix() override;
 #pragma endregion
 
 	public:
-		unsigned int GetNumberOfPointsHeld();
-		Ermine::VertexTextured& GetPoint(unsigned int Index);
-
-		void AddPoint(Ermine::VertexTextured Point);
-		void DeletePoint(unsigned int Index);
-
 #pragma region Actor2DBaseImplementation
 		virtual glm::vec2 GetScreenLocation() { return GetActorPosition(); };
 #pragma endregion
@@ -73,9 +75,10 @@ namespace Ermine
 	protected:
 
 	private:
-		
+		//Use This To Get The Actor Updated..
+		virtual void OnUpdateTickEventRecieved() override;
 
 	private:
-		std::vector<Ermine::VertexTextured> Vertexes;
+		
 	};
 }

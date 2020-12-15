@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "ImageBase.h"
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 #include "2DPrimitives/Constructs/Quad.h"
 #include "2DPrimitives/Constructs/VertexTextured.h"
 
@@ -83,11 +86,16 @@ namespace Ermine
 	std::vector<Ermine::VertexAttribPointerSpecification> ImageBase::GetVertexArraySpecification()
 	{
 		return {
-					{3,GL_FLOAT,false},
-					{3,GL_FLOAT,false},
-					{2,GL_FLOAT,false},
-					{1,GL_FLOAT,false}
+					{3,GL_FLOAT,false}, //Vertex Position
+					{3,GL_FLOAT,false}, //Vertex Color
+					{2,GL_FLOAT,false}, //UV Coordinates
+					{1,GL_FLOAT,false}  //Texture Number
 		};
+	}
+
+	int32_t ImageBase::GetRendererDrawMode()
+	{
+		return GL_TRIANGLES;
 	}
 
 #pragma endregion Constructors
