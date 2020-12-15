@@ -37,6 +37,8 @@ namespace Ermine
 		auto ForeignLock = rhs.GetObjectMutex();
 		auto Lock = GetObjectMutex();
 
+		RecieveEvents(true, Ermine::EventType::OnUpdateTickEvent);
+
 		ActorMaterial = rhs.ActorMaterial;
 	}
 	Actor2DBase& Actor2DBase::operator=(Actor2DBase& rhs)
@@ -46,6 +48,9 @@ namespace Ermine
 
 		Object::operator=(rhs);
 		ActorMaterial = rhs.ActorMaterial;
+
+		RecieveEvents(true, Ermine::EventType::OnUpdateTickEvent);
+
 		return *this;
 	}
 
@@ -57,6 +62,9 @@ namespace Ermine
 		auto Lock = GetObjectMutex();
 
 		ActorMaterial = std::move(rhs.ActorMaterial);
+
+		RecieveEvents(true, Ermine::EventType::OnUpdateTickEvent);
+		rhs.RecieveEvents(false, Ermine::EventType::OnUpdateTickEvent);
 	}
 	Actor2DBase& Actor2DBase::operator=(Actor2DBase&& rhs)
 	{
@@ -65,6 +73,9 @@ namespace Ermine
 
 		Object::operator=(std::move(rhs));
 		ActorMaterial = std::move(rhs.ActorMaterial);
+
+		RecieveEvents(true, Ermine::EventType::OnUpdateTickEvent);
+		rhs.RecieveEvents(false, Ermine::EventType::OnUpdateTickEvent);
 		return *this;
 	}
 
