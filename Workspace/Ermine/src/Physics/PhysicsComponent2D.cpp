@@ -393,6 +393,16 @@ namespace Ermine
 		return MJ;
 	}
 
+	std::shared_ptr<Ermine::JointBase> PhysicsComponent2D::CreateFrictionJoint(b2Joint* Pointer, std::string JointName, std::shared_ptr<Ermine::PhysicsComponent2D> BodyB)
+	{
+		std::shared_ptr<Ermine::FrictionJoint> FJ = Ermine::FrictionJoint::Generate(Pointer, JointName, BodyManagedByTheComponent, BodyB->BodyManagedByTheComponent);
+
+		JointsBuffer.emplace_back(FJ);
+		BodyB->JointsBuffer.emplace_back(FJ);
+
+		return FJ;
+	}
+
 
 #pragma region GetBodyTransform
 

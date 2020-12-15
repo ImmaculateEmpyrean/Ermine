@@ -25,5 +25,5 @@
         }
     ],
 
-    "PhysicsScene" : "RubeJson/PrismaticJointExample.json"
+    "PhysicsScene" : "RubeJson/FrictionJointExample.json"
 }

@@ -46,6 +46,7 @@ namespace Ermine
 		static void ConstructWheelJoint	   (RubeJointDefinition& JointDef);
 		static void ConstructMotorJoint	   (RubeJointDefinition& JointDef);
 		static void ConstructPrismaticJoint(RubeJointDefinition& JointDef);
+		static void ConstructFrictionJoint(RubeJointDefinition& JointDef);
 
 	private:
 

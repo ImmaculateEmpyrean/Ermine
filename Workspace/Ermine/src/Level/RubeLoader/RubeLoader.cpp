@@ -180,6 +180,9 @@ namespace Ermine
 
                     if (JointDef.JointType == "prismatic")
                         ConstructPrismaticJoint(JointDef);
+
+                    if (JointDef.JointType == "friction")
+                        ConstructFrictionJoint(JointDef);
                 }
             }
 
@@ -368,12 +371,37 @@ namespace Ermine
         PrismaticDef.maxMotorForce = JointDef.MaxMotorForce;
         PrismaticDef.motorSpeed = JointDef.MotorSpeed;
 
-        b2Joint* JointHandle = (b2MotorJoint*)Ermine::Universum->CreateJoint(&PrismaticDef);
-        //Ended Creating The Wheel Joint Which Is To Be Constructed.. //
+        b2Joint* JointHandle = (b2PrismaticJoint*)Ermine::Universum->CreateJoint(&PrismaticDef);
+        //Ended Creating The Prismatic Joint Which Is To Be Constructed.. //
 
         //Start Emplace Joint Into Physics Component..//
         JointDef.BodyA->CreatePrismaticJoint(JointHandle, JointDef.JointName, JointDef.BodyB);
         //Ended Emplace Joint Into Physics Component..//
+    }
+
+    void RubeLoader::ConstructFrictionJoint(RubeJointDefinition& JointDef)
+    {
+        //Start Constructing The 
+        b2FrictionJointDef FDef;
+        
+        FDef.bodyA = JointDef.BodyA->GetBox2DBody();
+        FDef.bodyB = JointDef.BodyB->GetBox2DBody();
+
+        FDef.collideConnected = JointDef.CollideConnected;
+
+        FDef.localAnchorA = JointDef.AnchorA;
+        FDef.localAnchorB = JointDef.AnchorB;
+
+        FDef.maxForce = JointDef.MaxMotorForce;
+        FDef.maxTorque = JointDef.MaxMotorTorque;
+        
+        b2Joint* JointHandle = (b2FrictionJoint*)Ermine::Universum->CreateJoint(&FDef);
+        //Ended Creating The Prismatic Joint Which Is To Be Constructed.. //
+
+        //Start Emplace Joint Into Physics Component..//
+        JointDef.BodyA->CreateFrictionJoint(JointHandle, JointDef.JointName, JointDef.BodyB);
+        //Ended Emplace Joint Into Physics Component..//
+
     }
 #pragma endregion
 

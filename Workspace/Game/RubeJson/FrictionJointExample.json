@@ -15,56 +15,6 @@
 				{
 					"density" : 1,
 					"friction" : 0.2,
-					"name" : "fixture2",
-					"polygon" : 
-					{
-						"vertices" : 
-						{
-							"x" : 
-							[
-								0.2275826930999756,
-								0.2275826930999756,
-								-0.2275826334953308,
-								-0.2275826334953308
-							],
-							"y" : 
-							[
-								-0.04970216751098633,
-								0.04970204830169678,
-								0.04970204830169678,
-								-0.04970216751098633
-							]
-						}
-					}
-				}
-			],
-			"linearVelocity" : 0,
-			"massData-I" : 0.0008184004691429436,
-			"massData-center" : 
-			{
-				"x" : 3.085311206518782e-008,
-				"y" : -5.930628077521760e-008
-			},
-			"massData-mass" : 0.04524535313248634,
-			"name" : "Platform",
-			"position" : 
-			{
-				"x" : -0.7571702599525452,
-				"y" : 1.316935658454895
-			},
-			"type" : 2
-		},
-		
-		{
-			"angle" : 0,
-			"angularVelocity" : 0,
-			"awake" : true,
-			"fixture" : 
-			[
-				
-				{
-					"density" : 1,
-					"friction" : 0.2,
 					"name" : "fixture1",
 					"polygon" : 
 					{
@@ -88,14 +38,25 @@
 					}
 				}
 			],
-			"linearVelocity" : 0,
-			"name" : "Right Body",
+			"linearVelocity" : 
+			{
+				"x" : 8,
+				"y" : 0
+			},
+			"massData-I" : 0.002606109715998173,
+			"massData-center" : 
+			{
+				"x" : 6.991619727614307e-009,
+				"y" : 1.187489431231370e-007
+			},
+			"massData-mass" : 0.1250466257333756,
+			"name" : "DynaBody",
 			"position" : 
 			{
-				"x" : -0.7284137010574341,
-				"y" : 3.220678091049194
+				"x" : 0.009098470211029053,
+				"y" : 0.6151607036590576
 			},
-			"type" : 0
+			"type" : 2
 		},
 		
 		{
@@ -186,7 +147,7 @@
 		
 		{
 			"aspectScale" : 1,
-			"body" : 1,
+			"body" : 0,
 			"center" : 0,
 			"corners" : 
 			{
@@ -231,31 +192,21 @@
 		{
 			"anchorA" : 
 			{
-				"x" : -1.416106104850769,
-				"y" : -0.05049157142639160
+				"x" : 0.0003100801259279251,
+				"y" : -0.0008494257926940918
 			},
 			"anchorB" : 
 			{
-				"x" : 0.007005631923675537,
-				"y" : -0.004103541374206543
+				"x" : -8.661113679409027e-005,
+				"y" : -0.0004527270793914795
 			},
-			"bodyA" : 1,
-			"bodyB" : 0,
+			"bodyA" : 0,
+			"bodyB" : 1,
 			"collideConnected" : true,
-			"enableLimit" : true,
-			"enableMotor" : false,
-			"localAxisA" : 
-			{
-				"x" : -0.5986074209213257,
-				"y" : 0.8010425567626953
-			},
-			"lowerLimit" : -10,
-			"maxMotorForce" : 0,
-			"motorSpeed" : 0,
+			"maxForce" : 1,
+			"maxTorque" : 2,
 			"name" : "joint0",
-			"refAngle" : 0,
-			"type" : "prismatic",
-			"upperLimit" : 20.0
+			"type" : "friction"
 		}
 	],
 	"positionIterations" : 3,

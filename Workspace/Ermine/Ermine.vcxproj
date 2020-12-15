@@ -237,6 +237,7 @@
     <ClInclude Include="src\Physics\FixtureColorStruct.h" />
     <ClInclude Include="src\Physics\FixtureUserDataStruct.h" />
     <ClInclude Include="src\Physics\JointManager.h" />
+    <ClInclude Include="src\Physics\Joints\FrictionJoint.h" />
     <ClInclude Include="src\Physics\Joints\MotorJoint.h" />
     <ClInclude Include="src\Physics\JointTicket.h" />
     <ClInclude Include="src\Physics\Joints\DistanceJoint.h" />
@@ -342,6 +343,7 @@
     </ClCompile>
     <ClCompile Include="src\Physics\BodyPart.cpp" />
     <ClCompile Include="src\Physics\FixtureColorStruct.cpp" />
+    <ClCompile Include="src\Physics\Joints\FrictionJoint.cpp" />
     <ClCompile Include="src\Physics\Joints\MotorJoint.cpp" />
     <ClCompile Include="src\Physics\JointTicket.cpp" />
     <ClCompile Include="src\Physics\Joints\DistanceJoint.cpp" />

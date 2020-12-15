@@ -15,6 +15,7 @@ namespace Ermine
 		RopeJoint = 4,
 		WeldJoint = 5,
 		WheelJoint = 6,
-		MotorJoint = 7
+		MotorJoint = 7,
+		FrictionJoint = 8
 	};
 }
