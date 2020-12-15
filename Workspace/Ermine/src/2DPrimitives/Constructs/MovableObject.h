@@ -17,7 +17,7 @@
 
 namespace Ermine
 {
-	class Actor2D;
+	class Actor2DShape;
 
 	class MovableObject
 	{
@@ -150,6 +150,6 @@ namespace Ermine
 		glm::vec2 Velocity = glm::vec2(0.0f);
 		float AngularVelocityInDegrees = 0.0f;
 
-		friend class Ermine::Actor2D;
+		friend class Ermine::Actor2DShape;
 	};
 }

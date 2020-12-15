@@ -16,9 +16,9 @@ namespace Ermine
 		Vertexes(Vertexes)
 	{}
 
-	ShapeBase::ShapeBase(std::shared_ptr<Ermine::Sprite> Sprite, std::vector<Ermine::VertexTextured> Vertexes)
+	ShapeBase::ShapeBase(std::vector<std::shared_ptr<Ermine::Sprite>> SpriteBuffer, std::vector<Ermine::VertexTextured> Vertexes)
 		:
-		ImageBase(Sprite),
+		ImageBase(SpriteBuffer),
 		Vertexes(Vertexes)
 	{}
 

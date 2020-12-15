@@ -10,30 +10,11 @@ namespace Ermine
 		ShapeBase()
 	{}
 
-	Actor2DShape::Actor2DShape(glm::vec2 SpawnLocation)
+	Actor2DShape::Actor2DShape(std::vector<std::shared_ptr<Sprite>> SpriteBuffer, glm::mat4 ModelMatrix, std::vector<VertexTextured> Points)
 		:
-		MovableObject(SpawnLocation),
-		ShapeBase()
+		MovableObject(ModelMatrix),
+		ShapeBase(SpriteBuffer,Points)
 	{}
-
-	Actor2DShape::Actor2DShape(std::vector<Ermine::VertexTextured> Points)
-		:
-		MovableObject(glm::vec2(0.0f,0.0f)),
-		ShapeBase(Points)
-	{}
-
-	Actor2DShape::Actor2DShape(glm::vec2 SpawnLocation, std::vector<Ermine::VertexTextured> Points)
-		:
-		MovableObject(SpawnLocation),
-		ShapeBase(Points)
-	{}
-
-	Actor2DShape::Actor2DShape(glm::vec2 SpawnPosition, std::vector<Ermine::VertexTextured> Points, std::shared_ptr<Ermine::Sprite> ActorSprite)
-		:
-		MovableObject(SpawnPosition),
-		ShapeBase(ActorSprite,Points)
-	{}
-
 
 	Actor2DShape::Actor2DShape(Actor2DShape& rhs)
 		:
@@ -70,17 +51,17 @@ namespace Ermine
 	{}
 #pragma endregion
 
-	std::shared_ptr<Ermine::Actor2DShape> Actor2DShape::Generate(glm::vec2 SpawnLocation, std::vector<VertexTextured> Vertices, std::shared_ptr<Ermine::Sprite> Spr)
-	{
-		return std::shared_ptr<Ermine::Actor2DShape>(new Ermine::Actor2DShape(SpawnLocation, Vertices, Spr));
-	}
-	glm::mat4 Actor2DShape::GetModelMatrix()
+	//std::shared_ptr<Ermine::Actor2DShape> Actor2DShape::Generate(glm::vec2 SpawnLocation, std::vector<VertexTextured> Vertices, std::shared_ptr<Ermine::Sprite> Spr)
+	//{
+		//return std::shared_ptr<Ermine::Actor2DShape>(new Ermine::Actor2DShape(SpawnLocation, Vertices, Spr));
+	//}
+	/*glm::mat4 Actor2DShape::GetModelMatrix()
 	{
 		return MovableObject::GetModelMatrix();
-	}
+	}*/
 
 #pragma region ImovableActorImplementation
-	glm::vec2 Actor2DShape::GetActorPosition()
+	/*glm::vec2 Actor2DShape::GetActorPosition()
 	{
 		auto Lock = GetObjectMutex();
 		return MovableObject::GetScreenLocation();
@@ -114,16 +95,180 @@ namespace Ermine
 	{
 		auto Lock = GetObjectMutex();
 		MovableObject::SetAngularVelocity(AngularVelocity, Degrees);
-	}
+	}*/
 
 #pragma endregion
 
 	void Ermine::Actor2DShape::OnUpdateTickEventRecieved()
 	{
-		//Start For Testing..//
-		MovableObject::Translate({ 1.0f,0.0f });
-		//Ended For Testing..//
+		auto Lock = Object::GetObjectMutex();
 
-		//We Will Call The Movable Objects Update Here If In The Future Movable Object Supports Things Like Say velocity.. :>
+		//Update The Movable Object Every Frame Of The Engine
+		MovableObject::Update();
+
+		//MovableObject::Scale(1.01f, 1.01f);
+		MovableObject::Translate(1.0f, 0.0f);
+		STDOUTDefaultLog_Info("ActorShape Tick Working..");
 	}
+
+#pragma region MovableActorImplementation
+	/*glm::vec2 Actor2DShape::GetActorPosition()
+	{
+		auto lock = Object::GetObjectMutex();
+		return MovableObject::GetScreenLocation();
+	}
+	void Actor2DShape::SetActorPosition(glm::vec2 ActorPosition)
+	{
+		auto lock = Object::GetObjectMutex();
+		MovableObject::SetPosition(ActorPosition);
+	}
+	glm::vec2 Actor2DShape::GetActorVelocity()
+	{
+		auto lock = Object::GetObjectMutex();
+		return MovableObject::GetVelocity();
+	}
+	void Actor2DShape::SetActorVelocity(glm::vec2 ActorVelocity)
+	{
+		auto lock = Object::GetObjectMutex();
+		MovableObject::SetVelocity(ActorVelocity);
+	}*/
+#pragma endregion MovableActorImplementation
+
+#pragma region MovableObjectOverrides
+	float Actor2DShape::GetRotation()
+	{
+		auto Lock = Object::GetObjectMutex();
+		return MovableObject::GetRotation();
+	}
+	float Actor2DShape::GetAngularVelocity(bool Degrees)
+	{
+		auto lock = Object::GetObjectMutex();
+		return MovableObject::GetAngularVelocity(Degrees);
+	}
+	glm::vec2 Actor2DShape::GetScale()
+	{
+		auto Lock = Object::GetObjectMutex();
+		return MovableObject::GetScale();
+	}
+	void Actor2DShape::SetPosition(float x, float y)
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::SetPosition(x, y);
+	}
+	void Actor2DShape::SetPosition(glm::vec2 NewPos)
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::SetPosition(NewPos);
+	}
+	void Actor2DShape::Translate(float x, float y)
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::Translate(x, y);
+	}
+	void Actor2DShape::Translate(glm::vec2 TranslateByHowMuch)
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::Translate(TranslateByHowMuch);
+	}
+	void Actor2DShape::ClearTranslations()
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::ClearTranslations();
+	}
+	void Actor2DShape::SetVelocity(float x, float y)
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::SetVelocity(x, y);
+	}
+	void Actor2DShape::SetVelocity(glm::vec2 Velocity)
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::SetVelocity(Velocity);
+	}
+	void Actor2DShape::ClearVelocity()
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::ClearVelocity();
+	}
+	void Actor2DShape::Rotate(float Angle, bool Degrees)
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::Rotate(Angle, Degrees);
+	}
+	void Actor2DShape::SetRotation(float Angle, bool Degrees)
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::SetRotation(Angle, Degrees);
+	}
+	void Actor2DShape::ClearRotations()
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::ClearRotations();
+	}
+	void Actor2DShape::SetAngularVelocity(float AngularVelocity, bool Degrees)
+	{
+		auto lock = Object::GetObjectMutex();
+		MovableObject::SetAngularVelocity(AngularVelocity, Degrees);
+	}
+	void Actor2DShape::ClearAngularVelocity()
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::ClearAngularVelocity();
+	}
+	void Actor2DShape::SetScale(float x, float y)
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::SetScale(x, y);
+	}
+	void Actor2DShape::SetScale(glm::vec2 Scale)
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::SetScale(Scale);
+	}
+	void Actor2DShape::Scale(float x, float y)
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::Scale(x, y);
+	}
+	void Actor2DShape::Scale(glm::vec2 ScaleByHowMuch)
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::Scale(ScaleByHowMuch);
+	}
+	void Actor2DShape::ClearScale()
+	{
+		auto Lock = Object::GetObjectMutex();
+		MovableObject::ClearScale();
+	}
+	glm::mat4 Actor2DShape::GetModelMatrix()
+	{
+		auto Lock = Object::GetObjectMutex();
+		return MovableObject::GetModelMatrix();
+	}
+	glm::mat4 Actor2DShape::GetTranslationMatrix()
+	{
+		auto Lock = Object::GetObjectMutex();
+		return MovableObject::GetTranslationMatrix();
+	}
+	glm::mat4 Actor2DShape::GetRotationMatrix()
+	{
+		auto Lock = Object::GetObjectMutex();
+		return MovableObject::GetRotationMatrix();
+	}
+	glm::mat4 Actor2DShape::GetScaleMatrix()
+	{
+		auto Lock = Object::GetObjectMutex();
+		return MovableObject::GetScaleMatrix();
+	}
+	glm::vec2 Actor2DShape::GetScreenLocation()
+	{
+		auto Lock = Object::GetObjectMutex();
+		return MovableObject::GetScreenLocation();
+	}
+	glm::vec2 Actor2DShape::GetVelocity()
+	{
+		auto Lock = Object::GetObjectMutex();
+		return MovableObject::GetVelocity();
+	}
+#pragma endregion
 }

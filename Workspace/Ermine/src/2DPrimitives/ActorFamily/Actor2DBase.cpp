@@ -14,7 +14,10 @@ namespace Ermine
 	Actor2DBase::Actor2DBase()
 		:
 		Object()
-	{}
+	{
+		auto Lock = GetObjectMutex();
+		RecieveEvents(true, Ermine::EventType::OnUpdateTickEvent);
+	}
 
 	Actor2DBase::Actor2DBase(std::shared_ptr<Ermine::Material> Mat)
 		:
@@ -66,7 +69,9 @@ namespace Ermine
 	}
 
 	Actor2DBase::~Actor2DBase()
-	{}
+	{
+		RecieveEvents(false, Ermine::EventType::OnUpdateTickEvent);
+	}
 
 #pragma endregion Constructors
 

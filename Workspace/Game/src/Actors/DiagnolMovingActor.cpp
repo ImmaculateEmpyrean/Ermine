@@ -3,7 +3,7 @@
 
 Game::DiagnolActor::DiagnolActor(std::shared_ptr<Ermine::Sprite> Sprite)
 	:
-	Actor2D(Sprite)
+	Actor2D(std::vector<std::shared_ptr<Ermine::Sprite>>(1,Sprite),glm::mat4(1.0f))
 {}
 
 Game::DiagnolActor::DiagnolActor(std::shared_ptr<Ermine::Actor2D> Act)

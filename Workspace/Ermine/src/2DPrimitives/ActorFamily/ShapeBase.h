@@ -22,7 +22,7 @@ namespace Ermine
 		ShapeBase(std::vector<Ermine::VertexTextured> Vertexes);
 
 		//This Is The Basic Constructor.. And Can Initialize The Shape Properly..
-		ShapeBase(std::shared_ptr<Ermine::Sprite> Sprite, std::vector<Ermine::VertexTextured> Vertexes);
+		ShapeBase(std::vector<std::shared_ptr<Ermine::Sprite>> SpriteBuffer, std::vector<Ermine::VertexTextured> Vertexes);
 
 	public:
 		//The Destructor Is Used TO Dispatch Destruction Calls Appropriately..
