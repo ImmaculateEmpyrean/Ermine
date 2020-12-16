@@ -24,6 +24,7 @@ namespace Ermine
 		Object()
 	{
 		auto Lock = GetObjectMutex();
+		RecieveEvents(true, Ermine::EventType::OnUpdateTickEvent);
 
 		//Set The Recieved Material As Default Material..
 		ActorMaterial = Mat;

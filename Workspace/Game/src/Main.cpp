@@ -12,7 +12,7 @@
 
 #include "Actors/DiagnolMovingActor.h"
 
-#include "2DPrimitives/ActorFamily/TiledActor2D.h"
+//#include "2DPrimitives/ActorFamily/TiledActor2D.h"
 
 class GameApp : public Ermine::App
 {
@@ -30,8 +30,6 @@ Ermine::App* Ermine::ExecuteApp()
 
 std::shared_ptr<Ermine::Actor2DBase> Ermine::Actor2DConstructionCallback(std::shared_ptr<Ermine::Actor2DBase> Act)
 {
-	std::shared_ptr<Ermine::TiledActor2D> ActHan(new Ermine::TiledActor2D(std::filesystem::path("")));
-
 	std::shared_ptr<Game::DiagnolActor> Act2 = Game::DiagnolActor::Generate(Act);
 	return Act2;
 }

@@ -16,6 +16,8 @@ namespace Ermine
 		PhysicsActor2D = 5,
 
 		MovableShape2D = 6,
-		PhysicsShape2D = 7
+		PhysicsShape2D = 7,
+
+		Actor2DTileMap = 8
 	};
 }

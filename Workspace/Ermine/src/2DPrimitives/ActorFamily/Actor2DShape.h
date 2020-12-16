@@ -7,7 +7,7 @@
 
 #include "2DPrimitives/Constructs/MovableObject.h"
 
-#include "Interfaces/IMovableActor.h"
+
 #include "ShapeBase.h"
 
 namespace Ermine
@@ -34,22 +34,10 @@ namespace Ermine
 		//The Destructor Has To Be Implemented Probably
 		virtual ~Actor2DShape();
 
-	public:
-		//Generate Function..
-		//std::shared_ptr<Ermine::Actor2DShape> Generate(glm::vec2 SpawnLocation, std::vector<VertexTextured> Vertices, std::shared_ptr<Ermine::Sprite> Spr);
-#pragma endregion
+#pragma endregion Constructors
 
-#pragma region Actor2DBaseOverrides
-	public:
-		//virtual glm::mat4 GetModelMatrix() override;
-#pragma endregion
 
 	public:
-#pragma region Actor2DBaseImplementation
-		//virtual glm::vec2 GetScreenLocation() { return GetActorPosition(); };
-#pragma endregion
-
-
 
 #pragma region MovableActorOverrides
 		virtual glm::mat4 GetModelMatrix()								  override;

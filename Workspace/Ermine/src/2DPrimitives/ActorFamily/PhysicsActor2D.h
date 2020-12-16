@@ -12,15 +12,13 @@
 #include "Physics/Physics.h"
 #include "Physics/PhysicsComponent2D.h"
 
-#include "Interfaces/IMovableActor.h"
-
 /*
 	Physics Actor2D Extends ImageBase By Implementing The Physics Component In It..
 */
 
 namespace Ermine
 {
-	class PhysicsActor2D:public Ermine::ImageBase,public Ermine::IMovableActor
+	class PhysicsActor2D:public Ermine::ImageBase
 	{
 	protected:
 #pragma region Constructors  
@@ -60,14 +58,14 @@ namespace Ermine
 
 #pragma region IMovableActorOverrides
 		/*Start Overriding Movable Actor Functions*/
-		virtual glm::vec2 GetActorPosition() override;
-		virtual void SetActorPosition(glm::vec2 ActorPosition) override;
+		virtual glm::vec2 GetActorPosition();
+		virtual void SetActorPosition(glm::vec2 ActorPosition);
 
-		virtual glm::vec2 GetActorVelocity() override;
-		virtual void SetActorVelocity(glm::vec2 ActorVelocity) override;
+		virtual glm::vec2 GetActorVelocity();
+		virtual void SetActorVelocity(glm::vec2 ActorVelocity);
 		
-		virtual float GetAngularVelocity(bool Degrees = true) override;
-		virtual void  SetAngularVelocity(float AngularVelocity, bool Degrees) override;
+		virtual float GetAngularVelocity(bool Degrees = true);
+		virtual void  SetAngularVelocity(float AngularVelocity, bool Degrees);
 		/*Ended Overriding Movable Actor Functions*/
 #pragma endregion
 

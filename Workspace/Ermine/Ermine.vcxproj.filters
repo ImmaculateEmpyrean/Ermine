@@ -123,16 +123,10 @@
     <ClInclude Include="src\2DPrimitives\ActorFamily\ImageBase.h">
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClInclude>
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Interfaces\IMovableActor.h">
-      <Filter>2DPrimitives\ActorFamily\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.h">
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClInclude>
     <ClInclude Include="src\2DPrimitives\ActorFamily\ShapeBase.h">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClInclude>
-    <ClInclude Include="src\2DPrimitives\ActorFamily\TiledActor2D.h">
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClInclude>
     <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h">
@@ -159,13 +153,7 @@
     <ClInclude Include="src\2DPrimitives\SpriteBook.h">
       <Filter>2DPrimitives</Filter>
     </ClInclude>
-    <ClInclude Include="src\2DPrimitives\TileMap.h">
-      <Filter>2DPrimitives</Filter>
-    </ClInclude>
     <ClInclude Include="src\2DPrimitives\TileMapLayerRenderable.h">
-      <Filter>2DPrimitives</Filter>
-    </ClInclude>
-    <ClInclude Include="src\2DPrimitives\TileSet.h">
       <Filter>2DPrimitives</Filter>
     </ClInclude>
     <ClInclude Include="src\App.h" />
@@ -176,33 +164,6 @@
     </ClInclude>
     <ClInclude Include="src\EngineResourceHandlers\GlobalTextureCache.h">
       <Filter>EngineResourceHandlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.h">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileMap.h">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileSet.h">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.h">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.h">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TileMapViewWizard.h">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewWizard.h">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewer.h">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EngineUI\DebugDevelopment\MainWindow.h">
-      <Filter>EngineUI\DebugDevelopment</Filter>
     </ClInclude>
     <ClInclude Include="src\EngineUI\PrecursorWindow.h">
       <Filter>EngineUI</Filter>
@@ -352,9 +313,6 @@
     <ClInclude Include="src\Level\Level.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="src\Level\TiledMapLoader.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="src\MutexSystem\Interfaces\IMutex.h">
       <Filter>MutexSystem\Interfaces</Filter>
     </ClInclude>
@@ -459,6 +417,15 @@
     <ClInclude Include="src\Level\RubeLoader\RubeJsonHelpers.h" />
     <ClInclude Include="src\Physics\Joints\MotorJoint.h" />
     <ClInclude Include="src\Physics\Joints\FrictionJoint.h" />
+    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DTilemap.h" />
+    <ClInclude Include="src\Level\TiledLoader\TiledLoader.h" />
+    <ClInclude Include="src\Level\TiledLoader\TileMap.h">
+      <Filter>2DPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Level\TiledLoader\TileSet.h">
+      <Filter>2DPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Level\TiledLoader\TileMapLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
@@ -479,9 +446,6 @@
     <ClCompile Include="src\2DPrimitives\ActorFamily\ShapeBase.cpp">
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClCompile>
-    <ClCompile Include="src\2DPrimitives\ActorFamily\TiledActor2D.cpp">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClCompile>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
       <Filter>2DPrimitives\Constructs</Filter>
     </ClCompile>
@@ -500,13 +464,7 @@
     <ClCompile Include="src\2DPrimitives\SpriteBook.cpp">
       <Filter>2DPrimitives</Filter>
     </ClCompile>
-    <ClCompile Include="src\2DPrimitives\TileMap.cpp">
-      <Filter>2DPrimitives</Filter>
-    </ClCompile>
     <ClCompile Include="src\2DPrimitives\TileMapLayerRenderable.cpp">
-      <Filter>2DPrimitives</Filter>
-    </ClCompile>
-    <ClCompile Include="src\2DPrimitives\TileSet.cpp">
       <Filter>2DPrimitives</Filter>
     </ClCompile>
     <ClCompile Include="src\App.cpp" />
@@ -517,33 +475,6 @@
     </ClCompile>
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp">
       <Filter>EngineResourceHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\AddNewTextureWindow.cpp">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileMap.cpp">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu\NewTileSet.cpp">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewWizard.cpp">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TextureViewer.cpp">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TileMapViewWizard.cpp">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewWizard.cpp">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu\TilesetViewer.cpp">
-      <Filter>EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EngineUI\DebugDevelopment\MainWindow.cpp">
-      <Filter>EngineUI\DebugDevelopment</Filter>
     </ClCompile>
     <ClCompile Include="src\EngineUI\WindowHandler.cpp">
       <Filter>EngineUI</Filter>
@@ -729,5 +660,14 @@
     <ClCompile Include="src\Level\RubeLoader\RubeJsonHelpers.cpp" />
     <ClCompile Include="src\Physics\Joints\MotorJoint.cpp" />
     <ClCompile Include="src\Physics\Joints\FrictionJoint.cpp" />
+    <ClCompile Include="src\Level\TiledLoader\TiledLoader.cpp" />
+    <ClCompile Include="src\Level\TiledLoader\TileMap.cpp">
+      <Filter>2DPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Level\TiledLoader\TileSet.cpp">
+      <Filter>2DPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Level\TiledLoader\TileMapLayer.cpp" />
+    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DTilemap.cpp" />
   </ItemGroup>
 </Project>

@@ -16,7 +16,7 @@
 #include "EventSystem/Components/RecieverComponent.h"
 #include "EventSystem/Components/BroadcastComponent.h"
 
-#include "2DPrimitives/TileMap.h"
+//#include "2DPrimitives/TileMap.h"
 #include "Graphics/Renderer/RendererPrimitives/RendererPrimitives2D/TileMapRendererPrimitive.h"
 
 #include "Object.h"

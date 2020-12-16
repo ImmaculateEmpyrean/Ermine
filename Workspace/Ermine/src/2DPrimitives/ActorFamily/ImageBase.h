@@ -60,6 +60,9 @@ namespace Ermine
 		std::shared_ptr<Sprite> GetSprite(int index =0);
 		std::vector<std::shared_ptr<Ermine::Sprite>> GetSpriteBuffer(); //I Cannot Give A Reference.. Refer And Delete Manually..
 
+		//Get Texture Number From The Buffer..
+		int GetTextureNumber(std::filesystem::path TexturePath);
+
 		void SetSprite(std::shared_ptr<Sprite> Sprite);
 		void RemoveSprite(int index);
 

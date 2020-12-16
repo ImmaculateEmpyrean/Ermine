@@ -64,9 +64,13 @@ namespace Ermine
         //Initialize The Renderable2D..
         Renderable2D::Initialize();
 
+        //TexturesBuffer.erase(TexturesBuffer.begin() + 1); //Testing
         //Submit The Texture If The Actor In Question Implements Image Base Atleast..
-        if(std::dynamic_pointer_cast<Ermine::ImageBase>(Renderable2D::GetBoundActor()))
-            SubmitTexture(std::dynamic_pointer_cast<Ermine::ImageBase>(Renderable2D::GetBoundActor())->GetSprite()->GetTexture());
+        /*if (std::dynamic_pointer_cast<Ermine::ImageBase>(Renderable2D::GetBoundActor()))
+        {
+            for(int i=0;i< std::dynamic_pointer_cast<Ermine::ImageBase>(Renderable2D::GetBoundActor())->GetSpriteBuffer().size();i++)
+                SubmitTexture(std::dynamic_pointer_cast<Ermine::ImageBase>(Renderable2D::GetBoundActor())->GetSprite(i)->GetTexture());
+        }*/
     }
 
     void RenderableTextureModule::Refresh(float DeltaTime)
@@ -76,11 +80,6 @@ namespace Ermine
         if (GetObjectInitialized() == true)
         {
             Renderable2D::Refresh(DeltaTime);
-
-            if (GetObjectHealth() == ObjectStatus::StatusOk)
-            {
-                BindTexturesContained();
-            }
         }
     }
 

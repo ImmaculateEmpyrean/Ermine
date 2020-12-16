@@ -113,6 +113,21 @@ namespace Ermine
 		return ActorSprites;
 	}
 	
+	int ImageBase::GetTextureNumber(std::filesystem::path TexturePath)
+	{
+		int Counter = 0;
+		for (auto i : ActorSprites)
+		{
+			auto Tex = i->GetTexture();
+			if (Tex->GetFilePath() == TexturePath)
+				return Counter;
+			Counter++;
+		}
+
+		STDOUTDefaultLog_Warn("Requested The Lookup Of A Texture Which Does Not Exist In The ImageBase.. Hence Returning -1 Which is Probably Illegal..");
+		return -1;
+	}
+
 	void ImageBase::SetSprite(std::shared_ptr<Sprite> Sprite)
 	{
 		auto Lock = Object::GetObjectMutex();

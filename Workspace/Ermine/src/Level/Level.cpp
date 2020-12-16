@@ -6,6 +6,7 @@
 
 #include "2DPrimitives/ActorFamily/Actor2D.h"
 #include "2DPrimitives/ActorFamily/PhysicsActor2D.h"
+#include "2DPrimitives/ActorFamily/Actor2DTilemap.h"
 
 #include "RubeLoader/RubeLoader.h"
 
@@ -63,7 +64,13 @@ void Ermine::Level::LoadLevel()
 	nlohmann::json LevelJson;
 	FileRaw >> LevelJson;
 
-	//Start Get And Add All Actors To The Scene//
+	//Start Adding Tiled Actors To The Scene..//
+	auto TestAct = Ermine::Actor2DTilemap::Generate("TileMaps/TestTileMap.tmx");
+	ActorBuffer.emplace_back(TestAct);
+	//Ended Adding Tiled Actors To The Scene..//
+
+
+	/*//Start Get And Add All Actors To The Scene//
 	for (auto Actor2DDef : LevelJson["Actor2D"].items())
 	{
 		std::filesystem::path TexturePath;
@@ -122,5 +129,5 @@ void Ermine::Level::LoadLevel()
 			ActorBuffer.emplace_back(Ermine::PhysicsActor2D::Generate(Package.Sprites[i.second], Package.Components[i.second]));
 		
 	}
-	//Ended Adding PhysicsActors To The ActorBuffer..//
+	//Ended Adding PhysicsActors To The ActorBuffer..//*/
 }

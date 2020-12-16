@@ -8,6 +8,6 @@ uniform sampler2D[16] Sampler2DArray;
 
 void main()
 { 
-    int TextureNumberInt = int(TextureNumber);
+    int TextureNumberInt = int(ceil(TextureNumber));
     FragColor = texture(Sampler2DArray[TextureNumberInt],TexCoord);
 }

@@ -104,7 +104,7 @@ namespace Ermine
 		return Tex;
 	}
 
-	void Texture::Bind(int slot)
+	void Texture::Bind(unsigned int slot)
 	{
 		glActiveTexture(GL_TEXTURE0 + slot); // activate the texture unit first before binding texture
 		glBindTexture(GL_TEXTURE_2D, Tex);

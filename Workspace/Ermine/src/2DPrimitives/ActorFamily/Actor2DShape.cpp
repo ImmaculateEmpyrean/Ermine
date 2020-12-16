@@ -51,53 +51,9 @@ namespace Ermine
 	{}
 #pragma endregion
 
-	//std::shared_ptr<Ermine::Actor2DShape> Actor2DShape::Generate(glm::vec2 SpawnLocation, std::vector<VertexTextured> Vertices, std::shared_ptr<Ermine::Sprite> Spr)
-	//{
-		//return std::shared_ptr<Ermine::Actor2DShape>(new Ermine::Actor2DShape(SpawnLocation, Vertices, Spr));
-	//}
-	/*glm::mat4 Actor2DShape::GetModelMatrix()
-	{
-		return MovableObject::GetModelMatrix();
-	}*/
 
-#pragma region ImovableActorImplementation
-	/*glm::vec2 Actor2DShape::GetActorPosition()
-	{
-		auto Lock = GetObjectMutex();
-		return MovableObject::GetScreenLocation();
-	}
 
-	void Actor2DShape::SetActorPosition(glm::vec2 ActorPosition)
-	{
-		auto Lock = GetObjectMutex();
-		MovableObject::SetPosition(ActorPosition);
-	}
 
-	glm::vec2 Actor2DShape::GetActorVelocity()
-	{
-		auto Lock = GetObjectMutex();
-		return MovableObject::GetVelocity();
-	}
-
-	void Actor2DShape::SetActorVelocity(glm::vec2 ActorVelocity)
-	{
-		auto Lock = GetObjectMutex();
-		MovableObject::SetVelocity(ActorVelocity);
-	}
-
-	float Actor2DShape::GetAngularVelocity(bool Degrees)
-	{
-		auto Lock = GetObjectMutex();
-		return MovableObject::GetAngularVelocity(Degrees);
-	}
-
-	void Actor2DShape::SetAngularVelocity(float AngularVelocity, bool Degrees)
-	{
-		auto Lock = GetObjectMutex();
-		MovableObject::SetAngularVelocity(AngularVelocity, Degrees);
-	}*/
-
-#pragma endregion
 
 	void Ermine::Actor2DShape::OnUpdateTickEventRecieved()
 	{
@@ -110,29 +66,6 @@ namespace Ermine
 		MovableObject::Translate(1.0f, 0.0f);
 		STDOUTDefaultLog_Info("ActorShape Tick Working..");
 	}
-
-#pragma region MovableActorImplementation
-	/*glm::vec2 Actor2DShape::GetActorPosition()
-	{
-		auto lock = Object::GetObjectMutex();
-		return MovableObject::GetScreenLocation();
-	}
-	void Actor2DShape::SetActorPosition(glm::vec2 ActorPosition)
-	{
-		auto lock = Object::GetObjectMutex();
-		MovableObject::SetPosition(ActorPosition);
-	}
-	glm::vec2 Actor2DShape::GetActorVelocity()
-	{
-		auto lock = Object::GetObjectMutex();
-		return MovableObject::GetVelocity();
-	}
-	void Actor2DShape::SetActorVelocity(glm::vec2 ActorVelocity)
-	{
-		auto lock = Object::GetObjectMutex();
-		MovableObject::SetVelocity(ActorVelocity);
-	}*/
-#pragma endregion MovableActorImplementation
 
 #pragma region MovableObjectOverrides
 	float Actor2DShape::GetRotation()

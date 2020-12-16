@@ -32,7 +32,7 @@ namespace Ermine
 		static std::shared_ptr<Ermine::Texture> GetNullTexture();
 
 	public:
-		void Bind(int slot=0);
+		void Bind(unsigned int slot=0);
 		void Unbind();
 
 		int GetWidth();

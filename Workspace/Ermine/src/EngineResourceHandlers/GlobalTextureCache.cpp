@@ -101,23 +101,26 @@ namespace Ermine
 	}
 	int GlobalTextureCache::Bind(std::shared_ptr<Texture> Tex)
 	{
+		BindCounter = BindCounter + 1;
 		if (BindCounter == 17)
-			BindCounter = 0;
+			BindCounter = 1;
 
 		Tex->Bind(BindCounter);
 
 		//BindCounter++;
 
-		return BindCounter++;// -1;
+		return BindCounter;// -1;
 	}
 	int GlobalTextureCache::Bind(unsigned int OpenGlTexture)
 	{
+		BindCounter = BindCounter + 1;
+
 		if (BindCounter == 17)
 			BindCounter = 0;
 
 		glActiveTexture(GL_TEXTURE0 + BindCounter); // activate the texture unit first before binding texture
 		glBindTexture(GL_TEXTURE_2D, OpenGlTexture);
 
-		return BindCounter++;
+		return BindCounter;
 	}
 }
