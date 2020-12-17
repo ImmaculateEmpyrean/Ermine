@@ -37,26 +37,15 @@ namespace Ermine
 		int TopExtreme = TileSet->GetBottomLeftUV().y * TileSetTexture->GetHeight();
 		int BottomExtreme = TileSet->GetTopRightUV().y * TileSetTexture->GetHeight();
 
+
+
 		for (int j = TopExtreme; j < BottomExtreme; j = j + TileDiamensions.second)
 		{
 			for (int i = LeftExtreme; i < RightExtreme; i = i + TileDiamensions.first)
 			{
 				std::shared_ptr<Ermine::Sprite> Spr = Ermine::Sprite::GenerateSprite(TileSetTexture,
-					{ normalize(i , 0, TileSet->GetTopRightUV().x * TileSetTexture->GetWidth()), normalize(j + TileDiamensions.second , 0, TileSet->GetTopRightUV().y * TileSetTexture->GetHeight()) },
-					{ normalize(i + TileDiamensions.first, 0, TileSet->GetTopRightUV().x * TileSetTexture->GetWidth()), normalize(j, 0, TileSet->GetTopRightUV().y * TileSetTexture->GetHeight()) }); 
-
-				/*std::shared_ptr<Ermine::Sprite> Spr = Ermine::Sprite::GenerateSprite(TileSetTexture,
-					{ normalize(i + TileDiamensions.first, 0, TileSet->GetTopRightUV().x * TileSetTexture->GetWidth()), normalize(j , 0, TileSet->GetTopRightUV().y * TileSetTexture->GetHeight()) },
-					{ normalize(i, 0, TileSet->GetTopRightUV().x), normalize(j + TileDiamensions.second, 0, TileSet->GetTopRightUV().y * TileSetTexture->GetHeight()) });*/
-
-				/*std::shared_ptr<Ermine::Sprite> Spr = Ermine::Sprite::GenerateSprite(TileSetTexture,
-					{ normalize(i + TileDiamensions.first, 0, TileSet->GetTopRightUV().x * TileSetTexture->GetWidth()), normalize(j + TileDiamensions.second, 0, TileSet->GetTopRightUV().y * TileSetTexture->GetHeight()) },
-					{ normalize(i, 0, TileSet->GetTopRightUV().x), normalize(j , 0, TileSet->GetTopRightUV().y * TileSetTexture->GetHeight()) });*/
-
-				/*std::shared_ptr<Ermine::Sprite> Spr = Ermine::Sprite::GenerateSprite(TileSetTexture,
-					{ normalize(i, 0, TileSet->GetTopRightUV().x), normalize(j , 0, TileSet->GetTopRightUV().y * TileSetTexture->GetHeight()) },
-					{ normalize(i + TileDiamensions.first, 0, TileSet->GetTopRightUV().x * TileSetTexture->GetWidth()), normalize(j + TileDiamensions.second, 0, TileSet->GetTopRightUV().y * TileSetTexture->GetHeight()) });*/
-					
+					{ normalize(i , 0, TileSet->GetTopRightUV().x * TileSetTexture->GetWidth()), 1.0f - normalize(j + TileDiamensions.second , 0, TileSet->GetTopRightUV().y * TileSetTexture->GetHeight()) },
+					{ normalize(i + TileDiamensions.first, 0, TileSet->GetTopRightUV().x * TileSetTexture->GetWidth()), 1.0f - normalize(j, 0, TileSet->GetTopRightUV().y * TileSetTexture->GetHeight()) }); 
 
 				SpritesInTheTileset.emplace_back(Spr);
 
