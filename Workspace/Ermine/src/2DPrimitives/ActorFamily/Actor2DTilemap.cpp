@@ -49,7 +49,7 @@ namespace Ermine
             for(int i=0;i<Layers[LayerNumber]->GetNumberOfTilesWidth();i++)
                 for (int j = 0; j < Layers[LayerNumber]->GetNumberOfTilesHeight(); j++)
                 {
-                    if (Layers[LayerNumber]->GetLayerData()[i + (j * Layers[LayerNumber]->GetNumberOfTilesHeight())] == 0)
+                    if (Layers[LayerNumber]->GetLayerData()[i + (j * Layers[LayerNumber]->GetNumberOfTilesWidth())] == 0)
                         continue;
 
                     std::shared_ptr<Ermine::Sprite> Spr = TileMap->GetTileSprite(LayerNumber, i, j);
@@ -86,11 +86,11 @@ namespace Ermine
                    
                     //Start Set Texture Number..//
                     int TexNumber = GetTextureNumber(Spr->GetTexture()->GetFilePath());
-                    TopRight.SetTextureNumber   (1);
-                    BottomLeft.SetTextureNumber (1);
+                    TopRight.SetTextureNumber   (TexNumber);
+                    BottomLeft.SetTextureNumber (TexNumber);
 
-                    TopLeft.SetTextureNumber    (1);
-                    BottomRight.SetTextureNumber(1);
+                    TopLeft.SetTextureNumber    (TexNumber);
+                    BottomRight.SetTextureNumber(TexNumber);
                     //Ended Set TextureNumber..//
 
                     ModelCoordinates = ModelCoordinates + TopRight;

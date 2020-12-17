@@ -91,9 +91,9 @@ namespace Ermine
 	std::shared_ptr<Ermine::Sprite> TileMap::GetTileSprite(int LayerNumber, int X, int Y)
 	{
 		std::vector<int> LayerData = Layers[LayerNumber]->LayerData;
-		int NumberOfTilesHeight = Layers[LayerNumber]->NumberOfTilesHeight;
+		int NumberOfTilesWidth = Layers[LayerNumber]->NumberOfTilesWidth;
 
-		int SpriteData = LayerData[X + (Y * NumberOfTilesHeight)];
+		int SpriteData = LayerData[X + (Y * NumberOfTilesWidth)];
 
 		int Count = 0;
 		while (TileSetsBuffer[Count]->GetEndIndex() < SpriteData)

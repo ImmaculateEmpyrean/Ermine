@@ -22,22 +22,18 @@ static float normalize(float val,float min,float max)
 namespace Ermine
 {
 	//The Problem Is Somewhere In This Function Probably..
-	TileSet::TileSet(std::string TileSetName,std::shared_ptr<Ermine::Sprite> TileSet, std::pair<int, int> TileDiamensions, int StartIndex)
+	TileSet::TileSet(std::string TileSetName,std::shared_ptr<Ermine::Sprite> TileSet, std::pair<int, int> TileDiamensions, int StartIndex,int EndIndex)
 	{
 		//The Indexes Start From 1..
-		SpritesInTheTileset.emplace_back(Ermine::Sprite::GetNullSprite());
+		//SpritesInTheTileset.emplace_back(Ermine::Sprite::GetNullSprite());
 
 		std::shared_ptr<Ermine::Texture> TileSetTexture = TileSet->GetTexture();
 		
-		int Counter = 0;
-
 		int RightExtreme = TileSet->GetTopRightUV().x * TileSetTexture->GetWidth();
 		int LeftExtreme = TileSet->GetBottomLeftUV().x * TileSetTexture->GetWidth();
 
 		int TopExtreme = TileSet->GetBottomLeftUV().y * TileSetTexture->GetHeight();
 		int BottomExtreme = TileSet->GetTopRightUV().y * TileSetTexture->GetHeight();
-
-
 
 		for (int j = TopExtreme; j < BottomExtreme; j = j + TileDiamensions.second)
 		{
@@ -48,8 +44,6 @@ namespace Ermine
 					{ normalize(i + TileDiamensions.first, 0, TileSet->GetTopRightUV().x * TileSetTexture->GetWidth()), 1.0f - normalize(j, 0, TileSet->GetTopRightUV().y * TileSetTexture->GetHeight()) }); 
 
 				SpritesInTheTileset.emplace_back(Spr);
-
-				Counter++;
 			}
 		}
 
@@ -62,15 +56,15 @@ namespace Ermine
 
 		TileSetSprite = TileSet;
 
-		EndIndex = StartIndex + Counter;
+		this->EndIndex = EndIndex;
 	}
 	TileSet::~TileSet()
 	{}
 
 
-	std::shared_ptr<Ermine::TileSet> TileSet::Generate(std::string TileSetName,std::shared_ptr<Ermine::Sprite> TileSet, std::pair<int, int> TileDiamensions, int StartIndex)
+	std::shared_ptr<Ermine::TileSet> TileSet::Generate(std::string TileSetName,std::shared_ptr<Ermine::Sprite> TileSet, std::pair<int, int> TileDiamensions, int StartIndex,int EndIndex)
 	{
-		std::shared_ptr<Ermine::TileSet> Set(new Ermine::TileSet(TileSetName,TileSet,TileDiamensions,StartIndex));
+		std::shared_ptr<Ermine::TileSet> Set(new Ermine::TileSet(TileSetName,TileSet,TileDiamensions,StartIndex,EndIndex));
 		return Set;
 	}
 
@@ -87,7 +81,7 @@ namespace Ermine
 
 	std::shared_ptr<Sprite> TileSet::GetTile(int index)
 	{
-		index = index - StartIndex + 1; //Well Since The Start Index Is One So The Index Must Start From One Right..
+		index = index - StartIndex; //+ 1; //Well Since The Start Index Is One So The Index Must Start From One Right..
 		if (index < 0)
 			STDOUTDefaultLog_Critical("Error Sprite Access Index Less Than 0.. Will Certainly Crash The Program..")
 		

@@ -17,14 +17,14 @@ namespace Ermine
 	{
 	protected:
 		//Use This Constructor to Load a Tileset..
-		TileSet(std::string TileSetName,std::shared_ptr<Ermine::Sprite> TileSet, std::pair<int,int> TileDiamensions,int StartIndex);
+		TileSet(std::string TileSetName,std::shared_ptr<Ermine::Sprite> TileSet, std::pair<int,int> TileDiamensions,int StartIndex,int EndIndex);
 
 	public:
 		//A Destructor Is Not Needed For Now..
 		virtual ~TileSet();
 
 	public:
-		static std::shared_ptr<Ermine::TileSet> Generate(std::string TileSetName,std::shared_ptr<Ermine::Sprite> TileSet, std::pair<int, int> TileDiamensions,int StartIndex = 0);
+		static std::shared_ptr<Ermine::TileSet> Generate(std::string TileSetName,std::shared_ptr<Ermine::Sprite> TileSet, std::pair<int, int> TileDiamensions,int StartIndex,int EndIndex);
 
 	public:
 		std::string GetName();

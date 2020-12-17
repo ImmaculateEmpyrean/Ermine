@@ -48,8 +48,9 @@ namespace Ermine
                 TileSize.second= TileSet.getTileSize().y;
 
                 int StartIndex = TileSet.getFirstGID();
+                int EndIndex = TileSet.getLastGID();
 
-                std::shared_ptr<Ermine::TileSet> ErTileSet = Ermine::TileSet::Generate(TileSetName, TileSetSprite, TileSize, StartIndex);
+                std::shared_ptr<Ermine::TileSet> ErTileSet = Ermine::TileSet::Generate(TileSetName, TileSetSprite, TileSize, StartIndex,EndIndex);
 
                 TileMap->AddTileSet(ErTileSet);
             }

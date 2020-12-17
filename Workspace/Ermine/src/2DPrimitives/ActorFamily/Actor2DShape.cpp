@@ -63,7 +63,7 @@ namespace Ermine
 		MovableObject::Update();
 
 		//MovableObject::Scale(1.01f, 1.01f);
-		MovableObject::Translate(1.0f, 0.0f);
+		//MovableObject::Translate(1.0f, 0.0f);
 		STDOUTDefaultLog_Info("ActorShape Tick Working..");
 	}
 
