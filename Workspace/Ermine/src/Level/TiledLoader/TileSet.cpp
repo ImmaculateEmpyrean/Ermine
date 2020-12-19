@@ -24,9 +24,6 @@ namespace Ermine
 	//The Problem Is Somewhere In This Function Probably..
 	TileSet::TileSet(std::string TileSetName,std::shared_ptr<Ermine::Sprite> TileSet, std::pair<int, int> TileDiamensions, int StartIndex,int EndIndex)
 	{
-		//The Indexes Start From 1..
-		//SpritesInTheTileset.emplace_back(Ermine::Sprite::GetNullSprite());
-
 		std::shared_ptr<Ermine::Texture> TileSetTexture = TileSet->GetTexture();
 		
 		int RightExtreme = TileSet->GetTopRightUV().x * TileSetTexture->GetWidth();
