@@ -1,2 +1,8 @@
 # Ermine
-An OpenGL engine which tries to emulate "RPG Maker MV" and also be Better
+
+Ermine is an upcoming Open-source 2D game engine which is designed to be extremely lightweight and  be able to run on multiple different platforms with relative ease.
+
+
+
+
+
