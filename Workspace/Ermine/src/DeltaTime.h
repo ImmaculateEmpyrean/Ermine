@@ -5,12 +5,15 @@
 
 namespace Ermine
 {
+	class App;
+
 	class DeltaTime
 	{
 	public:
-		DeltaTime(double Time = 0.0);
+		DeltaTime() = default;
 
 	public:
+		//Get Delta Time Api..
 		double GetSeconds();
 		double GetMilliSeconds();
 
@@ -24,10 +27,15 @@ namespace Ermine
 	protected:
 
 	private:
+		void Update();
 
 	private:
-		//this is an internal variable which stores time in seconds..
-		double Time; 
+		double DTime = 0.0f;
+		double Time  = 0.0f;
 
+		//Since This Variable Is Pretty Much Accessed From Many Threads.. Better Lock It Just To Be Sure..
+		std::recursive_mutex Mut;
+
+		friend class Ermine::App;
 	};
 }

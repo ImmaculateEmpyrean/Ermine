@@ -3,55 +3,14 @@
 
 #include "Graphics/Window/Window.h"
 
-#ifdef ER_DEBUG_DEVELOP
-//#include "EngineUI/DebugDevelopment/MainWindow.h"
-#endif 
-
-#include "vec2.hpp"
-#include "vec4.hpp"
 #include "glm.hpp"
 
-#include "Graphics/Renderer/RendererPrimitives/VertexArray.h"
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
-#include "Graphics/Renderer/MaterialSystem/Shader.h"
-#include "Graphics/Renderer/MaterialSystem/Texture.h"
-#include "Graphics/Renderer/MaterialSystem/Material.h"
+#include "EventSystem/Components/BroadcastComponent.h"
 
-#include "imgui.h"
-
-#include "InputSystem/ErmineKeyCodesDefinition.h"
-
-#include<nlohmann/json.hpp>
-
-#include "2DPrimitives/ActorFamily/Actor2D.h"
-#include "2DPrimitives/ActorFamily/PhysicsActor2D.h"
-
-#include "Graphics/Renderer/Renderer2D.h"
-
-//#include "2DPrimitives/TileSet.h"
-//#include "2DPrimitives/TileMap.h"
-
-
-#include "EngineResourceHandlers/GlobalFontCache.h"
-#include "FontRenderingSystem/Font.h"
-
-#include "2DPrimitives/SpriteBook.h"
-
-#include "Physics/PhysicsComponent2D.h"
-
-#include "LayerSystem/LayerStackLayer.h"
-
-//#include "NoiseGeneration/FastNoiseLite.h"
-#include "NoiseGeneration/PerlinNoise.hpp"
-
-#include "Level/RubeLoader/RubeLoader.h"
-
-Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, std::filesystem::path LevelPath)
+Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
 	:
 	AppTitle(AppTitle),
-	Diamensions(Diamensions),
-	BeginLevel(LevelPath)
+	Diamensions(Diamensions)
 {
 #if defined(ER_DEBUG_DEVELOP) || defined(ER_DEBUG_SHIP)
 	//Start Initializing Log Library                  Donot Initialize Logs On Release Builds..
@@ -61,35 +20,17 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions, std::fil
 	//Ended Initializing Log Library
 #endif
 
+	//Create A Window For The App..
 	ManagedWindow = new Window(AppTitle, Diamensions);
 
-	//Ermine Only Supports Gui From UI From ImGui For The Forseeble Future.. Hence Game Windows Are Also Probably Gonna Be Drawn Using Imgui..
-	WindowHandler::GlobalWindowHandler = new WindowHandler();
-#ifdef ER_DEBUG_DEVELOP
-	//Only In Debug Develop Mode Do We Need To Draw The Development Tools Interface.. Maybe QT Editor Is Coming Soon..
-	//WindowHandler::GlobalWindowHandler->SubmitWindowFront(std::make_unique<DebugMainWindow>());
-#endif
-	
-	//Start Setup Physics Of the engine.. With Default Earthlike Gravity..//
-	Universum = new b2World(b2Vec2({BeginLevel.GetGravityVector().x,BeginLevel.GetGravityVector().y}));
-	//Ermine::RecalculatePhysicsWorldBounds(); //What This Func Does IS Suspect For Now..
+	//Start Setup Physics Of the engine..
+	Universum = new b2World(b2Vec2({ 0.0f,10.0f }));//Universum = new b2World(b2Vec2({BeginLevel.GetGravityVector().x,BeginLevel.GetGravityVector().y}));
 
-	//Initialize The Only Renderer In Ermine For Now..
-	auto Renderer = Renderer2D::Get();
+	//Start Off Window Handler.. //TODO - Get Rid Of This Or Expand Its Api..
+	WindowHandler::GlobalWindowHandler = new WindowHandler();
 
 	//Initialize Event Station
 	auto Station = Ermine::EventBroadcastStation::GetStation();
-
-	BeginLevel.LoadLevel();
-
-	Ermine::LayerStackLayer Layer("DefaultLayer");
-	std::vector<std::shared_ptr<Ermine::Actor2DBase>> Buf = BeginLevel.GetActors();
-	for(std::shared_ptr<Ermine::Actor2DBase> i : Buf)
-		Layer.SubmitActor(i);
-
-	Renderer->SubmitLayer(std::move(Layer));
-
-	//RubeLoader::ReadFile("RubeJson/Simulation1.json");
 }
 
 Ermine::App::~App()
@@ -129,15 +70,8 @@ static void CalculateFrameRate()
 
 void Ermine::App::AppRoutine()
 {
-	CalculateFrameRate();
-
-	//Start Calculate Delta Time..//
-	static float DeltaTimeVar = 0.0f;
-	float TimeS = glfwGetTime();// -Ermine::TimeStep;
-	DeltaTimeVar = TimeS - DeltaTimeVar;
-	Ermine::TimeStep = Ermine::DeltaTime(DeltaTimeVar);
-	DeltaTimeVar = TimeS;
-	//Ended Calculate Delta Time..//
+	//Get The DeltaTime Calculation Which Is to Be Used By The Engine this Entire Frame..
+	Ermine::TimeStep.Update();
 
 	static double UpdateCounter = 0.0;
 	UpdateCounter = UpdateCounter + TimeStep.GetSeconds();
@@ -159,23 +93,12 @@ void Ermine::App::AppRoutine()
 
 void Ermine::App::UpdateLoop()
 {
-	//Update Loop Is Called A 
-
 	Universum->Step(PhysicsWorldTimestep , PhysicsVelocityIterations, PhysicsPositionIterations); //Since Update Cycle Is Locked To 25 fps I Have Decided To Hard Code 25 Value..
-
-	//Update The Camera 
-	auto Camera = Ermine::OrthographicCamera::Get();
-	Camera->OnUpdate();
-
 	Quit = ManagedWindow->ShouldIQuit();
 }
 
 void Ermine::App::RenderLoop(float DeltaTime)
 {
 	ManagedWindow->PreNewFrameProcess();
-	WindowHandler::GlobalWindowHandler->UpdateDraw();
-
-	Renderer2D::Draw();
-
 	ManagedWindow->PostNewFrameProcess();
 }

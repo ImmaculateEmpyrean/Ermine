@@ -13,48 +13,7 @@ Ermine::LayerStackLayer::LayerStackLayer(std::string Name)
 Ermine::LayerStackLayer::~LayerStackLayer()
 {}
 
-Ermine::LayerStackLayer::LayerStackLayer(LayerStackLayer&& rhs)
-{
-	LayerName = std::move(rhs.LayerName);
-	Renderables = std::move(rhs.Renderables);
-}
-Ermine::LayerStackLayer& Ermine::LayerStackLayer::operator=(LayerStackLayer&& rhs)
-{
-	LayerName = std::move(rhs.LayerName);
-	Renderables = std::move(rhs.Renderables);
-
-	return *this;
-}
-
-void Ermine::LayerStackLayer::SubmitActor(std::shared_ptr<Actor2DBase> Ptr)
-{
-	if (std::dynamic_pointer_cast<Ermine::ImageBase, Ermine::Actor2DBase>(Ptr))
-	{
-		auto RenderableTextureModule = RenderableTextureModule::Generate(Ptr);
-		Renderables.emplace_back(std::move(RenderableTextureModule));
-	}
-	else
-	{
-		auto Renderable = Ermine::Renderable2D::Generate(Ptr);
-		Renderables.emplace_back(std::move(Renderable));
-	}
-}
-
-void Ermine::LayerStackLayer::AddLabel(std::string Text, glm::vec3 Color, glm::vec3 PositionInScreenCoordinates, std::string FontName)
-{
-	//This Still Does Not Function Please Refrain From Using This..
-}
-
-void Ermine::LayerStackLayer::Clear()
-{
-	Renderables.clear();
-}
-
-std::string Ermine::LayerStackLayer::GetName()
-{
-	return LayerName;
-}
-
+#pragma region EventHandlerFunctions
 bool Ermine::LayerStackLayer::HandleEvents(Ermine::Event* EventPointer)
 {
 	Ermine::EventType EveType = EventPointer->GetEventType();
@@ -93,8 +52,4 @@ bool Ermine::LayerStackLayer::HandleEvents(Ermine::Event* EventPointer)
 
 	return EventHandled;
 }
-
-void Ermine::LayerStackLayer::DefaultEventHandler()
-{
-	STDOUTDefaultLog_Info("Default Handler Of Event Invoked In LayerStackLayer.. Guess You ARe Unnecessarily Wasting Some Calls..");
-}
+#pragma endregion

@@ -20,7 +20,6 @@ Ermine::LayerStack::LayerStack(std::string Name)
 
 	//Start What All Events Must This Object Recieve..//
 	Object::RecieveEvents(true, Ermine::EventType::ConcreteEvent);
-
 	Object::RecieveEvents(true, Ermine::EventType::KeyCallbackEvent);
 	Object::RecieveEvents(true, Ermine::EventType::CharacterCallbackEvent);
 	Object::RecieveEvents(true, Ermine::EventType::CursorPositionCallbackEvent);
@@ -166,28 +165,3 @@ void Ermine::LayerStack::RecieveEvents(Ermine::Event* Eve)
 			return;
 	}
 }
-
-/*void Ermine::LayerStack::SubmitTileMapForDrawing(Ermine::TileMap const* Tm)
-{
-	auto TextureCacheGlobal = Ermine::GlobalTextureCache::Get();
-
-	for (int i = 0; i < Tm->Layers.size(); i++)
-	{
-		Ermine::TileMap::Layer Layer = (Tm->Layers[i]);
-		auto Pair = Tm->CreateVertexArrayForLayer(Layer);
-		
-		Pair.first.SetVertexAttribArray({
-				{3,GL_FLOAT,false},
-				{2,GL_FLOAT,false},
-				{1,GL_FLOAT,false}
-			});
-
-		Renderable2D* Obj = new TileMapLayerRenderable(Pair.first, std::move(Material("Shader/TileMapLayerBaseMaterial.json")), Pair.second);
-
-		std::unique_ptr<LayerStackLayer> L = std::make_unique<LayerStackLayer>(Layer.Name);
-		L->SubmitRenderable(Obj);
-		this->PushLayerOntoStackFront(std::move(L));
-		
-		delete Obj;
-	}
-}*/

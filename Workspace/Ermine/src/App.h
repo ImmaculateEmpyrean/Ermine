@@ -2,8 +2,10 @@
 //This Class Is Responsible For Managing The Application, Window Is But a Part of It..
 
 #include<iostream>
+
 #include<string>
 #include<vector>
+
 #include<utility>
 #include<memory>
 
@@ -24,7 +26,7 @@ namespace Ermine
 	class App
 	{
 	public:
-		App(std::string AppTitle, std::pair<int, int> Diamensions,std::filesystem::path LevelPath);
+		App(std::string AppTitle, std::pair<int, int> Diamensions);
 
 	public:
 		//The Destructor Is Virtual Ass App Is Meant To Be Inherited..
@@ -60,7 +62,7 @@ namespace Ermine
 		std::string AppTitle;
 		std::pair<int, int> Diamensions;
 
-		Ermine::Level BeginLevel;
+		
 
 		bool Quit = false;
 

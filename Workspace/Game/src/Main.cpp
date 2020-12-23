@@ -44,7 +44,7 @@ class GameApp : public Ermine::App
 public:
 	GameApp()
 		:
-		Ermine::App("Game", { 1920,1080 }, std::filesystem::path("Levels/TestLevel.json"))
+		Ermine::App("Game", { 1920,1080 })
 	{}
 };
 

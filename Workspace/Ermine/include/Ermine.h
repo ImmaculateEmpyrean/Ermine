@@ -1,1 +1,2 @@
-#include "../src/App.h"
+#include "App.h"
+#include "EntryPoint.h"

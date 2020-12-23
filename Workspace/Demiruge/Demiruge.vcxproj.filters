@@ -9,11 +9,14 @@
     <ClInclude Include="src\PCH\Dstdafx.h">
       <Filter>PCH</Filter>
     </ClInclude>
+    <ClInclude Include="src\EditorPanels\SceneView.h" />
+    <ClInclude Include="src\EditorApp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PCH\Dstdafx.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
     <ClCompile Include="src\Source.cpp" />
+    <ClCompile Include="src\EditorApp.cpp" />
   </ItemGroup>
 </Project>

@@ -193,7 +193,7 @@ namespace Ermine
 
 	void Renderer2D::DrawingRoutine()
 	{
-		auto Lock = GetObjectMutex();
+		/*auto Lock = GetObjectMutex();
 
 		//Getting The Texture Cache As It May Prove Helpful..
 		auto TextureCacheGlobal = Ermine::GlobalTextureCache::Get();
@@ -228,7 +228,7 @@ namespace Ermine
 				glDrawElements(i->GetDrawMode(), i->GetVertexArray()->GetIndexBufferLength(), GL_UNSIGNED_INT, 0);
 				//Ended These Steps Are To Be Done on All Kinds Of Renderables..//
 			}
-		}
+		}*/
 	}
 
 	void Renderer2D::PhysicsDebuggerDrawingRoutine()

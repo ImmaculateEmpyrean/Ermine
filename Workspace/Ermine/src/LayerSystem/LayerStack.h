@@ -1,25 +1,12 @@
 #pragma once
-						//note - Layers Stacks Are Parsed As Of Now From Top To Bottom Top Being The Last Element
-
+						//note - Layers Stacks Are Parsed As Of Now From Top To Bottom Top Being The Top Most Element Element
 #include<iostream>
 #include<vector>
 #include<string>
-#include<atomic>
-#include<optional>
-
-#include "LayerSystem/LayerStackLayer.h"
-
-#include "EventSystem/EnumEventType.h"
-#include "EventSystem/EventBroadcastStation.h"
-#include "EventSystem/Event.h"
-
-#include "EventSystem/Components/RecieverComponent.h"
-#include "EventSystem/Components/BroadcastComponent.h"
-
-//#include "2DPrimitives/TileMap.h"
-#include "Graphics/Renderer/RendererPrimitives/RendererPrimitives2D/TileMapRendererPrimitive.h"
 
 #include "Object.h"
+
+#include "LayerSystem/LayerStackLayer.h"
 
 namespace Ermine
 {
@@ -40,6 +27,7 @@ namespace Ermine
 		LayerStack& operator=(LayerStack&& rhs);
 
 #pragma PushLayerOntoStack
+		//These Layers Are All Unique Pointers As The Layers Do Not Have A Mutex In Them.. Soo If Two Different Layer Stacks On Two Threads May Crash By Concurrent Writing Or May Put The Program in a race condition.. 
 		void PushLayerOntoStackFront(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush);
 		void PushLayerOnTheBackOfTheStack(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush);
 		void PushLayerOntoStackAtPosition(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush, int index);
@@ -51,8 +39,7 @@ namespace Ermine
 		//Return The Number Of Layers Held By The Layer Stack Structure
 		int GetLayerStackSize();
 #pragma endregion
-
-		//If Two Or More Layers USe The Same Name.. Returns The First Thing It Encounters.. It Is Upto The Developer To Enforce Proper Names.. Ermine Does Not Care..
+		//If Two Or More Layers Use The Same Name.. Returns The First Thing It Encounters.. It Is Upto The Developer To Enforce Proper Names.. Ermine Does Not Care..
 		std::unique_ptr<Ermine::LayerStackLayer> GetLayer(std::string LayerName);
 		//This Is Returns The Layer With The Stack Number.. See That You Donot Go Over Size..
 		std::unique_ptr<Ermine::LayerStackLayer> GetLayer(int IndexInTheStack);
@@ -60,8 +47,6 @@ namespace Ermine
 		//Clears All The Layers Of This LayerStack..
 		void Clear();
 
-		//No Changes Will Be Made To The TileMap As There is No Need To Make Any Kind Of Changes We Simply Get The Necessary Renderable And Be Done Wit It..
-		//void SubmitTileMapForDrawing(Ermine::TileMap const * Tm); Not Supported For Now..
 	public:
 
 	protected:
@@ -73,9 +58,9 @@ namespace Ermine
 		void RecieveEvents(Ermine::Event* Eve);
 
 	private:
-		std::string LayerStackName; //This More Akin To A Debug Name And Not To Be Taken Seriously...
-		std::vector<std::unique_ptr<Ermine::LayerStackLayer>> LayersBuffer;
+		std::string LayerStackName = "NoNameLayerStack";
 
-		friend class Renderer2D;
+		//Holds The Layers..
+		std::vector<std::unique_ptr<Ermine::LayerStackLayer>> LayersBuffer;
 	};
 }
