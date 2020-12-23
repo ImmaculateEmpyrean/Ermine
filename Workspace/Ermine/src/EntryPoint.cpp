@@ -6,11 +6,11 @@
 #include "EngineResourceHandlers/GlobalTextureCache.h"
 #include "EngineResourceHandlers/Manifest.h"
 
-#include "Log.h"
+#include "Log/Log.h"
 
 int main(int argc, char* argv[])
 {
-#ifdef GAME_DEBUG_DEVELOP
+#ifdef ERMINE_DEBUG_DEVELOP
 	//Start Initialize Memory Leak Checking Module..
 	int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
 	flag |= (_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -30,11 +30,11 @@ int main(int argc, char* argv[])
 	Ermine::EventBroadcastStation::DestroyStation();
 	Ermine::GlobalTextureCache::ShutDownGlobalTextureCache();
 	
-#ifdef GAME_DEBUG_DEVELOP
+#ifdef ERMINE_DEBUG_DEVELOP
 	Ermine::EditorDefaultStrings::DestroyContext();
 #endif
 
-#ifdef GAME_DEBUG_DEVELOP
+#ifdef ERMINE_DEBUG_DEVELOP
 	//Start Print Detected Memory Leaks To File..
 	FILE* pFile;
 	freopen_s(&pFile, "MemoryLeakLog.txt", "w", stdout);

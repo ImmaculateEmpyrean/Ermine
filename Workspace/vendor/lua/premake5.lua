@@ -1,10 +1,10 @@
 project "lua"
     kind "StaticLib"
     language "c"
-    staticruntime "off"
+    staticruntime "on"
 
-    targetdir("../../".."bin/" .. outputdir .. "/%{prj.name}")
-    objdir("../../".."bin-int/" .. outputdir .. "/%{prj.name}")
+    targetdir("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
+    objdir("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
     files{
        "lua-5.4.2/src/**"

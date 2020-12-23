@@ -6,14 +6,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\PCH\Gstdafx.h">
+    <ClInclude Include="src\PCH\Dstdafx.h">
       <Filter>PCH</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\PCH\Gstdafx.cpp">
+    <ClCompile Include="src\PCH\Dstdafx.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
+    <ClCompile Include="src\Source.cpp" />
   </ItemGroup>
 </Project>

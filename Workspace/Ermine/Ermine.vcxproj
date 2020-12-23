@@ -76,12 +76,12 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DLL=__declspec(dllimport);ER_DEBUG_DEVELOP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\vendor\tinyxml2;..\vendor\libtmx-parser\src;..\vendor\tmxlite\tmxlite\include;..\vendor\sol2\sol2-3.2.2\single\include;..\vendor\lua\lua-5.4.2\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;ER_DEBUG_DEVELOP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;src\PCH;..\vendor\spdlog\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\vendor\tinyxml2;.;..\vendor\tmxlite\tmxlite\include;..\vendor\sol2\sol2-3.2.2\single\include;..\vendor\lua\lua-5.4.2\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -95,12 +95,12 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DLL=__declspec(dllimport);ER_DEBUG_SHIP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\vendor\tinyxml2;..\vendor\libtmx-parser\src;..\vendor\tmxlite\tmxlite\include;..\vendor\sol2\sol2-3.2.2\single\include;..\vendor\lua\lua-5.4.2\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;ER_DEBUG_SHIP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;src\PCH;..\vendor\spdlog\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\vendor\tinyxml2;.;..\vendor\tmxlite\tmxlite\include;..\vendor\sol2\sol2-3.2.2\single\include;..\vendor\lua\lua-5.4.2\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -114,14 +114,14 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DLL=__declspec(dllimport);ER_RELEASE_SHIP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\LogSystem\vendor\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\LogSystem\src;..\GameErmineCommonExchangeHeaders;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\vendor\tinyxml2;..\vendor\libtmx-parser\src;..\vendor\tmxlite\tmxlite\include;..\vendor\sol2\sol2-3.2.2\single\include;..\vendor\lua\lua-5.4.2\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;ER_RELEASE_SHIP;ER_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;src\PCH;..\vendor\spdlog\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\vendor\tinyxml2;.;..\vendor\tmxlite\tmxlite\include;..\vendor\sol2\sol2-3.2.2\single\include;..\vendor\lua\lua-5.4.2\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -135,11 +135,11 @@
     <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2D.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DBase.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DShape.h" />
+    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DTilemap.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\ActorFamilyEnnumerations.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\ImageBase.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.h" />
     <ClInclude Include="src\2DPrimitives\ActorFamily\ShapeBase.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DTilemap.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\Quad.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\VertexBase.h" />
@@ -148,16 +148,13 @@
     <ClInclude Include="src\2DPrimitives\PrimitiveType2D.h" />
     <ClInclude Include="src\2DPrimitives\Sprite.h" />
     <ClInclude Include="src\2DPrimitives\SpriteBook.h" />
-    <ClInclude Include="src\Level\TiledLoader\TileMap.h" />
     <ClInclude Include="src\2DPrimitives\TileMapLayerRenderable.h" />
-    <ClInclude Include="src\Level\TiledLoader\TileMapLayer.h" />
-    <ClInclude Include="src\Level\TiledLoader\TileSet.h" />
     <ClInclude Include="src\App.h" />
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\DeltaTime.h" />
-    <ClInclude Include="src\EngineResourceHandlers\Manifest.h" />
     <ClInclude Include="src\EngineResourceHandlers\GlobalFontCache.h" />
     <ClInclude Include="src\EngineResourceHandlers\GlobalTextureCache.h" />
+    <ClInclude Include="src\EngineResourceHandlers\Manifest.h" />
     <ClInclude Include="src\EngineUI\PrecursorWindow.h" />
     <ClInclude Include="src\EngineUI\WindowHandler.h" />
     <ClInclude Include="src\EntryPoint.h" />
@@ -208,11 +205,15 @@
     <ClInclude Include="src\LayerSystem\LayerStackLayer.h" />
     <ClInclude Include="src\Level\Entity.h" />
     <ClInclude Include="src\Level\Level.h" />
-    <ClInclude Include="src\Level\RubeLoader\RubeJsonHelpers.h" />
     <ClInclude Include="src\Level\RubeLoader\RubeJointDefinition.h" />
+    <ClInclude Include="src\Level\RubeLoader\RubeJsonHelpers.h" />
     <ClInclude Include="src\Level\RubeLoader\RubeLoader.h" />
     <ClInclude Include="src\Level\RubeLoader\RubeLoaderPackage.h" />
+    <ClInclude Include="src\Level\TiledLoader\TileMap.h" />
+    <ClInclude Include="src\Level\TiledLoader\TileMapLayer.h" />
+    <ClInclude Include="src\Level\TiledLoader\TileSet.h" />
     <ClInclude Include="src\Level\TiledLoader\TiledLoader.h" />
+    <ClInclude Include="src\Log\Log.h" />
     <ClInclude Include="src\MutexSystem\Interfaces\IMutex.h" />
     <ClInclude Include="src\MutexSystem\LockChamber.h" />
     <ClInclude Include="src\MutexSystem\MutexCasket.h" />
@@ -228,13 +229,13 @@
     <ClInclude Include="src\Physics\FixtureColorStruct.h" />
     <ClInclude Include="src\Physics\FixtureUserDataStruct.h" />
     <ClInclude Include="src\Physics\JointManager.h" />
-    <ClInclude Include="src\Physics\Joints\FrictionJoint.h" />
-    <ClInclude Include="src\Physics\Joints\MotorJoint.h" />
     <ClInclude Include="src\Physics\JointTicket.h" />
     <ClInclude Include="src\Physics\Joints\DistanceJoint.h" />
     <ClInclude Include="src\Physics\Joints\EJointType.h" />
+    <ClInclude Include="src\Physics\Joints\FrictionJoint.h" />
     <ClInclude Include="src\Physics\Joints\JointBase.h" />
     <ClInclude Include="src\Physics\Joints\JointHealthEnum.h" />
+    <ClInclude Include="src\Physics\Joints\MotorJoint.h" />
     <ClInclude Include="src\Physics\Joints\PrismaticJoint.h" />
     <ClInclude Include="src\Physics\Joints\RevoluteJoint.h" />
     <ClInclude Include="src\Physics\Joints\RopeJoint.h" />
@@ -263,16 +264,13 @@
     <ClCompile Include="src\2DPrimitives\Label.cpp" />
     <ClCompile Include="src\2DPrimitives\Sprite.cpp" />
     <ClCompile Include="src\2DPrimitives\SpriteBook.cpp" />
-    <ClCompile Include="src\Level\TiledLoader\TileMap.cpp" />
     <ClCompile Include="src\2DPrimitives\TileMapLayerRenderable.cpp" />
-    <ClCompile Include="src\Level\TiledLoader\TileMapLayer.cpp" />
-    <ClCompile Include="src\Level\TiledLoader\TileSet.cpp" />
     <ClCompile Include="src\App.cpp" />
     <ClCompile Include="src\Core.cpp" />
     <ClCompile Include="src\DeltaTime.cpp" />
-    <ClCompile Include="src\EngineResourceHandlers\Manifest.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\GlobalFontCache.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp" />
+    <ClCompile Include="src\EngineResourceHandlers\Manifest.cpp" />
     <ClCompile Include="src\EngineUI\WindowHandler.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp" />
@@ -314,10 +312,14 @@
     <ClCompile Include="src\LayerSystem\LayerStack.cpp" />
     <ClCompile Include="src\LayerSystem\LayerStackLayer.cpp" />
     <ClCompile Include="src\Level\Level.cpp" />
-    <ClCompile Include="src\Level\RubeLoader\RubeJsonHelpers.cpp" />
     <ClCompile Include="src\Level\RubeLoader\RubeJointDefinition.cpp" />
+    <ClCompile Include="src\Level\RubeLoader\RubeJsonHelpers.cpp" />
     <ClCompile Include="src\Level\RubeLoader\RubeLoader.cpp" />
+    <ClCompile Include="src\Level\TiledLoader\TileMap.cpp" />
+    <ClCompile Include="src\Level\TiledLoader\TileMapLayer.cpp" />
+    <ClCompile Include="src\Level\TiledLoader\TileSet.cpp" />
     <ClCompile Include="src\Level\TiledLoader\TiledLoader.cpp" />
+    <ClCompile Include="src\Log\Log.cpp" />
     <ClCompile Include="src\MutexSystem\MutexCasket.cpp" />
     <ClCompile Include="src\MutexSystem\MutexGaurd.cpp" />
     <ClCompile Include="src\MutexSystem\MutexManager.cpp" />
@@ -327,11 +329,11 @@
     </ClCompile>
     <ClCompile Include="src\Physics\BodyPart.cpp" />
     <ClCompile Include="src\Physics\FixtureColorStruct.cpp" />
-    <ClCompile Include="src\Physics\Joints\FrictionJoint.cpp" />
-    <ClCompile Include="src\Physics\Joints\MotorJoint.cpp" />
     <ClCompile Include="src\Physics\JointTicket.cpp" />
     <ClCompile Include="src\Physics\Joints\DistanceJoint.cpp" />
+    <ClCompile Include="src\Physics\Joints\FrictionJoint.cpp" />
     <ClCompile Include="src\Physics\Joints\JointBase.cpp" />
+    <ClCompile Include="src\Physics\Joints\MotorJoint.cpp" />
     <ClCompile Include="src\Physics\Joints\PrismaticJoint.cpp" />
     <ClCompile Include="src\Physics\Joints\RevoluteJoint.cpp" />
     <ClCompile Include="src\Physics\Joints\RopeJoint.cpp" />

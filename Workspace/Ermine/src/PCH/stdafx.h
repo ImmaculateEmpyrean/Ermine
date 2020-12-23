@@ -26,7 +26,7 @@
 
 #include<cassert>
 
-#include "Log.h"
+#include "Log/Log.h"
 
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>

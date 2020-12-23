@@ -1,10 +1,10 @@
 project "sol2"
     kind "StaticLib"
     language "c"
-    staticruntime "off"
+    staticruntime "on"
 
-    targetdir("../../".."bin/" .. outputdir .. "/%{prj.name}")
-    objdir("../../".."bin-int/" .. outputdir .. "/%{prj.name}")
+    targetdir("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
+    objdir("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
     files{
        "sol2-3.2.2/single/include/**",

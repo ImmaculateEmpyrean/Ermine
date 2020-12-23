@@ -7,9 +7,6 @@
     <Filter Include="2DPrimitives\ActorFamily">
       <UniqueIdentifier>{71E16BFC-5D06-BB7C-8651-A00C72D5B99A}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2DPrimitives\ActorFamily\Interfaces">
-      <UniqueIdentifier>{24DD7132-9096-DCDC-19F6-F6B685AE924C}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2DPrimitives\Constructs">
       <UniqueIdentifier>{EE5B917D-5A93-D914-639D-3D38CF53000E}</UniqueIdentifier>
     </Filter>
@@ -18,18 +15,6 @@
     </Filter>
     <Filter Include="EngineUI">
       <UniqueIdentifier>{D935E534-C502-4040-EE1B-2EE8DA4775CE}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="EngineUI\DebugDevelopment">
-      <UniqueIdentifier>{728B5C58-DE4D-90E2-27FE-1E6F93FF68C0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="EngineUI\DebugDevelopment\AssetsMenu">
-      <UniqueIdentifier>{891DBA44-7504-7C3C-1E55-E2590A1BF5A2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="EngineUI\DebugDevelopment\AssetsMenu\AddNewAssetsMenu">
-      <UniqueIdentifier>{731303E7-DF2F-F5D7-A807-624514E35E99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="EngineUI\DebugDevelopment\AssetsMenu\ViewAssetsMenu">
-      <UniqueIdentifier>{BBD9C286-27EB-6A2D-B03C-FD6C1C4DF466}</UniqueIdentifier>
     </Filter>
     <Filter Include="EventSystem">
       <UniqueIdentifier>{CCE875DF-389E-EED4-C192-E8AB2D47E5D8}</UniqueIdentifier>
@@ -79,6 +64,15 @@
     <Filter Include="Level">
       <UniqueIdentifier>{1DAC970D-89C0-BFBE-5242-631EBE15BCEF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\RubeLoader">
+      <UniqueIdentifier>{9136129D-7D2F-31EF-A661-167492B910FB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\TiledLoader">
+      <UniqueIdentifier>{35E03C8D-A1F6-3A23-EA6D-C64456C30BAB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log">
+      <UniqueIdentifier>{E704880B-530E-887C-DC89-9E7C4892937C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="MutexSystem">
       <UniqueIdentifier>{DD1734BF-49CD-ACB4-D2C1-A68B3E76A3B8}</UniqueIdentifier>
     </Filter>
@@ -115,6 +109,9 @@
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClInclude>
     <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DShape.h">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClInclude>
+    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DTilemap.h">
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClInclude>
     <ClInclude Include="src\2DPrimitives\ActorFamily\ActorFamilyEnnumerations.h">
@@ -163,6 +160,9 @@
       <Filter>EngineResourceHandlers</Filter>
     </ClInclude>
     <ClInclude Include="src\EngineResourceHandlers\GlobalTextureCache.h">
+      <Filter>EngineResourceHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EngineResourceHandlers\Manifest.h">
       <Filter>EngineResourceHandlers</Filter>
     </ClInclude>
     <ClInclude Include="src\EngineUI\PrecursorWindow.h">
@@ -313,6 +313,33 @@
     <ClInclude Include="src\Level\Level.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="src\Level\RubeLoader\RubeJointDefinition.h">
+      <Filter>Level\RubeLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Level\RubeLoader\RubeJsonHelpers.h">
+      <Filter>Level\RubeLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Level\RubeLoader\RubeLoader.h">
+      <Filter>Level\RubeLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Level\RubeLoader\RubeLoaderPackage.h">
+      <Filter>Level\RubeLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Level\TiledLoader\TileMap.h">
+      <Filter>Level\TiledLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Level\TiledLoader\TileMapLayer.h">
+      <Filter>Level\TiledLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Level\TiledLoader\TileSet.h">
+      <Filter>Level\TiledLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Level\TiledLoader\TiledLoader.h">
+      <Filter>Level\TiledLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Log\Log.h">
+      <Filter>Log</Filter>
+    </ClInclude>
     <ClInclude Include="src\MutexSystem\Interfaces\IMutex.h">
       <Filter>MutexSystem\Interfaces</Filter>
     </ClInclude>
@@ -363,10 +390,16 @@
     <ClInclude Include="src\Physics\Joints\EJointType.h">
       <Filter>Physics\Joints</Filter>
     </ClInclude>
+    <ClInclude Include="src\Physics\Joints\FrictionJoint.h">
+      <Filter>Physics\Joints</Filter>
+    </ClInclude>
     <ClInclude Include="src\Physics\Joints\JointBase.h">
       <Filter>Physics\Joints</Filter>
     </ClInclude>
     <ClInclude Include="src\Physics\Joints\JointHealthEnum.h">
+      <Filter>Physics\Joints</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Joints\MotorJoint.h">
       <Filter>Physics\Joints</Filter>
     </ClInclude>
     <ClInclude Include="src\Physics\Joints\PrismaticJoint.h">
@@ -406,26 +439,6 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\EngineResourceHandlers\Manifest.h">
-      <Filter>EngineResourceHandlers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Level\RubeLoader\RubeLoader.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Level\RubeLoader\RubeLoaderPackage.h" />
-    <ClInclude Include="src\Level\RubeLoader\RubeJointDefinition.h" />
-    <ClInclude Include="src\Level\RubeLoader\RubeJsonHelpers.h" />
-    <ClInclude Include="src\Physics\Joints\MotorJoint.h" />
-    <ClInclude Include="src\Physics\Joints\FrictionJoint.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DTilemap.h" />
-    <ClInclude Include="src\Level\TiledLoader\TiledLoader.h" />
-    <ClInclude Include="src\Level\TiledLoader\TileMap.h">
-      <Filter>2DPrimitives</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Level\TiledLoader\TileSet.h">
-      <Filter>2DPrimitives</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Level\TiledLoader\TileMapLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
@@ -435,6 +448,9 @@
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DShape.cpp">
+      <Filter>2DPrimitives\ActorFamily</Filter>
+    </ClCompile>
+    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DTilemap.cpp">
       <Filter>2DPrimitives\ActorFamily</Filter>
     </ClCompile>
     <ClCompile Include="src\2DPrimitives\ActorFamily\ImageBase.cpp">
@@ -474,6 +490,9 @@
       <Filter>EngineResourceHandlers</Filter>
     </ClCompile>
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp">
+      <Filter>EngineResourceHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EngineResourceHandlers\Manifest.cpp">
       <Filter>EngineResourceHandlers</Filter>
     </ClCompile>
     <ClCompile Include="src\EngineUI\WindowHandler.cpp">
@@ -597,6 +616,30 @@
     <ClCompile Include="src\Level\Level.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="src\Level\RubeLoader\RubeJointDefinition.cpp">
+      <Filter>Level\RubeLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Level\RubeLoader\RubeJsonHelpers.cpp">
+      <Filter>Level\RubeLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Level\RubeLoader\RubeLoader.cpp">
+      <Filter>Level\RubeLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Level\TiledLoader\TileMap.cpp">
+      <Filter>Level\TiledLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Level\TiledLoader\TileMapLayer.cpp">
+      <Filter>Level\TiledLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Level\TiledLoader\TileSet.cpp">
+      <Filter>Level\TiledLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Level\TiledLoader\TiledLoader.cpp">
+      <Filter>Level\TiledLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Log\Log.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
     <ClCompile Include="src\MutexSystem\MutexCasket.cpp">
       <Filter>MutexSystem</Filter>
     </ClCompile>
@@ -622,7 +665,13 @@
     <ClCompile Include="src\Physics\Joints\DistanceJoint.cpp">
       <Filter>Physics\Joints</Filter>
     </ClCompile>
+    <ClCompile Include="src\Physics\Joints\FrictionJoint.cpp">
+      <Filter>Physics\Joints</Filter>
+    </ClCompile>
     <ClCompile Include="src\Physics\Joints\JointBase.cpp">
+      <Filter>Physics\Joints</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\Joints\MotorJoint.cpp">
       <Filter>Physics\Joints</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics\Joints\PrismaticJoint.cpp">
@@ -650,24 +699,5 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\EngineResourceHandlers\Manifest.cpp">
-      <Filter>EngineResourceHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Level\RubeLoader\RubeLoader.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Level\RubeLoader\RubeJointDefinition.cpp" />
-    <ClCompile Include="src\Level\RubeLoader\RubeJsonHelpers.cpp" />
-    <ClCompile Include="src\Physics\Joints\MotorJoint.cpp" />
-    <ClCompile Include="src\Physics\Joints\FrictionJoint.cpp" />
-    <ClCompile Include="src\Level\TiledLoader\TiledLoader.cpp" />
-    <ClCompile Include="src\Level\TiledLoader\TileMap.cpp">
-      <Filter>2DPrimitives</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Level\TiledLoader\TileSet.cpp">
-      <Filter>2DPrimitives</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Level\TiledLoader\TileMapLayer.cpp" />
-    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DTilemap.cpp" />
   </ItemGroup>
 </Project>

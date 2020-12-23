@@ -1,6 +1,11 @@
-#include "stdafx.h"
+#include "Gstdafx.h"
 
-#include <iostream>
+#include "App.h"
+#include "EntryPoint.h"
+
+//#include ""
+
+/*#include <iostream>
 #include <vector>
 #include <string>
 
@@ -26,10 +31,24 @@ public:
 Ermine::App* Ermine::ExecuteApp()
 {
 	return new GameApp();
-}
+}*/
 
 std::shared_ptr<Ermine::Actor2DBase> Ermine::Actor2DConstructionCallback(std::shared_ptr<Ermine::Actor2DBase> Act)
 {
-	std::shared_ptr<Game::DiagnolActor> Act2 = Game::DiagnolActor::Generate(Act);
-	return Act2;
+	//std::shared_ptr<Game::DiagnolActor> Act2 = Game::DiagnolActor::Generate(Act);
+	return Act;
+}
+
+class GameApp : public Ermine::App
+{
+public:
+	GameApp()
+		:
+		Ermine::App("Game", { 1920,1080 }, std::filesystem::path("Levels/TestLevel.json"))
+	{}
+};
+
+Ermine::App* Ermine::ExecuteApp()
+{
+	return new GameApp();
 }

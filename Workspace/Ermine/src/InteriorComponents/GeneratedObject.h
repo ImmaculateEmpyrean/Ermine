@@ -12,7 +12,7 @@
 #include<filesystem>
 #include<functional>
 
-#include "Log.h"
+#include "Log/Log.h"
 #include "EventSystem/EnumEventType.h"
 
 #include "ObjectStatus.h"
