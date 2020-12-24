@@ -25,6 +25,11 @@ Ermine::LayerStack::LayerStack(std::string Name)
 	Object::RecieveEvents(true, Ermine::EventType::CursorPositionCallbackEvent);
 	Object::RecieveEvents(true, Ermine::EventType::MouseButtonCallbackEvent);
 	Object::RecieveEvents(true, Ermine::EventType::ScrollCallbackEvent);
+
+	//These Two Events Are Primarily Used By The Layers To Update Themselves.
+	Object::RecieveEvents(true, Ermine::EventType::OnUpdateTickEvent);
+	Object::RecieveEvents(true, Ermine::EventType::OnRenderTickEvent);
+
 	//Ended What All Events Must This Object Recieve..//
 }
 
@@ -50,6 +55,11 @@ Ermine::LayerStack::LayerStack(LayerStack&& rhs)
 	Object::RecieveEvents(true, Ermine::EventType::CursorPositionCallbackEvent);
 	Object::RecieveEvents(true, Ermine::EventType::MouseButtonCallbackEvent);
 	Object::RecieveEvents(true, Ermine::EventType::ScrollCallbackEvent);
+
+	//These Two Events Are Primarily Used By The Layers To Update Themselves.
+	Object::RecieveEvents(true, Ermine::EventType::OnUpdateTickEvent);
+	Object::RecieveEvents(true, Ermine::EventType::OnRenderTickEvent);
+
 }
 Ermine::LayerStack& Ermine::LayerStack::operator=(LayerStack&& rhs)
 {
@@ -71,46 +81,45 @@ Ermine::LayerStack& Ermine::LayerStack::operator=(LayerStack&& rhs)
 	Object::RecieveEvents(true, Ermine::EventType::MouseButtonCallbackEvent);
 	Object::RecieveEvents(true, Ermine::EventType::ScrollCallbackEvent);
 
+	//These Two Events Are Primarily Used By The Layers To Update Themselves.
+	Object::RecieveEvents(true, Ermine::EventType::OnUpdateTickEvent);
+	Object::RecieveEvents(true, Ermine::EventType::OnRenderTickEvent);
+
 	return *this;
 }
 #pragma endregion
 
 
 #pragma region PushLayerOntoStack
-void Ermine::LayerStack::PushLayerOntoStackFront(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush)
+void Ermine::LayerStack::PushLayer(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush, int index)
 {
 	auto Lock = GetObjectMutex();
-	LayersBuffer.insert(LayersBuffer.begin(), std::move(LayerToPush));
-}
-void Ermine::LayerStack::PushLayerOnTheBackOfTheStack(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush)
-{
-	auto LOck = GetObjectMutex();
-	LayersBuffer.emplace_back(std::move(LayerToPush));
-}
-void Ermine::LayerStack::PushLayerOntoStackAtPosition(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush, int index)
-{
-	auto Lock = GetObjectMutex();
-	LayersBuffer.insert(LayersBuffer.begin() + index,std::move(LayerToPush));
+	LayersBuffer.insert(LayersBuffer.begin() + index, std::move(LayerToPush));
 }
 
-void Ermine::LayerStack::PushLayerOntoStackFront(std::string LayerName)
+void Ermine::LayerStack::DeleteLayer(int index)
 {
 	auto Lock = GetObjectMutex();
-	LayersBuffer.insert(LayersBuffer.begin(), std::make_unique<Ermine::LayerStackLayer>(LayerName));
+
+	//Better To Destroy The Program Here.. Atleast The Call Stack Will Look Nice..
+	assert(index < LayersBuffer.size());
+	
+	LayersBuffer.erase(LayersBuffer.begin() + index);
 }
-void Ermine::LayerStack::PushLayerOnTheBackOfTheStack(std::string LayerName)
+void Ermine::LayerStack::DeleteLayer(std::string LayerName)
 {
-	auto Lock = GetObjectMutex();
-	LayersBuffer.emplace_back(std::make_unique<Ermine::LayerStackLayer>(LayerName));
-}
-void Ermine::LayerStack::PushLayerOntoStackAtPosition(std::string LayerName, int index)
-{
-	auto Lock = GetObjectMutex();
-	LayersBuffer.insert(LayersBuffer.begin() + index, std::make_unique<Ermine::LayerStackLayer>(LayerName));
+	for(int i=0;i<LayersBuffer.size();i++)
+	{
+		if (LayersBuffer[i]->GetName() == LayerName);
+		{
+			DeleteLayer(i);
+			break;
+		}
+	}
+	return;
 }
 
-
-int Ermine::LayerStack::GetLayerStackSize()
+int Ermine::LayerStack::GetSize()
 {
 	auto Lock = GetObjectMutex();
 	return LayersBuffer.size();

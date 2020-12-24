@@ -1,5 +1,5 @@
 #pragma once
-						//note - Layers Stacks Are Parsed As Of Now From Top To Bottom Top Being The Top Most Element Element
+						//note - First Element In The Stack With Index Zero Is The Top Most Element..
 #include<iostream>
 #include<vector>
 #include<string>
@@ -28,16 +28,15 @@ namespace Ermine
 
 #pragma PushLayerOntoStack
 		//These Layers Are All Unique Pointers As The Layers Do Not Have A Mutex In Them.. Soo If Two Different Layer Stacks On Two Threads May Crash By Concurrent Writing Or May Put The Program in a race condition.. 
-		void PushLayerOntoStackFront(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush);
-		void PushLayerOnTheBackOfTheStack(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush);
-		void PushLayerOntoStackAtPosition(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush, int index);
-
-		void PushLayerOntoStackFront(std::string LayerName);
-		void PushLayerOnTheBackOfTheStack(std::string LayerName);
-		void PushLayerOntoStackAtPosition(std::string LayerName, int index);
+		//Specifying No Index Will Push The Layer As The BottomMost Layer..
+		void PushLayer(std::unique_ptr<Ermine::LayerStackLayer> LayerToPush,int index = 0);
+		
+		//No Index Means The TopMost layer is Deleted..
+		void DeleteLayer(int index = 0);
+		void DeleteLayer(std::string LayerName);
 
 		//Return The Number Of Layers Held By The Layer Stack Structure
-		int GetLayerStackSize();
+		int GetSize();
 #pragma endregion
 		//If Two Or More Layers Use The Same Name.. Returns The First Thing It Encounters.. It Is Upto The Developer To Enforce Proper Names.. Ermine Does Not Care..
 		std::unique_ptr<Ermine::LayerStackLayer> GetLayer(std::string LayerName);

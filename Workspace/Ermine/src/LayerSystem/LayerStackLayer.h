@@ -58,7 +58,10 @@ namespace Ermine
 		virtual bool CursorPositionUpdateEventRecieved(int xpos, int ypos) { return false; };
 		virtual bool MouseButtonCallbackEventRecieved(int button, int action, int mods) { return false; };
 		virtual bool ScrollPositionUpdateEventRecieved(double xoffset, double yoffset) { return false; };
-		//Tick,BeginEvent,TileSelectedUpdateEvent Are Not Supported As Of Now.. 
+
+		virtual bool OnUpdateTickEventRecieved(float Dt) { Update(Dt); return false; }
+		virtual bool OnRenderTickEventRecieved(float Dt) { Render(Dt); return false; }
+		//BeginEvent,TileSelectedUpdateEvent Are Not Supported As Of Now.. 
 #pragma endregion
 	protected:
 

@@ -148,11 +148,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\EditorApp.h" />
+    <ClInclude Include="src\EditorLayer.h" />
     <ClInclude Include="src\EditorPanels\SceneView.h" />
     <ClInclude Include="src\PCH\Dstdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EditorApp.cpp" />
+    <ClCompile Include="src\EditorLayer.cpp" />
     <ClCompile Include="src\PCH\Dstdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

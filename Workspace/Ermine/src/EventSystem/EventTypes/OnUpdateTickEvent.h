@@ -14,19 +14,24 @@ namespace Ermine
 	class OnUpdateTickEvent :public Event
 	{
 	public:
-		OnUpdateTickEvent();
+		OnUpdateTickEvent() = default;
+		OnUpdateTickEvent(float DeltaTime);
 		
 	private:
+		float DeltaTime = 0.0f;
 		bool EventHandled = false;
 
 	public:
 		virtual EventType GetEventType() override { return EventType::OnUpdateTickEvent; }
 
-		static std::unique_ptr<OnUpdateTickEvent> GenerateEvent();
+		static std::unique_ptr<OnUpdateTickEvent> GenerateEvent(float DeltaTime);
 
 	public:
 		virtual bool IsEventHandled() override { return EventHandled; }
 		virtual void SetEventHandled() override { EventHandled = true; }
+
+		//Event Specific Implementation
+		float GetDeltaTime();
 	};
 
 	////////////////////////////////////////////////////////

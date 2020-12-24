@@ -123,6 +123,37 @@ void Ermine::EventBroadcastStation::QueueBroadcast(std::unique_ptr<Event> Broadc
 
 	delete EvePtr;
 }
+void Ermine::EventBroadcastStation::BlockingBroadcast(std::unique_ptr<Event> BroadcastPackage)
+{
+	Ermine::EventType BroadcastType = BroadcastPackage->GetEventType();
+	
+	if (BroadcastType == EventType::ConcreteEvent)
+		DispatchMessageBlocking< std::unordered_map<int, ConcreteEventSubscription>, Ermine::ConcreteEvent>(ConcreteEventSubscriptions, ConcreteEventsSubscriptionsMutex, std::move(BroadcastPackage));
+	else if (BroadcastType == EventType::KeyCallbackEvent)
+		DispatchMessageBlocking< std::unordered_map<int, KeyCallbackEventSubscription>, Ermine::KeyCallbackEvent>(KeyCallbackEventsSubscriptions, KeyCallbackEventsSubscriptionsMutex, std::move(BroadcastPackage));
+	else if (BroadcastType == EventType::CharacterCallbackEvent)
+		DispatchMessageBlocking < std::unordered_map<int, CharacterCallbackEventSubscription>, Ermine::CharacterCallbackEvent > (CharacterCallbackEventSubscriptions, CharacterCallbackEventsSubscriptionsMutex, std::move(BroadcastPackage));
+	else if (BroadcastType == EventType::CursorPositionCallbackEvent)
+		DispatchMessageBlocking< std::unordered_map<int, CursorPositionCallbackEventSubscription>, Ermine::CursorPositionCallbackEvent>(CursorPositionCallbackEventSubscriptions, CursorPositionCallbackEventsSubscriptionsMutex, std::move(BroadcastPackage));
+	else if (BroadcastType == EventType::MouseButtonCallbackEvent)
+		DispatchMessageBlocking< std::unordered_map<int, MouseButtonCallbackEventSubscription>, Ermine::MouseButtonCallbackEvent>(MouseButtonCallbackEventSubscriptions, MouseButtonCallbackEventsSubscriptionsMutex,std::move(BroadcastPackage));
+	else if (BroadcastType == EventType::ScrollCallbackEvent)
+		DispatchMessageBlocking< std::unordered_map<int, ScrollCallbackEventSubscription>, Ermine::ScrollCallbackEvent>(ScrollCallbackEventSubscriptions, ScrollCallbackEventsSubscriptionsMutex, std::move(BroadcastPackage));
+	else if (BroadcastType == EventType::TileSelectedEvent)
+		DispatchMessageBlocking< std::unordered_map<int, TileSelectedEventSubscription>, Ermine::TileSelectedEvent>(TileSelectedCallbackEventSubscriptions, TileSelectedCallbackEventsSubscriptionsMutex, std::move(BroadcastPackage));
+	else if (BroadcastType == EventType::OnRenderTickEvent)
+		DispatchMessageBlocking< std::unordered_map<int, OnRenderTickEventSubscription>, Ermine::OnRenderTickEvent>(OnRenderTickCallbackEventSubscriptions, OnRenderTickCallbackEventSubscriptionsMutex, std::move(BroadcastPackage));
+	else if (BroadcastType == EventType::OnUpdateTickEvent)
+		DispatchMessageBlocking< std::unordered_map<int, OnUpdateTickEventSubscription>, Ermine::OnUpdateTickEvent>(OnUpdateTickCallbackEventSubscriptions, OnUpdateTickCallbackEventSubscriptionsMutex, std::move(BroadcastPackage));
+	else if (BroadcastType == EventType::OnBeginEvent)
+		DispatchMessageBlocking< std::unordered_map<int, OnBeginEventSubscription>, Ermine::OnBeginEvent>(OnBeginEventSubscriptions, OnBeginEventSubscriptionsMutex, std::move(BroadcastPackage));
+	else
+	{
+		STDOUTDefaultLog_Error("Invalid EventType Recieved In BlockingBroadcast.. As Such Cannot Process The Message.. Dropped Said Message. Message Type : {0}",((int)BroadcastType));
+	}	
+	return;
+}
+
 
 Ermine::SubscriptionTicket Ermine::EventBroadcastStation::QueueSubscription(std::unique_ptr<EventSubscription> Subscription)
 {
@@ -155,30 +186,6 @@ Ermine::SubscriptionTicket Ermine::EventBroadcastStation::QueueSubscription(std:
 		break;
 	default: STDOUTDefaultLog_Critical("Unknown Subscription Type Recieved For Queing Check Api Maybe... Dunno I should never trigger");
 	}
-
-	/*switch (SubscriptionType)
-	{
-	case EventType::ConcreteEvent : ConcreteEventSubscriptions.emplace(Ticket,*((ConcreteEventSubscription*)(EvePtr)));								
-		break;
-	case EventType::KeyCallbackEvent : KeyCallbackEventsSubscriptions.emplace(Ticket,*((KeyCallbackEventSubscription*)(EvePtr)));
-		break;
-	case EventType::CharacterCallbackEvent: CharacterCallbackEventSubscriptions.emplace(Ticket,*((CharacterCallbackEventSubscription*)(EvePtr)));
-		break;
-	case EventType::CursorPositionCallbackEvent: CursorPositionCallbackEventSubscriptions.emplace(Ticket,*((CursorPositionCallbackEventSubscription*)(EvePtr)));
-		break;
-	case EventType::MouseButtonCallbackEvent: MouseButtonCallbackEventSubscriptions.emplace(Ticket,*((MouseButtonCallbackEventSubscription*)(EvePtr)));
-		break;
-	case EventType::ScrollCallbackEvent: ScrollCallbackEventSubscriptions.emplace(Ticket,*((ScrollCallbackEventSubscription*)(EvePtr)));
-		break;
-	case EventType::TileSelectedEvent: TileSelectedCallbackEventSubscriptions.emplace(Ticket,*((TileSelectedEventSubscription*)(EvePtr)));
-		break;
-	case EventType::OnTickEvent: OnTickCallbackEventSubscriptions.emplace(Ticket,*((OnTickEventSubscription*)(EvePtr)));
-		break;
-	case EventType::OnBeginEvent: OnBeginEventSubscriptions.emplace(Ticket, *((OnBeginEventSubscription*)(EvePtr)));
-		break;
-	default: STDOUTDefaultLog_Critical("Unknown Subscription Type Recieved For Queing Check Api Maybe... Dunno I should never trigger");
-	}*/
-
 	delete EvePtr;
 
 	//Return The Ticket Back To The User Or Whatever Is Calling This..
@@ -188,24 +195,6 @@ Ermine::SubscriptionTicket Ermine::EventBroadcastStation::QueueSubscription(std:
 void Ermine::EventBroadcastStation::DestroySubscription(Ermine::SubscriptionTicket SubscriptionTicket)
 {
 	auto SubscriptionType = SubscriptionTicket.GetEventSubscriptionType();
-
-	/*if (SubscriptionType == Ermine::EventType::ConcreteEvent)
-		DestorySubscriptionTemplate(ConcreteEventsSubscriptionsMutex, ConcreteEventSubscriptions, std::move(SubscriptionTicket));
-
-	if (SubscriptionType == Ermine::EventType::KeyCallbackEvent)
-		DestorySubscriptionTemplate(KeyCallbackEventsSubscriptionsMutex, KeyCallbackEventsSubscriptions, std::move(SubscriptionTicket));
-	if (SubscriptionType == Ermine::EventType::CharacterCallbackEvent)
-		DestorySubscriptionTemplate(CharacterCallbackEventsSubscriptionsMutex, CharacterCallbackEventSubscriptions, std::move(SubscriptionTicket));
-	if (SubscriptionType == Ermine::EventType::CursorPositionCallbackEvent)
-		DestorySubscriptionTemplate(CursorPositionCallbackEventsSubscriptionsMutex, CursorPositionCallbackEventSubscriptions, std::move(SubscriptionTicket));
-	if (SubscriptionType == Ermine::EventType::MouseButtonCallbackEvent)
-		DestorySubscriptionTemplate(MouseButtonCallbackEventsSubscriptionsMutex, MouseButtonCallbackEventSubscriptions, std::move(SubscriptionTicket));
-	if (SubscriptionType == Ermine::EventType::ScrollCallbackEvent)
-		DestorySubscriptionTemplate(ScrollCallbackEventsSubscriptionsMutex, ScrollCallbackEventSubscriptions, std::move(SubscriptionTicket));
-
-	if (SubscriptionType == Ermine::EventType::TileSelectedEvent)
-		DestorySubscriptionTemplate(TileSelectedCallbackEventsSubscriptionsMutex, TileSelectedCallbackEventSubscriptions, std::move(SubscriptionTicket));*/
-
 
 	switch (SubscriptionType)
 	{
@@ -231,110 +220,22 @@ void Ermine::EventBroadcastStation::DestroySubscription(Ermine::SubscriptionTick
 		break;
 	default: STDOUTDefaultLog_Critical("Unknown Subscription Type Recieved For Queing Check Api Maybe... Dunno I should never trigger");
 	}
-
-
-	/*if (SubscriptionType == Ermine::EventType::ConcreteEvent)
-	{
-		std::unique_lock<std::recursive_mutex> Lock(ConcreteEventsSubscriptionsMutex);
-		ConcreteEventSubscriptions.erase(SubscriptionTicket);
-		CloseSubscriptionTicket(SubscriptionTicket);
-	}
-	else if (SubscriptionType == Ermine::EventType::KeyCallbackEvent)
-	{
-		std::unique_lock<std::recursive_mutex> Lock(KeyCallbackEventsSubscriptionsMutex);
-		KeyCallbackEventsSubscriptions.erase(SubscriptionTicket);
-		CloseSubscriptionTicket(SubscriptionTicket);
-	}
-	else if (SubscriptionType == Ermine::EventType::CharacterCallbackEvent)
-	{
-		std::unique_lock<std::recursive_mutex> Lock(CharacterCallbackEventsSubscriptionsMutex);
-		CharacterCallbackEventSubscriptions.erase(SubscriptionTicket);
-		CloseSubscriptionTicket(SubscriptionTicket);
-	}
-	else if (SubscriptionType == Ermine::EventType::CursorPositionCallbackEvent)
-	{
-		std::unique_lock<std::recursive_mutex> Lock(CursorPositionCallbackEventsSubscriptionsMutex);
-		CursorPositionCallbackEventSubscriptions.erase(SubscriptionTicket);
-		CloseSubscriptionTicket(SubscriptionTicket);
-	}
-	else if (SubscriptionType == Ermine::EventType::MouseButtonCallbackEvent)
-	{
-		std::unique_lock<std::recursive_mutex> Lock(MouseButtonCallbackEventsSubscriptionsMutex);
-		MouseButtonCallbackEventSubscriptions.erase(SubscriptionTicket);
-		CloseSubscriptionTicket(SubscriptionTicket);
-	}
-	else if (SubscriptionType == Ermine::EventType::ScrollCallbackEvent)
-	{
-		std::unique_lock<std::recursive_mutex> Lock(ScrollCallbackEventsSubscriptionsMutex);
-		ScrollCallbackEventSubscriptions.erase(SubscriptionTicket);
-		CloseSubscriptionTicket(SubscriptionTicket);
-	}
-	else if (SubscriptionType == Ermine::EventType::TileSelectedEvent)
-	{
-		std::unique_lock<std::recursive_mutex> Lock(TileSelectedCallbackEventsSubscriptionsMutex);
-		TileSelectedCallbackEventSubscriptions.erase(SubscriptionTicket);
-		CloseSubscriptionTicket(SubscriptionTicket);
-	}
-	else if (SubscriptionType == Ermine::EventType::OnTickEvent)
-	{
-		std::unique_lock<std::recursive_mutex> Lock(OnTickEventCallbackEventsSubscriptionsMutex);
-		OnTickCallbackEventSubscriptions.erase(SubscriptionTicket);
-		CloseSubscriptionTicket(SubscriptionTicket);
-	}
-	else if (SubscriptionType == Ermine::EventType::OnBeginEvent)
-	{
-		std::unique_lock<std::recursive_mutex> Lock(OnBeginEventCallbackEventsSubscriptionsMutex);
-		OnBeginEventSubscriptions.erase(SubscriptionTicket);
-		CloseSubscriptionTicket(SubscriptionTicket);
-	}
-	else STDOUTDefaultLog_Critical("Unknown Subscription Type Recieved For Queing Check Api Maybe... Dunno I should never trigger");
-	
-	return;*/
-
-	/*
-	//Mutex Not Locked Here Dangerous.. Rewriting The Function..
-	
-	auto SubscriptionType = SubscriptionTicket.GetEventSubscriptionType();
-	switch (SubscriptionType)
-	{
-	case EventType::ConcreteEvent: ConcreteEventSubscriptions.erase(SubscriptionTicket);
-		break;
-	case EventType::KeyCallbackEvent: KeyCallbackEventsSubscriptions.erase(SubscriptionTicket);
-		break;
-	case EventType::CharacterCallbackEvent: CharacterCallbackEventSubscriptions.erase(SubscriptionTicket);
-		break;
-	case EventType::CursorPositionCallbackEvent: CursorPositionCallbackEventSubscriptions.erase(SubscriptionTicket);
-		break;
-	case EventType::MouseButtonCallbackEvent: MouseButtonCallbackEventSubscriptions.erase(SubscriptionTicket);
-		break;
-	case EventType::ScrollCallbackEvent: ScrollCallbackEventSubscriptions.erase(SubscriptionTicket);
-		break;
-	case EventType::TileSelectedEvent: TileSelectedCallbackEventSubscriptions.erase(SubscriptionTicket);
-		break;
-	case EventType::OnTickEvent: OnTickCallbackEventSubscriptions.erase(SubscriptionTicket);
-		break;
-	case EventType::OnBeginEvent: OnBeginEventSubscriptions.erase(SubscriptionTicket);
-		break;
-	default: STDOUTDefaultLog_Critical("Unknown Subscription Type Recieved For Queing Check Api Maybe... Dunno I should never trigger");
-	}
-
-	return;*/
 }
 
 void Ermine::EventBroadcastStation::DispatchMessagesSuperior()
 {
-	DispatchMessages(ConcreteEventsBufferMutex              ,ConcreteEventsQueue              ,ConcreteEventSubscriptions);
-	DispatchMessages(KeyCallBackEventsBufferMutex           ,KeyCallbackEventsQueue           ,KeyCallbackEventsSubscriptions);
-	DispatchMessages(CharacterCallBackEventsBufferMutex     ,CharacterCallbackEventsQueue     ,CharacterCallbackEventSubscriptions);
-	DispatchMessages(CursorPositionCallbackEventsBufferMutex,CursorPositionCallbackEventsQueue,CursorPositionCallbackEventSubscriptions);
-	DispatchMessages(MouseButtonCallbackEventsBufferMutex   ,MouseButtonCallbackEventsQueue   ,MouseButtonCallbackEventSubscriptions);
-	DispatchMessages(ScrollCallbackEventsBufferMutex        ,ScrollCallbackEventsQueue        ,ScrollCallbackEventSubscriptions);
-	DispatchMessages(TileSelectedCallbackEventsBufferMutex  ,TileSelectedCallbackEventsQueue  ,TileSelectedCallbackEventSubscriptions);
+	DispatchMessages(ConcreteEventsBufferMutex              ,ConcreteEventsQueue              ,ConcreteEventSubscriptions			   ,ConcreteEventsSubscriptionsMutex);
+	DispatchMessages(KeyCallBackEventsBufferMutex           ,KeyCallbackEventsQueue           ,KeyCallbackEventsSubscriptions		   ,KeyCallbackEventsSubscriptionsMutex);
+	DispatchMessages(CharacterCallBackEventsBufferMutex     ,CharacterCallbackEventsQueue     ,CharacterCallbackEventSubscriptions	   ,CharacterCallbackEventsSubscriptionsMutex);
+	DispatchMessages(CursorPositionCallbackEventsBufferMutex,CursorPositionCallbackEventsQueue,CursorPositionCallbackEventSubscriptions,CursorPositionCallbackEventsSubscriptionsMutex);
+	DispatchMessages(MouseButtonCallbackEventsBufferMutex   ,MouseButtonCallbackEventsQueue   ,MouseButtonCallbackEventSubscriptions   ,MouseButtonCallbackEventsSubscriptionsMutex);
+	DispatchMessages(ScrollCallbackEventsBufferMutex        ,ScrollCallbackEventsQueue        ,ScrollCallbackEventSubscriptions		   ,ScrollCallbackEventsSubscriptionsMutex);
+	DispatchMessages(TileSelectedCallbackEventsBufferMutex  ,TileSelectedCallbackEventsQueue  ,TileSelectedCallbackEventSubscriptions  ,TileSelectedCallbackEventsSubscriptionsMutex);
 	
-	DispatchMessages(OnRenderTickCallbackEventsBufferMutex        ,OnRenderTickCallbackEventsQueue        ,OnRenderTickCallbackEventSubscriptions);
-	DispatchMessages(OnUpdateTickCallbackEventsBufferMutex, OnUpdateTickCallbackEventsQueue, OnUpdateTickCallbackEventSubscriptions);
+	DispatchMessages(OnRenderTickCallbackEventsBufferMutex  ,OnRenderTickCallbackEventsQueue  ,OnRenderTickCallbackEventSubscriptions  ,OnRenderTickCallbackEventSubscriptionsMutex);
+	DispatchMessages(OnUpdateTickCallbackEventsBufferMutex  ,OnUpdateTickCallbackEventsQueue  ,OnUpdateTickCallbackEventSubscriptions  ,OnUpdateTickCallbackEventSubscriptionsMutex);
 
-	DispatchMessages(OnBeginEventsBufferMutex               ,OnBeginEventsQueue               ,OnBeginEventSubscriptions);
+	DispatchMessages(OnBeginEventsBufferMutex               ,OnBeginEventsQueue               ,OnBeginEventSubscriptions			   ,OnBeginEventSubscriptionsMutex);
 }
 
 static std::mutex SubscriptionTicketVectorMutex;

@@ -11,9 +11,10 @@
 
 #include "Physics/Physics.h"
 
-#include "EngineUI/WindowHandler.h"
+#include "LayerSystem/LayerStack.h"
+#include "LayerSystem/LayerStackLayer.h"		
 
-#include "Level/Level.h"
+#include "Graphics/Window/Window.h"
 
 //Forward Declared
 int main(int argc, char* argv[]);
@@ -40,7 +41,14 @@ namespace Ermine
 		App operator=(const App&& rhs) = delete;
 
 	public:
-				
+		//Adds The layer At The Top if No Index Is Provided..
+		void AddLayer(std::unique_ptr<Ermine::LayerStackLayer> Layer, int index = 0);
+
+		//These Functions Are USed To Delete Layers..
+		void DeleteLayer(std::string LayerName);
+		void DeleteLayer(int IndexNumber);
+		void DeleteLayer(); //Deletes The TopMost Layer..
+
 	public:
 
 	protected:
@@ -62,7 +70,7 @@ namespace Ermine
 		std::string AppTitle;
 		std::pair<int, int> Diamensions;
 
-		
+		Ermine::LayerStack AppLayerStack;
 
 		bool Quit = false;
 

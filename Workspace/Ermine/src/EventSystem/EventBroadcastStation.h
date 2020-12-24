@@ -49,12 +49,16 @@ namespace Ermine
 		static EventBroadcastStation* GetStation(); //This is a static method and will allow the user to get a line with the station in question
 		static void DestroyStation(); //This is a static method and will allow the user to Destroy the station in question
 
-		void DispatchMessagesSuperior(); //This Will Trigger Delievery of Messages //Note Lock Mutexes Appropriately...
+		void DispatchMessagesSuperior(); //This Will Trigger Delievery of Messages
 				
 		void QueueBroadcast(std::unique_ptr<Event> BroadcastPackage); //This Message Is Used To Send in a package for Broadcast
 		
 		Ermine::SubscriptionTicket  QueueSubscription(std::unique_ptr<EventSubscription> Subscription);
 		void						DestroySubscription(Ermine::SubscriptionTicket SubscriptionTicket); //Note We Have No Way To Check Ownership Of Subscription For Now Be VERY CAREFUL...................................................
+
+		//This Message Will Be Instantly Dispatched From The Event Station Using The Calling Thread..
+		void BlockingBroadcast(std::unique_ptr<Event> BroadcastPackage);
+
 	private:
 		//This Is The Storage Area We Will Store Everything Of Note Here...
 
@@ -150,10 +154,11 @@ namespace Ermine
 			CloseSubscriptionTicket(SubscriptionTicket);
 		}
 
-		template<typename MutexToAcquire,typename EventsQueue,typename SubscriberQueue>
-		void DispatchMessages(MutexToAcquire& MA,EventsQueue& EQ,SubscriberQueue& SQ)
+		template<typename EventsQueue,typename SubscriberQueue>
+		void DispatchMessages(std::recursive_mutex& EventQueueMutex,EventsQueue& EQ,SubscriberQueue& SQ,std::recursive_mutex& SubscriberQueueMutex)
 		{
-			std::unique_lock Lock = std::unique_lock(MA);
+			std::unique_lock EventQueueLock = std::unique_lock(EventQueueMutex);
+			std::unique_lock SubscriberQueueLock = std::unique_lock(SubscriberQueueMutex);
 
 			for (int i = 0; i < EQ.size(); i++)
 			{
@@ -209,6 +214,71 @@ namespace Ermine
 				}
 				EQ.erase(EQ.begin() + i);
 			}
+		}
+
+		template<typename SubscriberQueue,typename Event_Type>
+		void DispatchMessageBlocking(SubscriberQueue& SQ, std::recursive_mutex& SubscriberQueueMutex,std::unique_ptr<Ermine::Event> EventRecieved)
+		{
+			//std::unique_lock EventQueueLock = std::unique_lock(EventQueueMutex);
+			std::unique_lock SubscriberQueueLock = std::unique_lock(SubscriberQueueMutex);
+
+			Ermine::Event* Eve = EventRecieved.release();
+			Event_Type* EventPointer = ((Event_Type*)(Eve));
+
+			for (auto j = SQ.begin(); j != SQ.end(); j++) //for (auto& j : ConcreteEventSubscriptions)
+			{
+				//Start Delete Objects Which Are Marked For Deletion Right..//
+				std::shared_ptr<Ermine::GeneratedObject> Subs = j->second.GetSubscribedObject();
+				if (Subs != nullptr)
+				{
+					while (Subs->IsHandleValid() == false)
+					{
+						j = SQ.erase(j);
+						if (j == SQ.end())
+							break;
+
+						Subs = j->second.GetSubscribedObject();
+					}
+					if (j == SQ.end())
+						break;
+
+					auto Health = Subs->GetObjectHealth();
+					while (Health == Ermine::ObjectStatus::StatusMarkedForDeletion)
+					{
+						j = SQ.erase(j);
+						if (j == SQ.end())
+							break;
+
+						Subs = j->second.GetSubscribedObject();
+						Health = Subs->GetObjectHealth();
+					}
+					if (j == SQ.end())
+						break;
+
+					while (j->second.GetSubscriptionHealth() == Ermine::SubscriptionHealth::WantToTerminate)
+					{
+						j = SQ.erase(j);
+						if (j == SQ.end())
+							break;
+					}
+					if (j == SQ.end())
+						break;
+					//Ended Delete Objects Which Are Marked For Deletion Right..//
+
+					if (j->second.CanIRecieveEventFlag == true)
+					{
+						//Call The Event On All The Subscribers..
+						j->second.CallableObject(EventPointer);
+					}
+
+					//If The Event Is Already handled No Point In Handling it Further Right..
+					if (EventPointer->IsEventHandled() == true)
+						break;
+				}
+				//The Usuage For Event Is Done.. Better Delete It So That It Wont Cause Memory Leaks...
+				delete EventPointer;
+			}
+
 		}
 #pragma endregion
 

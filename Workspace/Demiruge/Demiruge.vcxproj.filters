@@ -11,6 +11,7 @@
     </ClInclude>
     <ClInclude Include="src\EditorPanels\SceneView.h" />
     <ClInclude Include="src\EditorApp.h" />
+    <ClInclude Include="src\EditorLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PCH\Dstdafx.cpp">
@@ -18,5 +19,6 @@
     </ClCompile>
     <ClCompile Include="src\Source.cpp" />
     <ClCompile Include="src\EditorApp.cpp" />
+    <ClCompile Include="src\EditorLayer.cpp" />
   </ItemGroup>
 </Project>

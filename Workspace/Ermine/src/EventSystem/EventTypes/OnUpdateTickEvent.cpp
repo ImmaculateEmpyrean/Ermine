@@ -6,13 +6,20 @@ namespace Ermine
 	////////////////////////////////////////////////////////
 	//OnUpdateTick Event Class//////////////////////////////
 	////////////////////////////////////////////////////////
-	OnUpdateTickEvent::OnUpdateTickEvent()
+	OnUpdateTickEvent::OnUpdateTickEvent(float DeltaTime)
+		:
+		DeltaTime(DeltaTime)
 	{}
 
-	std::unique_ptr<OnUpdateTickEvent> OnUpdateTickEvent::GenerateEvent()
+	std::unique_ptr<OnUpdateTickEvent> OnUpdateTickEvent::GenerateEvent(float DeltaTime)
 	{
-		std::unique_ptr<OnUpdateTickEvent> ptr = std::make_unique<OnUpdateTickEvent>();
+		std::unique_ptr<OnUpdateTickEvent> ptr = std::make_unique<OnUpdateTickEvent>(DeltaTime);
 		return std::move(ptr);
+	}
+
+	float OnUpdateTickEvent::GetDeltaTime()
+	{
+		return this->DeltaTime;
 	}
 
 	////////////////////////////////////////////////////////

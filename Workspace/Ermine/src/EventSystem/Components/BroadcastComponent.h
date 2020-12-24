@@ -19,5 +19,6 @@ namespace Ermine
 		BroadcastComponent() = delete;
 		
 		static void BroadcastEvent(std::unique_ptr<Event> EventToBeBroadcasted);
+		static void BlockingBroadcast(std::unique_ptr<Event> EventToBeBroadcasted); //The Blocking Broadcast Will Instantly Deliever The Evnt To Its Subscribers Using The Same Thread..
 	};
 }

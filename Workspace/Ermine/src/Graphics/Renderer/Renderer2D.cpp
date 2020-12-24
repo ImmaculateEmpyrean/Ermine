@@ -74,7 +74,7 @@ namespace Ermine
 		auto Renderer = Ermine::Renderer2D::Get();
 		auto Lock = Renderer->GetObjectMutex();
 
-		Renderer->RendererLayerStack.PushLayerOnTheBackOfTheStack(std::make_unique<LayerStackLayer>(std::move(layer)));
+		//Renderer->RendererLayerStack.PushLayerOnTheBackOfTheStack(std::make_unique<LayerStackLayer>(std::move(layer)));
 	}
 
 	void Renderer2D::SubmitLayer(LayerStackLayer layer, int index)
@@ -82,7 +82,7 @@ namespace Ermine
 		auto Renderer = Ermine::Renderer2D::Get();
 		auto Lock = Renderer->GetObjectMutex();
 
-		Renderer->RendererLayerStack.PushLayerOntoStackAtPosition(std::make_unique<LayerStackLayer>(std::move(layer)),index);
+		//Renderer->RendererLayerStack.PushLayerOntoStackAtPosition(std::make_unique<LayerStackLayer>(std::move(layer)),index);
 	}
 
 	void Renderer2D::ReplaceLayerStackWithStack(LayerStack layerstack)

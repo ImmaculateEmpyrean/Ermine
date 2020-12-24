@@ -74,7 +74,7 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 
-    io->Fonts->AddFontFromFileTTF("AgencyFb.ttf", 20.0f);
+    //io->Fonts->AddFontFromFileTTF("AgencyFb.ttf", 20.0f);
 
     
     //Start Set Callbacks To Sense Events...

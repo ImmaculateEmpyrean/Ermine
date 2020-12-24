@@ -50,6 +50,20 @@ bool Ermine::LayerStackLayer::HandleEvents(Ermine::Event* EventPointer)
 		EventHandled = ScrollPositionUpdateEventRecieved(SEve->GetXoffset(), SEve->GetYoffset());
 	}
 
+	if (EveType == Ermine::EventType::OnUpdateTickEvent)
+	{
+		//The Recieved EventHandle  Flag Is Discarded For UpdateTick As You Have To Propogate This Event Into All Layers..
+		Ermine::OnUpdateTickEvent* UpdateTickEvent = (Ermine::OnUpdateTickEvent*)EventPointer;
+		OnUpdateTickEventRecieved(UpdateTickEvent->GetDeltaTime());
+	}
+
+	if (EveType == Ermine::EventType::OnRenderTickEvent)
+	{
+		//The Recieved EventHandle  Flag Is Discarded For RenderTick As You Have To Propogate This Event Into All Layers..
+		Ermine::OnRenderTickEvent* RenderTickEvent = (Ermine::OnRenderTickEvent*)EventPointer;
+		OnRenderTickEventRecieved(RenderTickEvent->GetDeltaTime());
+	}
+
 	return EventHandled;
 }
 #pragma endregion
