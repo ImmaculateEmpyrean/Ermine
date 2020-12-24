@@ -20,6 +20,8 @@ outputdir = "%{cfg.buildcfg}-%{cfg.platform}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {} 
 
+IncludeDir["entt"]       ="%{wks.location}/vendor/entt/single_include/entt"
+
 IncludeDir["Glad"]       ="%{wks.location}/vendor/Glad/include"
 IncludeDir["GLFW"]       ="%{wks.location}/vendor/GLFW/glfw-3.3.2/include"
 IncludeDir["ImGui"]      ="%{wks.location}/vendor/ImGuiDocking"

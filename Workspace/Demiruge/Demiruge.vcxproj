@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>Dstdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ER_DEBUG_DEVELOP;DEMIRUGE_DEBUG_DEVELOP;ER_BUILDING_FOR_WINDOWS;DEMIRUGE_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;DEMIRUGE_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\vendor\spdlog\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\vendor\tinyxml2;.;..\vendor\tmxlite\tmxlite\include;..\vendor\sol2\sol2-3.2.2\single\include;..\vendor\lua\lua-5.4.2\src;..\Ermine\include;..\Ermine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\vendor\entt\single_include\entt;..\vendor\spdlog\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\vendor\tinyxml2;.;..\vendor\tmxlite\tmxlite\include;..\vendor\sol2\sol2-3.2.2\single\include;..\vendor\lua\lua-5.4.2\src;..\Ermine\include;..\Ermine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -103,7 +103,7 @@
       <PrecompiledHeaderFile>Dstdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ER_DEBUG_SHIP;DEMIRUGE_DEBUG_SHIP;ER_BUILDING_FOR_WINDOWS;DEMIRUGE_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;DEMIRUGE_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\vendor\spdlog\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\vendor\tinyxml2;.;..\vendor\tmxlite\tmxlite\include;..\vendor\sol2\sol2-3.2.2\single\include;..\vendor\lua\lua-5.4.2\src;..\Ermine\include;..\Ermine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\vendor\entt\single_include\entt;..\vendor\spdlog\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\vendor\tinyxml2;.;..\vendor\tmxlite\tmxlite\include;..\vendor\sol2\sol2-3.2.2\single\include;..\vendor\lua\lua-5.4.2\src;..\Ermine\include;..\Ermine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>false</MinimalRebuild>
@@ -126,7 +126,7 @@
       <PrecompiledHeaderFile>Dstdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>ER_RELEASE_SHIP;DEMIRUGE_RELEASE_SHIP;ER_BUILDING_FOR_WINDOWS;DEMIRUGE_BUILDING_FOR_WINDOWS;ER_BUILDING_ON_WINDOWS;DEMIRUGE_BUILDING_ON_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;src\PCH;..\vendor\spdlog\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\vendor\tinyxml2;.;..\vendor\tmxlite\tmxlite\include;..\vendor\sol2\sol2-3.2.2\single\include;..\vendor\lua\lua-5.4.2\src;..\Ermine\include;..\Ermine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\PCH;..\vendor\entt\single_include\entt;..\vendor\spdlog\spdlog-1.x\include;..\vendor\Glad\include;..\vendor\GLFW\glfw-3.3.2\include;..\vendor\ImGuiDocking;..\vendor\GLM\glm;..\vendor\stb;..\vendor\JSON\json-3.7.3\single_include;..\vendor\JSON;..\vendor\freetype\freetype-2.10.2\include;..\vendor\freetype-gl;..\vendor\box2d\include;..\vendor\tinyxml2;.;..\vendor\tmxlite\tmxlite\include;..\vendor\sol2\sol2-3.2.2\single\include;..\vendor\lua\lua-5.4.2\src;..\Ermine\include;..\Ermine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>

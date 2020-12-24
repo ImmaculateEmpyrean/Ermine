@@ -18,6 +18,7 @@ project "Game"
     includedirs {
          "src",
          "src/PCH",
+         "%{IncludeDir.entt}",
          "%{IncludeDir.spdlog}",
          "%{IncludeDir.Glad}",
          "%{IncludeDir.GLFW}",

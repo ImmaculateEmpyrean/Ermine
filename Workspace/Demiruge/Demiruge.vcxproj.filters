@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="EditorPanels">
+      <UniqueIdentifier>{6FDCDA8C-5B3F-6A31-04C5-A2E7F00636B4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="PCH">
       <UniqueIdentifier>{2010880B-8C19-887C-1595-9E7C819D937C}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\EditorApp.h" />
+    <ClInclude Include="src\EditorLayer.h" />
+    <ClInclude Include="src\EditorPanels\SceneView.h">
+      <Filter>EditorPanels</Filter>
+    </ClInclude>
     <ClInclude Include="src\PCH\Dstdafx.h">
       <Filter>PCH</Filter>
     </ClInclude>
-    <ClInclude Include="src\EditorPanels\SceneView.h" />
-    <ClInclude Include="src\EditorApp.h" />
-    <ClInclude Include="src\EditorLayer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\EditorApp.cpp" />
+    <ClCompile Include="src\EditorLayer.cpp" />
     <ClCompile Include="src\PCH\Dstdafx.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
     <ClCompile Include="src\Source.cpp" />
-    <ClCompile Include="src\EditorApp.cpp" />
-    <ClCompile Include="src\EditorLayer.cpp" />
   </ItemGroup>
 </Project>
