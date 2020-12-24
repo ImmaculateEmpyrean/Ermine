@@ -14,24 +14,40 @@ namespace Ermine
 		~VertexBuffer();
 
 	public:
-		std::vector<float> GetBufferData() const { return BufferData; }
-		void SetBufferData(std::vector<float> Data);
+		//This Is Very Fairly Expensive..
+		std::vector<float> GetVertexData() const { return BufferData; }
+		float GetVertex(int index) { return BufferData[index]; }; //Use This For Reading Instead Of The Operator.. U Wont Be Paying With Reconstruction..
+		std::vector<float> GetValues(int StartIndex, int EndIndex);
+
+		//Add Vertexes To The Buffer Using This Method..
+		void AddValues(std::vector<float> Vertexes);
+		void AddValue(float Val);
+
+		int GetBufferDataLength() { return BufferData.size(); };
+
+		void EraseValue(int index);
+		void EraseValue(int BeginIndex, int EndIndex);
+
+		static VertexBuffer Generate();
+		static VertexBuffer Generate(std::vector<float> VertexBufferData);
 
 		void Bind();
 		void UnBind();
 
+		//These Must Be Overloaded So As To Call Relevant Opengl functions when required..
 		VertexBuffer(const VertexBuffer& rhs);
 		VertexBuffer operator=(const VertexBuffer& rhs);
 
 		VertexBuffer(VertexBuffer&& rhs);
 		VertexBuffer operator=(VertexBuffer&& rhs);
 
-		//This is Very Expensive Donot USe It...
-		bool operator ==(VertexBuffer& rhs);
+		//Use This Instead Of Calling Bind And All That Ruckus..
+		operator unsigned int() { Bind(); return vertex_buffer; };
+
+		//Use This To Easily Access Any Element In BufferData.. Changes Will Also Be Reflected But In The Worst Case Very Expensive.. You Might Be Paying With Reconstruction Just For Reading Data..
+		float operator[](unsigned int Index) { ReadyState = false; return BufferData[Index]; };
 
 		void Clear();
-
-		VertexBuffer operator +(VertexBuffer& rhs);
 
 	public:
 
@@ -40,12 +56,11 @@ namespace Ermine
 	protected:
 
 	private:
-		void GenBufferSubmitDataHelper(unsigned int& buffer,std::vector<float>& Data);
 
-		void ClearAll();
-		void ClearOpenGLBuffer();
 
 	private:
+		bool ReadyState = false;
+
 		unsigned int vertex_buffer = 0;
 		std::vector<float> BufferData;
 	};

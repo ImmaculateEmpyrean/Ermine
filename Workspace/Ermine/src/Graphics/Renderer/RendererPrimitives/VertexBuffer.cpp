@@ -9,123 +9,131 @@
 namespace Ermine
 {
 	VertexBuffer::VertexBuffer()
-	{
-		std::vector<float> EmptyVec;
-		GenBufferSubmitDataHelper(vertex_buffer, EmptyVec);
-	}
+	{}
 	VertexBuffer::VertexBuffer(std::vector<float>& BufferData)
 		:
 		BufferData(BufferData)
-	{
-		GenBufferSubmitDataHelper(vertex_buffer, BufferData);
-	}
+	{}
 	VertexBuffer::~VertexBuffer()
 	{
-		GLCall(glDeleteBuffers(1, &vertex_buffer));
+		if (vertex_buffer != 0)
+			GLCall(glDeleteBuffers(1, &vertex_buffer));
 	}
 
-
-	void VertexBuffer::SetBufferData(std::vector<float> Data)
-	{
-		GLCall(glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer));
-		GLCall(glBufferData(GL_ARRAY_BUFFER, Data.size() * sizeof(float), &Data.front(), GL_DYNAMIC_DRAW));
-
-		//Set New Data Inside The Buffer Data.. The New Data Is The Recieved Data..
-		BufferData = Data;
-	}
 
 	void VertexBuffer::Bind()
 	{
-		GLCall(glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer));
+		if (ReadyState == false)
+		{
+			//This Function Clears The openGl Buffer If It Does Exist..
+			Clear();
+
+			GLCall(glGenBuffers(1, &vertex_buffer));
+
+			if (BufferData.size() > 0)
+			{
+				GLCall(glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer));
+				GLCall(glBufferData(GL_ARRAY_BUFFER, BufferData.size() * sizeof(float), &BufferData.front(), GL_DYNAMIC_DRAW));
+			}
+		}
+		else
+		{
+			GLCall(glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer));
+		}
 	}
 	void VertexBuffer::UnBind()
 	{
 		GLCall(glBindBuffer(GL_ARRAY_BUFFER, 0));
 	}
 
+
 	VertexBuffer::VertexBuffer(const VertexBuffer& rhs)
 		:
 		BufferData(rhs.BufferData)
-	{
-		GenBufferSubmitDataHelper(vertex_buffer, BufferData);
-	}
+	{}
 	VertexBuffer VertexBuffer::operator=(const VertexBuffer& rhs)
 	{
 		BufferData = rhs.BufferData;
-		GenBufferSubmitDataHelper(vertex_buffer, BufferData);
-
 		return *this;
 	}
 
 	VertexBuffer::VertexBuffer(VertexBuffer&& rhs)
 		:
-		BufferData(std::move(rhs.BufferData)),
-		vertex_buffer(std::move(rhs.vertex_buffer))
+		BufferData(std::move(rhs.BufferData))
 	{
+		ReadyState = rhs.ReadyState;
+		vertex_buffer = rhs.vertex_buffer;
+
+		rhs.ReadyState = false;
 		rhs.vertex_buffer = 0;
 	}
 	VertexBuffer VertexBuffer::operator=(VertexBuffer&& rhs)
 	{
 		BufferData = std::move(rhs.BufferData);
-		vertex_buffer = std::move(rhs.vertex_buffer);
+
+		vertex_buffer = rhs.vertex_buffer;
+		ReadyState = rhs.ReadyState;
+
 		rhs.vertex_buffer = 0;
+		rhs.ReadyState = false;
 
 		return *this;
 	}
-	
 
-	VertexBuffer VertexBuffer::operator+(VertexBuffer& rhs)
+
+	std::vector<float> VertexBuffer::GetValues(int StartValue, int EndValue)
 	{
-		std::vector<float> BufferData;
-
-		for (float i : this->BufferData)
-			BufferData.emplace_back(i);
-
-		for (float i : rhs.BufferData)
-			BufferData.emplace_back(i);
-
-		//Construct A New VertexBuffer From The Given Data And Return It Back To The USer..
-		return VertexBuffer(BufferData);
+		std::vector<float> Buffer;
+		std::copy(BufferData.begin() + StartValue, BufferData.begin() + EndValue, Buffer.begin());
+		return std::move(Buffer);
 	}
 
 
-	bool VertexBuffer::operator==(VertexBuffer& rhs)
+	void VertexBuffer::AddValues(std::vector<float> Values)
 	{
-		return BufferData == rhs.BufferData;
+		std::copy(Values.begin(), Values.end(), BufferData.end() - 1);
+		ReadyState = false;
 	}
+	void VertexBuffer::AddValue(float Value)
+	{
+		BufferData.emplace_back(Value);
+		ReadyState = false;
+	}
+
+	int VertexBuffer::GetBufferDataLength()
+	{
+		return BufferData.size();
+	}
+
+	void VertexBuffer::EraseValue(int Value)
+	{
+		BufferData.erase(BufferData.begin() + Value);
+		ReadyState = false;
+	}
+	void VertexBuffer::EraseValue(int BeginValue, int EndValue)
+	{
+		BufferData.erase(BufferData.begin() + BeginValue, BufferData.begin() + EndValue);
+		ReadyState = false;
+	}
+
+
+	VertexBuffer VertexBuffer::Generate()
+	{
+		return std::move(VertexBuffer());
+	}
+	VertexBuffer VertexBuffer::Generate(std::vector<float> VB)
+	{
+		return std::move(VertexBuffer(VB));
+	}
+
 
 	void VertexBuffer::Clear()
 	{
-		ClearAll();
-	}
-
-	void Ermine::VertexBuffer::ClearAll()
-	{
-		BufferData.clear();
 		if (vertex_buffer != 0)
 		{
 			GLCall(glDeleteBuffers(1, &vertex_buffer));
-			vertex_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
-		}
-	}
-	
-	void Ermine::VertexBuffer::ClearOpenGLBuffer()
-	{
-		if (vertex_buffer != 0)
-		{
-			GLCall(glDeleteBuffers(1, &vertex_buffer));
-			vertex_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
-		}
-	}
-	
-	void VertexBuffer::GenBufferSubmitDataHelper(unsigned int& buffer, std::vector<float>& Data)
-	{
-		this->ClearOpenGLBuffer();
-		GLCall(glGenBuffers(1,&buffer));
-		if(Data.size() > 0)
-		{
-			GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));
-			GLCall(glBufferData(GL_ARRAY_BUFFER, Data.size() * sizeof(float), &Data.front(), GL_DYNAMIC_DRAW));
+			vertex_buffer = 0;
+			ReadyState = false;
 		}
 	}
 }

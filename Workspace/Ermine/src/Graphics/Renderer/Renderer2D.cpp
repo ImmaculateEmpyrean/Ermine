@@ -24,8 +24,5 @@ namespace Ermine {
 	std::shared_ptr<Ermine::VertexArray> Vao;
 	std::shared_ptr<Ermine::Material>	 TexturedQuadMaterial;
 
-	void Renderer2D::Init()
-	{
-		
-	}
+	
 }
