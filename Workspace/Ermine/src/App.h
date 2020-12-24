@@ -16,6 +16,8 @@
 
 #include "Graphics/Window/Window.h"
 
+#include "Level/Scene.h"
+
 //Forward Declared
 int main(int argc, char* argv[]);
 
@@ -49,6 +51,7 @@ namespace Ermine
 		void DeleteLayer(int IndexNumber);
 		void DeleteLayer(); //Deletes The TopMost Layer..
 
+		std::shared_ptr<Ermine::Scene> GetScene() { return App_Scene; };
 	public:
 
 	protected:
@@ -71,6 +74,9 @@ namespace Ermine
 		std::pair<int, int> Diamensions;
 
 		Ermine::LayerStack AppLayerStack;
+
+		//The App Is The One Which Has The Scene.. The Death Of App Will Mark The End Of The Scene..
+		std::shared_ptr<Ermine::Scene> App_Scene;
 
 		bool Quit = false;
 

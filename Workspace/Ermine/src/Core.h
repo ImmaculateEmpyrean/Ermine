@@ -13,13 +13,10 @@
 #define BIT(x) (1<<x)
 
 #include "DeltaTime.h"
+#include "Level/Scene.h"
 
 namespace Ermine
 {
-	void PrintCount();
-	int GetCount();
-	void ResetCount();
-
 	int GetScreenHeight();
 	int GetScreenWidth();
 
@@ -27,4 +24,13 @@ namespace Ermine
 	
 	//This Structure Contains Information Abt Delta Time And Is Updated By The App Class..
 	extern DeltaTime TimeStep;
+
+	
+	//Forward Declaration Of App To Be Able To Hold A Pointer To Said App...
+	class App;
+	//A Handle To The App Class..
+	extern Ermine::App* H_App;
+
+	//This Function Is Used To Get A Handle To The Current App In Question..
+	Ermine::App* GetHandleToApp();
 }

@@ -32,6 +32,12 @@ Ermine::App::App(std::string AppTitle, std::pair<int, int> Diamensions)
 
 	//Initialize Event Station
 	auto Station = Ermine::EventBroadcastStation::GetStation();
+
+	//Initialize The Scene
+	App_Scene = std::make_shared<Ermine::Scene>();
+
+	//Initialize The H_App
+	Ermine::H_App = this;
 }
 
 Ermine::App::~App()

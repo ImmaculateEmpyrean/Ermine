@@ -157,6 +157,10 @@
     <ClInclude Include="src\EngineResourceHandlers\Manifest.h" />
     <ClInclude Include="src\EngineUI\PrecursorWindow.h" />
     <ClInclude Include="src\EngineUI\WindowHandler.h" />
+    <ClInclude Include="src\EntityComponentSystem\Components.h" />
+    <ClInclude Include="src\EntityComponentSystem\Components\TagComponent.h" />
+    <ClInclude Include="src\EntityComponentSystem\Components\TransformComponent.h" />
+    <ClInclude Include="src\EntityComponentSystem\Entity.h" />
     <ClInclude Include="src\EntryPoint.h" />
     <ClInclude Include="src\EventSystem\Components\BroadcastComponent.h" />
     <ClInclude Include="src\EventSystem\Components\RecieverComponent.h" />
@@ -203,12 +207,11 @@
     <ClInclude Include="src\InteriorComponents\GeneratedObject.h" />
     <ClInclude Include="src\LayerSystem\LayerStack.h" />
     <ClInclude Include="src\LayerSystem\LayerStackLayer.h" />
-    <ClInclude Include="src\Level\Entity.h" />
-    <ClInclude Include="src\Level\Level.h" />
     <ClInclude Include="src\Level\RubeLoader\RubeJointDefinition.h" />
     <ClInclude Include="src\Level\RubeLoader\RubeJsonHelpers.h" />
     <ClInclude Include="src\Level\RubeLoader\RubeLoader.h" />
     <ClInclude Include="src\Level\RubeLoader\RubeLoaderPackage.h" />
+    <ClInclude Include="src\Level\Scene.h" />
     <ClInclude Include="src\Level\TiledLoader\TileMap.h" />
     <ClInclude Include="src\Level\TiledLoader\TileMapLayer.h" />
     <ClInclude Include="src\Level\TiledLoader\TileSet.h" />
@@ -272,6 +275,7 @@
     <ClCompile Include="src\EngineResourceHandlers\GlobalTextureCache.cpp" />
     <ClCompile Include="src\EngineResourceHandlers\Manifest.cpp" />
     <ClCompile Include="src\EngineUI\WindowHandler.cpp" />
+    <ClCompile Include="src\EntityComponentSystem\Entity.cpp" />
     <ClCompile Include="src\EntryPoint.cpp" />
     <ClCompile Include="src\EventSystem\Components\BroadcastComponent.cpp" />
     <ClCompile Include="src\EventSystem\Components\RecieverComponent.cpp" />
@@ -311,10 +315,10 @@
     <ClCompile Include="src\InteriorComponents\GeneratedObject.cpp" />
     <ClCompile Include="src\LayerSystem\LayerStack.cpp" />
     <ClCompile Include="src\LayerSystem\LayerStackLayer.cpp" />
-    <ClCompile Include="src\Level\Level.cpp" />
     <ClCompile Include="src\Level\RubeLoader\RubeJointDefinition.cpp" />
     <ClCompile Include="src\Level\RubeLoader\RubeJsonHelpers.cpp" />
     <ClCompile Include="src\Level\RubeLoader\RubeLoader.cpp" />
+    <ClCompile Include="src\Level\Scene.cpp" />
     <ClCompile Include="src\Level\TiledLoader\TileMap.cpp" />
     <ClCompile Include="src\Level\TiledLoader\TileMapLayer.cpp" />
     <ClCompile Include="src\Level\TiledLoader\TileSet.cpp" />

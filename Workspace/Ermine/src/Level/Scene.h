@@ -29,7 +29,11 @@ namespace Ermine
 		Scene(Scene&& rhs);
 		Scene& operator=(Scene&& rhs);
 
-	private:
+	public:
+		//template<typename T>
+		//std::vector<T> GetComponents();
+
+	public:
 		//The Scene Uses entt in the backend to manage all entities..
 		entt::registry SceneRegistry; //TODO- See That Access To Entity Is Thread Safe.. If Not Already Refer To entt..
 		

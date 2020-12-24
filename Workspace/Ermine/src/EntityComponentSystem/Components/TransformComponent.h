@@ -13,5 +13,6 @@ struct TransformComponent
 		:
 		Transform(Transform)
 	{}
-	glm::vec3 Transform;
+
+	glm::vec3 Transform = glm::vec3(1.0f);
 };

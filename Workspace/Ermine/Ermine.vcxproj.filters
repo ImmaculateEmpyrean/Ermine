@@ -307,12 +307,6 @@
     <ClInclude Include="src\LayerSystem\LayerStackLayer.h">
       <Filter>LayerSystem</Filter>
     </ClInclude>
-    <ClInclude Include="src\Level\Entity.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Level\Level.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="src\Level\RubeLoader\RubeJointDefinition.h">
       <Filter>Level\RubeLoader</Filter>
     </ClInclude>
@@ -439,6 +433,11 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\EntityComponentSystem\Entity.h" />
+    <ClInclude Include="src\Level\Scene.h" />
+    <ClInclude Include="src\EntityComponentSystem\Components\TransformComponent.h" />
+    <ClInclude Include="src\EntityComponentSystem\Components.h" />
+    <ClInclude Include="src\EntityComponentSystem\Components\TagComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
@@ -613,9 +612,6 @@
     <ClCompile Include="src\LayerSystem\LayerStackLayer.cpp">
       <Filter>LayerSystem</Filter>
     </ClCompile>
-    <ClCompile Include="src\Level\Level.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
     <ClCompile Include="src\Level\RubeLoader\RubeJointDefinition.cpp">
       <Filter>Level\RubeLoader</Filter>
     </ClCompile>
@@ -699,5 +695,7 @@
     <ClCompile Include="src\TestFolder\TestInputSystem\InputChecker.cpp">
       <Filter>TestFolder\TestInputSystem</Filter>
     </ClCompile>
+    <ClCompile Include="src\Level\Scene.cpp" />
+    <ClCompile Include="src\EntityComponentSystem\Entity.cpp" />
   </ItemGroup>
 </Project>

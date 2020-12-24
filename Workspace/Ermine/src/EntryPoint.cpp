@@ -8,9 +8,11 @@
 
 #include "Log/Log.h"
 
+#include "Core.h"
+
 int main(int argc, char* argv[])
 {
-#ifdef ERMINE_DEBUG_DEVELOP
+#ifdef ER_DEBUG_DEVELOP
 	//Start Initialize Memory Leak Checking Module..
 	int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
 	flag |= (_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
@@ -19,22 +21,22 @@ int main(int argc, char* argv[])
 #endif
 
 	//The App Which The User Sends Over Is The One Which The Engine Executes..
-	auto App = Ermine::ExecuteApp();
+	Ermine::ExecuteApp();
 	
-	while (!App->Quit)
+	while (!(Ermine::H_App->Quit))
 	{
 		//The Routine Is What Is Executed Evry Frame..
-		App->AppRoutine();
+		Ermine::H_App->AppRoutine();
 	}
   
 	Ermine::EventBroadcastStation::DestroyStation();
 	Ermine::GlobalTextureCache::ShutDownGlobalTextureCache();
 	
-#ifdef ERMINE_DEBUG_DEVELOP
+#ifdef ThisDoesNotWorkForNow..
 	Ermine::EditorDefaultStrings::DestroyContext();
 #endif
 
-#ifdef ERMINE_DEBUG_DEVELOP
+#ifdef ER_DEBUG_DEVELOP
 	//Start Print Detected Memory Leaks To File..
 	FILE* pFile;
 	freopen_s(&pFile, "MemoryLeakLog.txt", "w", stdout);

@@ -11,18 +11,12 @@ namespace Ermine
 {
 	Ermine::DeltaTime Ermine::TimeStep = DeltaTime();
 
-	void PrintCount()
-	{
-		std::cout <<"Count : "<< Count << std::endl;
-	}
-	int GetCount()
-	{
-		return Count;
-	}
+	//This Variable Will Be Set By The Main Function When ExexuteApp Finishes Executing..
+	Ermine::App* Ermine::H_App = nullptr;
 
-	void ResetCount()
-	{
-		Count = 0;
+	Ermine::App* Ermine::GetHandleToApp()
+	{ 
+		return H_App; 
 	}
 
 

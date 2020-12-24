@@ -25,16 +25,16 @@ namespace Ermine
 		Entity(std::uint32_t enttId, std::weak_ptr<Ermine::Scene> ScenePointer);
 
 	public:
-		template<typename T,typename... Types>
-		void AddComponent(Types... var2)
+		template<typename T, typename ...Params>
+		void AddComponent(Params&&... params)
 		{
 			if (!ScenePointer.expired())
 			{
 				std::shared_ptr<Ermine::Scene> StrScenePointer = ScenePointer.lock();
 
 				//Get The Registry From The Scene And Call The Emplace Function Which In Turn Calls The Constructor Of Said Component To Construct The Component Inside entt..
-				auto Registry = StrScenePointer->SceneRegistry;
-				Registry.emplace<T>(Id, Types...);
+				auto& Registry = StrScenePointer->SceneRegistry;
+				Registry.emplace<T>(((entt::entity)Id), std::forward<Params>(params)...);
 			}
 			else STDOUTDefaultLog_Critical("Expired Scene Encountered When Trying To Add Component To Entity.. A Potentially Fatal Error..")
 		}

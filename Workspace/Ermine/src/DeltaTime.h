@@ -3,6 +3,8 @@
 #include<vector>
 #include<string>
 
+#include<mutex>
+
 namespace Ermine
 {
 	class App;
