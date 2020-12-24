@@ -438,6 +438,7 @@
     <ClInclude Include="src\EntityComponentSystem\Components\TransformComponent.h" />
     <ClInclude Include="src\EntityComponentSystem\Components.h" />
     <ClInclude Include="src\EntityComponentSystem\Components\TagComponent.h" />
+    <ClInclude Include="src\EntityComponentSystem\Components\CameraComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">

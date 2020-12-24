@@ -21,35 +21,11 @@ namespace Ermine
 		Ibo(IndexBuffer)
 	{
 		HelperCreateAndBindVertexArray();
+	}
 
-		/*Vbo = Ermine::VertexBuffer(VertexBuffer); 
-		Ibo = Ermine::IndexBuffer(IndexBuffer); */
-	}
-	VertexArray::VertexArray(Ermine::VertexBuffer& Buffer, Ermine::IndexBuffer& IndexBuffer)
-		:
-		Vbo(Buffer),
-		Ibo(IndexBuffer)
-	{
-		HelperCreateAndBindVertexArray();
-	}
-	VertexArray::VertexArray(std::vector<float>& VertexBuffer, Ermine::IndexBuffer& IndexBuffer)
-		:
-		Vbo(VertexBuffer),
-		Ibo(IndexBuffer)
-	{
-		HelperCreateAndBindVertexArray();
-	}
-	VertexArray::VertexArray(Ermine::VertexBuffer& Buffer, std::vector<uint32_t>& IndexBuffer)
-		:
-		Vbo(Buffer),
-		Ibo(IndexBuffer)
-	{
-		HelperCreateAndBindVertexArray();
-	}
 	
 	VertexArray::~VertexArray()
 	{
-		//Bind();
 		GLCall(glDeleteVertexArrays(1, &vertex_array));
 	}
 
@@ -74,16 +50,6 @@ namespace Ermine
 		HelperMoveVertexArray(std::move(rhs));
 		return *this;
 	}
-
-
-	VertexArray VertexArray::operator+(VertexArray& rhs)
-	{
-		VertexBuffer Vbuf = this->Vbo + rhs.Vbo;
-		IndexBuffer Ibuf = this->Ibo + rhs.Ibo;
-
-		return VertexArray(Vbuf, Ibuf);
-	}
-
 
 	void VertexArray::Bind()
 	{
@@ -129,10 +95,7 @@ namespace Ermine
 		return BufferToStoreAllRecievedSpecification;
 	}
 
-	int VertexArray::GetIndexBufferLength()
-	{
-		return Ibo.GetBufferDataLength();
-	}
+	
 
 	void VertexArray::Clear()
 	{
@@ -141,24 +104,6 @@ namespace Ermine
 			GLCall(glDeleteVertexArrays(1, &vertex_array));
 		}
 	}
-
-	void VertexArray::SetVertexBufferData(std::vector<float> Data)
-	{
-		//Bind The Vertex Array In Question So That The Vertex Buffer Is Bound To It Irrefutable..
-		Bind();
-
-		//Call The Set Buffer Data On The Vertex Buffer In Question...
-		Vbo.SetBufferData(Data);
-
-		//Set The Vertex Attrib Pointer Maybe Again..
-		SetVertexAttribArray(BufferToStoreAllRecievedSpecification);
-	}
-
-	std::vector<float> VertexArray::GetVertexBufferData()
-	{
-		return Vbo.GetBufferData();
-	}
-
 
 	void VertexArray::HelperCopyVertexArray(const VertexArray& rhs)
 	{
@@ -219,6 +164,6 @@ namespace Ermine
 		default:STDOUTDefaultLog_Error("Problem {} Cannot Handle Anything Other Than GL_FLOAT", __FUNCTION__);
 		}
 
-		return 4; //If I Dunno Ill Assume Float
+		return 4; //If I Dunno I'll Assume Float
 	}
 }

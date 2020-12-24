@@ -12,14 +12,16 @@
 
 namespace Editor
 {
+	Ermine::Entity* entity;
+
 	EditorLayer::EditorLayer()
 		:
 		Ermine::LayerStackLayer("EditorLayer")
 	{
-		Ermine::Entity entity(Ermine::H_App->GetScene());
+		entity = new Ermine::Entity(Ermine::H_App->GetScene());
 
 		std::string TestString = "TestStringTag";
-		entity.AddComponent<Ermine::TagComponent>(TestString);
+		entity->AddComponent<Ermine::TagComponent>(TestString);
 	}
 
 	void EditorLayer::Update(float Dt)
@@ -29,15 +31,10 @@ namespace Editor
 
 		//Renderer Commands Maybe Okay In This Function.. We Should See..
 
-		auto& registry = Ermine::H_App->GetScene()->SceneRegistry;
+		static int count = 0;
 
-
-		auto view = registry.view<Ermine::TagComponent>();
-
-		for (auto entity : view) {
-			auto& Tag = view.get<Ermine::TagComponent>(entity);
-			std::cout << Tag.Tag << std::endl;
-		}
+		auto TagComponent = entity->GetComponent<Ermine::TagComponent>();
+		std::cout << "Tag Component : " << TagComponent.Tag;
 	}
 	void EditorLayer::Render(float Dt)
 	{

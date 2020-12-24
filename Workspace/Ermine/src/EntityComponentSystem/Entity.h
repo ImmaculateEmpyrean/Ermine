@@ -24,6 +24,8 @@ namespace Ermine
 		Entity(std::weak_ptr<Ermine::Scene> ScenePointer);
 		Entity(std::uint32_t enttId, std::weak_ptr<Ermine::Scene> ScenePointer);
 
+		operator entt::entity() { return ((entt::entity)Id); }
+
 	public:
 		template<typename T, typename ...Params>
 		void AddComponent(Params&&... params)
@@ -37,6 +39,23 @@ namespace Ermine
 				Registry.emplace<T>(((entt::entity)Id), std::forward<Params>(params)...);
 			}
 			else STDOUTDefaultLog_Critical("Expired Scene Encountered When Trying To Add Component To Entity.. A Potentially Fatal Error..")
+		}
+
+		template<typename T>
+		T& GetComponent()
+		{
+			if (!ScenePointer.expired())
+			{
+				std::shared_ptr<Ermine::Scene> StrScenePointer = ScenePointer.lock();
+				auto& registry = StrScenePointer->SceneRegistry;
+
+				return registry.get<T>(((entt::entity)Id));
+			}
+			else 
+			{
+				STDOUTDefaultLog_Critical("Expired Scene Encountered When Trying To Get Component To Entity.. A Potentially Fatal Error..");
+				__debugbreak();
+			}
 		}
 
 	private:

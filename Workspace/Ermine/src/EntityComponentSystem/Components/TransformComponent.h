@@ -9,10 +9,10 @@
 struct TransformComponent
 {
 	TransformComponent() = default;
-	TransformComponent(glm::vec3 Transform)
+	TransformComponent(glm::vec4 Transform)
 		:
 		Transform(Transform)
 	{}
 
-	glm::vec3 Transform = glm::vec3(1.0f);
+	glm::vec4 Transform = glm::vec4(1.0f);
 };

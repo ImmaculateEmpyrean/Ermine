@@ -9,80 +9,95 @@
 namespace Ermine
 {
 	IndexBuffer::IndexBuffer()
-	{
-		std::vector<uint32_t> EmptyVec;
-		GenBufferSubmitDataHelper(index_buffer, EmptyVec);
-	}
+	{}
 	IndexBuffer::IndexBuffer(std::vector<uint32_t>& BufferData)
 		:
 		BufferData(BufferData)
-	{
-		GenBufferSubmitDataHelper(index_buffer, BufferData);
-	}
+	{}
 	IndexBuffer::~IndexBuffer()
 	{
-		GLCall(glDeleteBuffers(1, &index_buffer));
+		if(index_buffer != 0)
+			GLCall(glDeleteBuffers(1, &index_buffer));
 	}
 
 
 	void IndexBuffer::Bind()
 	{
-		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer));
+		if (ReadyState == false)
+		{
+			//This Function Clears The openGl Buffer If It Does Exist..
+			Clear();
+
+			GLCall(glGenBuffers(1, &index_buffer));
+
+			if (BufferData.size() > 0)
+			{
+				GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer));
+				GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, BufferData.size() * sizeof(uint32_t), &BufferData.front(), GL_DYNAMIC_DRAW));
+			}
+		}
+		else
+		{
+			GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer));
+		}
 	}
 	void IndexBuffer::UnBind()
 	{
 		GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 	}
 
+
 	IndexBuffer::IndexBuffer(const IndexBuffer& rhs)
 		:
 		BufferData(rhs.BufferData)
-	{
-		GenBufferSubmitDataHelper(index_buffer, BufferData);
-	}
+	{}
 	IndexBuffer IndexBuffer::operator=(const IndexBuffer& rhs)
 	{
 		BufferData = rhs.BufferData;
-		GenBufferSubmitDataHelper(index_buffer, BufferData);
-
 		return *this;
 	}
 
 	IndexBuffer::IndexBuffer(IndexBuffer&& rhs)
 		:
-		BufferData(rhs.BufferData),
-		index_buffer(rhs.index_buffer)
+		BufferData(std::move(rhs.BufferData))
 	{
+		ReadyState = rhs.ReadyState;
+		index_buffer = rhs.index_buffer;
+
+		rhs.ReadyState = false;
 		rhs.index_buffer = 0;
 	}
 	IndexBuffer IndexBuffer::operator=(IndexBuffer&& rhs)
 	{
-		BufferData = rhs.BufferData;
+		BufferData = std::move(rhs.BufferData);
+		
 		index_buffer = rhs.index_buffer;
+		ReadyState = rhs.ReadyState;
+
 		rhs.index_buffer = 0;
+		rhs.ReadyState = false;
 
 		return *this;
 	}
 
 
-	IndexBuffer IndexBuffer::operator+(IndexBuffer& rhs)
+	std::vector<uint32_t> IndexBuffer::GetIndices(int StartIndex, int EndIndex)
 	{
-		std::vector<uint32_t> BufferData;
-
-		for (uint32_t i : this->BufferData)
-			BufferData.emplace_back(i);
-
-		for (uint32_t i : rhs.BufferData)
-			BufferData.emplace_back(i);
-
-		//Construct A New Index Buffer From The Given Data And Return It Back To The USer..
-		return IndexBuffer(BufferData);
+		std::vector<uint32_t> Buffer;
+		std::copy(BufferData.begin() + StartIndex, BufferData.begin() + EndIndex, Buffer.begin());
+		return std::move(Buffer);
 	}
 
 
-	bool IndexBuffer::operator==(IndexBuffer& rhs)
+	void IndexBuffer::AddIndices(std::vector<uint32_t> Indices)
 	{
-		return BufferData == rhs.BufferData;
+		std::copy(Indices.begin(), Indices.end(), BufferData.end() - 1);
+		ReadyState = false;
+	}
+	void IndexBuffer::AddIndex(uint32_t Index)
+	{
+		BufferData.emplace_back(Index);
+		ReadyState = false;
 	}
 
 	int IndexBuffer::GetBufferDataLength()
@@ -90,39 +105,35 @@ namespace Ermine
 		return BufferData.size();
 	}
 
-	void IndexBuffer::GenBufferSubmitDataHelper(unsigned int& buffer, std::vector<uint32_t>& Data)
+	void IndexBuffer::EraseIndex(int index)
 	{
-		this->ClearOpenGLBuffer();
+		BufferData.erase(BufferData.begin() + index);
+		ReadyState = false;
+	}
+	void IndexBuffer::EraseIndices(int BeginIndex, int EndIndex)
+	{
+		BufferData.erase(BufferData.begin() + BeginIndex, BufferData.begin() + EndIndex);
+		ReadyState = false;
+	}
 
-		GLCall(glGenBuffers(1, &buffer));
 
-		if (Data.size() > 0)
-		{
-			GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer));
-			GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, Data.size() * sizeof(uint32_t), &Data.front(), GL_DYNAMIC_DRAW));
-		}
+	IndexBuffer IndexBuffer::Generate()
+	{
+		return std::move(IndexBuffer());
+	}
+	IndexBuffer IndexBuffer::Generate(std::vector<uint32_t> IB)
+	{
+		return std::move(IndexBuffer(IB));
 	}
 
 
 	void IndexBuffer::Clear()
 	{
-		ClearAll();
-	}
-	void IndexBuffer::ClearAll()
-	{
-		BufferData.clear();
 		if (index_buffer != 0)
 		{
 			GLCall(glDeleteBuffers(1, &index_buffer));
-			index_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
-		}
-	}
-	void IndexBuffer::ClearOpenGLBuffer()
-	{
-		if (index_buffer != 0)
-		{
-			GLCall(glDeleteBuffers(1, &index_buffer));
-			index_buffer = 0; //0 Means Nothing This Should Not Be Found Hopefully On The Destructor..
+			index_buffer = 0; 
+			ReadyState = false;
 		}
 	}
 }

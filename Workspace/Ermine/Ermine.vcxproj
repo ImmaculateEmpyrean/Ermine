@@ -158,6 +158,7 @@
     <ClInclude Include="src\EngineUI\PrecursorWindow.h" />
     <ClInclude Include="src\EngineUI\WindowHandler.h" />
     <ClInclude Include="src\EntityComponentSystem\Components.h" />
+    <ClInclude Include="src\EntityComponentSystem\Components\CameraComponent.h" />
     <ClInclude Include="src\EntityComponentSystem\Components\TagComponent.h" />
     <ClInclude Include="src\EntityComponentSystem\Components\TransformComponent.h" />
     <ClInclude Include="src\EntityComponentSystem\Entity.h" />

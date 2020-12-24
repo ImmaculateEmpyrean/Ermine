@@ -4,6 +4,7 @@
 #include<string>
 
 #include "entt.hpp"
+#include "EntityComponentSystem/Components.h"
 
 /*
 * The Scene Class Contains All The Entities That Are Relevant At Any Given Moment.. 
@@ -30,13 +31,16 @@ namespace Ermine
 		Scene& operator=(Scene&& rhs);
 
 	public:
-		//template<typename T>
-		//std::vector<T> GetComponents();
+		//this Components Cam Is The Primary Cam Used In The Scene..
+		void SetPrimaryCamera(Ermine::Entity* Ent) { PrimaryCamEntity = Ent; };
 
 	public:
 		//The Scene Uses entt in the backend to manage all entities..
 		entt::registry SceneRegistry; //TODO- See That Access To Entity Is Thread Safe.. If Not Already Refer To entt..
 		
+		//This Is The Primary Camera From Which The Scene Demands To Be Viewed.. The Renderer Must Honor This..
+		Ermine::Entity* PrimaryCamEntity = nullptr;
+
 		//Entity Is To Access Scene Registry At Will..
 		friend class Ermine::Entity;
 	};

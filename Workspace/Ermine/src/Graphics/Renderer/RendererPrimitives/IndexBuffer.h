@@ -15,25 +15,40 @@ namespace Ermine
 		~IndexBuffer();
 
 	public:
-		std::vector<uint32_t> GetBufferData() const { return BufferData; }
+		//This Is Very Fairly Expensive..
+		std::vector<uint32_t> GetIndexData() const { return BufferData; }
+		uint32_t Getindex(int index) { return BufferData[index]; }; //Use This For Reading Instead Of The Operator.. U Wont Be Paying With Reconstruction..
+		std::vector<uint32_t> GetIndices(int StartIndex, int EndIndex);
+
+		//Add Indices To The Buffer Using This Method..
+		void AddIndices(std::vector<uint32_t> Indices);
+		void AddIndex(uint32_t Index);
+
+		int GetBufferDataLength();
+
+		void EraseIndex(int index);
+		void EraseIndices(int BeginIndex, int EndIndex);
+
+		static IndexBuffer Generate();
+		static IndexBuffer Generate(std::vector<uint32_t> IndexBufferData);
 
 		void Bind();
 		void UnBind();
 
+		//These Must Be Overloaded So As To Call Relevant Opengl functions when required..
 		IndexBuffer(const IndexBuffer& rhs);
 		IndexBuffer operator=(const IndexBuffer& rhs);
 
 		IndexBuffer(IndexBuffer&& rhs);
 		IndexBuffer operator=(IndexBuffer&& rhs);
 
-		//This is Very Expensive Donot USe It...
-		bool operator ==(IndexBuffer& rhs);
+		//Use This Instead Of Calling Bind And All That Ruckus..
+		operator unsigned int() { Bind(); return index_buffer; };
 
-		int GetBufferDataLength();
-
+		//Use This To Easily Access Any Element In BufferData.. Changes Will Also Be Reflected But In The Worst Case Very Expensive.. You Might Be Paying With Reconstruction Just For Reading Data..
+		uint32_t operator[](unsigned int Index) { ReadyState = false; return BufferData[Index]; };
+		
 		void Clear();
-
-		IndexBuffer operator+(IndexBuffer& rhs);
 
 	public:
 
@@ -42,12 +57,11 @@ namespace Ermine
 	protected:
 
 	private:
-		void GenBufferSubmitDataHelper(unsigned int& buffer, std::vector<uint32_t>& Data);
-
-		void ClearAll();
-		void ClearOpenGLBuffer();
+		
 
 	private:
+		bool ReadyState = false;
+
 		unsigned int index_buffer = 0;
 		std::vector<uint32_t> BufferData;
 	};
