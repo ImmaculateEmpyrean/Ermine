@@ -12,8 +12,5 @@
 
 namespace Ermine
 {
-	class Renderer2D
-	{
 	
-	};
 }

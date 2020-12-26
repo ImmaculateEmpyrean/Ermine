@@ -274,9 +274,6 @@
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h">
       <Filter>Graphics\Renderer\RendererPrimitives</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexAttribPointerSpecification.h">
-      <Filter>Graphics\Renderer\RendererPrimitives</Filter>
-    </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.h">
       <Filter>Graphics\Renderer\RendererPrimitives</Filter>
     </ClInclude>
@@ -439,6 +436,9 @@
     <ClInclude Include="src\EntityComponentSystem\Components.h" />
     <ClInclude Include="src\EntityComponentSystem\Components\TagComponent.h" />
     <ClInclude Include="src\EntityComponentSystem\Components\CameraComponent.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexSpecifics.h">
+      <Filter>Graphics\Renderer\RendererPrimitives</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
@@ -698,5 +698,6 @@
     </ClCompile>
     <ClCompile Include="src\Level\Scene.cpp" />
     <ClCompile Include="src\EntityComponentSystem\Entity.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexSpecifics.cpp" />
   </ItemGroup>
 </Project>

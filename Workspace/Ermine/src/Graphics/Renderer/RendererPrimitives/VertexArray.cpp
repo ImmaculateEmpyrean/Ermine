@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "VertexArray.h"
 
+#include<cassert>
+
 //only opengl specific
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -9,53 +11,98 @@
 namespace Ermine
 {
 	VertexArray::VertexArray()
-	{
-		HelperCreateAndBindVertexArray();
-
-		Vbo = VertexBuffer(); //Create An Empty Vertex Buffer
-		Ibo = IndexBuffer(); //Create An Empty Index Buffer
-	}
+		:
+		Vbo(),
+		Ibo(),
+		Specification()
+	{}
 	VertexArray::VertexArray(std::vector<float>& VertexBuffer, std::vector<uint32_t>& IndexBuffer)
 		:
 		Vbo(VertexBuffer),
-		Ibo(IndexBuffer)
+		Ibo(IndexBuffer),
+		Specification()
+	{}
+
+	VertexArray::~VertexArray()
 	{
-		HelperCreateAndBindVertexArray();
+		Clear();
 	}
 
 	
-	VertexArray::~VertexArray()
-	{
-		GLCall(glDeleteVertexArrays(1, &vertex_array));
-	}
-
+	//ArrayReady and vertex_array Is Not Copied Intentionally 
 	VertexArray::VertexArray(const VertexArray& rhs)
+		:
+		Vbo(rhs.Vbo),
+		Ibo(rhs.Ibo),
+		Specification(rhs.Specification)
+	{}
+	//ArrayReady and vertex_array Is Not Copied Intentionally
+	VertexArray& VertexArray::operator=(const VertexArray& rhs)
 	{
-		HelperCopyVertexArray(rhs);
-	}
-
-	VertexArray VertexArray::operator=(const VertexArray& rhs)
-	{
-		HelperCopyVertexArray(rhs);
+		Vbo = rhs.Vbo;
+		Ibo = rhs.Ibo;
+		
+		Specification = rhs.Specification;
 		return *this;
 	}
 
 	VertexArray::VertexArray(VertexArray&& rhs)
+		:
+		Vbo(std::move(rhs.Vbo)),
+		Ibo(std::move(rhs.Ibo)),
+		Specification(std::move(rhs.Specification))
 	{
-		HelperMoveVertexArray(std::move(rhs));
+		vertex_array = rhs.vertex_array;
+		rhs.vertex_array = 0;
+
+		ArrayReady = rhs.ArrayReady;
+		rhs.ArrayReady = false;
 	}
 
-	VertexArray VertexArray::operator=(VertexArray&& rhs)
+	VertexArray& VertexArray::operator=(VertexArray&& rhs)
 	{
-		HelperMoveVertexArray(std::move(rhs));
+		vertex_array = rhs.vertex_array;
+		rhs.vertex_array = 0;
+
+		Vbo = std::move(rhs.Vbo);
+		Ibo = std::move(rhs.Ibo);
+
+		ArrayReady = rhs.ArrayReady;
+
+		Specification = std::move(rhs.Specification);
+
 		return *this;
 	}
 
+#pragma region Generators
+	std::shared_ptr<VertexArray> VertexArray::Generate()
+	{
+		return std::shared_ptr<VertexArray>(new VertexArray());
+	}
+	std::shared_ptr<VertexArray> VertexArray::Generate(std::vector<float> VertexBuffer, std::vector<uint32_t> IndexBuffer)
+	{
+		return std::shared_ptr<VertexArray>(new VertexArray(std::move(VertexBuffer),std::move(IndexBuffer)));
+	}
+#pragma endregion
+
 	void VertexArray::Bind()
 	{
-		GLCall(glBindVertexArray(vertex_array));
-		Vbo.Bind();
-		Ibo.Bind();
+		if (ArrayReady == true)
+		{
+			GLCall(glBindVertexArray(vertex_array));
+			Vbo.Bind();
+			Ibo.Bind();
+		}
+		else
+		{
+			if(vertex_array != 0)
+				GLCall(glDeleteVertexArrays(1, &vertex_array));
+
+			GLCall(glGenVertexArrays(1, &vertex_array));
+			GLCall(glBindVertexArray(vertex_array));
+
+			UpdateVertexSpecifications();
+		}
 	}
 	void VertexArray::UnBind()
 	{
@@ -64,106 +111,68 @@ namespace Ermine
 		Ibo.UnBind();
 	}
 	
-	void VertexArray::SetVertexAttribArray(std::vector<VertexAttribPointerSpecification> SpecContainer)
+	void VertexArray::SetVertexAttribArray(VertexSpecifics& Specification)
 	{
-		//Start This Might Be Wrong So just Delete It If Domething Goes Abnormally Wrong..
-		AttributesSetCount = 0;
-		NextVertexAttribStartLoc = 0;
-		//Ended This Might Be Wrong So just Delete It If Domething Goes Abnormally Wrong..
+		ArrayReady = false;
+		this->Specification = Specification;
+	}
 
+	void VertexArray::UpdateVertexSpecifications()
+	{
 		//Copy The Buffer Over So That Future Copying And Moving Can Be Done Easily..
-		BufferToStoreAllRecievedSpecification = SpecContainer;
+		this->Specification = Specification;
 
+		//Bind The VertexArray So That We Can Start Setting Up The VertexAttrib Pointers..
 		Bind();
-		
-		int SizeOfVertexArray = HelperCalculateSizeOfTheVertex(SpecContainer);
-		for (auto i : SpecContainer)
+
+		int SizeOfVertexArray = Specification.GetVertexSize();
+
+		unsigned int AttributeCounter = 0;
+		for (auto i : Specification.GetSpecifications())
 		{
-			
-			GLCall(glVertexAttribPointer(AttributesSetCount, i.NumberOfComponents, i.TypeOfTheComponent,
-				i.Normailized, SizeOfVertexArray, (void*)NextVertexAttribStartLoc));
+			//Better This Than A Black Screen And Countless Hours Wasted On Debugging X>
+			assert(i.StrideUpdated == true);
 
-			GLCall(glEnableVertexAttribArray(AttributesSetCount));
+			GLCall(glVertexAttribPointer(AttributeCounter, i.NumberOfComponents, i.TypeOfTheComponent,
+				i.Normailized, SizeOfVertexArray, (void*)i.Stride));
 
-			NextVertexAttribStartLoc = NextVertexAttribStartLoc + (i.NumberOfComponents * HelperSizeOfTheComponent(i.TypeOfTheComponent));
-			AttributesSetCount++;
+			GLCall(glEnableVertexAttribArray(AttributeCounter++));
 		}
 	}
-
-	std::vector<VertexAttribPointerSpecification> VertexArray::GetVertexAttribArray()
+	VertexSpecifics VertexArray::GetVertexAttribArray()
 	{
-		return BufferToStoreAllRecievedSpecification;
+		return Specification;
 	}
 
-	
+
+	void VertexArray::PushVertices(std::vector<float> Data)
+	{
+		//Forward The All To One Layer Deeper
+		Vbo.AddValues(std::move(Data));
+	}
+	void VertexArray::PushIndices(std::vector<uint32_t> Data)
+	{
+		//Forward The All To One Layer Deeper
+		Ibo.AddIndices(std::move(Data));
+	}
+
+
+	std::vector<float> VertexArray::GetVertexData()
+	{
+		//Ask The Vertex To Provide Me Indices..
+		return std::move(Vbo.GetVertexData());
+	}
+	std::vector<uint32_t> VertexArray::GetIndexData()
+	{
+		//Ask The IndexBuffer To Provide Me Indices..
+		return std::move(Ibo.GetIndexData());
+	}
+
 
 	void VertexArray::Clear()
 	{
 		if (vertex_array != 0)
-		{
 			GLCall(glDeleteVertexArrays(1, &vertex_array));
-		}
-	}
-
-	void VertexArray::HelperCopyVertexArray(const VertexArray& rhs)
-	{
-		HelperCreateAndBindVertexArray();
-
-		std::vector<float> VertexBufferData = rhs.Vbo.GetBufferData();//.Vbo.GetBufferData();
-		std::vector<uint32_t> IndexBufferData = rhs.Ibo.GetBufferData();
-
-		Vbo.Clear();
-		Ibo.Clear();
-
-		Vbo = Ermine::VertexBuffer(VertexBufferData);
-		Ibo = Ermine::IndexBuffer(IndexBufferData);
-
-		BufferToStoreAllRecievedSpecification = rhs.BufferToStoreAllRecievedSpecification;
-
-		SetVertexAttribArray(BufferToStoreAllRecievedSpecification);
-	}
-
-	void VertexArray::HelperMoveVertexArray(VertexArray&& rhs)
-	{
-		vertex_array = rhs.vertex_array;
-		rhs.vertex_array = 0;
-
-		Vbo = std::move(rhs.Vbo);
-		Ibo = std::move(rhs.Ibo);
-
-		AttributesSetCount = rhs.AttributesSetCount;
-		NextVertexAttribStartLoc = rhs.NextVertexAttribStartLoc;
-		BufferToStoreAllRecievedSpecification = rhs.BufferToStoreAllRecievedSpecification;
-	}
-
-	void VertexArray::HelperCreateAndBindVertexArray()
-	{
-		Clear();
-
-		GLCall(glGenVertexArrays(1, &vertex_array));
-		GLCall(glBindVertexArray(vertex_array));
-	}
-
-	int VertexArray::HelperCalculateSizeOfTheVertex(std::vector<VertexAttribPointerSpecification>& SpecContainer)
-	{
-		int FinalSize = 0;
-		int SizeToAdd = sizeof(float); //Default Because I Was Expecting Only Floats To Arrive As Of Now..
-		for (auto i : SpecContainer)
-		{			
-			FinalSize = FinalSize + (HelperSizeOfTheComponent(i.TypeOfTheComponent) * i.NumberOfComponents);
-		}
-
-		return FinalSize;
-	}
-	int VertexArray::HelperSizeOfTheComponent(unsigned int Component)
-	{
-		switch (Component)
-		{
-		case GL_FLOAT: return sizeof(float);
-			break;
-		default:STDOUTDefaultLog_Error("Problem {} Cannot Handle Anything Other Than GL_FLOAT", __FUNCTION__);
-		}
-
-		return 4; //If I Dunno I'll Assume Float
+		ArrayReady = false;
 	}
 }

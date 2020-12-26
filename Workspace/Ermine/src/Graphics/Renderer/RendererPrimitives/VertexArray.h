@@ -3,8 +3,9 @@
 #include<vector>
 #include<string>
 
-#include "VertexAttribPointerSpecification.h"
 #include "VertexBuffer.h"
+#include "VertexSpecifics.h"
+
 #include "IndexBuffer.h"
 
 namespace Ermine
@@ -19,20 +20,20 @@ namespace Ermine
 		~VertexArray();
 	public:
 		VertexArray(const VertexArray& rhs);
-		VertexArray operator=(const VertexArray& rhs);
+		VertexArray& operator=(const VertexArray& rhs);
 
 		VertexArray(VertexArray&& rhs);
-		VertexArray operator=(VertexArray&& rhs);
+		VertexArray& operator=(VertexArray&& rhs);
 
 		//Generates A Vertex Array
 		static std::shared_ptr<VertexArray> Generate();
-		static std::shared_ptr<VertexArray> Generate(std::vector<float>& VertexBuffer, std::vector<uint32_t> IndexBuffer);
+		static std::shared_ptr<VertexArray> Generate(std::vector<float> VertexBuffer, std::vector<uint32_t> IndexBuffer);
 
 		void Bind  ();
 		void UnBind();
 
-		void SetVertexAttribArray(std::vector<VertexAttribPointerSpecification> SpecContainer);
-		std::vector<VertexAttribPointerSpecification> GetVertexAttribArray();
+		void SetVertexAttribArray(VertexSpecifics& Specification);
+		VertexSpecifics GetVertexAttribArray();
 
 		//Get The Underlying Buffers
 		Ermine::VertexBuffer& GetVertexBuffer() { return Vbo; };
@@ -41,7 +42,7 @@ namespace Ermine
 		void PushVertices(std::vector<float> Data);
 		void PushIndices(std::vector<uint32_t> Data);
 
-		std::vector<float>& GetVertexData(); //This Function Is Fairly Expensive.. Do Not Use It Often..
+		std::vector<float> GetVertexData(); //This Function Is Fairly Expensive.. Do Not Use It Often..
 		std::vector<uint32_t> GetIndexData(); //This Function Is Fairly Expensive Donot Use It Often..
 
 		void Clear();
@@ -50,27 +51,21 @@ namespace Ermine
 		operator Ermine::VertexBuffer() { return Vbo;			};
 		operator unsigned int()			{ return vertex_array;  };
 
-	public:
-
-	protected:
-
-	protected:
+	private:
+		//This Is The Backend Function That Sets Up The Vertex Attributes Of The VertexArray..
+		void UpdateVertexSpecifications();
 
 	private:
-		void HelperCopyVertexArray(const VertexArray& rhs);
-		void HelperMoveVertexArray(VertexArray&& rhs);
-
-		void HelperCreateAndBindVertexArray();
-		int HelperCalculateSizeOfTheVertex(std::vector<VertexAttribPointerSpecification>& SpecContainer);
-		int HelperSizeOfTheComponent(unsigned int Component);
-
-	private:
+		//OpenGl VertexArray..
 		unsigned int vertex_array = 0;
-		Ermine::VertexBuffer Vbo;
-		Ermine::IndexBuffer  Ibo;
+		
+		//The Buffers Contained Inside The Vertex Array..
+		VertexBuffer Vbo;
+		IndexBuffer  Ibo;
 
-		int AttributesSetCount = 0;
-		int NextVertexAttribStartLoc = 0;
-		std::vector<VertexAttribPointerSpecification> BufferToStoreAllRecievedSpecification;
+		//If The Buffer Is Already.. No Need To Again Construct It For Binding..
+		bool ArrayReady = false;
+
+		VertexSpecifics Specification;
 	};
 }
