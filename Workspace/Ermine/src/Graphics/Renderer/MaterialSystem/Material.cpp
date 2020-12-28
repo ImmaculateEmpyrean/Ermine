@@ -6,295 +6,171 @@
 
 namespace Ermine
 {
+	Material::Material()
+	{
+		//An Empty Shader Wont Compile..
+		Shd = Ermine::Shader::Generate();
+	}
+
 	Material::Material(std::filesystem::path VertexPath, std::filesystem::path FragmentPath)
 	{
-		Shd = new Shader(VertexPath, FragmentPath);
+		Shd = Ermine::Shader::Generate(VertexPath, FragmentPath);
+	}
+	Material::Material(std::string VertexSource, std::string FragmentSource)
+	{
+		Shd = Ermine::Shader::Generate(VertexSource, FragmentSource);
 	}
 	Material::~Material()
+	{}
+
+
+	template<typename T>
+	class StringToDatatype
+	{};
+	template<>
+	class StringToDatatype<int>
 	{
-		if(Shd != nullptr)
-			delete Shd;
-	}
-
-
-	Material::Material(const Material& rhs)
-	{
-		if (rhs.Shd != nullptr)
-			Shd = new Ermine::Shader((*rhs.Shd));
-
-		HelperCopyBuffersFunction(rhs);
-	}
-	Material Material::operator=(const Material& rhs)
-	{
-		if (rhs.Shd != nullptr)
-			Shd = new Ermine::Shader((*rhs.Shd));
-
-		HelperCopyBuffersFunction(rhs);
-
-		return *this;
-	}
-
-	Material::Material(Material&& rhs)
-	{
-		if (rhs.Shd != nullptr)
+	public:
+		int operator()(std::string Value)
 		{
-			Shd = rhs.Shd;
-			rhs.Shd = nullptr;
+			return std::stoi(Value);
+		}
+	};
+	template<>
+	class StringToDatatype<float>
+	{
+	public:
+		float operator()(std::string Value)
+		{
+			return std::stof(Value);
+		}
+	};
+	template<>
+	class StringToDatatype<bool>
+	{
+	public:
+		float operator()(std::string Value)
+		{
+			return (Value == std::string("true")) ? 1 : 0;
+		}
+	};
+
+	//General Purpose Function Overload
+	template<typename T,typename Q>
+	static std::vector<std::pair<std::string, T>> GetUniform(nlohmann::json File, std::string UniformType,StringToDatatype<Q> Functor)
+	{
+		std::vector<std::pair<std::string, T>> UniformBuffer;
+
+		for (auto Uniform : File[UniformType.c_str()].items())
+		{
+			std::pair<std::string, T> IdValuePair;
+			for (auto Parameter : Uniform.value().items())
+			{
+				if (Parameter.key() == "Name")
+					IdValuePair.first = Parameter.value();
+
+				if (Parameter.key() == "Value")
+				{
+					int Counter = 0;
+					int SecondaryCounter = 0;
+					for (auto Val : Parameter.value().items())
+					{
+						//Just Normally Write The Values For Int Float And bool
+						if (std::is_same<T, int>::value || std::is_same<T, float>::value || std::is_same<T, bool>::value)
+							IdValuePair.second = Functor(Val.value().dump());
+
+						//This is How std::vectors Are Handled..
+						else if (std::is_same<T, std::vector<float>>::value || std::is_same<T, std::vector<int>>::value)
+							IdValuePair.second.emplace_back(Functor(Val.value().dump()));
+						
+						//This Is How Matrices Are Handled
+						else if (std::is_same<T, glm::mat3>::value || std::is_same<T, glm::mat4>::value)
+						{
+							int TerminationPoint = -99;
+
+							if (std::is_same<T, glm::mat3>::value)
+								TerminationPoint == 3;
+							else TerminationPoint == 4;
+
+							if (SecondaryCounter == TerminationPoint)
+							{
+								SecondaryCounter = 0;
+								Counter++;
+							}
+							IdValuePair.second[Counter][SecondaryCounter++] = Functor(Val.value().dump());
+						}
+
+						//Only glm::vec is left To Be Handled And It Can Be Handled Like This
+						else IdValuePair.second[Counter++] = Functor(Val.value().dump());
+					}	
+				}
+			}
+			UniformBuffer.emplace_back(IdValuePair);
 		}
 
-		HelperMoveBuffersFunction(std::move(rhs));
+		return std::move(UniformBuffer);
 	}
-	Material Material::operator=(Material&& rhs)
+
+	void Material::ClearUniforms()
 	{
-		if (rhs.Shd != nullptr)
-		{
-			Shd = rhs.Shd;
-			rhs.Shd = nullptr;
-		}
+		U1B.clear();
 
-		HelperMoveBuffersFunction(std::move(rhs));
+		U1Float.clear();
+		U2Float.clear();
+		U3Float.clear();
+		U4Float.clear();
+		UNFloat.clear();
 
-		return *this;
+		U1Int.clear();
+		U2Int.clear();
+		U3Int.clear();
+		U4Int.clear();
+		UNInt.clear();
+
+		U3Mat.clear();
+		U4Mat.clear();
 	}
 
-
-	bool Material::operator==(Material& rhs)
+	void Material::LoadUniformsFromMemory(std::filesystem::path JsonFilePath)
 	{
-		return false;
-	}
+		std::ifstream RawInputFile(JsonFilePath);
 
+		nlohmann::json File;
+		File << RawInputFile;
+
+		U1B = GetUniform<int>(File, "U1B", Ermine::StringToDatatype<bool>{});
+
+		U1Float = GetUniform<float>	   (File, "U1", StringToDatatype<float>{});
+		U2Float = GetUniform<glm::vec2>(File, "U2", StringToDatatype<float>{});
+		U3Float = GetUniform<glm::vec3>(File, "U3", StringToDatatype<float>{});
+		U4Float = GetUniform<glm::vec4>(File, "U4F", StringToDatatype<float>{});
+		UNFloat = GetUniform<std::vector<float>>(File, "UNF", StringToDatatype<float>{});
+
+		U1Int = GetUniform<int>				(File, "U1I", StringToDatatype<int>{});
+		U2Int = GetUniform<glm::vec<2, int>>(File, "U2I", StringToDatatype<int>{});
+		U3Int = GetUniform<glm::vec<3, int>>(File, "U3I", StringToDatatype<int>{});
+		U4Int = GetUniform<glm::vec<4, int>>(File, "U4I", StringToDatatype<int>{});
+		UNInt = GetUniform<std::vector<int>>(File, "UNI", StringToDatatype<int>{});
+
+		U3Mat = GetUniform<glm::mat3>(File, "U3Mat", StringToDatatype<float>{});
+		U4Mat = GetUniform<glm::mat4>(File, "U4Mat", StringToDatatype<float>{});
+	}
 
 	Material::Material(std::filesystem::path MaterialJsonFilePath)
 	{
 		std::ifstream RawInputFile(MaterialJsonFilePath);
-		nlohmann::json InputFile;
 
-		//Dump The Contents Of THe Raw Input File Into The Datastructure Designed For Parsing Json..
-		InputFile << RawInputFile;
+		nlohmann::json File;
+		File << RawInputFile;
 
-		std::string VertexShaderCode = InputFile["VertexShaderCode"];//.dump();
-		std::string FragmentShaderCode = InputFile["FragmentShaderCode"];//.dump();
+		std::string VertexSource   = File["Vertex"];
+		std::string FragmentSource = File["Fragment"];
 
-		Shd = new Shader(std::string(VertexShaderCode), std::string(FragmentShaderCode)); //Construct The Required Shader
-
-		for (nlohmann::json::iterator it = InputFile["bool"].begin(); it != InputFile["bool"].end(); ++it) 
-		{
-			nlohmann::json FILE = *it;
-			std::string UniformName = FILE.items().begin().key();
-			int Value = std::stoi(FILE.items().begin().value().dump());
-
-			UniformBoolean.emplace_back(std::make_pair(UniformName, Value));
-		}
-
-		for (nlohmann::json::iterator it = InputFile["float"].begin(); it != InputFile["float"].end(); ++it)
-		{
-			nlohmann::json FILE = *it;
-			std::string UniformName = FILE.items().begin().key();
-			float Value = std::stof(FILE.items().begin().value().dump());
-
-			UniformfBuffer.emplace_back(std::make_pair(UniformName, Value));
-		}
-
-		for (nlohmann::json::iterator it = InputFile["Vec2"].begin(); it != InputFile["Vec2"].end(); ++it)
-		{
-			nlohmann::json FILE = *it;
-			std::string UniformName = FILE.items().begin().key();
-			
-			std::vector<float> Vector;
-
-			for (auto i : FILE.items().begin().value().items())
-			{
-				Vector.emplace_back(std::stof(i.value().dump()));
-			}
-
-			glm::vec2 Holder;
-			Holder.x = Vector[0];
-			Holder.y = Vector[1];
-
-			Uniform2fBuffer.emplace_back(std::make_pair(UniformName, Holder));
-		}
-
-		for (nlohmann::json::iterator it = InputFile["Vec3"].begin(); it != InputFile["Vec3"].end(); ++it)
-		{
-			nlohmann::json FILE = *it;
-			std::string UniformName = FILE.items().begin().key();
-
-			std::vector<float> Vector;
-
-			for (auto i : FILE.items().begin().value().items())
-			{
-				Vector.emplace_back(std::stof(i.value().dump()));
-			}
-
-			glm::vec3 Holder;
-			Holder.x = Vector[0];
-			Holder.y = Vector[1];
-			Holder.z = Vector[2];
-
-			Uniform3fBuffer.emplace_back(std::make_pair(UniformName, Holder));
-		}
-
-		for (nlohmann::json::iterator it = InputFile["Vec4"].begin(); it != InputFile["Vec4"].end(); ++it)
-		{
-			nlohmann::json FILE = *it;
-			std::string UniformName = FILE.items().begin().key();
-
-			std::vector<float> Vector;
-
-			for (auto i : FILE.items().begin().value().items())
-			{
-				Vector.emplace_back(std::stof(i.value().dump()));
-			}
-
-			glm::vec4 Holder;
-			Holder.x = Vector[0];
-			Holder.y = Vector[1];
-			Holder.z = Vector[2];
-			Holder.w = Vector[3];
-
-			Uniform4fBuffer.emplace_back(std::make_pair(UniformName, Holder));
-		}
-
-		for (nlohmann::json::iterator it = InputFile["VecN"].begin(); it != InputFile["VecN"].end(); ++it)
-		{
-			nlohmann::json FILE = *it;
-			std::string UniformName = FILE.items().begin().key();
-
-			std::vector<float> Vector;
-
-			for (auto i : FILE.items().begin().value().items())
-			{
-				Vector.emplace_back(std::stof(i.value().dump()));
-			}
-
-			UniformNfBuffer.emplace_back(std::make_pair(UniformName, Vector));
-		}
-
-
-		//Start Loading Integer Uniforms From The File..
-
-		for (nlohmann::json::iterator it = InputFile["int"].begin(); it != InputFile["int"].end(); ++it)
-		{
-			nlohmann::json FILE = *it;
-			std::string UniformName = FILE.items().begin().key();
-			int Value = std::stoi(FILE.items().begin().value().dump());
-
-			UniformiBuffer.emplace_back(std::make_pair(UniformName, Value));
-		}
-
-		for (nlohmann::json::iterator it = InputFile["Vei2"].begin(); it != InputFile["Vei2"].end(); ++it)
-		{
-			nlohmann::json FILE = *it;
-			std::string UniformName = FILE.items().begin().key();
-
-			std::vector<int> Vector;
-
-			for (auto i : FILE.items().begin().value().items())
-			{
-				Vector.emplace_back(std::stoi(i.value().dump()));
-			}
-
-			glm::vec<2,int> Holder;
-			Holder.x = Vector[0];
-			Holder.y = Vector[1];
-
-			Uniform2iBuffer.emplace_back(std::make_pair(UniformName, Holder));
-		}
-
-		for (nlohmann::json::iterator it = InputFile["Vei3"].begin(); it != InputFile["Vei3"].end(); ++it)
-		{
-			nlohmann::json FILE = *it;
-			std::string UniformName = FILE.items().begin().key();
-
-			std::vector<int> Vector;
-
-			for (auto i : FILE.items().begin().value().items())
-			{
-				Vector.emplace_back(std::stoi(i.value().dump()));
-			}
-
-			glm::vec<3,int> Holder;
-			Holder.x = Vector[0];
-			Holder.y = Vector[1];
-			Holder.z = Vector[2];
-
-			Uniform3iBuffer.emplace_back(std::make_pair(UniformName, Holder));
-		}
-
-		for (nlohmann::json::iterator it = InputFile["Vei4"].begin(); it != InputFile["Vei4"].end(); ++it)
-		{
-			nlohmann::json FILE = *it;
-			std::string UniformName = FILE.items().begin().key();
-
-			std::vector<int> Vector;
-
-			for (auto i : FILE.items().begin().value().items())
-			{
-				Vector.emplace_back(std::stoi(i.value().dump()));
-			}
-
-			glm::vec<4,int> Holder;
-			Holder.x = Vector[0];
-			Holder.y = Vector[1];
-			Holder.z = Vector[2];
-			Holder.w = Vector[3];
-
-			Uniform4iBuffer.emplace_back(std::make_pair(UniformName, Holder));
-		}
-
-		for (nlohmann::json::iterator it = InputFile["VeiN"].begin(); it != InputFile["VeiN"].end(); ++it)
-		{
-			nlohmann::json FILE = *it;
-			std::string UniformName = FILE.items().begin().key();
-
-			std::vector<int> Vector;
-
-			for (auto i : FILE.items().begin().value().items())
-			{
-				Vector.emplace_back(std::stoi(i.value().dump()));
-			}
-
-			UniformNiBuffer.emplace_back(std::make_pair(UniformName, Vector));
-		}
-
-		//Ended Loading Integer Uniforms From The File..
-
-		//Started Loading Matrix Buffers
-		for (nlohmann::json::iterator it = InputFile["Mat3"].begin(); it != InputFile["Mat3"].end(); ++it)
-		{
-			nlohmann::json FILE = *it;
-			std::string UniformName = FILE.items().begin().key();
-
-			std::vector<int> Vector;
-
-			for (auto i : FILE.items().begin().value().items())
-			{
-				Vector.emplace_back(std::stof(i.value().dump()));
-			}
-
-			glm::mat3 Matrix = glm::make_mat3(&Vector[0]);
-
-			UniformMat3Buffer.emplace_back(std::make_pair(UniformName, Matrix));
-		}
-
-		for (nlohmann::json::iterator it = InputFile["Mat4"].begin(); it != InputFile["Mat4"].end(); ++it)
-		{
-			nlohmann::json FILE = *it;
-			std::string UniformName = FILE.items().begin().key();
-
-			std::vector<int> Vector;
-
-			for (auto i : FILE.items().begin().value().items())
-			{
-				Vector.emplace_back(std::stof(i.value().dump()));
-			}
-
-			glm::mat4 Matrix = glm::make_mat4(&Vector[0]);
-
-			UniformMat4Buffer.emplace_back(std::make_pair(UniformName, Matrix));
-		}
-		//Ended Loading Matrix Buffers
+		//Load All The Uniforms From Memory..
+		LoadUniformsFromMemory(MaterialJsonFilePath);
 	}
+
+	
 
 	void Material::Bind()
 	{
@@ -303,90 +179,206 @@ namespace Ermine
 
 		Shd->Bind();
 		
-		for (auto i : UniformBoolean)
+		for (auto i : U1B)
 			Shd->UniformBool(i.first, i.second);
 
-		for (auto i : UniformfBuffer)
+		for (auto i : U1Float)
 			Shd->Uniformf(i.first, i.second);
-		for (auto i : Uniform2fBuffer)
+		for (auto i : U2Float)
 			Shd->Uniform2f(i.first, i.second);
-		for (auto i : Uniform3fBuffer)
+		for (auto i : U3Float)
 			Shd->Uniform3f(i.first, i.second);
-		for (auto i : Uniform4fBuffer)
+		for (auto i : U4Float)
 			Shd->Uniform4f(i.first, i.second);
-		for (auto i : UniformNfBuffer)
+		for (auto i : UNFloat)
 			Shd->UniformNf(i.first, i.second);
 			
-		for (auto i : UniformiBuffer)
+		for (auto i : U1Int)
 			Shd->Uniformi(i.first, i.second);
-		for (auto i : Uniform2iBuffer)
+		for (auto i : U2Int)
 			Shd->Uniform2i(i.first, i.second);
-		for (auto i : Uniform3iBuffer)
+		for (auto i : U3Int)
 			Shd->Uniform3i(i.first, i.second);
-		for (auto i : Uniform4iBuffer)
+		for (auto i : U4Int)
 			Shd->Uniform4i(i.first, i.second);
-		for (auto i : UniformNiBuffer)
+		for (auto i : UNInt)
 			Shd->UniformNi(i.first, i.second);
 
-		for (auto i : UniformMat3Buffer)
+		for (auto i : U3Mat)
 			Shd->UniformMat3(i.first, i.second);
-		for (auto i : UniformMat4Buffer)
+		for (auto i : U4Mat)
 			Shd->UniformMat4(i.first, i.second);
 	}
 
-	Shader* Material::GetShader()
+
+	std::shared_ptr<Ermine::Shader> Material::GetShader()
 	{
 		return Shd;
 	}
-
-	void Material::SetShader(Shader Shd)
+	void Material::SetShader(std::shared_ptr<Ermine::Shader>Shd)
 	{
-		this->Shd = new Shader(std::move(Shd));
+		this->Shd = Shd;
 	}
 
-	void Material::WriteToFile(std::filesystem::path FilePathToWrite)
+
+	template<typename T>
+	static nlohmann::json SerializeUniform(std::string UnifromName, T Uniform)
 	{
-		//This Function Will Be Popuated When There Is An Actual Ui To Create And Modify Materials.. Until Then There is No Need For This Method..
+		nlohmann::json SerializedJson;
+		SerializedJson["Name"] = UniformName;
+
+
+		if (std::is_same<T, bool>::value)
+			SerializedJson["Value"].emplace_back((Uniform == true)?"true" :"false");
+		else if (std::is_same<T, int>::value || std::is_same<T, float>::value)
+			SerializedJson["Value"].emplace_back(Uniform);
+		else if (std::is_same<T, glm::vec2>::value || std::is_same<T, glm::vec<2,int>>::value)
+		{
+			SerializedJson["Value"].emplace_back(Uniform[0]);
+			SerializedJson["Value"].emplace_back(Uniform[1]);
+		}
+		else if (std::is_same<T, glm::vec3>::value || std::is_same<T, glm::vec<3, int>>::value)
+		{
+			SerializedJson["Value"].emplace_back(Uniform[0]);
+			SerializedJson["Value"].emplace_back(Uniform[1]);
+			SerializedJson["Value"].emplace_back(Uniform[2]);
+		}
+		else if (std::is_same<T, glm::vec4>::value || std::is_same<T, glm::vec<4, int>>::value)
+		{
+			SerializedJson["Value"].emplace_back(Uniform[0]);
+			SerializedJson["Value"].emplace_back(Uniform[1]);
+			SerializedJson["Value"].emplace_back(Uniform[2]);
+			SerializedJson["Value"].emplace_back(Uniform[3]);
+		}
+		else if (std::is_same<T, glm::vec2>::value || std::is_same<T, glm::vec<2, int>>::value)
+		{
+			SerializedJson["Value"].emplace_back(Uniform[0]);
+			SerializedJson["Value"].emplace_back(Uniform[1]);
+		}
+		else if (std::is_same<T, std::vector<float>>::value || std::is_same<T, std::vector<int>>::value)
+		{
+			for(auto i : Uniform)
+				SerializedJson["Value"].emplace_back(i);
+		}
+		else if (std::is_same<T, glm::mat3>::value || std::is_same<T, glm::mat4>::value)
+		{
+			int TerminationPoint = -99;
+			if (std::is_same<T, glm::mat3>::value)
+				TerminationPoint = 3;
+			else if (std::is_same<T, glm::mat4>::value)
+				TerminationPoint = 4;
+			for (int i = 0; i < TerminationPoint; i++)
+			{
+				for(int j=0;j<TerminationPoint;j++)
+					SerializedJson["Value"].emplace_back(Uniform[i][j]);
+			}
+		}
+		return SerializedJson;
 	}
 
+	void Material::WriteMaterialToFile(Ermine::Material* Mat, std::filesystem::path FilePathToWrite)
+	{
+		nlohmann::json File;
+
+		File["Vertex"]   = Mat->Shd->GetVertexShaderSource();
+		File["Fragment"] = Mat->Shd->GetVertexShaderSource();
+
+		for (auto i : Mat->U1B)
+			File["U1B"].emplace_back(SerializeUniform(i.first, i.second));
+
+		for (auto i : Mat->U1Float)
+			File["U1F"].emplace_back(SerializeUniform(i.first, i.second));
+		for (auto i : Mat->U2Float)
+			File["U2F"].emplace_back(SerializeUniform(i.first, i.second));
+		for (auto i : Mat->U3Float)
+			File["U3F"].emplace_back(SerializeUniform(i.first, i.second));
+		for (auto i : Mat->U4Float)
+			File["U4F"].emplace_back(SerializeUniform(i.first, i.second));
+		for (auto i : Mat->UNFloat)
+			File["UNF"].emplace_back(SerializeUniform(i.first, i.second));
+
+		for (auto i : Mat->U1Int)
+			File["U1I"].emplace_back(SerializeUniform(i.first, i.second));
+
+		for (auto i : Mat->U2Int)
+			File["U2I"].emplace_back(SerializeUniform(i.first, i.second));
+		for (auto i : Mat->U3Int)
+			File["U3I"].emplace_back(SerializeUniform(i.first, i.second));
+		for (auto i : Mat->U4Int)
+			File["U4I"].emplace_back(SerializeUniform(i.first, i.second));
+		for (auto i : Mat->UNInt)
+			File["UNI"].emplace_back(SerializeUniform(i.first, i.second));
+
+		for (auto i : Mat->U3Mat)
+			File["U3Mat"].emplace_back(SerializeUniform(i.first, i.second));
+		for (auto i : Mat->U4Mat)
+			File["U4Mat"].emplace_back(SerializeUniform(i.first, i.second));
+
+		std::ofstream FileOutput(FilePathToWrite);
+
+		File >> FileOutput;
+		FileOutput.close();
+	}
+	void Material::WriteMaterialToFile(std::filesystem::path FilePathToWrite)
+	{
+		Ermine::Material::WriteMaterialToFile(this, FilePathToWrite);
+	}
+
+#pragma region GenerateFunctions
+	std::shared_ptr<Ermine::Material> Material::Generate()
+	{
+		return std::shared_ptr<Ermine::Material>(new Ermine::Material());
+	}
+	std::shared_ptr<Ermine::Material> Material::Generate(std::filesystem::path MaterialPath)
+	{
+		return std::shared_ptr<Ermine::Material>(new Ermine::Material(MaterialPath));
+	}
+	std::shared_ptr<Ermine::Material> Material::Generate(std::filesystem::path VertexShaderPath, std::filesystem::path FragmentShaderPath)
+	{
+		return std::shared_ptr<Ermine::Material>(new Ermine::Material(VertexShaderPath,FragmentShaderPath));
+	}
+	std::shared_ptr<Ermine::Material> Material::Generate(std::string VertexShaderSource, std::string FragmentShaderSource)
+	{
+		return std::shared_ptr<Ermine::Material>(new Ermine::Material(VertexShaderSource,FragmentShaderSource));
+	}
+#pragma endregion
 
 	void Material::HelperCopyBuffersFunction(const Material& rhs)
 	{
-		UniformBoolean = rhs.UniformBoolean;
+		U1B = rhs.U1B;
 
-		UniformfBuffer  = rhs.UniformfBuffer;
-		Uniform2fBuffer = rhs.Uniform2fBuffer;
-		Uniform3fBuffer = rhs.Uniform3fBuffer;
-		Uniform4fBuffer = rhs.Uniform4fBuffer;
-		UniformNfBuffer = rhs.UniformNfBuffer;
+		U1Float = rhs.U1Float;
+		U2Float = rhs.U2Float;
+		U3Float = rhs.U3Float;
+		U4Float = rhs.U4Float;
+		UNFloat = rhs.UNFloat;
 
-		UniformiBuffer = rhs.UniformiBuffer;
-		Uniform2iBuffer = rhs.Uniform2iBuffer;
-		Uniform3iBuffer = rhs.Uniform3iBuffer;
-		Uniform4iBuffer = rhs.Uniform4iBuffer;
-		UniformNiBuffer = rhs.UniformNiBuffer;
+		U1Int = rhs.U1Int;
+		U2Int = rhs.U2Int;
+		U3Int = rhs.U3Int;
+		U4Int = rhs.U4Int;
+		UNInt = rhs.UNInt;
 
-		UniformMat3Buffer = rhs.UniformMat3Buffer;
-		UniformMat4Buffer = rhs.UniformMat4Buffer;
+		U3Mat = rhs.U3Mat;
+		U4Mat = rhs.U4Mat;
 	}
-
 	void Material::HelperMoveBuffersFunction(Material&& rhs)
 	{
-		UniformBoolean = std::move(rhs.UniformBoolean);
+		U1B = std::move(rhs.U1B);
 
-		UniformfBuffer  = std::move(rhs.UniformfBuffer);
-		Uniform2fBuffer = std::move(rhs.Uniform2fBuffer);
-		Uniform3fBuffer = std::move(rhs.Uniform3fBuffer);
-		Uniform4fBuffer = std::move(rhs.Uniform4fBuffer);
-		UniformNfBuffer = std::move(rhs.UniformNfBuffer);
+		U1Float = std::move(rhs.U1Float);
+		U2Float = std::move(rhs.U2Float);
+		U3Float = std::move(rhs.U3Float);
+		U4Float = std::move(rhs.U4Float);
+		UNFloat = std::move(rhs.UNFloat);
 
-		UniformiBuffer  = std::move(rhs.UniformiBuffer);
-		Uniform2iBuffer = std::move(rhs.Uniform2iBuffer);
-		Uniform3iBuffer = std::move(rhs.Uniform3iBuffer);
-		Uniform4iBuffer = std::move(rhs.Uniform4iBuffer);
-		UniformNiBuffer = std::move(rhs.UniformNiBuffer);
+		U1Int = std::move(rhs.U1Int);
+		U2Int = std::move(rhs.U2Int);
+		U3Int = std::move(rhs.U3Int);
+		U4Int = std::move(rhs.U4Int);
+		UNInt = std::move(rhs.UNInt);
 
-		UniformMat3Buffer = std::move(rhs.UniformMat3Buffer);
-		UniformMat4Buffer = std::move(rhs.UniformMat4Buffer);
+		U3Mat = std::move(rhs.U3Mat);
+		U4Mat = std::move(rhs.U4Mat);
 	}
 }

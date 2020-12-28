@@ -102,6 +102,7 @@ namespace Ermine
 			GLCall(glBindVertexArray(vertex_array));
 
 			UpdateVertexSpecifications();
+			ArrayReady = true;
 		}
 	}
 	void VertexArray::UnBind()

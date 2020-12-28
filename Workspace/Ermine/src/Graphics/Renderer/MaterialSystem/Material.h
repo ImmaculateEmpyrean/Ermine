@@ -15,8 +15,8 @@ namespace Ermine
 	class Material
 	{
 	public:
-		//Material Can Be Empty For Now
-		Material() = default; 
+		//Material Can Be Empty But It Wont Compile..
+		Material(); 
 		
 		//Material As Located On The Disk..
 		Material(std::filesystem::path MaterialJsonFilePath);
@@ -24,25 +24,25 @@ namespace Ermine
 		//Material From Shader Paths
 		Material(std::filesystem::path VertexPath, std::filesystem::path FragmentPath);
 
+		//Material Using Source Code..
+		Material(std::string VertexSource, std::string FragmentSource);
+
 		~Material();
 	public:
-		Material(const Material& rhs);
-		Material operator=(const Material& rhs);
-
-		Material(Material&& rhs);
-		Material operator=(Material&& rhs);
-
-		bool operator==(Material& rhs); //This Checks If Both The Shaders And The Uniforms Are Equal..
-
-		//This Function Binds The Relevant Shader And Pushes The Relevant Uniforms So That No External Thing Can Worry Abt it..//
 		void Bind();
 
-		Shader* GetShader();
-		void SetShader(Shader Shd);
+		std::shared_ptr<Ermine::Shader> GetShader();
+		void SetShader(std::shared_ptr<Ermine::Shader> Shd);
 
-		//The FilePath And the filename together sp that the material can be written to the disk
-		void WriteToFile(std::filesystem::path FilePathToWrite);
+		static void WriteMaterialToFile(Ermine::Material* Mat,std::filesystem::path FilePathToWrite);
+		void WriteMaterialToFile(std::filesystem::path FilePathToWrite);
 
+		static std::shared_ptr<Ermine::Material> Generate();
+		static std::shared_ptr<Ermine::Material> Generate(std::filesystem::path MaterialPath);
+		static std::shared_ptr<Ermine::Material> Generate(std::filesystem::path VertexShaderPath, std::filesystem::path FragmentShaderPath);
+		static std::shared_ptr<Ermine::Material> Generate(std::string VertexShaderSource, std::string FragmentShaderSource);
+
+		void ClearUniforms();
 	public:
 
 	protected:
@@ -50,32 +50,33 @@ namespace Ermine
 	protected:
 
 	private:
+
 		void HelperCopyBuffersFunction(const Material& rhs);
 		void HelperMoveBuffersFunction(Material&& rhs);
 
+		void LoadUniformsFromMemory(std::filesystem::path JsonFile);
 	private:
-		//Start Buffers//
-		std::vector<std::pair<std::string, int>> UniformBoolean;
+		std::vector<std::pair<std::string, int>> U1B;
 
 		//Float Buffers
-		std::vector<std::pair<std::string, float>> UniformfBuffer;				
-		std::vector<std::pair<std::string, glm::vec2>> Uniform2fBuffer;			
-		std::vector<std::pair<std::string, glm::vec3>> Uniform3fBuffer;			
-		std::vector<std::pair<std::string, glm::vec4>> Uniform4fBuffer;			
-		std::vector<std::pair<std::string, std::vector<float>>> UniformNfBuffer;
+		std::vector<std::pair<std::string, float>>	   U1Float;				
+		std::vector<std::pair<std::string, glm::vec2>> U2Float;			
+		std::vector<std::pair<std::string, glm::vec3>> U3Float;			
+		std::vector<std::pair<std::string, glm::vec4>> U4Float;			
+		std::vector<std::pair<std::string, std::vector<float>>> UNFloat;
 
 		//Int Buffer
-		std::vector<std::pair<std::string, int>> UniformiBuffer;
-		std::vector<std::pair<std::string, glm::vec<2,int>>> Uniform2iBuffer;
-		std::vector<std::pair<std::string, glm::vec<3,int>>> Uniform3iBuffer;
-		std::vector<std::pair<std::string, glm::vec<4,int>>> Uniform4iBuffer;
-		std::vector<std::pair<std::string, std::vector<int>>> UniformNiBuffer;
+		std::vector<std::pair<std::string, int>>			  U1Int;
+		std::vector<std::pair<std::string, glm::vec<2,int>>>  U2Int;
+		std::vector<std::pair<std::string, glm::vec<3,int>>>  U3Int;
+		std::vector<std::pair<std::string, glm::vec<4,int>>>  U4Int;
+		std::vector<std::pair<std::string, std::vector<int>>> UNInt;
 		
 		//Matrix Buffers
-		std::vector<std::pair<std::string,glm::mat3>> UniformMat3Buffer;
-		std::vector<std::pair<std::string,glm::mat4>> UniformMat4Buffer;
+		std::vector<std::pair<std::string,glm::mat3>> U3Mat;
+		std::vector<std::pair<std::string,glm::mat4>> U4Mat;
 
-		//Ended Buffers//
-		Ermine::Shader* Shd = nullptr;
+		//Material May Only Be Different On Uniforms Right..
+		std::shared_ptr<Ermine::Shader> Shd = nullptr;
 	};
 }

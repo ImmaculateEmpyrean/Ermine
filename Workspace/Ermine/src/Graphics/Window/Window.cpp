@@ -58,7 +58,7 @@ Ermine::Window::Window(std::string WindowTitle, std::pair<int, int> WindowDiamen
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    io = &ImGui::GetIO(); //ImGuiIO& io = ImGui::GetIO(); (void)io;
+    auto io = &ImGui::GetIO();
     io->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
     io->ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
     io->ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
@@ -130,40 +130,6 @@ Ermine::Window& Ermine::Window::operator=(Window&& rhs)
 bool Ermine::Window::ShouldIQuit()
 {
     return glfwWindowShouldClose(WinPtr);
-}
-
-void Ermine::Window::PreNewFrameProcess()
-{
-    glfwPollEvents();
-
-    // Start the Dear ImGui frame
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
-
-    /*Can BE Removed Section*/
-    glClearColor(0.2f,0.2f,0.2f,1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-}
-
-void Ermine::Window::PostNewFrameProcess()
-{
-    // Rendering
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-    // Update and Render additional Platform Windows
-    // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
-    //  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
-    if (io->ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-    {
-        GLFWwindow* backup_current_context = glfwGetCurrentContext();
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
-        glfwMakeContextCurrent(backup_current_context);
-    }
-
-    glfwSwapBuffers(WinPtr);
 }
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height)

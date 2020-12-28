@@ -439,6 +439,7 @@
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexSpecifics.h">
       <Filter>Graphics\Renderer\RendererPrimitives</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\RendererCommands.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
@@ -699,5 +700,6 @@
     <ClCompile Include="src\Level\Scene.cpp" />
     <ClCompile Include="src\EntityComponentSystem\Entity.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexSpecifics.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererCommands.cpp" />
   </ItemGroup>
 </Project>

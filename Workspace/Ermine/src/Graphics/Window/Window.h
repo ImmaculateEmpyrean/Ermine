@@ -32,15 +32,8 @@ namespace Ermine
 	public:
 		//This is const so as to not modify the window from outside it is the job of this class
 		GLFWwindow const* GetContext() { return WinPtr; }
-		ImGuiIO* GetImGuiIO() { return io; }
 
-		void PreNewFrameProcess();
-		void PostNewFrameProcess();
-	private:
-		
 	private:
 		GLFWwindow* WinPtr;
-		ImGuiIO* io=nullptr;
 	};
-
 }
