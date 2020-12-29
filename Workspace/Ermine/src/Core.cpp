@@ -42,4 +42,17 @@ namespace Ermine
 		float y = (((x - LowestValueInData) * (HighestValueInNewRange - LowestValueInNewRange)) / (HighestValueInData - LowestValueInData)) + LowestValueInNewRange;
 		return y;
 	}
+
+	std::vector<float> operator+(const std::vector<float>& v1, const std::vector<float>& v2)
+	{
+		std::vector<float> Result;
+
+		for (auto i : v1)
+			Result.emplace_back(i);
+
+		for (auto i : v2)
+			Result.emplace_back(i);
+
+		return Result;
+	}
 }

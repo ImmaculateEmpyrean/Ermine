@@ -1,146 +1,91 @@
 #include "stdafx.h"
 #include "VertexTextured.h"
 
-std::vector<float> operator+(const std::vector<float>& v1, const std::vector<float>& v2)
+//TODO - Get Rid Of These Two Headers As They Have No Business Sitting Here..
+#include<glad/glad.h>
+#include<GLFW/glfw3.h>
+
+namespace Ermine
 {
-    std::vector<float> Result;
-
-    for (auto i : v1)
-        Result.emplace_back(i);
-
-    for (auto i : v2)
-        Result.emplace_back(i);
-
-    return Result;
-}
-
-Ermine::VertexTextured::VertexTextured()
-    :
-    VertexBase()
-{}
-Ermine::VertexTextured::VertexTextured(glm::vec3 PositionData)
-    :
-    VertexBase(PositionData)
-{}
-Ermine::VertexTextured::VertexTextured(glm::vec3 PositionData, glm::vec3 VertexColor)
-    :
-    VertexBase(PositionData,VertexColor)
-{}
-Ermine::VertexTextured::VertexTextured(glm::vec2 VertexUVCoordinates)
-    :
-    VertexBase()
-{
-    this->VertexUVCoordinates = VertexUVCoordinates;
-}
-Ermine::VertexTextured::VertexTextured(glm::vec2 VertexUVCoordinates, float TextureNumber)
-{
-    this->VertexUVCoordinates = VertexUVCoordinates;
-    this->TextureNumber = TextureNumber;
-}
-
-Ermine::VertexTextured::VertexTextured(glm::vec3 PositionData, glm::vec3 VertexColor, glm::vec2 VertexUVCoordinates, float TextureNumber)
-    :
-    VertexBase(PositionData,VertexColor)
-{
-    this->VertexUVCoordinates = VertexUVCoordinates;
-    this->TextureNumber = TextureNumber;
-}
-
-Ermine::VertexTextured::VertexTextured(std::vector<float> Vertex)
-    :
-    VertexBase(Vertex)
-{
-    VertexUVCoordinates.x = Vertex[6];
-    VertexUVCoordinates.x = Vertex[7];
-
-    TextureNumber = Vertex[8];
-}
-
-
-std::vector<std::vector<float>>&& Ermine::VertexTextured::GetVertexBufferSeperated(std::vector<float>& LargeContainerHavingMyltipleVertexBuffers)
-{
-    std::vector<std::vector<float>> Container;
-    int c = 0;
-    for (float i : LargeContainerHavingMyltipleVertexBuffers)
+    VertexTextured::VertexTextured()
+        :
+        VertexBase()
+    {}
+    VertexTextured::VertexTextured(glm::vec3 PositionData)
+        :
+        VertexBase(PositionData)
+    {}
+    VertexTextured::VertexTextured(glm::vec3 PositionData, glm::vec4 VertexColor)
+        :
+        VertexBase(PositionData, VertexColor)
+    {}
+    VertexTextured::VertexTextured(glm::vec2 VertexUVCoordinates)
+        :
+        VertexBase()
     {
-        if (c == 9)
-        {
-            c = 0;
-            Container.emplace_back(std::vector<float>());
-        }
-
-        Container[Container.size() - 1].emplace_back(i);
-        c++;
+        UV = VertexUVCoordinates;
     }
-    return std::move(Container);
-}
+    VertexTextured::VertexTextured(glm::vec2 VertexUVCoordinates, float TextureNumber)
+    {
+        UV = VertexUVCoordinates;
+        Tex = TextureNumber;
+    }
+    VertexTextured::VertexTextured(glm::vec3 PositionData, glm::vec4 VertexColor, glm::vec2 VertexUVCoordinates, float TextureNumber)
+        :
+        VertexBase(PositionData, VertexColor)
+    {
+        UV = VertexUVCoordinates;
+        Tex = TextureNumber;
+    }
+    VertexTextured::VertexTextured(std::vector<float> Vertex)
+        :
+        VertexBase(Vertex)
+    {
+        UV.x = Vertex[7];
+        UV.y = Vertex[8];
 
-std::vector<float> Ermine::VertexTextured::GetVertexData() const
-{
-    std::vector<float> VertexData;
-
-    //Start Load The Position In
-    VertexData.emplace_back(VertexBase::Position.x);
-    VertexData.emplace_back(VertexBase::Position.y);
-    VertexData.emplace_back(VertexBase::Position.z);
-    //Ended Load The Position In
-
-    //Start Load The VertexColor
-    VertexData.emplace_back(VertexBase::VertexColor.r);
-    VertexData.emplace_back(VertexBase::VertexColor.g);
-    VertexData.emplace_back(VertexBase::VertexColor.b);
-    //Ended Load The Vertex Color
-
-    //Start Load The Vertex UV Coordinates
-    VertexData.emplace_back(this->VertexUVCoordinates.x);
-    VertexData.emplace_back(this->VertexUVCoordinates.y);
-    //Ended Load The Vertex UV Coordinates
-
-    //Start Load The Texture Number 
-    VertexData.emplace_back(TextureNumber);
-    //Ended Load The Texture Number
-
-    return VertexData;
-}
+        Tex = Vertex[9];
+    }
 
 
-void Ermine::VertexTextured::SetVertexUV(glm::vec2 VertexUVCoordinates)
-{
-    this->VertexUVCoordinates = VertexUVCoordinates;
-}
-glm::vec2 Ermine::VertexTextured::GetVertexUVCoordinates()
-{
-    return VertexUVCoordinates;
-}
+    std::vector<std::vector<float>>&& Ermine::VertexTextured::GetVertexBufferSeperated(std::vector<float>& LargeContainerHavingMyltipleVertexBuffers)
+    {
+        std::vector<std::vector<float>> Container;
+        int c = 0;
+        for (float i : LargeContainerHavingMyltipleVertexBuffers)
+        {
+            if (c == VertexTextured::GetNumberOfElementsInVertex())
+            {
+                c = 0;
+                Container.emplace_back(std::vector<float>());
+            }
 
-void Ermine::VertexTextured::SetTextureNumber(float TextureNumber)
-{
-    this->TextureNumber = TextureNumber;
-}
-float Ermine::VertexTextured::GetTextureNumber()
-{
-    return TextureNumber;
-}
-
-
-int Ermine::VertexTextured::GetNumberOfElementsInVertex()
-{
-    return 9;
-}
-int Ermine::VertexTextured::GetVertexSize()
-{
-    return 9 * sizeof(float);
-}
+            Container[Container.size() - 1].emplace_back(i);
+            c++;
+        }
+        return std::move(Container);
+    }
 
 
-void Ermine::VertexTextured::SetVertexAttribArray(VertexArray& Vao)
-{
-    static std::vector<VertexAttribPointerSpecification> Spec = {
-                {3,GL_FLOAT,false},
-                {3,GL_FLOAT,false},
-                {2,GL_FLOAT,false},
-                {1,GL_FLOAT,false}
-    };
+    std::vector<float> Ermine::VertexTextured::GetVertexData() const
+    {
+        std::vector<float> VertexData = VertexBase::GetVertexData();
+ 
+        VertexData.emplace_back(UV.x);
+        VertexData.emplace_back(UV.y);
+       
+        VertexData.emplace_back(Tex);
+        
+        return VertexData;
+    }
 
-    Vao.SetVertexAttribArray(Spec);
+
+    VertexLayout Ermine::VertexTextured::GetVertexBufferLayout()
+    {
+        auto Lay = VertexBase::GetVertexBufferLayout();
+        Lay.AddSpecification(2, GL_FLOAT);
+        Lay.AddSpecification(1, GL_FLOAT);
+
+        return Lay;
+    }
 }

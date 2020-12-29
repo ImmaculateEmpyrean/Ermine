@@ -33,4 +33,6 @@ namespace Ermine
 
 	//This Function Is Used To Get A Handle To The Current App In Question..
 	Ermine::App* GetHandleToApp();
+
+	std::vector<float> operator+(const std::vector<float>& v1, const std::vector<float>& v2);
 }

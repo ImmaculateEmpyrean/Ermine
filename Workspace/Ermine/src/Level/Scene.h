@@ -33,6 +33,7 @@ namespace Ermine
 	public:
 		//this Components Cam Is The Primary Cam Used In The Scene..
 		void SetPrimaryCamera(Ermine::Entity* Ent) { PrimaryCamEntity = Ent; };
+		Ermine::Entity* GetPrimaryCamera();
 
 	public:
 		//The Scene Uses entt in the backend to manage all entities..

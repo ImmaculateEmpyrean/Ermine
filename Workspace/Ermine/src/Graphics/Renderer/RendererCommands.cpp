@@ -51,8 +51,12 @@ namespace Ermine
 		glfwSwapBuffers(glfwGetCurrentContext());
 	}
 
-	void RendererCommands::DrawIndexed(std::size_t SizeOfIndexBuffer)
+	void RendererCommands::DrawIndexed(std::shared_ptr<Ermine::VertexArray> Vao,std::shared_ptr<Ermine::Material> Mat)
 	{
-		GLCall(glDrawElements(GL_TRIANGLES,SizeOfIndexBuffer,GL_UNSIGNED_INT,0));
+		//The Bind In This Context Also Constructs Said Buffers In Most Cases.. Maybe Change The Name From Bind To Something Else In The Api..
+		Vao->Bind();
+		Mat->Bind();
+
+		GLCall(glDrawElements(GL_TRIANGLES,Vao->GetIndexBufferLength(),GL_UNSIGNED_INT,0));
 	}	
 }

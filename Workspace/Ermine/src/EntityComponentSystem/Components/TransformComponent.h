@@ -6,13 +6,16 @@
 #include "glm.hpp"
 
 //The Transform Component To Be Used By The Entity Component System..
-struct TransformComponent
+namespace Ermine
 {
-	TransformComponent() = default;
-	TransformComponent(glm::vec4 Transform)
-		:
-		Transform(Transform)
-	{}
+	struct TransformComponent
+	{
+		TransformComponent() = default;
+		TransformComponent(glm::mat4 Transform)
+			:
+			Transform(Transform)
+		{}
 
-	glm::vec4 Transform = glm::vec4(1.0f);
-};
+		glm::mat4 Transform = glm::mat4(1.0f);
+	};
+}

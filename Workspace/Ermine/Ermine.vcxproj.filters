@@ -436,10 +436,12 @@
     <ClInclude Include="src\EntityComponentSystem\Components.h" />
     <ClInclude Include="src\EntityComponentSystem\Components\TagComponent.h" />
     <ClInclude Include="src\EntityComponentSystem\Components\CameraComponent.h" />
-    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexSpecifics.h">
+    <ClInclude Include="src\Graphics\Renderer\RendererCommands.h" />
+    <ClInclude Include="src\EntityComponentSystem\Components\VertexTintComponent.h" />
+    <ClInclude Include="src\EntityComponentSystem\Components\SpriteRenderComponent.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexLayout.h">
       <Filter>Graphics\Renderer\RendererPrimitives</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\Renderer\RendererCommands.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
@@ -699,7 +701,7 @@
     </ClCompile>
     <ClCompile Include="src\Level\Scene.cpp" />
     <ClCompile Include="src\EntityComponentSystem\Entity.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexSpecifics.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererCommands.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexLayout.cpp" />
   </ItemGroup>
 </Project>

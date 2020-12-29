@@ -7,10 +7,10 @@ namespace Ermine
 {
 	class VertexArray;
 
-	class VertexSpecifics
+	class VertexLayout
 	{
 	public:
-		VertexSpecifics() = default;
+		VertexLayout() = default;
 		
 	public:
 		struct Specification {
@@ -24,7 +24,7 @@ namespace Ermine
 		};
 
 		template <typename T, typename... Types>
-		VertexSpecifics(T var1, Types... var2)
+		VertexLayout(T var1, Types... var2)
 		{
 			Specs.emplace_back(var1);
 			AddSpecifications(var2...);

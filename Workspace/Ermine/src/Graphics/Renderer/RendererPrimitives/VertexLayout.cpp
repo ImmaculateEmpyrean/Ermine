@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "VertexSpecifics.h"
+#include "VertexLayout.h"
 
 #include<unordered_map>
 
@@ -22,7 +22,7 @@ namespace Ermine
 		return 4; //If I Dunno I'll Assume Float
 	}
 	
-	int VertexSpecifics::GetVertexSize()
+	int VertexLayout::GetVertexSize()
 	{
 		int Size = 0;
 		for (auto Spec : Specs)
@@ -32,7 +32,7 @@ namespace Ermine
 	}
 
 
-	void VertexSpecifics::UpdateStride()
+	void VertexLayout::UpdateStride()
 	{
 		int Tracker = 0;
 
@@ -48,12 +48,12 @@ namespace Ermine
 	}
 
 
-	void VertexSpecifics::AddSpecification(int NumberOfComponents, unsigned int TypeOfComponent, bool Normalized)
+	void VertexLayout::AddSpecification(int NumberOfComponents, unsigned int TypeOfComponent, bool Normalized)
 	{
 		Specs.emplace_back(Specification{ NumberOfComponents,TypeOfComponent,Normalized }); 
 		UpdateStride();
 	}
-	void VertexSpecifics::AddSpecification(Specification& Spec)
+	void VertexLayout::AddSpecification(Specification& Spec)
 	{
 		Specs.emplace_back(Spec);
 		UpdateStride();

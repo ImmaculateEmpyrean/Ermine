@@ -39,6 +39,10 @@ namespace Ermine
 		Ermine::VertexBuffer& GetVertexBuffer() { return Vbo; };
 		Ermine::IndexBuffer& GetIndexBuffer()   { return Ibo; };
 
+		//Get Buffer Characteristics..
+		std::uint32_t GetIndexBufferLength() { return Ibo.GetBufferDataLength(); }
+		std::uint32_t GetVertexBufferLength(){ return Vbo.GetBufferDataLength(); }
+
 		void PushVertices(std::vector<float> Data);
 		void PushIndices(std::vector<uint32_t> Data);
 

@@ -27,12 +27,12 @@ namespace Ermine
 		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const std::shared_ptr<Ermine::Sprite>& Sprite);
 
 		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color);
-		static void DrawQuad(const glm::mat4& transform, const std::shared_ptr<Ermine::Sprite>& texture);
+		static void DrawQuad(const glm::mat4& transform, const std::shared_ptr<Ermine::Sprite>& Sprite);
 
 		static void DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color);
 		static void DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color);
-		static void DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const std::shared_ptr<Ermine::Sprite>& texture);
-		static void DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const std::shared_ptr<Ermine::Sprite>& texture);
+		static void DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const std::shared_ptr<Ermine::Sprite>& Sprite);
+		static void DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const std::shared_ptr<Ermine::Sprite>& Sprite);
 
 	public:
 		struct Statistics
@@ -48,6 +48,6 @@ namespace Ermine
 
 	private:
 		static void StartBatch();
-		static void NextBatch();
+		static void NextBatch();	
 	};
 }

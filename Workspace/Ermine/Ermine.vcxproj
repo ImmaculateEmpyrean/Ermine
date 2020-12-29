@@ -159,8 +159,10 @@
     <ClInclude Include="src\EngineUI\WindowHandler.h" />
     <ClInclude Include="src\EntityComponentSystem\Components.h" />
     <ClInclude Include="src\EntityComponentSystem\Components\CameraComponent.h" />
+    <ClInclude Include="src\EntityComponentSystem\Components\SpriteRenderComponent.h" />
     <ClInclude Include="src\EntityComponentSystem\Components\TagComponent.h" />
     <ClInclude Include="src\EntityComponentSystem\Components\TransformComponent.h" />
+    <ClInclude Include="src\EntityComponentSystem\Components\VertexTintComponent.h" />
     <ClInclude Include="src\EntityComponentSystem\Entity.h" />
     <ClInclude Include="src\EntryPoint.h" />
     <ClInclude Include="src\EventSystem\Components\BroadcastComponent.h" />
@@ -198,7 +200,7 @@
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\RendererPrimitives2D\TileMapRendererPrimitive.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h" />
-    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexSpecifics.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexLayout.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.h" />
     <ClInclude Include="src\Graphics\Window\Window.h" />
     <ClInclude Include="src\InputSystem\ErmineKeyCodesDefinition.h" />
@@ -310,7 +312,7 @@
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\RendererPrimitives2D\TileMapRendererPrimitive.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexSpecifics.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexLayout.cpp" />
     <ClCompile Include="src\Graphics\Window\Window.cpp" />
     <ClCompile Include="src\InputSystem\GlfwKeyCallbacks.cpp" />
     <ClCompile Include="src\InputSystem\InputInterrogator.cpp" />
