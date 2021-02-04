@@ -16,9 +16,6 @@ namespace Ermine
 {
 	GlobalTextureCache::GlobalTextureCache()
 	{
-		//The Actual Files Of Copying The TextureFiles Over Is Handled By The AddNew TextureWindow When The Texture Gets Loaded
-		//Into Memory..
-
 #ifdef ER_DEBUG_DEVELOP
 
 		std::filesystem::recursive_directory_iterator rdi("Texture");
