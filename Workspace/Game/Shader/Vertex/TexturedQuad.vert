@@ -2,10 +2,10 @@
 layout(location = 0) in vec3 aPos; 
 layout(location = 1) in vec3 aVertexColors; 
 layout(location = 2) in vec2 aTexCoord; 
-layout(location = 3) in float aTextureNumber;
+layout(location = 3) in int aTextureNumber;
 
 out vec2 TexCoord;
-out float TextureNumber;
+out int TextureNumber;
 
 uniform mat4 ModelMatrix; 
 uniform mat4 ProjectionViewMatrix; 

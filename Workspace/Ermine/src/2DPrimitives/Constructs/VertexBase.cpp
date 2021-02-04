@@ -53,9 +53,9 @@ namespace Ermine
 		}
 		return std::move(Container);
 	}
-	std::vector<float> VertexBase::GetVertexData() const
+	std::vector<VertexDataObject> VertexBase::GetVertexData() const
 	{
-		std::vector<float> Vertex;
+		std::vector<VertexDataObject> Vertex;
 
 		Vertex.emplace_back(Position.x);
 		Vertex.emplace_back(Position.y);
@@ -69,13 +69,28 @@ namespace Ermine
 		return Vertex;
 	}
 
-	Ermine::VertexLayout VertexBase::GetVertexBufferLayout()
+	Ermine::VertexLayout VertexBase::GetLayout()
 	{
 		Ermine::VertexLayout Lay;
 		Lay.AddSpecification(3, GL_FLOAT);
 		Lay.AddSpecification(4, GL_FLOAT);
 
 		return Lay;
+	}
+
+	Vertex VertexBase::GetVertex()
+	{
+		Ermine::Vertex Vert(std::make_shared<Ermine::VertexLayout>(GetLayout()));
+		Vert.AppendValue(Position.x);
+		Vert.AppendValue(Position.y);
+		Vert.AppendValue(Position.z);
+
+		Vert.AppendValue(VertexColor.r);
+		Vert.AppendValue(VertexColor.g);
+		Vert.AppendValue(VertexColor.b);
+		Vert.AppendValue(VertexColor.a);
+
+		return Vert;
 	}
 
 	std::vector<uint32_t> VertexBase::GenerateIndexBufferQuad(int NumberOfVerticesToTakeIntoAccount)
@@ -102,5 +117,22 @@ namespace Ermine
 		}
 
 		return IndexBuffer;
+	}
+
+
+	VertexBase::operator std::vector<VertexDataObject>() const
+	{
+		std::vector<Ermine::VertexDataObject> Obj;
+
+		Obj.emplace_back(VertexDataObject(Position.x));
+		Obj.emplace_back(VertexDataObject(Position.y));
+		Obj.emplace_back(VertexDataObject(Position.z));
+
+		Obj.emplace_back(VertexDataObject(VertexColor.r));
+		Obj.emplace_back(VertexDataObject(VertexColor.g));
+		Obj.emplace_back(VertexDataObject(VertexColor.b));
+		Obj.emplace_back(VertexDataObject(VertexColor.a));
+
+		return Obj;
 	}
 }

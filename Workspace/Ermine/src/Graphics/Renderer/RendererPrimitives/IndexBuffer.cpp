@@ -100,10 +100,6 @@ namespace Ermine
 		ReadyState = false;
 	}
 
-	int IndexBuffer::GetBufferDataLength()
-	{
-		return BufferData.size();
-	}
 
 	void IndexBuffer::EraseIndex(int index)
 	{

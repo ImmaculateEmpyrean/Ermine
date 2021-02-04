@@ -132,14 +132,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2D.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DBase.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DShape.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DTilemap.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\ActorFamilyEnnumerations.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\ImageBase.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.h" />
-    <ClInclude Include="src\2DPrimitives\ActorFamily\ShapeBase.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\Quad.h" />
     <ClInclude Include="src\2DPrimitives\Constructs\VertexBase.h" />
@@ -189,19 +181,15 @@
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Shader.h" />
     <ClInclude Include="src\Graphics\Renderer\MaterialSystem\Texture.h" />
     <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h" />
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.h" />
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderablePhysicsComponent2D.h" />
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableShapeComponent.h" />
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.h" />
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTypes.h" />
     <ClInclude Include="src\Graphics\Renderer\Renderer.h" />
     <ClInclude Include="src\Graphics\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererCommands.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h" />
-    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\RendererPrimitives2D\TileMapRendererPrimitive.h" />
-    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\Vertex.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexDataObject.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexLayout.h" />
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\EVertexDataObjectType.h" />
     <ClInclude Include="src\Graphics\Window\Window.h" />
     <ClInclude Include="src\InputSystem\ErmineKeyCodesDefinition.h" />
     <ClInclude Include="src\InputSystem\GlfwKeyCallbacks.h" />
@@ -258,13 +246,6 @@
     <ClInclude Include="src\TestFolder\TestInputSystem\InputChecker.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp" />
-    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DBase.cpp" />
-    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DShape.cpp" />
-    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DTilemap.cpp" />
-    <ClCompile Include="src\2DPrimitives\ActorFamily\ImageBase.cpp" />
-    <ClCompile Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.cpp" />
-    <ClCompile Include="src\2DPrimitives\ActorFamily\ShapeBase.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\VertexBase.cpp" />
     <ClCompile Include="src\2DPrimitives\Constructs\VertexTextured.cpp" />
@@ -303,15 +284,12 @@
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Shader.cpp" />
     <ClCompile Include="src\Graphics\Renderer\MaterialSystem\Texture.cpp" />
     <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderablePhysicsComponent2D.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.cpp" />
     <ClCompile Include="src\Graphics\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererCommands.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\RendererPrimitives2D\TileMapRendererPrimitive.cpp" />
-    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\Vertex.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexDataObject.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexLayout.cpp" />
     <ClCompile Include="src\Graphics\Window\Window.cpp" />
     <ClCompile Include="src\InputSystem\GlfwKeyCallbacks.cpp" />

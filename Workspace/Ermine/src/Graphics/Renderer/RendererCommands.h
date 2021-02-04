@@ -3,7 +3,7 @@
 #include<vector>
 #include<string>
 
-#include "RendererPrimitives/VertexArray.h"
+//#include "RendererPrimitives/VertexArray.h"
 #include "Graphics/Renderer/MaterialSystem/Material.h"
 
 #include "glm.hpp"
@@ -23,7 +23,8 @@ namespace Ermine
 		static void FlushFrame();
 
 		//This Function Is Used To Draw Triangles To Screen..
-		static void DrawIndexed(std::shared_ptr<Ermine::VertexArray> Vao,std::shared_ptr<Ermine::Material> Mat);
+		static void DrawIndexed(std::shared_ptr<VertexBuffer> Vbo,std::shared_ptr<IndexBuffer> Ibo,
+								std::shared_ptr<Material> Mat);
 
 	private:
 		static void ImguiNewFrame();

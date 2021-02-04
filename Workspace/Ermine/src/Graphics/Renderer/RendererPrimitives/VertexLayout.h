@@ -3,6 +3,8 @@
 #include<vector>
 #include<string>
 
+#include "EVertexDataObjectType.h"
+
 namespace Ermine
 {
 	class VertexArray;
@@ -44,15 +46,23 @@ namespace Ermine
 		Specification& GetSpecification(int index) { return Specs[index]; };
 		std::vector<Specification>& GetSpecifications() { return Specs; };
 
-		int GetVertexSize();
-	public:
-		//This Is Where The Attributes Are Stored..
-		std::vector<Specification> Specs;
-		std::vector<unsigned int> SpecificationStartLocations;
+		void UpdateSpecification(); //This Call Binds The Specification To The Current Vertex Array IN openGl..
 
+		std::size_t GetElementIndexInBuffer(int Location, int ElementIndex = 0);
+		std::size_t GetSpecificationLength(int LocationNumber) { return Specs[LocationNumber].NumberOfComponents; };
+		std::size_t GetVertexLength();
+		std::size_t GetVertexSize();
+
+		//This function can be used to determine what type a certain element is expected to be to conform to the layout..
+		EVertexDataObjectType GetElementType(int elementNumberInBuffer);
+
+		bool operator==(const VertexLayout& rhs);
 	private:
 		//This Function Initializes The VertexSpecifics By Setting Up The Specifications Start Location..
 		void UpdateStride();
+
+	private:
+		std::vector<Specification> Specs;
 
 		friend class Ermine::VertexArray;
 	};

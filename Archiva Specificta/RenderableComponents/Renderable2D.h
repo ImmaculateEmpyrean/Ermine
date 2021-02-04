@@ -4,7 +4,7 @@
 #include<vector>
 #include<memory>
 
-#include "Graphics/Renderer/RendererPrimitives/VertexArray.h"
+//#include "Graphics/Renderer/RendererPrimitives/VertexArray.h"
 #include "Graphics/Renderer/RendererPrimitives/VertexBuffer.h"
 #include "Graphics/Renderer/RendererPrimitives/IndexBuffer.h"
 

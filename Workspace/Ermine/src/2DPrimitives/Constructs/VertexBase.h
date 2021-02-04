@@ -7,6 +7,8 @@
 #include "glm.hpp"
 
 #include "Graphics/Renderer/RendererPrimitives/VertexLayout.h"
+#include "Graphics/Renderer/RendererPrimitives/VertexDataObject.h"
+#include "Graphics/Renderer/RendererPrimitives/Vertex.h"
 
 namespace Ermine
 {
@@ -30,7 +32,7 @@ namespace Ermine
 		static std::vector<std::vector<float>>&& GetVertexBufferSeperated(std::vector<float>& MultipleVertexBuffers);
 
 		//Returns The Entire Vertex Data As a Vector Of Floats Has To Be Overloaded In Every Child..
-		virtual std::vector<float> GetVertexData() const;
+		virtual std::vector<VertexDataObject> GetVertexData() const;
 
 		void SetPositionCoordinates(float x, float y)   { this->Position = glm::vec3(x,y,0.0f); }
 		void SetPositionCoordinates(glm::vec2 Position) { this->Position = glm::vec3(Position,0.0f); }
@@ -43,15 +45,19 @@ namespace Ermine
 		static int GetNumberOfElementsInVertex() { return 7; }
 		static int GetVertexSize() { return 7 * sizeof(float); }
 
-		virtual Ermine::VertexLayout GetVertexBufferLayout();
+		virtual Ermine::VertexLayout GetLayout();
 
-		virtual operator std::vector<float>() const { return GetVertexData(); }
+		virtual operator std::vector<float>() const { return std::vector<float>(); } //Temporary..
+ 		virtual operator std::vector<VertexDataObject>() const;
+
+		//Get Vertex From This Structure..
+		virtual Vertex GetVertex();
 
 		//This Function Takes In  A Number As Input And Generates A IndexBuffer Which Draws Quads With That Many Vertices.. See That The Number You Send Is A Multiple Of 4.. ALSO IMP THIS DOES NOT TAKE INTO ACT THE LAST VERTEX IF U SEND 24 0-23 is what matters
 		static std::vector<uint32_t>  GenerateIndexBufferQuad(int NumberOfVerticesToTakeIntoAccount = 4); 
 
 		//This Function Is Used To Add Two Vertex Base Togeteher
-		std::vector<float> operator+(VertexBase& rhs) { return GetVertexData() + rhs.GetVertexData(); };
+		//std::vector<float> operator+(VertexBase& rhs) { return GetVertexData() + rhs.GetVertexData(); };
 	public:
 
 	protected:

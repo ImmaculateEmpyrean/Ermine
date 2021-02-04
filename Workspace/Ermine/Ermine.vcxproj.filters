@@ -102,30 +102,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2D.h">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClInclude>
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DBase.h">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClInclude>
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DShape.h">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClInclude>
-    <ClInclude Include="src\2DPrimitives\ActorFamily\Actor2DTilemap.h">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClInclude>
-    <ClInclude Include="src\2DPrimitives\ActorFamily\ActorFamilyEnnumerations.h">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClInclude>
-    <ClInclude Include="src\2DPrimitives\ActorFamily\ImageBase.h">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClInclude>
-    <ClInclude Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.h">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClInclude>
-    <ClInclude Include="src\2DPrimitives\ActorFamily\ShapeBase.h">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClInclude>
     <ClInclude Include="src\2DPrimitives\Constructs\MovableObject.h">
       <Filter>2DPrimitives\Constructs</Filter>
     </ClInclude>
@@ -244,21 +220,6 @@
     <ClInclude Include="src\Graphics\Renderer\OpenGLErrorChecker.h">
       <Filter>Graphics\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.h">
-      <Filter>Graphics\Renderer\RenderableComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderablePhysicsComponent2D.h">
-      <Filter>Graphics\Renderer\RenderableComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableShapeComponent.h">
-      <Filter>Graphics\Renderer\RenderableComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.h">
-      <Filter>Graphics\Renderer\RenderableComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics\Renderer\RenderableComponents\RenderableTypes.h">
-      <Filter>Graphics\Renderer\RenderableComponents</Filter>
-    </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\Renderer.h">
       <Filter>Graphics\Renderer</Filter>
     </ClInclude>
@@ -266,12 +227,6 @@
       <Filter>Graphics\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.h">
-      <Filter>Graphics\Renderer\RendererPrimitives</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\RendererPrimitives2D\TileMapRendererPrimitive.h">
-      <Filter>Graphics\Renderer\RendererPrimitives\RendererPrimitives2D</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.h">
       <Filter>Graphics\Renderer\RendererPrimitives</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.h">
@@ -442,29 +397,11 @@
     <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexLayout.h">
       <Filter>Graphics\Renderer\RendererPrimitives</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\VertexDataObject.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\Vertex.h" />
+    <ClInclude Include="src\Graphics\Renderer\RendererPrimitives\EVertexDataObjectType.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2D.cpp">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClCompile>
-    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DBase.cpp">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClCompile>
-    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DShape.cpp">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClCompile>
-    <ClCompile Include="src\2DPrimitives\ActorFamily\Actor2DTilemap.cpp">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClCompile>
-    <ClCompile Include="src\2DPrimitives\ActorFamily\ImageBase.cpp">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClCompile>
-    <ClCompile Include="src\2DPrimitives\ActorFamily\PhysicsActor2D.cpp">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClCompile>
-    <ClCompile Include="src\2DPrimitives\ActorFamily\ShapeBase.cpp">
-      <Filter>2DPrimitives\ActorFamily</Filter>
-    </ClCompile>
     <ClCompile Include="src\2DPrimitives\Constructs\MovableObject.cpp">
       <Filter>2DPrimitives\Constructs</Filter>
     </ClCompile>
@@ -568,25 +505,10 @@
     <ClCompile Include="src\Graphics\Renderer\OpenGLErrorChecker.cpp">
       <Filter>Graphics\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\Renderable2D.cpp">
-      <Filter>Graphics\Renderer\RenderableComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderablePhysicsComponent2D.cpp">
-      <Filter>Graphics\Renderer\RenderableComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Graphics\Renderer\RenderableComponents\RenderableTextureModule.cpp">
-      <Filter>Graphics\Renderer\RenderableComponents</Filter>
-    </ClCompile>
     <ClCompile Include="src\Graphics\Renderer\Renderer2D.cpp">
       <Filter>Graphics\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\IndexBuffer.cpp">
-      <Filter>Graphics\Renderer\RendererPrimitives</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\RendererPrimitives2D\TileMapRendererPrimitive.cpp">
-      <Filter>Graphics\Renderer\RendererPrimitives\RendererPrimitives2D</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexArray.cpp">
       <Filter>Graphics\Renderer\RendererPrimitives</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexBuffer.cpp">
@@ -703,5 +625,7 @@
     <ClCompile Include="src\EntityComponentSystem\Entity.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererCommands.cpp" />
     <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexLayout.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\VertexDataObject.cpp" />
+    <ClCompile Include="src\Graphics\Renderer\RendererPrimitives\Vertex.cpp" />
   </ItemGroup>
 </Project>

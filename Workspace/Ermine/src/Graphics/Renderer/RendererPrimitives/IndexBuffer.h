@@ -24,7 +24,7 @@ namespace Ermine
 		void AddIndices(std::vector<uint32_t> Indices);
 		void AddIndex(uint32_t Index);
 
-		int GetBufferDataLength();
+		int GetBufferLength() { return BufferData.size(); }
 
 		void EraseIndex(int index);
 		void EraseIndices(int BeginIndex, int EndIndex);

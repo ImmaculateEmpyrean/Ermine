@@ -99,7 +99,7 @@ namespace Ermine
 		
 		InternalBuffer.clear();
 	}
-	int GlobalTextureCache::Bind(std::shared_ptr<Texture> Tex)
+	/*int GlobalTextureCache::Bind(std::shared_ptr<Texture> Tex)
 	{
 		BindCounter = BindCounter + 1;
 		if (BindCounter == 17)
@@ -122,5 +122,5 @@ namespace Ermine
 		glBindTexture(GL_TEXTURE_2D, OpenGlTexture);
 
 		return BindCounter;
-	}
+	}*/
 }

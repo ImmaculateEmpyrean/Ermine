@@ -9,6 +9,9 @@
 #include "InputSystem/imgui_impl_opengl3.h"
 #include "InputSystem/imgui_impl_glfw.h"
 
+#include "RendererPrimitives/VertexBuffer.h"
+#include "RendererPrimitives/IndexBuffer.h"
+
 namespace Ermine
 {
 	void RendererCommands::SetClearColor(glm::vec4 ClearColor)
@@ -51,12 +54,17 @@ namespace Ermine
 		glfwSwapBuffers(glfwGetCurrentContext());
 	}
 
-	void RendererCommands::DrawIndexed(std::shared_ptr<Ermine::VertexArray> Vao,std::shared_ptr<Ermine::Material> Mat)
+	void RendererCommands::DrawIndexed(std::shared_ptr<VertexBuffer> Vbo,std::shared_ptr<IndexBuffer> Ibo,
+									   std::shared_ptr<Ermine::Material> Mat)
 	{
-		//The Bind In This Context Also Constructs Said Buffers In Most Cases.. Maybe Change The Name From Bind To Something Else In The Api..
-		Vao->Bind();
+		//Bind Relevant Buffers
+		Vbo->Bind();
+		Ibo->Bind();
+
+		//Bind The Relevant Material
 		Mat->Bind();
 
-		GLCall(glDrawElements(GL_TRIANGLES,Vao->GetIndexBufferLength(),GL_UNSIGNED_INT,0));
+		//Call The Relevant Draw Function
+		GLCall(glDrawElements(GL_TRIANGLES,Ibo->GetBufferLength(),GL_UNSIGNED_INT,0));
 	}	
 }

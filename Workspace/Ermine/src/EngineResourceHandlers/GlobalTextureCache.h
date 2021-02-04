@@ -49,10 +49,11 @@ namespace Ermine
 
 		void ClearCache(); //This Invalidates All Previously Held Tokens..
 
-		//This Function Automatically Binds a Certain Function And Returns The Bound Slot Integer To The Caller.. (Use This To Bind Automatically)
+		//The Binding Must Only Be Handled By The Renderer.. Nobody Else Must Ever Bother As Per The Archietecture..
+		/*//This Function Automatically Binds a Certain Function And Returns The Bound Slot Integer To The Caller.. (Use This To Bind Automatically)
 		int Bind(std::shared_ptr<Texture> Tex);
 		//Try Not To USe This Overload Of Bind Too Much.. It Is Highly Risky Binding random unsigned integers and will result in errors.. So Not Advised.. Also In The Future Try Privating This Or Something Of The Sort
-		int Bind(unsigned int OpenGlTexture);
+		int Bind(unsigned int OpenGlTexture);*/
 
 	public:
 

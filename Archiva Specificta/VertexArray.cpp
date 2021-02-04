@@ -11,10 +11,6 @@
 namespace Ermine
 {
 	VertexArray::VertexArray()
-		:
-		Vbo(),
-		Ibo(),
-		Specification()
 	{}
 	VertexArray::VertexArray(std::vector<float>& VertexBuffer, std::vector<uint32_t>& IndexBuffer)
 		:

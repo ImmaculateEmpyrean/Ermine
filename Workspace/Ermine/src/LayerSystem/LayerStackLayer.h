@@ -6,13 +6,6 @@
 
 #include "EventSystem/Event.h"
 
-#include "Graphics/Renderer/RenderableComponents/Renderable2D.h"
-#include "2DPrimitives/ActorFamily/Actor2D.h"
-#include "2DPrimitives/ActorFamily/Actor2DShape.h"
-
-#include "2DPrimitives/ActorFamily/PhysicsActor2D.h"
-#include "Graphics/Renderer/RenderableComponents/RenderablePhysicsComponent2D.h"
-
 #include "2DPrimitives/TileMapLayerRenderable.h"
 #include "2DPrimitives/Label.h"
 
